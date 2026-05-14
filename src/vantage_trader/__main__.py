@@ -19,15 +19,19 @@ from .tastytrade.client import TastytradeClient
 log = logging.getLogger("vantage_trader")
 
 
+def _make_client(creds) -> TastytradeClient:
+    return TastytradeClient(
+        client_secret=creds.client_secret,
+        refresh_token=creds.refresh_token,
+        environment=creds.environment,
+    )
+
+
 async def _run() -> None:
     creds = load_credentials()
     cfg = load_strategy_config()
     dry_run = bool(cfg.get("dry_run", True))
-    async with TastytradeClient(
-        username=creds.username,
-        password=creds.password,
-        environment=creds.environment,
-    ) as client:
+    async with _make_client(creds) as client:
         engine = Engine(client=client, creds=creds, config=cfg, dry_run=dry_run)
         await engine.run_forever()
 
@@ -35,22 +39,14 @@ async def _run() -> None:
 async def _scan_once() -> None:
     creds = load_credentials()
     cfg = load_strategy_config()
-    async with TastytradeClient(
-        username=creds.username,
-        password=creds.password,
-        environment=creds.environment,
-    ) as client:
+    async with _make_client(creds) as client:
         engine = Engine(client=client, creds=creds, config=cfg, dry_run=True)
         await engine.scan_and_enter()
 
 
 async def _accounts() -> None:
     creds = load_credentials()
-    async with TastytradeClient(
-        username=creds.username,
-        password=creds.password,
-        environment=creds.environment,
-    ) as client:
+    async with _make_client(creds) as client:
         for acct in await client.list_accounts():
             log.info(
                 "%s  type=%s  nickname=%s",

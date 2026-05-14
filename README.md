@@ -124,7 +124,28 @@ python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 2. Configure
+### 2. Authenticate (OAuth Personal Grant)
+
+> Username/password (`/sessions`) auth was discontinued by tastytrade on
+> 2025-12-01. Personal bots now use an **OAuth2 refresh-token grant**.
+> The bot does the token exchange and refresh for you — you just need to
+> generate a long-lived `refresh_token` once.
+
+**Sandbox setup** (do this first):
+
+1. Create a sandbox account at <https://developer.tastytrade.com/sandbox/>.
+2. Sign in to <https://cert.tastyworks.com> with that sandbox login.
+3. **Manage > API > Open API access** → agree to the terms.
+4. **Manage > API > OAuth application** → "Create application".
+   - Save the `client_secret` it shows you. You can't view it again.
+5. Open the application → **"New Personal OAuth Grant"** → check the scopes
+   you need (`read`, `trade`, and `openid` covers this bot) → save.
+   - Copy the `refresh_token`. Treat it like a password.
+
+**Live setup**: repeat steps 3–5 on <https://my.tastytrade.com> with your real
+account. The `client_secret` and `refresh_token` differ from sandbox.
+
+### 3. Configure
 
 ```bash
 cp .env.example .env
@@ -135,12 +156,16 @@ Edit `.env`:
 
 ```bash
 TASTY_ENV=sandbox
-TASTY_USERNAME=<your sandbox username>
-TASTY_PASSWORD=<your sandbox password>
-TASTY_ACCOUNT_NUMBER=<your sandbox account number, e.g. 5WT00000>
+TASTY_CLIENT_SECRET=<from your OAuth application>
+TASTY_REFRESH_TOKEN=<from your Personal OAuth Grant>
+TASTY_ACCOUNT_NUMBER=<your account number, e.g. 5WT00000>
 ```
 
-Get sandbox credentials at <https://developer.tastytrade.com/sandbox/>.
+How auth works at runtime: on startup the client POSTs to `/oauth/token` with
+`grant_type=refresh_token` and your `client_secret` + `refresh_token`, gets
+back a ~15-minute `access_token`, and sends `Authorization: Bearer <token>`
+on every API call. It auto-refreshes 60 s before expiry, and re-tries once
+on any unexpected `401`.
 
 Edit `config.yaml`:
 - `underlyings` — stick to liquid 0DTE-listed names (SPY, QQQ, IWM, SPX, large caps)
@@ -148,13 +173,15 @@ Edit `config.yaml`:
 - `entry.direction` — `auto` / `call` / `put` / `both`
 - `risk.*` — concurrency and dollar caps
 
-### 3. Smoke test
+### 4. Smoke test
 
 ```bash
 python -m vantage_trader accounts
 ```
 
-### 4. Scan once (dry-run, no orders)
+If you see your account listed, the OAuth flow worked end-to-end.
+
+### 5. Scan once (dry-run, no orders)
 
 ```bash
 python -m vantage_trader scan-once
@@ -162,7 +189,7 @@ python -m vantage_trader scan-once
 
 Logs every candidate considered, with delta, theta-per-dollar, and score.
 
-### 5. Run the engine
+### 6. Run the engine
 
 ```bash
 python -m vantage_trader run
@@ -184,12 +211,13 @@ src/vantage_trader/
 ├── strategy/
 │   └── calendar.py          # CalendarScanner, CalendarManager, order builders
 └── tastytrade/
-    ├── client.py            # async REST client
+    ├── client.py            # async REST client (OAuth refresh-token auth)
     ├── streamer.py          # DXLink websocket (Greeks event)
     └── models.py            # OptionContract, OrderRequest, OrderLeg, etc.
 tests/
 ├── test_calendar.py         # management rule coverage
 ├── test_models.py           # OCC/streamer symbol formatting
+├── test_oauth.py            # OAuth refresh, bearer header, 401 retry
 ├── test_scanner.py          # strike selection / delta filter / direction
 └── test_streamer.py         # DXLink message decoding
 ```
@@ -200,9 +228,11 @@ tests/
 pytest
 ```
 
-27 tests cover: OCC and DXLink streamer-symbol formatting, debit/credit order
-payloads, every management rule (profit/stop/drift/long-DTE/0DTE-eod/hold),
-delta-band strike selection, direction policy, and DXLink Greeks frame decoding.
+33 tests cover: OAuth refresh-token exchange, preemptive refresh near expiry,
+401-triggered refresh-and-retry; OCC and DXLink streamer-symbol formatting;
+debit/credit order payloads; every management rule (profit/stop/drift/long-DTE/
+0DTE-eod/hold); delta-band strike selection; direction policy; and DXLink
+Greeks frame decoding.
 
 ---
 

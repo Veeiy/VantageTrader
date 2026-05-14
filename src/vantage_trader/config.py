@@ -11,8 +11,8 @@ from dotenv import load_dotenv
 
 @dataclass
 class Credentials:
-    username: str
-    password: str
+    client_secret: str
+    refresh_token: str
     account_number: str
     environment: str  # 'sandbox' | 'live'
 
@@ -20,25 +20,29 @@ class Credentials:
 def load_credentials() -> Credentials:
     load_dotenv()
     env = os.getenv("TASTY_ENV", "sandbox").lower()
-    username = os.getenv("TASTY_USERNAME")
-    password = os.getenv("TASTY_PASSWORD")
+    client_secret = os.getenv("TASTY_CLIENT_SECRET")
+    refresh_token = os.getenv("TASTY_REFRESH_TOKEN")
     account = os.getenv("TASTY_ACCOUNT_NUMBER")
     missing = [
         name for name, val in [
-            ("TASTY_USERNAME", username),
-            ("TASTY_PASSWORD", password),
+            ("TASTY_CLIENT_SECRET", client_secret),
+            ("TASTY_REFRESH_TOKEN", refresh_token),
             ("TASTY_ACCOUNT_NUMBER", account),
         ] if not val
     ]
     if missing:
         raise RuntimeError(
             f"Missing required env vars: {', '.join(missing)}. "
-            "Copy .env.example to .env and fill them in."
+            "Copy .env.example to .env and fill them in. See README for how to "
+            "generate a Personal OAuth Grant on tastytrade."
         )
     if env not in ("sandbox", "live"):
         raise RuntimeError(f"TASTY_ENV must be 'sandbox' or 'live' (got {env!r})")
     return Credentials(
-        username=username, password=password, account_number=account, environment=env  # type: ignore[arg-type]
+        client_secret=client_secret,  # type: ignore[arg-type]
+        refresh_token=refresh_token,  # type: ignore[arg-type]
+        account_number=account,        # type: ignore[arg-type]
+        environment=env,
     )
 
 
