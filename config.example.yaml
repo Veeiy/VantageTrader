@@ -1,62 +1,78 @@
-# VantageTrader - Calendar Spread Bot Config
+# VantageTrader - 0DTE Calendar Spread Bot
 #
-# Strategy: horizontal calendar spreads.
-#   - LONG  leg: same strike, further-dated expiration  (collateral, long vega)
-#   - SHORT leg: same strike, 1-5 DTE                   (theta engine)
-# Direction (call vs put calendar) is chosen per underlying based on where
-# price sits and IV term structure. P/L is symmetric around the strike, so
-# we use the side that keeps the short OTM at entry (avoids early assignment).
+# Strategy: pure horizontal calendar spreads at (or near) ATM, where the
+# short leg expires SAME DAY (0DTE). The long leg provides collateral and
+# slow-decay vega; we harvest the much steeper 0DTE theta on the short.
+#
+#   LONG  1x option  K  T_long  (configurable, default 30-60 DTE)
+#   SHORT 1x option  K  T_short = today (0 DTE)
+#
+# Direction (call vs put calendar) is picked per underlying so the short
+# stays OTM at entry, which minimises pin/assignment risk.
 
 environment: sandbox          # sandbox | live
 dry_run: true                 # true => log trades only, never submit (RECOMMENDED while validating)
 
-# Universe: liquid, weekly-listed underlyings. Avoid earnings-week entries (see filters).
+# Universe: liquid, 0DTE-listed underlyings. Outside SPY/QQQ/IWM/SPX/major
+# single names, 0DTE chains are thin or unavailable -- pick carefully.
 underlyings:
   - SPY
   - QQQ
   - IWM
-  - AAPL
-  - MSFT
-  - NVDA
 
 entry:
-  # Short leg target DTE range (inclusive). 0 allowed for 0DTE; we prefer 1-5.
-  short_dte_min: 1
-  short_dte_max: 5
-  # Long leg DTE range. 30-60 is the sweet spot for weekly-rolled calendars.
+  # Short DTE: 0 means same-day expirations. Bot will pick today's expiration
+  # if listed for the underlying; otherwise it skips.
+  short_dte_min: 0
+  short_dte_max: 0
+
+  # Long leg DTE range. Wider = more vega, more cost. 30-60 is the sweet spot.
   long_dte_min: 30
   long_dte_max: 60
 
-  # Strike selection: pick the listed strike closest to current price (ATM).
-  # Use call calendar if price < strike (short call is OTM), else put calendar.
-  strike_offset_pct: 0.0       # 0 = ATM; positive shifts in direction of trend
+  # Strike selection by target delta on the SHORT leg.
+  #   - 0.40-0.55 => ATM (captures max theta; max P/L if pinned)
+  #   - 0.20-0.30 => slightly OTM (lower premium, less pin risk)
+  # The bot picks the listed strike whose 0DTE delta on the chosen side falls
+  # inside this band, closest to the band midpoint.
+  short_delta_min: 0.40
+  short_delta_max: 0.55
 
-  # Filters
-  max_debit_per_spread: 250        # max $ paid for one calendar (per contract)
-  min_open_interest_short: 500     # liquidity floor on the short leg
-  min_open_interest_long: 100      # liquidity floor on the long leg
-  max_bid_ask_spread_pct: 0.15     # reject if mid-spread width > 15% of mid
-  iv_rank_max: 50                  # calendars are long vega; prefer low IVR
-  skip_if_earnings_within_days: 7  # don't open if earnings inside short DTE window
+  # Direction selection
+  #   auto  - if spot < target strike use calls, else puts (keeps short OTM)
+  #   call  - calls only
+  #   put   - puts only
+  #   both  - allow both sides for the same underlying (best score wins)
+  direction: auto
+
+  # Quality filters
+  max_debit_per_spread: 250        # max $ debit per 1-lot spread
+  min_open_interest_short: 500
+  min_open_interest_long: 100
+  max_bid_ask_spread_pct: 0.15
+  iv_rank_max: 60                  # calendars are long vega; prefer lower IV
+  skip_if_earnings_within_days: 2  # 0DTE inside earnings = roulette
+  min_theta_per_dollar: 0.0005     # daily |theta| / debit; reject low-efficiency setups
 
 management:
   profit_target_pct: 0.25      # close spread at +25% of debit paid
   stop_loss_pct: 0.50          # close spread at -50% of debit paid
-  # Roll the short when it has <= roll_short_at_dte days left.
-  roll_short_at_dte: 1
-  # Close the whole spread when underlying drifts this many strikes from the calendar strike.
-  underlying_drift_strikes: 1
-  # Close before long leg gets too close to expiry.
+  # On a 0DTE short, "rolling" means closing today's short and selling
+  # tomorrow's 0DTE in the morning. We close at this minutes-to-close.
+  close_short_minutes_before_close: 15
+  # Underlying drift: close if it moves this many strikes away from K.
+  underlying_drift_strikes: 2
+  # Close the long if it's getting too short-dated for theta value.
   close_long_at_dte: 14
 
 risk:
-  max_concurrent_spreads: 5
-  max_total_debit: 1500        # cap on aggregate $ deployed across all spreads
+  max_concurrent_spreads: 3
+  max_total_debit: 1000
   max_spreads_per_underlying: 1
 
 schedule:
-  # Bot wakes up on a cadence to evaluate entries and manage positions.
-  # All times US/Eastern. Skips weekends and US holidays.
-  manage_every_seconds: 60
+  manage_every_seconds: 30
+  # Enter only once per day; recommended after first 30 min of trading
+  # so 0DTE opening volatility settles.
   entry_window_start: "10:00"
-  entry_window_end:   "15:30"
+  entry_window_end:   "11:30"

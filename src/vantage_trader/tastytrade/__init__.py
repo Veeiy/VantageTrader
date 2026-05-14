@@ -1,4 +1,5 @@
 from .client import TastytradeClient, TastytradeError
+from .streamer import DXLinkStreamer, Greeks
 from .models import (
     InstrumentType,
     OptionContract,
@@ -13,6 +14,8 @@ from .models import (
 __all__ = [
     "TastytradeClient",
     "TastytradeError",
+    "DXLinkStreamer",
+    "Greeks",
     "InstrumentType",
     "OptionContract",
     "OrderRequest",
