@@ -1,0 +1,62 @@
+# VantageTrader - Calendar Spread Bot Config
+#
+# Strategy: horizontal calendar spreads.
+#   - LONG  leg: same strike, further-dated expiration  (collateral, long vega)
+#   - SHORT leg: same strike, 1-5 DTE                   (theta engine)
+# Direction (call vs put calendar) is chosen per underlying based on where
+# price sits and IV term structure. P/L is symmetric around the strike, so
+# we use the side that keeps the short OTM at entry (avoids early assignment).
+
+environment: sandbox          # sandbox | live
+dry_run: true                 # true => log trades only, never submit (RECOMMENDED while validating)
+
+# Universe: liquid, weekly-listed underlyings. Avoid earnings-week entries (see filters).
+underlyings:
+  - SPY
+  - QQQ
+  - IWM
+  - AAPL
+  - MSFT
+  - NVDA
+
+entry:
+  # Short leg target DTE range (inclusive). 0 allowed for 0DTE; we prefer 1-5.
+  short_dte_min: 1
+  short_dte_max: 5
+  # Long leg DTE range. 30-60 is the sweet spot for weekly-rolled calendars.
+  long_dte_min: 30
+  long_dte_max: 60
+
+  # Strike selection: pick the listed strike closest to current price (ATM).
+  # Use call calendar if price < strike (short call is OTM), else put calendar.
+  strike_offset_pct: 0.0       # 0 = ATM; positive shifts in direction of trend
+
+  # Filters
+  max_debit_per_spread: 250        # max $ paid for one calendar (per contract)
+  min_open_interest_short: 500     # liquidity floor on the short leg
+  min_open_interest_long: 100      # liquidity floor on the long leg
+  max_bid_ask_spread_pct: 0.15     # reject if mid-spread width > 15% of mid
+  iv_rank_max: 50                  # calendars are long vega; prefer low IVR
+  skip_if_earnings_within_days: 7  # don't open if earnings inside short DTE window
+
+management:
+  profit_target_pct: 0.25      # close spread at +25% of debit paid
+  stop_loss_pct: 0.50          # close spread at -50% of debit paid
+  # Roll the short when it has <= roll_short_at_dte days left.
+  roll_short_at_dte: 1
+  # Close the whole spread when underlying drifts this many strikes from the calendar strike.
+  underlying_drift_strikes: 1
+  # Close before long leg gets too close to expiry.
+  close_long_at_dte: 14
+
+risk:
+  max_concurrent_spreads: 5
+  max_total_debit: 1500        # cap on aggregate $ deployed across all spreads
+  max_spreads_per_underlying: 1
+
+schedule:
+  # Bot wakes up on a cadence to evaluate entries and manage positions.
+  # All times US/Eastern. Skips weekends and US holidays.
+  manage_every_seconds: 60
+  entry_window_start: "10:00"
+  entry_window_end:   "15:30"
