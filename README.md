@@ -222,17 +222,52 @@ tests/
 └── test_streamer.py         # DXLink message decoding
 ```
 
+## Agent team (optional)
+
+Beyond the deterministic scanner/manager, the engine can consult a small team of
+[Claude Managed Agents](https://platform.claude.com/docs/en/managed-agents/quickstart)
+at specific hooks. Disabled by default; the engine's decision stands when any
+agent call errors or is turned off.
+
+Currently shipped:
+
+| Agent | Hook | Job |
+| --- | --- | --- |
+| **Trade Reviewer** | `Engine._open_spread`, before order submission | One-shot second-opinion on each candidate. Returns `PASS` / `SOFT_PASS` / `VETO` + a one-sentence reason. With `veto_enforced: true` a `VETO` skips the entry; otherwise it's logged and the engine proceeds. |
+
+Enable in `config.yaml`:
+
+```yaml
+agents:
+  enabled: true
+  reviewer:
+    enabled: true
+    model: claude-opus-4-7
+    veto_enforced: false       # start advisory; flip true once you trust it
+```
+
+And set `ANTHROPIC_API_KEY` in `.env`. The runtime lazily creates one cloud
+environment and one agent on first use; pass `environment_id` / `agent_id` in
+config to reuse existing ones across restarts.
+
+Each open triggers exactly one LLM session (0-3/day in practice, bounded by
+`risk.max_concurrent_spreads`). The reviewer has no sandbox tools — pure
+analysis on the candidate JSON.
+
 ## Tests
 
 ```bash
 pytest
 ```
 
-33 tests cover: OAuth refresh-token exchange, preemptive refresh near expiry,
+51 tests cover: OAuth refresh-token exchange, preemptive refresh near expiry,
 401-triggered refresh-and-retry; OCC and DXLink streamer-symbol formatting;
 debit/credit order payloads; every management rule (profit/stop/drift/long-DTE/
-0DTE-eod/hold); delta-band strike selection; direction policy; and DXLink
-Greeks frame decoding.
+0DTE-eod/hold); delta-band strike selection; direction policy; DXLink Greeks
+frame decoding; Trade Reviewer payload shape and verdict parsing (clean JSON,
+code-fenced, prose-wrapped, malformed → safe SOFT_PASS default); AgentRuntime
+SDK orchestration (env reuse, agent id reuse, idempotent registration); and
+engine-level integration (advisory vs. enforced VETO, agents-disabled path).
 
 ---
 

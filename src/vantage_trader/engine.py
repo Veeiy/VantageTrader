@@ -17,6 +17,7 @@ from pathlib import Path
 from typing import Any
 from zoneinfo import ZoneInfo
 
+from .agents import AgentRuntime, ReviewResult, candidate_to_payload, register_reviewer, review
 from .config import Credentials
 from .strategy.calendar import (
     CalendarCandidate,
@@ -54,6 +55,12 @@ class Engine:
         self.open_spreads: list[OpenSpread] = []
         self.streamer: DXLinkStreamer | None = None
         self._last_entry_date: date | None = None
+        self.agents_cfg: dict[str, Any] = config.get("agents") or {}
+        self.agent_runtime: AgentRuntime | None = None
+        if self.agents_cfg.get("enabled"):
+            self.agent_runtime = AgentRuntime(
+                environment_id=self.agents_cfg.get("environment_id"),
+            )
         self._load_state()
 
     # ---- state persistence ------------------------------------------------
@@ -277,6 +284,8 @@ class Engine:
         return candidates
 
     async def _open_spread(self, cand: CalendarCandidate) -> None:
+        if not await self._reviewer_allows(cand):
+            return
         order = build_open_order(cand, quantity=1)
         log.info(
             "OPEN  %s %s K=%.2f short=%s long=%s debit=$%.2f delta=%+.2f theta=%.3f score=%.4f",
@@ -307,6 +316,50 @@ class Engine:
             )
         )
         self._save_state()
+
+    # ---- agent team -------------------------------------------------------
+
+    async def _reviewer_allows(self, cand: CalendarCandidate) -> bool:
+        """Consult the Trade Reviewer (if enabled) on this candidate.
+
+        Returns False only when the reviewer VETOs AND `veto_enforced: true`.
+        On any error or while disabled, returns True so the engine's
+        deterministic decision stands.
+        """
+        rcfg = self.agents_cfg.get("reviewer") or {}
+        if not (self.agent_runtime and rcfg.get("enabled")):
+            return True
+        try:
+            await self._ensure_reviewer_registered()
+            spot = await self._get_spot(cand.underlying)
+            payload = candidate_to_payload(cand, spot=spot)
+            result: ReviewResult = await review(self.agent_runtime, payload)
+        except Exception:
+            log.exception("reviewer call failed; falling back to rule-based decision")
+            return True
+        log.info(
+            "REVIEW %s K=%.2f %s -- %s",
+            cand.underlying, cand.strike, result.verdict, result.reason,
+        )
+        if result.verdict == "VETO" and rcfg.get("veto_enforced"):
+            log.info(
+                "[VETO enforced] skipping open for %s K=%.2f",
+                cand.underlying, cand.strike,
+            )
+            return False
+        return True
+
+    async def _ensure_reviewer_registered(self) -> None:
+        rcfg = self.agents_cfg.get("reviewer") or {}
+        assert self.agent_runtime is not None
+        from .agents.reviewer import REVIEWER_KEY
+        if self.agent_runtime.agent_id(REVIEWER_KEY):
+            return
+        await register_reviewer(
+            self.agent_runtime,
+            model=rcfg.get("model", "claude-opus-4-7"),
+            agent_id=rcfg.get("agent_id"),
+        )
 
     # ---- management -------------------------------------------------------
 

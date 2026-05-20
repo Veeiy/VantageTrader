@@ -76,3 +76,19 @@ schedule:
   # so 0DTE opening volatility settles.
   entry_window_start: "10:00"
   entry_window_end:   "11:30"
+
+# Optional: Claude Managed Agents that advise the trading engine.
+# Disabled by default. Requires ANTHROPIC_API_KEY in the environment.
+# See https://platform.claude.com/docs/en/managed-agents/quickstart
+agents:
+  enabled: false                  # master switch for the whole agent team
+  environment_id: null            # reuse an existing managed-agents env id, or null to create one
+
+  # Trade Reviewer: second-opinion on each candidate that passes the rule-based
+  # filters, BEFORE the order is submitted. Adds 1 LLM call per open (0-3/day
+  # in practice, bounded by risk.max_concurrent_spreads).
+  reviewer:
+    enabled: true
+    model: claude-opus-4-7
+    agent_id: null                # reuse an existing agent id, or null to create one on first use
+    veto_enforced: false          # false = advisory only (log verdict, proceed); true = skip on VETO
