@@ -6,6 +6,12 @@ before order submission). The engine still owns every decision; agent
 output is logged alongside the rule-based output and can optionally
 veto an entry.
 """
+from .journalist import (
+    JOURNALIST_KEY,
+    DailyReport,
+    generate_report,
+    register_journalist,
+)
 from .reviewer import (
     REVIEWER_KEY,
     ReviewResult,
@@ -18,9 +24,13 @@ from .runtime import AgentRuntime, AgentSpec
 __all__ = [
     "AgentRuntime",
     "AgentSpec",
+    "DailyReport",
+    "JOURNALIST_KEY",
     "REVIEWER_KEY",
     "ReviewResult",
     "candidate_to_payload",
+    "generate_report",
+    "register_journalist",
     "register_reviewer",
     "review",
 ]

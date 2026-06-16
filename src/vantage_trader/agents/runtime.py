@@ -44,11 +44,13 @@ class AgentRuntime:
         environment_name: str = "vantage-trader",
         networking: str = "unrestricted",
     ) -> None:
-        # Imported lazily so the rest of the bot still works without the SDK installed
-        # when agents are disabled.
-        from anthropic import Anthropic
-
-        self._client = Anthropic(api_key=api_key) if api_key else Anthropic()
+        # The SDK client is built lazily on first use so constructing a
+        # runtime is free -- callers (e.g. the engine) can instantiate one
+        # eagerly under `agents.enabled: true` without paying for the
+        # import or requiring `anthropic` to be installed until an agent
+        # actually runs.
+        self._api_key = api_key
+        self._client: Any | None = None
         self._environment_id = environment_id
         self._environment_name = environment_name
         self._networking = networking
@@ -56,14 +58,21 @@ class AgentRuntime:
         self._env_lock = asyncio.Lock()
         self._register_locks: dict[str, asyncio.Lock] = {}
 
+    def _get_client(self) -> Any:
+        if self._client is None:
+            from anthropic import Anthropic
+            self._client = Anthropic(api_key=self._api_key) if self._api_key else Anthropic()
+        return self._client
+
     # ---- environment ------------------------------------------------------
 
     async def ensure_environment(self) -> str:
         async with self._env_lock:
             if self._environment_id:
                 return self._environment_id
+            client = self._get_client()
             env = await asyncio.to_thread(
-                lambda: self._client.beta.environments.create(
+                lambda: client.beta.environments.create(
                     name=self._environment_name,
                     config={"type": "cloud", "networking": {"type": self._networking}},
                 )
@@ -86,8 +95,9 @@ class AgentRuntime:
                 self._agent_ids[spec.key] = agent_id
                 log.info("registered managed agent key=%s id=%s (reused)", spec.key, agent_id)
                 return agent_id
+            client = self._get_client()
             agent = await asyncio.to_thread(
-                lambda: self._client.beta.agents.create(
+                lambda: client.beta.agents.create(
                     name=spec.name,
                     model=spec.model,
                     system=spec.system,
@@ -113,10 +123,10 @@ class AgentRuntime:
             raise RuntimeError(f"agent {key!r} not registered; call register() first")
         env_id = await self.ensure_environment()
 
-        return await asyncio.to_thread(self._run_session_sync, agent_id, env_id, user_message, title)
+        client = self._get_client()
+        return await asyncio.to_thread(self._run_session_sync, client, agent_id, env_id, user_message, title)
 
-    def _run_session_sync(self, agent_id: str, env_id: str, user_message: str, title: str) -> str:
-        client = self._client
+    def _run_session_sync(self, client: Any, agent_id: str, env_id: str, user_message: str, title: str) -> str:
         session = client.beta.sessions.create(
             agent=agent_id,
             environment_id=env_id,

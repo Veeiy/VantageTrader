@@ -4,12 +4,14 @@ Usage:
     python -m vantage_trader run                 # run the engine (dry-run unless config says otherwise)
     python -m vantage_trader scan-once           # one-shot: scan, print candidates, exit
     python -m vantage_trader accounts            # list accounts visible to the session
+    python -m vantage_trader daily-report        # run the Post-Mortem Journalist for today (cron-friendly)
 """
 from __future__ import annotations
 
 import argparse
 import asyncio
 import logging
+from datetime import date
 
 from .config import load_credentials, load_strategy_config
 from .engine import Engine
@@ -56,6 +58,15 @@ async def _accounts() -> None:
             )
 
 
+async def _daily_report(target: date | None) -> None:
+    creds = load_credentials()
+    cfg = load_strategy_config()
+    async with _make_client(creds) as client:
+        engine = Engine(client=client, creds=creds, config=cfg, dry_run=True)
+        report = await engine.generate_daily_report(target=target)
+        log.info("report written: %s", report.path_written)
+
+
 def main() -> None:
     configure_logging()
     parser = argparse.ArgumentParser(prog="vantage_trader")
@@ -63,6 +74,15 @@ def main() -> None:
     sub.add_parser("run", help="Run the engine loop")
     sub.add_parser("scan-once", help="Scan & log candidates once, then exit (always dry-run)")
     sub.add_parser("accounts", help="List accounts on the session")
+    p_report = sub.add_parser(
+        "daily-report",
+        help="Run the Post-Mortem Journalist agent for a trading day",
+    )
+    p_report.add_argument(
+        "--date",
+        help="Trading day in YYYY-MM-DD (defaults to today in ET)",
+        default=None,
+    )
     args = parser.parse_args()
 
     if args.cmd == "run":
@@ -71,6 +91,9 @@ def main() -> None:
         asyncio.run(_scan_once())
     elif args.cmd == "accounts":
         asyncio.run(_accounts())
+    elif args.cmd == "daily-report":
+        target = date.fromisoformat(args.date) if args.date else None
+        asyncio.run(_daily_report(target))
 
 
 if __name__ == "__main__":

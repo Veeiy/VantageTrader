@@ -17,7 +17,16 @@ from pathlib import Path
 from typing import Any
 from zoneinfo import ZoneInfo
 
-from .agents import AgentRuntime, ReviewResult, candidate_to_payload, register_reviewer, review
+from .agents import (
+    AgentRuntime,
+    DailyReport,
+    ReviewResult,
+    candidate_to_payload,
+    generate_report,
+    register_journalist,
+    register_reviewer,
+    review,
+)
 from .config import Credentials
 from .strategy.calendar import (
     CalendarCandidate,
@@ -36,6 +45,8 @@ log = logging.getLogger(__name__)
 
 ET = ZoneInfo("America/New_York")
 STATE_FILE = Path("state/open_spreads.json")
+JOURNAL_FILE = Path("state/journal.jsonl")
+REPORTS_DIR = Path("reports")
 
 
 class Engine:
@@ -284,7 +295,12 @@ class Engine:
         return candidates
 
     async def _open_spread(self, cand: CalendarCandidate) -> None:
-        if not await self._reviewer_allows(cand):
+        review_result = await self._consult_reviewer(cand)
+        if review_result and review_result.verdict == "VETO" and self._veto_enforced():
+            log.info(
+                "[VETO enforced] skipping open for %s K=%.2f",
+                cand.underlying, cand.strike,
+            )
             return
         order = build_open_order(cand, quantity=1)
         log.info(
@@ -294,6 +310,7 @@ class Engine:
             cand.short_delta or 0.0, cand.short_theta or 0.0, cand.score,
         )
         await self._submit(order, label="open")
+        opened_at = datetime.now(tz=ET)
         self.open_spreads.append(
             OpenSpread(
                 underlying=cand.underlying,
@@ -312,23 +329,44 @@ class Engine:
                     option_type=cand.option_type,
                 ),
                 debit_paid=cand.debit * 100,
-                opened_at=datetime.now(tz=ET),
+                opened_at=opened_at,
             )
         )
+        self._append_journal({
+            "ts": opened_at.isoformat(),
+            "kind": "open",
+            "underlying": cand.underlying,
+            "option_type": cand.option_type,
+            "strike": cand.strike,
+            "short_expiration": cand.short_expiration,
+            "long_expiration": cand.long_expiration,
+            "debit_paid": round(cand.debit * 100, 2),
+            "short_delta": cand.short_delta,
+            "short_theta": cand.short_theta,
+            "long_iv": cand.long_iv,
+            "short_iv": cand.short_iv,
+            "theta_per_dollar": cand.theta_per_dollar,
+            "score": cand.score,
+            "rationale": cand.rationale,
+            "reviewer_verdict": review_result.verdict if review_result else None,
+            "reviewer_reason": review_result.reason if review_result else None,
+        })
         self._save_state()
 
     # ---- agent team -------------------------------------------------------
 
-    async def _reviewer_allows(self, cand: CalendarCandidate) -> bool:
-        """Consult the Trade Reviewer (if enabled) on this candidate.
+    def _veto_enforced(self) -> bool:
+        return bool((self.agents_cfg.get("reviewer") or {}).get("veto_enforced"))
 
-        Returns False only when the reviewer VETOs AND `veto_enforced: true`.
-        On any error or while disabled, returns True so the engine's
-        deterministic decision stands.
+    async def _consult_reviewer(self, cand: CalendarCandidate) -> ReviewResult | None:
+        """Run the Trade Reviewer on this candidate and log the verdict.
+
+        Returns the parsed result, or None if the reviewer is disabled or
+        the call failed (so the engine's deterministic decision stands).
         """
         rcfg = self.agents_cfg.get("reviewer") or {}
         if not (self.agent_runtime and rcfg.get("enabled")):
-            return True
+            return None
         try:
             await self._ensure_reviewer_registered()
             spot = await self._get_spot(cand.underlying)
@@ -336,18 +374,12 @@ class Engine:
             result: ReviewResult = await review(self.agent_runtime, payload)
         except Exception:
             log.exception("reviewer call failed; falling back to rule-based decision")
-            return True
+            return None
         log.info(
             "REVIEW %s K=%.2f %s -- %s",
             cand.underlying, cand.strike, result.verdict, result.reason,
         )
-        if result.verdict == "VETO" and rcfg.get("veto_enforced"):
-            log.info(
-                "[VETO enforced] skipping open for %s K=%.2f",
-                cand.underlying, cand.strike,
-            )
-            return False
-        return True
+        return result
 
     async def _ensure_reviewer_registered(self) -> None:
         rcfg = self.agents_cfg.get("reviewer") or {}
@@ -360,6 +392,108 @@ class Engine:
             model=rcfg.get("model", "claude-opus-4-7"),
             agent_id=rcfg.get("agent_id"),
         )
+
+    async def _ensure_journalist_registered(self) -> None:
+        jcfg = self.agents_cfg.get("journalist") or {}
+        assert self.agent_runtime is not None
+        from .agents.journalist import JOURNALIST_KEY
+        if self.agent_runtime.agent_id(JOURNALIST_KEY):
+            return
+        await register_journalist(
+            self.agent_runtime,
+            model=jcfg.get("model", "claude-opus-4-7"),
+            agent_id=jcfg.get("agent_id"),
+        )
+
+    # ---- journal & daily report ------------------------------------------
+
+    def _append_journal(self, entry: dict[str, Any]) -> None:
+        try:
+            JOURNAL_FILE.parent.mkdir(parents=True, exist_ok=True)
+            with JOURNAL_FILE.open("a") as f:
+                f.write(json.dumps(entry, default=str) + "\n")
+        except OSError as e:
+            log.warning("journal append failed: %s", e)
+
+    @staticmethod
+    def _read_journal(path: Path = JOURNAL_FILE) -> list[dict[str, Any]]:
+        if not path.exists():
+            return []
+        entries: list[dict[str, Any]] = []
+        for line in path.read_text().splitlines():
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                entries.append(json.loads(line))
+            except json.JSONDecodeError as e:
+                log.warning("skipping malformed journal line: %s", e)
+        return entries
+
+    @staticmethod
+    def _filter_by_date(entries: list[dict[str, Any]], target: date) -> list[dict[str, Any]]:
+        out: list[dict[str, Any]] = []
+        for e in entries:
+            ts = e.get("ts", "")
+            try:
+                d = datetime.fromisoformat(ts).date()
+            except ValueError:
+                continue
+            if d == target:
+                out.append(e)
+        return out
+
+    def _open_spreads_snapshot(self) -> list[dict[str, Any]]:
+        return [
+            {
+                "underlying": s.underlying,
+                "option_type": s.option_type,
+                "strike": s.strike,
+                "short_expiration": s.short.expiration,
+                "long_expiration": s.long.expiration,
+                "debit_paid": s.debit_paid,
+                "opened_at": s.opened_at.isoformat(),
+            }
+            for s in self.open_spreads
+        ]
+
+    async def generate_daily_report(self, target: date | None = None) -> DailyReport:
+        """Run the Post-Mortem Journalist for the given trading day.
+
+        Reads `state/journal.jsonl`, filters to `target` (default: today in
+        ET), sends the events + currently-open spreads to the journalist
+        agent, and writes the returned markdown to `reports/YYYY-MM-DD.md`.
+        """
+        if self.agent_runtime is None:
+            raise RuntimeError(
+                "agents.enabled is false in config; cannot generate report"
+            )
+        jcfg = self.agents_cfg.get("journalist") or {}
+        if not jcfg.get("enabled"):
+            raise RuntimeError("agents.journalist.enabled is false in config")
+
+        day = target or datetime.now(tz=ET).date()
+        all_entries = self._read_journal()
+        todays = self._filter_by_date(all_entries, day)
+        log.info(
+            "daily-report %s: %d journal entries, %d open spreads",
+            day.isoformat(), len(todays), len(self.open_spreads),
+        )
+
+        await self._ensure_journalist_registered()
+        report = await generate_report(
+            self.agent_runtime,
+            date=day.isoformat(),
+            events=todays,
+            still_open=self._open_spreads_snapshot(),
+        )
+
+        REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+        out_path = REPORTS_DIR / f"{day.isoformat()}.md"
+        out_path.write_text(report.markdown)
+        report.path_written = str(out_path)
+        log.info("daily-report written to %s (%d chars)", out_path, len(report.markdown))
+        return report
 
     # ---- management -------------------------------------------------------
 
@@ -408,6 +542,22 @@ class Engine:
         if decision.action == ManagementAction.CLOSE:
             order = build_close_order(spread, spread_mid)
             await self._submit(order, label="close")
+            close_value = round(spread_mid * 100, 2)
+            self._append_journal({
+                "ts": datetime.now(tz=ET).isoformat(),
+                "kind": "close",
+                "underlying": spread.underlying,
+                "option_type": spread.option_type,
+                "strike": spread.strike,
+                "short_expiration": spread.short.expiration,
+                "long_expiration": spread.long.expiration,
+                "debit_paid": spread.debit_paid,
+                "close_value": close_value,
+                "pnl_dollars": round(close_value - spread.debit_paid, 2),
+                "pnl_pct": round(pnl_pct / 100.0, 4),
+                "reason": decision.reason,
+                "opened_at": spread.opened_at.isoformat(),
+            })
             self.open_spreads.remove(spread)
             self._save_state()
 

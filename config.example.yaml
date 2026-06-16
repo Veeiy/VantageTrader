@@ -92,3 +92,12 @@ agents:
     model: claude-opus-4-7
     agent_id: null                # reuse an existing agent id, or null to create one on first use
     veto_enforced: false          # false = advisory only (log verdict, proceed); true = skip on VETO
+
+  # Post-Mortem Journalist: end-of-day report on the day's trading. Run via
+  # `python -m vantage_trader daily-report` (cron-friendly). Reads
+  # `state/journal.jsonl` and writes `reports/YYYY-MM-DD.md`. Gets the full
+  # managed-agents toolset (bash, python, file ops) so it can grind stats.
+  journalist:
+    enabled: true
+    model: claude-opus-4-7
+    agent_id: null

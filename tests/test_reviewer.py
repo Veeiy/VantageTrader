@@ -253,8 +253,8 @@ async def test_runtime_register_with_existing_agent_id_skips_create(install_fake
     rt = AgentRuntime(api_key="sk-test")
     spec = AgentSpec(key="reviewer", name="r", model="claude-opus-4-7", system="s")
     assert await rt.register(spec, agent_id="agt_existing") == "agt_existing"
-    fake_client = mod.Anthropic.instances[-1]
-    assert fake_client.beta.agents.create.call_count == 0
+    # Lazy SDK init: reusing an agent id doesn't require touching the SDK at all.
+    assert mod.Anthropic.instances == []
 
 
 async def test_runtime_environment_reused(install_fake_anthropic):

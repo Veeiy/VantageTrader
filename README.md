@@ -233,7 +233,8 @@ Currently shipped:
 
 | Agent | Hook | Job |
 | --- | --- | --- |
-| **Trade Reviewer** | `Engine._open_spread`, before order submission | One-shot second-opinion on each candidate. Returns `PASS` / `SOFT_PASS` / `VETO` + a one-sentence reason. With `veto_enforced: true` a `VETO` skips the entry; otherwise it's logged and the engine proceeds. |
+| **Trade Reviewer** | `Engine._open_spread`, before order submission | One-shot second-opinion on each candidate. Returns `PASS` / `SOFT_PASS` / `VETO` + a one-sentence reason. With `veto_enforced: true` a `VETO` skips the entry; otherwise it's logged and the engine proceeds. No sandbox tools. |
+| **Post-Mortem Journalist** | `python -m vantage_trader daily-report` (cron-friendly) | Reads the day's events from `state/journal.jsonl` and writes a markdown report to `reports/YYYY-MM-DD.md`: headline P&L, per-trade table, reviewer scorecard, patterns, suggestions for tomorrow. Gets the full sandbox toolset so it can grind stats in Python before composing the report. |
 
 Enable in `config.yaml`:
 
@@ -244,15 +245,24 @@ agents:
     enabled: true
     model: claude-opus-4-7
     veto_enforced: false       # start advisory; flip true once you trust it
+  journalist:
+    enabled: true
+    model: claude-opus-4-7
 ```
 
-And set `ANTHROPIC_API_KEY` in `.env`. The runtime lazily creates one cloud
-environment and one agent on first use; pass `environment_id` / `agent_id` in
-config to reuse existing ones across restarts.
+And set `ANTHROPIC_API_KEY` in `.env`. The runtime is lazily constructed — no
+SDK import happens until an agent actually runs — so flipping `enabled: false`
+turns the dependency off entirely. Pass `environment_id` / `agent_id` in config
+to reuse existing ones across restarts (avoids accumulating duplicates in the
+Anthropic console).
 
-Each open triggers exactly one LLM session (0-3/day in practice, bounded by
-`risk.max_concurrent_spreads`). The reviewer has no sandbox tools — pure
-analysis on the candidate JSON.
+Cost shape:
+- Reviewer: one LLM session per open (0-3/day in practice, bounded by `risk.max_concurrent_spreads`).
+- Journalist: one LLM session per invocation; typically scheduled once after market close (e.g. `15 16 * * 1-5` in cron).
+
+The engine writes one JSON line per open and close to `state/journal.jsonl`
+during normal operation, including the reviewer's verdict on each open so the
+journalist can grade the reviewer in its scorecard section.
 
 ## Tests
 
@@ -260,14 +270,17 @@ analysis on the candidate JSON.
 pytest
 ```
 
-51 tests cover: OAuth refresh-token exchange, preemptive refresh near expiry,
+63 tests cover: OAuth refresh-token exchange, preemptive refresh near expiry,
 401-triggered refresh-and-retry; OCC and DXLink streamer-symbol formatting;
 debit/credit order payloads; every management rule (profit/stop/drift/long-DTE/
 0DTE-eod/hold); delta-band strike selection; direction policy; DXLink Greeks
 frame decoding; Trade Reviewer payload shape and verdict parsing (clean JSON,
 code-fenced, prose-wrapped, malformed → safe SOFT_PASS default); AgentRuntime
-SDK orchestration (env reuse, agent id reuse, idempotent registration); and
-engine-level integration (advisory vs. enforced VETO, agents-disabled path).
+SDK orchestration (lazy SDK init, env reuse, agent id reuse, idempotent
+registration); engine-level reviewer integration (advisory vs. enforced VETO,
+agents-disabled path, reviewer verdict recorded on journal entries);
+journal append/read/date-filter; and Post-Mortem Journalist end-to-end
+(markdown fence stripping, date filtering, file write, disabled-paths errors).
 
 ---
 
