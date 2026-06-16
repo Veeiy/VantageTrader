@@ -241,10 +241,12 @@ Enable in `config.yaml`:
 ```yaml
 agents:
   enabled: true
+  environment:
+    type: cloud                  # cloud | self_hosted (see "Running agents locally")
   reviewer:
     enabled: true
     model: claude-opus-4-7
-    veto_enforced: false       # start advisory; flip true once you trust it
+    veto_enforced: false         # start advisory; flip true once you trust it
   journalist:
     enabled: true
     model: claude-opus-4-7
@@ -252,9 +254,60 @@ agents:
 
 And set `ANTHROPIC_API_KEY` in `.env`. The runtime is lazily constructed — no
 SDK import happens until an agent actually runs — so flipping `enabled: false`
-turns the dependency off entirely. Pass `environment_id` / `agent_id` in config
-to reuse existing ones across restarts (avoids accumulating duplicates in the
-Anthropic console).
+turns the dependency off entirely. Pass `agents.environment.id` /
+`agents.{role}.agent_id` in config to reuse existing ones across restarts
+(avoids accumulating duplicates in the Anthropic Console).
+
+### Running agents locally (self-hosted sandbox)
+
+By default tool execution runs in an Anthropic-managed cloud sandbox. With
+`agents.environment.type: self_hosted`, tool calls (bash, file ops, etc.) run
+on **your** machine instead. Anthropic still hosts the model and orchestration
+— inputs/outputs cross the boundary — but the agent's filesystem, processes,
+and network egress are yours. Useful when the journalist should read
+`state/journal.jsonl` directly, or when you don't want trade data leaving the
+host.
+
+Two-process setup:
+
+```yaml
+# config.yaml
+agents:
+  enabled: true
+  environment:
+    type: self_hosted
+    workdir: "./workspace"   # cwd for tool calls; create this dir
+```
+
+```bash
+# .env
+ANTHROPIC_API_KEY=sk-ant-...          # creates sessions
+ANTHROPIC_ENVIRONMENT_ID=env_...      # filled in after first run, see below
+ANTHROPIC_ENVIRONMENT_KEY=sk-ant-oat-...  # generated in Console
+```
+
+First-time setup:
+
+1. **Create the env.** Run any command that talks to the agent runtime once
+   (e.g. `python -m vantage_trader daily-report` will fail-fast because no
+   worker is up yet, but it logs `created managed-agents environment id=env_xyz`
+   before that). Copy that id into `ANTHROPIC_ENVIRONMENT_ID`.
+2. **Generate an environment key.** In the [Anthropic Console](https://platform.claude.com/workspaces/default/environments)
+   open your env and click *Generate environment key*. Copy into `ANTHROPIC_ENVIRONMENT_KEY`.
+   (This is a queue-scoped credential — not your org API key. Never put your
+   org API key on the worker host.)
+3. **Run the worker** in one terminal — it stays up, polling for work:
+   ```bash
+   python -m vantage_trader worker
+   ```
+4. **Run sessions** from another terminal as usual:
+   ```bash
+   python -m vantage_trader daily-report
+   ```
+
+The worker uses the Anthropic Python SDK's `EnvironmentWorker` helper. It
+downloads any skills attached to your agents into `workdir/skills/`, runs
+tool calls in `workdir`, posts results back, and exits cleanly on SIGTERM.
 
 Cost shape:
 - Reviewer: one LLM session per open (0-3/day in practice, bounded by `risk.max_concurrent_spreads`).
@@ -270,17 +323,19 @@ journalist can grade the reviewer in its scorecard section.
 pytest
 ```
 
-63 tests cover: OAuth refresh-token exchange, preemptive refresh near expiry,
+72 tests cover: OAuth refresh-token exchange, preemptive refresh near expiry,
 401-triggered refresh-and-retry; OCC and DXLink streamer-symbol formatting;
 debit/credit order payloads; every management rule (profit/stop/drift/long-DTE/
 0DTE-eod/hold); delta-band strike selection; direction policy; DXLink Greeks
 frame decoding; Trade Reviewer payload shape and verdict parsing (clean JSON,
 code-fenced, prose-wrapped, malformed → safe SOFT_PASS default); AgentRuntime
 SDK orchestration (lazy SDK init, env reuse, agent id reuse, idempotent
-registration); engine-level reviewer integration (advisory vs. enforced VETO,
-agents-disabled path, reviewer verdict recorded on journal entries);
-journal append/read/date-filter; and Post-Mortem Journalist end-to-end
-(markdown fence stripping, date filtering, file write, disabled-paths errors).
+registration); cloud-vs-self-hosted environment branch; engine env-id
+fallback to ANTHROPIC_ENVIRONMENT_ID; worker CLI preflight guards;
+engine-level reviewer integration (advisory vs. enforced VETO, agents-disabled
+path, reviewer verdict recorded on journal entries); journal
+append/read/date-filter; and Post-Mortem Journalist end-to-end (markdown
+fence stripping, date filtering, file write, disabled-paths errors).
 
 ---
 

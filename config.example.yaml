@@ -82,7 +82,23 @@ schedule:
 # See https://platform.claude.com/docs/en/managed-agents/quickstart
 agents:
   enabled: false                  # master switch for the whole agent team
-  environment_id: null            # reuse an existing managed-agents env id, or null to create one
+
+  # Where the agent's tool calls execute. Anthropic always hosts the model and
+  # orchestration; this controls where bash/file ops/etc. actually run.
+  #
+  #   cloud       - Anthropic-managed sandbox container. Easiest path; no extra
+  #                 setup. Tool inputs/outputs cross the public internet to
+  #                 their cloud.
+  #   self_hosted - Tool calls run on YOUR host via a long-running worker
+  #                 process (`python -m vantage_trader worker`). Agent code,
+  #                 filesystem, and network egress stay on your machine.
+  #                 Requires ANTHROPIC_ENVIRONMENT_ID and ANTHROPIC_ENVIRONMENT_KEY
+  #                 in .env. See README "Running agents locally".
+  environment:
+    type: cloud                   # cloud | self_hosted
+    id: null                      # reuse an existing env id, or null to create one on first use
+    networking: unrestricted      # cloud only: networking policy for the sandbox
+    workdir: "./workspace"        # self_hosted only: where the worker runs tool calls
 
   # Trade Reviewer: second-opinion on each candidate that passes the rule-based
   # filters, BEFORE the order is submitted. Adds 1 LLM call per open (0-3/day

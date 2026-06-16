@@ -11,6 +11,7 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
+import os
 from dataclasses import asdict
 from datetime import date, datetime
 from pathlib import Path
@@ -69,8 +70,18 @@ class Engine:
         self.agents_cfg: dict[str, Any] = config.get("agents") or {}
         self.agent_runtime: AgentRuntime | None = None
         if self.agents_cfg.get("enabled"):
+            env_cfg = self.agents_cfg.get("environment") or {}
+            env_type = env_cfg.get("type", "cloud")
+            # Back-compat: top-level `environment_id` still honoured.
+            env_id = env_cfg.get("id") or self.agents_cfg.get("environment_id")
+            if env_type == "self_hosted":
+                # Prefer the env var the worker also reads, so a single source
+                # of truth keeps engine + worker pointed at the same env.
+                env_id = env_id or os.environ.get("ANTHROPIC_ENVIRONMENT_ID")
             self.agent_runtime = AgentRuntime(
-                environment_id=self.agents_cfg.get("environment_id"),
+                environment_id=env_id,
+                env_type=env_type,
+                networking=env_cfg.get("networking", "unrestricted"),
             )
         self._load_state()
 

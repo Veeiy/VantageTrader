@@ -4,13 +4,23 @@ Wraps the (sync) `anthropic.Anthropic` client so our async engine can use
 Managed Agents without blocking the event loop. One `AgentRuntime` instance
 owns:
 
-  * a single cloud `environment` (created lazily, or reused via env id)
+  * a single `environment` (cloud or self-hosted; created lazily, or reused
+    via env id)
   * a registry of agent ids keyed by role (e.g. "reviewer")
 
 Each `run()` call opens a one-shot session, sends a single user message,
 streams events until `session.status_idle`, and returns the concatenated
 agent text. No conversational memory across calls -- the engine drives
 the trading loop, agents just answer focused questions.
+
+Environment types:
+  * `cloud`       - Anthropic-managed sandbox container, configurable network
+                    policy. The full toolset's bash/file ops run in their
+                    cloud.
+  * `self_hosted` - Tool execution runs on YOUR host (a worker process polls
+                    the queue and runs tool calls locally). Anthropic still
+                    runs the model + orchestration. See README for the
+                    two-process setup.
 
 Requires `anthropic>=0.45`. The SDK sets the `managed-agents-2026-04-01`
 beta header automatically.
@@ -20,9 +30,11 @@ from __future__ import annotations
 import asyncio
 import logging
 from dataclasses import dataclass, field
-from typing import Any
+from typing import Any, Literal
 
 log = logging.getLogger(__name__)
+
+EnvType = Literal["cloud", "self_hosted"]
 
 
 @dataclass
@@ -42,6 +54,7 @@ class AgentRuntime:
         api_key: str | None = None,
         environment_id: str | None = None,
         environment_name: str = "vantage-trader",
+        env_type: EnvType = "cloud",
         networking: str = "unrestricted",
     ) -> None:
         # The SDK client is built lazily on first use so constructing a
@@ -53,6 +66,7 @@ class AgentRuntime:
         self._client: Any | None = None
         self._environment_id = environment_id
         self._environment_name = environment_name
+        self._env_type: EnvType = env_type
         self._networking = networking
         self._agent_ids: dict[str, str] = {}
         self._env_lock = asyncio.Lock()
@@ -66,19 +80,36 @@ class AgentRuntime:
 
     # ---- environment ------------------------------------------------------
 
+    def _env_config(self) -> dict[str, Any]:
+        if self._env_type == "self_hosted":
+            return {"type": "self_hosted"}
+        return {"type": "cloud", "networking": {"type": self._networking}}
+
     async def ensure_environment(self) -> str:
         async with self._env_lock:
             if self._environment_id:
                 return self._environment_id
             client = self._get_client()
+            config = self._env_config()
             env = await asyncio.to_thread(
                 lambda: client.beta.environments.create(
                     name=self._environment_name,
-                    config={"type": "cloud", "networking": {"type": self._networking}},
+                    config=config,
                 )
             )
             self._environment_id = env.id
-            log.info("created managed-agents environment id=%s", env.id)
+            log.info(
+                "created managed-agents environment id=%s type=%s",
+                env.id, self._env_type,
+            )
+            if self._env_type == "self_hosted":
+                log.info(
+                    "next step: generate an environment key in the Anthropic Console "
+                    "for env id %s, set ANTHROPIC_ENVIRONMENT_ID and "
+                    "ANTHROPIC_ENVIRONMENT_KEY in .env, and run "
+                    "`python -m vantage_trader worker` in a second terminal.",
+                    env.id,
+                )
             return env.id
 
     # ---- agent registration ----------------------------------------------

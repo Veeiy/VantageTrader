@@ -5,13 +5,18 @@ Usage:
     python -m vantage_trader scan-once           # one-shot: scan, print candidates, exit
     python -m vantage_trader accounts            # list accounts visible to the session
     python -m vantage_trader daily-report        # run the Post-Mortem Journalist for today (cron-friendly)
+    python -m vantage_trader worker              # run the self-hosted Managed Agents worker (long-running)
 """
 from __future__ import annotations
 
 import argparse
 import asyncio
 import logging
+import os
 from datetime import date
+from pathlib import Path
+
+from dotenv import load_dotenv
 
 from .config import load_credentials, load_strategy_config
 from .engine import Engine
@@ -67,6 +72,61 @@ async def _daily_report(target: date | None) -> None:
         log.info("report written: %s", report.path_written)
 
 
+async def _worker() -> None:
+    """Long-running self-hosted Managed Agents worker.
+
+    Polls the work queue for the configured environment, downloads skills,
+    runs tool calls (bash, file ops, etc.) in `workdir`, and posts results
+    back to Anthropic. Authenticates with ANTHROPIC_ENVIRONMENT_KEY (not
+    your API key -- the env key is queue-scoped).
+
+    Generated once-per-environment in the Anthropic Console; see README.
+    """
+    load_dotenv()
+    cfg = load_strategy_config()
+    agents_cfg = cfg.get("agents") or {}
+    env_cfg = agents_cfg.get("environment") or {}
+
+    if env_cfg.get("type", "cloud") != "self_hosted":
+        raise RuntimeError(
+            "agents.environment.type must be 'self_hosted' to run a worker. "
+            "Set it in config.yaml, or run sessions against a cloud "
+            "environment (no worker needed there)."
+        )
+
+    env_id = env_cfg.get("id") or os.environ.get("ANTHROPIC_ENVIRONMENT_ID")
+    env_key = os.environ.get("ANTHROPIC_ENVIRONMENT_KEY")
+    workdir = Path(env_cfg.get("workdir", "./workspace")).resolve()
+
+    if not env_id:
+        raise RuntimeError(
+            "Set ANTHROPIC_ENVIRONMENT_ID (in .env) or agents.environment.id "
+            "in config.yaml. Create the environment with `python -m "
+            "vantage_trader daily-report` once, then copy the id it logs."
+        )
+    if not env_key:
+        raise RuntimeError(
+            "Set ANTHROPIC_ENVIRONMENT_KEY in .env. Generate one in the "
+            "Anthropic Console under Workspace > Environments > "
+            f"{env_id} > Generate environment key."
+        )
+
+    workdir.mkdir(parents=True, exist_ok=True)
+    log.info("worker starting env=%s workdir=%s", env_id, workdir)
+
+    # Imported lazily so the rest of the CLI works without the SDK installed.
+    from anthropic import AsyncAnthropic
+    from anthropic.lib.environments import EnvironmentWorker
+
+    async with AsyncAnthropic(auth_token=env_key) as client:
+        await EnvironmentWorker(
+            client,
+            environment_id=env_id,
+            environment_key=env_key,
+            workdir=str(workdir),
+        ).run()
+
+
 def main() -> None:
     configure_logging()
     parser = argparse.ArgumentParser(prog="vantage_trader")
@@ -83,6 +143,12 @@ def main() -> None:
         help="Trading day in YYYY-MM-DD (defaults to today in ET)",
         default=None,
     )
+    sub.add_parser(
+        "worker",
+        help="Long-running self-hosted Managed Agents worker (polls the queue, "
+             "runs tool calls locally). Required when agents.environment.type "
+             "is self_hosted.",
+    )
     args = parser.parse_args()
 
     if args.cmd == "run":
@@ -94,6 +160,8 @@ def main() -> None:
     elif args.cmd == "daily-report":
         target = date.fromisoformat(args.date) if args.date else None
         asyncio.run(_daily_report(target))
+    elif args.cmd == "worker":
+        asyncio.run(_worker())
 
 
 if __name__ == "__main__":
