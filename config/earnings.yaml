@@ -1,0 +1,57 @@
+# Earnings vol engine config (vantage_trader.earnings). Every key is optional;
+# omitted keys use the defaults shown here. Unknown keys are rejected (exit 2).
+# HARD CAPS are enforced in code: values here may only TIGHTEN them.
+# All percentages are fractions (0.12 = 12%). Money in USD.
+
+# --- universe / filters ---
+blocklist: [TSLA]            # TSLA is always added even if removed here
+min_price: 10.0              # HARD FLOOR >= 10. Skip if spot < this
+max_spread_pct: 0.12         # HARD CAP <= 0.12. Skip if ATM call or put (ask-bid)/mid > this
+max_intraday_move: 0.05      # skip if |intraday_move| on entry day > this
+
+# --- scoring ---
+straddle_factor: 0.85        # implied_move = factor * ATM straddle mid / spot
+min_history: 4               # need at least this many historical moves
+history_lookback: 12         # use the last N historical moves (chronological list)
+sell_max_ratio: 0.85         # edge_ratio <= this -> sell premium (iron fly); bounds [0.70, 0.95]
+buy_min_ratio: 1.25          # edge_ratio >= this -> buy premium (long straddle); bounds [1.15, 1.60]
+min_ev_per_dollar_risk: 0.0  # require historical EV / max loss strictly above this
+
+# --- structures ---
+wing_widths_pct: [0.05, 0.075, 0.10, 0.125]   # iron fly wing candidates as fraction of spot
+
+# --- risk / sizing ---
+max_open_positions: 1        # HARD CAP <= 1 (v1)
+max_loss_abs: 700.0          # HARD CAP <= 700. cap = min(max_loss_abs, max_loss_bp_frac * buying_power)
+max_loss_bp_frac: 0.93       # HARD CAP <= 0.93
+max_quantity: 1              # max contracts per structure (v1)
+
+# --- order pricing ---
+tick: 0.05
+step_small: 0.05             # limit_step when price < step_threshold
+step_large: 0.10             # limit_step otherwise
+step_threshold: 3.0
+credit_floor_mid_frac: 0.92  # credit floor >= this * mid
+debit_ceiling_mid_frac: 1.06 # debit ceiling <= this * mid
+cancel_by: "12:50 America/Los_Angeles"   # unfilled entries cancelled by this time (no later than 12:50 PT)
+
+# --- circuit breaker ---
+min_account_value: 400.0     # HARD FLOOR >= 400. Halt new entries below this total_value
+max_consecutive_max_loss: 2  # HARD CAP <= 2. Halt after this many consecutive max-loss trades
+max_consecutive_losses: 3    # HARD CAP <= 3. Halt after this many losing trades in a row
+max_loss_tolerance: 0.90     # a loss >= this * trade max_loss counts as a max-loss trade
+circuit_reset_ts: null       # ISO ts; streaks only count trades closed at/after it (human resume)
+
+# --- exits ---
+exit_min_minutes_since_open: 10
+straddle_take_profit: 0.50   # long straddle up >= 50% -> exit immediately
+market_timezone: America/New_York
+
+# --- calibration ---
+calibrate_min_trades: 8
+calibrate_prior_weight: 8    # shrink weight = n / (n + prior_weight)
+sell_max_ratio_bounds: [0.70, 0.95]
+buy_min_ratio_bounds: [1.15, 1.60]
+
+# --- paths ---
+journal_path: state/earnings/journal.jsonl
