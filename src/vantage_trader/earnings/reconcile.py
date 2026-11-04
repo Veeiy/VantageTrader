@@ -3,9 +3,15 @@ journal is repaired (by appending ``heal`` events), never the broker.
 
 Snapshot shape (CONTRACT leaves the details open; this is the interpretation):
   open_positions: [{"symbol","structure","opened","quantity"?,"entry_price"?}]
-      one row per earnings STRUCTURE (agent aggregates broker option legs by symbol)
-  recent_orders:  [{"order_id","symbol","state","position_effect":"open"|"close",
-                    "created_at"?, "price"?, "quantity"?, "structure"?}]
+      one row per earnings STRUCTURE (agent aggregates broker option legs by symbol).
+      ``quantity`` missing -> unknown: no qty_mismatch is raised for that row.
+  recent_orders:  [{"order_id","symbol","state","position_effect"?:"open"|"close",
+                    "legs"?:[{"position_effect",...}], "created_at"?, "price"?,
+                    "quantity"?, "structure"?}]
+      position_effect is taken from the top level, else from legs[].position_effect
+      when all legs agree; otherwise unknown. Unknown is treated as "open" for the
+      stale-order check (conservative) and never as "close".
+  Symbols are strip().upper()'d everywhere.
       state: filled | cancelled/canceled/rejected/failed/expired | anything else = open
       (queued, unconfirmed, confirmed, partially_filled, ...).
 
@@ -37,7 +43,7 @@ from zoneinfo import ZoneInfo
 
 from . import journal as jr
 from . import rules
-from .config import EngineInputError, parse_cancel_by
+from .config import EngineInputError, norm_symbol, parse_cancel_by
 
 FILLED = {"filled"}
 DEAD = {"cancelled", "canceled", "rejected", "failed", "expired"}
@@ -48,6 +54,18 @@ def _heal(as_of: str, issue: str, as_event: str, sym: str, notes: str, **fields:
           "heal": {"type": issue, "as_event": as_event}}
     ev.update({k: v for k, v in fields.items() if v is not None})
     return ev
+
+
+def position_effect(order: dict[str, Any]) -> str | None:
+    pe = order.get("position_effect")
+    if pe in ("open", "close"):
+        return pe
+    legs = order.get("legs")
+    if isinstance(legs, list) and legs:
+        effects = {l.get("position_effect") for l in legs if isinstance(l, dict)}
+        if len(effects) == 1 and next(iter(effects)) in ("open", "close"):
+            return next(iter(effects))
+    return None
 
 
 def _is_stale(order: dict[str, Any], now: datetime, cfg: dict[str, Any]) -> bool:
@@ -74,7 +92,7 @@ def reconcile(snapshot: dict[str, Any], events: list[dict[str, Any]], cfg: dict[
     for p in bpos_raw:
         if not isinstance(p, dict) or not p.get("symbol"):
             raise EngineInputError("each open_position needs a symbol")
-        bpos[p["symbol"].upper()] = p
+        bpos[norm_symbol(p["symbol"])] = p
     by_id = {str(o["order_id"]): o for o in orders}
 
     issues: list[dict[str, Any]] = []
@@ -85,7 +103,7 @@ def reconcile(snapshot: dict[str, Any], events: list[dict[str, Any]], cfg: dict[
 
     # 1. pending journal orders vs broker order state
     for oid, sub in state["pending_orders"].items():
-        sym = str(sub.get("symbol", "")).upper()
+        sym = norm_symbol(sub.get("symbol"))
         phase = "entry" if jr.effective_event(sub) == "entry_submitted" else "exit"
         bo = by_id.get(oid)
         st = str(bo["state"]).lower() if bo else None
@@ -118,10 +136,10 @@ def reconcile(snapshot: dict[str, Any], events: list[dict[str, Any]], cfg: dict[
     # 2. stale working entry orders
     for o in orders:
         st = str(o["state"]).lower()
-        if st in FILLED or st in DEAD or o.get("position_effect", "open") != "open":
+        if st in FILLED or st in DEAD or (position_effect(o) or "open") != "open":
             continue
         if _is_stale(o, now, cfg):
-            sym = o["symbol"].upper()
+            sym = norm_symbol(o["symbol"])
             ev = _heal(as_of, "stale_open_order", "entry_cancelled", sym,
                        f"entry order {o['order_id']} still working past {cfg['cancel_by']}; "
                        "append only after broker confirms the cancel", order_id=str(o["order_id"]))
@@ -132,12 +150,13 @@ def reconcile(snapshot: dict[str, Any], events: list[dict[str, Any]], cfg: dict[
 
     # 3. positions (after virtually applying the fill heals)
     jpos = jr.open_state(list(events) + heals)["positions"]
-    jpos = {str(k).upper(): v for k, v in jpos.items()}
+    jpos = {norm_symbol(k): v for k, v in jpos.items()}
     for sym, bp in bpos.items():
         if sym not in jpos:
             ev = _heal(as_of, "orphan_position", "entry_filled", sym,
-                       "broker holds a position the journal does not know; adopting it",
-                       structure=bp.get("structure"), quantity=bp.get("quantity", 1),
+                       "broker holds a position the journal does not know; adopting it "
+                       "(exit snapshot must mark it provenance=reconstructed)",
+                       structure=bp.get("structure"), quantity=bp.get("quantity", 1), provenance="reconstructed",
                        price=bp.get("entry_price"), direction=bp.get("direction"))
             heals.append(ev)
             issues.append({"type": "orphan_position", "symbol": sym,
@@ -145,7 +164,7 @@ def reconcile(snapshot: dict[str, Any], events: list[dict[str, Any]], cfg: dict[
                                    "broker_action": None, "journal_event": ev}})
         else:
             bq = bp.get("quantity")
-            if isinstance(bq, (int, float)) and int(bq) != jpos[sym]["quantity"]:
+            if isinstance(bq, (int, float)) and not isinstance(bq, bool) and int(bq) != jpos[sym]["quantity"]:
                 ev = _heal(as_of, "qty_mismatch", "qty_adjust", sym,
                            f"journal qty {jpos[sym]['quantity']} != broker qty {int(bq)}",
                            quantity=int(bq), structure=bp.get("structure"))
@@ -156,8 +175,8 @@ def reconcile(snapshot: dict[str, Any], events: list[dict[str, Any]], cfg: dict[
     for sym, jp in jpos.items():
         if sym in bpos:
             continue
-        close = next((o for o in orders if o["symbol"].upper() == sym and str(o["state"]).lower() in FILLED
-                      and o.get("position_effect") == "close" and str(o["order_id"]) not in journal_ids), None)
+        close = next((o for o in orders if norm_symbol(o["symbol"]) == sym and str(o["state"]).lower() in FILLED
+                      and position_effect(o) == "close" and str(o["order_id"]) not in journal_ids), None)
         if close is not None:
             ev = _heal(as_of, "missing_fill", "exit_filled", sym,
                        f"broker close order {close['order_id']} filled but never journaled",

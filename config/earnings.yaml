@@ -33,7 +33,7 @@ step_large: 0.10             # limit_step otherwise
 step_threshold: 3.0
 credit_floor_mid_frac: 0.92  # credit floor >= this * mid
 debit_ceiling_mid_frac: 1.06 # debit ceiling <= this * mid
-cancel_by: "12:50 America/Los_Angeles"   # unfilled entries cancelled by this time (no later than 12:50 PT)
+cancel_by: "12:50 America/Los_Angeles"   # any tz allowed; converted to PT and must be <= 12:50 PT
 
 # --- circuit breaker ---
 min_account_value: 400.0     # HARD FLOOR >= 400. Halt new entries below this total_value
@@ -52,6 +52,30 @@ calibrate_min_trades: 8
 calibrate_prior_weight: 8    # shrink weight = n / (n + prior_weight)
 sell_max_ratio_bounds: [0.70, 0.95]
 buy_min_ratio_bounds: [1.15, 1.60]
+
+# --- calendar ---
+market_holidays:             # NYSE full closures; used to find the next trading day (BMO entries)
+  - "2026-01-01"
+  - "2026-01-19"
+  - "2026-02-16"
+  - "2026-04-03"
+  - "2026-05-25"
+  - "2026-06-19"
+  - "2026-07-03"
+  - "2026-09-07"
+  - "2026-11-26"
+  - "2026-12-25"
+  - "2027-01-01"
+  - "2027-01-18"
+  - "2027-02-15"
+  - "2027-03-26"
+  - "2027-05-31"
+  - "2027-06-18"
+  - "2027-07-05"
+  - "2027-09-06"
+  - "2027-11-25"
+  - "2027-12-24"
+max_expiry_days_after_report: 7   # entry expiry must be <= report_date + this many calendar days
 
 # --- paths ---
 journal_path: state/earnings/journal.jsonl

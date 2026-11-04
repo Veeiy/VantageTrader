@@ -108,3 +108,20 @@ def test_invalid_config(bad):
 def test_config_may_tighten_and_tsla_forced():
     c = validate({"max_loss_abs": 500, "blocklist": ["gme"], "cancel_by": "12:30 America/Los_Angeles"})
     assert c["max_loss_abs"] == 500.0 and c["blocklist"] == ["GME", "TSLA"]
+
+
+def test_cancel_by_converted_to_pacific():
+    assert validate({"cancel_by": "15:50 America/New_York"})["cancel_by"] == "15:50 America/New_York"
+    with pytest.raises(ConfigError):
+        validate({"cancel_by": "16:00 America/New_York"})     # 13:00 PT
+    with pytest.raises(ConfigError):
+        validate({"cancel_by": "20:55 UTC"})                  # 12:55 PST in winter
+    validate({"cancel_by": "19:50 UTC"})                      # 11:50 PST / 12:50 PDT
+    with pytest.raises(ConfigError):
+        validate({"cancel_by": "12:50 Pacific/Honolulu"})     # 14:50/15:50 PT
+
+
+def test_market_holidays_validated():
+    assert validate({"market_holidays": ["2026-12-25", "2026-01-01"]})["market_holidays"] == ["2026-01-01", "2026-12-25"]
+    with pytest.raises(ConfigError):
+        validate({"market_holidays": ["Christmas"]})

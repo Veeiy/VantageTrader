@@ -8,12 +8,17 @@ working engine. Validation rules:
   them, never loosen them (see ``HARD_CAPS``). ``TSLA`` is always blocklisted.
 * ``sell_max_ratio`` must be < ``buy_min_ratio`` and both must sit inside the
   calibration bounds.
+* ``cancel_by`` may use any timezone; it is converted to America/Los_Angeles (checked on
+  both a winter and a summer reference date) and must be <= 12:50 PT.
+* ``market_holidays``: ISO dates on which NYSE is closed (default: 2026-2027 NYSE full
+  closures). Used to find the next trading day for BMO entry timing.
 
 Any violation raises :class:`ConfigError`, which the CLI maps to exit code 2.
 """
 from __future__ import annotations
 
 import copy
+from datetime import date, datetime
 from pathlib import Path
 from typing import Any
 
@@ -71,9 +76,22 @@ DEFAULTS: dict[str, Any] = {
     "calibrate_prior_weight": 8,
     "sell_max_ratio_bounds": [0.70, 0.95],
     "buy_min_ratio_bounds": [1.15, 1.60],
+    # --- calendar ---
+    "market_holidays": [
+        "2026-01-01", "2026-01-19", "2026-02-16", "2026-04-03", "2026-05-25", "2026-06-19",
+        "2026-07-03", "2026-09-07", "2026-11-26", "2026-12-25",
+        "2027-01-01", "2027-01-18", "2027-02-15", "2027-03-26", "2027-05-31", "2027-06-18",
+        "2027-07-05", "2027-09-06", "2027-11-25", "2027-12-24",
+    ],
+    "max_expiry_days_after_report": 7,
     # --- paths ---
     "journal_path": "state/earnings/journal.jsonl",
 }
+
+
+def norm_symbol(s: Any) -> str:
+    """Canonical ticker form used everywhere (blocklist, positions, journal)."""
+    return str(s if s is not None else "").strip().upper()
 
 # key -> (direction, limit). "max": value must be <= limit. "min": value must be >= limit.
 HARD_CAPS: dict[str, tuple[str, float]] = {
@@ -100,6 +118,7 @@ _INT = {
     "min_history", "history_lookback", "max_open_positions", "max_quantity",
     "max_consecutive_max_loss", "max_consecutive_losses",
     "exit_min_minutes_since_open", "calibrate_min_trades", "calibrate_prior_weight",
+    "max_expiry_days_after_report",
 }
 _POSITIVE = {
     "min_price", "straddle_factor", "sell_max_ratio", "buy_min_ratio", "max_loss_abs",
@@ -107,7 +126,7 @@ _POSITIVE = {
     "credit_floor_mid_frac", "debit_ceiling_mid_frac", "min_history", "history_lookback",
     "max_open_positions", "max_quantity", "max_consecutive_max_loss",
     "max_consecutive_losses", "max_spread_pct", "max_intraday_move", "max_loss_tolerance",
-    "straddle_take_profit", "calibrate_min_trades",
+    "straddle_take_profit", "calibrate_min_trades", "max_expiry_days_after_report",
 }
 
 
@@ -156,7 +175,7 @@ def validate(cfg: dict[str, Any]) -> dict[str, Any]:
     bl = out["blocklist"]
     if not isinstance(bl, list) or not all(isinstance(s, str) for s in bl):
         raise ConfigError("blocklist must be a list of ticker strings")
-    bl = [s.strip().upper() for s in bl]
+    bl = [norm_symbol(s) for s in bl]
     for s in ALWAYS_BLOCKED:
         if s not in bl:
             bl.append(s)
@@ -207,18 +226,40 @@ def validate(cfg: dict[str, Any]) -> dict[str, Any]:
     if not isinstance(out["cancel_by"], str):
         raise ConfigError("cancel_by must be a string like '12:50 America/Los_Angeles'")
     h, m, tz = parse_cancel_by(out["cancel_by"])
-    if tz == "America/Los_Angeles" and h * 60 + m > HARD_CAPS["cancel_by_latest_minutes"][1]:
+    _check_tz(tz)
+    if cancel_by_la_minutes(out["cancel_by"]) > HARD_CAPS["cancel_by_latest_minutes"][1]:
         raise ConfigError("cancel_by may not be later than 12:50 America/Los_Angeles")
     for k in ("market_timezone",):
         if not isinstance(out[k], str):
             raise ConfigError(f"{k} must be a string")
     _check_tz(out["market_timezone"])
-    _check_tz(tz)
+    hol = out["market_holidays"]
+    if not isinstance(hol, list):
+        raise ConfigError("market_holidays must be a list of YYYY-MM-DD dates")
+    try:
+        out["market_holidays"] = sorted({date.fromisoformat(str(d)).isoformat() for d in hol})
+    except ValueError:
+        raise ConfigError("market_holidays entries must be YYYY-MM-DD dates")
     if out["circuit_reset_ts"] is not None and not isinstance(out["circuit_reset_ts"], str):
         raise ConfigError("circuit_reset_ts must be null or an ISO timestamp string")
     if not isinstance(out["journal_path"], str) or not out["journal_path"]:
         raise ConfigError("journal_path must be a non-empty string")
     return out
+
+
+def cancel_by_la_minutes(value: str) -> int:
+    """Latest Los Angeles wall-clock minute-of-day the cancel_by time maps to
+    (checked in January and July so DST differences between zones are covered)."""
+    from zoneinfo import ZoneInfo
+
+    h, m, tz = parse_cancel_by(value)
+    la = ZoneInfo("America/Los_Angeles")
+    worst = 0
+    for ref in (date(2026, 1, 15), date(2026, 7, 15)):
+        t = datetime(ref.year, ref.month, ref.day, h, m, tzinfo=ZoneInfo(tz)).astimezone(la)
+        mins = t.hour * 60 + t.minute + (24 * 60 if t.date() > ref else 0) - (24 * 60 if t.date() < ref else 0)
+        worst = max(worst, mins)
+    return worst
 
 
 def _check_tz(name: str) -> None:

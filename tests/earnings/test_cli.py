@@ -96,10 +96,11 @@ def test_history_cli(tmp_path, capsys):
 def test_exit_cli(tmp_path, capsys):
     snap = {"as_of": "2026-11-05T14:45:00Z", "minutes_since_open": 12, "positions": [
         {"symbol": "ARM", "structure": "iron_fly", "direction": "credit", "entry_price": 15.8, "opened": "2026-11-04",
-         "legs": [{"option_id": "a", "side_held": "short", "quantity": 1, "bid": 3.0, "ask": 3.2},
-                  {"option_id": "b", "side_held": "short", "quantity": 1, "bid": 8.0, "ask": 8.4},
-                  {"option_id": "c", "side_held": "long", "quantity": 1, "bid": 0.1, "ask": 0.2},
-                  {"option_id": "d", "side_held": "long", "quantity": 1, "bid": 0.5, "ask": 0.7}]}]}
+         "expiry": "2026-11-06",
+         "legs": [{"option_id": "a", "side_held": "short", "quantity": 1, "bid": 3.0, "ask": 3.2, "strike": 202.5, "type": "call"},
+                  {"option_id": "b", "side_held": "short", "quantity": 1, "bid": 8.0, "ask": 8.4, "strike": 202.5, "type": "put"},
+                  {"option_id": "c", "side_held": "long", "quantity": 1, "bid": 0.1, "ask": 0.2, "strike": 222.5, "type": "call"},
+                  {"option_id": "d", "side_held": "long", "quantity": 1, "bid": 0.5, "ask": 0.7, "strike": 182.5, "type": "put"}]}]}
     code, d = call(capsys, ["exit", "--snapshot", write(tmp_path, "x.json", snap), "--config", CONFIG])
     assert code == 0 and d["actions"][0]["symbol"] == "ARM"
 
@@ -121,3 +122,34 @@ def test_calibrate_cli_never_writes_config(tmp_path, capsys):
     code, d = call(capsys, ["calibrate", "--journal", write_journal(tmp_path, ev), "--config", str(cfgp)])
     assert code == 0 and d["diff"] and d["writes_config"] is False
     assert cfgp.read_text() == "sell_max_ratio: 0.85\n"
+
+
+def test_exit_cli_missing_expiry_exit_2(tmp_path, capsys):
+    snap = {"as_of": "2026-11-05T14:45:00Z", "minutes_since_open": 12, "positions": [
+        {"symbol": "ARM", "structure": "iron_fly", "opened": "2026-11-04",
+         "legs": [{"option_id": "a", "side_held": "long", "bid": 1, "ask": 1.1, "strike": 200, "type": "call"}]}]}
+    code, d = call(capsys, ["exit", "--snapshot", write(tmp_path, "x.json", snap), "--config", CONFIG])
+    assert code == 2 and "expiry" in d["error"]
+
+
+def test_exit_cli_accepts_journal_and_runs_when_halted(tmp_path, capsys):
+    snap = {"as_of": "2026-11-05T14:45:00Z", "minutes_since_open": 12,
+            "account": {"total_value": 300.0, "buying_power": 300.0}, "positions": [
+                {"symbol": "ARM", "structure": "iron_fly", "opened": "2026-11-04", "expiry": "2026-11-06",
+                 "legs": [{"option_id": "a", "side_held": "short", "bid": 3.0, "ask": 3.2, "strike": 202.5, "type": "call"},
+                          {"option_id": "c", "side_held": "long", "bid": 0.1, "ask": 0.2, "strike": 222.5, "type": "call"}]}]}
+    j = write_journal(tmp_path, trade("A", "iron_fly", 15, 20, 1) + trade("B", "iron_fly", 15, 20, 2))
+    code, d = call(capsys, ["exit", "--snapshot", write(tmp_path, "x.json", snap), "--config", CONFIG,
+                            "--journal", j])
+    assert code == 0 and len(d["actions"]) == 1
+    cb = d["circuit_breaker"]
+    assert cb["halted"] and cb["journal_found"] and len(cb["reasons"]) == 2
+
+
+def test_exit_cli_bad_journal_exit_2(tmp_path, capsys):
+    j = tmp_path / "j.jsonl"
+    j.write_text("garbage\n")
+    snap = {"as_of": "2026-11-05T14:45:00Z", "minutes_since_open": 12, "positions": []}
+    code, d = call(capsys, ["exit", "--snapshot", write(tmp_path, "x.json", snap), "--config", CONFIG,
+                            "--journal", str(j)])
+    assert code == 2

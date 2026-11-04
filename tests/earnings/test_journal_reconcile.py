@@ -177,3 +177,60 @@ def test_heal_events_are_valid_journal_lines(tmp_path):
         jr.append_event(p, e)
     assert jr.read_journal(p)[0]["event"] == "heal"
     json.dumps(out)
+
+
+# ------------------------------------------------------------ audit fixes
+
+def test_iron_fly_without_direction_is_credit():
+    ev = trade("ARM", "iron_fly", 15.0, 17.0, 1)
+    assert "direction" not in ev[0]
+    t = jr.closed_trades(ev)[0]
+    assert t["direction"] == "credit" and t["pnl"] == pytest.approx(-200.0)
+
+
+def test_direction_field_wins_over_structure():
+    ev = trade("ARM", "weird", 15.0, 17.0, 1)
+    ev[0]["direction"] = "debit"
+    assert jr.closed_trades(ev)[0]["pnl"] == pytest.approx(200.0)
+    ev = trade("ARM", "long_strangle", 4.0, 5.0, 1)
+    assert jr.closed_trades(ev)[0]["pnl"] == pytest.approx(100.0)
+
+
+def test_unknown_direction_pnl_unknown_counts_as_loss():
+    ev = trade("ARM", None, 15.0, 10.0, 1)
+    for e in ev:
+        e.pop("structure")
+    t = jr.closed_trades(ev)[0]
+    assert t["direction"] is None and t["pnl"] is None and jr.is_loss(t)
+
+
+def test_journal_symbols_normalised(tmp_path):
+    p = tmp_path / "j.jsonl"
+    jr.append_event(p, {"event": "entry_filled", "symbol": " arm ", "structure": "iron_fly", "price": 15})
+    jr.append_event(p, {"event": "exit_filled", "symbol": "ARM", "price": 14})
+    assert jr.closed_trades(jr.read_journal(p))[0]["symbol"] == "ARM"
+
+
+def test_position_effect_from_legs():
+    legs_open = [{"position_effect": "open"}, {"position_effect": "open"}]
+    order = {"order_id": "o2", "symbol": "ARM", "state": "queued", "legs": legs_open,
+             "created_at": "2026-11-04T19:00:00Z"}
+    assert types(reconcile(rsnap([], [order]), [], cfg())) == ["stale_open_order"]
+    closing = dict(order, legs=[{"position_effect": "close"}] * 2)
+    assert reconcile(rsnap([], [closing]), [], cfg())["consistent"]
+    fill = {"order_id": "x9", "symbol": "arm", "state": "filled", "price": 5.0,
+            "legs": [{"position_effect": "close"}, {"position_effect": "close"}]}
+    assert types(reconcile(rsnap([], [fill]), ENTRY, cfg())) == ["missing_fill"]
+    mixed = dict(fill, legs=[{"position_effect": "close"}, {"position_effect": "open"}])
+    assert types(reconcile(rsnap([], [mixed]), ENTRY, cfg())) == ["qty_mismatch"]   # not treated as close
+
+
+def test_missing_broker_quantity_skips_qty_mismatch():
+    out = reconcile(rsnap([{"symbol": "ARM", "structure": "iron_fly"}]), ENTRY + ENTRY, cfg())
+    assert out["consistent"]
+
+
+def test_orphan_heal_marks_reconstructed():
+    out = reconcile(rsnap([{"symbol": " nvda ", "quantity": 1}]), [], cfg())
+    ev = out["issues"][0]["fix"]["journal_event"]
+    assert out["issues"][0]["symbol"] == "NVDA" and ev["provenance"] == "reconstructed"

@@ -1,7 +1,9 @@
 import pytest
 
 from vantage_trader.earnings.config import EngineInputError
-from vantage_trader.earnings.rules import circuit_breaker, exit_decision
+from datetime import date
+
+from vantage_trader.earnings.rules import circuit_breaker, exit_decision, next_trading_day
 
 from .factories import cfg, trade
 
@@ -61,28 +63,43 @@ def test_breaker_reset_ts():
     assert not circuit_breaker(ACCT, losses, cfg(circuit_reset_ts="2026-10-03T00:00:00Z"))["halted"]
 
 
+# ------------------------------------------------------------ trading calendar
+
+def test_next_trading_day_skips_weekends_and_holidays():
+    c = cfg()
+    assert next_trading_day(date(2026, 11, 4), c) == date(2026, 11, 5)
+    assert next_trading_day(date(2026, 11, 6), c) == date(2026, 11, 9)      # Fri -> Mon
+    assert next_trading_day(date(2026, 11, 25), c) == date(2026, 11, 27)    # Thanksgiving
+    assert next_trading_day(date(2026, 7, 2), c) == date(2026, 7, 6)        # Jul 3 observed
+    assert next_trading_day(date(2026, 11, 25), cfg(market_holidays=[])) == date(2026, 11, 26)
+
+
 # ------------------------------------------------------------ exits
 
+def L(oid, side, typ, strike, bid, ask, qty=1):
+    return {"option_id": oid, "side_held": side, "type": typ, "strike": strike, "quantity": qty,
+            "bid": bid, "ask": ask}
+
+
 FLY_LEGS = [
-    {"option_id": "C202.5", "side_held": "short", "quantity": 1, "bid": 3.0, "ask": 3.2},
-    {"option_id": "P202.5", "side_held": "short", "quantity": 1, "bid": 8.0, "ask": 8.4},
-    {"option_id": "C222.5", "side_held": "long", "quantity": 1, "bid": 0.1, "ask": 0.2},
-    {"option_id": "P182.5", "side_held": "long", "quantity": 1, "bid": 0.5, "ask": 0.7},
+    L("C202.5", "short", "call", 202.5, 3.0, 3.2),
+    L("P202.5", "short", "put", 202.5, 8.0, 8.4),
+    L("C222.5", "long", "call", 222.5, 0.1, 0.2),
+    L("P182.5", "long", "put", 182.5, 0.5, 0.7),
 ]
 
 
 def fly(**over):
     p = {"symbol": "ARM", "structure": "iron_fly", "legs": FLY_LEGS, "entry_price": 15.8,
-         "direction": "credit", "opened": "2026-11-04"}
+         "direction": "credit", "opened": "2026-11-04", "expiry": "2026-11-06"}
     p.update(over)
     return p
 
 
 def straddle(call=(4.9, 5.1), put=(1.0, 1.2), **over):
     p = {"symbol": "XYZ", "structure": "long_straddle", "entry_price": 4.0, "direction": "debit",
-         "opened": "2026-11-04",
-         "legs": [{"option_id": "C100", "side_held": "long", "quantity": 1, "bid": call[0], "ask": call[1]},
-                  {"option_id": "P100", "side_held": "long", "quantity": 1, "bid": put[0], "ask": put[1]}]}
+         "opened": "2026-11-04", "expiry": "2026-11-06",
+         "legs": [L("C100", "long", "call", 100.0, *call), L("P100", "long", "put", 100.0, *put)]}
     p.update(over)
     return p
 
@@ -98,6 +115,7 @@ def test_amc_exit_next_session_after_10_minutes():
     assert a["direction"] == "debit"
     # mid value = 0.15 + 0.60 - 3.10 - 8.20 = -10.55 ; natural = 3.2 + 8.4 - 0.1 - 0.5 = 11.0
     assert a["limit_start"] == 10.55 and a["limit_worst"] == 11.0 and a["limit_step"] == 0.10
+    assert a["width_cap"] == 20.0 and a["leg_qty_mismatch"] is False
     sides = {l["option_id"]: l["side"] for l in a["close_legs"]}
     assert sides == {"C202.5": "buy", "P202.5": "buy", "C222.5": "sell", "P182.5": "sell"}
     assert all(l["position_effect"] == "close" for l in a["close_legs"])
@@ -134,6 +152,78 @@ def test_expiry_day_always_exits():
     assert len(out["actions"]) == 1 and out["actions"][0]["reason"].startswith("expiry_day")
 
 
+def test_expiry_required():
+    p = fly()
+    p.pop("expiry")
+    with pytest.raises(EngineInputError):
+        exit_decision(snap([p]), cfg())
+
+
+def test_reconstructed_position_exits_same_day():
+    p = fly(opened="2026-11-05", provenance="reconstructed")
+    out = exit_decision(snap([p]), cfg())
+    assert len(out["actions"]) == 1 and "reconstructed" in out["actions"][0]["reason"]
+
+
+def test_unknown_opened_exits():
+    p = fly()
+    p.pop("opened")
+    assert len(exit_decision(snap([p]), cfg())["actions"]) == 1
+
+
+def test_unknown_provenance_held_only_on_open_day():
+    p = fly(opened="2026-11-05")
+    assert exit_decision(snap([p]), cfg())["actions"] == []
+    assert len(exit_decision(snap([p], as_of="2026-11-06T14:45:00Z"), cfg())["actions"]) == 1
+
+
+def test_closing_debit_clamped_to_width():
+    legs = [L("C100", "short", "call", 100, 0.0, 0.05), L("P100", "short", "put", 100, 4.8, 5.4),
+            L("C105", "long", "call", 105, 0.0, 0.05), L("P95", "long", "put", 95, 0.0, 0.4)]
+    # mid value = 0.025 + 0.2 - 0.025 - 5.1 = -4.9 ; natural = 0.05 + 5.4 - 0 - 0 = 5.45 > W=5 -> split
+    out = exit_decision(snap([fly(legs=legs)]), cfg())
+    acts = out["actions"]
+    assert [a["reason"] for a in acts] == ["split_verticals_natural_exceeds_width"] * 2
+    assert [a["close_legs"][0]["type"] for a in acts] == ["put", "call"]
+    for a in acts:
+        assert a["limit_start"] <= a["width_cap"] == 5 and a["limit_worst"] <= 5
+        assert len(a["close_legs"]) == 2 and a["trigger"].startswith("post_report_session")
+    put = acts[0]
+    assert put["limit_worst"] == 5.0 and put["limit_start"] == 4.9
+
+
+def test_single_action_clamp_when_natural_within_width():
+    legs = [L("C100", "short", "call", 100, 0.0, 0.05), L("P100", "short", "put", 100, 4.7, 4.95),
+            L("C105", "long", "call", 105, 0.0, 0.05), L("P95", "long", "put", 95, 0.0, 0.05)]
+    a = exit_decision(snap([fly(legs=legs)]), cfg())["actions"]
+    assert len(a) == 1 and a[0]["limit_worst"] == 5.0 and a[0]["limit_start"] <= 5.0
+
+
+def test_partial_fill_flatten():
+    legs = [L("C202.5", "short", "call", 202.5, 3.0, 3.2, qty=2), L("P202.5", "short", "put", 202.5, 8.0, 8.4, qty=1),
+            L("C222.5", "long", "call", 222.5, 0.1, 0.2, qty=1), L("P182.5", "long", "put", 182.5, 0.5, 0.7, qty=1)]
+    out = exit_decision(snap([fly(legs=legs, opened="2026-11-05")], mso=0), cfg())   # timing gates ignored
+    acts = out["actions"]
+    assert all(a["leg_qty_mismatch"] and a["reason"] == "partial_fill_flatten" for a in acts)
+    assert [a["sequence"] for a in acts] == [1, 2, 3]
+    put_v, call_v, naked = acts
+    assert {l["option_id"] for l in put_v["close_legs"]} == {"P202.5", "P182.5"} and put_v["limit_worst"] <= 20
+    assert {l["option_id"] for l in call_v["close_legs"]} == {"C202.5", "C222.5"} and call_v["quantity"] == 1
+    assert naked["close_legs"] == [{"option_id": "C202.5", "side": "buy", "position_effect": "close",
+                                    "strike": 202.5, "type": "call"}]
+    assert naked["quantity"] == 1 and naked["naked_short"] and naked["limit_worst"] == 3.2
+    # every short leg is bought back before any lone long is sold
+    assert all(any(l["side"] == "buy" for l in a["close_legs"]) for a in acts)
+
+
+def test_unpaired_short_is_broken_and_preopen_hold():
+    legs = [L("C202.5", "short", "call", 202.5, 3.0, 3.2), L("P182.5", "long", "put", 182.5, 0.5, 0.7)]
+    out = exit_decision(snap([fly(legs=legs)], mso=-30), cfg())
+    assert out["actions"] == [] and out["holds"][0]["leg_qty_mismatch"] is True
+    acts = exit_decision(snap([fly(legs=legs)], mso=1), cfg())["actions"]
+    assert [a["close_legs"][0]["side"] for a in acts] == ["buy", "sell"]
+
+
 def test_straddle_take_profit_immediately():
     out = exit_decision(snap([straddle()], as_of="2026-11-04T14:31:00Z", mso=1), cfg())
     a = out["actions"][0]
@@ -153,11 +243,17 @@ def test_small_price_step():
     assert a["limit_start"] == 2.0 and a["limit_step"] == 0.05
 
 
+def test_exit_symbol_normalised():
+    a = exit_decision(snap([fly(symbol=" arm ")]), cfg())["actions"][0]
+    assert a["symbol"] == "ARM"
+
+
 @pytest.mark.parametrize("bad", [
     {"as_of": "2026-11-05T14:45:00Z", "positions": []},                                   # no minutes
-    snap([fly(legs=[{"option_id": "x", "side_held": "short", "bid": None, "ask": 1}])]),
-    snap([fly(legs=[{"option_id": "x", "side_held": "sideways", "bid": 1, "ask": 1}])]),
-    snap([fly(opened=None)]),
+    snap([fly(legs=[{"option_id": "x", "side_held": "short", "type": "call", "strike": 1, "bid": None, "ask": 1}])]),
+    snap([fly(legs=[{"option_id": "x", "side_held": "sideways", "type": "call", "strike": 1, "bid": 1, "ask": 1}])]),
+    snap([fly(legs=[{"option_id": "x", "side_held": "short", "type": "call", "bid": 1, "ask": 1}])]),   # no strike
+    snap([fly(legs=[{"option_id": "x", "side_held": "short", "strike": 1, "bid": 1, "ask": 1}])]),     # no type
 ])
 def test_exit_invalid(bad):
     with pytest.raises(EngineInputError):

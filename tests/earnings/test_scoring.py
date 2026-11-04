@@ -58,8 +58,15 @@ def test_thresholds(avg, action, reason):
     ({"verified": False}, "unverified_report_date"),
     ({"flags": ["pending_litigation_ruling"]}, "flagged:pending_litigation_ruling"),
     ({"spot": 9.5}, "price_below_min"),
-    ({"expiry": "2026-11-04"}, "expiry_not_after_report"),                 # pm: must be > report
-    ({"timing": "am", "expiry": "2026-11-03"}, "expiry_not_after_report"),
+    ({"chain_symbol": "TSLA"}, "blocklisted"),
+    ({"chain_symbol": "NVDA"}, "symbol_mismatch"),
+    ({"report_date": "2026-11-05"}, "report_not_imminent"),                 # pm tomorrow: too early
+    ({"report_date": "2026-11-03"}, "report_not_imminent"),                 # already reported
+    ({"timing": "am"}, "report_not_imminent"),                              # am today: move already happened
+    ({"timing": "am", "report_date": "2026-11-06", "expiry": "2026-11-06"}, "report_not_imminent"),
+    ({"expiry": "2026-11-04"}, "bad_expiry"),                               # pm: must be > report
+    ({"expiry": "2026-11-12"}, "bad_expiry"),                               # > report + 7 days
+    ({"expiry": "2026-11-11"}, None),                                       # exactly report + 7 -> ok
     ({"historical_moves": [0.05, 0.06, 0.07]}, "insufficient_history"),
     ({"chain": []}, "missing_atm_quotes"),
     ({"intraday_move": 0.051}, "intraday_move_too_large"),
@@ -69,13 +76,46 @@ def test_thresholds(avg, action, reason):
 ])
 def test_skip_reasons(over, reason):
     d, code = run([arm_candidate(**over)])
-    assert code == 0 and d["status"] == "no_trade" and d["order"] is None
-    assert row(d, over.get("symbol", "ARM").upper())["skip_reason"] == reason
+    assert code == 0
+    assert row(d, over.get("symbol", "ARM").strip().upper())["skip_reason"] == reason
+    if reason is not None:
+        assert d["status"] == "no_trade" and d["order"] is None
 
 
-def test_am_expiry_same_day_is_allowed():
-    d, _ = run([arm_candidate(timing="am", report_date="2026-11-06", expiry="2026-11-06")])
-    assert row(d)["skip_reason"] != "expiry_not_after_report"
+def test_am_report_next_trading_day_and_same_day_expiry_allowed():
+    d, _ = run([arm_candidate(timing="am", report_date="2026-11-05", expiry="2026-11-05")])
+    assert row(d)["skip_reason"] is None and d["status"] == "trade"
+
+
+def test_am_report_after_weekend_and_holiday():
+    s = snapshot([arm_candidate(timing="am", report_date="2026-11-09", expiry="2026-11-13")])
+    s["as_of"] = "2026-11-06T19:55:00Z"                              # Friday
+    assert row(score(s, cfg(), [])[0])["skip_reason"] is None
+    s = snapshot([arm_candidate(timing="am", report_date="2026-11-27", expiry="2026-11-27")])
+    s["as_of"] = "2026-11-25T19:55:00Z"                              # Wed before Thanksgiving
+    assert row(score(s, cfg(), [])[0])["skip_reason"] is None
+    s["candidates"][0]["report_date"] = "2026-11-26"
+    assert row(score(s, cfg(), [])[0])["skip_reason"] == "report_not_imminent"
+
+
+def test_today_uses_market_timezone():
+    s = snapshot()
+    s["as_of"] = "2026-11-05T02:00:00Z"                              # 21:00 ET on Nov 4
+    assert row(score(s, cfg(), [])[0])["skip_reason"] is None
+
+
+def test_expiry_must_be_after_today():
+    s = snapshot([arm_candidate(timing="am", report_date="2026-11-05", expiry="2026-11-04")])
+    assert row(score(s, cfg(), [])[0])["skip_reason"] == "bad_expiry"
+
+
+def test_symbol_normalisation():
+    d, _ = run([arm_candidate(symbol=" tsla ")])
+    assert row(d, "TSLA")["skip_reason"] == "blocklisted"
+    d, _ = run([arm_candidate(symbol=" arm ", chain_symbol="Arm ")])
+    assert row(d)["skip_reason"] is None and d["order"]["symbol"] == "ARM"
+    d, _ = run(open_positions=[{"symbol": " arm", "structure": "iron_fly", "opened": "2026-11-03"}])
+    assert row(d)["skip_reason"] == "open_position_limit"
 
 
 def test_spread_too_wide():
@@ -147,6 +187,7 @@ def test_no_candidates():
     lambda s: s["candidates"][0].update(intraday_move=None),
     lambda s: s["candidates"][0].update(verified="yes"),
     lambda s: s["candidates"][0].pop("chain"),
+    lambda s: s["candidates"][0].update(chain_symbol=5),
 ])
 def test_invalid_snapshot(mutate):
     s = snapshot()

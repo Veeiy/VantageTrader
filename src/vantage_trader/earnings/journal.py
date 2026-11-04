@@ -8,12 +8,16 @@ Extra keys are allowed and preserved. Recognised optional extensions:
   from the decision). Used by the circuit breaker's "consecutive max-loss" rule.
   If a losing trade has no known max_loss it is CONSERVATIVELY counted as a
   max-loss trade.
-* ``direction`` ("credit"|"debit"); inferred from structure when absent.
+* ``direction`` ("credit"|"debit"). pnl sign uses the entry's ``direction``, else the
+  exit's, else it is inferred from ``structure`` (iron_fly/iron_condor = credit,
+  long_* = debit). An iron fly is never treated as debit. If none of these is known
+  and the exit carries no explicit ``pnl``, pnl is None (counted as a loss).
 * ``heal`` on ``heal`` events: {"type": <issue type>, "as_event": <event>}. A heal
   event with ``as_event`` in {entry_filled, exit_filled, entry_cancelled,
   exit_cancelled} is treated as that event when deriving positions/trades; with
   ``as_event == "qty_adjust"`` it sets the open quantity for the symbol.
 
+Symbols are normalised (strip + upper) on read.
 Closed trades = entry_filled paired FIFO per symbol with the next exit_filled.
 pnl = exit event's ``pnl`` when present, else computed from prices
 (credit: (entry-exit)*100*qty, debit: (exit-entry)*100*qty). If neither is
@@ -26,7 +30,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterable
 
-from .config import EngineInputError
+from .config import EngineInputError, norm_symbol
 
 EVENTS = {"scan", "entry_submitted", "entry_filled", "entry_cancelled", "exit_submitted",
           "exit_filled", "halt", "heal", "calibrate"}
@@ -52,6 +56,8 @@ def read_journal(path: str | Path) -> list[dict[str, Any]]:
             raise EngineInputError(f"journal line {n} is not valid JSON: {e}")
         if not isinstance(obj, dict) or obj.get("event") not in EVENTS:
             raise EngineInputError(f"journal line {n}: missing or unknown event")
+        if obj.get("symbol") is not None:
+            obj["symbol"] = norm_symbol(obj["symbol"])
         out.append(obj)
     return out
 
@@ -74,11 +80,20 @@ def effective_event(ev: dict[str, Any]) -> str:
     return ev.get("event", "")
 
 
-def direction_of(ev: dict[str, Any]) -> str:
-    d = ev.get("direction")
-    if d in ("credit", "debit"):
-        return d
-    return "credit" if ev.get("structure") in CREDIT_STRUCTURES else "debit"
+def direction_of(*evs: dict[str, Any]) -> str | None:
+    """First explicit direction among ``evs``, else inferred from the first known
+    structure; None when unknown."""
+    for ev in evs:
+        d = ev.get("direction") if isinstance(ev, dict) else None
+        if d in ("credit", "debit"):
+            return d
+    for ev in evs:
+        s = str(ev.get("structure") or "") if isinstance(ev, dict) else ""
+        if s in CREDIT_STRUCTURES:
+            return "credit"
+        if s in DEBIT_STRUCTURES or s.startswith("long_"):
+            return "debit"
+    return None
 
 
 def _num(v: Any) -> float | None:
@@ -90,21 +105,21 @@ def closed_trades(events: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
     trades: list[dict[str, Any]] = []
     for ev in events:
         kind = effective_event(ev)
-        sym = ev.get("symbol")
+        sym = norm_symbol(ev.get("symbol"))
         if kind == "entry_filled":
             open_by_sym.setdefault(sym, []).append(ev)
         elif kind == "exit_filled" and open_by_sym.get(sym):
             entry = open_by_sym[sym].pop(0)
             qty = _num(entry.get("quantity")) or _num(ev.get("quantity")) or 1
             ep, xp = _num(entry.get("price")), _num(ev.get("price"))
-            direction = direction_of(entry)
+            direction = direction_of(entry, ev)
             pnl = _num(ev.get("pnl"))
-            if pnl is None and ep is not None and xp is not None:
+            if pnl is None and ep is not None and xp is not None and direction is not None:
                 pnl = (ep - xp) * 100 * qty if direction == "credit" else (xp - ep) * 100 * qty
                 pnl = round(pnl, 2)
             max_loss = _num(entry.get("max_loss")) or _num(ev.get("max_loss"))
             trades.append({
-                "symbol": sym, "structure": entry.get("structure"), "direction": direction,
+                "symbol": sym, "structure": entry.get("structure") or ev.get("structure"), "direction": direction,
                 "entry_ts": entry.get("ts"), "exit_ts": ev.get("ts"),
                 "entry_price": ep, "exit_price": xp, "quantity": qty, "pnl": pnl,
                 "max_loss": max_loss,
@@ -152,7 +167,7 @@ def open_state(events: Iterable[dict[str, Any]]) -> dict[str, Any]:
     pending: dict[str, dict[str, Any]] = {}
     for ev in events:
         kind = effective_event(ev)
-        sym = ev.get("symbol")
+        sym = norm_symbol(ev.get("symbol"))
         oid = ev.get("order_id")
         if kind in ("entry_submitted", "exit_submitted") and oid:
             pending[str(oid)] = ev
@@ -163,7 +178,7 @@ def open_state(events: Iterable[dict[str, Any]]) -> dict[str, Any]:
                 # no id: resolve oldest pending order of same phase for that symbol
                 phase = kind.split("_")[0] + "_submitted"
                 for k, p in list(pending.items()):
-                    if p.get("symbol") == sym and effective_event(p) == phase:
+                    if norm_symbol(p.get("symbol")) == sym and effective_event(p) == phase:
                         pending.pop(k)
                         break
         if kind == "entry_filled":

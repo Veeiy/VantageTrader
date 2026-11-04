@@ -1,7 +1,7 @@
 """Candidate scoring and the ``score`` decision.
 
 implied_move  = straddle_factor * (ATM call mid + ATM put mid) / spot
-                (ATM = listed strike nearest spot that has both a call and a put; ties -> lower)
+                (ATM = listed strike nearest spot, ties -> lower; skipped if it lacks quotes)
 avg_hist_move = mean(|m|) over the last ``history_lookback`` entries of
                 ``historical_moves`` (assumed chronological, oldest first, as emitted by
                 the ``history`` command); requires >= ``min_history`` moves.
@@ -10,13 +10,22 @@ action        = sell if edge_ratio <= sell_max_ratio; buy if >= buy_min_ratio; e
 
 Gates are checked in this order; the first failure becomes ``skip_reason``
 (metrics are still reported when computable):
-  blocklisted, unverified_report_date, flagged:<flags>, price_below_min,
-  expiry_not_after_report, insufficient_history, missing_atm_quotes,
+  blocklisted, symbol_mismatch, unverified_report_date, flagged:<flags>,
+  price_below_min, report_not_imminent, bad_expiry, insufficient_history, missing_atm_quotes,
   spread_too_wide, intraday_move_too_large, no_edge, open_position_limit,
   already_open, then structure/sizing reasons: missing_atm_quotes, no_valid_wings,
   max_loss_exceeds_cap, no_buying_power, no_fillable_limit_range, negative_ev.
 
-Expiry rule: pm (AMC) report -> expiry > report_date; am (BMO) -> expiry >= report_date.
+Symbols: ``symbol`` (and optional ``chain_symbol``) are strip().upper()'d before any
+check. A ``chain_symbol`` that is blocklisted -> blocklisted; one that differs from
+``symbol`` -> symbol_mismatch.
+Entry timing (today = as_of date in market_timezone, America/New_York):
+  report_not_imminent unless (pm and report_date == today) or
+  (am and report_date == next trading day after today; weekends and config
+  ``market_holidays`` are skipped).
+Expiry rule (bad_expiry unless all hold): expiry > today, expiry <= report_date +
+  max_expiry_days_after_report (7) calendar days, and pm -> expiry > report_date,
+  am -> expiry >= report_date.
 Spread rule: (ask-bid)/mid > max_spread_pct on EITHER ATM leg -> skip.
 
 Ranking: tradeable candidates by ev_per_dollar_risk desc, then skipped ones. The top
@@ -33,7 +42,9 @@ from statistics import mean
 from typing import Any
 
 from . import rules, sizing, structures
-from .config import EngineInputError
+from datetime import timedelta
+
+from .config import EngineInputError, norm_symbol
 
 
 def _num(v: Any, what: str, positive: bool = False) -> float:
@@ -62,8 +73,10 @@ def validate_snapshot(snap: Any) -> None:
         w = f"candidates[{i}]"
         if not isinstance(c, dict):
             raise EngineInputError(f"{w} must be an object")
-        if not isinstance(c.get("symbol"), str) or not c["symbol"]:
+        if not isinstance(c.get("symbol"), str) or not norm_symbol(c["symbol"]):
             raise EngineInputError(f"{w}.symbol required")
+        if "chain_symbol" in c and c["chain_symbol"] is not None and not isinstance(c["chain_symbol"], str):
+            raise EngineInputError(f"{w}.chain_symbol must be a string")
         w = f"candidate {c['symbol']}"
         rules.parse_date(c.get("report_date"), f"{w}.report_date")
         rules.parse_date(c.get("expiry"), f"{w}.expiry")
@@ -94,7 +107,8 @@ def _spread_pct(q: structures.Quote) -> float:
 
 
 def score_candidate(c: dict[str, Any], ctx: dict[str, Any], cfg: dict[str, Any]) -> dict[str, Any]:
-    sym = c["symbol"].upper()
+    sym = norm_symbol(c["symbol"])
+    chain_sym = norm_symbol(c["chain_symbol"]) if c.get("chain_symbol") is not None else None
     spot = float(c["spot"])
     chain = structures.Chain(c["chain"])
     row: dict[str, Any] = {"symbol": sym, "edge_ratio": None, "implied_move": None,
@@ -126,16 +140,23 @@ def score_candidate(c: dict[str, Any], ctx: dict[str, Any], cfg: dict[str, Any])
     rd = rules.parse_date(c["report_date"], "report_date")
     exp = rules.parse_date(c["expiry"], "expiry")
     flags = [str(f) for f in c.get("flags", [])]
-    if sym in cfg["blocklist"]:
+    if sym in cfg["blocklist"] or (chain_sym is not None and chain_sym in cfg["blocklist"]):
         return skip("blocklisted")
+    if chain_sym is not None and chain_sym != sym:
+        return skip("symbol_mismatch")
     if not c["verified"]:
         return skip("unverified_report_date")
     if flags:
         return skip("flagged:" + ",".join(flags))
     if spot < cfg["min_price"]:
         return skip("price_below_min")
-    if (c["timing"] == "pm" and not exp > rd) or (c["timing"] == "am" and not exp >= rd):
-        return skip("expiry_not_after_report")
+    today = ctx["today"]
+    if not ((c["timing"] == "pm" and rd == today)
+            or (c["timing"] == "am" and rd == rules.next_trading_day(today, cfg))):
+        return skip("report_not_imminent")
+    if not (exp > today and exp <= rd + timedelta(days=cfg["max_expiry_days_after_report"])
+            and ((c["timing"] == "pm" and exp > rd) or (c["timing"] == "am" and exp >= rd))):
+        return skip("bad_expiry")
     if row["avg_hist_move"] is None:
         return skip("insufficient_history")
     if atm is None or row["implied_move"] is None or row["implied_move"] <= 0:
@@ -182,7 +203,8 @@ def score(snapshot: dict[str, Any], cfg: dict[str, Any], journal_events: list[di
     open_positions = snapshot.get("open_positions", [])
     cap = sizing.risk_cap(float(acct["buying_power"]), cfg)
     ctx = {"cap": cap, "open_positions": open_positions,
-           "open_symbols": {str(p.get("symbol", "")).upper() for p in open_positions if isinstance(p, dict)}}
+           "today": rules.local_date(snapshot["as_of"], cfg["market_timezone"]),
+           "open_symbols": {norm_symbol(p.get("symbol")) for p in open_positions if isinstance(p, dict)}}
     rows = [score_candidate(c, ctx, cfg) for c in snapshot["candidates"]]
     tradeable = sorted((r for r in rows if r["action"] in ("sell", "buy")),
                        key=lambda r: -r["ev_per_dollar_risk"])

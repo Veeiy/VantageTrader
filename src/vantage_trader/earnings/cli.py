@@ -7,6 +7,8 @@ error exits 1 with {"error": "internal: ..."} (not an input problem; do not retr
 Additive options beyond the contract (all optional, contract invocations work as-is):
   score/exit/reconcile/calibrate --config defaults to config/earnings.yaml (defaults if absent)
   score --journal defaults to config ``journal_path``; used for circuit-breaker streaks.
+  exit --journal (same default) adds a ``circuit_breaker`` block for context only; exits
+    are produced and the exit code is 0 even when the breaker is tripped.
   reconcile --config for cancel_by.
 """
 from __future__ import annotations
@@ -56,6 +58,7 @@ def build_parser() -> argparse.ArgumentParser:
     e = sub.add_parser("exit")
     e.add_argument("--snapshot", required=True)
     e.add_argument("--config")
+    e.add_argument("--journal")
     r = sub.add_parser("reconcile")
     r.add_argument("--snapshot", required=True)
     r.add_argument("--journal", required=True)
@@ -83,7 +86,15 @@ def run(argv: list[str] | None = None) -> tuple[dict[str, Any], int]:
         decision["circuit_breaker"]["journal_found"] = Path(jpath).exists()
         return decision, code
     if args.cmd == "exit":
-        return rules.exit_decision(_load_json(args.snapshot, "snapshot"), cfg), 0
+        snap = _load_json(args.snapshot, "snapshot")
+        out = rules.exit_decision(snap, cfg)
+        jpath = args.journal or cfg["journal_path"]
+        cb = rules.circuit_breaker(snap.get("account") if isinstance(snap.get("account"), dict) else {},
+                                   journal.read_journal(jpath), cfg)
+        cb.update(journal_path=jpath, journal_found=Path(jpath).exists(),
+                  note="context only: exits always run, even when halted")
+        out["circuit_breaker"] = cb
+        return out, 0
     if args.cmd == "reconcile":
         snap = _load_json(args.snapshot, "snapshot")
         return reconcile.reconcile(snap, journal.read_journal(args.journal), cfg), 0
