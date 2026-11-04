@@ -43,7 +43,7 @@ context with the head, so the brief is the whole world to them.
 |---|---|---|---|
 | 06:45 SCAN+EXIT | A | position-monitor, calendar-scout | After A returns: run RECONCILE (RUNBOOK 0.7), then EXIT (RUNBOOK phase 3) |
 | 06:45 SCAN+EXIT | B (as soon as calendar-scout returns) | vol-analyst x ceil(N/5) in `full` mode, risk-sentinel (all N symbols + market) | Keep walking any EXIT order between polls; when B returns, merge, validate, run `score` |
-| 12:00 ENTRY | A | position-monitor, vol-analyst x ceil(N/5) in `refresh` mode, risk-sentinel | Load scan artifacts, check duplicate-run guard |
+| 12:00 ENTRY | A | position-monitor, vol-analyst x ceil(N/5) in `refresh` mode, risk-sentinel | If any position is open, run EXIT first (expiry-day shorts before anything else); load scan artifacts, check duplicate-run guard |
 | 12:00 ENTRY | C (only if `status: trade`) | second-opinion on the engine's chosen symbol | Compare (section 5), then review/place |
 | Saturday CALIBRATE | A | position-monitor (for realized P&L cross-check) | Run `calibrate` |
 | any | heal | replacement for a failed role, scoped to the failed symbols only | See section 6 |
@@ -134,15 +134,19 @@ circuit breaker today; or |SPY move today| >= 2%; or VIX >= 30 or VIX up >= 15% 
 **position-monitor**
 ```json
 {"account": {"account_number": "full number, head-only", "last4": "3413", "nickname": "MCP",
-             "agentic_allowed": true, "buying_power": 750.0, "total_value": 750.0,
+             "agentic_allowed": true, "option_level": "option_level_3",
+             "buying_power": 750.0, "total_value": 750.0,
              "human_must_approve_trades": false},
  "other_accounts_seen": 2,
  "positions": [ {"symbol": "ARM", "chain_symbol": "ARM", "expiry": "2026-11-06",
+                 "quantity": 1, "entry_price": 14.40, "direction": "credit",
+                 "opened": "2026-11-04", "opening_order_id": "uuid or null",
                  "legs": [{"option_id": "uuid", "strike": 202.5, "type": "call",
                            "side_held": "short", "quantity": 1, "avg_price": 11.50}],
                  "structure_guess": "iron_fly | iron_condor | long_straddle | long_strangle | unknown"} ],
  "open_orders": [ {"order_id": "uuid", "symbol": "ARM", "state": "queued", "direction": "credit",
-                   "price": 14.60, "quantity": 1, "created_at": "...", "ref_id": "uuid or null",
+                   "position_effect": "open", "price": 14.60, "quantity": 1,
+                   "created_at": "...", "ref_id": "uuid or null",
                    "legs": [{"option_id": "uuid", "side": "sell", "position_effect": "open"}]} ],
  "recent_orders": [ "same shape, last 5 trading days, all states" ],
  "realized_pnl": {"period": "string", "total": 0.0, "by_symbol": {}},
@@ -150,7 +154,11 @@ circuit breaker today; or |SPY move today| >= 2%; or VIX >= 30 or VIX up >= 15% 
  "reconcile_snapshot_path": "/tmp/earnings-run/recon_snapshot.json"}
 ```
 Head check: exactly one account with `agentic_allowed: true` and nickname `MCP`, last4
-`3413`. Anything else = HALT (RUNBOOK 0.4).
+`3413`. Anything else = HALT (RUNBOOK 0.4). `option_level` other than `option_level_3`
+= HALT entries. Position `quantity` = min leg quantity; `entry_price` = net average
+price per unit of the opening order; `opened` = PT date of the opening order's
+`created_at` (never a heal or snapshot timestamp); `position_effect` on orders is
+top-level, copied from the legs.
 
 **second-opinion**
 ```json
@@ -210,7 +218,9 @@ Sort candidates by market_cap desc (null last).
 ```
 ROLE: vol-analyst, mode=full, batch={{BATCH}}.
 Symbols (with report_date, timing, verified, chain_symbol): {{CANDIDATES_JSON}}
-Widest wing to cover: {{WING_WIDTH}} dollars each side of ATM (if 0, use 12% of spot).
+Widest wing fraction: MAX_WING_PCT={{MAX_WING_PCT}} (max of config wing_widths_pct).
+Per symbol WING_WIDTH_DOLLARS = ceil(MAX_WING_PCT * spot); the chain must cover
+ATM +/- WING_WIDTH_DOLLARS plus ONE more listed strike beyond on each side.
 For EACH symbol:
 1. get_earnings_results(symbol): past reports are those with eps.actual not null and
    date < {{TODAY}}. Build events {"SYMBOL":[{"date":"YYYY-MM-DD","timing":"am"|"pm"}]}.
@@ -220,14 +230,16 @@ For EACH symbol:
    and duplicates the previous bar's date or close, OR its date is {{TODAY}} (partial day).
 3. Write /tmp/earnings-run/b{{BATCH}}/bars.json and events.json, then run from {{REPO_DIR}}:
    python -m vantage_trader.earnings history --bars /tmp/earnings-run/b{{BATCH}}/bars.json --events /tmp/earnings-run/b{{BATCH}}/events.json > /tmp/earnings-run/b{{BATCH}}/moves.json
-   Exit code 2 = bad input: fix the JSON and retry (max 2 times).
+   Exit code 2 = bad input: read "error" from moves.json (stdout), fix, retry (max 2).
    historical_moves = moves[SYMBOL].moves (all of them, oldest to newest).
 4. get_equity_quotes([symbol]): spot = last trade price; prev_close from the quote
    (fallback: last non-interpolated close before today). intraday_move = spot/prev_close - 1.
-5. get_option_chains(chain_symbol): expiry = first expiration date strictly AFTER report_date.
+5. get_option_chains(chain_symbol): expiry rule by timing. pm (AMC): first expiration
+   date strictly AFTER report_date. am (BMO): first expiration date ON OR AFTER report_date.
 6. Strikes: call get_option_instruments(chain_symbol, expiration_dates=expiry) without
    strike_price first; if it returns the full list, take every strike within
-   ATM +/- wing. If it requires strike_price, probe exact strings like "202.5000":
+   ATM +/- WING_WIDTH_DOLLARS plus one listed strike beyond each side. If it
+   requires strike_price, probe exact strings like "202.5000":
    start at spot rounded to 0.5/1/2.5/5 and walk neighbors both ways; real strikes are
    often not round numbers. Each strike needs BOTH a call id and a put id.
 7. get_option_quotes(instrument_ids<=20 per call) for all ids. bid/ask from the quote,
@@ -249,7 +261,8 @@ Input per symbol (from this morning's scan, includes historical_moves, expiry, a
 the chain option ids): {{SCAN_FRAGMENTS_JSON}}
 For EACH symbol: re-pull get_equity_quotes (spot, prev_close, intraday_move =
 spot/prev_close - 1) and get_option_quotes for every id in its chain (<=20 per call).
-If spot moved so far that ATM +/- {{WING_WIDTH}} is no longer covered, add the missing
+MAX_WING_PCT={{MAX_WING_PCT}}. If spot moved so far that ATM +/- ceil(MAX_WING_PCT * spot)
+plus one listed strike beyond each side is no longer covered, add the missing
 strikes via get_option_instruments (same method: no strike_price first, then exact
 probes like "202.5000"). Apply the same stale/zero re-pull rule (updated_at older than
 2 min, or zero bid and ask within 5% of spot: re-pull up to 3x).
@@ -289,6 +302,7 @@ Return data {"market_regime":{"summary","spy_move","qqq_move","soxx_move","vix",
 ROLE: position-monitor.
 1. get_accounts. Select the ONE account with agentic_allowed=true AND nickname "MCP".
    If none or more than one, return ok=false with errors explaining; do not guess.
+   Record its option_level (expected "option_level_3").
    Use only that account_number in every later call. Count the others as
    other_accounts_seen and ignore them completely.
 2. get_portfolio(account): buying_power (prefer option buying power if a separate
@@ -297,18 +311,30 @@ ROLE: position-monitor.
    expiry. structure_guess: 4 legs, short call+put same strike with long wings =
    iron_fly; short call+put different strikes with long wings = iron_condor; long
    call+put same strike = long_straddle; long call+put different strikes =
-   long_strangle; anything else = unknown.
+   long_strangle; anything else = unknown. Per position: quantity = min leg quantity;
+   expiry = the legs' expiration date; find the opening order in get_option_orders
+   (filled, position_effect open, same legs): entry_price = its net average price per
+   unit, direction = its direction, opened = PT date (America/Los_Angeles) of its
+   created_at, opening_order_id = its id. If no opening order is found, opened = PT
+   date of the earliest leg created_at you can see, and say so in errors.
 4. get_option_orders(account_number): open_orders = any non-terminal state
    (queued, confirmed, unconfirmed, partially_filled, pending); recent_orders = all
-   orders from the last 5 trading days.
+   orders from the last 5 trading days. Every order row carries top-level
+   order_id, symbol, state, direction, position_effect (copied from its legs),
+   price (net average fill price if filled, else limit price), quantity, created_at,
+   and legs.
 5. get_realized_pnl and get_pnl_trade_history for the last 30 days.
 6. Write the reconcile snapshot to /tmp/earnings-run/recon_snapshot.json:
    {"as_of", "account":{account_number,buying_power,total_value,human_must_approve_trades},
-    "open_positions":[{"symbol","structure","opened","legs":[...]}],
-    "recent_orders":[...]} and run from {{REPO_DIR}}:
-   python -m vantage_trader.earnings reconcile --snapshot /tmp/earnings-run/recon_snapshot.json --journal state/earnings/journal.jsonl > /tmp/earnings-run/recon.json
-   (read-only; if the journal file does not exist, pass an empty file you create in
-   /tmp/earnings-run/ instead).
+    "open_positions":[{"symbol","structure","opened","quantity","entry_price","expiry",
+                       "legs":[{"option_id","strike","type","side_held","quantity"}]}],
+    "recent_orders":[{"order_id","symbol","state","position_effect","price","quantity",
+                      "created_at","direction","legs"}]}
+   (structure = structure_guess). Then run, after cd {{REPO_DIR}} (repo root):
+   python -m vantage_trader.earnings reconcile --snapshot /tmp/earnings-run/recon_snapshot.json --journal state/earnings/journal.jsonl --config config/earnings.yaml > /tmp/earnings-run/recon.json
+   Read-only: it only prints JSON. Exit 2 means bad input: read "error" from recon.json,
+   fix the snapshot, retry up to 2 times. Do NOT append its journal_appends anywhere;
+   the head does that.
 Return data per the position-monitor schema: account, other_accounts_seen, positions,
 open_orders, recent_orders, realized_pnl, reconcile, reconcile_snapshot_path.
 ```
@@ -339,9 +365,12 @@ Return data {"symbol","spot","expiry","atm_strike","straddle_mid","implied_move"
    stripped. For each symbol, `flags` = union of fragment flags and risk-sentinel flags.
    A candidate with no risk-sentinel entry gets `["risk_unchecked"]` (so it is skipped).
 3. Validate every candidate before `score`:
-   - chain covers ATM +/- widest wing, every strike has call and put ids;
+   - chain covers ATM +/- ceil(max(wing_widths_pct) * spot) plus one listed strike
+     beyond each side, every strike has call and put ids;
    - oldest quote `updated_at` <= 2 min old (ENTRY) or <= 10 min (SCAN watchlist only);
-   - `historical_moves` non-empty; `spot` > 0; `expiry` > `report_date`.
+   - `historical_moves` non-empty; `spot` > 0;
+   - expiry rule: `timing: pm` -> `expiry` is the first listed expiration > `report_date`;
+     `timing: am` -> the first listed expiration >= `report_date`.
    Fix by re-pulling the specific item (head may call read-only tools directly for one
    or two items) or by a replacement agent scoped to those symbols.
 4. If `market_regime.veto_all` is true: run `score` anyway for the record, then treat the

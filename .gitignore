@@ -10,6 +10,8 @@ env/
 .vscode/
 *.log
 logs/
-state/
+state/*
+!state/earnings/
+!state/earnings/**
 .DS_Store
 .pytest_cache/
