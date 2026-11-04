@@ -1,4 +1,4 @@
-# Earnings engine RUNBOOK (v1.1, post-audit)
+# Earnings engine RUNBOOK (v1.2)
 
 The exact procedure a fresh, context-free scheduled session follows. You are the
 **HEAD agent** (see `AGENTS.md`). You run the engine, you alone touch orders and the
@@ -17,7 +17,9 @@ Market hours are 06:30-13:00 PT (both coasts shift for DST together, so these PT
 hold year round). **Session windows apply to SCAN and ENTRY only. EXIT runs whenever
 the market is open and a position exists**, in any session, including the 12:00 one
 if the morning exit did not complete. On an expiration day, an open short position
-found by the 12:00 session is closed first, before any entry logic.
+found by the 12:00 session is closed first (Phase 3 guards, never above the action's
+`hard_ceiling`), before any entry logic. On early-close days every intraday guard is
+pulled in to the real close (Phase 3 guard table).
 
 ---
 
@@ -32,11 +34,14 @@ found by the 12:00 session is closed first, before any entry logic.
 3. Limit orders only (`type: "limit"`, `time_in_force: "gfd"`). Never a market order.
 4. Max ONE open earnings position, and no new entry while any option order is open.
 5. Max loss per trade <= min($700, 0.93 x buying power), and whatever tighter cap
-   `config/earnings.yaml` sets. Checked against `order.max_loss_worst` (the loss if
-   filled at `limit_floor`). Defined risk only (iron fly, iron condor, long
+   `config/earnings.yaml` sets, minus the exit slippage reserve
+   (`exit_slippage_reserve`, $50 per unit). Checked against `order.max_loss_worst` (the
+   loss if filled at `limit_floor`). Defined risk only (iron fly, iron condor, long
    straddle/strangle). No naked shorts ever.
 6. Never hold a short leg into the close of its expiration day. Exit the session after
-   the report.
+   the report. Expiry-day exits finish well before each contract's `sellout_datetime`
+   (Robinhood force-closes there). Never pay more than an exit action's `hard_ceiling`
+   per unit (or a split group's `combined_cap`); only `naked_short` buybacks are uncapped.
 7. Engine output + caps are binding. You (and monitors) may veto a trade; nobody may
    force one the engine rejected or resize past its `quantity`.
 8. No transfers, deposits, withdrawals, settings changes, or credential handling.
@@ -107,23 +112,38 @@ The journal is append-only. Never edit or delete a line; repairs are new `heal` 
 Base keys per CONTRACT: `ts, event, symbol, structure, order_id, price, quantity,
 implied_move, edge_ratio, realized_move, pnl, notes`. Extension keys used by this
 runbook (top level, not inside notes): `ref_id, attempt, stage` (intent|ack),
-`direction, max_loss, expiry, report_date, timing, opened, legs, provenance, heal`.
+`session_id, ref_key, sequence, group_id, direction, max_loss, expiry, report_date,
+timing, opened, legs, provenance, heal`.
+
+**session_id.** At session start generate `SESSION_ID = uuid4` once
+(`python3 -c 'import uuid; print(uuid.uuid4())'`, keep it in `/tmp/earnings-run/session_id`).
+Every intent line carries it.
 
 **Required fields per event.**
 
 | event | must carry |
 |---|---|
-| `entry_submitted` | symbol, structure, direction, price, quantity, ref_id, attempt, stage, expiry, report_date, timing, order_id (ack only) |
+| `entry_submitted` | symbol, structure, direction, price, quantity, session_id, ref_key, ref_id, attempt, stage, expiry, report_date, timing, order_id (ack only) |
 | `entry_filled` | symbol, structure, direction, order_id, price (avg fill), quantity, implied_move, edge_ratio, `max_loss` (= `order.max_loss_worst`), expiry, report_date, timing, ref_id, `opened` (= PT date of the broker order `created_at`), legs `[{option_id, strike, type, side_held, quantity}]` |
 | `entry_cancelled` | symbol, order_id, ref_id, notes (why) |
-| `exit_submitted` | symbol, structure, direction, price, quantity, ref_id, attempt, stage, order_id (ack only) |
+| `exit_submitted` | symbol, structure, direction, price, quantity, session_id, ref_key, ref_id, attempt, stage, sequence, group_id, order_id (ack only) |
+| split / flatten partial fill | `{"event":"heal","heal":{"type":"partial_exit_fill"},"symbol","order_id","price","quantity","sequence","group_id"}` (no `as_event`) |
 | `exit_filled` | symbol, structure, order_id, price, quantity, pnl, realized_move |
 | exit re-price cancel | `{"event":"heal","heal":{"type":"order_closed","as_event":"exit_cancelled"},"symbol","order_id","ref_id","notes"}` |
 
-**ref_id (deterministic).** `ref_id = uuid5(NAMESPACE_URL, f"vantage-earnings|{PT_DATE}|{phase}|{SYMBOL}|{attempt}")`
-with `phase` in `entry|exit` and `attempt` = 1, 2, 3... (one per re-price). In Python:
-`python3 -c 'import uuid,sys; print(uuid.uuid5(uuid.NAMESPACE_URL, sys.argv[1]))' "vantage-earnings|2026-11-04|entry|ARM|1"`.
-Two sessions computing the same attempt get the same `ref_id`, so the broker de-dupes.
+**ref_id (deterministic).**
+`ref_key = f"vantage-earnings|{PT_DATE}|{phase}|{SYMBOL}|{sequence or sorted leg ids}"`
+(`phase` in `entry|exit`; exits use the action `sequence`; entries use the order's
+option ids sorted and joined with `,`), and
+`ref_id = uuid5(NAMESPACE_URL, f"{ref_key}|{attempt}")`.
+`attempt` = 1 + the highest `attempt` already journaled for that `ref_key` by ANY
+session (`jq -s --arg k "$KEY" '[.[]|select(.ref_key==$k)|.attempt]|max // 0' state/earnings/journal.jsonl`).
+A re-price is the next attempt. In Python:
+`python3 -c 'import uuid,sys; print(uuid.uuid5(uuid.NAMESPACE_URL, sys.argv[1]))' "vantage-earnings|2026-11-04|entry|ARM|id1,id2,id3,id4|1"`.
+A retry of the SAME attempt reuses the same `ref_id`, so the broker de-dupes. If
+`place_option_order` returns an `order_id` that is already in the journal or is already
+terminal (filled/cancelled/rejected), that `ref_id` is spent: bump `attempt` and place
+again.
 
 **Commit + push** (after every journal state change, and at the end of the run):
 
@@ -157,10 +177,15 @@ flag, reconciled journal, gates for later phases.
    and ENTRY (no new placement after 12:35, hard stop 12:50). If a window has passed,
    skip that phase only; EXIT still runs if the market is open and a position exists.
    CALIBRATE on a weekday: stop, short note to Brad.
-2. **Market-day check** (skip for CALIBRATE). Not a trading day if weekend or one of:
-   2026-11-26, 2026-12-25, 2027-01-01, 2027-01-18, 2027-02-15, 2027-03-26, 2027-05-31,
-   2027-06-18, 2027-07-05, 2027-09-06, 2027-11-25, 2027-12-24. Early close (10:00 PT):
-   2026-11-27, 2026-12-24, 2027-11-26 (ENTRY does nothing on early-close days; EXIT runs).
+2. **Market-day check** (skip for CALIBRATE). Not a trading day if weekend or today is in
+   config `market_holidays`. Early close (10:00 PT) if today is in config
+   `market_early_closes`: ENTRY does nothing; EXIT runs with guards pulled in to the
+   close (Phase 3 guard table). Read both lists with
+   `python3 -c 'import yaml;c=yaml.safe_load(open("config/earnings.yaml"));print(c.get("market_holidays"),c.get("market_early_closes"))'`
+   (if a key is absent, the engine defaults apply; see `src/vantage_trader/earnings/config.py`).
+   If today is within 60 days of the LAST date in `market_holidays`, add a warning to the
+   report: "holiday list runs out on <date>, please extend config market_holidays and
+   market_early_closes".
    Live confirm: `get_equity_quotes(["SPY"])`; after 06:30 PT its `updated_at` should be
    today and within ~5 min. If the table says open but SPY is stale for 3 re-pulls,
    treat as closed for entries and notify.
@@ -173,7 +198,7 @@ flag, reconciled journal, gates for later phases.
    Then `python -c "import vantage_trader.earnings"`; if it fails `pip install -e .`
    (and `pip install -r requirements.txt` if imports still fail). Confirm
    `config/earnings.yaml` exists; if not, HALT (no caps = no trading). `mkdir -p
-   /tmp/earnings-run/frag` and write `jlog.py`.
+   /tmp/earnings-run/frag`, write `jlog.py`, and generate `SESSION_ID`.
 4. **Account (wave A).** Dispatch per `AGENTS.md` section 2, wave A for this session (one
    message, multiple Agent calls). From position-monitor take the account block. Verify
    yourself: exactly one account, `agentic_allowed: true`, nickname `MCP`, last4 `3413`.
@@ -184,7 +209,8 @@ flag, reconciled journal, gates for later phases.
    (tell Brad: "approvals are on, so I'm sitting out entries"). Exits still get placed,
    and Brad is told to approve them in the app right away.
 6. **Caps sanity.** `cap_loss = min(700, 0.93 * buying_power, config max_loss_abs,
-   config max_loss_bp_frac * buying_power)`. Kept for the order check in 2.6.
+   config max_loss_bp_frac * buying_power)`; `reserve = config exit_slippage_reserve`
+   (default 50, dollars per unit). Kept for the order check in 2.6.
 7. **RECONCILE (broker is truth).** Snapshot built by position-monitor at
    `/tmp/earnings-run/recon_snapshot.json` (rebuild it yourself from
    `get_option_positions(account_number=$ACCT, nonzero=true)` and `get_option_orders`
@@ -206,8 +232,10 @@ flag, reconciled journal, gates for later phases.
    ```bash
    cd $REPO && python -m vantage_trader.earnings reconcile --snapshot /tmp/earnings-run/recon_snapshot.json --journal state/earnings/journal.jsonl --config config/earnings.yaml > /tmp/earnings-run/recon.json
    ```
-   Append `journal_appends` VERBATIM (`jlog.py "$(jq -c '.journal_appends' /tmp/earnings-run/recon.json)"`),
-   also `housekeeping` heals if not already included. Do not rewrite them. Then act on
+   Append `journal_appends` VERBATIM (`jlog.py "$(jq -c '.journal_appends' /tmp/earnings-run/recon.json)"`).
+   It already contains the housekeeping heals; do not append `housekeeping` separately,
+   and do not rewrite anything. Reconcile heals carry `report_date`, `timing`, `expiry`,
+   `opened`, `ref_id`, `legs` when known; EXIT reads them. Then act on
    `issues[].fix.broker_action`:
 
    | issue type | Broker action / extra handling |
@@ -259,7 +287,8 @@ SCAN never places orders ("dry": the decision is recorded, not executed).
    optionable, TSLA dropped. Double check TSLA is absent.
 2. **Wave B.** One message: vol-analyst x ceil(N/5) in `full` mode (batches of ~5,
    market-cap order) + one risk-sentinel for all N symbols. Pass
-   `MAX_WING_PCT = max(wing_widths_pct)` from `config/earnings.yaml` (currently 0.125);
+   `MAX_WING_PCT = max(wing_widths_pct)` from `config/earnings.yaml` (currently 0.125)
+   and `EARLY_CLOSES` = config `market_early_closes` (analysts skip those expiries);
    each analyst computes per symbol `WING_WIDTH_DOLLARS = ceil(MAX_WING_PCT * spot)` and
    covers ATM +/- that PLUS one more listed strike beyond on each side.
    `START_20M` = today minus 600 days. N = 0: skip wave B, go to step 8.
@@ -310,7 +339,8 @@ defined-risk position, journal lines for every state change.
 
 1. **Exits first.** If preflight shows ANY open option position, run Phase 3 now (this
    covers a morning exit that did not complete, and expiry-day shorts). An expiry-day
-   short is closed before anything else. Then skip new entries today (max one position).
+   short is closed before anything else, inside the Phase 3 guards and ceilings. Then
+   skip new entries today (max one position).
 2. **Gates.** Do nothing (report why) if any: `HALTED=1`; approvals on (0.5); option level
    not level 3; journal untracked; early-close day; engine/config unavailable; reconcile
    not consistent; it is past 12:35 PT.
@@ -333,7 +363,8 @@ defined-risk position, journal lines for every state change.
    - `status: halted` / exit 3 -> journal `halt`, report, done.
    - `market_regime.veto_all` -> treat as no_trade (`risk_sentinel_veto_all`).
 6. **Order sanity (defense in depth).** Abort (journal `halt`, notify) if any: symbol is
-   TSLA or carries any flag; `order.max_loss_worst > cap_loss`; `quantity < 1`;
+   TSLA or carries any flag; `order.max_loss_worst > min(cap_loss, order.risk_cap) -
+   reserve * quantity`; `quantity < 1`; `order.order_legs` missing;
    structure not in {iron_fly, iron_condor, long_straddle, long_strangle}; any short leg
    without a long leg of the same type and quantity further OTM; legs not all the same
    expiry, or expiry breaks the rule in 1.5; credit order with
@@ -342,27 +373,29 @@ defined-risk position, journal lines for every state change.
 7. **Second opinion (wave C).** Spawn one second-opinion agent (AGENTS.md 4, 5.5). Disagree
    > 15% twice -> veto, journal `heal` notes `second_opinion_disagree`, report, done.
 8. **Review first.** For the current attempt price `P`:
-   `review_option_order(account_number=$ACCT, legs=[{option_id, side, position_effect:"open"}...],
-   quantity, direction, price=P, type="limit", time_in_force="gfd", chain_symbol,
-   underlying_type="equity")`.
+   `review_option_order(account_number=$ACCT, legs=order.order_legs, quantity, direction,
+   price=P, type="limit", time_in_force="gfd", chain_symbol, underlying_type="equity")`.
+   Always `order.order_legs` (option_id/side/position_effect only), never `order.legs`.
    Surface every `order_checks` item in the report. Blocking items (rejection, not enough
    buying power, account restriction) -> no trade. Collateral check: the review's
    collateral / buying-power impact must be <= `(W - P) * 100 * qty + 5` for a credit
    order (W = wing width in dollars, the distance from the short strike to the long
    wing) or `P * 100 * qty + 5` for a debit order. Larger -> no trade, notify.
    Warnings (wide spread, earnings soon) -> note and continue.
-9. **Intent, race check, place.** `attempt` starts at 1; `ref_id` per Conventions.
-   a. Append the intent: `{"event":"entry_submitted","stage":"intent","symbol","structure",
-      "direction","price":P,"quantity","ref_id","attempt","expiry","report_date","timing",
-      "implied_move","edge_ratio","notes":"limit_floor=<f>"}`; commit + push
-      (`earnings: entry <date> intent <SYM> <structure> <q>x @<P>`).
-   b. `git pull --rebase`. Proceed only if YOUR `ref_id` is on the FIRST
-      `entry_submitted` line dated today in the journal. If another session's intent is
-      first, stop (journal `heal` notes `lost_entry_race`), report.
+9. **Intent, race check, place.** `ref_key`, `attempt`, `ref_id` per Conventions.
+   a. Append the intent: `{"event":"entry_submitted","stage":"intent","session_id","ref_key",
+      "ref_id","attempt","symbol","structure","direction","price":P,"quantity","expiry",
+      "report_date","timing","implied_move","edge_ratio","notes":"limit_floor=<f>"}`;
+      commit + push (`earnings: entry <date> intent <SYM> <structure> <q>x @<P>`).
+   b. `git pull --rebase`. Proceed only if the FIRST `entry_submitted` line dated today
+      carries YOUR `session_id` (so your own attempts 2, 3... keep walking). If another
+      session's intent is first, stop (journal `heal` notes `lost_entry_race`), report.
    c. Immediately before placing, re-check `get_option_orders` (no non-terminal order)
       and `get_option_positions` (no open position). Anything found -> stop, reconcile.
-   d. `place_option_order` with exactly the reviewed params plus `ref_id`. Append the
-      ack: same fields with `stage: "ack"` and `order_id`. Commit + push.
+   d. `place_option_order` with exactly the reviewed params (`legs=order.order_legs`)
+      plus `ref_id`. If the returned `order_id` is already journaled or already terminal,
+      bump `attempt` and go back to a. Append the ack: same fields with `stage: "ack"` and
+      `order_id`. Commit + push.
 10. **Poll.** `get_option_orders` every 60-90 s for that `order_id`.
     - `filled`: verify with `get_option_positions` that all legs exist with matching
       quantities (mismatch -> Self-healing, partial fills). Append `entry_filled` with
@@ -404,79 +437,117 @@ FAILURE / HEAL
 Inputs: preflight outputs (positions). Output: every due position closed, journal
 `exit_submitted` / `exit_filled` with `pnl` and `realized_move`.
 
+**Price limits (never broken).** For every debit close action, the most you may ever
+pay per unit is the action's `hard_ceiling` (= `width_cap` W + `exit_slippage_reserve`/100).
+Split verticals sharing a `group_id` may never total more than their `combined_cap`.
+Credit closes never go below 0 (a $0.05 floor is fine). The only uncapped case is an
+action with `naked_short: true` (buy back a short that has no wing): it is priced up to
+the live ask and re-quoted until flat, because a naked short must not stay open. If a
+capped action is still unfilled at its ceiling near a deadline, keep the limit working at
+the ceiling and notify Brad loudly; never chase past it.
+
+**Guard times.** Compute once per session, all PT:
+
+| guard | meaning | expiry day (any leg expires today) | other days |
+|---|---|---|---|
+| G1 | allowed to walk past `limit_worst` toward `hard_ceiling` | `sellout - 90 min` | 08:30 |
+| G2 | at `hard_ceiling`; leg-out allowed if it improves (step 8) | `sellout - 60 min` | none |
+| G3 | must be filled; if not, keep resting at the ceiling and notify Brad loudly | `sellout - 30 min` | close - 30 min (12:30) |
+
+`sellout` = the earliest `sellout_datetime` among the position's legs, read with
+`get_option_instruments` for each leg (for example `2026-11-06T20:30:00Z` = 12:30 PT).
+Robinhood force-closes risky expiring positions at that time, so expiry-day exits must
+be done well before it. If `sellout_datetime` is missing, assume 12:00 PT. On an
+early-close day (config `market_early_closes`, close 10:00 PT) each guard is the
+EARLIER of the table value and `close - 120 / -90 / -60 min` for G1 / G2 / G3.
+
 1. **Gate.** If no open option positions in the MCP account, skip. Exits run even when
    `HALTED=1` or approvals are on (approvals on: place, then tell Brad to approve).
 2. **Exit snapshot.** From `get_option_positions(account_number=$ACCT, nonzero=true)` group
    legs per symbol; `get_option_quotes` on every leg id (fresh, <= 2 min). Per position:
-   `expiry` from position-monitor (broker leg expiration); `report_date` and `timing`
-   from the journal `entry_filled` (fallback: the scan artifacts for that entry date);
-   `entry_price`, `direction`, `structure` from the journal; `opened` = PT date of the
-   broker opening order's `created_at` (never a heal or snapshot timestamp). A position
-   adopted by reconcile carries `"provenance": "reconstructed"`. Write
-   `/tmp/earnings-run/exit_snapshot.json`:
+   `expiry` from position-monitor (broker leg expiration, REQUIRED); `report_date` and
+   `timing` from the journal `entry_filled` or the reconcile heal that adopted it
+   (fallback: scan artifacts for that entry date); `entry_price`, `direction`,
+   `structure` from the journal; `opened` = PT date of the broker opening order's
+   `created_at` (never a heal or snapshot timestamp). A position adopted by reconcile
+   carries `"provenance": "reconstructed"`. Write `/tmp/earnings-run/exit_snapshot.json`:
    ```json
    {"as_of": "...Z", "account": {...}, "minutes_since_open": 15,
     "positions": [{"symbol": "ARM", "structure": "iron_fly", "expiry": "2026-11-06",
                    "report_date": "2026-11-04", "timing": "pm", "opened": "2026-11-04",
                    "entry_price": 14.40, "direction": "credit",
-                   "provenance": "reconstructed (only if adopted)",
                    "legs": [{"option_id": "...", "strike": 202.5, "type": "call",
                              "side_held": "short", "quantity": 1, "bid": 3.1, "ask": 3.3}]}]}
    ```
-   `minutes_since_open` = minutes since 06:30 PT. Omit `provenance` for normal positions.
+   `minutes_since_open` = minutes since 06:30 PT. Add `"provenance": "reconstructed"`
+   only for adopted positions.
 3. **Run exit.**
    ```bash
    cd $REPO && python -m vantage_trader.earnings exit --snapshot /tmp/earnings-run/exit_snapshot.json --config config/earnings.yaml --journal state/earnings/journal.jsonl > /tmp/earnings-run/exit.json
    ```
    Read `actions` and `holds`:
-   - `holds` reason starting `wait:` -> NOT "nothing due". Wait the indicated minutes
-     (until `minutes_since_open` reaches the threshold), rebuild the snapshot with fresh
-     quotes and re-run exit.
+   - `holds` reason starting `wait:` (or `wait_market_open:`) -> NOT "nothing due". Wait
+     the indicated minutes, rebuild the snapshot with fresh quotes, re-run exit.
    - `holds` reason starting `hold:` -> genuinely not due; report and continue.
-   - An action whose `reason`/`type` is `leg_qty_mismatch` or `partial_fill_flatten` ->
-     run Self-healing, partial fills, immediately, using the action's legs and prices.
-   - The engine caps an iron fly close debit at the wing width and may return TWO
-     split-vertical actions for one position (call side and put side). Execute each as
-     its own multi-leg order; both must fill. If one fills and the other does not,
-     keep walking the other; never re-open the filled side.
+   - `leg_qty_mismatch: true` (reason `partial_fill_flatten`) -> Self-healing, partial
+     fills, now. Those actions put `naked_short` buybacks at `sequence` 1.
+   - Reason `split_verticals_natural_exceeds_width` -> two actions with the same
+     `group_id` and a `combined_cap`; worked one at a time by `sequence`.
    Exit 2: read `error` from exit.json, fix (missing `expiry`, strike/type), retry <= 2,
    then manual rule 3.H.
-4. **Close as ONE multi-leg limit order per action**:
-   `review_option_order(account_number=$ACCT, legs=close_legs, quantity=action.quantity,
-   direction, price=limit_start, type="limit", time_in_force="gfd", chain_symbol,
-   underlying_type="equity")`, then append intent `exit_submitted` (`stage: "intent"`,
-   `ref_id` from `...|exit|<SYM>|<attempt>`, add `|call` or `|put` to the key for split
-   verticals), commit + push, re-check `get_option_orders` for an existing working close
-   on these legs (manage it instead if found), then `place_option_order` with the same
-   params and `ref_id`; append the ack with `order_id`.
+4. **Work actions strictly by `sequence`** (per symbol). Do not start action N+1 until
+   action N is filled. For each action:
+   `review_option_order(account_number=$ACCT, legs=action.order_legs, quantity=action.quantity,
+   direction=action.direction, price=action.limit_start, type="limit", time_in_force="gfd",
+   chain_symbol, underlying_type="equity")`. Always `order_legs`, never `close_legs`
+   (those carry strike/type and are for reading only). Then append intent
+   `exit_submitted` (`stage: "intent"`, `session_id`, `ref_key`, `attempt`, `ref_id`,
+   `sequence`, `group_id`), commit + push, re-check `get_option_orders` for a working
+   close on these legs (manage it instead if found), then `place_option_order` with the
+   same params and `ref_id`; append the ack with `order_id`.
 5. **Poll and walk.** Poll every 60-90 s; after ~2 polls unfilled, cancel, confirm, append
    the exit re-price cancel heal (Conventions table), re-quote, re-place one `limit_step`
-   toward `limit_worst` as the next attempt. Never past `limit_worst` before 08:30.
+   worse as the next attempt. Price bounds per attempt:
+   - before G1: never worse than `limit_worst`;
+   - from G1: may walk past `limit_worst`, never above `hard_ceiling` (debit);
+     credit closes walk toward the live natural bid, never below $0.05;
+   - split vertical with `sequence` 2: bound = min(its `hard_ceiling`,
+     `combined_cap` - fill price of sequence 1);
+   - `naked_short: true`: walk to the live ask, re-quote each attempt, no cap.
 6. **Missing or zero leg quote.** Re-quote that id alone (3x). Still missing: re-check the
    instrument with `get_option_instruments`; price the combo from the other legs and
-   assume natural for the missing one (far OTM long wing: bid 0).
-7. **08:30 PT fallback.** Still unfilled: price at natural (debit close = sum of asks bought
-   - sum of bids sold; credit close = sum of bids sold - sum of asks bought), still a
-   limit order, refresh natural every ~2 min until filled. This may go beyond
-   `limit_worst`; getting out wins (risk is already defined).
-8. **Expiry-day guard.** If any leg expires today and the close is not filled by 11:00 PT:
-   leg out. Buy back each short leg alone at its ask (limit, walk up a tick per minute),
-   then sell the longs. All shorts must be flat by 11:30 PT; the absolute limit is
-   12:00 PT (engine rule). Tell Brad immediately if any short is still open at 11:30. If
-   the 12:00 session finds an expiry-day short still open, it closes it at natural
-   before anything else.
-9. **Filled.** Append `exit_filled`: price, quantity, `pnl` (credit trade: (entry credit -
-   exit debit) x 100 x qty; debit trade: (exit credit - entry debit) x 100 x qty, minus
-   fees if shown; for split verticals sum both fills into one `exit_filled` after both
-   complete), `realized_move` = spot now vs the pre-report close (signed fraction).
-   Cross-check with `get_option_positions` (flat) and `get_realized_pnl`. Commit + push
-   `earnings: exit <date> filled <SYM> @<px> pnl <+/-n>`.
+   assume the worst side for the missing one (far OTM long wing: bid 0). The ceiling
+   still applies.
+7. **G3 reached, not filled.** Leave the order resting at `hard_ceiling` (or the split
+   bound), notify Brad loudly ("HALT: ARM close not filled at the $X cap, sellout at
+   12:30, please look"), keep polling and re-placing at the ceiling with fresh quotes
+   until filled or the market closes. On a non-expiry day an unfilled close carries to
+   the next session's EXIT.
+8. **Leg-out (expiry day only, from G2).** Only when it improves on the resting combo and
+   stays inside the ceiling: for a vertical (short S, long L), leg out only if
+   `ask(S) - bid(L) <= hard_ceiling` (for split verticals, the split bound) AND that is
+   better than the combo limit currently working. Cancel the combo, buy back S alone at
+   a limit <= its ask, then immediately sell L at a limit >= `S_fill - hard_ceiling`
+   (walk down toward its bid, never below that bound). Buy back shorts first, always.
+   Journal each leg fill as a `heal` line (notes `leg_out=1`).
+9. **Filled.** Split verticals and flatten sequences: journal each action's fill
+   immediately as its own `heal` line (`"heal":{"type":"partial_exit_fill"}`, no
+   `as_event`; `order_id`, `price`, `quantity`, `sequence`, `group_id`). When the whole
+   position is flat, append ONE `exit_filled`: price = net closing price per unit (sum
+   of the fills, debit positive for credit structures), quantity, `pnl` (credit trade:
+   (entry credit - exit debit) x 100 x qty; debit trade: (exit credit - entry debit) x
+   100 x qty, minus fees if shown), `realized_move` = spot now vs the pre-report close
+   (signed fraction). Cross-check with `get_option_positions` (flat) and
+   `get_realized_pnl`. Commit + push `earnings: exit <date> filled <SYM> @<px> pnl <+/-n>`.
 
 **3.H Manual exit rule (engine unavailable).** Close every position due per CONTRACT
 rules (AMC report -> next morning, BMO -> same day after 06:40 PT, long straddle up >=
-50% -> immediately, expiry day -> now) starting at mid, walking $0.05 per 2 min toward
-natural, natural by 08:30, expiry-day guard as in 8. For an iron fly whose natural debit
-exceeds the wing width, close as two verticals. Journal `heal` notes `manual_exit=1`.
+50% -> immediately, expiry day -> now). Compute W yourself (distance between each short
+strike and its same-type wing) and `hard_ceiling = W + exit_slippage_reserve/100`
+(reserve from config, default $50/unit). Start at mid, walk $0.05 per 2 min toward
+natural but never above `hard_ceiling`; if natural exceeds W, close as two verticals with
+a combined cap of `W + reserve/100`, put vertical first. Same guards (G1-G3) and leg-out
+rule as above. Journal `heal` notes `manual_exit=1`.
 
 FAILURE / HEAL
 
@@ -486,12 +557,14 @@ FAILURE / HEAL
 | Exit exit 2 (missing expiry / strike / type) | Fill from position-monitor and `get_option_instruments`; retry <= 2; then 3.H. |
 | `holds` says `wait:` | Wait and re-run; do not end the session. |
 | Leg quote missing/zero | Step 6. |
-| Order rejected (tick) | Round to valid tick in the direction that fills more easily; next attempt. |
-| Not filled by 08:30 | Natural, step 7. |
-| Split vertical half filled | Keep walking the other half; never re-open. |
-| Expiry day, not filled by 11:00 | Leg out, short legs first, step 8. |
+| Order rejected (tick) | Round to a valid tick that stays inside the ceiling; next attempt. |
+| Not filled by G1 | Walk past `limit_worst` up to `hard_ceiling`, step 5. |
+| Not filled at G3 | Rest at the ceiling, notify Brad loudly, keep working (step 7). Never exceed the ceiling. |
+| Split vertical half filled | Work the other half with bound `combined_cap - first fill`; never re-open the filled side. |
+| `sellout_datetime` missing | Assume 12:00 PT for the guards. |
 | Session dies mid-exit | Next run (12:00 session) reconciles, sees the open position, runs EXIT first. |
 | `place_option_order` unclear result | Retry with the same `ref_id`; confirm via `get_option_orders`. |
+| place returns an `order_id` already journaled or terminal | Bump `attempt` (new `ref_id`) and place again. |
 
 ---
 
@@ -530,26 +603,29 @@ FAILURE / HEAL
 
 ## Self-healing rules (apply in every phase)
 
-**Idempotency.** Every place call has a deterministic `ref_id` (Conventions) written to
-the journal (intent line) and pushed BEFORE `place_option_order`. A retry of the same
-order reuses the same `ref_id` and identical params, so the broker cannot create a
-duplicate. A re-price is a new attempt: new `ref_id`, new intent line.
+**Idempotency.** Every place call has a deterministic `ref_id` (Conventions:
+`ref_key` + `attempt`, attempt = 1 + highest journaled for the key across sessions)
+written to the journal (intent line) and pushed BEFORE `place_option_order`. A retry of
+the same attempt reuses the same `ref_id` and identical params, so the broker cannot
+create a duplicate. A re-price is a new attempt: new `ref_id`, new intent line. A
+`ref_id` whose order is already journaled or terminal is spent: bump `attempt`.
 
 **Crash recovery (stale intent).** On startup, an intent line with no `ack` and no later
 line for that `ref_id`: first look for a matching order in `get_option_orders` (same
 symbol and legs, created after the intent `ts`). Found -> append the ack with its
 `order_id` and manage it. Not found and still inside the phase window -> re-run `score`
 (entry) or `exit` (exit) on a fresh snapshot AND `review_option_order` before
-re-placing. Re-place with the SAME `ref_id` only if the new decision has identical legs
-and the intent price is still within `limit_floor` (entry) / `limit_worst` (exit). If
+re-placing. Re-place with the SAME `ref_id` only if the new decision has identical
+`order_legs` and the intent price is still within `limit_floor` (entry) / the Phase 3
+bound for the current guard (exit, never above `hard_ceiling`). If
 not, or if the window passed: do not place; append `heal` notes
 `ref_id=<id> abandoned=1 reason=<...>`.
 
 **Duplicate-run guard and intent race.** ENTRY does nothing if today already has
 `entry_submitted`, or the broker shows an open earnings position or any open option
-order (Phase 2.3). After pushing an intent, `git pull` and proceed only if yours is the
-first `entry_submitted` today (Phase 2.9b), then re-check broker orders and positions
-right before placing. EXIT never places a second close for legs that already have a
+order (Phase 2.3). After pushing an intent, `git pull` and proceed only if the first
+`entry_submitted` today carries your `session_id` (Phase 2.9b), then re-check broker
+orders and positions right before placing. EXIT never places a second close for legs that already have a
 working close order; it manages the existing one.
 
 **Stale quotes.** During RTH any quote with `updated_at` older than 2 min is stale:
@@ -564,13 +640,14 @@ and notify. Exit 3: halt entries, keep exits. Exit 1: engine bug, no entries, ma
 
 **Partial fills / mismatched legs** (triggered by reconcile `qty_mismatch`, exit actions
 `leg_qty_mismatch` / `partial_fill_flatten`, or what you see in positions). Robinhood fills
-multi-leg strategies as a unit, so mismatched legs mean something broke: (1) buy back
-every naked short FIRST (a short with no long of the same type and expiry further OTM in
-at least the same quantity) with a limit at the ask, walking up a tick per minute,
-natural immediately if after 12:30 PT or on expiry day; (2) then sell any leftover longs
-with the normal walk (or flatten to the matched quantity if the engine action says so).
-Journal `heal` for each step, notify Brad right away. Never "complete" the structure by
-opening more legs.
+multi-leg strategies as a unit, so mismatched legs mean something broke. Work the
+engine's flatten actions strictly by `sequence` (naked short buybacks are `sequence` 1,
+then capped verticals, then leftover longs); do not start N+1 until N fills. Naked short
+(`naked_short: true`): limit at the ask, re-quote and walk up a tick per minute, no cap,
+until flat. Capped verticals: never above their `hard_ceiling`. Leftover longs: normal
+credit walk. Without engine actions (engine down): same order by hand, shorts first.
+Journal a `heal` (`partial_exit_fill`) per filled action, notify Brad right away. Never
+"complete" the structure by opening more legs.
 
 **Container loss mid-trade.** State lives in the broker and in the pushed journal. The
 next run's PREFLIGHT reconciles (broker wins), and crash recovery adopts or abandons

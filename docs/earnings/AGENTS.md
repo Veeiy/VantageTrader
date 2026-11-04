@@ -142,7 +142,8 @@ circuit breaker today; or |SPY move today| >= 2%; or VIX >= 30 or VIX up >= 15% 
                  "quantity": 1, "entry_price": 14.40, "direction": "credit",
                  "opened": "2026-11-04", "opening_order_id": "uuid or null",
                  "legs": [{"option_id": "uuid", "strike": 202.5, "type": "call",
-                           "side_held": "short", "quantity": 1, "avg_price": 11.50}],
+                           "side_held": "short", "quantity": 1, "avg_price": 11.50,
+                           "sellout_datetime": "2026-11-06T20:30:00Z"}],
                  "structure_guess": "iron_fly | iron_condor | long_straddle | long_strangle | unknown"} ],
  "open_orders": [ {"order_id": "uuid", "symbol": "ARM", "state": "queued", "direction": "credit",
                    "position_effect": "open", "price": 14.60, "quantity": 1,
@@ -236,6 +237,8 @@ For EACH symbol:
    (fallback: last non-interpolated close before today). intraday_move = spot/prev_close - 1.
 5. get_option_chains(chain_symbol): expiry rule by timing. pm (AMC): first expiration
    date strictly AFTER report_date. am (BMO): first expiration date ON OR AFTER report_date.
+   Skip any expiration that falls on an early-close day ({{EARLY_CLOSES}}); the engine
+   rejects those as bad_expiry. Take the next one instead.
 6. Strikes: call get_option_instruments(chain_symbol, expiration_dates=expiry) without
    strike_price first; if it returns the full list, take every strike within
    ATM +/- WING_WIDTH_DOLLARS plus one listed strike beyond each side. If it
@@ -266,7 +269,8 @@ plus one listed strike beyond each side is no longer covered, add the missing
 strikes via get_option_instruments (same method: no strike_price first, then exact
 probes like "202.5000"). Apply the same stale/zero re-pull rule (updated_at older than
 2 min, or zero bid and ask within 5% of spot: re-pull up to 3x).
-Keep historical_moves, expiry, report_date, timing, verified unchanged.
+Keep historical_moves, expiry, report_date, timing, verified unchanged (expiry was
+already chosen to avoid early-close days {{EARLY_CLOSES}}).
 Return data {"mode":"refresh","fragments":[...same shape as full mode...],"moves":{},
 "failed":[...]}.
 ```
@@ -316,7 +320,10 @@ ROLE: position-monitor.
    (filled, position_effect open, same legs): entry_price = its net average price per
    unit, direction = its direction, opened = PT date (America/Los_Angeles) of its
    created_at, opening_order_id = its id. If no opening order is found, opened = PT
-   date of the earliest leg created_at you can see, and say so in errors.
+   date of the earliest leg created_at you can see, and say so in errors. For every
+   leg call get_option_instruments (by its chain_symbol, expiration, exact strike like
+   "202.5000", type) and record sellout_datetime (Robinhood force-closes risky expiring
+   positions then); null if absent, and say so in errors.
 4. get_option_orders(account_number): open_orders = any non-terminal state
    (queued, confirmed, unconfirmed, partially_filled, pending); recent_orders = all
    orders from the last 5 trading days. Every order row carries top-level
@@ -370,7 +377,8 @@ Return data {"symbol","spot","expiry","atm_strike","straddle_mid","implied_move"
    - oldest quote `updated_at` <= 2 min old (ENTRY) or <= 10 min (SCAN watchlist only);
    - `historical_moves` non-empty; `spot` > 0;
    - expiry rule: `timing: pm` -> `expiry` is the first listed expiration > `report_date`;
-     `timing: am` -> the first listed expiration >= `report_date`.
+     `timing: am` -> the first listed expiration >= `report_date`; in both cases skipping
+     expirations on config `market_early_closes` days (engine: `bad_expiry`).
    Fix by re-pulling the specific item (head may call read-only tools directly for one
    or two items) or by a replacement agent scoped to those symbols.
 4. If `market_regime.veto_all` is true: run `score` anyway for the record, then treat the
