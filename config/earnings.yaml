@@ -25,6 +25,8 @@ max_open_positions: 1        # HARD CAP <= 1 (v1)
 max_loss_abs: 700.0          # HARD CAP <= 700. cap = min(max_loss_abs, max_loss_bp_frac * buying_power)
 max_loss_bp_frac: 0.93       # HARD CAP <= 0.93
 max_quantity: 1              # max contracts per structure (v1)
+exit_slippage_reserve: 50.0  # USD per unit, [0, 100]. Entry: max_loss_worst <= cap - reserve*qty.
+                             # Exit: credit-structure closing debit may reach W + reserve/100.
 
 # --- order pricing ---
 tick: 0.05
@@ -74,6 +76,11 @@ market_holidays:             # NYSE full closures; used to find the next trading
   - "2027-07-05"
   - "2027-09-06"
   - "2027-11-25"
+  - "2027-12-24"
+market_early_closes:         # 13:00 ET closes; entries never use an expiry on these days
+  - "2026-11-27"
+  - "2026-12-24"
+  - "2027-11-26"
   - "2027-12-24"
 max_expiry_days_after_report: 7   # entry expiry must be <= report_date + this many calendar days
 

@@ -234,3 +234,21 @@ def test_orphan_heal_marks_reconstructed():
     out = reconcile(rsnap([{"symbol": " nvda ", "quantity": 1}]), [], cfg())
     ev = out["issues"][0]["fix"]["journal_event"]
     assert out["issues"][0]["symbol"] == "NVDA" and ev["provenance"] == "reconstructed"
+
+
+def test_missing_fill_heal_carries_intent_fields():
+    legs = [{"option_id": "C202.5", "side": "sell", "position_effect": "open"}]
+    sub = {"ts": "2026-11-04T19:55:00Z", "event": "entry_submitted", "symbol": "ARM", "structure": "iron_fly",
+           "order_id": "o1", "price": 15.8, "quantity": 1, "edge_ratio": 0.77, "implied_move": 0.095,
+           "max_loss": 455.0, "direction": "credit", "report_date": "2026-11-04", "timing": "pm",
+           "expiry": "2026-11-06", "opened": "2026-11-04", "ref_id": "r-123", "legs": legs}
+    s = rsnap([{"symbol": "ARM", "quantity": 1}],
+              [{"order_id": "o1", "symbol": "ARM", "state": "filled", "position_effect": "open", "price": 15.6}])
+    ev = reconcile(s, [sub], cfg())["issues"][0]["fix"]["journal_event"]
+    for k in ("report_date", "timing", "expiry", "opened", "ref_id", "legs", "max_loss", "direction",
+              "structure", "implied_move", "edge_ratio"):
+        assert ev[k] == sub[k], k
+    assert ev["price"] == 15.6
+    # inferred-from-position branch carries them too
+    ev2 = reconcile(rsnap([{"symbol": "ARM", "quantity": 1}]), [sub], cfg())["issues"][0]["fix"]["journal_event"]
+    assert ev2["ref_id"] == "r-123" and ev2["expiry"] == "2026-11-06"

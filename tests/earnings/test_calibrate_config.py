@@ -125,3 +125,18 @@ def test_market_holidays_validated():
     assert validate({"market_holidays": ["2026-12-25", "2026-01-01"]})["market_holidays"] == ["2026-01-01", "2026-12-25"]
     with pytest.raises(ConfigError):
         validate({"market_holidays": ["Christmas"]})
+
+
+def test_exit_slippage_reserve_bounds():
+    assert validate({})["exit_slippage_reserve"] == 50.0
+    assert validate({"exit_slippage_reserve": 0})["exit_slippage_reserve"] == 0.0
+    assert validate({"exit_slippage_reserve": 100})["exit_slippage_reserve"] == 100.0
+    for bad in (-1, 100.5, "x"):
+        with pytest.raises(ConfigError):
+            validate({"exit_slippage_reserve": bad})
+
+
+def test_market_early_closes_default_and_validation():
+    assert validate({})["market_early_closes"] == ["2026-11-27", "2026-12-24", "2027-11-26", "2027-12-24"]
+    with pytest.raises(ConfigError):
+        validate({"market_early_closes": "2026-11-27"})

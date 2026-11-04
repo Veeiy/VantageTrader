@@ -25,7 +25,11 @@ Entry timing (today = as_of date in market_timezone, America/New_York):
   ``market_holidays`` are skipped).
 Expiry rule (bad_expiry unless all hold): expiry > today, expiry <= report_date +
   max_expiry_days_after_report (7) calendar days, and pm -> expiry > report_date,
-  am -> expiry >= report_date.
+  am -> expiry >= report_date, and expiry is not a ``market_early_closes`` day
+  (13:00 ET close).
+Orders add ``order_legs`` (legs stripped to option_id/side/position_effect for the broker
+tool), ``exit_slippage_reserve`` and ``risk_cap_effective`` (= risk_cap - reserve*qty, the
+bound on max_loss_worst).
 Spread rule: (ask-bid)/mid > max_spread_pct on EITHER ATM leg -> skip.
 
 Ranking: tradeable candidates by ev_per_dollar_risk desc, then skipped ones. The top
@@ -155,7 +159,8 @@ def score_candidate(c: dict[str, Any], ctx: dict[str, Any], cfg: dict[str, Any])
             or (c["timing"] == "am" and rd == rules.next_trading_day(today, cfg))):
         return skip("report_not_imminent")
     if not (exp > today and exp <= rd + timedelta(days=cfg["max_expiry_days_after_report"])
-            and ((c["timing"] == "pm" and exp > rd) or (c["timing"] == "am" and exp >= rd))):
+            and ((c["timing"] == "pm" and exp > rd) or (c["timing"] == "am" and exp >= rd))
+            and exp.isoformat() not in set(cfg["market_early_closes"])):
         return skip("bad_expiry")
     if row["avg_hist_move"] is None:
         return skip("insufficient_history")
@@ -190,9 +195,10 @@ def score_candidate(c: dict[str, Any], ctx: dict[str, Any], cfg: dict[str, Any])
     return row
 
 
-ORDER_KEYS = ["symbol", "structure", "quantity", "direction", "expiry", "legs", "limit_start",
+ORDER_KEYS = ["symbol", "structure", "quantity", "direction", "expiry", "legs", "order_legs", "limit_start",
               "limit_floor", "limit_step", "max_loss", "max_profit", "breakevens", "hist_win_rate",
-              "cancel_by", "max_loss_worst", "risk_cap", "ev_per_dollar_risk", "hist_ev",
+              "cancel_by", "max_loss_worst", "risk_cap", "risk_cap_effective", "exit_slippage_reserve",
+              "ev_per_dollar_risk", "hist_ev",
               "mid", "natural", "atm_strike", "wing_width", "implied_move", "edge_ratio",
               "report_date", "timing"]
 

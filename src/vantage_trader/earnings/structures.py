@@ -23,6 +23,16 @@ Long straddle: buy call K + put K. debit = mid sum, natural = ask sum,
     hist EV = mean(|S-K| at both signs) - debit, hist_win_rate = share of those
     scenarios where intrinsic > debit.
 
+Exit slippage reserve (config ``exit_slippage_reserve``, USD per unit, default 50):
+    qty      = min(max_quantity, floor(cap / (max_loss_per_unit_at_mid + reserve)))
+    cap_eff  = cap - reserve*qty ; limit range priced against cap_eff, so
+    max_loss_worst <= cap_eff = risk_cap - reserve*qty   (else max_loss_exceeds_cap).
+    Applied to BOTH structures (the literal, conservative reading; for a long straddle it
+    only shrinks size, since its loss can never exceed the debit).
+
+Orders carry ``legs`` (with strike/type, CONTRACT shape) and ``order_legs`` (only
+option_id/side/position_effect, the keys the broker order tool accepts).
+
 Reported ``max_loss`` / ``max_profit`` / ``breakevens`` use ``limit_start`` (matches
 the CONTRACT example: start 14.60, W 20 -> max_loss 540, max_profit 1460).
 ``max_loss_worst`` is the loss if filled at ``limit_floor``; it is always <= cap.
@@ -87,6 +97,11 @@ class Chain:
         return sorted({round(c - k, 4) for c in self.calls if c > k and round(k - (c - k), 4) in self.puts})
 
 
+def order_legs(legs: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Strip legs to the keys the broker order tool accepts."""
+    return [{"option_id": l["option_id"], "side": l["side"], "position_effect": l["position_effect"]} for l in legs]
+
+
 def _leg(q: Quote, side: str, strike: float, typ: str) -> dict[str, Any]:
     return {"option_id": q.option_id, "side": side, "position_effect": "open",
             "strike": strike, "type": typ}
@@ -147,20 +162,24 @@ def build_iron_fly(chain: Chain, spot: float, moves: list[float], cap: float,
         ev = evaluate_iron_fly(chain, spot, k, w, moves)
         if ev is None:
             continue
-        if ev["max_loss_unit_mid"] > cap + 1e-9:
-            reason = "max_loss_exceeds_cap"
+        reserve = cfg["exit_slippage_reserve"]
+        if ev["max_loss_unit_mid"] + reserve > cap + 1e-9:
+            reason = "max_loss_exceeds_cap" if cap > 0 else "no_buying_power"
             continue
-        qty, qreason = sizing.quantity_for(ev["max_loss_unit_mid"], cap, cfg)
+        qty, qreason = sizing.quantity_for(ev["max_loss_unit_mid"] + reserve, cap, cfg)
         if qty == 0:
             reason = qreason or "max_loss_exceeds_cap"
             continue
-        lim = pricing.credit_limits(ev["mid"], ev["natural"], w, cap, qty, cfg)
+        cap_eff = cap - reserve * qty
+        lim = pricing.credit_limits(ev["mid"], ev["natural"], w, cap_eff, qty, cfg)
         if lim is None:
             reason = "no_fillable_limit_range"
             continue
         start, floor, step = lim
         cand = {
             "structure": "iron_fly", "direction": "credit", "quantity": qty, "legs": ev["legs"],
+            "order_legs": order_legs(ev["legs"]), "exit_slippage_reserve": reserve,
+            "risk_cap_effective": round(cap_eff, 2),
             "limit_start": start, "limit_floor": floor, "limit_step": step,
             "max_loss": round((w - start) * 100 * qty, 2),
             "max_loss_worst": round((w - floor) * 100 * qty, 2),
@@ -192,16 +211,20 @@ def build_long_straddle(chain: Chain, spot: float, moves: list[float], cap: floa
     intrinsics = [abs(s - k) for s in scenarios(spot, moves)]
     ev_share = mean(intrinsics) - mid
     win = sum(i > mid for i in intrinsics) / len(intrinsics)
-    qty, qreason = sizing.quantity_for(mid * 100.0, cap, cfg)
+    reserve = cfg["exit_slippage_reserve"]
+    qty, qreason = sizing.quantity_for(mid * 100.0 + reserve, cap, cfg)
     if qty == 0:
         return None, qreason
-    lim = pricing.debit_limits(mid, natural, cap, qty, cfg)
+    cap_eff = cap - reserve * qty
+    lim = pricing.debit_limits(mid, natural, cap_eff, qty, cfg)
     if lim is None:
         return None, "no_fillable_limit_range"
     start, worst, step = lim
     return {
         "structure": "long_straddle", "direction": "debit", "quantity": qty,
-        "legs": [_leg(c, "buy", k, "call"), _leg(p, "buy", k, "put")],
+        "legs": (legs := [_leg(c, "buy", k, "call"), _leg(p, "buy", k, "put")]),
+        "order_legs": order_legs(legs), "exit_slippage_reserve": reserve,
+        "risk_cap_effective": round(cap_eff, 2),
         "limit_start": start, "limit_floor": worst, "limit_step": step,
         "max_loss": round(start * 100 * qty, 2),
         "max_loss_worst": round(worst * 100 * qty, 2),

@@ -22,13 +22,13 @@ Exit rules, evaluated per position with ``today`` = as_of in ``market_timezone``
   0. Broken structure (unequal leg quantities, or a short leg without a same-type long
      wing): ``leg_qty_mismatch: true``; no normal close. Flatten immediately (any
      minutes_since_open >= 0; before the open it is a hold carrying the flag), with
-     reason "partial_fill_flatten", actions in this order:
-       a. per short leg with a same-type long: close the vertical for the matched
-          quantity, closing debit capped at that vertical's width (rule 2 logic);
-       b. per short leg, any unmatched (naked) quantity: buy back alone, worst = ask
-          (NOT capped: a naked short has no width bound and must not be left open);
+     reason "partial_fill_flatten", actions in this order (``sequence`` 1..n):
+       a. per short leg, any unmatched (naked) quantity: buy back alone, worst = ask
+          (``naked_short: true``; NOT capped: a naked short has no width bound and
+          must be closed first);
+       b. per short leg with a same-type long: close the vertical for the matched
+          quantity; limit_start <= its width W, limit_worst <= W + reserve/100;
        c. remaining long quantity: sell.
-     Each action carries ``sequence`` (1..n) and must be worked in that order.
   1. long straddle (direction debit) whose mid value >= (1+straddle_take_profit)*entry
      -> exit immediately (no minutes_since_open wait).
   2. today >= expiry -> exit now, regardless of minutes ("expiry_day"). Exit runs at
@@ -44,17 +44,27 @@ Exit rules, evaluated per position with ``today`` = as_of in ``market_timezone``
 
 Closing price. Each leg flips (short->buy, long->sell, position_effect close).
 Net closing value per unit at mid = sum(long mids) - sum(short mids).
-  >= 0 -> direction credit, limit_start = mid value, limit_worst = sum(long bids) - sum(short asks)
-  <  0 -> direction debit,  limit_start = |mid value|, limit_worst = sum(short asks) - sum(long bids)
+  > 0 (or 0 with no short legs) -> credit, limit_start = mid value,
+        limit_worst = sum(long bids) - sum(short asks)
+  otherwise -> debit, limit_start = |mid value|, limit_worst = sum(short asks) - sum(long bids);
+        a debit limit is never below one tick (a $0.00 buy-back limit is invalid).
 limit_start is rounded to nearest tick, limit_worst rounded away from us (credit
 down, debit up); limit_start is clamped so it is never worse than limit_worst.
-Width cap: when every short leg has a same-type long wing (iron fly / condor /
-vertical), W = max vertical width computed from leg strikes, and both limit_start and
-limit_worst of a closing debit are clamped to <= W (W rounded down to tick); the
-structure can never be worth more than W. If the natural closing debit exceeds W the
-close is split into one action per vertical (put vertical first, then call), each
-clamped to its own width, reason "split_verticals_natural_exceeds_width" (the exit rule
-that fired is in ``trigger``, present on every normal/split action).
+Width cap (credit structures): when every short leg has a same-type long wing (iron
+fly / condor / vertical), W = max vertical width from leg strikes, reserve =
+``exit_slippage_reserve``/100 per share, hard_ceiling = W + reserve (rounded down to tick):
+  limit_start <= W, limit_worst <= hard_ceiling. Each action carries ``width_cap`` (W) and
+  ``hard_ceiling``. Entry sizing held the same reserve back, so realised loss <=
+  max_loss_worst + reserve*qty <= risk_cap.
+If the natural closing debit exceeds hard_ceiling the close is split into one action per
+vertical (put vertical first, then call), reason "split_verticals_natural_exceeds_width".
+Each split action has its own ``width_cap`` (that vertical's width; limit_start and
+limit_worst <= it), plus ``hard_ceiling`` = ``combined_cap`` = W + reserve and a shared
+``group_id``. The runbook must cap the SUM of the two fills at combined_cap: the second
+vertical's worst = min(natural, combined_cap - first vertical's actual fill).
+The exit rule that fired is in ``trigger`` on every normal/split action.
+Every action has ``order_legs`` (option_id/side/position_effect only, for the broker
+order tool) next to ``close_legs`` (which also carry strike/type for humans).
 limit_step = 0.05 if price < 3 else 0.10.
 """
 from __future__ import annotations
@@ -157,8 +167,11 @@ def _parse_legs(pos: dict[str, Any]) -> list[dict[str, Any]]:
     return out
 
 
-def _price(legs: list[dict[str, Any]], cfg: dict[str, Any], cap: float | None = None) -> dict[str, Any]:
-    """Closing order for ``legs`` (each traded once per unit). ``cap`` clamps a debit."""
+def _price(legs: list[dict[str, Any]], cfg: dict[str, Any], start_cap: float | None = None,
+           worst_cap: float | None = None) -> dict[str, Any]:
+    """Closing order for ``legs`` (each traded once per unit). For a closing DEBIT,
+    ``start_cap`` clamps limit_start and ``worst_cap`` clamps limit_worst (both rounded
+    down to tick); limit_start never exceeds limit_worst."""
     tick = cfg["tick"]
     mid_val = nat_val = 0.0
     close_legs = []
@@ -174,17 +187,21 @@ def _price(legs: list[dict[str, Any]], cfg: dict[str, Any], cap: float | None = 
             side = "buy"
         close_legs.append({"option_id": leg["option_id"], "side": side, "position_effect": "close",
                            "strike": leg["strike"], "type": leg["type"]})
-    if mid_val >= 0:
+    has_short = any(l["side_held"] == "short" for l in legs)
+    if mid_val > 0 or (mid_val == 0 and not has_short):
         direction = "credit"
         worst = max(pricing.round_down(nat_val, tick), 0.0)
         start = max(pricing.round_nearest(mid_val, tick), worst)
     else:
+        # buying back shorts is always a debit, at least one tick (a $0.00 limit is invalid)
         direction = "debit"
-        worst = pricing.round_up(-nat_val, tick)
-        start = min(pricing.round_nearest(-mid_val, tick), worst)
-        if cap is not None:
-            capr = pricing.round_down(cap, tick)
-            worst, start = min(worst, capr), min(start, capr)
+        worst = max(pricing.round_up(-nat_val, tick), tick)
+        if worst_cap is not None:
+            worst = max(min(worst, pricing.round_down(worst_cap, tick)), tick)
+        start = max(min(pricing.round_nearest(-mid_val, tick), worst), tick)
+        if start_cap is not None:
+            start = max(min(start, pricing.round_down(start_cap, tick)), tick)
+        start = min(start, worst)
     return {"close_legs": close_legs, "direction": direction, "limit_start": start,
             "limit_worst": worst, "limit_step": pricing.limit_step(start, cfg),
             "mid_value": round(mid_val, 4), "natural_value": round(nat_val, 4)}
@@ -207,30 +224,38 @@ def _is_broken(legs: list[dict[str, Any]]) -> bool:
     return any(lng is None for _, lng in _verticals(legs).values())
 
 
+def _ceiling(width: float, cfg: dict[str, Any]) -> float:
+    return pricing.round_down(width + cfg["exit_slippage_reserve"] / 100.0, cfg["tick"])
+
+
 def _flatten(pos: dict[str, Any], legs: list[dict[str, Any]], cfg: dict[str, Any]) -> list[dict[str, Any]]:
     remaining = {l["option_id"]: l["quantity"] for l in legs}
-    acts: list[dict[str, Any]] = []
-    for s, lng in _verticals(legs).values():           # a. matched verticals, capped
+    verts: list[dict[str, Any]] = []
+    for s, lng in _verticals(legs).values():           # matched verticals, capped
         if lng is None:
             continue
         q = min(remaining[s["option_id"]], remaining[lng["option_id"]])
         if q > 0:
-            o = _price([s, lng], cfg, cap=abs(s["strike"] - lng["strike"]))
-            o.update(quantity=q, width_cap=abs(s["strike"] - lng["strike"]))
-            acts.append(o)
+            w = abs(s["strike"] - lng["strike"])
+            o = _price([s, lng], cfg, start_cap=w, worst_cap=w + cfg["exit_slippage_reserve"] / 100.0)
+            o.update(quantity=q, width_cap=w, hard_ceiling=_ceiling(w, cfg))
+            verts.append(o)
             remaining[s["option_id"]] -= q
             remaining[lng["option_id"]] -= q
-    for s in (l for l in legs if l["side_held"] == "short"):  # b. naked remainder, uncapped
+    naked: list[dict[str, Any]] = []
+    for s in (l for l in legs if l["side_held"] == "short"):  # naked remainder, uncapped
         if remaining[s["option_id"]] > 0:
             o = _price([s], cfg)
-            o.update(quantity=remaining[s["option_id"]], width_cap=None, naked_short=True)
-            acts.append(o)
+            o.update(quantity=remaining[s["option_id"]], width_cap=None, hard_ceiling=None, naked_short=True)
+            naked.append(o)
             remaining[s["option_id"]] = 0
-    for lg in (l for l in legs if l["side_held"] == "long"):  # c. leftover longs
+    longs: list[dict[str, Any]] = []
+    for lg in (l for l in legs if l["side_held"] == "long"):  # leftover longs
         if remaining[lg["option_id"]] > 0:
             o = _price([lg], cfg)
-            o.update(quantity=remaining[lg["option_id"]], width_cap=None)
-            acts.append(o)
+            o.update(quantity=remaining[lg["option_id"]], width_cap=None, hard_ceiling=None)
+            longs.append(o)
+    acts = naked + verts + longs                       # naked shorts FIRST
     for i, o in enumerate(acts, 1):
         o.update(symbol=pos["symbol"], structure=pos.get("structure"), sequence=i,
                  leg_qty_mismatch=True, reason="partial_fill_flatten")
@@ -238,21 +263,30 @@ def _flatten(pos: dict[str, Any], legs: list[dict[str, Any]], cfg: dict[str, Any
 
 
 def closing_actions(pos: dict[str, Any], legs: list[dict[str, Any]], cfg: dict[str, Any]) -> list[dict[str, Any]]:
-    """Normal (balanced) close; split into verticals when natural debit exceeds W."""
+    """Normal (balanced) close; split into verticals when natural debit exceeds hard_ceiling."""
     verts = _verticals(legs)
     widths = {k: abs(s["strike"] - lng["strike"]) for k, (s, lng) in verts.items() if lng is not None}
-    cap = max(widths.values()) if verts and len(widths) == len(verts) else None
+    w = max(widths.values()) if verts and len(widths) == len(verts) else None
     qty = legs[0]["quantity"]
-    base = _price(legs, cfg, cap=cap)
-    acts = []
-    if cap is not None and base["direction"] == "debit" and -base["natural_value"] > cap + 1e-9:
-        for i, (k, (s, lng)) in enumerate(verts.items(), 1):
-            o = _price([s, lng], cfg, cap=widths[k])
-            o.update(width_cap=widths[k], sequence=i, reason="split_verticals_natural_exceeds_width")
-            acts.append(o)
+    reserve = cfg["exit_slippage_reserve"] / 100.0
+    if w is None:
+        base = _price(legs, cfg)
+        base.update(width_cap=None, hard_ceiling=None, sequence=1)
+        acts = [base]
     else:
-        base.update(width_cap=cap, sequence=1)
-        acts.append(base)
+        ceiling = _ceiling(w, cfg)
+        base = _price(legs, cfg, start_cap=w, worst_cap=w + reserve)
+        if base["direction"] == "debit" and -base["natural_value"] > ceiling + 1e-9:
+            gid = f"{pos['symbol']}-{pos.get('expiry')}-split"
+            acts = []
+            for i, (k, (s, lng)) in enumerate(verts.items(), 1):
+                o = _price([s, lng], cfg, start_cap=widths[k], worst_cap=widths[k])
+                o.update(width_cap=widths[k], hard_ceiling=ceiling, combined_cap=ceiling, group_id=gid,
+                         sequence=i, reason="split_verticals_natural_exceeds_width")
+                acts.append(o)
+        else:
+            base.update(width_cap=w, hard_ceiling=ceiling, sequence=1)
+            acts = [base]
     for o in acts:
         o.update(symbol=pos["symbol"], structure=pos.get("structure"), quantity=qty, leg_qty_mismatch=False)
     return acts
@@ -261,6 +295,8 @@ def closing_actions(pos: dict[str, Any], legs: list[dict[str, Any]], cfg: dict[s
 def _finish(o: dict[str, Any]) -> dict[str, Any]:
     o.pop("mid_value", None)
     o.pop("natural_value", None)
+    o["order_legs"] = [{"option_id": l["option_id"], "side": l["side"], "position_effect": l["position_effect"]}
+                       for l in o["close_legs"]]
     return o
 
 

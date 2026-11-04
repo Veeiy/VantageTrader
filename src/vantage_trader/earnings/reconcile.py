@@ -19,7 +19,10 @@ Issue types and fixes (each issue: {"type","symbol","fix"}; ``fix`` is an object
 {"description", "broker_action" | null, "journal_event" | null}):
   missing_fill      journal has *_submitted but broker shows the order filled (or, for
                     an entry with no broker order record, a position exists).
-                    -> heal as_event entry_filled / exit_filled with the broker price.
+                    -> heal as_event entry_filled / exit_filled with the broker price;
+                    the heal carries ``CARRY_KEYS`` (structure, implied_move, edge_ratio,
+                    max_loss, direction, report_date, timing, expiry, opened, ref_id, legs)
+                    from the submitted intent line when present.
   stale_open_order  broker entry order (position_effect open) still working at/after
                     ``cancel_by`` on its creation day.
                     -> broker_action cancel_order; journal_event heal as entry_cancelled
@@ -46,6 +49,10 @@ from . import rules
 from .config import EngineInputError, norm_symbol, parse_cancel_by
 
 FILLED = {"filled"}
+# Fields copied from the journal *_submitted intent line onto missing_fill heal events,
+# so the healed journal keeps everything exit/calibrate need.
+CARRY_KEYS = ("structure", "implied_move", "edge_ratio", "max_loss", "direction",
+              "report_date", "timing", "expiry", "opened", "ref_id", "legs")
 DEAD = {"cancelled", "canceled", "rejected", "failed", "expired"}
 
 
@@ -107,7 +114,7 @@ def reconcile(snapshot: dict[str, Any], events: list[dict[str, Any]], cfg: dict[
         phase = "entry" if jr.effective_event(sub) == "entry_submitted" else "exit"
         bo = by_id.get(oid)
         st = str(bo["state"]).lower() if bo else None
-        carry = {k: sub.get(k) for k in ("structure", "implied_move", "edge_ratio", "max_loss", "direction")}
+        carry = {k: sub.get(k) for k in CARRY_KEYS}
         if st in FILLED:
             ev = _heal(as_of, "missing_fill", f"{phase}_filled", sym,
                        f"broker shows order {oid} filled; journal had only {phase}_submitted",

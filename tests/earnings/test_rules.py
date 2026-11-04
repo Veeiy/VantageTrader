@@ -177,19 +177,36 @@ def test_unknown_provenance_held_only_on_open_day():
     assert len(exit_decision(snap([p], as_of="2026-11-06T14:45:00Z"), cfg())["actions"]) == 1
 
 
-def test_closing_debit_clamped_to_width():
-    legs = [L("C100", "short", "call", 100, 0.0, 0.05), L("P100", "short", "put", 100, 4.8, 5.4),
+def test_closing_debit_split_when_natural_exceeds_hard_ceiling():
+    legs = [L("C100", "short", "call", 100, 0.0, 0.05), L("P100", "short", "put", 100, 4.8, 5.8),
             L("C105", "long", "call", 105, 0.0, 0.05), L("P95", "long", "put", 95, 0.0, 0.4)]
-    # mid value = 0.025 + 0.2 - 0.025 - 5.1 = -4.9 ; natural = 0.05 + 5.4 - 0 - 0 = 5.45 > W=5 -> split
+    # natural = 0.05 + 5.8 = 5.85 > hard ceiling 5 + 0.50 = 5.50 -> split
     out = exit_decision(snap([fly(legs=legs)]), cfg())
     acts = out["actions"]
     assert [a["reason"] for a in acts] == ["split_verticals_natural_exceeds_width"] * 2
     assert [a["close_legs"][0]["type"] for a in acts] == ["put", "call"]
+    assert len({a["group_id"] for a in acts}) == 1 and acts[0]["group_id"]
     for a in acts:
-        assert a["limit_start"] <= a["width_cap"] == 5 and a["limit_worst"] <= 5
+        assert a["combined_cap"] == a["hard_ceiling"] == 5.5 and a["width_cap"] == 5
+        assert a["limit_start"] <= 5 and a["limit_worst"] <= 5
         assert len(a["close_legs"]) == 2 and a["trigger"].startswith("post_report_session")
-    put = acts[0]
-    assert put["limit_worst"] == 5.0 and put["limit_start"] == 4.9
+    put, call = acts
+    assert put["limit_worst"] == 5.0 and put["limit_start"] == 5.0     # mid 5.1, natural 5.8 -> both clamp to W
+    # worthless short call vertical (mid 0) is still a debit buy-back of at least one tick
+    assert call["direction"] == "debit" and call["limit_start"] == call["limit_worst"] == 0.05
+
+
+def test_single_action_may_walk_past_width_up_to_hard_ceiling():
+    legs = [L("C100", "short", "call", 100, 0.0, 0.05), L("P100", "short", "put", 100, 5.0, 5.4),
+            L("C105", "long", "call", 105, 0.0, 0.05), L("P95", "long", "put", 95, 0.0, 0.1)]
+    # mid value = -(5.2 - 0.05) = -5.15 -> start clamped to W=5.00 ; natural 5.45 <= 5.50
+    a = exit_decision(snap([fly(legs=legs)]), cfg())["actions"]
+    assert len(a) == 1
+    assert a[0]["limit_start"] == 5.0 and a[0]["limit_worst"] == 5.45
+    assert a[0]["width_cap"] == 5 and a[0]["hard_ceiling"] == 5.5
+    legs[1] = L("P100", "short", "put", 100, 5.3, 5.45)               # natural 5.50 -> exactly ceiling
+    a = exit_decision(snap([fly(legs=legs)]), cfg(exit_slippage_reserve=20.0))["actions"]
+    assert len(a) == 2                                                 # ceiling 5.20 < 5.50 -> split
 
 
 def test_single_action_clamp_when_natural_within_width():
@@ -199,6 +216,16 @@ def test_single_action_clamp_when_natural_within_width():
     assert len(a) == 1 and a[0]["limit_worst"] == 5.0 and a[0]["limit_start"] <= 5.0
 
 
+def test_order_legs_stripped_on_every_action():
+    acts = exit_decision(snap([fly(), straddle()]), cfg())["actions"]
+    for a in acts:
+        assert a["order_legs"] == [{k: l[k] for k in ("option_id", "side", "position_effect")}
+                                   for l in a["close_legs"]]
+        assert all("strike" in l and "type" in l for l in a["close_legs"])
+    st = next(a for a in acts if a["symbol"] == "XYZ")
+    assert st["width_cap"] is None and st["hard_ceiling"] is None
+
+
 def test_partial_fill_flatten():
     legs = [L("C202.5", "short", "call", 202.5, 3.0, 3.2, qty=2), L("P202.5", "short", "put", 202.5, 8.0, 8.4, qty=1),
             L("C222.5", "long", "call", 222.5, 0.1, 0.2, qty=1), L("P182.5", "long", "put", 182.5, 0.5, 0.7, qty=1)]
@@ -206,14 +233,22 @@ def test_partial_fill_flatten():
     acts = out["actions"]
     assert all(a["leg_qty_mismatch"] and a["reason"] == "partial_fill_flatten" for a in acts)
     assert [a["sequence"] for a in acts] == [1, 2, 3]
-    put_v, call_v, naked = acts
-    assert {l["option_id"] for l in put_v["close_legs"]} == {"P202.5", "P182.5"} and put_v["limit_worst"] <= 20
-    assert {l["option_id"] for l in call_v["close_legs"]} == {"C202.5", "C222.5"} and call_v["quantity"] == 1
+    naked, put_v, call_v = acts                                        # naked short FIRST
     assert naked["close_legs"] == [{"option_id": "C202.5", "side": "buy", "position_effect": "close",
                                     "strike": 202.5, "type": "call"}]
+    assert naked["order_legs"] == [{"option_id": "C202.5", "side": "buy", "position_effect": "close"}]
     assert naked["quantity"] == 1 and naked["naked_short"] and naked["limit_worst"] == 3.2
-    # every short leg is bought back before any lone long is sold
-    assert all(any(l["side"] == "buy" for l in a["close_legs"]) for a in acts)
+    assert naked["width_cap"] is None and naked["hard_ceiling"] is None
+    assert {l["option_id"] for l in put_v["close_legs"]} == {"P202.5", "P182.5"}
+    assert put_v["width_cap"] == 20 and put_v["hard_ceiling"] == 20.5 and put_v["limit_worst"] <= 20.5
+    assert {l["option_id"] for l in call_v["close_legs"]} == {"C202.5", "C222.5"} and call_v["quantity"] == 1
+
+
+def test_flatten_leftover_long_sold_last():
+    legs = [L("C202.5", "short", "call", 202.5, 3.0, 3.2, qty=1), L("C222.5", "long", "call", 222.5, 0.1, 0.2, qty=2)]
+    acts = exit_decision(snap([fly(legs=legs)]), cfg())["actions"]
+    assert [len(a["close_legs"]) for a in acts] == [2, 1]
+    assert acts[-1]["close_legs"][0]["side"] == "sell" and acts[-1]["quantity"] == 1
 
 
 def test_unpaired_short_is_broken_and_preopen_hold():

@@ -91,7 +91,7 @@ def test_am_report_after_weekend_and_holiday():
     s = snapshot([arm_candidate(timing="am", report_date="2026-11-09", expiry="2026-11-13")])
     s["as_of"] = "2026-11-06T19:55:00Z"                              # Friday
     assert row(score(s, cfg(), [])[0])["skip_reason"] is None
-    s = snapshot([arm_candidate(timing="am", report_date="2026-11-27", expiry="2026-11-27")])
+    s = snapshot([arm_candidate(timing="am", report_date="2026-11-27", expiry="2026-11-30")])
     s["as_of"] = "2026-11-25T19:55:00Z"                              # Wed before Thanksgiving
     assert row(score(s, cfg(), [])[0])["skip_reason"] is None
     s["candidates"][0]["report_date"] = "2026-11-26"
@@ -194,3 +194,32 @@ def test_invalid_snapshot(mutate):
     mutate(s)
     with pytest.raises(EngineInputError):
         score(s, cfg(), [])
+
+
+def test_expiry_on_early_close_day_is_bad():
+    s = snapshot([arm_candidate(report_date="2026-11-25", expiry="2026-11-27")])
+    s["as_of"] = "2026-11-25T19:55:00Z"
+    assert row(score(s, cfg(), [])[0])["skip_reason"] == "bad_expiry"
+    assert row(score(s, cfg(market_early_closes=[]), [])[0])["skip_reason"] is None
+    s["candidates"][0]["expiry"] = "2026-11-30"
+    assert row(score(s, cfg(), [])[0])["skip_reason"] is None
+
+
+def test_order_has_stripped_order_legs_and_reserve():
+    d, _ = run()
+    o = d["order"]
+    assert o["order_legs"] == [{"option_id": l["option_id"], "side": l["side"], "position_effect": "open"}
+                               for l in o["legs"]]
+    assert all(set(l) == {"option_id", "side", "position_effect"} for l in o["order_legs"])
+    assert o["exit_slippage_reserve"] == 50.0 and o["risk_cap_effective"] == 647.5
+    assert o["max_loss_worst"] <= d["risk_cap"] - 50.0 * o["quantity"]
+
+
+def test_reserve_pushes_wide_fly_over_cap():
+    # cap $300 BP -> 279; W=15 max loss 215: fits with reserve 50 (265) but not with 70 (285)
+    d, _ = run(bp=300.0, tv=500.0)
+    assert d["order"]["wing_width"] == 15.0
+    d, _ = score(snapshot(bp=300.0, tv=500.0), cfg(exit_slippage_reserve=70.0), [])
+    assert d["order"]["wing_width"] == 10.0
+    d, _ = score(snapshot(bp=120.0, tv=500.0), cfg(), [])     # cap 111.6 < 105 + 50
+    assert row(d)["skip_reason"] == "max_loss_exceeds_cap"

@@ -12,6 +12,13 @@ working engine. Validation rules:
   both a winter and a summer reference date) and must be <= 12:50 PT.
 * ``market_holidays``: ISO dates on which NYSE is closed (default: 2026-2027 NYSE full
   closures). Used to find the next trading day for BMO entry timing.
+* ``market_early_closes``: ISO dates with a 13:00 ET close; an entry whose expiry falls on
+  one is skipped (bad_expiry). Default includes 2027-12-24 as requested, even though that
+  date is also a full closure (Christmas observed) in ``market_holidays``.
+* ``exit_slippage_reserve`` (USD per unit, in [0, 100], default 50): budget held back at
+  entry (max_loss_worst <= risk_cap - reserve*qty) and spent at exit (closing debit of a
+  credit structure may reach W + reserve/100). Realised loss <= max_loss_worst + reserve*qty
+  <= risk_cap.
 
 Any violation raises :class:`ConfigError`, which the CLI maps to exit code 2.
 """
@@ -53,6 +60,7 @@ DEFAULTS: dict[str, Any] = {
     "max_loss_abs": 700.0,
     "max_loss_bp_frac": 0.93,
     "max_quantity": 1,
+    "exit_slippage_reserve": 50.0,
     # --- order pricing ---
     "tick": 0.05,
     "step_small": 0.05,
@@ -83,6 +91,7 @@ DEFAULTS: dict[str, Any] = {
         "2027-01-01", "2027-01-18", "2027-02-15", "2027-03-26", "2027-05-31", "2027-06-18",
         "2027-07-05", "2027-09-06", "2027-11-25", "2027-12-24",
     ],
+    "market_early_closes": ["2026-11-27", "2026-12-24", "2027-11-26", "2027-12-24"],
     "max_expiry_days_after_report": 7,
     # --- paths ---
     "journal_path": "state/earnings/journal.jsonl",
@@ -112,7 +121,7 @@ _NUMERIC = {
     "sell_max_ratio", "buy_min_ratio", "min_ev_per_dollar_risk", "max_loss_abs",
     "max_loss_bp_frac", "tick", "step_small", "step_large", "step_threshold",
     "credit_floor_mid_frac", "debit_ceiling_mid_frac", "min_account_value",
-    "max_loss_tolerance", "straddle_take_profit",
+    "max_loss_tolerance", "straddle_take_profit", "exit_slippage_reserve",
 }
 _INT = {
     "min_history", "history_lookback", "max_open_positions", "max_quantity",
@@ -233,13 +242,16 @@ def validate(cfg: dict[str, Any]) -> dict[str, Any]:
         if not isinstance(out[k], str):
             raise ConfigError(f"{k} must be a string")
     _check_tz(out["market_timezone"])
-    hol = out["market_holidays"]
-    if not isinstance(hol, list):
-        raise ConfigError("market_holidays must be a list of YYYY-MM-DD dates")
-    try:
-        out["market_holidays"] = sorted({date.fromisoformat(str(d)).isoformat() for d in hol})
-    except ValueError:
-        raise ConfigError("market_holidays entries must be YYYY-MM-DD dates")
+    for k in ("market_holidays", "market_early_closes"):
+        lst = out[k]
+        if not isinstance(lst, list):
+            raise ConfigError(f"{k} must be a list of YYYY-MM-DD dates")
+        try:
+            out[k] = sorted({date.fromisoformat(str(d)).isoformat() for d in lst})
+        except ValueError:
+            raise ConfigError(f"{k} entries must be YYYY-MM-DD dates")
+    if not (0.0 <= out["exit_slippage_reserve"] <= 100.0):
+        raise ConfigError("exit_slippage_reserve must be within [0, 100] USD per unit")
     if out["circuit_reset_ts"] is not None and not isinstance(out["circuit_reset_ts"], str):
         raise ConfigError("circuit_reset_ts must be null or an ISO timestamp string")
     if not isinstance(out["journal_path"], str) or not out["journal_path"]:
