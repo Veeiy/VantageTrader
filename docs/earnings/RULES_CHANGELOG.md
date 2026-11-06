@@ -31,3 +31,26 @@ Requested by Brad after two no-trade days: "don't be as strict / slight threshol
   3.5% after its report: small win, roughly +$50 to +$120.
 - Thu: WYNN iron fly 72/79/86 (spread 24.5%, $3.64 mid credit, $336 max loss).
   Result pending its Thursday after-close report.
+
+## Scorecard: week of 2026-11-02 (no live trades)
+
+Prices: Thursday 12:00 PT spot; Thursday close; Friday 06:46 PT. P/L figures are
+estimates for one iron fly centered at the strike nearest the entry-time spot.
+
+| Name | Skip rule | Post-report move | Would-be fly result | Rule verdict |
+|---|---|---|---|---|
+| ARM (Wed) | intraday -5.5% | ~$173 at Thu 06:45 vs 192.5 body | about -$500 (near max loss) | saved |
+| QCOM (Wed) | no edge (1.03) | -9.4% | near max loss | saved |
+| APP (Wed) | too large for account | +31% | max loss | saved |
+| ALB (Wed) | would pass v1.1 | +3.5% | about +$50 to +$120 | missed small win |
+| WYNN (Thu) | spread 24.5% | +2.8% (inside 75.36/82.64) | about +$75 at mid, -$65 at natural | neutral |
+| VST (Thu, Fri BMO) | regime guard | +7.5% vs 2.11% hist avg | about -$50 to -$150 | saved |
+| IREN (Thu) | intraday -13.6% | +22.2% | max loss (~-$340 at 6 contracts) | saved |
+| NET (Thu) | intraday -9.4% | +11.9% | near max loss | saved |
+
+Takeaways: the intraday-move rule and the regime guard avoided roughly $1,400 of
+would-be losses; the missed upside was small (ALB, possibly WYNN). Long straddles
+would not have helped either: IREN and NET roughly matched or undershot their
+implied moves from entry time. Account value went from $750 to $650 on 11/05 from
+a $100 transfer to checking, not from trading; the risk budget now scales with
+buying power: min($650, 0.93 x BP) minus the $50 exit reserve.
