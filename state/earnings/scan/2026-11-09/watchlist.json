@@ -1,0 +1,40 @@
+{
+  "date": "2026-11-09",
+  "as_of": "2026-11-09T15:02Z (07:02 PT)",
+  "status": "no_trade",
+  "blocked_by": [
+    "circuit_breaker: account value $250 < $400 floor",
+    "macro veto_all (AGENTS.md): October CPI Tue 2026-11-10 08:30 ET (05:30 PT) lands between today's entry and the 06:45 PT exit (source: bls.gov CPI release schedule, via risk-sentinel)"
+  ],
+  "tape": {"spy_pct": 1.70, "qqq_pct": 2.50, "note": "relief bounce after the 11/05 post-midterm AI/chip rout; crude -5%; NVDA -6% on board probe; BTC ~$74.5K 2-month low; ~78% odds of a Dec hike priced"},
+  "paper_track": [
+    {"symbol": "RKLB", "timing": "pm", "report_date": "2026-11-09", "expiry": "2026-11-13", "edge_ratio": 0.77, "atm_spread_pct": 6.7, "intraday_pct_0702": 5.65,
+     "structure": "iron fly 56: -56C/-56P, +64C/+48P (W=8)", "credit_mid": 5.38, "max_loss": 262,
+     "alt_small": "W=6 (+62C/+50P) credit 4.495, max loss 150.5",
+     "rule_status": "passes v1.1 (5-7% intraday exception: space names up with it, no stock-specific news); blocked only by account-level vetoes",
+     "sentinel_flags": ["macro_event_overlap", "neutron_timing_risk"]},
+    {"symbol": "ZETA", "timing": "pm", "report_date": "2026-11-09", "expiry": "2026-11-13", "edge_ratio": 0.839, "atm_spread_pct": 21.5, "intraday_pct_0702": 3.74,
+     "structure": "iron fly 32.5: -32.5C/-32.5P, +38C/+27P (W=5.5)", "credit_mid": 3.845, "max_loss": 165.5,
+     "rule_status": "marginal: edge flipped 0.81-0.88 within 6 minutes (parity-adjusted 0.88 = no_edge); all 6 prior reports moved the stock up; not news-checked",
+     "sentinel_flags": ["risk_unchecked"]},
+    {"symbol": "HIMS", "timing": "pm", "report_date": "2026-11-09", "expiry": "2026-11-13", "edge_ratio": 0.66, "atm_spread_pct": 7.6, "intraday_pct_0702": -6.46,
+     "structure": "iron fly 24.5: -24.5C/-24.5P, +31C/+18P (W=6.5)", "credit_mid": 3.415, "max_loss": 308.5,
+     "rule_status": "BLOCKED by the intraday rule: down 6.5% on an up tape with stock-specific news (expanded Lilly deal 11/06, FTC suit dismissal pending), so the 5-7% exception does not apply",
+     "sentinel_flags": ["stock_specific_news_72h", "pending_ruling", "macro_event_overlap"]}
+  ],
+  "near_misses": {
+    "ASTS": "edge 0.40 but +8.3% intraday (> 7%) plus a rocket announcement 11/06",
+    "TTWO": "edge 0.69 but the fly needs W >= 14.8, max loss $405 (budget); GTA VI date is a binary catalyst",
+    "ONON": "BMO Tue; long-straddle signal edge 1.29 but debit $377.50 and ATM spread 14% (> 12% straddle gate)",
+    "QBTS": "edge 1.07 no_edge; average inflated by one +51% print (median 7.7%)"
+  },
+  "skipped": {
+    "no_nov13_weekly": ["WIX", "ETOR", "HSAI", "ATAT", "LEGN", "AAON", "QLYS", "HRB", "GSHD", "NOVT", "CWEN", "TDW", "DHT", "SANM"],
+    "price_lt_10": ["BTDR", "EXK", "QUBT", "USAR", "NXE", "ACHR", "LCID", "MARA"],
+    "intraday_gt_7": ["ONTO", "TTD", "ASTS"],
+    "spread_gt_25": ["LQDA", "SE", "VG", "WGS"],
+    "no_edge": ["OXY", "QBTS"],
+    "inactive": ["QRVO (Skyworks merger closed 2026-10-05)"]
+  },
+  "paper_scoring": "Re-quote the three flies at the 11:46 PT ENTRY check-in as the paper entry; score at the Tue 06:45 PT check-in against the mid of each leg; add to the week-of-11/09 scorecard."
+}

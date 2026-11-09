@@ -25,6 +25,12 @@ Requested by Brad after two no-trade days: "don't be as strict / slight threshol
   moved +31%. Both would have been near max loss.
 - Defined risk only, $650 total cap, TSLA blocked, stock-specific bombshell veto,
   price >= $10.
+- Clarified 2026-11-09 (not new, left out of this list by mistake): the macro veto in
+  `AGENTS.md` still applies. No entries when a tier-1 release (FOMC decision, CPI,
+  nonfarm payrolls) lands between today's entry and the next 06:45 PT exit, when
+  |SPY today| >= 2%, when VIX >= 30 or is up >= 15% today, or after a market-wide halt.
+  The circuit breaker (account value < $400, 2 max losses in a row, 3 losses in a row)
+  also stays.
 
 ### What v1.1 would have done this week (rough estimates)
 - Wed: ALB iron fly (spread 15%, edge 0.66, max loss about $330). ALB rose about
