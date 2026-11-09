@@ -155,5 +155,111 @@
       "status": "fails intraday rule"
     },
     "news": "web search found nothing dated 11/09 for HIMS or the space rally (index lag); morning sentinel items stand"
+  },
+  "entry_1146": {
+    "as_of": "2026-11-09T19:47Z (11:47 PT)",
+    "decision": "no_trade",
+    "orders_placed": 0,
+    "preflight": {
+      "account_value": 250,
+      "buying_power": 250,
+      "open_positions": 0,
+      "orders_today": 0,
+      "human_must_approve_trades": false
+    },
+    "account_vetoes": [
+      "circuit_breaker: account value $250 < $400",
+      "macro: CPI Tue 08:30 ET lands before the 06:45 PT exit",
+      "macro: |SPY today| >= 2% (+2.49%)"
+    ],
+    "spy_pct": 2.49,
+    "paper_entries": [
+      {
+        "symbol": "RKLB",
+        "spot": 58.745,
+        "intraday_pct": 10.69,
+        "center": 59,
+        "wings": [
+          51,
+          67
+        ],
+        "W": 8,
+        "legs_mid": {
+          "59C": 3.6,
+          "59P": 3.775,
+          "51P": 0.925,
+          "67C": 1.06
+        },
+        "credit_mid": 5.39,
+        "max_loss": 261.0,
+        "breakevens": [
+          53.61,
+          64.39
+        ],
+        "natural_credit": 5.14,
+        "straddle_pct": 12.55,
+        "edge_ratio": 0.824,
+        "atm_spread_pct": 4.7,
+        "blocked_by": "intraday > 7% (+10.7%)"
+      },
+      {
+        "symbol": "ZETA",
+        "spot": 32.24,
+        "intraday_pct": 3.9,
+        "center": 32.5,
+        "wings": [
+          27,
+          38
+        ],
+        "W": 5.5,
+        "legs_mid": {
+          "32.5C": 2.25,
+          "32.5P": 2.755,
+          "27P": 0.525,
+          "38C": 0.54
+        },
+        "credit_mid": 3.94,
+        "max_loss": 156.0,
+        "breakevens": [
+          28.56,
+          36.44
+        ],
+        "natural_credit": 3.27,
+        "straddle_pct": 15.52,
+        "edge_ratio": 0.833,
+        "edge_parity_adj": 0.876,
+        "atm_spread_pct": 20.6,
+        "blocked_by": "risk_unchecked (no sentinel entry); raw-mid edge passes only on a wide 32.5P quote (2.31x3.20), parity-adjusted edge is no_edge"
+      },
+      {
+        "symbol": "HIMS",
+        "spot": 23.35,
+        "intraday_pct": -10.19,
+        "center": 23.5,
+        "wings": [
+          17,
+          30
+        ],
+        "W": 6.5,
+        "legs_mid": {
+          "23.5C": 1.755,
+          "23.5P": 1.885,
+          "17P": 0.085,
+          "30C": 0.23
+        },
+        "credit_mid": 3.325,
+        "max_loss": 317.5,
+        "breakevens": [
+          20.18,
+          26.82
+        ],
+        "natural_credit": 3.2,
+        "straddle_pct": 15.59,
+        "edge_ratio": 0.66,
+        "atm_spread_pct": 6.0,
+        "blocked_by": "intraday > 7% (-10.2%) with stock-specific news"
+      }
+    ],
+    "scoring": "Tue 2026-11-10 06:45 PT: re-quote each leg at mid; paper P/L = (credit_mid - cost_to_close_mid) x 100"
   }
 }
