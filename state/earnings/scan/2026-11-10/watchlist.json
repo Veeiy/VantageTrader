@@ -1,0 +1,30 @@
+{
+  "date": "2026-11-10",
+  "as_of": "2026-11-10T15:05Z (07:05 PT)",
+  "expiry": "2026-11-13",
+  "exit": "Wed 2026-11-11 06:45 PT check-in (Veterans Day: stocks open, bonds closed)",
+  "account_vetoes": ["circuit_breaker: account value $250 < $400 (clears if Brad deposits >= $150)"],
+  "macro": {"veto_all": false, "note": "October CPI hot: headline +0.4% vs +0.3%, core +0.3% vs +0.2%; Dec hike ~85-90% priced; SPY -0.6% at 06:46 PT; no tier-1 release before Wed 10:00 ET"},
+  "candidates": [
+    {"rank": 1, "symbol": "RGTI", "timing": "pm", "report_date": "2026-11-10", "spot": 12.39, "intraday_pct": -4.55,
+     "edge_ratio": 0.749, "atm_spread_pct": 10.0, "regime_20d": 5.39, "avg_abs_move": 7.68, "median_abs_move": 6.72, "n_hist": 6,
+     "structure": "iron fly 12.5: -12.5C/-12.5P, +15.5C/+9.5P (W=3)", "credit_mid": 1.37, "credit_natural": 1.26,
+     "max_loss_mid": 163, "max_loss_natural": 174, "breakevens": [11.13, 13.87], "hist_beyond_be": "1/6",
+     "alt": "W=4 (+16.5C/+8.5P) credit 1.43, max loss $257",
+     "watch": "ATM strike flips to 12.0 if spot < 12.25; intraday touched -5.5% (5-7% exception: quantum peers down after QBTS miss, no RGTI-specific news)",
+     "sentinel": "report confirmed 5:00 PM ET call; sector context only (quantum -18% on 11/05, QBTS EPS miss today); no stock-specific news"},
+    {"rank": 2, "symbol": "FLY", "timing": "pm", "report_date": "2026-11-10", "spot": 24.25, "intraday_pct": -0.25,
+     "edge_ratio": 0.599, "atm_spread_pct": 22.5, "regime_20d": 6.91, "avg_abs_move": 7.93, "median_abs_move": 5.54, "n_hist": 5,
+     "structure": "iron fly 24: -24C/-24P, +28C/+20P (W=4)", "credit_mid": 2.675, "credit_natural": 2.00,
+     "max_loss_mid": 132.5, "max_loss_natural": 200, "breakevens": [21.33, 26.68], "hist_beyond_be": "2/5",
+     "alt": "W=6 (+30C/+18P) credit 3.25, max loss $275",
+     "watch": "thin: ATM put OI 4, several wings no bid, ~$55 mid-to-natural slippage; spread 12-25% so $350 cap applies; patient mid limits only",
+     "sentinel": "report confirmed; preview flags Alpha launch cut 4->3 vs $420-450M guide; no other news"}
+  ],
+  "near_misses": {"CRWV": "edge 0.956 no_edge (flags: credit stress, offering overhang)", "PBR": "edge 0.946 no_edge (political/oil risk)"},
+  "skipped": {
+    "no_nov13_weekly": ["MRCY", "REZI", "GO", "ALC", "SONO", "AZTA", "ATRO", "BV", "ATEX", "GIB", "FLNG", "ICL", "BGSI", "NYAX"],
+    "price_lt_10": ["STUB", "AMPX", "NN", "RUM"]
+  },
+  "paper_scoring": "If no entry, re-quote RGTI and FLY flies at the 11:46 ENTRY check-in as paper entries; score Wed 06:45 PT."
+}
