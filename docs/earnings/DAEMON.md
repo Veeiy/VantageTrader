@@ -4,8 +4,12 @@ Brad, 2026-11-10: "If a trade opens we need daemon agents live monitoring."
 
 ## What a daemon is
 - One read-only background agent per open position, started by the head agent.
-- It polls about every 3 minutes during market hours and reports to the head with
-  `SendMessage(to: "main")` when a trigger fires. It keeps running after a report.
+- It polls during market hours and reports to the head with `SendMessage(to: "main")`
+  when a trigger fires. It keeps running after a report.
+- Cadence (2026-11-10, cost): **every 10 minutes by default** (`{WAIT}` = 590). Use the
+  tight cadence of 3 minutes (`{WAIT}` = 170) only when the stock is within 30% of the
+  wing width of a breakeven, on expiration day, or while an exit order is being worked.
+  Three daemons at 3 minutes used about 475k tokens in one afternoon.
 - It never places, reviews, replaces or cancels orders and never edits files. The head
   agent is the only writer of orders, the journal and `positions.json`.
 - It lives only while the session's container is alive. The 06:45 check-in starts
@@ -31,12 +35,14 @@ Legs: {LEGS with option ids and sides}. Entry credit about {CREDIT}; wing width 
 Breakevens {BE_LOW} / {BE_HIGH}. Driver: {DRIVER and dates}.
 
 Loop until {END_UTC} (check `date -u` each cycle). To wait between polls run
-`python3 -c "import time; time.sleep(170)"` with a 300000 ms timeout.
+`python3 -c "import time; time.sleep({WAIT})"` with a 600000 ms timeout.
 Every cycle: get_equity_quotes([{SYMBOL}]).
-Every 5th cycle, or at once if the stock moved {FAST_MOVE} since the last leg check:
+Every 3rd cycle (every 5th at the tight cadence), or at once if the stock moved
+{FAST_MOVE} since the last leg check:
   get_option_quotes for the legs; close_cost = short mids - long mids.
-Every 10th cycle: WebSearch for news on the driver.
-Every 5th cycle: get_option_positions (nonzero) and get_equity_positions.
+Every 6th cycle (every 10th at the tight cadence): WebSearch for news on the driver.
+Every 3rd cycle (every 5th at the tight cadence): get_option_positions (nonzero) and
+get_equity_positions.
 
 Report to main at once (one compact JSON line, then keep monitoring; do not repeat the
 same trigger more than once every 30 minutes unless it gets worse):
