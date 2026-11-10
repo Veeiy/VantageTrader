@@ -1,37 +1,63 @@
 {
-  "as_of": "2026-11-10T16:50Z",
-  "account_value": 1250,
+  "as_of": "2026-11-10T19:16Z",
+  "account_value": 1225,
   "cap_total_max_loss": 650,
-  "open": [],
-  "blockers": [
-    "2026-11-10: Robinhood rejects agent-placed multi-leg orders (approval required, multi-leg cannot be sent for approval). Until Brad fixes the setting or Robinhood supports it, Brad must place and close multi-leg trades in the app from tickets."
-  ],
-  "pending": [
+  "execution": {
+    "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
+    "method": "single-leg limit orders: buy both wings first, then sell the body legs. To close: buy back the shorts first, then sell the wings. Never sell a wing while its short leg is open.",
+    "approval": "single-leg orders need no customer approval while human_must_approve_trades=false"
+  },
+  "open": [
     {
       "symbol": "PCG",
       "kind": "non_earnings",
       "structure": "iron fly 12/13/14",
       "expiry": "2026-11-20",
       "quantity": 4,
+      "opened": "2026-11-10T19:14:18Z",
       "legs": {
-        "short_13C": "2b96e166-e512-437c-b2eb-8c39755a6892",
-        "short_13P": "1319c643-e02f-453c-8a89-daf5a9232d1a",
-        "long_14C": "1b762445-7484-4149-b654-36759f98d5f2",
-        "long_12P": "cc6a019f-3537-4fc8-9e1e-7e0a5fa91f51"
+        "short_13C": {
+          "option_id": "2b96e166-e512-437c-b2eb-8c39755a6892",
+          "fill": 0.65
+        },
+        "short_13P": {
+          "option_id": "1319c643-e02f-453c-8a89-daf5a9232d1a",
+          "fill": 0.43
+        },
+        "long_14C": {
+          "option_id": "1b762445-7484-4149-b654-36759f98d5f2",
+          "fill": 0.3
+        },
+        "long_12P": {
+          "option_id": "cc6a019f-3537-4fc8-9e1e-7e0a5fa91f51",
+          "fill": 0.11
+        }
       },
-      "ticket": "net credit limit 0.68, floor 0.64; Brad enters it by hand while Robinhood blocks agent multi-leg orders",
-      "thesis": "IV rank 1.0 (Nov20 IV ~65% vs 10-day realized 18%). Options price a special session on wildfire liability (claimed bill deadline ~Nov 15-18); sentinel 11/10: no proclamation, nothing scheduled; no PSPS planned through 11/13.",
+      "net_credit": 0.67,
+      "max_loss_usd": 132,
+      "max_profit_usd": 268,
+      "exit_reserve_usd": 40,
+      "breakevens": [
+        12.33,
+        13.67
+      ],
+      "thesis": "IV rank 1.0 (Nov20 IV about 62% vs 10-day realized 18%). Options price a possible special session on wildfire liability (claimed bill deadline about Nov 15). Sentinel 11/10 11:08 PT: no proclamation, no bombshell.",
       "plan": {
-        "take_profit_close_cost": 0.34,
+        "take_profit_close_cost": 0.33,
         "cut_close_cost": 0.87,
         "near_breakeven": [
-          12.47,
-          13.53
+          12.48,
+          13.52
         ],
+        "fast_move_pct": 2.0,
         "exit_by": "2026-11-18 close",
-        "never_hold_into": "2026-11-20"
-      },
-      "daemon": "read-only PCG position-monitor daemon started 2026-11-10 ~08:50 PT; ends 12:55 PT; restart each market morning while open"
+        "never_hold_into": "2026-11-20",
+        "close_sequence": "buy to close 13C and 13P first (single-leg limits), then sell 14C and 12P"
+      }
     }
-  ]
+  ],
+  "blockers": [
+    "2026-11-10: Robinhood rejects agent-placed multi-leg orders. Workaround in use: single-leg legging (see execution)."
+  ],
+  "pending": []
 }
