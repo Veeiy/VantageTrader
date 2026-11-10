@@ -1,6 +1,6 @@
 {
-  "as_of": "2026-11-10T19:44Z",
-  "account_value": 1235,
+  "as_of": "2026-11-10T19:55Z",
+  "account_value": 1215,
   "cap_total_max_loss": 650,
   "execution": {
     "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
@@ -61,7 +61,7 @@
       "report": "2026-11-10 after close (call 14:00 PT)",
       "structure": "iron fly 9/12/15",
       "expiry": "2026-11-13",
-      "quantity": 2,
+      "quantity": 1,
       "opened": "2026-11-10T19:42:34Z",
       "legs": {
         "short_12C": {
@@ -82,9 +82,9 @@
         }
       },
       "net_credit": 1.28,
-      "max_loss_usd": 344,
-      "max_profit_usd": 256,
-      "exit_reserve_usd": 100,
+      "max_loss_usd": 172,
+      "max_profit_usd": 128,
+      "exit_reserve_usd": 50,
       "breakevens": [
         10.72,
         13.28
@@ -95,6 +95,54 @@
         "exit": "2026-11-11 06:45 PT check-in: close with single-leg limits, shorts first (the in-the-money short leg first), then sell the wings; flat by the 11/11 close at the latest",
         "max_close_cost": 3.5,
         "never_hold_into": "2026-11-13"
+      },
+      "note": "Trimmed from 2 contracts to 1 at 11:54 PT (rebalance to fit FLY; realized -$10.32 on the closed contract)."
+    },
+    {
+      "symbol": "FLY",
+      "kind": "earnings",
+      "report": "2026-11-10 after close (call 14:00 PT)",
+      "structure": "iron fly 19/23.5/27 (uneven wings: call 3.5 wide, put 4.5 wide)",
+      "expiry": "2026-11-13",
+      "quantity": 1,
+      "opened": "2026-11-10T19:53:28Z",
+      "legs": {
+        "short_23.5C": {
+          "option_id": "78cc8171-e6cd-4942-906b-d000df78fcca",
+          "fill": 1.7
+        },
+        "short_23.5P": {
+          "option_id": "a7bc0c3c-cd14-45dc-8912-6f861b5e622f",
+          "fill": 1.85
+        },
+        "long_27C": {
+          "option_id": "d346afe5-3429-4c1a-8f88-a9aba14b9dd3",
+          "fill": 0.6
+        },
+        "long_19P": {
+          "option_id": "8b26493e-139f-4db0-a6fd-09d21d23567c",
+          "fill": 0.3
+        }
+      },
+      "net_credit": 2.65,
+      "max_loss_usd": 185,
+      "max_loss_detail": {
+        "above_27": 85,
+        "below_19": 185
+      },
+      "max_profit_usd": 265,
+      "exit_reserve_usd": 50,
+      "breakevens": [
+        20.85,
+        26.15
+      ],
+      "entry_spot": 23.36,
+      "edge_ratio": 0.605,
+      "tick_size": 0.05,
+      "plan": {
+        "exit": "2026-11-11 06:45 PT check-in: close with single-leg limits in $0.05 ticks, shorts first (the in-the-money short leg first), then sell the wings; thin chain, so start at mid and be patient; flat by the 11/11 close at the latest",
+        "max_close_cost": 5.0,
+        "never_hold_into": "2026-11-13"
       }
     }
   ],
@@ -102,10 +150,11 @@
     "2026-11-10: Robinhood rejects agent-placed multi-leg orders. Workaround in use: single-leg legging (see execution)."
   ],
   "pending": [],
-  "buying_power": 773,
+  "buying_power": 750,
   "risk": {
-    "total_max_loss_usd": 476,
+    "total_max_loss_usd": 489,
     "exit_reserves_usd": 140,
-    "cap_usd": 650
+    "cap_usd": 650,
+    "detail": "PCG 132 + RGTI 172 + FLY 185; reserves 40 + 50 + 50"
   }
 }

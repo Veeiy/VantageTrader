@@ -174,11 +174,11 @@
         "symbol": "RGTI",
         "spot": 12.155,
         "intraday_pct": -6.36,
-        "structure": "iron fly 9/12/15 x2",
+        "structure": "iron fly 9/12/15 x1 (trimmed from x2 at 11:54 PT)",
         "fill_credit": 1.28,
         "mid_at_read": 1.325,
         "natural_at_read": 1.28,
-        "max_loss_usd": 344,
+        "max_loss_usd": 172,
         "breakevens": [
           10.72,
           13.28
@@ -196,23 +196,24 @@
           12.33,
           13.67
         ]
-      }
-    ],
-    "paper": [
+      },
       {
         "symbol": "FLY",
-        "spot": 23.25,
-        "intraday_pct": -4.36,
-        "structure": "iron fly 19.5/23.5/27.5",
-        "credit_mid": 2.7,
-        "credit_natural": 2.35,
-        "max_loss_mid": 130,
+        "spot": 23.36,
+        "intraday_pct": -3.9,
+        "structure": "iron fly 19/23.5/27 x1",
+        "fill_credit": 2.65,
+        "mid_at_read": 2.7,
+        "natural_at_read": 2.4,
+        "max_loss_usd": 185,
         "breakevens": [
-          20.8,
-          26.2
+          20.85,
+          26.15
         ],
-        "skip_reason": "risk budget used; natural is 87% of mid (floor 92%)"
+        "edge_ratio": 0.605,
+        "entered": "2026-11-10T19:53Z"
       }
-    ]
+    ],
+    "paper": []
   }
 }
