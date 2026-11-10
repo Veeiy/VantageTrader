@@ -1,6 +1,6 @@
 {
-  "as_of": "2026-11-10T19:55Z",
-  "account_value": 1215,
+  "as_of": "2026-11-10T21:01Z",
+  "account_value": 1179,
   "cap_total_max_loss": 650,
   "execution": {
     "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
@@ -53,6 +53,11 @@
         "exit_by": "2026-11-18 close",
         "never_hold_into": "2026-11-20",
         "close_sequence": "buy to close 13C and 13P first (single-leg limits), then sell 14C and 12P"
+      },
+      "entry_day_close": 13.25,
+      "eod_2026-11-10": {
+        "close_cost_mid_last": 0.785,
+        "note": "quotes went wide into the close (13P 0.37 x 0.60); about 0.69 at normal spreads"
       }
     },
     {
@@ -96,7 +101,11 @@
         "max_close_cost": 3.5,
         "never_hold_into": "2026-11-13"
       },
-      "note": "Trimmed from 2 contracts to 1 at 11:54 PT (rebalance to fit FLY; realized -$10.32 on the closed contract)."
+      "note": "Trimmed from 2 contracts to 1 at 11:54 PT (rebalance to fit FLY; realized -$10.32 on the closed contract).",
+      "entry_day_close": 12.12,
+      "eod_2026-11-10": {
+        "close_cost_mid_last": 1.19
+      }
     },
     {
       "symbol": "FLY",
@@ -143,6 +152,10 @@
         "exit": "2026-11-11 06:45 PT check-in: close with single-leg limits in $0.05 ticks, shorts first (the in-the-money short leg first), then sell the wings; thin chain, so start at mid and be patient; flat by the 11/11 close at the latest",
         "max_close_cost": 5.0,
         "never_hold_into": "2026-11-13"
+      },
+      "entry_day_close": 23.7,
+      "eod_2026-11-10": {
+        "close_cost_mid_last": 2.7
       }
     }
   ],
@@ -156,5 +169,6 @@
     "exit_reserves_usd": 140,
     "cap_usd": 650,
     "detail": "PCG 132 + RGTI 172 + FLY 185; reserves 40 + 50 + 50"
-  }
+  },
+  "eod_note": "2026-11-10 close: SPY 749.96 (-0.36%). RGTI and FLY report after the close; exits at the 06:45 PT check-in on 11/11. Daemons ended at the close with no action triggers (FLY drifted +2.0% in the last 15 minutes)."
 }
