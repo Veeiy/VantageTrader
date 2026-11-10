@@ -1,9 +1,37 @@
 {
-  "as_of": "2026-11-10T16:40Z",
+  "as_of": "2026-11-10T16:50Z",
   "account_value": 1250,
   "cap_total_max_loss": 650,
   "open": [],
   "blockers": [
     "2026-11-10: Robinhood rejects agent-placed multi-leg orders (approval required, multi-leg cannot be sent for approval). Until Brad fixes the setting or Robinhood supports it, Brad must place and close multi-leg trades in the app from tickets."
+  ],
+  "pending": [
+    {
+      "symbol": "PCG",
+      "kind": "non_earnings",
+      "structure": "iron fly 12/13/14",
+      "expiry": "2026-11-20",
+      "quantity": 4,
+      "legs": {
+        "short_13C": "2b96e166-e512-437c-b2eb-8c39755a6892",
+        "short_13P": "1319c643-e02f-453c-8a89-daf5a9232d1a",
+        "long_14C": "1b762445-7484-4149-b654-36759f98d5f2",
+        "long_12P": "cc6a019f-3537-4fc8-9e1e-7e0a5fa91f51"
+      },
+      "ticket": "net credit limit 0.68, floor 0.64; Brad enters it by hand while Robinhood blocks agent multi-leg orders",
+      "thesis": "IV rank 1.0 (Nov20 IV ~65% vs 10-day realized 18%). Options price a special session on wildfire liability (claimed bill deadline ~Nov 15-18); sentinel 11/10: no proclamation, nothing scheduled; no PSPS planned through 11/13.",
+      "plan": {
+        "take_profit_close_cost": 0.34,
+        "cut_close_cost": 0.87,
+        "near_breakeven": [
+          12.47,
+          13.53
+        ],
+        "exit_by": "2026-11-18 close",
+        "never_hold_into": "2026-11-20"
+      },
+      "daemon": "read-only PCG position-monitor daemon started 2026-11-10 ~08:50 PT; ends 12:55 PT; restart each market morning while open"
+    }
   ]
 }
