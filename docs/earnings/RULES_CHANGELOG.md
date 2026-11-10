@@ -76,3 +76,35 @@ Brad offered to add up to $1,900 and said the cap can go up "if it makes sense".
   2. After 10 closed live trades with positive net P/L: cap -> 30% of account value.
 - Step down: unchanged circuit breaker (2 max losses in a row, 3 losses in a row,
   account value < $400).
+
+## v1.2 (2026-11-10): non-earnings trades and active management
+
+Brad, after funding the account to $1,250: "Its ok to place non earnings trades. Just
+continuously monitor and take profit when you see fit or cut when as well."
+
+### Added: non-earnings premium-selling trades (head agent's discretion)
+- Allowed when a liquid name's options are rich for a reason we can name:
+  1. Screen: IV rank >= 0.8 and 30-day IV >= 1.15x the 10-day realized volatility,
+     average options volume >= 15,000 a day, price >= $10.
+  2. A news check names the driver and its dates (ruling, vote, FDA date, deadline).
+  3. Defined risk only (iron fly or iron condor), ATM bid-ask <= 25% of mid.
+- At most 1 non-earnings position at a time, risking at most $200 of the cap.
+- Open positions: up to 3 in total (2 earnings + 1 non-earnings).
+- Unchanged hard limits: MCP account only, limit orders only, never TSLA, total max
+  loss across ALL open positions <= $650 (shared cap), circuit breaker, flat by
+  11:00 PT on expiration day.
+- Exit reserve: $50 per contract for earnings flies (unchanged). For flies with wings
+  of $1.50 or less: $10 per contract, and never pay more than the wing width to close.
+
+### Added: active management (all positions)
+- Monitoring: hourly check-ins from 07:15 to 12:15 PT on market days while a position
+  is open, on top of the 06:45, 09:45, 11:46 and 12:17 check-ins. This is not
+  tick-by-tick; the wings cover the gaps.
+- Take profit: close at >= 50% of max profit, or once the driver has passed and the
+  premium has deflated, or earlier when the remaining upside is small next to the risk.
+- Cut: close when the stock holds beyond a breakeven for 30 minutes, when the mark shows
+  a loss >= 60% of max loss with more than a day left, or when the thesis breaks.
+- Earnings flies: still closed the morning after the report. The order may be worked
+  through the morning; never held past that day's close.
+- Every entry, adjustment and exit goes in `state/earnings/journal.jsonl` with the
+  reason, and open positions live in `state/earnings/positions.json`.
