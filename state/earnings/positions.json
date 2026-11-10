@@ -2,5 +2,8 @@
   "as_of": "2026-11-10T16:40Z",
   "account_value": 1250,
   "cap_total_max_loss": 650,
-  "open": []
+  "open": [],
+  "blockers": [
+    "2026-11-10: Robinhood rejects agent-placed multi-leg orders (approval required, multi-leg cannot be sent for approval). Until Brad fixes the setting or Robinhood supports it, Brad must place and close multi-leg trades in the app from tickets."
+  ]
 }
