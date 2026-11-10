@@ -100,5 +100,71 @@
     "risk_budget_total_max_loss": 650,
     "exit_reserve_per_contract": 50
   },
-  "entry_plan": "11:46 PT: RGTI x2 if it still passes v1.1; FLY x1 only at >= 92% of mid (else RGTI x3 if budget allows). Total max loss + $50/contract reserve <= $650."
+  "entry_plan": "11:46 PT: RGTI x2 if it still passes v1.1; FLY x1 only at >= 92% of mid (else RGTI x3 if budget allows). Total max loss + $50/contract reserve <= $650.",
+  "midday_0947": {
+    "as_of": "2026-11-10T17:47Z (09:47 PT)",
+    "spy_pct": -0.96,
+    "RGTI": {
+      "spot": 12.2,
+      "intraday_pct": -6.0,
+      "atm_strike": 12.0,
+      "straddle_mid": 1.385,
+      "straddle_pct": 11.35,
+      "edge_ratio": 0.796,
+      "atm_spread_pct": 9.4,
+      "fly": "9P/12/15C (W=3)",
+      "credit_mid": 1.295,
+      "credit_natural": 1.22,
+      "max_loss_mid": 170.5,
+      "max_loss_natural": 178,
+      "breakevens": [
+        10.705,
+        13.295
+      ],
+      "legs": {
+        "12C": "520e0812-23e8-4362-8a75-6b5db8818cd3",
+        "12P": "16919b4d-2c68-43ce-b90e-e0165105e97a",
+        "15C": "9d68d3d0-5306-4e5b-8754-1439c4f13890",
+        "9P": "206ea6d7-2a79-44d3-9e2c-5f875055fa27",
+        "12.5C": "bbbca1d2-e6a8-4ca9-8e9a-a39b310d9d51",
+        "12.5P": "030d27e8-155b-41f2-b79d-8e7abf723214",
+        "15.5C": "64203427-32c8-4fa3-bdcf-2074b0abe06b",
+        "9.5P": "96a28ba8-1252-4340-85dd-84a0db916130"
+      },
+      "status": "passes; intraday in the 5-7% band, allowed by sector move (QUBT -8.9%, QBTS -10.9% on its report, IONQ -2.6%) and no RGTI-specific news found; fails below $12.07 (-7%)"
+    },
+    "FLY": {
+      "spot": 23.34,
+      "intraday_pct": -4.0,
+      "atm_strike": 23.5,
+      "straddle_mid": 3.55,
+      "straddle_pct": 15.2,
+      "edge_ratio": 0.613,
+      "atm_spread_pct": 16.9,
+      "fly": "19.5P/23.5/27.5C (W=4)",
+      "credit_mid": 2.7,
+      "credit_natural": 2.25,
+      "max_loss_mid": 130,
+      "max_loss_natural": 175,
+      "breakevens": [
+        20.8,
+        26.2
+      ],
+      "legs": {
+        "23.5C": "78cc8171-e6cd-4942-906b-d000df78fcca",
+        "23.5P": "a7bc0c3c-cd14-45dc-8912-6f861b5e622f",
+        "27.5C": "907cbb1e-27ed-47dd-b212-89fa2e0f4190",
+        "19.5P": "fcbb1e87-4d8e-48d7-a160-d4618d324696"
+      },
+      "status": "passes; spread in the 12-25% band ($350 cap); thin (23.5P open interest 9)"
+    },
+    "account": {
+      "flat": true,
+      "pcg_ticket": "not entered yet (PCG 13.28)"
+    },
+    "ranking": [
+      "RGTI",
+      "FLY"
+    ]
+  }
 }
