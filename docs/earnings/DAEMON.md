@@ -14,8 +14,9 @@ Brad, 2026-11-10: "If a trade opens we need daemon agents live monitoring."
 
 ## Head agent duties when a daemon reports
 1. Re-quote and confirm the trigger.
-2. Act under v1.2 (take profit, cut, or hold) with a closing limit order. If Robinhood
-   rejects the multi-leg order, send Brad the exact close ticket and a push notification.
+2. Act under v1.2 (take profit, cut, or hold). Close with single-leg limit orders (v1.2.1
+   in `RULES_CHANGELOG.md`): buy back the short legs first, then sell the wings. If an
+   order is rejected, send Brad the exact close ticket and a push notification.
 3. Journal the action, update `state/earnings/positions.json`, commit and push.
 
 ## Brief template (fill the braces)

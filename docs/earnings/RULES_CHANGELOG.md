@@ -108,3 +108,37 @@ continuously monitor and take profit when you see fit or cut when as well."
   through the morning; never held past that day's close.
 - Every entry, adjustment and exit goes in `state/earnings/journal.jsonl` with the
   reason, and open positions live in `state/earnings/positions.json`.
+
+## v1.2.1 (2026-11-10): execution by single-leg orders (legging)
+
+Robinhood rejects every agent-placed multi-leg order ("requires the customer to approve
+agent-placed trades, and a multi-leg strategy cannot be sent for approval yet"), even with
+`human_must_approve_trades=false`. Single-leg orders are accepted with no approval, so all
+entries and exits are built leg by leg until multi-leg orders work again. Retry one
+multi-leg order once a week (Friday) to see whether the block is gone.
+
+### Entry (iron fly)
+1. Buy both wings first (single-leg limit orders, start at mid, step up a penny at a time).
+2. Check `review_option_order` for the first short leg: collateral must equal the spread
+   width (wing held), with no alert. If it shows a cash-secured or naked amount, stop.
+3. Sell one short side, then the other. With one side on, the other side should need $0
+   extra collateral (Robinhood recognizes the iron fly). Confirm in the review.
+4. Never leave a short leg on without its wing. Finish both short sides in one sitting: a
+   single side on its own is a directional spread with a larger max loss than the fly.
+5. Net credit floor is unchanged: sum of fills >= max(natural, 0.92 x mid) of the fly.
+   Work out the minimum price for the last leg from the fills so far before sending it.
+6. To change a working order: cancel it, confirm `cancelled` with zero fills, then place
+   the new one with a new ref_id (there is no replace tool in this session).
+
+### Exit
+1. Buy to close the short legs first (single-leg limits at mid, walk toward the ask).
+   Start with the short leg that is in the money or closest to it.
+2. Only after a short leg is flat, sell its wing (or let a worthless wing expire when its
+   bid is zero; never sell a wing while its short leg is still open).
+3. The price caps are unchanged: total cost to close (short buybacks minus wing sales)
+   never above the wing width (+$0.50 only for earnings flies with wings over $1.50).
+
+### Proven on 2026-11-10
+- RGTI 12P x2 short: review collateral $2,400 with no wing, $600 with the 9P wing held.
+- PCG fly x4: put side on = $400 collateral; call side review then showed $0 extra.
+- PCG fills, all at or near mid within seconds: 12P 0.11, 14C 0.30, 13P 0.43, 13C 0.65.
