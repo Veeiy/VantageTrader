@@ -166,5 +166,53 @@
       "RGTI",
       "FLY"
     ]
+  },
+  "entry_1138": {
+    "as_of": "2026-11-10T19:38Z",
+    "live": [
+      {
+        "symbol": "RGTI",
+        "spot": 12.155,
+        "intraday_pct": -6.36,
+        "structure": "iron fly 9/12/15 x2",
+        "fill_credit": 1.28,
+        "mid_at_read": 1.325,
+        "natural_at_read": 1.28,
+        "max_loss_usd": 344,
+        "breakevens": [
+          10.72,
+          13.28
+        ],
+        "edge_ratio": 0.776
+      },
+      {
+        "symbol": "PCG",
+        "kind": "non_earnings",
+        "spot": 13.23,
+        "structure": "iron fly 12/13/14 x4 (Nov 20)",
+        "fill_credit": 0.67,
+        "max_loss_usd": 132,
+        "breakevens": [
+          12.33,
+          13.67
+        ]
+      }
+    ],
+    "paper": [
+      {
+        "symbol": "FLY",
+        "spot": 23.25,
+        "intraday_pct": -4.36,
+        "structure": "iron fly 19.5/23.5/27.5",
+        "credit_mid": 2.7,
+        "credit_natural": 2.35,
+        "max_loss_mid": 130,
+        "breakevens": [
+          20.8,
+          26.2
+        ],
+        "skip_reason": "risk budget used; natural is 87% of mid (floor 92%)"
+      }
+    ]
   }
 }

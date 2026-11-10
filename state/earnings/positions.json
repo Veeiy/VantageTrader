@@ -1,6 +1,6 @@
 {
-  "as_of": "2026-11-10T19:16Z",
-  "account_value": 1225,
+  "as_of": "2026-11-10T19:44Z",
+  "account_value": 1235,
   "cap_total_max_loss": 650,
   "execution": {
     "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
@@ -54,10 +54,58 @@
         "never_hold_into": "2026-11-20",
         "close_sequence": "buy to close 13C and 13P first (single-leg limits), then sell 14C and 12P"
       }
+    },
+    {
+      "symbol": "RGTI",
+      "kind": "earnings",
+      "report": "2026-11-10 after close (call 14:00 PT)",
+      "structure": "iron fly 9/12/15",
+      "expiry": "2026-11-13",
+      "quantity": 2,
+      "opened": "2026-11-10T19:42:34Z",
+      "legs": {
+        "short_12C": {
+          "option_id": "520e0812-23e8-4362-8a75-6b5db8818cd3",
+          "fill": 0.75
+        },
+        "short_12P": {
+          "option_id": "16919b4d-2c68-43ce-b90e-e0165105e97a",
+          "fill": 0.63
+        },
+        "long_15C": {
+          "option_id": "9d68d3d0-5306-4e5b-8754-1439c4f13890",
+          "fill": 0.08
+        },
+        "long_9P": {
+          "option_id": "206ea6d7-2a79-44d3-9e2c-5f875055fa27",
+          "fill": 0.02
+        }
+      },
+      "net_credit": 1.28,
+      "max_loss_usd": 344,
+      "max_profit_usd": 256,
+      "exit_reserve_usd": 100,
+      "breakevens": [
+        10.72,
+        13.28
+      ],
+      "entry_spot": 12.13,
+      "edge_ratio": 0.776,
+      "plan": {
+        "exit": "2026-11-11 06:45 PT check-in: close with single-leg limits, shorts first (the in-the-money short leg first), then sell the wings; flat by the 11/11 close at the latest",
+        "max_close_cost": 3.5,
+        "never_hold_into": "2026-11-13"
+      }
     }
   ],
   "blockers": [
     "2026-11-10: Robinhood rejects agent-placed multi-leg orders. Workaround in use: single-leg legging (see execution)."
   ],
-  "pending": []
+  "pending": [],
+  "buying_power": 773,
+  "risk": {
+    "total_max_loss_usd": 476,
+    "exit_reserves_usd": 140,
+    "cap_usd": 650
+  }
 }
