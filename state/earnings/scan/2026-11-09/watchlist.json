@@ -261,5 +261,79 @@
       }
     ],
     "scoring": "Tue 2026-11-10 06:45 PT: re-quote each leg at mid; paper P/L = (credit_mid - cost_to_close_mid) x 100"
+  },
+  "score_1110_0646": {
+    "as_of": "2026-11-10T14:46Z (06:46 PT)",
+    "results": {
+      "RKLB": {
+        "entry_spot": 58.745,
+        "spot_0646": 58.05,
+        "earnings_move_pct": -1.38,
+        "move_from_entry_pct": -1.18,
+        "credit_mid": 5.39,
+        "close_mid": 4.29,
+        "close_natural": 4.52,
+        "pnl_mid": 110.0,
+        "pnl_natural_exit": 87.0,
+        "blocked_by": "intraday > 7% (+10.7%)"
+      },
+      "ZETA": {
+        "entry_spot": 32.24,
+        "spot_0646": 33.435,
+        "earnings_move_pct": 3.13,
+        "move_from_entry_pct": 3.71,
+        "credit_mid": 3.94,
+        "close_mid": 2.365,
+        "close_natural": 2.9,
+        "pnl_mid": 157.5,
+        "pnl_natural_exit": 104.0,
+        "blocked_by": "risk_unchecked (no sentinel entry); raw-mid edge passes only on a wide 32.5P quote (2.31x3.20), parity-adjusted edge is no_edge"
+      },
+      "HIMS": {
+        "entry_spot": 23.35,
+        "spot_0646": 20.74,
+        "earnings_move_pct": -9.59,
+        "move_from_entry_pct": -11.18,
+        "credit_mid": 3.325,
+        "close_mid": 3.04,
+        "close_natural": 3.22,
+        "pnl_mid": 28.5,
+        "pnl_natural_exit": 10.5,
+        "blocked_by": "intraday > 7% (-10.2%) with stock-specific news"
+      },
+      "ONON_straddle_offer": {
+        "entry_debit": 3.85,
+        "spot_entry": 37.525,
+        "spot_0646": 35.26,
+        "earnings_move_pct": -6.05,
+        "value_mid": 2.73,
+        "value_bid": 2.37,
+        "pnl_mid": -112.0,
+        "pnl_bid_exit": -148.0,
+        "note": "not placed (no deposit, window closed); straddle needed >10% move"
+      },
+      "other_skips_earnings_move_pct": {
+        "TTWO": {
+          "move": 4.0,
+          "skip": "budget (needed $405)"
+        },
+        "OXY": {
+          "move": -1.04,
+          "skip": "no_edge"
+        },
+        "TTD": {
+          "move": -0.74,
+          "skip": "intraday +10.2%"
+        },
+        "ONTO": {
+          "move": 3.55,
+          "skip": "intraday +8.8%"
+        },
+        "ASTS": {
+          "move": -2.68,
+          "skip": "intraday +14% (edge 0.40)"
+        }
+      }
+    }
   }
 }
