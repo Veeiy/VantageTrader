@@ -157,6 +157,8 @@ More live round trips come from more names, not from more risk. The $650 cap sta
 - If the cap is full and a new name passes every rule, the head agent may trim an existing
   position to 1 contract to make room (done on 11/10: RGTI 2 -> 1 for FLY, cost $10.32).
 - A name must still pass every v1.1/v1.2 rule. No rule is waived to reach a trade count.
+- Clarified: the cap is min($650, 0.93 x account value). It used to say buying power, which
+  already drops by the collateral of open positions and would count them twice.
 - Every passing name that is not traded still gets a paper entry (mid and natural).
 
 ### Exits
