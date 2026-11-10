@@ -60,3 +60,19 @@ would not have helped either: IREN and NET roughly matched or undershot their
 implied moves from entry time. Account value went from $750 to $650 on 11/05 from
 a $100 transfer to checking, not from trading; the risk budget now scales with
 buying power: min($650, 0.93 x BP) minus the $50 exit reserve.
+
+## Risk cap decision (2026-11-10)
+
+Brad offered to add up to $1,900 and said the cap can go up "if it makes sense". Decision
+(his call was delegated to the head agent): **the $650 total max-loss cap stays for now.**
+
+- No live fills yet; only paper results (week of 11/02 and 11/09).
+- A bigger balance does not raise size. It makes the same $650 about 30% of a $2,150
+  account instead of about 68% of a $950 account, so one max-loss night no longer trips
+  the $400 circuit breaker.
+- Step-up plan, each step only with Brad's yes at a Friday scorecard:
+  1. After 5 closed live trades with net P/L >= 0 and clean execution (no missed exit,
+     no unplanned assignment): cap -> $1,000.
+  2. After 10 closed live trades with positive net P/L: cap -> 30% of account value.
+- Step down: unchanged circuit breaker (2 max losses in a row, 3 losses in a row,
+  account value < $400).
