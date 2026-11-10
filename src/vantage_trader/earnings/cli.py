@@ -10,6 +10,8 @@ Additive options beyond the contract (all optional, contract invocations work as
   exit --journal (same default) adds a ``circuit_breaker`` block for context only; exits
     are produced and the exit code is 0 even when the breaker is tripped.
   reconcile --config for cancel_by.
+  live-metrics [--metrics PATH] summarises the live metrics dataset (read-only; an absent
+    file gives an empty summary).
 """
 from __future__ import annotations
 
@@ -20,10 +22,11 @@ from pathlib import Path
 from typing import Any
 
 from . import calibrate as calib
-from . import history, journal, reconcile, rules, scoring
+from . import history, journal, metrics, reconcile, rules, scoring
 from .config import EngineInputError, load_config
 
 DEFAULT_CONFIG = "config/earnings.yaml"
+DEFAULT_METRICS = "state/earnings/live_metrics.jsonl"
 
 
 class _Parser(argparse.ArgumentParser):
@@ -69,6 +72,8 @@ def build_parser() -> argparse.ArgumentParser:
     h = sub.add_parser("history")
     h.add_argument("--bars", required=True)
     h.add_argument("--events", required=True)
+    m = sub.add_parser("live-metrics")
+    m.add_argument("--metrics", default=DEFAULT_METRICS)
     return p
 
 
@@ -76,6 +81,8 @@ def run(argv: list[str] | None = None) -> tuple[dict[str, Any], int]:
     args = build_parser().parse_args(argv)
     if args.cmd == "history":
         return history.compute_all(_load_json(args.bars, "bars"), _load_json(args.events, "events")), 0
+    if args.cmd == "live-metrics":
+        return metrics.summarize(metrics.read_metrics(args.metrics)), 0
     cfg = _cfg(args)
     if args.cmd == "score":
         snap = _load_json(args.snapshot, "snapshot")

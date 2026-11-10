@@ -142,3 +142,33 @@ multi-leg order once a week (Friday) to see whether the block is gone.
 - RGTI 12P x2 short: review collateral $2,400 with no wing, $600 with the 9P wing held.
 - PCG fly x4: put side on = $400 collateral; call side review then showed $0 extra.
 - PCG fills, all at or near mid within seconds: 12P 0.11, 14C 0.30, 13P 0.43, 13C 0.65.
+
+## v1.3 (2026-11-10): data phase, more names at smaller size
+
+Brad, 11:45 PT: "Make sure you enter/exit atleast a few. We need to start getting data and
+training this model off of live metrics."
+
+More live round trips come from more names, not from more risk. The $650 cap stays.
+
+### Sizing while fewer than 10 live trades are closed
+- **1 contract per earnings name**, up to 2 earnings names a day (different sectors), plus
+  at most 1 non-earnings position. A third earnings name only if the total max loss plus
+  reserves still fits $650.
+- If the cap is full and a new name passes every rule, the head agent may trim an existing
+  position to 1 contract to make room (done on 11/10: RGTI 2 -> 1 for FLY, cost $10.32).
+- A name must still pass every v1.1/v1.2 rule. No rule is waived to reach a trade count.
+- Every passing name that is not traded still gets a paper entry (mid and natural).
+
+### Exits
+- Earnings flies: closed the morning after the report, as before.
+- Non-earnings: take profit at 50% of max profit, cut per v1.2, and do not let a position
+  sit past its plan date. A closed trade is a data point; an open one is not.
+
+### What gets recorded (see `docs/earnings/LIVE_METRICS.md`)
+- `state/earnings/live_metrics.jsonl`: one `entry` record per trade (signal numbers, fill
+  quality, risk) and one `exit` record (move, P/L, exit slippage, rule verdicts).
+- Journal exits must carry `pnl`, `realized_move` and `max_loss` so
+  `vantage_trader.earnings.calibrate` can use them. A partial close is a `heal` event with
+  `as_event: "qty_adjust"`, never `exit_filled` (that would pair with the entry).
+- Threshold changes still need 8 closed trades (`calibrate_min_trades`) and Brad's yes at
+  a Friday scorecard. Until then the numbers are reported, not acted on.
