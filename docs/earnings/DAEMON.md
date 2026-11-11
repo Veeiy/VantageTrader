@@ -127,3 +127,21 @@ Tests:
 - When a symbol is traded again, reuse its paused alerts: `update_alert` with the new
   threshold and `enabled=true`.
 - Leave any alert that is not listed in `positions.json` alone: it is Brad's own.
+
+## Backup trader (P012, in progress)
+
+Brad, 2026-11-11: "You should be monitoring and doing the trades" and "Yes p012 you need
+to be able to open trades as well."
+
+- Standby session: `session_018FLvMFxVeykhFJeoFnFB57`, "Backup trader (standby)", created
+  2026-11-11 06:06 PT with this repository (branch `ccr-ada2dc9a-o9lbyl`, same outcome
+  branch) and the account's connectors. It replaces the alert-only standby
+  `session_018FLvMGKFakzaDKfa4APDHz` once it is live.
+- It may place no order until Brad writes his authorization in that session himself. One
+  session cannot hand trading authority to another.
+- To build on 2026-11-11 after the morning exits, live from 2026-11-12:
+  `docs/earnings/FAILOVER.md` (procedure), a trader lease in the repository so only one
+  session trades on a given day (the push is the lock), dead-man's switches bound to the
+  standby for the exit (07:25 PT) and the entry (about 12:20 PT), a check of the lease at
+  the start of every head check-in, and a dry run.
+- Until then the two alert-only watchdogs above stay armed.
