@@ -20,6 +20,10 @@ Additive options beyond the contract (all optional, contract invocations work as
   proposals [--proposals PATH] prints the improvement proposals ledger by status.
   selfcheck [--journal --metrics --positions --lessons --proposals --config] checks that the
     journal, positions file, metrics and ledgers agree; exits 4 when any check fails.
+  project --input FILE prices a fly after the report over a spot x volatility grid (FILE is one
+    projection input object or a list of them; see projection.py).
+  project-check --input FILE --actual FILE splits the projection error into spot, volatility
+    and the rest (ACTUAL: {"SYMBOL": {"spot", "straddle_mid", "close_cost_mid", "fill_debit"?}}).
 """
 from __future__ import annotations
 
@@ -30,7 +34,7 @@ from pathlib import Path
 from typing import Any
 
 from . import calibrate as calib
-from . import health, history, journal, metrics, proposals, reconcile, reflect, rules, scoring
+from . import health, history, journal, metrics, projection, proposals, reconcile, reflect, rules, scoring
 from .config import EngineInputError, load_config
 
 DEFAULT_CONFIG = "config/earnings.yaml"
@@ -96,6 +100,11 @@ def build_parser() -> argparse.ArgumentParser:
     ls.add_argument("--lessons", default=DEFAULT_LESSONS)
     pp = sub.add_parser("proposals")
     pp.add_argument("--proposals", default=DEFAULT_PROPOSALS)
+    pj = sub.add_parser("project")
+    pj.add_argument("--input", required=True)
+    pc = sub.add_parser("project-check")
+    pc.add_argument("--input", required=True)
+    pc.add_argument("--actual", required=True)
     sc = sub.add_parser("selfcheck")
     sc.add_argument("--journal")
     sc.add_argument("--metrics", default=DEFAULT_METRICS)
@@ -116,6 +125,20 @@ def run(argv: list[str] | None = None) -> tuple[dict[str, Any], int]:
         return reflect.lessons_view(reflect.read_lessons(args.lessons)), 0
     if args.cmd == "proposals":
         return proposals.proposals_view(proposals.read_proposals(args.proposals)), 0
+    if args.cmd in ("project", "project-check"):
+        raw = _load_json(args.input, "projection input")
+        items = raw if isinstance(raw, list) else [raw]
+        if not items or not all(isinstance(i, dict) for i in items):
+            raise EngineInputError("projection input must be an object or a list of objects")
+        if args.cmd == "project":
+            return {"projections": [projection.project(i) for i in items]}, 0
+        actual = _load_json(args.actual, "actual")
+        if not isinstance(actual, dict):
+            raise EngineInputError("actual must be an object keyed by symbol")
+        missing = [i.get("symbol") for i in items if i.get("symbol") not in actual]
+        if missing:
+            raise EngineInputError(f"actual has no entry for {missing}")
+        return {"checks": [projection.attribute(i, actual[i["symbol"]]) for i in items]}, 0
     cfg = _cfg(args)
     if args.cmd == "selfcheck":
         out = health.selfcheck(args.journal or cfg["journal_path"], args.metrics, args.positions,

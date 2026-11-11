@@ -44,3 +44,26 @@ All records carry `trade_id` (`SYMBOL-YYYYMMDD-n`), `record`, `ts` (UTC), `symbo
   spread band and tick size, realized move over implied by edge-ratio bucket.
 - `calibrate` proposes threshold changes from the journal once 8 trades are closed.
 - Trades tagged `rebalance` are left out of edge statistics and kept for execution cost.
+
+## P/L projections (`state/earnings/projections.jsonl`)
+
+Brad, 2026-11-10: "Project the p/l factoring in the earnings iv crush. Then I want you to
+cross check from where they open tomorrow so we can hone in on accurate projections."
+
+For every earnings fly, the evening after the report:
+1. `projection` record: after-hours spot, the total standard deviation left to expiry
+   (two estimates: the forward variance between the front and next expiry, and the
+   pilot's median post/pre ratio), a spot x volatility grid of P/L, and the expected exit
+   slippage. Model: `vantage_trader/earnings/projection.py`.
+2. `actual` records the next morning, one at the open (first quotes after 06:30 PT) and
+   one at the exit: spot, the body straddle at mid, the four-leg close cost at mid, and
+   the fill. `project-check` splits the error into three parts:
+   - **spot**: the stock opened somewhere other than the after-hours price,
+   - **volatility**: the IV crush was bigger or smaller than assumed,
+   - **skew and quotes**: wings, stale or wide quotes; plus fill versus mid.
+3. Three numbers are tracked per name and pooled, and feed the next projection:
+   - `sigma_actual_over_projected` (and post/pre, the crush itself),
+   - `share_of_after_hours_move_kept` (exit spot move divided by the after-hours move),
+   - exit slippage versus mid in dollars.
+The daily reflection reports the running median absolute error. The model is revised
+when it stays above $25 a contract after 10 scored projections.

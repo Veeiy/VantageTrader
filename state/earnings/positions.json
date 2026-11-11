@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-11-10T21:01Z",
+  "as_of": "2026-11-11T03:05Z",
   "account_value": 1179,
   "cap_total_max_loss": 650,
   "execution": {
@@ -54,7 +54,7 @@
         "never_hold_into": "2026-11-20",
         "close_sequence": "buy to close 13C and 13P first (single-leg limits), then sell 14C and 12P"
       },
-      "entry_day_close": 13.25,
+      "entry_day_close": 13.23,
       "eod_2026-11-10": {
         "close_cost_mid_last": 0.785,
         "note": "quotes went wide into the close (13P 0.37 x 0.60); about 0.69 at normal spreads"
@@ -102,10 +102,12 @@
         "never_hold_into": "2026-11-13"
       },
       "note": "Trimmed from 2 contracts to 1 at 11:54 PT (rebalance to fit FLY; realized -$10.32 on the closed contract).",
-      "entry_day_close": 12.12,
+      "entry_day_close": 12.15,
       "eod_2026-11-10": {
         "close_cost_mid_last": 1.19
-      }
+      },
+      "report_result": "Q3 revenue $1.4M (down 28%, below forecast), operating loss $33.2M, kept the ~$20M 2026 revenue target (depends on one customer acceptance). After hours 11.66 at 18:47 PT.",
+      "projection": "state/earnings/projections.jsonl (made 2026-11-10 18:55 PT)"
     },
     {
       "symbol": "FLY",
@@ -156,7 +158,9 @@
       "entry_day_close": 23.7,
       "eod_2026-11-10": {
         "close_cost_mid_last": 2.7
-      }
+      },
+      "report_result": "Q3 revenue $110.7M (beat ~$103-106M), backlog $1.7B, FY guide raised to $440-450M, net loss $75.4M (wider than expected). After hours 23.42 at 18:33 PT.",
+      "projection": "state/earnings/projections.jsonl (made 2026-11-10 18:55 PT)"
     }
   ],
   "blockers": [

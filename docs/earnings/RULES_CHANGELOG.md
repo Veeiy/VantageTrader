@@ -129,6 +129,8 @@ multi-leg order once a week (Friday) to see whether the block is gone.
    Work out the minimum price for the last leg from the fills so far before sending it.
 6. To change a working order: cancel it, confirm `cancelled` with zero fills, then place
    the new one with a new ref_id (there is no replace tool in this session).
+7. When the broker rejects an order type, test the alternative with the cheapest possible
+   leg before committing size (the $4 put on 11/10).
 
 ### Exit
 1. Buy to close the short legs first (single-leg limits at mid, walk toward the ask).
