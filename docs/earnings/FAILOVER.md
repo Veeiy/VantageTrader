@@ -90,7 +90,11 @@ The head is working, and the standby stands down, when ANY of these is true:
 
 If the standby stands down because of 1 or 2 while the work is NOT done yet, it moves its
 own switch 15 minutes later (`update_trigger`, schedule only) and looks again then; at most
-twice. If the head session cannot be read, rely on 2 and 3.
+twice. On the third look test 1 no longer counts: a head that is busy but has placed no
+option order for 15 minutes while the work is still not done is not doing this job. The
+standby then takes the lease and does the work, and tells Brad with a push that the head was
+alive but not acting. (The head re-checks the lease before its first order, so it stops.)
+If the head session cannot be read, rely on 2 and 3.
 
 The head, for its part, pulls and runs `lease show` again right before the FIRST order of
 every run. If the standby holds today's lease by then, the head stops.
