@@ -415,3 +415,23 @@ Expect about 4-7 Opus subagents per run, 2 trading runs per weekday (06:45 and
 (a few dozen tool calls). To cut cost: skip wave B when calendar-scout returns zero
 candidates, cap candidates at 25 (5 vol-analyst batches), and skip the second opinion
 when the engine returns `no_trade`.
+
+
+## Scanner pre-filter (P016, 2026-11-11)
+
+Most earnings names have no weekly options, and finding that out one option chain at a time
+is the expensive part of a scan (2026-11-11: 39 of 45 names, two of three analysts returned
+nothing). The Robinhood scanner does it for free. Before any analyst is dispatched:
+
+1. `get_earnings_calendar` (high_market_cap) for the am/pm timing.
+2. One `preview_scan`: `FILTER_TYPE_EARNINGS_DATE` between today and the next trading day
+   (values as YYYYMMDD), `FILTER_TYPE_AVERAGE_OPTIONS_VOLUME` >= 1500 (1d, 30),
+   `FILTER_TYPE_LAST` >= 10, columns `ivRank`, `frontIV`, `backIV`. Nothing is saved.
+3. Analyze only names on both lists. A scanner name the calendar misses gets its timing from
+   `get_earnings_results`. Calendar names the scanner dropped go under `skipped` in the
+   watchlist file.
+4. One vol-analyst for up to 15 names (it still checks the expiry and the ATM spread first),
+   then the risk-sentinel on the names that pass, which also confirms the report time against
+   the company's own release.
+
+The head session never pulls daily bars itself (one symbol is about 25k tokens).
