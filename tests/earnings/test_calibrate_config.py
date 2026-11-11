@@ -93,7 +93,7 @@ def test_missing_config_file():
     {"wide_spread_max_loss": 400},
     {"data_phase_trades": 5},          # removed in v1.7: now an unknown key
     {"max_quantity": 11},
-    {"name_risk_frac": 0.2},
+    {"name_risk_frac": 0.3},
     {"name_risk_cap": 400},
     {"early_tranche_frac": 1.5},
     {"add_center_frac": 0.6},

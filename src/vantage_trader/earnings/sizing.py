@@ -10,7 +10,7 @@ budget   = cap - open_risk_usd (max loss + exit reserves of the positions alread
 Contracts per name (v1.7, owner 2026-11-11: "you can open more contracts for one ticker if
 it meets the criteria. or want to scale in as well."): size by risk, not by count.
 
-target   = min(name_risk_cap, name_risk_frac * account_value)   ($350 hard cap, 0.12)
+target   = min(name_risk_cap, name_risk_frac * account_value)   ($350 hard cap; 0.20 since v1.8)
            the max loss one name should carry, at the credit floor. It is a target, not
            a ceiling: contracts are rounded to the NEAREST whole number, so a name lands
            on either side of it. The ceilings are name_risk_cap and the budget.

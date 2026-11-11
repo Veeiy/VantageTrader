@@ -24,13 +24,14 @@ def test_no_data_phase_since_v17():
 
 
 def test_name_target():
-    assert sizing.name_target(1327.0, cfg()) == 159.24          # 12% of the account
+    assert sizing.name_target(1327.0, cfg(name_risk_frac=0.12)) == 159.24   # the v1.7 target
+    assert sizing.name_target(1327.0, cfg()) == 265.4            # v1.8: 20% of the account
     assert sizing.name_target(5000.0, cfg()) == 350.0           # never above the $350 name cap
     assert sizing.name_target(0.0, cfg()) == 0.0
 
 
 def test_plan_by_risk():
-    c = cfg()
+    c = cfg(name_risk_frac=0.12)
     p = sizing.plan(50.0, 50.0, 1327.0, 0.0, c)                 # 159.24 / 50 -> 3
     assert (p["planned"], p["now"], p["later"], p["binding"]) == (3, 3, 0, "name_target_reached")
     p = sizing.plan(50.0, 50.0, 1327.0, 0.0, c, phase="early")  # half the target: 79.62 / 50 -> 1
@@ -57,7 +58,7 @@ def test_plan_by_risk():
 
 
 def test_plan_adds_count_what_is_held():
-    c = cfg()
+    c = cfg(name_risk_frac=0.12)
     p = sizing.plan(50.0, 50.0, 1327.0, 94.0, c, held_qty=1, held_max_loss=44.0)       # (159.24-44)/50 -> 2
     assert (p["planned"], p["now"]) == (2, 2)
     p = sizing.plan(50.0, 50.0, 1327.0, 94.0, c, held_qty=1, held_max_loss=44.0, phase="early")

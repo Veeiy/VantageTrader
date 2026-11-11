@@ -39,6 +39,7 @@ def cand(base=LUNR, **over):
 
 
 def run(c, events=None, **cfg_over):
+    cfg_over.setdefault("name_risk_frac", 0.12)      # these cases were written at the v1.7 target
     return gate.evaluate(c, cfg(**cfg_over), events or [])
 
 
@@ -399,3 +400,11 @@ def test_cli_gate_bad_input_exit_2(tmp_path, capsys, monkeypatch, argv_fn, stdin
         monkeypatch.setattr("sys.stdin", io.StringIO(stdin))
     code, d = _call(capsys, argv_fn(tmp_path) + ["--journal", str(tmp_path / "none.jsonl")])
     assert code == 2 and "error" in d
+
+
+def test_v18_default_target_is_a_fifth_of_the_account():
+    # v1.8: 20% of $1,339 = $267.80 -> (267.8 - 44) / 50.64 = 4.4 -> 4 more on the held LUNR
+    rec, code = gate.evaluate(cand(held=HELD, open_risk_usd=266, phase="final"), cfg(), [])
+    assert code == 0 and rec["sizing"]["target"] == pytest.approx(267.8) and rec["contracts"] == 4
+    assert rec["max_loss"]["name_total_floor"] <= 350.0
+

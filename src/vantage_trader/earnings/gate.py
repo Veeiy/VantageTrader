@@ -58,7 +58,7 @@ Max loss is checked at the credit FLOOR max(natural, 0.92 x mid) of the fly, the
 price the execution rules accept; ``max_loss_mid`` is reported next to it. The exit reserve
 is $50 per earnings contract (the narrower $10 reserve applies to non-earnings flies).
 
-Contracts (v1.7, sizing.plan): sized by risk. The name's target is 12% of account value
+Contracts (v1.7 and v1.8, sizing.plan): sized by risk. The name's target is 20% of account value
 (never above $350). ``contracts`` is what may be entered at this check-in,
 ``contracts_planned`` what the name may still add in total, ``contracts_later`` the part
 that waits for the final window (from 11:30 PT). Before the final window a name carries at

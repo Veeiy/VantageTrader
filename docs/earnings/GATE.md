@@ -38,8 +38,8 @@ Band (a label only since P020, 2026-11-11: any passing name may be entered at an
 on its entry day): `tight` (edge <= 0.70), `final_sweep` (0.70 to 0.85), `no_edge` (above
 0.85), `long_straddle_off` (1.25 or more).
 
-Contracts (rules v1.7, `sizing.plan`): sized by risk. The name's target is a max loss of
-12% of account value, never above $350; new contracts are (target - max loss held) / max
+Contracts (rules v1.7 and v1.8, `sizing.plan`): sized by risk. The name's target is a max loss of
+20% of account value (12% until v1.8), never above $350; new contracts are (target - max loss held) / max
 loss of one contract, rounded to the nearest whole number, and never more than fits $350
 per name, the risk budget and 10 contracts. One contract is always allowed on a name with
 nothing held. Output: `contracts` (enter this many now), `contracts_planned` (what the name

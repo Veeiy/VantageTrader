@@ -430,3 +430,34 @@ After 10 closed trades under v1.7: early against final tranche credits on the sa
 and the result per dollar of risk against the 1-contract trades. The agent may move the
 target between 0 and 15% of the account under the delegation. More than $350 on one name
 needs Brad.
+
+## v1.8 (2026-11-11 11:00 PT): a bigger target per name
+Brad, with $266 of the $1,000 cap in use: "we have a ton of buying power. start putting the money to work."
+
+### Changed
+- The target max loss per earnings name goes from 12% to **20% of account value** (about
+  $267 on $1,336). Everything else in v1.7 stands: contracts rounded to the nearest whole
+  number, at most half the target before 11:30 PT, the add checks, and the ceilings ($350
+  per name, 10 contracts, the $1,000 total cap with reserves).
+- In code: `name_risk_frac` 0.20, hard cap 0.27 (the $350 name cap binds before it).
+
+### Unchanged
+- Every gate. A name that fails a rule is still not traded: more size goes only to names
+  that pass. Today that is LUNR (earnings) and PCG (non-earnings, limit $200 per name).
+- The non-earnings screen (v1.2). NVDA did not pass it on 2026-11-11; the NVDA fly opened
+  that day is an owner-directed trade, tagged `owner_directed` in the journal and the live
+  metrics so it can be scored apart from the model's own trades.
+
+### What it means, said once
+- Two earnings names at the new target plus reserves use about $750 of the $1,000 cap. A
+  night on which both hit their max loss costs about $530, 40% of the account, and two max
+  losses in a row trip the circuit breaker.
+- The agent's own read has not changed: the replay edge is about +3% to +6% of max loss per
+  trade with an error bar as large, and this size is near the growth-optimal bet only if
+  that edge is real. The size is the owner's call inside his limits. He reverses it with
+  one word ("back to 12%").
+
+### Review
+Same as v1.7: after 10 closed trades, result per dollar of max loss; and at once if the
+account falls under $1,000, where the agent will ask Brad whether to keep 20%.
+

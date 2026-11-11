@@ -69,7 +69,7 @@ DEFAULTS: dict[str, Any] = {
     "max_loss_abs": 1000.0,          # 2026-11-11: total risk cap min($1,000, 0.93 x account value)
     "max_loss_bp_frac": 0.93,
     "max_quantity": 10,              # v1.7: most contracts one name may hold (hard cap 10)
-    "name_risk_frac": 0.12,          # v1.7: max loss one name should carry, as a share of account value
+    "name_risk_frac": 0.20,          # v1.8: max loss one name should carry, as a share of account value (was 0.12 in v1.7)
     "name_risk_cap": 350.0,          # max loss per name at the credit floor (owner limit, hard cap $350)
     "early_tranche_frac": 0.5,       # v1.7: share of the name target that may be entered before the final window
     "add_center_frac": 0.25,         # v1.7: an add needs spot within this x body straddle of the body strike
@@ -124,7 +124,7 @@ HARD_CAPS: dict[str, tuple[str, float]] = {
     "wide_spread_pct": ("max", 0.12),
     "wide_spread_max_loss": ("max", 350.0),
     "max_quantity": ("max", 10),
-    "name_risk_frac": ("max", 0.15),
+    "name_risk_frac": ("max", 0.27),    # the $350 name cap is the binding owner limit
     "name_risk_cap": ("max", 350.0),
     "early_tranche_frac": ("max", 1.0),
     "add_center_frac": ("max", 0.5),

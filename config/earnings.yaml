@@ -32,7 +32,8 @@ max_loss_abs: 1000.0         # HARD CAP <= 1000. TOTAL cap across all open posit
 max_loss_bp_frac: 0.93       # HARD CAP <= 0.93
 # v1.7 (owner 2026-11-11: more contracts per name and scaling in are allowed): size by risk.
 max_quantity: 10             # HARD CAP <= 10. Most contracts one name may hold.
-name_risk_frac: 0.12         # HARD CAP <= 0.15. Max loss one name should carry, as a share of account value.
+name_risk_frac: 0.20         # HARD CAP <= 0.27. Max loss one name should carry, as a share of account value
+                             # (v1.8, owner 2026-11-11: "start putting the money to work"; was 0.12).
 name_risk_cap: 350.0         # HARD CAP <= 350. Max loss per name at the credit floor (owner limit).
 early_tranche_frac: 0.5      # share of the name target that may be entered before the final window
 add_center_frac: 0.25        # an add needs spot within this x body straddle of the body strike
