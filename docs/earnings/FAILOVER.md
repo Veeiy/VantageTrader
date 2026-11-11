@@ -55,7 +55,7 @@ and no prompt argument.
 |---|---|---|---|---|---|
 | Standby exit | `trig_01NmMk2eNXRyukjX8pxGVcX3` | 07:25 PT | standby session | head, after the morning exits (or when none was due) | next trading day 07:25 PT |
 | Plain alert | `trig_017icjQMENwSGysKQAuAHttx` | 08:00 PT | a fresh session, no broker | head with the exit switch; or the standby after its exit takeover | next trading day 08:00 PT |
-| Standby entry | `trig_01E1KZZayvkKf2PJJYhRLY8M` | 12:20 PT | standby session | head, after the day's entry decision (trades placed or a no-trade recorded) | next entry day (Mon to Thu) 12:20 PT |
+| Standby entry | `trig_01E1KZZayvkKf2PJJYhRLY8M` | 12:05 PT | standby session | head, after the day's entry decision (trades placed or a no-trade recorded) | next entry day (Mon to Thu) 12:05 PT |
 
 Order of the nets on a morning with an exit due: head 06:45 PT, head's hourly monitor
 07:15 PT, standby exit switch 07:25 PT, plain alert to Brad's phone 08:00 PT. Brad is only
@@ -79,14 +79,29 @@ only point at this file. Change the procedure here.
 Every head instruction in `docs/earnings/prompts/` starts with these steps, and the stored
 prompt of each scheduled task repeats them.
 
+## Is the head working? (the test both takeovers use)
+The head is working, and the standby stands down, when ANY of these is true:
+1. The head session is active: `get_session session_018FLvMEhsok7fEKo5QjYahD` shows a turn
+   running, or `list_events` on it shows an assistant or tool event in the last 5 minutes.
+2. An option order was created in the account in the last 15 minutes.
+3. The work this switch guards is already done (exits: every earnings position due this
+   morning is closed; entry: trades placed today, or a no-trade decision recorded in the
+   day's watchlist file).
+
+If the standby stands down because of 1 or 2 while the work is NOT done yet, it moves its
+own switch 15 minutes later (`update_trigger`, schedule only) and looks again then; at most
+twice. If the head session cannot be read, rely on 2 and 3.
+
+The head, for its part, pulls and runs `lease show` again right before the FIRST order of
+every run. If the standby holds today's lease by then, the head stops.
+
 ## Standby: exit takeover
 Fires at 07:25 PT when the head did not move the exit switch.
 1. `git pull --rebase origin ccr-ada2dc9a-o9lbyl`. Run `lease show`.
 2. Read the broker: `get_option_positions`, `get_equity_positions` and today's
    `get_option_orders`. Read `state/earnings/positions.json` and today's commits.
-3. Decide whether the head is working. It is working if an option order was created in
-   the last 15 minutes, or if every earnings position due this morning is already closed.
-   If it is working, do nothing, say so in one line, and stop.
+3. Apply "Is the head working?" above. If it is working, say so in one line and stop (after
+   moving this switch 15 minutes on when the exits are not done yet).
 4. Take the lease: `lease take --role standby --session session_018FLvMFxVeykhFJeoFnFB57
    --reason "<evidence: last order time, positions still open>"`. Commit only the lease
    file and push. On a rejected push, follow "The push is the lock".
@@ -101,13 +116,13 @@ Fires at 07:25 PT when the head did not move the exit switch.
 8. Run `selfcheck`, commit and push. Tell Brad (below).
 
 ## Standby: entry takeover
-Fires at 12:20 PT when the head did not move the entry switch.
+Fires at 12:05 PT when the head did not move the entry switch.
 1. `git pull --rebase origin ccr-ada2dc9a-o9lbyl`. Run `lease show`.
 2. Read the broker: open positions and today's `get_option_orders`. Read the repo: today's
    journal entries and commits.
-3. Decide whether the head is working. It is working if an option order was created in
-   the last 15 minutes, or if today's entry decision is already made (trades placed or a
-   no-trade posted). If it is working, do nothing, say so in one line, and stop.
+3. Apply "Is the head working?" above. If it is working, say so in one line and stop (after
+   moving this switch 15 minutes on when the entry decision is not made yet; never past
+   12:35 PT).
 4. Take the lease with a reason (skip this if the standby already holds today), commit
    only the lease file and push. On a rejected push, follow "The push is the lock".
 5. Use `state/earnings/scan/<date>/watchlist.json` if the head wrote one. If not, run the
@@ -117,11 +132,15 @@ Fires at 12:20 PT when the head did not move the entry switch.
    nothing after 12:50 PT; cancel anything unfilled by then.
 7. Journal, append the entry records, update `positions.json`, create the two breakeven
    alerts per position and record their ids, start a monitor daemon (`DAEMON.md`).
-8. Move this switch to 12:20 PT on the next entry day (Mon to Thu). Run `selfcheck`, commit and
+8. Move this switch to 12:05 PT on the next entry day (Mon to Thu). Run `selfcheck`, commit and
    push. Tell Brad (below).
 
-The standby keeps the day: while it holds today's lease it also does the hourly monitor
-duties (`docs/earnings/prompts/hourly_monitor.md`) for anything it opened or still holds.
+The standby keeps the day. The head's hourly monitor fires into the head session, so on a
+takeover day the standby schedules its own check-ins: `send_later` to itself every 60
+minutes until 12:55 PT, each one following `docs/earnings/prompts/hourly_monitor.md` (skip
+its FAILOVER sentence) for anything it opened or still holds, plus one read-only monitor
+daemon per open position (`docs/earnings/DAEMON.md`, brief template). A head that comes back
+the same day gets exit code 5 from `lease take` and stays out.
 
 ## What the standby tells Brad
 In 10 lines or fewer, with a push notification:

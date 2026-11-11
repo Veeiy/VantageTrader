@@ -194,7 +194,7 @@ table of switches: `docs/earnings/FAILOVER.md`. In short:
   what the head did not.
 - Plain alert `trig_017icjQMENwSGysKQAuAHttx` moved to 08:00 PT: Brad's phone only rings
   when both sessions failed.
-- Standby entry switch `trig_01E1KZZayvkKf2PJJYhRLY8M` (12:20 PT).
+- Standby entry switch `trig_01E1KZZayvkKf2PJJYhRLY8M` (12:05 PT).
 - The alert-only broker check `trig_01Vog3pw1jWDJhBzW9Z1uV8w` is switched off; its session
   (`session_018FLvMGKFakzaDKfa4APDHz`) is left as it is.
 - One trader at a time: `state/earnings/trader_lease.json`.

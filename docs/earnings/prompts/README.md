@@ -14,7 +14,7 @@ the file. One text, under version control, read by the head and by the standby
 | `hourly_monitor.md` | Positions: hourly monitor | `trig_012TXxzQAdCppBr1AWwNEksg` | minute 15, 07 to 12, Mon-Fri | this file |
 | `daily_reflection.md` | Daily reflection | `trig_01D3GLpqio93gGPGemaPBKhR` | 14:12 Mon-Fri | the task's stored prompt (this is a copy from 2026-11-11 06:20 PT) |
 | `standby_exit_switch.md` | Standby exit switch | `trig_01NmMk2eNXRyukjX8pxGVcX3` | 07:25, one-shot, moved daily | the task's stored prompt (copy) |
-| `standby_entry_switch.md` | Standby entry switch | `trig_01E1KZZayvkKf2PJJYhRLY8M` | 12:20, one-shot, moved daily | the task's stored prompt (copy) |
+| `standby_entry_switch.md` | Standby entry switch | `trig_01E1KZZayvkKf2PJJYhRLY8M` | 12:05, one-shot, moved daily | the task's stored prompt (copy) |
 
 The two standby switches are bound to the standby session, so their stored prompts cannot
 be edited from the head session. They only point at `docs/earnings/FAILOVER.md`.
