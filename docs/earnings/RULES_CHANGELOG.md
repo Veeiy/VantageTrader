@@ -201,3 +201,30 @@ Brad, asked whether to trade or skip NVDA's 11/17 report with a board investigat
   before the proposed briefing can produce headlines.
 - A pre-earnings NVDA premium sale is a non-earnings trade under v1.2: one such position
   at a time (PCG holds the slot as of 11/10) and at most $200 at risk.
+
+## v1.4 (2026-11-11): no daily limit on the number of trades
+
+Brad, 2026-11-11 06:08 PT: "Rule should be the ability to exit and enter trades. No limits
+per day for trades."
+
+### Changed
+- There is no limit on the number of trades per day or on the number of open positions.
+  This replaces "up to 2 earnings names a day" and "3 open positions in total" (v1.2,
+  v1.3) and "one non-earnings position at a time" (v1.2).
+- Every name that passes ALL the rules is entered, lowest edge ratio first (lesson L012),
+  for as long as the total risk budget allows.
+- The same applies to the backup trader (P012): it may exit and enter trades.
+
+### Unchanged (the agent's reading of the instruction; Brad to correct if he meant more)
+- Total risk cap: max loss across all open positions plus exit reserves at or under
+  min($650, 0.93 x account value). This is now the only limit on how many trades fit.
+- Every entry gate (edge ratio, regime guard, intraday move, spread, news check, macro
+  veto, price), defined risk only, limit orders only, never TSLA, the circuit breaker.
+- 1 contract per earnings name during the data phase (v1.3). A non-earnings trade still
+  risks $200 at most.
+- No two earnings names from the same sector on the same day (they move together).
+- Nothing is entered to reach a trade count.
+
+### Why the gates matter more now (replay of 2026-11-10)
+Selling every fly made about $6 a trade before costs and lost money after them. Only
+names at edge ratio 0.70 or under paid. More trades a day is fine; weaker trades are not.
