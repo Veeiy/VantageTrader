@@ -24,17 +24,26 @@ Additive options beyond the contract (all optional, contract invocations work as
     projection input object or a list of them; see projection.py).
   project-check --input FILE --actual FILE splits the projection error into spot, volatility
     and the rest (ACTUAL: {"SYMBOL": {"spot", "straddle_mid", "close_cost_mid", "fill_debit"?}}).
+  replay --events FILE --raw FILE [FILE ...] [--bars FILE] [--reports FILE [FILE ...]]
+    [--macro-entry-dates D1,D2] [--out FILE] [--all] [--no-calibrate] [--cost-frac X] [--config]
+    scores past earnings events from raw option prices collected by read-only agents
+    (docs/earnings/REPLAY.md). Writes one derived record per event to --out (JSONL) and prints
+    the summary. --all keeps events whose at-the-money prints fail the put-call parity check;
+    --cost-frac takes that share of the entry credit off each result as trading cost.
+    --bars may be a .json or a .json.gz file.
+  replay-summary --input FILE [--all] [--cost-frac X] re-summarises a derived file.
 """
 from __future__ import annotations
 
 import argparse
+import gzip
 import json
 import sys
 from pathlib import Path
 from typing import Any
 
 from . import calibrate as calib
-from . import health, history, journal, metrics, projection, proposals, reconcile, reflect, rules, scoring
+from . import health, history, journal, metrics, projection, proposals, reconcile, reflect, replay, rules, scoring
 from .config import EngineInputError, load_config
 
 DEFAULT_CONFIG = "config/earnings.yaml"
@@ -54,9 +63,68 @@ def _load_json(path: str, what: str) -> Any:
     if not p.exists():
         raise EngineInputError(f"{what} file not found: {path}")
     try:
+        if p.suffix == ".gz":
+            return json.loads(gzip.decompress(p.read_bytes()).decode())
         return json.loads(p.read_text())
-    except json.JSONDecodeError as e:
+    except (json.JSONDecodeError, OSError, UnicodeDecodeError) as e:
         raise EngineInputError(f"{what} is not valid JSON: {e}")
+
+
+def _load_jsonl(path: str, what: str) -> list[dict[str, Any]]:
+    p = Path(path)
+    if not p.exists():
+        raise EngineInputError(f"{what} file not found: {path}")
+    out = []
+    for n, line in enumerate(p.read_text().splitlines(), 1):
+        if not line.strip():
+            continue
+        try:
+            obj = json.loads(line)
+        except json.JSONDecodeError as e:
+            raise EngineInputError(f"{what} {path} line {n} is not valid JSON: {e}")
+        if not isinstance(obj, dict):
+            raise EngineInputError(f"{what} {path} line {n} must be an object")
+        out.append(obj)
+    return out
+
+
+def _replay(args: argparse.Namespace, cfg: dict[str, Any]) -> dict[str, Any]:
+    events = _load_json(args.events, "events")
+    if not isinstance(events, list) or not all(isinstance(e, dict) for e in events):
+        raise EngineInputError("events must be a list of objects")
+    raw: dict[str, dict[str, Any]] = {}
+    for path in args.raw:
+        for obj in _load_jsonl(path, "raw"):
+            sym = obj.get("symbol")
+            if not sym:
+                raise EngineInputError(f"raw record without symbol in {path}")
+            if sym in raw:
+                raise EngineInputError(f"raw record for {sym} appears twice")
+            raw[sym] = obj
+    bars = _load_json(args.bars, "bars") if args.bars else {}
+    reports: dict[str, Any] = {}
+    for path in args.reports or []:
+        for obj in _load_jsonl(path, "reports"):
+            reports[obj.get("symbol")] = obj.get("reports") or []
+    macro = [d.strip() for d in (args.macro_entry_dates or "").split(",") if d.strip()]
+    missing = [e.get("symbol") for e in events if e.get("symbol") not in raw]
+
+    def run_all(mult: dict[str, dict[str, float]] | None) -> list[dict[str, Any]]:
+        return [replay.derive(e, raw[e["symbol"]], bars.get(e["symbol"]), reports.get(e["symbol"]), cfg, macro, mult)
+                for e in events if e.get("symbol") in raw]
+
+    records = run_all(None)
+    calibration = replay.calibrate_wings(records)
+    if not args.no_calibrate:
+        records = run_all(calibration["mult"])
+    if args.out:
+        outp = Path(args.out)
+        outp.parent.mkdir(parents=True, exist_ok=True)
+        outp.write_text("".join(json.dumps(r, sort_keys=True) + "\n" for r in records))
+    return {"records": len(records), "events_without_raw": missing, "out": args.out,
+            "wing_multipliers_used": None if args.no_calibrate else calibration["mult"],
+            "macro_entry_dates": macro,
+            "summary": replay.summarize(records, clean_only=not args.all, cost_frac=args.cost_frac)}
 
 
 def _cfg(args: argparse.Namespace) -> dict[str, Any]:
@@ -105,6 +173,21 @@ def build_parser() -> argparse.ArgumentParser:
     pc = sub.add_parser("project-check")
     pc.add_argument("--input", required=True)
     pc.add_argument("--actual", required=True)
+    rp = sub.add_parser("replay")
+    rp.add_argument("--events", required=True)
+    rp.add_argument("--raw", required=True, nargs="+")
+    rp.add_argument("--bars")
+    rp.add_argument("--reports", nargs="+")
+    rp.add_argument("--macro-entry-dates", dest="macro_entry_dates")
+    rp.add_argument("--out")
+    rp.add_argument("--all", action="store_true")
+    rp.add_argument("--no-calibrate", dest="no_calibrate", action="store_true")
+    rp.add_argument("--cost-frac", dest="cost_frac", type=float, default=0.0)
+    rp.add_argument("--config")
+    rs = sub.add_parser("replay-summary")
+    rs.add_argument("--input", required=True)
+    rs.add_argument("--all", action="store_true")
+    rs.add_argument("--cost-frac", dest="cost_frac", type=float, default=0.0)
     sc = sub.add_parser("selfcheck")
     sc.add_argument("--journal")
     sc.add_argument("--metrics", default=DEFAULT_METRICS)
@@ -139,7 +222,12 @@ def run(argv: list[str] | None = None) -> tuple[dict[str, Any], int]:
         if missing:
             raise EngineInputError(f"actual has no entry for {missing}")
         return {"checks": [projection.attribute(i, actual[i["symbol"]]) for i in items]}, 0
+    if args.cmd == "replay-summary":
+        return replay.summarize(_load_jsonl(args.input, "replay records"), clean_only=not args.all,
+                                cost_frac=args.cost_frac), 0
     cfg = _cfg(args)
+    if args.cmd == "replay":
+        return _replay(args, cfg), 0
     if args.cmd == "selfcheck":
         out = health.selfcheck(args.journal or cfg["journal_path"], args.metrics, args.positions,
                                args.lessons, args.proposals)

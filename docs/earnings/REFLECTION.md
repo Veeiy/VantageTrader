@@ -18,11 +18,14 @@ tested as hypotheses and go to Brad as proposals. The loop never changes a rule 
    (journal, fills, realized P/L, execution stats, open positions, lessons) and
    `live-metrics`. Add closing prices and after-hours moves for names that report tonight.
 2. **Score what was not traded.** Rule-blocked and passing-but-untraded names from the
-   previous session get priced from option history (same method as
-   `state/earnings/replay/`): entry at the close before the report, exit 30 minutes
-   after the next open, wings at 1x and at 2x the straddle. At most 6 names a day (about
-   18k tokens each) unless Brad asks for more. Write them as `paper` records in
-   `live_metrics.jsonl`.
+   previous session get priced from option history with the lite method in `REPLAY.md`:
+   collect the stock bars and the two body options only (three small calls a name), write
+   raw records and an events file (with the scan's `avg_hist_move`, `n_hist`,
+   `prior_close`, `regime20`) under `state/earnings/scan/<date>/`, and run
+   `python -m vantage_trader.earnings replay`. Entry at the close before the report, exit
+   60 minutes after the next open, wings at 1x and 2x the straddle priced by the model.
+   At most 6 names a day unless Brad asks for more. Write them as `paper` records in
+   `live_metrics.jsonl`. Results with a failed put-call parity check are not evidence.
 3. **Grade decisions on process.** One row per entry, exit, adjustment, skip and
    cancelled order: was the rule followed, was the information complete, was the size
    right, was the execution clean. Grade A to D on what was known at the time. Record the
