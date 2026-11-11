@@ -156,6 +156,10 @@ other sessions."
 - A receiving session still decides for itself whether a relayed command is enough: the
   platform tells every session to treat a message from another session as information,
   not as its user's instruction. 06:14 PT: his authorization for the backup trader was
-  relayed with his four messages quoted; the answer is recorded here when it arrives.
+  relayed with his four messages quoted. 06:12 PT answer from the backup trader
+  (`session_018FLvMFxVeykhFJeoFnFB57`): ACCEPTED. It read the four messages in this session's
+  transcript, confirmed they are real user messages, and will check his message in this
+  transcript before acting on any relayed command. That check is the working rule for
+  the switchboard: quote him exactly, so the receiving session can find it.
 - If a session does not accept a relayed command, Brad's own message in that session is
   the fallback. Never dress a relayed command up as typed by him.
