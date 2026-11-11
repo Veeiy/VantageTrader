@@ -170,5 +170,63 @@
     "cap_usd": 650,
     "detail": "PCG 132 + RGTI 172 + FLY 185; reserves 40 + 50 + 50"
   },
-  "eod_note": "2026-11-10 close: SPY 749.96 (-0.36%). RGTI and FLY report after the close; exits at the 06:45 PT check-in on 11/11. Daemons ended at the close with no action triggers (FLY drifted +2.0% in the last 15 minutes)."
+  "eod_note": "2026-11-10 close: SPY 749.96 (-0.36%). RGTI and FLY report after the close; exits at the 06:45 PT check-in on 11/11. Daemons ended at the close with no action triggers (FLY drifted +2.0% in the last 15 minutes).",
+  "watch": [
+    {
+      "symbol": "NVDA",
+      "kind": "earnings",
+      "report": "2026-11-17 after close",
+      "owner_decision": "2026-11-10 Brad: 'We can trade nvdia.' The news veto is waived for the board investigation (announced 11/08) and the House briefing request (proposed 11/18). All other gates apply. See RULES_CHANGELOG.",
+      "plan": "Enter Tue 11/17 near the close, 1 contract iron fly on the Nov 20 expiry at the strike nearest spot, wings sized so max loss + $50 fits the remaining budget (about $10 wide at 11/10 prices). Exit Wed 11/18 at the 06:45 PT check-in.",
+      "snapshot_2026-11-10_close": {
+        "spot": 168.79,
+        "after_hours": 170.44,
+        "nov13_170_straddle": 8.98,
+        "nov13_iv": [
+          0.7,
+          0.8
+        ],
+        "nov20_170_straddle": 18.5,
+        "nov20_iv": [
+          0.81,
+          0.86
+        ],
+        "nov20_fly_160_170_180": {
+          "credit_mid": 8.25,
+          "max_loss_usd": 175,
+          "breakevens": [
+            161.75,
+            178.25
+          ]
+        },
+        "nov20_fly_165_170_175": {
+          "credit_mid": 4.58,
+          "max_loss_usd": 42,
+          "breakevens": [
+            165.42,
+            174.58
+          ]
+        },
+        "implied_earnings_move_est": 0.08,
+        "hist_abs_moves_pct": [
+          3.25,
+          0.79,
+          3.15,
+          5.46,
+          1.77,
+          8.74
+        ],
+        "hist_avg_pct": 3.86
+      },
+      "nov20_option_ids": {
+        "170C": "f5d34fd0-9b1c-48a9-8ccc-acdfe05c3492",
+        "170P": "4a9c9837-6049-4c9a-b49d-b6f43e1e9acb",
+        "160P": "8df7e042-7d0e-4858-bae1-0479c52fe4eb",
+        "165P": "afe70a05-327b-4b6a-8208-19675c1b80e7",
+        "175C": "376aa83a-04a9-4149-9358-04207fa963ed",
+        "180C": "a3445353-ea9b-4d67-850c-704938381d56"
+      },
+      "tick": "0.01 below $3.00, 0.05 above"
+    }
+  ]
 }

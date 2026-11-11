@@ -182,3 +182,20 @@ Brad: "Lets setup a self reflection learning loop after each trading day." Proce
 The loop can change how the rules are carried out (execution, process and data lessons in
 `state/earnings/lessons.jsonl`). It cannot change a rule or a risk limit: those stay
 hypotheses until Brad approves them, and each approval is recorded in this file.
+
+## Owner decision: NVDA is tradable (2026-11-10)
+
+Brad, asked whether to trade or skip NVDA's 11/17 report with a board investigation open:
+"We can trade nvdia. Probably some good opportunities with the higher iv."
+
+- The stock-specific-news veto is waived for NVDA for the board investigation announced
+  2026-11-08 and the House briefing request (proposed for 11/18). Both are public and in
+  the option prices.
+- Every other gate still applies: edge ratio, regime guard, intraday move, spread, macro
+  veto, the $650 cap, 1 contract (v1.3).
+- A new development of a different kind (the CEO stepping aside, a restatement, charges,
+  an export or regulatory action) is a new event: check with Brad before trading.
+- Earnings trade: enter Tue 11/17 near the close, exit Wed 11/18 at the 06:45 PT check-in,
+  before the proposed briefing can produce headlines.
+- A pre-earnings NVDA premium sale is a non-earnings trade under v1.2: one such position
+  at a time (PCG holds the slot as of 11/10) and at most $200 at risk.
