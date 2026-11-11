@@ -1,8 +1,9 @@
 """CLI per CONTRACT.md. JSON on stdout.
 
 Exit codes: 0 success (decision may be no_trade), 2 invalid input (stdout is
-{"error": ...}), 3 halted by circuit breaker (score only). An unexpected internal
-error exits 1 with {"error": "internal: ..."} (not an input problem; do not retry blindly).
+{"error": ...}), 3 halted by circuit breaker (score only), 4 self-check failed
+(selfcheck only). An unexpected internal error exits 1 with {"error": "internal: ..."}
+(not an input problem; do not retry blindly).
 
 Additive options beyond the contract (all optional, contract invocations work as-is):
   score/exit/reconcile/calibrate --config defaults to config/earnings.yaml (defaults if absent)
@@ -16,6 +17,9 @@ Additive options beyond the contract (all optional, contract invocations work as
     the day pack for the daily reflection from files only (docs/earnings/REFLECTION.md).
   lessons [--lessons PATH] prints the lessons ledger grouped as apply_now / being_tested /
     awaiting_approval. Both are read-only.
+  proposals [--proposals PATH] prints the improvement proposals ledger by status.
+  selfcheck [--journal --metrics --positions --lessons --proposals --config] checks that the
+    journal, positions file, metrics and ledgers agree; exits 4 when any check fails.
 """
 from __future__ import annotations
 
@@ -26,13 +30,14 @@ from pathlib import Path
 from typing import Any
 
 from . import calibrate as calib
-from . import history, journal, metrics, reconcile, reflect, rules, scoring
+from . import health, history, journal, metrics, proposals, reconcile, reflect, rules, scoring
 from .config import EngineInputError, load_config
 
 DEFAULT_CONFIG = "config/earnings.yaml"
 DEFAULT_METRICS = "state/earnings/live_metrics.jsonl"
 DEFAULT_POSITIONS = "state/earnings/positions.json"
 DEFAULT_LESSONS = "state/earnings/lessons.jsonl"
+DEFAULT_PROPOSALS = "state/earnings/proposals.jsonl"
 
 
 class _Parser(argparse.ArgumentParser):
@@ -89,6 +94,15 @@ def build_parser() -> argparse.ArgumentParser:
     d.add_argument("--config")
     ls = sub.add_parser("lessons")
     ls.add_argument("--lessons", default=DEFAULT_LESSONS)
+    pp = sub.add_parser("proposals")
+    pp.add_argument("--proposals", default=DEFAULT_PROPOSALS)
+    sc = sub.add_parser("selfcheck")
+    sc.add_argument("--journal")
+    sc.add_argument("--metrics", default=DEFAULT_METRICS)
+    sc.add_argument("--positions", default=DEFAULT_POSITIONS)
+    sc.add_argument("--lessons", default=DEFAULT_LESSONS)
+    sc.add_argument("--proposals", default=DEFAULT_PROPOSALS)
+    sc.add_argument("--config")
     return p
 
 
@@ -100,7 +114,13 @@ def run(argv: list[str] | None = None) -> tuple[dict[str, Any], int]:
         return metrics.summarize(metrics.read_metrics(args.metrics)), 0
     if args.cmd == "lessons":
         return reflect.lessons_view(reflect.read_lessons(args.lessons)), 0
+    if args.cmd == "proposals":
+        return proposals.proposals_view(proposals.read_proposals(args.proposals)), 0
     cfg = _cfg(args)
+    if args.cmd == "selfcheck":
+        out = health.selfcheck(args.journal or cfg["journal_path"], args.metrics, args.positions,
+                               args.lessons, args.proposals)
+        return out, 0 if out["ok"] else 4
     if args.cmd == "daily-review":
         positions = _load_json(args.positions, "positions") if Path(args.positions).exists() else None
         return reflect.day_pack(

@@ -19,9 +19,10 @@ tested as hypotheses and go to Brad as proposals. The loop never changes a rule 
    `live-metrics`. Add closing prices and after-hours moves for names that report tonight.
 2. **Score what was not traded.** Rule-blocked and passing-but-untraded names from the
    previous session get priced from option history (same method as
-   `state/earnings/replay/`): entry at the close before the report, exit the next
-   morning. At most 6 names a day (about 16k tokens each) unless Brad asks for more.
-   Write them as `paper` records in `live_metrics.jsonl`.
+   `state/earnings/replay/`): entry at the close before the report, exit 30 minutes
+   after the next open, wings at 1x and at 2x the straddle. At most 6 names a day (about
+   18k tokens each) unless Brad asks for more. Write them as `paper` records in
+   `live_metrics.jsonl`.
 3. **Grade decisions on process.** One row per entry, exit, adjustment, skip and
    cancelled order: was the rule followed, was the information complete, was the size
    right, was the execution clean. Grade A to D on what was known at the time. Record the
@@ -33,12 +34,16 @@ tested as hypotheses and go to Brad as proposals. The loop never changes a rule 
    - New lessons: at most 2 a day. Each needs a statement and a test that could prove it
      wrong. Keep `apply_now` at 10 or fewer; retire the weakest first.
    - Retire a lesson that shows `weak` (4+ observations, more against than for).
-5. **One change for tomorrow, at most,** and only of kind `execution`, `process` or
-   `data`.
-6. **Write** `state/earnings/reflections/<date>.md` (60 lines or fewer, template below),
-   commit and push.
-7. **Tell Brad** in 6 lines or fewer: the day's P/L, what worked, what did not, the one
-   change, and anything waiting for his yes.
+5. **Health.** Run `selfcheck`. List the scheduled tasks and check each one's last run,
+   that it is enabled, and that the day's expected outputs exist (watchlist, entry
+   decision, journaled exits). Anything missed or failed becomes a `heal` proposal today.
+6. **Proposals** (`state/earnings/proposals.jsonl`, see "Daily proposals" below): fixes
+   the agent can make are made and logged; anything touching rules, risk or cost goes to
+   Brad, at most 3 a day, ranked.
+7. **Write** `state/earnings/reflections/<date>.md` (60 lines or fewer, template below),
+   run `selfcheck`, commit and push.
+8. **Tell Brad** in 10 lines or fewer: the day's P/L, what worked, what did not, what was
+   fixed, and the numbered proposals that need his yes or no.
 
 ## Guardrails
 - `execution`, `process` and `data` lessons may be applied at once. They never change
@@ -53,6 +58,36 @@ tested as hypotheses and go to Brad as proposals. The loop never changes a rule 
 - The reflection places no orders and changes no scheduled task.
 - Small samples: say how many observations a claim rests on. Threshold changes also need
   8 closed live trades (`calibrate`).
+
+## Daily proposals (heal and strengthen)
+
+Brad, 2026-11-10: "Propose changes and iterations daily for us to heal and strengthen the
+trading loop."
+
+- **heal** fixes something that broke or could break: a missed run, a ledger error, a
+  broker limitation, a single point of failure. **strengthen** makes decisions or
+  execution better.
+- Every proposal states the problem with evidence, the change, and a measure that will
+  show whether it worked. Proposals without a measure are not logged.
+- Who decides:
+  - `execution`, `process`, `data`, `tooling`: the agent approves, implements and reports.
+  - `rule`, `risk`, `cost`: Brad. The agent may implement only after a decision event
+    that names him. The code rejects a ledger that breaks this.
+- At most 3 proposals a day go to Brad, ranked, each with a recommendation. He answers
+  "yes P006" or "no P006"; the answer is logged with his words.
+- Every implemented proposal is checked against its measure and marked `worked`,
+  `did_not_work` or `inconclusive`. A change that did not work is rolled back or replaced.
+- `PYTHONPATH=src python -m vantage_trader.earnings proposals` shows what is waiting on
+  whom.
+
+```
+{"event": "proposal", "id": "P008", "date": "YYYY-MM-DD", "type": "heal|strengthen",
+ "kind": "execution|process|data|tooling|rule|risk|cost", "decider": "agent|owner",
+ "title": "...", "problem": "...", "change": "...", "measure": "...", "ts": "..."}
+{"event": "decision",    "id": "P008", "decision": "approved|declined|deferred", "by": "agent | Brad, date, his words", "ts": "..."}
+{"event": "implemented", "id": "P008", "ref": "commit, file or task id", "ts": "..."}
+{"event": "verified",    "id": "P008", "result": "worked|did_not_work|inconclusive", "note": "...", "ts": "..."}
+```
 
 ## Ledger events
 ```
@@ -72,8 +107,8 @@ Ids: `L###` for execution, process and data lessons; `H###` for rule and risk hy
 ## Decisions graded on process  | Decision | Grade | Why | Outcome |
 ## What the data said         (scored names, replay, with observation counts)
 ## Lessons                    (evidence added, new lessons, retired lessons)
-## One change for tomorrow
-## Open for Brad              (proposals awaiting approval, decisions only he can make)
+## Health                     (selfcheck, scheduled tasks, anything missed)
+## Proposals                  (fixed today; awaiting Brad, numbered; verified or rolled back)
 ```
 
 ## Friday roll-up
