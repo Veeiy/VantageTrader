@@ -184,3 +184,18 @@ Review before merging (squash into `ccr-ada2dc9a-o9lbyl` with the normal trailer
    `session_018FLvMFxVeykhFJeoFnFB57` (their prompts cannot be edited from here later),
    put their ids in FAILOVER.md, retire watchdog 2 and the old alert-only standby.
 5. Dry run with the standby before going live. No orders.
+
+
+## Failover is live (P012, 2026-11-11 07:45 PT)
+
+The backup trader replaces the alert-only watchdog design above. Current procedure and the
+table of switches: `docs/earnings/FAILOVER.md`. In short:
+- Standby exit switch `trig_01NmMk2eNXRyukjX8pxGVcX3` (07:25 PT): the backup trader closes
+  what the head did not.
+- Plain alert `trig_017icjQMENwSGysKQAuAHttx` moved to 08:00 PT: Brad's phone only rings
+  when both sessions failed.
+- Standby entry switch `trig_01E1KZZayvkKf2PJJYhRLY8M` (12:20 PT).
+- The alert-only broker check `trig_01Vog3pw1jWDJhBzW9Z1uV8w` is switched off; its session
+  (`session_018FLvMGKFakzaDKfa4APDHz`) is left as it is.
+- One trader at a time: `state/earnings/trader_lease.json`.
+- Task instructions now live in `docs/earnings/prompts/`; the stored prompts only point there.

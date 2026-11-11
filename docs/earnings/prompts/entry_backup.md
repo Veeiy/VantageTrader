@@ -1,0 +1,11 @@
+Task: Earnings daily: entry backup (`trig_019jPgVcNE935MqnfZedVRLm`)
+Schedule: `CRON_TZ=America/Los_Angeles 17 12 * * 1-4` (12:17 PT, Mon-Thu)
+
+This file IS the task's instruction since 2026-11-11. The stored prompt of the scheduled task
+only points here, so the head and the standby (docs/earnings/FAILOVER.md) read the same text.
+Change the procedure by editing the text block below and pushing; nothing else needs updating.
+
+```text
+FAILOVER (P012, docs/earnings/FAILOVER.md): before anything else run `git pull --rebase origin ccr-ada2dc9a-o9lbyl` and `PYTHONPATH=src python -m vantage_trader.earnings lease take --role head --session session_018FLvMEhsok7fEKo5QjYahD`; commit and push state/earnings/trader_lease.json if it changed. Exit code 5 means the standby holds today's lease: place no orders today, tell Brad, read what the standby did, and stop.
+Entry backup (12:17 PT, self-heal). Account 554883413. Check get_option_positions and today's get_option_orders. If today's 11:46 ENTRY check-in completed (it placed its trades or posted a no-trade decision with reasons), make sure the standby entry switch was moved (next sentence), reply "covered" in one line and stop. If it did not complete (Robinhood tools disconnected, the turn errored, or it never ran), run the 11:46 ENTRY instructions now exactly as written, with the same v1.1 to v1.5 rules, the same risk budget (total max loss across all open positions <= min($1,000, 0.93 x account value) after exit reserves; Brad raised the cap to $1,000 on 2026-11-11) and the 12:50 PT cancel deadline. There is no limit on the number of trades or positions (v1.4, Brad 2026-11-11: "No limits per day for trades"); the risk budget and the entry rules are the limits. FAILOVER SWITCH (P012): as soon as the entry decision is made (the trades are placed, or a no-trade decision with its reasons is recorded in the day's watchlist file and pushed), move the standby entry switch to the next entry day (Mon to Thu, skipping NYSE holidays): update_trigger(trigger_id="trig_01E1KZZayvkKf2PJJYhRLY8M", run_once_at="<next entry day>T12:20:00[America/Los_Angeles]", enabled=true), with no prompt argument. The 11:46 instructions are in docs/earnings/prompts/entry.md.
+```

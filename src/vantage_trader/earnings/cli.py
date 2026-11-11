@@ -2,7 +2,7 @@
 
 Exit codes: 0 success (decision may be no_trade), 2 invalid input (stdout is
 {"error": ...}), 3 halted by circuit breaker (score only), 4 self-check failed
-(selfcheck only). An unexpected internal error exits 1 with {"error": "internal: ..."}
+(selfcheck only), 5 lease held by the other session (lease take only). An unexpected internal error exits 1 with {"error": "internal: ..."}
 (not an input problem; do not retry blindly).
 
 Additive options beyond the contract (all optional, contract invocations work as-is):
@@ -15,11 +15,20 @@ Additive options beyond the contract (all optional, contract invocations work as
     file gives an empty summary).
   daily-review --date YYYY-MM-DD [--journal --metrics --positions --lessons --config] builds
     the day pack for the daily reflection from files only (docs/earnings/REFLECTION.md).
-  lessons [--lessons PATH] prints the lessons ledger grouped as apply_now / being_tested /
-    awaiting_approval. Both are read-only.
+  lessons [--lessons PATH] [--lease PATH] prints the lessons ledger grouped as apply_now /
+    being_tested / awaiting_approval, plus "trader_lease": today's lease view (null when there
+    is no lease file). Both are read-only.
   proposals [--proposals PATH] prints the improvement proposals ledger by status.
-  selfcheck [--journal --metrics --positions --lessons --proposals --config] checks that the
-    journal, positions file, metrics and ledgers agree; exits 4 when any check fails.
+  selfcheck [--journal --metrics --positions --lessons --proposals --lease --config] checks that
+    the journal, positions file, metrics and ledgers agree and that the lease file parses;
+    exits 4 when any check fails.
+  lease show [--lease PATH] [--date YYYY-MM-DD] prints who holds the trader lease for the date
+    (default: today, US Pacific) and what that means (docs/earnings/FAILOVER.md).
+  lease take --role head|standby --session ID [--lease PATH] [--date D] [--reason TEXT]
+    [--owner-override] takes the lease, writes the file and prints the view. Exits 5 when the
+    other role holds the date and the change is not allowed; stdout is then
+    {"error": ..., "lease": view}. The standby needs --reason. The default lease path is
+    state/earnings/trader_lease.json. The caller commits and pushes the file (the push is the lock).
   project --input FILE prices a fly after the report over a spot x volatility grid (FILE is one
     projection input object or a list of them; see projection.py).
   project-check --input FILE --actual FILE splits the projection error into spot, volatility
@@ -39,11 +48,12 @@ import argparse
 import gzip
 import json
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
 from . import calibrate as calib
-from . import health, history, journal, metrics, projection, proposals, reconcile, reflect, replay, rules, scoring
+from . import health, history, journal, lease, metrics, projection, proposals, reconcile, reflect, replay, rules, scoring
 from .config import EngineInputError, load_config
 
 DEFAULT_CONFIG = "config/earnings.yaml"
@@ -51,6 +61,7 @@ DEFAULT_METRICS = "state/earnings/live_metrics.jsonl"
 DEFAULT_POSITIONS = "state/earnings/positions.json"
 DEFAULT_LESSONS = "state/earnings/lessons.jsonl"
 DEFAULT_PROPOSALS = "state/earnings/proposals.jsonl"
+DEFAULT_LEASE = "state/earnings/trader_lease.json"
 
 
 class _Parser(argparse.ArgumentParser):
@@ -166,6 +177,7 @@ def build_parser() -> argparse.ArgumentParser:
     d.add_argument("--config")
     ls = sub.add_parser("lessons")
     ls.add_argument("--lessons", default=DEFAULT_LESSONS)
+    ls.add_argument("--lease", default=DEFAULT_LEASE)
     pp = sub.add_parser("proposals")
     pp.add_argument("--proposals", default=DEFAULT_PROPOSALS)
     pj = sub.add_parser("project")
@@ -194,8 +206,44 @@ def build_parser() -> argparse.ArgumentParser:
     sc.add_argument("--positions", default=DEFAULT_POSITIONS)
     sc.add_argument("--lessons", default=DEFAULT_LESSONS)
     sc.add_argument("--proposals", default=DEFAULT_PROPOSALS)
+    sc.add_argument("--lease", default=DEFAULT_LEASE)
     sc.add_argument("--config")
+    le = sub.add_parser("lease")
+    lsub = le.add_subparsers(dest="lease_cmd", required=True, parser_class=_Parser)
+    lshow = lsub.add_parser("show")
+    lshow.add_argument("--lease", default=DEFAULT_LEASE)
+    lshow.add_argument("--date")
+    ltake = lsub.add_parser("take")
+    ltake.add_argument("--role", required=True, choices=lease.ROLES)
+    ltake.add_argument("--session", required=True)
+    ltake.add_argument("--lease", default=DEFAULT_LEASE)
+    ltake.add_argument("--date")
+    ltake.add_argument("--reason")
+    ltake.add_argument("--owner-override", dest="owner_override", action="store_true")
     return p
+
+
+def _lease_cmd(args: argparse.Namespace) -> tuple[dict[str, Any], int]:
+    now = datetime.now(timezone.utc)
+    date = args.date or lease.pacific_today(now)
+    current = lease.read_lease(args.lease)
+    if args.lease_cmd == "show":
+        return lease.view(current, date), 0
+    try:
+        new, changed = lease.take(current, args.role, args.session, date, now, args.reason, args.owner_override)
+    except lease.LeaseHeld as e:
+        return {"error": str(e), "lease": lease.view(e.lease, date)}, 5
+    if changed:
+        lease.write_lease(args.lease, new)
+    return {**lease.view(new, date), "changed": changed}, 0
+
+
+def _lessons_lease(path: str) -> dict[str, Any] | None:
+    try:
+        current = lease.read_lease(path)
+    except EngineInputError as e:
+        return {"error": str(e)}
+    return None if current is None else lease.view(current, lease.pacific_today())
 
 
 def run(argv: list[str] | None = None) -> tuple[dict[str, Any], int]:
@@ -205,7 +253,10 @@ def run(argv: list[str] | None = None) -> tuple[dict[str, Any], int]:
     if args.cmd == "live-metrics":
         return metrics.summarize(metrics.read_metrics(args.metrics)), 0
     if args.cmd == "lessons":
-        return reflect.lessons_view(reflect.read_lessons(args.lessons)), 0
+        return {**reflect.lessons_view(reflect.read_lessons(args.lessons)),
+                "trader_lease": _lessons_lease(args.lease)}, 0
+    if args.cmd == "lease":
+        return _lease_cmd(args)
     if args.cmd == "proposals":
         return proposals.proposals_view(proposals.read_proposals(args.proposals)), 0
     if args.cmd in ("project", "project-check"):
@@ -230,7 +281,7 @@ def run(argv: list[str] | None = None) -> tuple[dict[str, Any], int]:
         return _replay(args, cfg), 0
     if args.cmd == "selfcheck":
         out = health.selfcheck(args.journal or cfg["journal_path"], args.metrics, args.positions,
-                               args.lessons, args.proposals)
+                               args.lessons, args.proposals, args.lease)
         return out, 0 if out["ok"] else 4
     if args.cmd == "daily-review":
         positions = _load_json(args.positions, "positions") if Path(args.positions).exists() else None

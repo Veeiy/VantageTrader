@@ -1,0 +1,11 @@
+Task: Earnings daily: midday scan (`trig_018qBZwkxCi6h76t2PQ2ddGZ`)
+Schedule: `CRON_TZ=America/Los_Angeles 45 9 * * 1-4` (09:45 PT, Mon-Thu)
+
+This file IS the task's instruction since 2026-11-11. The stored prompt of the scheduled task
+only points here, so the head and the standby (docs/earnings/FAILOVER.md) read the same text.
+Change the procedure by editing the text block below and pushing; nothing else needs updating.
+
+```text
+FAILOVER (P012, docs/earnings/FAILOVER.md): before anything else run `git pull --rebase origin ccr-ada2dc9a-o9lbyl` and `PYTHONPATH=src python -m vantage_trader.earnings lease take --role head --session session_018FLvMEhsok7fEKo5QjYahD`; commit and push state/earnings/trader_lease.json if it changed. Exit code 5 means the standby holds today's lease: place no orders today, tell Brad, read what the standby did, and stop.
+Daily cycle, step 2 of 3 (09:45 PT): re-check the watchlist and enter what qualifies (rules v1.5, Brad 2026-11-11: "Whenever a trade qualifies, it can execute"). Skip on NYSE holidays and early-close days. Re-quote this morning's watchlist (strike nearest spot, weekly expiry right after each report): intraday move vs prior close, ATM straddle % of spot, edge ratio, ATM bid-ask % of mid, iron fly mid credit and max loss. Flag anything that now fails a rule (docs/earnings/RULES_CHANGELOG.md) and any new stock-specific news; every name still passing must have a news check before entry. EARLY ENTRY: a name on its entry day (it reports today after the close or tomorrow before the open) that passes ALL the entry rules with an edge ratio at or under 0.70 and has a clean news check may be entered now, best edge first, exactly as the 11:46 ENTRY task prescribes (its instructions are in docs/earnings/prompts/entry.md: follow them, starting with the `lessons` step: preflight, risk budget, sizing, single-leg legging, recording, breakeven alerts, daemon). Names with an edge ratio between 0.70 and 0.85 wait for the 11:46 run, when the whole field is known. No long straddles. If any position is open, make sure the hourly monitor (trig_012TXxzQAdCppBr1AWwNEksg) is enabled; it handles take-profit and cut decisions under v1.2. Post Brad a 3-5 line status with the current ranking and anything entered. The 11:46 PT check-in is the final sweep.
+```

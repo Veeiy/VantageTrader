@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import Any, Callable
 
 from . import journal as jr
+from . import lease as ls
 from . import metrics as mt
 from . import proposals as pr
 from . import reflect as rf
@@ -31,7 +32,15 @@ def _positions(path: str) -> dict[str, Any]:
     return data
 
 
-def selfcheck(journal: str, metrics: str, positions: str, lessons: str, proposals: str) -> dict[str, Any]:
+def _lease(path: str | None) -> str:
+    current = ls.read_lease(path) if path else None
+    if current is None:
+        return "no lease file"
+    return f"{current['holder']} holds {current['date']}"
+
+
+def selfcheck(journal: str, metrics: str, positions: str, lessons: str, proposals: str,
+              lease: str | None = None) -> dict[str, Any]:
     checks: list[dict[str, Any]] = []
     loaded: dict[str, Any] = {}
 
@@ -52,6 +61,7 @@ def selfcheck(journal: str, metrics: str, positions: str, lessons: str, proposal
     run("lessons_parse", load("lessons", rf.read_lessons, lessons))
     run("proposals_parse", load("proposals", pr.read_proposals, proposals))
     run("positions_parse", load("positions", _positions, positions))
+    run("lease_parses", lambda: _lease(lease))
 
     def positions_match_journal() -> str:
         engine = {s: int(v["quantity"]) for s, v in jr.open_state(loaded["journal"])["positions"].items()}
