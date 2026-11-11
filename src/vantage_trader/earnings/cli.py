@@ -12,6 +12,10 @@ Additive options beyond the contract (all optional, contract invocations work as
   reconcile --config for cancel_by.
   live-metrics [--metrics PATH] summarises the live metrics dataset (read-only; an absent
     file gives an empty summary).
+  daily-review --date YYYY-MM-DD [--journal --metrics --positions --lessons --config] builds
+    the day pack for the daily reflection from files only (docs/earnings/REFLECTION.md).
+  lessons [--lessons PATH] prints the lessons ledger grouped as apply_now / being_tested /
+    awaiting_approval. Both are read-only.
 """
 from __future__ import annotations
 
@@ -22,11 +26,13 @@ from pathlib import Path
 from typing import Any
 
 from . import calibrate as calib
-from . import history, journal, metrics, reconcile, rules, scoring
+from . import history, journal, metrics, reconcile, reflect, rules, scoring
 from .config import EngineInputError, load_config
 
 DEFAULT_CONFIG = "config/earnings.yaml"
 DEFAULT_METRICS = "state/earnings/live_metrics.jsonl"
+DEFAULT_POSITIONS = "state/earnings/positions.json"
+DEFAULT_LESSONS = "state/earnings/lessons.jsonl"
 
 
 class _Parser(argparse.ArgumentParser):
@@ -74,6 +80,15 @@ def build_parser() -> argparse.ArgumentParser:
     h.add_argument("--events", required=True)
     m = sub.add_parser("live-metrics")
     m.add_argument("--metrics", default=DEFAULT_METRICS)
+    d = sub.add_parser("daily-review")
+    d.add_argument("--date", required=True)
+    d.add_argument("--journal")
+    d.add_argument("--metrics", default=DEFAULT_METRICS)
+    d.add_argument("--positions", default=DEFAULT_POSITIONS)
+    d.add_argument("--lessons", default=DEFAULT_LESSONS)
+    d.add_argument("--config")
+    ls = sub.add_parser("lessons")
+    ls.add_argument("--lessons", default=DEFAULT_LESSONS)
     return p
 
 
@@ -83,7 +98,15 @@ def run(argv: list[str] | None = None) -> tuple[dict[str, Any], int]:
         return history.compute_all(_load_json(args.bars, "bars"), _load_json(args.events, "events")), 0
     if args.cmd == "live-metrics":
         return metrics.summarize(metrics.read_metrics(args.metrics)), 0
+    if args.cmd == "lessons":
+        return reflect.lessons_view(reflect.read_lessons(args.lessons)), 0
     cfg = _cfg(args)
+    if args.cmd == "daily-review":
+        positions = _load_json(args.positions, "positions") if Path(args.positions).exists() else None
+        return reflect.day_pack(
+            args.date, journal.read_journal(args.journal or cfg["journal_path"]),
+            metrics.read_metrics(args.metrics), positions, reflect.read_lessons(args.lessons),
+            cfg["max_loss_tolerance"]), 0
     if args.cmd == "score":
         snap = _load_json(args.snapshot, "snapshot")
         jpath = args.journal or cfg["journal_path"]
