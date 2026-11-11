@@ -57,7 +57,7 @@ tested as hypotheses and go to Brad as proposals. The loop never changes a rule 
   event that carries `approved_by` and a matching entry in `RULES_CHANGELOG.md`. The code
   rejects a ledger that breaks this (`vantage_trader/earnings/reflect.py`).
 - Hard limits are outside the loop: MCP account only, defined risk, limit orders, never
-  TSLA, the $650 cap, the circuit breaker.
+  TSLA, the total risk cap ($1,000 since 2026-11-11), the circuit breaker.
 - The reflection places no orders and changes no scheduled task.
 - Small samples: say how many observations a claim rests on. Threshold changes also need
   8 closed live trades (`calibrate`).

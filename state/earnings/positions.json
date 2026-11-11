@@ -207,8 +207,9 @@
   "risk": {
     "total_max_loss_usd": 489,
     "exit_reserves_usd": 140,
-    "cap_usd": 650,
-    "detail": "PCG 132 + RGTI 172 + FLY 185; reserves 40 + 50 + 50"
+    "cap_usd": 1000,
+    "detail": "PCG 132 + RGTI 172 + FLY 185; reserves 40 + 50 + 50",
+    "cap_note": "min($1,000, 0.93 x account value). Brad, 2026-11-11: 'Lets say 1k limit'."
   },
   "eod_note": "2026-11-10 close: SPY 749.96 (-0.36%). RGTI and FLY report after the close; exits at the 06:45 PT check-in on 11/11. Daemons ended at the close with no action triggers (FLY drifted +2.0% in the last 15 minutes).",
   "watch": [

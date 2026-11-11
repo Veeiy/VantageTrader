@@ -228,3 +228,22 @@ per day for trades."
 ### Why the gates matter more now (replay of 2026-11-10)
 Selling every fly made about $6 a trade before costs and lost money after them. Only
 names at edge ratio 0.70 or under paid. More trades a day is fine; weaker trades are not.
+
+## Risk cap decision (2026-11-11): $1,000
+
+Brad, 2026-11-11 06:12 PT: "Also increase the spending limit since we have 1200 in there
+now. Lets say 1k limit."
+
+- Total risk cap: max loss across all open positions plus exit reserves at or under
+  **min($1,000, 0.93 x account value)**. It was min($650, 0.93 x account value). This
+  replaces the $650 figure everywhere in this file, v1.4 included.
+- With the account near $1,180 the $1,000 figure binds; under about $1,075 the 0.93
+  factor does.
+- Unchanged: 1 contract per earnings name (data phase), $350 max loss when the ATM
+  spread is between 12% and 25%, $200 for a non-earnings trade, every entry gate, the
+  circuit breaker (account under $400, 2 max losses in a row, 3 losses in a row).
+- What it means: in the worst case, every position at max loss on the same morning, about
+  83% of the account is gone. A realistic bad morning with five or six flies open is a
+  loss of $300 to $500.
+- Engine note: `config/earnings.yaml` still carries the old hard cap of $700 per
+  position in code. It does not bind at 1 contract; it is raised with P004.
