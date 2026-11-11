@@ -37,6 +37,25 @@ def _is_agent(by: Any) -> bool:
     return str(by or "").strip().lower().startswith("agent")
 
 
+# Standing delegations from the owner (docs/earnings/RULES_CHANGELOG.md, "Delegation").
+# An agent may approve an owner-kind proposal only when its "by" cites one of these by its
+# marker, the decision is dated on or after it, and the proposal is not flagged
+# ``needs_owner`` (set that flag on anything outside the delegation's scope: the hard
+# limits, a per-trade max loss above $350, sizing above the data phase, a new live
+# strategy line, money in or out).
+DELEGATIONS: tuple[dict[str, str], ...] = (
+    {"since": "2026-11-11T16:13:00Z", "marker": "delegation of 2026-11-11",
+     "quote": "for these iterations like p018 and p019, youre good to push. but i want you to push these "
+              "reccommendations and changes if you see fit. you have owners permission to automate."},
+)
+
+
+def under_delegation(by: Any, ts: Any) -> bool:
+    """True when an agent's decision cites a standing delegation that was in force at ``ts``."""
+    text, when = str(by or "").lower(), str(ts or "")
+    return any(d["marker"] in text and when >= d["since"] for d in DELEGATIONS)
+
+
 def read_proposals(path: str | Path) -> list[dict[str, Any]]:
     p = Path(path)
     if not p.exists():
@@ -64,7 +83,8 @@ def read_proposals(path: str | Path) -> list[dict[str, Any]]:
                 raise EngineInputError(f"proposals line {n}: decider must be agent or owner")
             if ev["kind"] in OWNER_KINDS and ev["decider"] != "owner":
                 raise EngineInputError(f"proposals line {n}: a {ev['kind']} proposal is the owner's decision")
-            meta[pid] = {"decider": ev["decider"], "approved": False, "implemented": False}
+            meta[pid] = {"decider": ev["decider"], "approved": False, "implemented": False,
+                         "needs_owner": bool(ev.get("needs_owner"))}
         else:
             if pid not in meta:
                 raise EngineInputError(f"proposals line {n}: {kind_of} for unknown proposal {pid}")
@@ -73,7 +93,8 @@ def read_proposals(path: str | Path) -> list[dict[str, Any]]:
                 if ev.get("decision") not in DECISIONS or not str(ev.get("by") or "").strip():
                     raise EngineInputError(f"proposals line {n}: a decision needs a known value and 'by'")
                 if ev["decision"] == "approved" and m["decider"] == "owner" and _is_agent(ev["by"]):
-                    raise EngineInputError(f"proposals line {n}: {pid} can only be approved by the owner")
+                    if m["needs_owner"] or not under_delegation(ev["by"], ev.get("ts")):
+                        raise EngineInputError(f"proposals line {n}: {pid} can only be approved by the owner")
                 m["approved"] = ev["decision"] == "approved"
             elif kind_of == "implemented":
                 if not m["approved"]:

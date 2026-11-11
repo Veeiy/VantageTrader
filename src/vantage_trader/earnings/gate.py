@@ -249,6 +249,9 @@ def fly(c: dict[str, Any], cfg: dict[str, Any]) -> dict[str, Any] | None:
     return {
         "body": k, "call_wing": w["call_strike"], "put_wing": w["put_strike"],
         "width_call": round(width_call, 4), "width_put": round(width_put, 4), "width": round(width, 4),
+        # v1.6 (P018): the wings should sit about 1.5x the body straddle from the body
+        "width_over_straddle": (round(width / (_mid(c["call"]) + _mid(c["put"])), 4)
+                                if _mid(c["call"]) + _mid(c["put"]) > 0 else None),
         "credit_mid": round(mid, 4), "credit_natural": round(natural, 4),
         "credit_floor": round(floor_credit, 4),
         "limit_start": start, "limit_floor": floor_rounded, "tick": tick,

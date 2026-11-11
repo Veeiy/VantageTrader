@@ -80,10 +80,17 @@ trading loop."
   show whether it worked. Proposals without a measure are not logged.
 - Who decides:
   - `execution`, `process`, `data`, `tooling`: the agent approves, implements and reports.
-  - `rule`, `risk`, `cost`: Brad. The agent may implement only after a decision event
-    that names him. The code rejects a ledger that breaks this.
-- At most 3 proposals a day go to Brad, ranked, each with a recommendation. He answers
-  "yes P006" or "no P006"; the answer is logged with his words.
+  - `rule`, `risk`, `cost`: since 2026-11-11 08:13 PT the agent, under Brad's standing
+    delegation ("you have owners permission to automate"; scope and limits in
+    RULES_CHANGELOG.md, "Delegation"). The decision event names the delegation and quotes
+    him. What the delegation does not cover (the hard limits, a max loss per trade above
+    $350, sizing above 1 contract before 10 closed live trades, a new live strategy line)
+    still needs his own words: flag such a proposal with `"needs_owner": true`. In the
+    ledger a delegated decision reads `"by": "agent, under Brad's standing delegation of
+    2026-11-11: ..."` and carries a `ts`; the code accepts that form only, only from the
+    delegation's date on, and never for a flagged proposal.
+- Every decision taken under the delegation is listed in that day's message to Brad under
+  "Changed today", with the numbers behind it. He reverses any of them with one word.
 - Every implemented proposal is checked against its measure and marked `worked`,
   `did_not_work` or `inconclusive`. A change that did not work is rolled back or replaced.
 - `PYTHONPATH=src python -m vantage_trader.earnings proposals` shows what is waiting on

@@ -102,3 +102,30 @@ def test_selfcheck_reports_a_broken_ledger_and_exit_code(tmp_path):
     assert cli.run(args)[1] == 4
     args[args.index("--lessons") + 1] = str(tmp_path / "none-l.jsonl")
     assert cli.run(args)[1] == 0
+
+
+def test_standing_delegation_lets_the_agent_approve_owner_kinds_inside_its_scope(tmp_path):
+    """Brad, 2026-11-11: "you have owners permission to automate" (RULES_CHANGELOG, Delegation)."""
+    by = "agent, under Brad's standing delegation of 2026-11-11: \"you have owners permission to automate\""
+    ok = [_prop("P1", kind="rule", decider="owner"),
+          {"event": "decision", "id": "P1", "decision": "approved", "by": by, "ts": "2026-11-12T16:00:00Z"},
+          {"event": "implemented", "id": "P1"}]
+    assert len(proposals.read_proposals(_write(tmp_path, "ok.jsonl", ok))) == 3
+    # a decision dated before the delegation does not count
+    early = [_prop("P1", kind="rule", decider="owner"),
+             {"event": "decision", "id": "P1", "decision": "approved", "by": by, "ts": "2026-11-10T16:00:00Z"}]
+    with pytest.raises(EngineInputError, match="only be approved by the owner"):
+        proposals.read_proposals(_write(tmp_path, "early.jsonl", early))
+    # no timestamp, or no mention of the delegation: still the owner's
+    for row in ({"event": "decision", "id": "P1", "decision": "approved", "by": by},
+                {"event": "decision", "id": "P1", "decision": "approved", "by": "agent", "ts": "2026-11-12T16:00:00Z"}):
+        with pytest.raises(EngineInputError, match="only be approved by the owner"):
+            proposals.read_proposals(_write(tmp_path, "x.jsonl", [_prop("P1", kind="risk", decider="owner"), row]))
+    # outside the delegation's scope: the proposal is flagged and needs Brad himself
+    flagged = dict(_prop("P1", kind="risk", decider="owner"), needs_owner=True)
+    with pytest.raises(EngineInputError, match="only be approved by the owner"):
+        proposals.read_proposals(_write(tmp_path, "f.jsonl", [flagged, {"event": "decision", "id": "P1",
+                                 "decision": "approved", "by": by, "ts": "2026-11-12T16:00:00Z"}]))
+    brad = [flagged, {"event": "decision", "id": "P1", "decision": "approved", "by": "Brad, 2026-11-12: \"yes\""}]
+    assert len(proposals.read_proposals(_write(tmp_path, "b.jsonl", brad))) == 2
+    assert proposals.under_delegation(by, "2026-11-11T16:13:00Z") and not proposals.under_delegation(by, "")

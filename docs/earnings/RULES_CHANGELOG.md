@@ -303,3 +303,51 @@ entry day, as Brad said: "Whenever a trade qualifies, it can execute".
 `state/earnings/replay/2026-11-11_batch2/FINDINGS.md`. No rule changes without Brad:
 - P018 (owner): wings at about 1.5x the straddle, max loss per trade $350 or less.
 - P019 (owner): the 0.85 edge gate does not pick winners; keep as a throttle or drop.
+
+
+## Delegation (2026-11-11 08:13 PT): the agent decides rule iterations
+Brad: "for these iterations like p018 and p019, youre good to push. but i want you to push
+these reccommendations and changes if you see fit. you have owners permission to automate."
+
+What it changes: proposals of kind `rule`, `risk` and `cost` no longer wait for his yes. The
+agent decides them when it sees fit, logs the decision as "agent, under Brad's standing
+delegation of 2026-11-11" with his words, implements, and tells him the same day under
+"Changed today". He can reverse any of them with one word.
+
+The agent's reading of the scope (its own interpretation; Brad corrects it if it is wrong):
+- **Covered:** iterations of the strategy's parameters and rules, like P018 (wing width) and
+  P019 (entry filter): thresholds, gates, structure, timing, exits, paper tests.
+- **Still only on his words:** the account (MCP only), never TSLA, defined risk only, limit
+  orders only, the total risk cap min($1,000, 0.93 x account value), a max loss per trade
+  above $350, more than 1 contract per earnings name before 10 live trades are closed, a new
+  live strategy line, anything that moves money in or out.
+- **Standard the agent holds itself to:** a written proposal with numbers and a measure; at
+  least 50 replay events or 8 live observations behind a rule change; one change per rule at
+  a time; a review date; roll back what does not work.
+
+## v1.6 (2026-11-11): wider wings (P018, decided under the delegation)
+- Wings at the listed strikes nearest **1.5x the entry straddle** on each side (was about
+  1x), at least one strike step from the body.
+- If the max loss at the credit floor would exceed $350, step the wings in one strike at a
+  time until it fits. 1 contract per name and the $1,000 total cap are unchanged.
+- Evidence (combined replay, 103 clean events, 10:00 ET exit, after a 7% cost): 1x wings
+  -$1.5 a fly, 1.5x +$8.7 (standard error $11.9), 2x +$16.9 but an average max loss of $486.
+  With the $350 cap: 69 events, +$10.5 a fly. Not statistically solid; the direction is
+  consistent across both batches.
+- Applies from the next entry. LUNR (opened 07:57 PT with 1.5-wide wings, about 0.9x) stays
+  as it is: rolling its wings would cost more than the expected gain.
+- Review after 10 live trades with the new wings, or at once if a trade's max loss comes out
+  above $350.
+
+### Edge gate kept for now (P019, decided under the delegation)
+The 0.85 edge gate does not pick winners in the replay, but dropping it would about triple
+nightly exposure on a net edge that is not proven. It stays as a throttle until 2026-11-25.
+A selector test on the full replay set (price band, implied move level, report timing,
+regime ratio) runs at the Friday scorecard; the gate is replaced when one of them holds up.
+
+### Same-day flies stay on paper (P017, decided under the delegation)
+Brad asked for day trades on theta and IV crush. The 2026-11-11 market-wide scan found no
+edge (`state/earnings/daytrade/2026-11-11/FINDINGS.md`), and a new live strategy line is
+outside the delegation. So: one SPY and one IWM same-day iron fly are recorded on paper every
+session at the 07:15 run, marked at every hourly run, final mark at 12:15 PT. After 10
+sessions the result after costs goes to Brad with a go or no-go.
