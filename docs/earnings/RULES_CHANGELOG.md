@@ -262,3 +262,31 @@ Brad, 2026-11-11 06:14 PT: "yes p010 and p009".
 - Selling rules are unchanged.
 - Engine note: `buy_min_ratio` in `config/earnings.yaml` still marks such names "buy" in
   the dry score. Treat "buy" as "no trade" until the config is updated with P004.
+
+## v1.5 (2026-11-11): entries at any check-in, not only 11:46
+
+Brad, 2026-11-11 06:25 PT: "Doesn't have to just be at 11:46 for entering trades. Whenever
+a trade qualifies, it can execute."
+
+### Changed
+- A trade may be entered at any check-in on its entry day (the morning scan, the midday
+  re-check, the 11:46 run), as soon as it passes every rule and has a clean news check.
+  Non-earnings trades were already free of a time window.
+- How the agent uses this (its judgment on timing, not a new gate):
+  - Edge ratio 0.70 or under: enter as soon as it qualifies. That is where the replay
+    found the edge, so there is nothing to wait for.
+  - Edge ratio between 0.70 and 0.85: wait for the 11:46 run, when the whole field is
+    known, so the risk budget goes to the best names first (lesson L012).
+- The 11:46 run is now the final sweep of the day: it skips names already entered and
+  decides every name that is left.
+
+### Unchanged
+- Every entry rule, 1 contract per name, the $1,000 total risk cap, no long straddles,
+  single-leg execution, the 12:50 PT cancel deadline (nothing new is opened after 12:35).
+- The body strike is fixed at the moment the short legs are sold (lesson L001).
+
+### The trade-off, stated once
+An earnings fly earns its money overnight, on the IV crush. Entering hours earlier adds
+ordinary daytime movement before the report and commits budget before later names are
+known. It also gives more time to work the legs. Early entry is roughly neutral for a
+strong name and not worth it for a marginal one, which is why the two are split above.
