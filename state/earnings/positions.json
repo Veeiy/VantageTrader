@@ -159,7 +159,7 @@
         "max_close_cost_total": 7.5,
         "max_close_cost_note": "1 x 1.50 (wings 1.5 wide) + 2 x 3.00 (wings 2.5 wide, plus 0.50)",
         "never_hold_into": "2026-11-13",
-        "projection": "run  once per tranche (wings differ): 1 x 11/12.5/14 at 1.06 and 2 x 10/12.5/15 at 1.38"
+        "projection": "run the `project` command once per tranche (the wings differ): 1 x 11/12.5/14 at 1.06 and 2 x 10/12.5/15 at 1.38"
       },
       "entry_day_prev_close": 11.81,
       "alerts": [
