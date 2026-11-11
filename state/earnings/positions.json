@@ -58,7 +58,19 @@
       "eod_2026-11-10": {
         "close_cost_mid_last": 0.785,
         "note": "quotes went wide into the close (13P 0.37 x 0.60); about 0.69 at normal spreads"
-      }
+      },
+      "alerts": [
+        {
+          "alert_id": "faf3b899-0570-4af7-b00c-868ee5eaae99",
+          "condition": "price_below",
+          "threshold": 12.33
+        },
+        {
+          "alert_id": "88d6e15b-601e-4561-be34-6d940fb3b744",
+          "condition": "price_above",
+          "threshold": 13.67
+        }
+      ]
     },
     {
       "symbol": "RGTI",
@@ -107,7 +119,19 @@
         "close_cost_mid_last": 1.19
       },
       "report_result": "Q3 revenue $1.4M (down 28%, below forecast), operating loss $33.2M, kept the ~$20M 2026 revenue target (depends on one customer acceptance). After hours 11.66 at 18:47 PT.",
-      "projection": "state/earnings/projections.jsonl (made 2026-11-10 18:55 PT)"
+      "projection": "state/earnings/projections.jsonl (made 2026-11-10 18:55 PT)",
+      "alerts": [
+        {
+          "alert_id": "23d4d5d5-a8cf-4616-b4c6-6fe032b349db",
+          "condition": "price_below",
+          "threshold": 10.72
+        },
+        {
+          "alert_id": "174ad704-bf22-4e90-b608-dce68d6922bf",
+          "condition": "price_above",
+          "threshold": 13.28
+        }
+      ]
     },
     {
       "symbol": "FLY",
@@ -160,7 +184,19 @@
         "close_cost_mid_last": 2.7
       },
       "report_result": "Q3 revenue $110.7M (beat ~$103-106M), backlog $1.7B, FY guide raised to $440-450M, net loss $75.4M (wider than expected). After hours 23.42 at 18:33 PT.",
-      "projection": "state/earnings/projections.jsonl (made 2026-11-10 18:55 PT)"
+      "projection": "state/earnings/projections.jsonl (made 2026-11-10 18:55 PT)",
+      "alerts": [
+        {
+          "alert_id": "1309f081-a2fd-4c1c-961e-812e5e936c22",
+          "condition": "price_below",
+          "threshold": 20.85
+        },
+        {
+          "alert_id": "9a3e5ae2-5843-48d1-ba66-ebc78e513f87",
+          "condition": "price_above",
+          "threshold": 26.15
+        }
+      ]
     }
   ],
   "blockers": [
@@ -232,5 +268,6 @@
       },
       "tick": "0.01 below $3.00, 0.05 above"
     }
-  ]
+  ],
+  "alerts_note": "Brad, 2026-11-11: 'alerts on'. Every open position carries two Robinhood price alerts at its breakevens. Create them at entry; when the position closes, pause them with update_alert(enabled=false). Never delete without Brad's yes. docs/earnings/DAEMON.md 'Breakeven alerts'."
 }
