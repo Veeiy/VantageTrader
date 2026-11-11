@@ -174,3 +174,11 @@ More live round trips come from more names, not from more risk. The $650 cap sta
   `as_event: "qty_adjust"`, never `exit_filled` (that would pair with the entry).
 - Threshold changes still need 8 closed trades (`calibrate_min_trades`) and Brad's yes at
   a Friday scorecard. Until then the numbers are reported, not acted on.
+
+## Daily reflection loop (2026-11-10)
+
+Brad: "Lets setup a self reflection learning loop after each trading day." Procedure in
+`docs/earnings/REFLECTION.md`; scheduled task "Daily reflection" at 14:12 PT, Mon-Fri.
+The loop can change how the rules are carried out (execution, process and data lessons in
+`state/earnings/lessons.jsonl`). It cannot change a rule or a risk limit: those stay
+hypotheses until Brad approves them, and each approval is recorded in this file.
