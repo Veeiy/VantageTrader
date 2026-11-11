@@ -1,7 +1,7 @@
 # Entry gate in code (`gate`, proposals P004 and P011)
 
 `gate` runs ONE earnings candidate through every entry rule of RULES_CHANGELOG v1.1 to
-v1.5 and the 2026-11-11 decisions, and prints a decision record. It never places orders
+v1.7 and the 2026-11-11 decisions, and prints a decision record. It never places orders
 and never reads the market. Run it on every candidate before entry and compare it with
 the manual gate: a disagreement blocks the entry until it is explained.
 
@@ -12,7 +12,7 @@ cat candidate.json | PYTHONPATH=src python -m vantage_trader.earnings gate
 
 Exit code: `0` may be entered (`action: "sell"`), `3` blocked (`action: "no_trade"`),
 `2` bad input (stdout `{"error": ...}`). The journal is read only, for the circuit-breaker
-streaks and the count of closed live trades (data-phase sizing).
+streaks.
 
 ## What it checks (each gate reported with its number, value, limit and pass/fail)
 
@@ -30,12 +30,31 @@ streaks and the count of closed live trades (data-phase sizing).
 | 10 | circuit_breaker | not set, account value >= $400, no 2 max losses / 3 losses in a row in the journal |
 | 11 | sector | `sector` not in `sectors_entered_today` (checked only when both are given) |
 | 12 | structure | wings given on both sides, 0 < mid credit < width, a fillable limit range |
-| 13 | spread_band_cap | spread above 12%: max loss at the credit floor <= $350 |
-| 14 | risk_budget | open_risk_usd + max loss at the credit floor + $50 reserve per contract <= min($1,000, 0.93 x account value) |
+| 13 | add_centered | an add only (`held` given): same body strike as the open tranche, and spot within 0.25 x the body straddle of it. A first entry passes |
+| 14 | name_risk | max loss on the name (held + the contracts entered now, at the credit floor) <= $350, and at least one contract may be entered at this check-in |
+| 15 | risk_budget | open_risk_usd + max loss at the credit floor + $50 reserve per contract <= min($1,000, 0.93 x account value) |
 
 Band (a label only since P020, 2026-11-11: any passing name may be entered at any check-in
 on its entry day): `tight` (edge <= 0.70), `final_sweep` (0.70 to 0.85), `no_edge` (above
-0.85), `long_straddle_off` (1.25 or more). Contracts: 1 while fewer than 10 live trades are closed in the journal.
+0.85), `long_straddle_off` (1.25 or more).
+
+Contracts (rules v1.7, `sizing.plan`): sized by risk. The name's target is a max loss of
+12% of account value, never above $350; new contracts are (target - max loss held) / max
+loss of one contract, rounded to the nearest whole number, and never more than fits $350
+per name, the risk budget and 10 contracts. One contract is always allowed on a name with
+nothing held. Output: `contracts` (enter this many now), `contracts_planned` (what the name
+may still add in all), `contracts_later` (the part that waits for the final window) and
+`sizing` (target, limits, the binding limit).
+
+Phase: `early` before 11:30 PT, `final` from 11:30 PT. In the early phase a name carries at
+most half its target, rounded down (one contract is still allowed). The CLI takes the phase
+from the clock when the candidate has no `phase`; `phase_source` says which.
+
+An add (scale in): give `held` = `{"quantity", "max_loss_usd", "K"}` of what is already open
+on the name, and count that tranche in `open_risk_usd`. The gate then checks the add like a
+new entry, plus gate 13, and skips the sector rule. Reasons a passing name still gets no
+add: `name_target_reached`, `early_tranche_full` (wait for 11:30 PT), `add_off_center`,
+`add_different_body`, `name_risk_cap`, `max_loss_exceeds_cap`, `max_quantity`.
 
 Implied move (P011): the body straddle is converted to its at-the-money equivalent,
 `sigma = implied_sigma(spot, K, body_straddle_mid)`, `atm = straddle(spot, spot, sigma)`,
@@ -76,13 +95,19 @@ config `tick`, used only for `limit_start` / `limit_floor`).
  "gates": [{"n": 1, "gate": "blocklist", "pass": true, "value": "LUNR", "limit": ["TSLA"]}, "..."],
  "fly": {"credit_mid": 1.08, "credit_natural": 0.88, "credit_floor": 0.9936, "width": 1.5,
          "limit_start": 1.1, "limit_floor": 1.0, "breakevens_mid": [10.92, 13.08], "...": "..."},
- "contracts": 1,
- "max_loss": {"mid": 42.0, "natural": 62.0, "floor": 50.64},
+ "contracts": 1, "contracts_planned": 3, "contracts_later": 2,
+ "sizing": {"target": 160.68, "phase": "early", "planned": 3, "now": 1, "later": 2,
+            "binding": "name_target_reached", "...": "..."},
+ "max_loss": {"mid": 42.0, "natural": 62.0, "floor": 50.64, "per_contract_floor": 50.64,
+              "name_total_floor": 50.64},
  "breakevens": [10.92, 13.08],
  "risk": {"risk_cap": 1000.0, "open_risk_usd": 172.0, "budget_before": 828.0,
           "exit_reserve_per_contract": 50.0, "spread_band_cap": 350.0,
+          "name_risk_cap": 350.0, "name_target": 160.68,
           "this_trade_usd": 100.64, "budget_left": 727.36}}
 ```
+(Early phase: 1 of the 3 planned contracts now, 2 in the final window. The same candidate
+with `"phase": "final"` returns `"contracts": 3`.)
 
 `score` (several candidates from a full chain) applies the same rules where its snapshot
 carries the inputs: see the docstring of `scoring.py` and CONTRACT.md.

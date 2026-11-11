@@ -252,3 +252,33 @@ def test_missing_fill_heal_carries_intent_fields():
     # inferred-from-position branch carries them too
     ev2 = reconcile(rsnap([{"symbol": "ARM", "quantity": 1}]), [sub], cfg())["issues"][0]["fix"]["journal_event"]
     assert ev2["ref_id"] == "r-123" and ev2["expiry"] == "2026-11-06"
+
+
+def test_scale_in_add_joins_the_open_trade():
+    # v1.7: two tranches on one name are one trade: quantities and max loss add up,
+    # the entry price is the quantity-weighted average, and a loss counts once
+    ev = [
+        {"ts": "2026-11-11T15:57:00Z", "event": "entry_filled", "symbol": "LUNR", "structure": "iron_fly",
+         "price": 1.06, "quantity": 1, "max_loss": 44.0},
+        {"ts": "2026-11-11T19:50:00Z", "event": "entry_filled", "symbol": "LUNR", "structure": "iron_fly",
+         "price": 1.30, "quantity": 2, "max_loss": 240.0, "add": True},
+    ]
+    assert jr.open_state(ev)["positions"]["LUNR"]["quantity"] == 3
+    assert jr.closed_trades(ev) == []
+    ev.append({"ts": "2026-11-12T14:50:00Z", "event": "exit_filled", "symbol": "LUNR", "structure": "iron_fly",
+               "price": 2.0, "quantity": 3})
+    trades = jr.closed_trades(ev)
+    assert len(trades) == 1
+    t = trades[0]
+    assert t["quantity"] == 3 and t["tranches"] == 2 and t["max_loss"] == 284.0
+    assert t["entry_price"] == pytest.approx(1.22) and t["pnl"] == pytest.approx(-234.0)
+    assert jr.streaks(trades, 0.9)["consecutive_losses"] == 1
+    assert jr.open_state(ev)["positions"] == {}
+
+
+def test_add_without_an_open_entry_is_a_plain_entry():
+    ev = [{"ts": "2026-11-11T19:50:00Z", "event": "entry_filled", "symbol": "LUNR", "structure": "iron_fly",
+           "price": 1.30, "quantity": 2, "max_loss": 240.0, "add": True},
+          {"ts": "2026-11-12T14:50:00Z", "event": "exit_filled", "symbol": "LUNR", "price": 1.0, "quantity": 2}]
+    t = jr.closed_trades(ev)[0]
+    assert t["quantity"] == 2 and t["tranches"] == 1 and t["pnl"] == pytest.approx(60.0)

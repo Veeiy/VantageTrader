@@ -68,8 +68,12 @@ DEFAULTS: dict[str, Any] = {
     # --- risk / sizing ---
     "max_loss_abs": 1000.0,          # 2026-11-11: total risk cap min($1,000, 0.93 x account value)
     "max_loss_bp_frac": 0.93,
-    "max_quantity": 1,
-    "data_phase_trades": 10,         # v1.3: 1 contract per earnings name while fewer closed live trades
+    "max_quantity": 10,              # v1.7: most contracts one name may hold (hard cap 10)
+    "name_risk_frac": 0.12,          # v1.7: max loss one name should carry, as a share of account value
+    "name_risk_cap": 350.0,          # max loss per name at the credit floor (owner limit, hard cap $350)
+    "early_tranche_frac": 0.5,       # v1.7: share of the name target that may be entered before the final window
+    "add_center_frac": 0.25,         # v1.7: an add needs spot within this x body straddle of the body strike
+    "final_window_start": "11:30 America/Los_Angeles",  # v1.7: from here a name may be entered at full size
     "exit_slippage_reserve": 50.0,
     # --- order pricing ---
     "tick": 0.05,
@@ -119,7 +123,11 @@ HARD_CAPS: dict[str, tuple[str, float]] = {
     "max_spread_pct": ("max", 0.25),
     "wide_spread_pct": ("max", 0.12),
     "wide_spread_max_loss": ("max", 350.0),
-    "data_phase_trades": ("min", 10),
+    "max_quantity": ("max", 10),
+    "name_risk_frac": ("max", 0.15),
+    "name_risk_cap": ("max", 350.0),
+    "early_tranche_frac": ("max", 1.0),
+    "add_center_frac": ("max", 0.5),
     "min_price": ("min", 10.0),
     "min_account_value": ("min", 400.0),
     "max_consecutive_max_loss": ("max", 2),
@@ -131,14 +139,14 @@ ALWAYS_BLOCKED = ("TSLA",)
 _NUMERIC = {
     "min_price", "max_spread_pct", "max_intraday_move", "straddle_factor",
     "wide_spread_pct", "wide_spread_max_loss", "max_intraday_move_sector", "regime_mult",
-    "tight_max_ratio",
+    "tight_max_ratio", "name_risk_frac", "name_risk_cap", "early_tranche_frac", "add_center_frac",
     "sell_max_ratio", "buy_min_ratio", "min_ev_per_dollar_risk", "max_loss_abs",
     "max_loss_bp_frac", "tick", "step_small", "step_large", "step_threshold",
     "credit_floor_mid_frac", "debit_ceiling_mid_frac", "min_account_value",
     "max_loss_tolerance", "straddle_take_profit", "exit_slippage_reserve",
 }
 _INT = {
-    "min_history", "history_lookback", "max_quantity", "data_phase_trades",
+    "min_history", "history_lookback", "max_quantity",
     "max_consecutive_max_loss", "max_consecutive_losses",
     "exit_min_minutes_since_open", "calibrate_min_trades", "calibrate_prior_weight",
     "max_expiry_days_after_report",
@@ -148,7 +156,8 @@ _POSITIVE = {
     "max_loss_bp_frac", "tick", "step_small", "step_large", "step_threshold",
     "credit_floor_mid_frac", "debit_ceiling_mid_frac", "min_history", "history_lookback",
     "max_quantity", "max_consecutive_max_loss", "wide_spread_pct", "wide_spread_max_loss",
-    "max_intraday_move_sector", "regime_mult", "tight_max_ratio", "data_phase_trades",
+    "max_intraday_move_sector", "regime_mult", "tight_max_ratio",
+    "name_risk_frac", "name_risk_cap", "early_tranche_frac", "add_center_frac",
     "max_consecutive_losses", "max_spread_pct", "max_intraday_move", "max_loss_tolerance",
     "straddle_take_profit", "calibrate_min_trades", "max_expiry_days_after_report",
 }
@@ -259,6 +268,11 @@ def validate(cfg: dict[str, Any]) -> dict[str, Any]:
     _check_tz(tz)
     if cancel_by_la_minutes(out["cancel_by"]) > HARD_CAPS["cancel_by_latest_minutes"][1]:
         raise ConfigError("cancel_by may not be later than 12:50 America/Los_Angeles")
+    if not isinstance(out["final_window_start"], str):
+        raise ConfigError("final_window_start must be a string like '11:30 America/Los_Angeles'")
+    _check_tz(parse_cancel_by(out["final_window_start"])[2])
+    if cancel_by_la_minutes(out["final_window_start"]) >= cancel_by_la_minutes(out["cancel_by"]):
+        raise ConfigError("final_window_start must be earlier than cancel_by")
     for k in ("market_timezone",):
         if not isinstance(out[k], str):
             raise ConfigError(f"{k} must be a string")

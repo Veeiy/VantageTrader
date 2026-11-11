@@ -17,6 +17,12 @@ Extra keys are allowed and preserved. Recognised optional extensions:
   exit_cancelled} is treated as that event when deriving positions/trades; with
   ``as_event == "qty_adjust"`` it sets the open quantity for the symbol.
 
+* ``add`` (true) on ``entry_filled``: a scale-in tranche (RULES_CHANGELOG v1.7). It joins the
+  open entry of the same symbol: quantities and ``max_loss`` add up, ``price`` becomes the
+  quantity-weighted average. One name is one trade however many tranches built it, so a
+  loss on it counts once in the streaks. Without an open entry it is a plain entry.
+  ``price`` is per contract; ``max_loss`` is the tranche's total in dollars.
+
 Symbols are normalised (strip + upper) on read.
 Closed trades = entry_filled paired FIFO per symbol with the next exit_filled.
 pnl = exit event's ``pnl`` when present, else computed from prices
@@ -100,13 +106,28 @@ def _num(v: Any) -> float | None:
     return float(v) if isinstance(v, (int, float)) and not isinstance(v, bool) else None
 
 
+def merge_add(entry: dict[str, Any], add: dict[str, Any]) -> dict[str, Any]:
+    """A scale-in tranche joins the open entry (v1.7): one trade per name."""
+    q0, q1 = _num(entry.get("quantity")) or 1, _num(add.get("quantity")) or 1
+    out = dict(entry)
+    out["quantity"] = q0 + q1
+    p0, p1 = _num(entry.get("price")), _num(add.get("price"))
+    out["price"] = round((p0 * q0 + p1 * q1) / (q0 + q1), 6) if p0 is not None and p1 is not None else None
+    m0, m1 = _num(entry.get("max_loss")), _num(add.get("max_loss"))
+    out["max_loss"] = round(m0 + m1, 2) if m0 is not None and m1 is not None else None  # unknown stays unknown
+    out["tranches"] = int(entry.get("tranches") or 1) + 1
+    return out
+
+
 def closed_trades(events: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
     open_by_sym: dict[str, list[dict[str, Any]]] = {}
     trades: list[dict[str, Any]] = []
     for ev in events:
         kind = effective_event(ev)
         sym = norm_symbol(ev.get("symbol"))
-        if kind == "entry_filled":
+        if kind == "entry_filled" and ev.get("add") is True and open_by_sym.get(sym):
+            open_by_sym[sym][-1] = merge_add(open_by_sym[sym][-1], ev)
+        elif kind == "entry_filled":
             open_by_sym.setdefault(sym, []).append(ev)
         elif kind == "exit_filled" and open_by_sym.get(sym):
             entry = open_by_sym[sym].pop(0)
@@ -122,7 +143,7 @@ def closed_trades(events: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
                 "symbol": sym, "structure": entry.get("structure") or ev.get("structure"), "direction": direction,
                 "entry_ts": entry.get("ts"), "exit_ts": ev.get("ts"),
                 "entry_price": ep, "exit_price": xp, "quantity": qty, "pnl": pnl,
-                "max_loss": max_loss,
+                "max_loss": max_loss, "tranches": int(entry.get("tranches") or 1),
                 "implied_move": _num(entry.get("implied_move")) or _num(ev.get("implied_move")),
                 "edge_ratio": _num(entry.get("edge_ratio")) or _num(ev.get("edge_ratio")),
                 "realized_move": _num(ev.get("realized_move")) if _num(ev.get("realized_move")) is not None

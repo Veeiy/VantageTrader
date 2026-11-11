@@ -41,8 +41,8 @@ def _is_agent(by: Any) -> bool:
 # An agent may approve an owner-kind proposal only when its "by" cites one of these by its
 # marker, the decision is dated on or after it, and the proposal is not flagged
 # ``needs_owner`` (set that flag on anything outside the delegation's scope: the hard
-# limits, a per-trade max loss above $350, sizing above the data phase, a new live
-# strategy line, money in or out).
+# limits, a max loss per name above $350, a new live strategy line, money in or out).
+# Sizing above 1 contract left that list on 2026-11-11 (RULES_CHANGELOG v1.7).
 DELEGATIONS: tuple[dict[str, str], ...] = (
     {"since": "2026-11-11T16:13:00Z", "marker": "delegation of 2026-11-11",
      "quote": "for these iterations like p018 and p019, youre good to push. but i want you to push these "

@@ -1,295 +1,316 @@
 {
- "as_of": "2026-11-11T15:58Z",
- "account_value": 1327.41,
- "cap_total_max_loss": 1000,
- "execution": {
-  "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
-  "method": "single-leg limit orders: buy both wings first, then sell the body legs. To close: buy back the shorts first, then sell the wings. Never sell a wing while its short leg is open.",
-  "approval": "single-leg orders need no customer approval while human_must_approve_trades=false"
- },
- "open": [
-  {
-   "symbol": "PCG",
-   "kind": "non_earnings",
-   "structure": "iron fly 12/13/14",
-   "expiry": "2026-11-20",
-   "quantity": 4,
-   "opened": "2026-11-10T19:14:18Z",
-   "legs": {
-    "short_13C": {
-     "option_id": "2b96e166-e512-437c-b2eb-8c39755a6892",
-     "fill": 0.65
-    },
-    "short_13P": {
-     "option_id": "1319c643-e02f-453c-8a89-daf5a9232d1a",
-     "fill": 0.43
-    },
-    "long_14C": {
-     "option_id": "1b762445-7484-4149-b654-36759f98d5f2",
-     "fill": 0.3
-    },
-    "long_12P": {
-     "option_id": "cc6a019f-3537-4fc8-9e1e-7e0a5fa91f51",
-     "fill": 0.11
-    }
-   },
-   "net_credit": 0.67,
-   "max_loss_usd": 132,
-   "max_profit_usd": 268,
-   "exit_reserve_usd": 40,
-   "breakevens": [
-    12.33,
-    13.67
-   ],
-   "thesis": "IV rank 1.0 (Nov20 IV about 62% vs 10-day realized 18%). Options price a possible special session on wildfire liability (claimed bill deadline about Nov 15). Sentinel 11/10 11:08 PT: no proclamation, no bombshell.",
-   "plan": {
-    "take_profit_close_cost": 0.33,
-    "cut_close_cost": 0.87,
-    "near_breakeven": [
-     12.48,
-     13.52
-    ],
-    "fast_move_pct": 2.0,
-    "exit_by": "2026-11-18 close",
-    "never_hold_into": "2026-11-20",
-    "close_sequence": "buy to close 13C and 13P first (single-leg limits), then sell 14C and 12P"
-   },
-   "entry_day_close": 13.23,
-   "eod_2026-11-10": {
-    "close_cost_mid_last": 0.785,
-    "note": "quotes went wide into the close (13P 0.37 x 0.60); about 0.69 at normal spreads"
-   },
-   "alerts": [
-    {
-     "alert_id": "faf3b899-0570-4af7-b00c-868ee5eaae99",
-     "condition": "price_below",
-     "threshold": 12.33
-    },
-    {
-     "alert_id": "88d6e15b-601e-4561-be34-6d940fb3b744",
-     "condition": "price_above",
-     "threshold": 13.67
-    }
-   ]
+  "as_of": "2026-11-11T15:58Z",
+  "account_value": 1327.41,
+  "cap_total_max_loss": 1000,
+  "execution": {
+    "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
+    "method": "single-leg limit orders: buy both wings first, then sell the body legs. To close: buy back the shorts first, then sell the wings. Never sell a wing while its short leg is open.",
+    "approval": "single-leg orders need no customer approval while human_must_approve_trades=false"
   },
-  {
-   "symbol": "LUNR",
-   "kind": "earnings",
-   "report": "2026-11-12 before the open (call 08:30 ET)",
-   "structure": "iron fly 11/12.5/14",
-   "expiry": "2026-11-13",
-   "quantity": 1,
-   "opened": "2026-11-11T15:57:27Z",
-   "legs": {
-    "short_12.5C": {
-     "option_id": "0a957c51-627f-4e2e-b430-319a49b5eb4e",
-     "fill": 0.81
+  "open": [
+    {
+      "symbol": "PCG",
+      "kind": "non_earnings",
+      "structure": "iron fly 12/13/14",
+      "expiry": "2026-11-20",
+      "quantity": 4,
+      "opened": "2026-11-10T19:14:18Z",
+      "legs": {
+        "short_13C": {
+          "option_id": "2b96e166-e512-437c-b2eb-8c39755a6892",
+          "fill": 0.65
+        },
+        "short_13P": {
+          "option_id": "1319c643-e02f-453c-8a89-daf5a9232d1a",
+          "fill": 0.43
+        },
+        "long_14C": {
+          "option_id": "1b762445-7484-4149-b654-36759f98d5f2",
+          "fill": 0.3
+        },
+        "long_12P": {
+          "option_id": "cc6a019f-3537-4fc8-9e1e-7e0a5fa91f51",
+          "fill": 0.11
+        }
+      },
+      "net_credit": 0.67,
+      "max_loss_usd": 132,
+      "max_profit_usd": 268,
+      "exit_reserve_usd": 40,
+      "breakevens": [
+        12.33,
+        13.67
+      ],
+      "thesis": "IV rank 1.0 (Nov20 IV about 62% vs 10-day realized 18%). Options price a possible special session on wildfire liability (claimed bill deadline about Nov 15). Sentinel 11/10 11:08 PT: no proclamation, no bombshell.",
+      "plan": {
+        "take_profit_close_cost": 0.33,
+        "cut_close_cost": 0.87,
+        "near_breakeven": [
+          12.48,
+          13.52
+        ],
+        "fast_move_pct": 2.0,
+        "exit_by": "2026-11-18 close",
+        "never_hold_into": "2026-11-20",
+        "close_sequence": "buy to close 13C and 13P first (single-leg limits), then sell 14C and 12P"
+      },
+      "entry_day_close": 13.23,
+      "eod_2026-11-10": {
+        "close_cost_mid_last": 0.785,
+        "note": "quotes went wide into the close (13P 0.37 x 0.60); about 0.69 at normal spreads"
+      },
+      "alerts": [
+        {
+          "alert_id": "faf3b899-0570-4af7-b00c-868ee5eaae99",
+          "condition": "price_below",
+          "threshold": 12.33
+        },
+        {
+          "alert_id": "88d6e15b-601e-4561-be34-6d940fb3b744",
+          "condition": "price_above",
+          "threshold": 13.67
+        }
+      ]
     },
-    "short_12.5P": {
-     "option_id": "35e2aad7-e686-4478-b2e9-7d196fa443cf",
-     "fill": 0.82
-    },
-    "long_14C": {
-     "option_id": "23932f09-c3d6-4d9d-a832-fd65e6c5b3cd",
-     "fill": 0.32
-    },
-    "long_11P": {
-     "option_id": "1e0571fd-c309-472e-870e-91cf6aaad557",
-     "fill": 0.25
+    {
+      "symbol": "LUNR",
+      "kind": "earnings",
+      "report": "2026-11-12 before the open (call 08:30 ET)",
+      "structure": "iron fly 11/12.5/14",
+      "expiry": "2026-11-13",
+      "quantity": 1,
+      "opened": "2026-11-11T15:57:27Z",
+      "legs": {
+        "short_12.5C": {
+          "option_id": "0a957c51-627f-4e2e-b430-319a49b5eb4e",
+          "fill": 0.81
+        },
+        "short_12.5P": {
+          "option_id": "35e2aad7-e686-4478-b2e9-7d196fa443cf",
+          "fill": 0.82
+        },
+        "long_14C": {
+          "option_id": "23932f09-c3d6-4d9d-a832-fd65e6c5b3cd",
+          "fill": 0.32
+        },
+        "long_11P": {
+          "option_id": "1e0571fd-c309-472e-870e-91cf6aaad557",
+          "fill": 0.25
+        }
+      },
+      "net_credit": 1.06,
+      "max_loss_usd": 44,
+      "max_profit_usd": 106,
+      "exit_reserve_usd": 50,
+      "breakevens": [
+        11.44,
+        13.56
+      ],
+      "entry_spot": 12.5,
+      "edge_ratio": 0.6924,
+      "tick_size": 0.01,
+      "plan": {
+        "exit": "2026-11-12 06:45 PT check-in: close with single-leg limits, shorts first (the in-the-money short leg first), then sell the wings; flat by the 11/12 close at the latest",
+        "max_close_cost": 1.5,
+        "never_hold_into": "2026-11-13"
+      },
+      "entry_day_prev_close": 11.81,
+      "alerts": [
+        {
+          "alert_id": "138e5a52-10a1-45af-8139-06b9ca54ccd1",
+          "condition": "price_below",
+          "threshold": 11.44
+        },
+        {
+          "alert_id": "c2bff4ca-4fd9-4c44-9ab6-89f42eb9abf7",
+          "condition": "price_above",
+          "threshold": 13.56
+        }
+      ],
+      "tranches": [
+        {
+          "n": 1,
+          "ts": "2026-11-11T15:57:27Z",
+          "quantity": 1,
+          "structure": "iron fly 11/12.5/14",
+          "net_credit": 1.06,
+          "max_loss_usd": 44,
+          "phase": "early",
+          "order_ids": [
+            "6af48f86-27f0-452f-bd9d-079174e0cad3",
+            "6af48fe5-356d-442e-a591-f8b7ab53f805",
+            "6af49053-86f3-42be-9218-b8fb633e89fd",
+            "6af49054-d05b-4687-bb01-9cb4fb49a69c"
+          ]
+        }
+      ],
+      "sizing_v17": {
+        "target_usd": 159.29,
+        "note": "12% of account value 1327.41. Held $44. An add is checked at the 11:46 sweep (final window): same body 12.5, spot within 0.25 x the body straddle of it, wings per v1.6 (about 1.5x the straddle), the gate passing on fresh quotes."
+      }
     }
-   },
-   "net_credit": 1.06,
-   "max_loss_usd": 44,
-   "max_profit_usd": 106,
-   "exit_reserve_usd": 50,
-   "breakevens": [
-    11.44,
-    13.56
-   ],
-   "entry_spot": 12.5,
-   "edge_ratio": 0.6924,
-   "tick_size": 0.01,
-   "plan": {
-    "exit": "2026-11-12 06:45 PT check-in: close with single-leg limits, shorts first (the in-the-money short leg first), then sell the wings; flat by the 11/12 close at the latest",
-    "max_close_cost": 1.5,
-    "never_hold_into": "2026-11-13"
-   },
-   "entry_day_prev_close": 11.81,
-   "alerts": [
-    {
-     "alert_id": "138e5a52-10a1-45af-8139-06b9ca54ccd1",
-     "condition": "price_below",
-     "threshold": 11.44
-    },
-    {
-     "alert_id": "c2bff4ca-4fd9-4c44-9ab6-89f42eb9abf7",
-     "condition": "price_above",
-     "threshold": 13.56
-    }
-   ]
-  }
- ],
- "blockers": [
-  "2026-11-10: Robinhood rejects agent-placed multi-leg orders. Workaround in use: single-leg legging (see execution)."
- ],
- "pending": [],
- "buying_power": 1180.41,
- "risk": {
-  "total_max_loss_usd": 176,
-  "exit_reserves_usd": 90,
-  "used_usd": 266,
-  "cap_usd": 1000,
-  "free_usd": 734,
-  "detail": "PCG 132 + reserve 40; LUNR 44 + reserve 50 (the code gate's conservative reading: $50 for every earnings contract).",
-  "cap_note": "min($1,000, 0.93 x account value). Brad, 2026-11-11: 'Lets say 1k limit'. 0.93 x 1327.41 = 1234.49, so the cap is 1000."
- },
- "eod_note": "2026-11-11 07:58 PT: RGTI and FLY closed this morning (+$28.76, +$44.72). LUNR x1 entered 07:57 PT (report 11/12 before the open; exit at the 06:45 PT check-in on 11/12). PCG x4 stays open under its plan.",
- "watch": [
-  {
-   "symbol": "NVDA",
-   "kind": "earnings",
-   "report": "2026-11-17 after close",
-   "owner_decision": "2026-11-10 Brad: 'We can trade nvdia.' The news veto is waived for the board investigation (announced 11/08) and the House briefing request (proposed 11/18). All other gates apply. See RULES_CHANGELOG.",
-   "plan": "Enter Tue 11/17 near the close, 1 contract iron fly on the Nov 20 expiry at the strike nearest spot, wings sized so max loss + $50 fits the remaining budget (about $10 wide at 11/10 prices). Exit Wed 11/18 at the 06:45 PT check-in.",
-   "snapshot_2026-11-10_close": {
-    "spot": 168.79,
-    "after_hours": 170.44,
-    "nov13_170_straddle": 8.98,
-    "nov13_iv": [
-     0.7,
-     0.8
-    ],
-    "nov20_170_straddle": 18.5,
-    "nov20_iv": [
-     0.81,
-     0.86
-    ],
-    "nov20_fly_160_170_180": {
-     "credit_mid": 8.25,
-     "max_loss_usd": 175,
-     "breakevens": [
-      161.75,
-      178.25
-     ]
-    },
-    "nov20_fly_165_170_175": {
-     "credit_mid": 4.58,
-     "max_loss_usd": 42,
-     "breakevens": [
-      165.42,
-      174.58
-     ]
-    },
-    "implied_earnings_move_est": 0.08,
-    "hist_abs_moves_pct": [
-     3.25,
-     0.79,
-     3.15,
-     5.46,
-     1.77,
-     8.74
-    ],
-    "hist_avg_pct": 3.86
-   },
-   "nov20_option_ids": {
-    "170C": "f5d34fd0-9b1c-48a9-8ccc-acdfe05c3492",
-    "170P": "4a9c9837-6049-4c9a-b49d-b6f43e1e9acb",
-    "160P": "8df7e042-7d0e-4858-bae1-0479c52fe4eb",
-    "165P": "afe70a05-327b-4b6a-8208-19675c1b80e7",
-    "175C": "376aa83a-04a9-4149-9358-04207fa963ed",
-    "180C": "a3445353-ea9b-4d67-850c-704938381d56"
-   },
-   "tick": "0.01 below $3.00, 0.05 above"
-  }
- ],
- "alerts_note": "Brad, 2026-11-11: 'alerts on'. Every open position carries two Robinhood price alerts at its breakevens. Create them at entry; when the position closes, pause them with update_alert(enabled=false). Never delete without Brad's yes. docs/earnings/DAEMON.md 'Breakeven alerts'.",
- "closed_2026-11-11": [
-  {
-   "symbol": "RGTI",
-   "structure": "iron fly 9/12/15",
-   "quantity": 1,
-   "net_credit": 1.28,
-   "edge_ratio": 0.776,
-   "closed": "2026-11-11T14:50:02Z",
-   "close_debit": 0.99,
-   "pnl_usd": 28.76,
-   "exit_spot": 11.68,
-   "realized_move": -0.0387,
-   "implied_move": 0.099,
-   "alerts": [
-    {
-     "alert_id": "23d4d5d5-a8cf-4616-b4c6-6fe032b349db",
-     "condition": "price_below",
-     "threshold": 10.72,
-     "enabled": false,
-     "paused": "2026-11-11T14:51Z"
-    },
-    {
-     "alert_id": "174ad704-bf22-4e90-b608-dce68d6922bf",
-     "condition": "price_above",
-     "threshold": 13.28,
-     "enabled": false,
-     "paused": "2026-11-11T14:51Z"
-    }
-   ]
+  ],
+  "blockers": [
+    "2026-11-10: Robinhood rejects agent-placed multi-leg orders. Workaround in use: single-leg legging (see execution)."
+  ],
+  "pending": [],
+  "buying_power": 1180.41,
+  "risk": {
+    "total_max_loss_usd": 176,
+    "exit_reserves_usd": 90,
+    "used_usd": 266,
+    "cap_usd": 1000,
+    "free_usd": 734,
+    "detail": "PCG 132 + reserve 40; LUNR 44 + reserve 50 (the code gate's conservative reading: $50 for every earnings contract).",
+    "cap_note": "min($1,000, 0.93 x account value). Brad, 2026-11-11: 'Lets say 1k limit'. 0.93 x 1327.41 = 1234.49, so the cap is 1000."
   },
-  {
-   "symbol": "FLY",
-   "structure": "iron fly 19/23.5/27 (uneven wings: call 3.5 wide, put 4.5 wide)",
-   "quantity": 1,
-   "net_credit": 2.65,
-   "edge_ratio": 0.605,
-   "closed": "2026-11-11T14:48:43Z",
-   "close_debit": 2.2,
-   "pnl_usd": 44.72,
-   "exit_spot": 25.18,
-   "realized_move": 0.0624,
-   "implied_move": 0.131,
-   "alerts": [
+  "eod_note": "2026-11-11 07:58 PT: RGTI and FLY closed this morning (+$28.76, +$44.72). LUNR x1 entered 07:57 PT (report 11/12 before the open; exit at the 06:45 PT check-in on 11/12). PCG x4 stays open under its plan.",
+  "watch": [
     {
-     "alert_id": "1309f081-a2fd-4c1c-961e-812e5e936c22",
-     "condition": "price_below",
-     "threshold": 20.85,
-     "enabled": false,
-     "paused": "2026-11-11T14:51Z"
+      "symbol": "NVDA",
+      "kind": "earnings",
+      "report": "2026-11-17 after close",
+      "owner_decision": "2026-11-10 Brad: 'We can trade nvdia.' The news veto is waived for the board investigation (announced 11/08) and the House briefing request (proposed 11/18). All other gates apply. See RULES_CHANGELOG.",
+      "plan": "Enter Tue 11/17 near the close, 1 contract iron fly on the Nov 20 expiry at the strike nearest spot, wings sized so max loss + $50 fits the remaining budget (about $10 wide at 11/10 prices). Exit Wed 11/18 at the 06:45 PT check-in.",
+      "snapshot_2026-11-10_close": {
+        "spot": 168.79,
+        "after_hours": 170.44,
+        "nov13_170_straddle": 8.98,
+        "nov13_iv": [
+          0.7,
+          0.8
+        ],
+        "nov20_170_straddle": 18.5,
+        "nov20_iv": [
+          0.81,
+          0.86
+        ],
+        "nov20_fly_160_170_180": {
+          "credit_mid": 8.25,
+          "max_loss_usd": 175,
+          "breakevens": [
+            161.75,
+            178.25
+          ]
+        },
+        "nov20_fly_165_170_175": {
+          "credit_mid": 4.58,
+          "max_loss_usd": 42,
+          "breakevens": [
+            165.42,
+            174.58
+          ]
+        },
+        "implied_earnings_move_est": 0.08,
+        "hist_abs_moves_pct": [
+          3.25,
+          0.79,
+          3.15,
+          5.46,
+          1.77,
+          8.74
+        ],
+        "hist_avg_pct": 3.86
+      },
+      "nov20_option_ids": {
+        "170C": "f5d34fd0-9b1c-48a9-8ccc-acdfe05c3492",
+        "170P": "4a9c9837-6049-4c9a-b49d-b6f43e1e9acb",
+        "160P": "8df7e042-7d0e-4858-bae1-0479c52fe4eb",
+        "165P": "afe70a05-327b-4b6a-8208-19675c1b80e7",
+        "175C": "376aa83a-04a9-4149-9358-04207fa963ed",
+        "180C": "a3445353-ea9b-4d67-850c-704938381d56"
+      },
+      "tick": "0.01 below $3.00, 0.05 above"
+    }
+  ],
+  "alerts_note": "Brad, 2026-11-11: 'alerts on'. Every open position carries two Robinhood price alerts at its breakevens. Create them at entry; when the position closes, pause them with update_alert(enabled=false). Never delete without Brad's yes. docs/earnings/DAEMON.md 'Breakeven alerts'.",
+  "closed_2026-11-11": [
+    {
+      "symbol": "RGTI",
+      "structure": "iron fly 9/12/15",
+      "quantity": 1,
+      "net_credit": 1.28,
+      "edge_ratio": 0.776,
+      "closed": "2026-11-11T14:50:02Z",
+      "close_debit": 0.99,
+      "pnl_usd": 28.76,
+      "exit_spot": 11.68,
+      "realized_move": -0.0387,
+      "implied_move": 0.099,
+      "alerts": [
+        {
+          "alert_id": "23d4d5d5-a8cf-4616-b4c6-6fe032b349db",
+          "condition": "price_below",
+          "threshold": 10.72,
+          "enabled": false,
+          "paused": "2026-11-11T14:51Z"
+        },
+        {
+          "alert_id": "174ad704-bf22-4e90-b608-dce68d6922bf",
+          "condition": "price_above",
+          "threshold": 13.28,
+          "enabled": false,
+          "paused": "2026-11-11T14:51Z"
+        }
+      ]
     },
     {
-     "alert_id": "9a3e5ae2-5843-48d1-ba66-ebc78e513f87",
-     "condition": "price_above",
-     "threshold": 26.15,
-     "enabled": false,
-     "paused": "2026-11-11T14:51Z"
+      "symbol": "FLY",
+      "structure": "iron fly 19/23.5/27 (uneven wings: call 3.5 wide, put 4.5 wide)",
+      "quantity": 1,
+      "net_credit": 2.65,
+      "edge_ratio": 0.605,
+      "closed": "2026-11-11T14:48:43Z",
+      "close_debit": 2.2,
+      "pnl_usd": 44.72,
+      "exit_spot": 25.18,
+      "realized_move": 0.0624,
+      "implied_move": 0.131,
+      "alerts": [
+        {
+          "alert_id": "1309f081-a2fd-4c1c-961e-812e5e936c22",
+          "condition": "price_below",
+          "threshold": 20.85,
+          "enabled": false,
+          "paused": "2026-11-11T14:51Z"
+        },
+        {
+          "alert_id": "9a3e5ae2-5843-48d1-ba66-ebc78e513f87",
+          "condition": "price_above",
+          "threshold": 26.15,
+          "enabled": false,
+          "paused": "2026-11-11T14:51Z"
+        }
+      ]
     }
-   ]
+  ],
+  "leftover_long_wings": {
+    "note": "Zero-bid long wings left after the 11/11 exits. No risk (long options, already paid for). Friday 11/13 at the 06:45 PT check-in: sell any that shows a bid of 0.01 or more with a single-leg limit; otherwise let them expire. If one is in the money on 11/13, sell it before 11:00 PT (never let a long option auto-exercise).",
+    "legs": [
+      {
+        "symbol": "RGTI",
+        "leg": "long 15C",
+        "expiry": "2026-11-13",
+        "quantity": 1,
+        "option_id": "9d68d3d0-5306-4e5b-8754-1439c4f13890",
+        "cost": 0.08
+      },
+      {
+        "symbol": "RGTI",
+        "leg": "long 9P",
+        "expiry": "2026-11-13",
+        "quantity": 1,
+        "option_id": "206ea6d7-2a79-44d3-9e2c-5f875055fa27",
+        "cost": 0.02
+      },
+      {
+        "symbol": "FLY",
+        "leg": "long 19P",
+        "expiry": "2026-11-13",
+        "quantity": 1,
+        "option_id": "8b26493e-139f-4db0-a6fd-09d21d23567c",
+        "cost": 0.3
+      }
+    ]
   }
- ],
- "leftover_long_wings": {
-  "note": "Zero-bid long wings left after the 11/11 exits. No risk (long options, already paid for). Friday 11/13 at the 06:45 PT check-in: sell any that shows a bid of 0.01 or more with a single-leg limit; otherwise let them expire. If one is in the money on 11/13, sell it before 11:00 PT (never let a long option auto-exercise).",
-  "legs": [
-   {
-    "symbol": "RGTI",
-    "leg": "long 15C",
-    "expiry": "2026-11-13",
-    "quantity": 1,
-    "option_id": "9d68d3d0-5306-4e5b-8754-1439c4f13890",
-    "cost": 0.08
-   },
-   {
-    "symbol": "RGTI",
-    "leg": "long 9P",
-    "expiry": "2026-11-13",
-    "quantity": 1,
-    "option_id": "206ea6d7-2a79-44d3-9e2c-5f875055fa27",
-    "cost": 0.02
-   },
-   {
-    "symbol": "FLY",
-    "leg": "long 19P",
-    "expiry": "2026-11-13",
-    "quantity": 1,
-    "option_id": "8b26493e-139f-4db0-a6fd-09d21d23567c",
-    "cost": 0.3
-   }
-  ]
- }
 }

@@ -306,7 +306,11 @@ def run(argv: list[str] | None = None) -> tuple[dict[str, Any], int]:
         else:
             cand = _load_json(args.input, "candidate")
         jpath = args.journal or cfg["journal_path"]
+        phase_source = "candidate"
+        if isinstance(cand, dict) and cand.get("phase") is None:
+            cand, phase_source = dict(cand, phase=gate_mod.phase_now(cfg)), "clock"
         out, code = gate_mod.evaluate(cand, cfg, journal.read_journal(jpath))
+        out["phase_source"] = phase_source
         out["journal"] = {"path": jpath, "found": Path(jpath).exists()}
         return out, code
     if args.cmd == "score":

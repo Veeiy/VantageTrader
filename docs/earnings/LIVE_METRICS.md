@@ -22,8 +22,14 @@ All records carry `trade_id` (`SYMBOL-YYYYMMDD-n`), `record`, `ts` (UTC), `symbo
   `fees_usd`, `leg_fills`
 - `risk`: `max_loss_usd`, `max_profit_usd`, `breakevens`, `wing_width`
 
-### `adjust` (partial close, roll, trim)
+### `adjust` (partial close, roll, trim, scale-in add)
 - `tag`, `closed_quantity`, `open_quantity`, `spot`, `close_debit`, `pnl_usd`, `note`
+- A scale-in add (rules v1.7) is an `adjust` record with `tag: "add"`, the same `trade_id`
+  as the name's entry, `added_quantity`, `open_quantity` (the new total), the tranche's own
+  `signal`, `gate` and `execution` blocks (as on an entry), `risk.max_loss_usd` (the NEW
+  total for the name), `avg_credit` (quantity-weighted over all tranches), `phase`
+  (`early` or `final`) and no `pnl_usd`. One name stays one trade: the exit record carries
+  the whole position's result.
 
 ### `exit` (written right after the position is flat)
 - `exit_spot`, `prior_close`, `realized_move` (signed, entry-day close to exit spot),

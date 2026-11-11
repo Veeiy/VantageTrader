@@ -318,9 +318,10 @@ The agent's reading of the scope (its own interpretation; Brad corrects it if it
 - **Covered:** iterations of the strategy's parameters and rules, like P018 (wing width) and
   P019 (entry filter): thresholds, gates, structure, timing, exits, paper tests.
 - **Still only on his words:** the account (MCP only), never TSLA, defined risk only, limit
-  orders only, the total risk cap min($1,000, 0.93 x account value), a max loss per trade
-  above $350, more than 1 contract per earnings name before 10 live trades are closed, a new
-  live strategy line, anything that moves money in or out.
+  orders only, the total risk cap min($1,000, 0.93 x account value), a max loss per name
+  above $350, a new live strategy line, anything that moves money in or out. (The item
+  "more than 1 contract per earnings name before 10 live trades are closed" stood here until
+  08:25 PT the same day, when he lifted it: see v1.7.)
 - **Standard the agent holds itself to:** a written proposal with numbers and a measure; at
   least 50 replay events or 8 live observations behind a rule change; one change per rule at
   a time; a review date; roll back what does not work.
@@ -351,3 +352,81 @@ edge (`state/earnings/daytrade/2026-11-11/FINDINGS.md`), and a new live strategy
 outside the delegation. So: one SPY and one IWM same-day iron fly are recorded on paper every
 session at the 07:15 run, marked at every hourly run, final mark at 12:15 PT. After 10
 sessions the result after costs goes to Brad with a go or no-go.
+
+## v1.7 (2026-11-11 08:25 PT): contracts by risk, and scaling in
+Brad: "you can open more contracts for one ticker if it meets the criteria. or want to scale
+in as well."
+
+This lifts the v1.3 data-phase limit (1 contract per earnings name until 10 live trades are
+closed) on his words. How the room is used is the agent's design under the delegation; he
+changes any number below with one word.
+
+### Sizing: by risk, not by count
+- Every earnings name gets a **target max loss of 12% of account value** at the credit floor
+  (about $159 on $1,327), never above the $350 per-name limit. New contracts = (target minus
+  the max loss already held on the name) / max loss of one contract, rounded to the nearest
+  whole number. It is a target, not a ceiling: a name lands a little under or over it.
+- One contract is always allowed on a new name whose max loss fits $350, as before.
+- Ceilings, all rounded down: $350 of max loss per name, 10 contracts per name, and the
+  total cap min($1,000, 0.93 x account value) with a $50 reserve per earnings contract. On
+  a busy day the budget shrinks the later names.
+- Why a target and not "as many as fit". The replay (103 clean events, 10:00 ET exit, after
+  costs) puts the 1.5x fly at about +3% to +6% of its max loss per trade, with a standard
+  error as large as the average. Per dollar of max loss the results spread about 0.25 to
+  0.45. On those numbers the size that grows the account fastest is somewhere between 18%
+  and 50% of the account per name; half of that or less is the usual discount for an edge
+  that is not proven, and a few bad nights in a row must not end the test. 12% is in the low
+  part of that range. More contracts multiply the result and the swings alike. They add no
+  edge.
+- Why not more contracts on "better" setups. In the replay the edge ratio does not pick
+  winners (rank correlation 0.00; at or under 0.70: 15 wins of 25, the rest 46 of 78). There
+  is no measured basis for betting more on one passing name than on another, so every
+  passing name carries about the same risk. What several contracts fix is the cheap name:
+  LUNR at $44 of max loss was a quarter of RGTI at $172.
+
+### Scaling in
+- Before 11:30 PT ("early") a name carries at most **half its target**, rounded down (one
+  contract is still allowed). An early fly can drift off its body strike before the report.
+  The part entered in the final window cannot.
+- From 11:30 PT ("final") an open name is completed to its target and a new name goes in at
+  full size. Nothing new after 12:35 PT, as before.
+- An add is a new entry decision: fresh quotes, the gate again, every rule passing. Two
+  extra conditions: the same body strike and expiry as the open tranche, and spot within
+  0.25 x the body straddle of that strike. If the stock has left the strike there is no add
+  and no second fly at another strike. The open tranche is kept as it is.
+- The wings of an add follow the wing rule in force (v1.6), so they may differ from the
+  first tranche's.
+- The one-name-per-sector rule does not apply to an add.
+- Non-earnings flies (v1.2): an add at a later check-in or on a later day is allowed while
+  the v1.2 entry conditions still hold, the position is not at or past its cut level, and
+  the name stays at or under $200 of max loss.
+
+### Execution with several contracts
+- Each order carries the tranche's quantity. Wings first, then the shorts, for the same
+  quantity. At no moment more shorts than wings on either side.
+- A partly filled wing order sets the tranche: cancel the rest and sell only that many shorts.
+- A partly filled short order is repriced under the credit floor rule. At 12:50 PT cancel
+  what is unfilled, buy back the surplus shorts of the fuller side so both sides match, and
+  sell surplus wings if they have a bid (else list them under `leftover_long_wings`).
+- Exit: buy back every short first (ITM side first), then sell the wings.
+
+### Records
+- Journal: an add is an `entry_filled` with `"add": true`. It joins the open trade: one name
+  is one trade, so its loss counts once in the circuit breaker.
+- `positions.json`: one position per name with `quantity`, the average `credit`, the total
+  `max_loss_usd` and a `tranches` list (time, quantity, strikes, credit, max loss, order
+  ids). Breakevens are the body plus and minus the average credit; move the two price
+  alerts when they change.
+- `live_metrics.jsonl`: an `adjust` record with `tag: "add"` (docs/earnings/LIVE_METRICS.md).
+
+### In code
+`sizing.plan`, the gate checks `add_centered` and `name_risk`, the candidate fields `held`
+and `phase` (docs/earnings/GATE.md). `data_phase_trades` is gone. `max_quantity` 10 (hard
+cap), `name_risk_frac` 0.12 (hard cap 0.15), `name_risk_cap` 350 (hard cap). The gate now
+blocks a max loss above $350 per name at any spread, which v1.6 already required.
+
+### Review
+After 10 closed trades under v1.7: early against final tranche credits on the same name,
+and the result per dollar of risk against the 1-contract trades. The agent may move the
+target between 0 and 15% of the account under the delegation. More than $350 on one name
+needs Brad.

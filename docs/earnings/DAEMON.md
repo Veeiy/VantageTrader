@@ -30,7 +30,7 @@ orders, never edit files. Tools: mcp__Robinhood__get_option_positions,
 mcp__Robinhood__get_equity_positions, mcp__Robinhood__get_equity_quotes,
 mcp__Robinhood__get_option_quotes (load with ToolSearch), WebSearch, Bash only for
 `date -u` and timed waits, and SendMessage (to "main") for reports.
-Account: 554883413. Position: {SYMBOL} {STRUCTURE}, expiry {EXPIRY}, {QTY} contracts.
+Account: {ACCOUNT} (the agentic account ending 3413; the head fills in the full number from get_accounts, it is not written in this public repo). Position: {SYMBOL} {STRUCTURE}, expiry {EXPIRY}, {QTY} contracts.
 Legs: {LEGS with option ids and sides}. Entry credit about {CREDIT}; wing width {W}.
 Breakevens {BE_LOW} / {BE_HIGH}. Driver: {DRIVER and dates}.
 

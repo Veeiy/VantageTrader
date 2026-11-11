@@ -45,8 +45,8 @@ Regime guard: applied when the candidate carries ``regime_20d`` (the ``gate`` co
 Flags: any flag skips, except ``big_intraday_move`` (a price fact the intraday gate covers).
 Risk cap: min(max_loss_abs $1,000, 0.93 x account.total_value) minus
   ``account.open_risk_usd`` (max loss + exit reserves of positions already open; required
-  when ``open_positions`` is not empty). Quantity: 1 while fewer than ``data_phase_trades``
-  live trades are closed in the journal.
+  when ``open_positions`` is not empty). Quantity: this older chain-based path stays at
+  1 contract per name; sizing above 1 (v1.7) is decided by the ``gate`` command only.
 
 Ranking: tradeable candidates by ev_per_dollar_risk desc, then skipped ones. The top
 tradeable candidate becomes ``order``. ``status`` is "halted" (exit 3) if the circuit
@@ -244,7 +244,7 @@ def score(snapshot: dict[str, Any], cfg: dict[str, Any], journal_events: list[di
     open_risk = float(acct.get("open_risk_usd") or 0.0)
     cap = sizing.risk_budget(float(acct["total_value"]), open_risk, cfg)
     closed = len(jr.closed_trades(journal_events))
-    ctx = {"cap": cap, "open_positions": open_positions, "qty_limit": sizing.max_quantity(closed, cfg),
+    ctx = {"cap": cap, "open_positions": open_positions, "qty_limit": 1,
            "today": rules.local_date(snapshot["as_of"], cfg["market_timezone"]),
            "open_symbols": {norm_symbol(p.get("symbol")) for p in open_positions if isinstance(p, dict)}}
     rows = [score_candidate(c, ctx, cfg) for c in snapshot["candidates"]]

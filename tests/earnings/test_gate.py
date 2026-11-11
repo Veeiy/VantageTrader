@@ -64,12 +64,22 @@ def test_lunr_2026_11_11():
     assert f["width"] == 1.5 and rec["breakevens"] == [10.92, 13.08]
     assert rec["max_loss"]["mid"] == pytest.approx(42.0) and rec["max_loss"]["natural"] == pytest.approx(62.0)
     assert rec["max_loss"]["floor"] == pytest.approx(50.64)            # at 0.92 x mid credit
-    assert rec["contracts"] == 1
+    # v1.7: target 12% of $1,339 = $160.68 -> 3 contracts in all; no phase given = early = 1 now
+    assert rec["contracts"] == 1 and rec["contracts_planned"] == 3 and rec["contracts_later"] == 2
+    assert rec["sizing"]["target"] == pytest.approx(160.68) and rec["sizing"]["phase"] == "early"
     r = rec["risk"]
     assert r["risk_cap"] == 1000.0 and r["budget_before"] == 828.0
     assert r["this_trade_usd"] == pytest.approx(100.64) and r["budget_left"] == pytest.approx(727.36)
-    assert [x["n"] for x in rec["gates"]] == list(range(1, 15))
+    assert [x["n"] for x in rec["gates"]] == list(range(1, 16))
     assert all(x["pass"] for x in rec["gates"])
+
+
+def test_lunr_full_size_in_the_final_window():
+    rec, code = run(cand(phase="final"))
+    assert code == 0 and rec["contracts"] == 3 and rec["contracts_later"] == 0
+    assert rec["max_loss"]["floor"] == pytest.approx(151.92)
+    assert rec["max_loss"]["per_contract_floor"] == pytest.approx(50.64)
+    assert rec["risk"]["this_trade_usd"] == pytest.approx(301.92)       # 3 x (50.64 + $50 reserve)
 
 
 # ------------------------------------------------------------ P011
@@ -150,20 +160,24 @@ def test_spread_uses_worst_leg():
     assert s["worst"] == s["put"] > s["straddle"]
 
 
-def test_spread_at_12pct_has_no_band_cap():
+def test_max_loss_above_350_blocks_at_any_spread():
+    # v1.6: max loss at the credit floor <= $350 per name, also under the 12% spread band
     rec, code = run(cand(WIDE, call={"bid": 4.7, "ask": 5.3}, put={"bid": 4.7, "ask": 5.3}))   # 0.6/5 = 12%
-    assert code == 0 and rec["risk"]["spread_band_cap"] is None
-    assert rec["max_loss"]["floor"] > 350.0
+    assert rec["risk"]["spread_band_cap"] is None and rec["max_loss"]["floor"] > 350.0
+    assert code == 3 and rec["reason"] == "name_risk_cap" and g(rec, "name_risk")["limit"] == 350.0
 
 
 def test_spread_above_12pct_caps_max_loss_at_350():
     rec, code = run(cand(WIDE, call={"bid": 4.6, "ask": 5.4}, put={"bid": 4.6, "ask": 5.4}))   # 16%
-    assert code == 3 and g(rec, "spread_band_cap")["pass"] is False
-    assert rec["reason"] == "spread_band_max_loss" and g(rec, "spread_band_cap")["limit"] == 350.0
-    # the same spread on a fly whose max loss fits under $350 passes
+    assert code == 3 and g(rec, "name_risk")["pass"] is False
+    assert rec["reason"] == "name_risk_cap" and g(rec, "name_risk")["limit"] == 350.0
+    assert rec["risk"]["spread_band_cap"] == 350.0
+    # the same spread on a fly whose max loss fits under $350 passes, with one contract:
+    # $282 is above the name target (12% of $2,000 = $240) but one contract is always allowed
     narrow = {"call_strike": 110.0, "put_strike": 90.0, "call": {"bid": 1.0, "ask": 1.2}, "put": {"bid": 1.0, "ask": 1.2}}
     rec, code = run(cand(WIDE, call={"bid": 4.6, "ask": 5.4}, put={"bid": 4.6, "ask": 5.4}, wings=narrow))
-    assert code == 0 and rec["max_loss"]["floor"] <= 350.0
+    assert code == 0 and rec["max_loss"]["floor"] <= 350.0 and rec["contracts"] == 1
+    assert rec["sizing"]["target"] == 240.0
 
 
 # ------------------------------------------------------------ regime guard
@@ -269,14 +283,66 @@ def test_risk_cap_is_93pct_of_account_value_when_smaller():
     assert rec["risk"]["risk_cap"] == 930.0 and rec["risk"]["budget_before"] == 758.0
 
 
-def test_one_contract_in_data_phase_then_config_quantity():
-    rec, _ = run(cand(open_risk_usd=0), max_quantity=5)
-    assert rec["contracts"] == 1 and rec["contracts_limit"] == 1
-    ev = []
-    for i in range(10):
-        ev += trade(f"S{i}", "iron_fly", 1.0, 0.5, i + 1, max_loss=100)
-    rec, _ = run(cand(open_risk_usd=0), events=ev, max_quantity=5)
-    assert rec["closed_live_trades"] == 10 and rec["contracts"] == 5
+# ------------------------------------------------------------ v1.7: contracts by risk, adds
+
+def test_contracts_follow_the_name_target_not_the_trade_count():
+    rec, _ = run(cand(open_risk_usd=0, phase="final"))
+    assert rec["contracts"] == 3 and rec["closed_live_trades"] == 0      # no data phase any more
+    rec, _ = run(cand(open_risk_usd=0, phase="final"), max_quantity=2)
+    assert rec["contracts"] == 2 and rec["sizing"]["binding"] == "max_quantity"
+    rec, _ = run(cand(open_risk_usd=0, phase="final", account_value=600))  # target $72 -> 1
+    assert rec["contracts"] == 1
+    rec, _ = run(cand(open_risk_usd=800, phase="final"))                   # budget $200 -> 1
+    assert rec["contracts"] == 1 and rec["sizing"]["binding"] == "max_loss_exceeds_cap"
+
+
+HELD = {"quantity": 1, "max_loss_usd": 44.0, "K": 12}
+
+
+def test_add_in_the_final_window_fills_the_target():
+    rec, code = run(cand(held=HELD, open_risk_usd=266, phase="final"))
+    assert code == 0 and rec["contracts"] == 2                            # (160.68 - 44) / 50.64
+    assert rec["max_loss"]["name_total_floor"] == pytest.approx(44 + 2 * 50.64)
+    assert g(rec, "add_centered")["pass"] is True
+
+
+def test_add_before_the_final_window_waits():
+    rec, code = run(cand(held=HELD, open_risk_usd=266, phase="early"))
+    assert code == 3 and rec["reason"] == "early_tranche_full" and rec["contracts"] == 0
+    assert rec["sizing"]["planned"] == 2 and rec["sizing"]["now"] == 0
+
+
+def test_add_needs_spot_at_the_body_strike():
+    # 0.25 x straddle 1.595 = 0.399 of room around the body 12
+    rec, code = run(cand(held=HELD, open_risk_usd=266, phase="final", spot=12.6, prev_close=12.4))
+    assert code == 3 and rec["reason"] == "add_off_center"
+    assert g(rec, "add_centered")["limit"] == pytest.approx(0.3988, abs=1e-4)
+    rec, code = run(cand(held=dict(HELD, K=12.5), open_risk_usd=266, phase="final"))
+    assert code == 3 and rec["reason"] == "add_different_body"
+
+
+def test_add_skips_the_sector_rule_and_stops_at_the_target():
+    rec, code = run(cand(held=HELD, open_risk_usd=266, phase="final", sector="space",
+                         sectors_entered_today=["space"]))
+    assert code == 0 and g(rec, "sector")["pass"] is True
+    rec, code = run(cand(held={"quantity": 3, "max_loss_usd": 150.0, "K": 12}, open_risk_usd=400, phase="final"))
+    assert code == 3 and rec["reason"] == "name_target_reached"
+
+
+@pytest.mark.parametrize("bad", [
+    {"held": {"max_loss_usd": 44, "K": 12}}, {"held": {"quantity": 1.5, "max_loss_usd": 44, "K": 12}},
+    {"held": [1]}, {"phase": "later"},
+])
+def test_bad_held_or_phase_is_rejected(bad):
+    with pytest.raises(EngineInputError):
+        run(cand(**bad))
+
+
+def test_phase_from_the_clock():
+    from datetime import datetime, timezone
+    c = cfg()
+    assert gate.phase_now(c, datetime(2026, 11, 11, 19, 29, tzinfo=timezone.utc)) == "early"   # 11:29 PT
+    assert gate.phase_now(c, datetime(2026, 11, 11, 19, 30, tzinfo=timezone.utc)) == "final"   # 11:30 PT
 
 
 def test_every_failure_is_listed():

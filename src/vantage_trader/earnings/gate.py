@@ -1,6 +1,6 @@
 """The entry gate in code (proposals P004 and P011).
 
-One candidate in, one decision record out. Every rule from RULES_CHANGELOG v1.1 to v1.5 and
+One candidate in, one decision record out. Every rule from RULES_CHANGELOG v1.1 to v1.7 and
 the 2026-11-11 decisions is checked separately and reported with its number, its limit and
 pass/fail, so the decision can be compared line by line with the manual gate. A
 disagreement between this record and the manual gate blocks the entry until explained.
@@ -14,10 +14,12 @@ Candidate (the compact shape the analysts already produce)::
      "flags"?: [risk-sentinel flags] or {"name": true|false},
      "sector_same_direction"?: bool, "macro_veto"?: bool|str, "circuit_breaker"?: bool|str,
      "sector"?: str, "sectors_entered_today"?: [str], "tick"?: float,
-     "account_value", "open_risk_usd"}
+     "account_value", "open_risk_usd",
+     "held"?: {"quantity", "max_loss_usd", "K"},   # contracts already open on this name (an add)
+     "phase"?: "early" | "final"}                  # the CLI fills it from the clock when absent
 
 ``open_risk_usd`` is max loss PLUS exit reserves of every position already open (earnings
-and non-earnings), as positions.json records them.
+and non-earnings), as positions.json records them. It includes the tranche in ``held``.
 
 Implied move (P011). On a coarse strike grid the body strike K sits off the money and its
 straddle holds intrinsic value, which overstates the implied move. The body straddle is
@@ -45,28 +47,36 @@ Gates (all evaluated; ``reason`` is the first failure, ``blocked_by`` lists all)
                           checked when both are given)
     12 structure          wings present, K-put_strike > 0, call_strike-K > 0, 0 < mid credit
                           < width, a fillable limit range (floor <= start)
-    13 spread_band_cap    when the spread is above 12%: max loss at the credit floor <= $350
-    14 risk_budget        open_risk_usd + max loss at the floor + exit reserve <= the cap
+    13 add_centered       an add only: same body strike as the held tranche, and spot
+                          within 0.25 x body straddle of it. A first entry passes.
+    14 name_risk          max loss on the name (held + the contracts entered now, at the
+                          credit floor) <= $350, and at least one contract may be entered now
+    15 risk_budget        open_risk_usd + max loss at the floor + exit reserve <= the cap
                           min($1,000, 0.93 x account value)
 
 Max loss is checked at the credit FLOOR max(natural, 0.92 x mid) of the fly, the worst
 price the execution rules accept; ``max_loss_mid`` is reported next to it. The exit reserve
 is $50 per earnings contract (the narrower $10 reserve applies to non-earnings flies).
-Contracts: 1 while fewer than 10 live trades are closed in the journal.
-Band: "tight" (edge <= 0.70: may be entered as soon as it qualifies), "final_sweep"
-(0.70 < edge <= 0.85: wait for the 11:46 sweep), "no_edge" (above 0.85).
+
+Contracts (v1.7, sizing.plan): sized by risk. The name's target is 12% of account value
+(never above $350). ``contracts`` is what may be entered at this check-in,
+``contracts_planned`` what the name may still add in total, ``contracts_later`` the part
+that waits for the final window (from 11:30 PT). Before the final window a name carries at
+most half its target; one contract is always allowed on a name with nothing held.
+Band: a label only since v1.5 ("tight" edge <= 0.70, "final_sweep" 0.70 to 0.85, "no_edge").
 
 Exit code (CLI): 0 when the candidate may be entered, 3 when blocked, 2 on bad input.
 Nothing here places orders or reads the market.
 """
 from __future__ import annotations
 
+from datetime import datetime, timezone
 from statistics import mean
 from typing import Any
 
 from . import journal as jr
 from . import pricing, rules, sizing
-from .config import EngineInputError, norm_symbol
+from .config import EngineInputError, cancel_by_la_minutes, norm_symbol
 from .projection import implied_sigma, straddle
 
 NEWS_EXEMPT_FLAGS = {"big_intraday_move"}
@@ -214,6 +224,22 @@ def parse_candidate(c: Any) -> dict[str, Any]:
     if entered is not None and not (isinstance(entered, list) and all(isinstance(s, str) for s in entered)):
         raise EngineInputError("sectors_entered_today must be a list of strings")
     out["sector"], out["sectors_entered_today"] = sector, entered
+    held = c.get("held")
+    if held is not None:
+        if not isinstance(held, dict):
+            raise EngineInputError("held must be an object with quantity, max_loss_usd and K")
+        hq = _num(held.get("quantity"), "held.quantity", positive=True)
+        if not float(hq).is_integer():
+            raise EngineInputError("held.quantity must be a whole number")
+        out["held"] = {"quantity": int(hq),
+                       "max_loss_usd": _num(held.get("max_loss_usd"), "held.max_loss_usd", nonneg=True),
+                       "K": _num(held.get("K"), "held.K", positive=True)}
+    else:
+        out["held"] = None
+    phase = c.get("phase")
+    if phase is not None and phase not in ("early", "final"):
+        raise EngineInputError("phase must be 'early' or 'final'")
+    out["phase"] = phase
     w = c.get("wings")
     if w is not None:
         if not isinstance(w, dict):
@@ -268,6 +294,13 @@ def fly(c: dict[str, Any], cfg: dict[str, Any]) -> dict[str, Any] | None:
 
 
 # ---------------------------------------------------------------- the gate
+
+def phase_now(cfg: dict[str, Any], now: datetime | None = None) -> str:
+    """"final" from final_window_start (11:30 PT) on, "early" before it. Used when the candidate gives no phase."""
+    from zoneinfo import ZoneInfo
+    la = (now or datetime.now(timezone.utc)).astimezone(ZoneInfo("America/Los_Angeles"))
+    return "final" if la.hour * 60 + la.minute >= cancel_by_la_minutes(cfg["final_window_start"]) else "early"
+
 
 def evaluate(raw: Any, cfg: dict[str, Any], journal_events: list[dict[str, Any]] | None = None) -> tuple[dict[str, Any], int]:
     c = parse_candidate(raw)
@@ -333,7 +366,10 @@ def evaluate(raw: Any, cfg: dict[str, Any], journal_events: list[dict[str, Any]]
     cb_reasons = list(cb["reasons"]) + (["input: " + (cbreason or "set")] if cbi else [])
     add("circuit_breaker", not cb_reasons, cb_reasons, [], reason="circuit_breaker")
     # 11 sector
-    if c["sector"] is not None and c["sectors_entered_today"] is not None:
+    if c["held"] is not None:
+        add("sector", True, c["sector"], c["sectors_entered_today"],
+            note="an add to a name already open: the one-name-per-sector rule does not apply")
+    elif c["sector"] is not None and c["sectors_entered_today"] is not None:
         clash = c["sector"].strip().lower() in {s.strip().lower() for s in c["sectors_entered_today"]}
         add("sector", not clash, c["sector"], c["sectors_entered_today"], reason="same_sector_today")
     else:
@@ -347,26 +383,46 @@ def evaluate(raw: Any, cfg: dict[str, Any], journal_events: list[dict[str, Any]]
             None, note=None if f["valid"] else "wings or credit out of range",
             reason="no_valid_wings" if not f["valid"] else "no_fillable_limit_range")
 
-    # sizing and caps
+    # sizing and caps (v1.7: by risk, in tranches)
     closed = len(jr.closed_trades(events))
-    qty_limit = sizing.max_quantity(closed, cfg)
     cap = sizing.risk_cap(c["account_value"], cfg)
     budget = sizing.risk_budget(c["account_value"], c["open_risk_usd"], cfg)
     reserve = cfg["exit_slippage_reserve"]
     wide = sp["worst"] > cfg["wide_spread_pct"] + EPS
-    trade_cap = min(budget, cfg["wide_spread_max_loss"] + reserve * qty_limit) if wide else budget
-    qty = 0
-    if f is not None and f["valid"] and f["max_loss_floor"] > 0:
-        qty, _ = sizing.quantity_for(f["max_loss_floor"] + reserve, trade_cap, cfg, limit=qty_limit)
+    held = c["held"]
+    held_qty = held["quantity"] if held else 0
+    held_ml = held["max_loss_usd"] if held else 0.0
+    phase = c["phase"] or "early"      # no phase given: the smaller, early size
+    ml_unit = f["max_loss_floor"] if f is not None and f["valid"] and f["max_loss_floor"] > 0 else None
+    # above the 12% spread band the name cap is the tighter of the two limits (both $350 today)
+    name_cap = min(cfg["name_risk_cap"], cfg["wide_spread_max_loss"]) if wide else cfg["name_risk_cap"]
+    plan = sizing.plan(ml_unit, reserve, c["account_value"], c["open_risk_usd"],
+                       dict(cfg, name_risk_cap=name_cap),
+                       held_qty=held_qty, held_max_loss=held_ml, phase=phase)
+    qty = plan["now"]
     q_eval = max(qty, 1)
-    ml_floor = f["max_loss_floor"] * q_eval if f and f["valid"] else None
-    # 13 spread band cap
-    if not wide:
-        add("spread_band_cap", True, ml_floor, None, note=f"spread at or under {cfg['wide_spread_pct']}: no extra cap")
+    ml_floor = round(ml_unit * q_eval, 2) if ml_unit is not None else None
+    # 13 add centered
+    if held is None:
+        add("add_centered", True, None, None, note="first entry on this name")
     else:
-        add("spread_band_cap", ml_floor is not None and ml_floor <= cfg["wide_spread_max_loss"] + EPS, ml_floor,
-            cfg["wide_spread_max_loss"], note="max loss at the credit floor", reason="spread_band_max_loss")
-    # 14 risk budget
+        off = abs(spot - k)
+        room = round(cfg["add_center_frac"] * body_straddle, 4)
+        same_body = abs(k - held["K"]) <= EPS
+        add("add_centered", same_body and off <= room + EPS, round(off, 4), room,
+            note=(f"held body {held['K']}, this body {k}; spot must sit within "
+                  f"{cfg['add_center_frac']} x the body straddle of it"),
+            reason="add_off_center" if same_body else "add_different_body")
+    # 14 name risk
+    name_ml = None if ml_floor is None else round(held_ml + ml_floor, 2)
+    add("name_risk", name_ml is not None and name_ml <= name_cap + EPS and qty >= 1,
+        name_ml, name_cap,
+        note=(f"target {plan['target']} (phase {phase}): planned {plan['planned']} more, {plan['now']} now, "
+              f"{plan['later']} later; held {held_qty} with max loss {held_ml}"
+              + (f"; spread above {cfg['wide_spread_pct']}" if wide else "")),
+        reason=("name_risk_cap" if name_ml is not None and name_ml > name_cap + EPS
+                else (plan["binding"] or "name_risk_cap")))
+    # 15 risk budget
     need = None if ml_floor is None else round(ml_floor + reserve * q_eval, 2)
     add("risk_budget", need is not None and need <= budget + EPS, need, budget,
         note=f"cap {cap} - open risk {c['open_risk_usd']} = {budget}; needs max loss at floor + "
@@ -390,15 +446,20 @@ def evaluate(raw: Any, cfg: dict[str, Any], journal_events: list[dict[str, Any]]
         "gates": gates,
         "fly": f,
         "contracts": qty if action == "sell" else 0,
-        "contracts_limit": qty_limit,
+        "contracts_planned": plan["planned"] if action == "sell" else 0,
+        "contracts_later": plan["later"] if action == "sell" else 0,
+        "sizing": plan,
         "closed_live_trades": closed,
-        "max_loss": {"mid": f["max_loss_mid"] * q_eval, "natural": f["max_loss_natural"] * q_eval,
-                     "floor": ml_floor} if f else None,
+        "max_loss": {"mid": round(f["max_loss_mid"] * q_eval, 2),
+                     "natural": round(f["max_loss_natural"] * q_eval, 2),
+                     "floor": ml_floor, "per_contract_floor": ml_unit,
+                     "name_total_floor": name_ml} if f else None,
         "breakevens": f["breakevens_mid"] if f else None,
         "risk": {
             "risk_cap": cap, "open_risk_usd": c["open_risk_usd"], "budget_before": budget,
             "exit_reserve_per_contract": reserve,
             "spread_band_cap": cfg["wide_spread_max_loss"] if wide else None,
+            "name_risk_cap": name_cap, "name_target": plan["target"],
             "this_trade_usd": need if action == "sell" else 0.0,
             "budget_left": round(budget - (need if action == "sell" else 0.0), 2),
         },

@@ -30,8 +30,13 @@ wing_widths_pct: [0.05, 0.075, 0.10, 0.125]   # iron fly wing candidates as frac
 max_loss_abs: 1000.0         # HARD CAP <= 1000. TOTAL cap across all open positions incl. exit reserves:
                              # min(max_loss_abs, max_loss_bp_frac * account value)
 max_loss_bp_frac: 0.93       # HARD CAP <= 0.93
-max_quantity: 1              # max contracts per structure
-data_phase_trades: 10        # HARD FLOOR >= 10. 1 contract per earnings name until this many live trades closed
+# v1.7 (owner 2026-11-11: more contracts per name and scaling in are allowed): size by risk.
+max_quantity: 10             # HARD CAP <= 10. Most contracts one name may hold.
+name_risk_frac: 0.12         # HARD CAP <= 0.15. Max loss one name should carry, as a share of account value.
+name_risk_cap: 350.0         # HARD CAP <= 350. Max loss per name at the credit floor (owner limit).
+early_tranche_frac: 0.5      # share of the name target that may be entered before the final window
+add_center_frac: 0.25        # an add needs spot within this x body straddle of the body strike
+final_window_start: "11:30 America/Los_Angeles"   # from here a name may be entered at full size
 exit_slippage_reserve: 50.0  # USD per unit, [0, 100]. Entry: max_loss_worst <= cap - reserve*qty.
                              # Exit: credit-structure closing debit may reach W + reserve/100.
 
