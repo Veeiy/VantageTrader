@@ -163,3 +163,24 @@ other sessions."
   the switchboard: quote him exactly, so the receiving session can find it.
 - If a session does not accept a relayed command, Brad's own message in that session is
   the fallback. Never dress a relayed command up as typed by him.
+
+### Build status (2026-11-11 06:25 PT)
+A builder agent finished the code and docs on a LOCAL branch that is not pushed:
+`failover-build`, worktree `/home/user/vt-failover`, commit `3014978`, 247 tests passing.
+It adds `lease.py`, the `lease show` / `lease take` commands, the lease in the `lessons`
+output, a `lease_parses` self-check, `docs/earnings/FAILOVER.md` and copies of the six
+task prompts under `docs/earnings/prompts/`. If the container restarted and the worktree
+is gone, rebuild it from the P012 brief.
+
+Review before merging (squash into `ccr-ada2dc9a-o9lbyl` with the normal trailer):
+1. FAILOVER.md tells a session to run `git reset --hard HEAD~1` after a rejected push.
+   Replace it with a safer recipe (abort, pull, re-read the lease).
+2. With no lease for the day nobody "may trade", so every head check-in must start with
+   `lease take --role head`. Add that to the head prompts.
+3. Order of the nets when the head misses the morning: head 06:45, head monitor 07:15,
+   standby takeover 07:25, plain alert to Brad only at 08:00 and only if the standby did
+   not move it. Reword that alert: the backup is on it unless it says otherwise.
+4. The standby's switch tasks do not exist yet: create them bound to
+   `session_018FLvMFxVeykhFJeoFnFB57` (their prompts cannot be edited from here later),
+   put their ids in FAILOVER.md, retire watchdog 2 and the old alert-only standby.
+5. Dry run with the standby before going live. No orders.
