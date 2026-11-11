@@ -1,0 +1,11 @@
+{"batch":"X","as_of_utc":"2026-11-11T17:48:14Z",
+ "dropped":[{"symbol":"XE","reason":"spread","spot":11.255,"intraday_pct":0.025980,"atm_spread_pct":0.30,
+   "timing":"am","prev_close":10.97,"K":11.5,"strike_step":0.5,
+   "call":{"id":"1611d778-9b30-48ae-af4b-e7a14e2d4ce1","bid":0.35,"ask":0.45,"oi":187},
+   "put":{"id":"eb62158e-aeb3-4df1-86a3-dc1aa18948eb","bid":0.50,"ask":0.70,"oi":22},
+   "straddle_mid":1.00,"straddle_pct":0.088849,
+   "alt_K11":{"call":{"id":"ee6e3571-3ca8-4023-99d3-451c3898e36c","bid":0.55,"ask":0.65,"oi":340},"put":{"id":"8e8ced0a-0b57-4388-96b6-2ec43873bbcb","bid":0.35,"ask":0.40,"oi":114},"straddle_mid":0.975,"straddle_pct":0.086628,"atm_spread_pct":0.153846},
+   "n_past_reports":2,"past_reports":[{"date":"2026-06-04","timing":"am"},{"date":"2026-08-13","timing":"am"}],
+   "notes":"Spot 11.255 is nearer 11.5 (0.245) than 11 (0.255); K=11.5 spread 30% > 25%. Even at K=11 (15%) it fails the early exit: get_earnings_results lists only 2 past reports (n<4), so history was not run. Cannot be traded."}],
+ "analyzed":[],
+ "errors":[]}
