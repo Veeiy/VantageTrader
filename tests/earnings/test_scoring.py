@@ -19,9 +19,12 @@ def test_arm_example_metrics_and_trade():
     d, code = run()
     r = row(d)
     assert code == 0 and d["status"] == "trade"
-    assert r["implied_move"] == pytest.approx(0.85 * 22.75 / 202.49, abs=1e-6)
+    # body 202.5 is 0.005% off the money: the at-the-money equivalent is almost the raw straddle
+    assert r["implied_move_raw"] == pytest.approx(0.85 * 22.75 / 202.49, abs=1e-6)
+    assert r["implied_move"] == pytest.approx(0.85 * 22.75 / 202.49, abs=1e-5)
     assert r["avg_hist_move"] == pytest.approx(0.44 / 6, abs=1e-6)
     assert r["edge_ratio"] == pytest.approx((0.44 / 6) / (0.85 * 22.75 / 202.49), abs=1e-4)
+    assert r["band"] == "final_sweep"
     assert r["action"] == "sell" and r["skip_reason"] is None
     o = d["order"]
     assert o["structure"] == "iron_fly" and o["direction"] == "credit" and o["quantity"] == 1
@@ -39,15 +42,15 @@ def test_arm_example_metrics_and_trade():
     (0.85 * 0.034, "sell", None),          # exactly sell_max_ratio
     (0.86 * 0.034, "skip", "no_edge"),
     (1.24 * 0.034, "skip", "no_edge"),
-    (1.25 * 0.034, "buy", None),           # exactly buy_min_ratio
-    (1.60 * 0.034, "buy", None),
+    (1.25 * 0.034, "skip", "long_straddle_off"),   # long straddles are off (P010)
+    (1.60 * 0.034, "skip", "long_straddle_off"),
 ])
 def test_thresholds(avg, action, reason):
     d, _ = run([straddle_candidate([avg, -avg, avg, -avg])])
     r = row(d, "XYZ")
     assert (r["action"], r["skip_reason"]) == (action, reason)
-    if action == "buy":
-        assert d["order"]["structure"] == "long_straddle" and d["order"]["direction"] == "debit"
+    if action == "skip":
+        assert d["order"] is None
     if action == "sell":
         assert d["order"]["structure"] == "iron_fly"
 
@@ -114,41 +117,71 @@ def test_symbol_normalisation():
     assert row(d, "TSLA")["skip_reason"] == "blocklisted"
     d, _ = run([arm_candidate(symbol=" arm ", chain_symbol="Arm ")])
     assert row(d)["skip_reason"] is None and d["order"]["symbol"] == "ARM"
-    d, _ = run(open_positions=[{"symbol": " arm", "structure": "iron_fly", "opened": "2026-11-03"}])
-    assert row(d)["skip_reason"] == "open_position_limit"
+    s = snapshot(open_positions=[{"symbol": " arm", "structure": "iron_fly", "opened": "2026-11-03"}])
+    s["account"]["open_risk_usd"] = 100.0
+    assert row(score(s, cfg(), [])[0])["skip_reason"] == "already_open"
 
 
 def test_spread_too_wide():
     rows = chain_rows()
     for r in rows:
         if r["strike"] == 202.5:
-            r["put"]["bid"], r["put"]["ask"] = 10.5, 12.0   # 1.5/11.25 = 13.3%
+            r["put"]["bid"], r["put"]["ask"] = 9.8, 12.6   # 2.8/11.2 = 25.0% -> ok; wider -> skip
+    d, _ = run([arm_candidate(chain=rows)])
+    assert row(d)["skip_reason"] != "spread_too_wide"
+    for r in rows:
+        if r["strike"] == 202.5:
+            r["put"]["bid"], r["put"]["ask"] = 9.7, 12.6   # 2.9/11.15 = 26.0%
     d, _ = run([arm_candidate(chain=rows)])
     assert row(d)["skip_reason"] == "spread_too_wide"
 
 
-def test_call_spread_too_wide():
+def test_spread_band_caps_max_loss_at_350():
     rows = chain_rows()
     for r in rows:
         if r["strike"] == 202.5:
-            r["call"]["bid"], r["call"]["ask"] = 10.8, 12.2   # 1.4/11.5 = 12.17% -> skip
-    d, _ = run([arm_candidate(chain=rows)])
-    assert row(d)["skip_reason"] == "spread_too_wide"
+            r["call"]["bid"], r["call"]["ask"] = 10.8, 12.2   # 1.4/11.5 = 12.17%: $350 band
+    d, _ = run([arm_candidate(chain=rows)], tv=2000.0)
+    assert row(d)["spread_band_cap"] == 350.0
+    assert d["order"] is None or d["order"]["max_loss_worst"] <= 350.0
+    d, _ = run(tv=2000.0)                                       # tight spread: no $350 cap
+    assert "spread_band_cap" not in row(d) and d["order"]["max_loss_worst"] > 350.0
 
 
-def test_open_position_limit():
-    d, _ = run(open_positions=[{"symbol": "NVDA", "structure": "iron_fly", "opened": "2026-11-03"}])
-    assert row(d)["skip_reason"] == "open_position_limit" and d["order"] is None
+def test_no_open_position_limit_but_open_risk_counts():
+    s = snapshot(open_positions=[{"symbol": "NVDA", "structure": "iron_fly", "opened": "2026-11-03"}])
+    with pytest.raises(EngineInputError):                      # open risk must be given
+        score(s, cfg(), [])
+    s["account"]["open_risk_usd"] = 100.0
+    d, _ = score(s, cfg(), [])
+    assert d["status"] == "trade" and d["risk_cap"] == 597.5 and d["risk_cap_total"] == 697.5
+    assert d["order"]["max_loss_worst"] <= 597.5 - 50.0
+    s["account"]["open_risk_usd"] = 690.0
+    assert row(score(s, cfg(), [])[0])["skip_reason"] == "max_loss_exceeds_cap"
+
+
+def test_risk_cap_from_account_value_not_buying_power():
+    d, _ = run(bp=100.0, tv=500.0)                              # cap 465 from account value
+    assert d["risk_cap"] == 465.0 and d["status"] == "trade"
+    d, _ = run(bp=500.0, tv=100.0)                              # halted: account < $400
+    assert d["status"] == "halted"
 
 
 def test_risk_cap_too_small():
-    d, _ = run(bp=100.0, tv=500.0)
-    assert row(d)["skip_reason"] == "max_loss_exceeds_cap"
+    s = snapshot(tv=500.0)
+    s["account"]["open_risk_usd"] = 400.0                       # 65 left < any fly + $50 reserve
+    assert row(score(s, cfg(), [])[0])["skip_reason"] == "max_loss_exceeds_cap"
 
 
-def test_no_buying_power():
-    d, _ = run([straddle_candidate([0.06] * 4)], bp=0.0, tv=500.0)
-    assert row(d, "XYZ")["skip_reason"] == "no_buying_power"
+def test_intraday_sector_band_and_regime():
+    assert row(run([arm_candidate(intraday_move=0.06, sector_same_direction=True)])[0])["skip_reason"] is None
+    assert row(run([arm_candidate(intraday_move=0.071, sector_same_direction=True)])[0])["skip_reason"] \
+        == "intraday_move_too_large"
+    assert row(run([arm_candidate(intraday_move=0.055, sector_same_direction=True,
+                                  flags=["big_intraday_move"])])[0])["skip_reason"] is None
+    avg = 0.44 / 6
+    assert row(run([arm_candidate(regime_20d=1.25 * avg)])[0])["skip_reason"] == "regime_guard"
+    assert row(run([arm_candidate(regime_20d=1.24 * avg)])[0])["skip_reason"] is None
 
 
 def test_ranking_takes_best_ev():
@@ -215,11 +248,17 @@ def test_order_has_stripped_order_legs_and_reserve():
     assert o["max_loss_worst"] <= d["risk_cap"] - 50.0 * o["quantity"]
 
 
+def _with_open_risk(tv, open_risk):
+    s = snapshot(tv=tv)
+    s["account"]["open_risk_usd"] = open_risk
+    return s
+
+
 def test_reserve_pushes_wide_fly_over_cap():
-    # cap $300 BP -> 279; W=15 max loss 215: fits with reserve 50 (265) but not with 70 (285)
-    d, _ = run(bp=300.0, tv=500.0)
+    # budget 465 - 186 = 279; W=15 max loss 215: fits with reserve 50 (265) but not with 70 (285)
+    d, _ = score(_with_open_risk(500.0, 186.0), cfg(), [])
     assert d["order"]["wing_width"] == 15.0
-    d, _ = score(snapshot(bp=300.0, tv=500.0), cfg(exit_slippage_reserve=70.0), [])
+    d, _ = score(_with_open_risk(500.0, 186.0), cfg(exit_slippage_reserve=70.0), [])
     assert d["order"]["wing_width"] == 10.0
-    d, _ = score(snapshot(bp=120.0, tv=500.0), cfg(), [])     # cap 111.6 < 105 + 50
+    d, _ = score(_with_open_risk(500.0, 353.4), cfg(), [])    # budget 111.6 < 105 + 50
     assert row(d)["skip_reason"] == "max_loss_exceeds_cap"

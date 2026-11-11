@@ -4,8 +4,13 @@ Every key has a default, so an empty (or absent default) config file yields a
 working engine. Validation rules:
 
 * Unknown keys are rejected (a typo must never silently fall back to a default).
-* Hard caps from BLUEPRINT.md are enforced in code: a config may only TIGHTEN
-  them, never loosen them (see ``HARD_CAPS``). ``TSLA`` is always blocklisted.
+* Hard caps are enforced in code: a config may only TIGHTEN them, never loosen them
+  (see ``HARD_CAPS``). ``TSLA`` is always blocklisted. Since P004 (2026-11-11) the caps
+  carry the live rules v1.1-v1.5 (docs/earnings/RULES_CHANGELOG.md): total risk cap
+  min($1,000, 0.93 x account value) across ALL open positions, ATM spread <= 25% with a
+  $350 max loss above 12%, intraday move 5% (7% with a sector move), regime guard 1.25x,
+  edge ratio <= 0.85 (<= 0.70 "tight"), >= 4 past moves, 1 contract per name while fewer
+  than 10 live trades are closed. There is no limit on the number of open positions (v1.4).
 * ``sell_max_ratio`` must be < ``buy_min_ratio`` and both must sit inside the
   calibration bounds.
 * ``cancel_by`` may use any timezone; it is converted to America/Los_Angeles (checked on
@@ -44,22 +49,27 @@ DEFAULTS: dict[str, Any] = {
     # --- universe / filters ---
     "blocklist": ["TSLA"],
     "min_price": 10.0,
-    "max_spread_pct": 0.12,
+    "max_spread_pct": 0.25,          # v1.1: ATM bid-ask <= 25% of mid
+    "wide_spread_pct": 0.12,         # v1.1: above this the trade's max loss is capped ...
+    "wide_spread_max_loss": 350.0,   # ... at this many USD
     "max_intraday_move": 0.05,
+    "max_intraday_move_sector": 0.07,  # v1.1: 5-7% only with a same-direction sector move, no stock news
+    "regime_mult": 1.25,             # v1.1: 20-session avg |daily move| must be < this x avg earnings move
     # --- scoring ---
     "straddle_factor": 0.85,
     "min_history": 4,
     "history_lookback": 12,
     "sell_max_ratio": 0.85,
-    "buy_min_ratio": 1.25,
+    "tight_max_ratio": 0.70,         # v1.5: edge ratio at or under this may be entered early
+    "buy_min_ratio": 1.25,           # long straddles are OFF (P010): this only labels "long_straddle_off"
     "min_ev_per_dollar_risk": 0.0,
     # --- structures ---
     "wing_widths_pct": [0.05, 0.075, 0.10, 0.125],
     # --- risk / sizing ---
-    "max_open_positions": 1,
-    "max_loss_abs": 700.0,
+    "max_loss_abs": 1000.0,          # 2026-11-11: total risk cap min($1,000, 0.93 x account value)
     "max_loss_bp_frac": 0.93,
     "max_quantity": 1,
+    "data_phase_trades": 10,         # v1.3: 1 contract per earnings name while fewer closed live trades
     "exit_slippage_reserve": 50.0,
     # --- order pricing ---
     "tick": 0.05,
@@ -104,10 +114,12 @@ def norm_symbol(s: Any) -> str:
 
 # key -> (direction, limit). "max": value must be <= limit. "min": value must be >= limit.
 HARD_CAPS: dict[str, tuple[str, float]] = {
-    "max_loss_abs": ("max", 700.0),
+    "max_loss_abs": ("max", 1000.0),
     "max_loss_bp_frac": ("max", 0.93),
-    "max_open_positions": ("max", 1),
-    "max_spread_pct": ("max", 0.12),
+    "max_spread_pct": ("max", 0.25),
+    "wide_spread_pct": ("max", 0.12),
+    "wide_spread_max_loss": ("max", 350.0),
+    "data_phase_trades": ("min", 10),
     "min_price": ("min", 10.0),
     "min_account_value": ("min", 400.0),
     "max_consecutive_max_loss": ("max", 2),
@@ -118,13 +130,15 @@ ALWAYS_BLOCKED = ("TSLA",)
 
 _NUMERIC = {
     "min_price", "max_spread_pct", "max_intraday_move", "straddle_factor",
+    "wide_spread_pct", "wide_spread_max_loss", "max_intraday_move_sector", "regime_mult",
+    "tight_max_ratio",
     "sell_max_ratio", "buy_min_ratio", "min_ev_per_dollar_risk", "max_loss_abs",
     "max_loss_bp_frac", "tick", "step_small", "step_large", "step_threshold",
     "credit_floor_mid_frac", "debit_ceiling_mid_frac", "min_account_value",
     "max_loss_tolerance", "straddle_take_profit", "exit_slippage_reserve",
 }
 _INT = {
-    "min_history", "history_lookback", "max_open_positions", "max_quantity",
+    "min_history", "history_lookback", "max_quantity", "data_phase_trades",
     "max_consecutive_max_loss", "max_consecutive_losses",
     "exit_min_minutes_since_open", "calibrate_min_trades", "calibrate_prior_weight",
     "max_expiry_days_after_report",
@@ -133,7 +147,8 @@ _POSITIVE = {
     "min_price", "straddle_factor", "sell_max_ratio", "buy_min_ratio", "max_loss_abs",
     "max_loss_bp_frac", "tick", "step_small", "step_large", "step_threshold",
     "credit_floor_mid_frac", "debit_ceiling_mid_frac", "min_history", "history_lookback",
-    "max_open_positions", "max_quantity", "max_consecutive_max_loss",
+    "max_quantity", "max_consecutive_max_loss", "wide_spread_pct", "wide_spread_max_loss",
+    "max_intraday_move_sector", "regime_mult", "tight_max_ratio", "data_phase_trades",
     "max_consecutive_losses", "max_spread_pct", "max_intraday_move", "max_loss_tolerance",
     "straddle_take_profit", "calibrate_min_trades", "max_expiry_days_after_report",
 }
@@ -221,6 +236,12 @@ def validate(cfg: dict[str, Any]) -> dict[str, Any]:
         raise ConfigError("buy_min_ratio_bounds may only narrow [1.15, 1.60]")
     if out["sell_max_ratio"] >= out["buy_min_ratio"]:
         raise ConfigError("sell_max_ratio must be < buy_min_ratio")
+    if out["tight_max_ratio"] > out["sell_max_ratio"]:
+        raise ConfigError("tight_max_ratio must be <= sell_max_ratio")
+    if out["wide_spread_pct"] > out["max_spread_pct"]:
+        raise ConfigError("wide_spread_pct must be <= max_spread_pct")
+    if out["max_intraday_move"] > out["max_intraday_move_sector"]:
+        raise ConfigError("max_intraday_move must be <= max_intraday_move_sector")
 
     # hard caps (config may only tighten)
     for k, (direction, limit) in HARD_CAPS.items():

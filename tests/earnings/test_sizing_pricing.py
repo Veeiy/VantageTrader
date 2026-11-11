@@ -3,11 +3,24 @@ from vantage_trader.earnings import pricing, sizing
 from .factories import cfg
 
 
-def test_cap_with_750_bp():
-    assert sizing.risk_cap(750.0, cfg()) == 697.5          # 0.93*750 < 700
-    assert sizing.risk_cap(5000.0, cfg()) == 700.0         # abs cap
+def test_cap_with_750_account_value():
+    assert sizing.risk_cap(750.0, cfg()) == 697.5          # 0.93*750 < 1000
+    assert sizing.risk_cap(5000.0, cfg()) == 1000.0        # abs cap (2026-11-11: $1,000)
+    assert sizing.risk_cap(1075.0, cfg()) == 999.75        # under about $1,075 the 0.93 factor binds
     assert sizing.risk_cap(0.0, cfg()) == 0.0
     assert sizing.risk_cap(-5.0, cfg()) == 0.0
+
+
+def test_risk_budget_counts_open_risk():
+    assert sizing.risk_budget(1339.0, 172.0, cfg()) == 828.0
+    assert sizing.risk_budget(1339.0, 1200.0, cfg()) == 0.0
+
+
+def test_data_phase_one_contract():
+    c = cfg(max_quantity=5)
+    assert sizing.max_quantity(0, c) == 1
+    assert sizing.max_quantity(9, c) == 1
+    assert sizing.max_quantity(10, c) == 5
 
 
 def test_quantity():

@@ -37,7 +37,7 @@ close(prior day) -> close(report day).
 {
   "as_of": "2026-11-04T19:55:00Z",
   "account": {"account_number":"...", "buying_power":750.0, "total_value":750.0,
-              "human_must_approve_trades": false},
+              "open_risk_usd": 0.0, "human_must_approve_trades": false},
   "open_positions": [ {"symbol":"ARM","structure":"iron_fly","opened":"2026-11-04"} ],
   "candidates": [
     {
@@ -56,7 +56,11 @@ close(prior day) -> close(report day).
 ```
 - `chain` covers ATM +/- ceil(max(`wing_widths_pct`) x spot) plus one listed strike beyond each side.
 - `intraday_move` is required (null invalid). `flags` and `open_positions` default to [].
-  Any flag -> skip. `chain_symbol` optional; blocklisted -> `blocklisted`, differing from
+  Any flag -> skip, except `big_intraday_move` (the intraday gate covers it).
+- Optional candidate fields (P004): `regime_20d` (regime guard applied when present; the
+  `gate` command requires it) and `sector_same_direction` (allows a 5-7% intraday move).
+- `account.open_risk_usd` = max loss + exit reserves of the open positions; required when
+  `open_positions` is not empty. There is no open-position limit (v1.4). `chain_symbol` optional; blocklisted -> `blocklisted`, differing from
   `symbol` -> `symbol_mismatch`.
 - `historical_moves` chronological, oldest first (as emitted by `history`).
 
@@ -100,13 +104,16 @@ report_date; expiry not on a `market_early_closes` day.
 - `limit_floor` = worst acceptable price (credit: lowest credit; debit: highest debit).
 - `max_loss_worst` = loss if filled at `limit_floor`; always <= `risk_cap` -
   `exit_slippage_reserve` x quantity.
-- `risk_cap` = min(`max_loss_abs`, `max_loss_bp_frac` x buying_power).
+- `risk_cap` = min(`max_loss_abs` $1,000, `max_loss_bp_frac` x total_value) - `open_risk_usd`
+  (the budget left for this entry; `risk_cap_total` is the cap before open risk). Above a
+  12% ATM spread the candidate's `max_loss_worst` is also capped at $350. Long straddles
+  are off: `order.structure` is always `iron_fly`.
 
 Skip reasons (`ranked[].skip_reason`, first failing gate wins): `blocklisted`,
 `symbol_mismatch`, `unverified_report_date`, `flagged:<flags>`, `price_below_min`,
 `report_not_imminent`, `bad_expiry`, `insufficient_history`, `missing_atm_quotes`,
-`spread_too_wide`, `intraday_move_too_large`, `no_edge`, `open_position_limit`,
-`already_open`, then structure/sizing: `no_valid_wings`, `max_loss_exceeds_cap`,
+`spread_too_wide`, `intraday_move_too_large`, `regime_guard`, `long_straddle_off`,
+`no_edge`, `already_open`, then structure/sizing: `no_valid_wings`, `max_loss_exceeds_cap`,
 `no_buying_power`, `no_fillable_limit_range`, `no_structure`, `negative_ev`.
 
 ## exit snapshot

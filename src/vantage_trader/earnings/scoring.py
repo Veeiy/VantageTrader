@@ -1,20 +1,25 @@
-"""Candidate scoring and the ``score`` decision.
+"""Candidate scoring and the ``score`` decision (rules v1.1-v1.5, proposals P004/P011).
 
-implied_move  = straddle_factor * (ATM call mid + ATM put mid) / spot
+implied_move  = straddle_factor * ATM-equivalent straddle / spot (P011): the body straddle
                 (ATM = listed strike nearest spot, ties -> lower; skipped if it lacks quotes)
+                is converted to its at-the-money equivalent through its implied total stdev,
+                see ``gate.atm_implied_move``.
 avg_hist_move = mean(|m|) over the last ``history_lookback`` entries of
                 ``historical_moves`` (assumed chronological, oldest first, as emitted by
                 the ``history`` command); requires >= ``min_history`` moves.
 edge_ratio    = avg_hist_move / implied_move
-action        = sell if edge_ratio <= sell_max_ratio; buy if >= buy_min_ratio; else skip.
+band          = tight (<= 0.70) | final_sweep (<= 0.85) | no_edge | long_straddle_off (>= 1.25)
+action        = sell if edge_ratio <= sell_max_ratio; else skip. Long straddles are OFF
+                (P010, 2026-11-11): edge_ratio >= buy_min_ratio -> skip "long_straddle_off".
 
 Gates are checked in this order; the first failure becomes ``skip_reason``
 (metrics are still reported when computable):
   blocklisted, symbol_mismatch, unverified_report_date, flagged:<flags>,
   price_below_min, report_not_imminent, bad_expiry, insufficient_history, missing_atm_quotes,
-  spread_too_wide, intraday_move_too_large, no_edge, open_position_limit,
+  spread_too_wide, intraday_move_too_large, regime_guard, long_straddle_off, no_edge,
   already_open, then structure/sizing reasons: missing_atm_quotes, no_valid_wings,
   max_loss_exceeds_cap, no_buying_power, no_fillable_limit_range, negative_ev.
+There is no limit on the number of open positions (v1.4); the total risk cap is the limit.
 
 Symbols: ``symbol`` (and optional ``chain_symbol``) are strip().upper()'d before any
 check. A ``chain_symbol`` that is blocklisted -> blocklisted; one that differs from
@@ -30,7 +35,18 @@ Expiry rule (bad_expiry unless all hold): expiry > today, expiry <= report_date 
 Orders add ``order_legs`` (legs stripped to option_id/side/position_effect for the broker
 tool), ``exit_slippage_reserve`` and ``risk_cap_effective`` (= risk_cap - reserve*qty, the
 bound on max_loss_worst).
-Spread rule: (ask-bid)/mid > max_spread_pct on EITHER ATM leg -> skip.
+Spread rule: (ask-bid)/mid above max_spread_pct (25%) on the call, the put or the straddle
+  -> skip. Above wide_spread_pct (12%) the candidate's max loss is capped at
+  wide_spread_max_loss ($350).
+Intraday: |intraday_move| <= 5%; 5-7% only with candidate ``sector_same_direction: true``
+  (and no flag, which skips anyway); above 7% skip.
+Regime guard: applied when the candidate carries ``regime_20d`` (the ``gate`` command
+  requires it): regime_20d must be < regime_mult (1.25) x avg_hist_move.
+Flags: any flag skips, except ``big_intraday_move`` (a price fact the intraday gate covers).
+Risk cap: min(max_loss_abs $1,000, 0.93 x account.total_value) minus
+  ``account.open_risk_usd`` (max loss + exit reserves of positions already open; required
+  when ``open_positions`` is not empty). Quantity: 1 while fewer than ``data_phase_trades``
+  live trades are closed in the journal.
 
 Ranking: tradeable candidates by ev_per_dollar_risk desc, then skipped ones. The top
 tradeable candidate becomes ``order``. ``status`` is "halted" (exit 3) if the circuit
@@ -45,6 +61,8 @@ from __future__ import annotations
 from statistics import mean
 from typing import Any
 
+from . import gate as gt
+from . import journal as jr
 from . import rules, sizing, structures
 from datetime import timedelta
 
@@ -70,6 +88,12 @@ def validate_snapshot(snap: Any) -> None:
     _num(acct.get("total_value"), "account.total_value")
     if not isinstance(snap.get("open_positions", []), list):
         raise EngineInputError("open_positions must be a list")
+    if acct.get("open_risk_usd") is not None:
+        if _num(acct["open_risk_usd"], "account.open_risk_usd") < 0:
+            raise EngineInputError("account.open_risk_usd must be >= 0")
+    elif snap.get("open_positions"):
+        raise EngineInputError("account.open_risk_usd (max loss + exit reserves of the open positions) "
+                               "is required when open_positions is not empty")
     cands = snap.get("candidates")
     if not isinstance(cands, list):
         raise EngineInputError("candidates must be a list")
@@ -97,6 +121,10 @@ def validate_snapshot(snap: Any) -> None:
             _num(m, f"{w}.historical_moves[]")
         if not isinstance(c.get("flags", []), list):
             raise EngineInputError(f"{w}.flags must be a list")
+        if c.get("regime_20d") is not None:
+            _num(c["regime_20d"], f"{w}.regime_20d")
+        if not isinstance(c.get("sector_same_direction", False), bool):
+            raise EngineInputError(f"{w}.sector_same_direction must be true/false")
         chain = c.get("chain")
         if not isinstance(chain, list):
             raise EngineInputError(f"{w}.chain must be a list")
@@ -106,35 +134,33 @@ def validate_snapshot(snap: Any) -> None:
             _num(r.get("strike"), f"{w}.chain[].strike", positive=True)
 
 
-def _spread_pct(q: structures.Quote) -> float:
-    return float("inf") if q.mid <= 0 else (q.ask - q.bid) / q.mid
-
-
 def score_candidate(c: dict[str, Any], ctx: dict[str, Any], cfg: dict[str, Any]) -> dict[str, Any]:
     sym = norm_symbol(c["symbol"])
     chain_sym = norm_symbol(c["chain_symbol"]) if c.get("chain_symbol") is not None else None
     spot = float(c["spot"])
     chain = structures.Chain(c["chain"])
     row: dict[str, Any] = {"symbol": sym, "edge_ratio": None, "implied_move": None,
-                           "avg_hist_move": None, "action": "skip", "skip_reason": None,
-                           "ev_per_dollar_risk": None}
+                           "implied_move_raw": None, "avg_hist_move": None, "band": None,
+                           "action": "skip", "skip_reason": None, "ev_per_dollar_risk": None}
     # metrics
     k = chain.atm_strike(spot)
     atm = (chain.calls[k], chain.puts[k]) if k is not None else None
+    spread = None
     if atm:
         straddle = atm[0].mid + atm[1].mid
-        row["implied_move"] = round(cfg["straddle_factor"] * straddle / spot, 6)
+        if straddle > 0:
+            im = gt.atm_implied_move(spot, k, straddle, cfg["straddle_factor"])
+            row["implied_move"], row["implied_move_raw"] = im["implied_move"], im["implied_move_raw"]
+        spread = gt.spread_pcts((atm[0].bid, atm[0].ask), (atm[1].bid, atm[1].ask))
+        row["spread_pct"] = round(spread["worst"], 4) if spread["worst"] != float("inf") else None
     moves = [float(m) for m in c["historical_moves"]][-cfg["history_lookback"]:]
     if len(moves) >= cfg["min_history"]:
         row["avg_hist_move"] = round(mean(abs(m) for m in moves), 6)
+    edge = None
     if row["implied_move"] and row["avg_hist_move"] is not None:
-        row["edge_ratio"] = round(row["avg_hist_move"] / row["implied_move"], 4)
-    band = None
-    if row["edge_ratio"] is not None:
-        if row["edge_ratio"] <= cfg["sell_max_ratio"]:
-            band = "sell"
-        elif row["edge_ratio"] >= cfg["buy_min_ratio"]:
-            band = "buy"
+        edge = row["avg_hist_move"] / row["implied_move"]
+        row["edge_ratio"] = round(edge, 4)
+    row["band"] = gt.edge_band(None if edge is None else round(edge, 6), cfg)
 
     def skip(reason: str) -> dict[str, Any]:
         row["action"] = "skip"
@@ -143,7 +169,7 @@ def score_candidate(c: dict[str, Any], ctx: dict[str, Any], cfg: dict[str, Any])
 
     rd = rules.parse_date(c["report_date"], "report_date")
     exp = rules.parse_date(c["expiry"], "expiry")
-    flags = [str(f) for f in c.get("flags", [])]
+    flags = gt.news_flags([str(f) for f in c.get("flags", [])])
     if sym in cfg["blocklist"] or (chain_sym is not None and chain_sym in cfg["blocklist"]):
         return skip("blocklisted")
     if chain_sym is not None and chain_sym != sym:
@@ -166,20 +192,27 @@ def score_candidate(c: dict[str, Any], ctx: dict[str, Any], cfg: dict[str, Any])
         return skip("insufficient_history")
     if atm is None or row["implied_move"] is None or row["implied_move"] <= 0:
         return skip("missing_atm_quotes")
-    if max(_spread_pct(atm[0]), _spread_pct(atm[1])) > cfg["max_spread_pct"] + 1e-12:
+    if spread["worst"] > cfg["max_spread_pct"] + 1e-12:
         return skip("spread_too_wide")
-    if abs(float(c["intraday_move"])) > cfg["max_intraday_move"] + 1e-12:
+    ok, _ = gt.intraday_verdict(float(c["intraday_move"]), c.get("sector_same_direction") is True, flags, cfg)
+    if not ok:
         return skip("intraday_move_too_large")
-    if band is None:
+    if c.get("regime_20d") is not None and not (
+            float(c["regime_20d"]) < cfg["regime_mult"] * row["avg_hist_move"] - 1e-9):
+        return skip("regime_guard")
+    if row["band"] == "long_straddle_off":
+        return skip("long_straddle_off")
+    if row["band"] not in ("tight", "final_sweep"):
         return skip("no_edge")
-    if len(ctx["open_positions"]) >= cfg["max_open_positions"]:
-        row["action_if_allowed"] = band
-        return skip("open_position_limit")
+    band = "sell"
     if sym in ctx["open_symbols"]:
         return skip("already_open")
 
-    builder = structures.build_iron_fly if band == "sell" else structures.build_long_straddle
-    order, reason = builder(chain, spot, moves, ctx["cap"], cfg)
+    cap = ctx["cap"]
+    if spread["worst"] > cfg["wide_spread_pct"] + 1e-12:
+        row["spread_band_cap"] = cfg["wide_spread_max_loss"]
+        cap = min(cap, cfg["wide_spread_max_loss"] + cfg["exit_slippage_reserve"] * ctx["qty_limit"])
+    order, reason = structures.build_iron_fly(chain, spot, moves, cap, dict(cfg, max_quantity=ctx["qty_limit"]))
     if order is None:
         row["action_if_allowed"] = band
         return skip(reason or "no_structure")
@@ -207,12 +240,15 @@ def score(snapshot: dict[str, Any], cfg: dict[str, Any], journal_events: list[di
     validate_snapshot(snapshot)
     acct = snapshot["account"]
     open_positions = snapshot.get("open_positions", [])
-    cap = sizing.risk_cap(float(acct["buying_power"]), cfg)
-    ctx = {"cap": cap, "open_positions": open_positions,
+    total_cap = sizing.risk_cap(float(acct["total_value"]), cfg)
+    open_risk = float(acct.get("open_risk_usd") or 0.0)
+    cap = sizing.risk_budget(float(acct["total_value"]), open_risk, cfg)
+    closed = len(jr.closed_trades(journal_events))
+    ctx = {"cap": cap, "open_positions": open_positions, "qty_limit": sizing.max_quantity(closed, cfg),
            "today": rules.local_date(snapshot["as_of"], cfg["market_timezone"]),
            "open_symbols": {norm_symbol(p.get("symbol")) for p in open_positions if isinstance(p, dict)}}
     rows = [score_candidate(c, ctx, cfg) for c in snapshot["candidates"]]
-    tradeable = sorted((r for r in rows if r["action"] in ("sell", "buy")),
+    tradeable = sorted((r for r in rows if r["action"] == "sell"),
                        key=lambda r: -r["ev_per_dollar_risk"])
     skipped = [r for r in rows if r["action"] == "skip"]
     ranked = tradeable + skipped
@@ -220,7 +256,9 @@ def score(snapshot: dict[str, Any], cfg: dict[str, Any], journal_events: list[di
     cb = rules.circuit_breaker(acct, journal_events, cfg)
     decision: dict[str, Any] = {
         "as_of": snapshot["as_of"], "status": "no_trade", "reason": "", "order": None,
-        "risk_cap": cap, "human_must_approve_trades": bool(acct.get("human_must_approve_trades", False)),
+        "risk_cap": cap, "risk_cap_total": total_cap, "open_risk_usd": open_risk,
+        "contracts_limit": ctx["qty_limit"], "closed_live_trades": closed,
+        "human_must_approve_trades": bool(acct.get("human_must_approve_trades", False)),
         "circuit_breaker": cb,
     }
     code = 0

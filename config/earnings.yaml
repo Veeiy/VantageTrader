@@ -6,25 +6,32 @@
 # --- universe / filters ---
 blocklist: [TSLA]            # TSLA is always added even if removed here
 min_price: 10.0              # HARD FLOOR >= 10. Skip if spot < this
-max_spread_pct: 0.12         # HARD CAP <= 0.12. Skip if ATM call or put (ask-bid)/mid > this
-max_intraday_move: 0.05      # skip if |intraday_move| on entry day > this
+max_spread_pct: 0.25         # HARD CAP <= 0.25 (v1.1). Skip if ATM call, put or straddle (ask-bid)/mid > this
+wide_spread_pct: 0.12        # HARD CAP <= 0.12. Above this spread ...
+wide_spread_max_loss: 350.0  # HARD CAP <= 350. ... the trade's max loss is capped at this (v1.1)
+max_intraday_move: 0.05      # skip if |intraday_move| on entry day > this ...
+max_intraday_move_sector: 0.07  # ... unless <= this with a same-direction sector move and no stock news
+regime_mult: 1.25            # regime guard: 20-session avg |daily move| must be < this x avg earnings move
 
 # --- scoring ---
 straddle_factor: 0.85        # implied_move = factor * ATM straddle mid / spot
 min_history: 4               # need at least this many historical moves
 history_lookback: 12         # use the last N historical moves (chronological list)
 sell_max_ratio: 0.85         # edge_ratio <= this -> sell premium (iron fly); bounds [0.70, 0.95]
-buy_min_ratio: 1.25          # edge_ratio >= this -> buy premium (long straddle); bounds [1.15, 1.60]
+tight_max_ratio: 0.70        # edge_ratio <= this -> band "tight" (may be entered early, v1.5)
+buy_min_ratio: 1.25          # edge_ratio >= this -> NO TRADE "long_straddle_off" (P010); bounds [1.15, 1.60]
 min_ev_per_dollar_risk: 0.0  # require historical EV / max loss strictly above this
 
 # --- structures ---
 wing_widths_pct: [0.05, 0.075, 0.10, 0.125]   # iron fly wing candidates as fraction of spot
 
 # --- risk / sizing ---
-max_open_positions: 1        # HARD CAP <= 1 (v1)
-max_loss_abs: 700.0          # HARD CAP <= 700. cap = min(max_loss_abs, max_loss_bp_frac * buying_power)
+# No limit on the number of open positions or trades per day (v1.4): the total risk cap is the limit.
+max_loss_abs: 1000.0         # HARD CAP <= 1000. TOTAL cap across all open positions incl. exit reserves:
+                             # min(max_loss_abs, max_loss_bp_frac * account value)
 max_loss_bp_frac: 0.93       # HARD CAP <= 0.93
-max_quantity: 1              # max contracts per structure (v1)
+max_quantity: 1              # max contracts per structure
+data_phase_trades: 10        # HARD FLOOR >= 10. 1 contract per earnings name until this many live trades closed
 exit_slippage_reserve: 50.0  # USD per unit, [0, 100]. Entry: max_loss_worst <= cap - reserve*qty.
                              # Exit: credit-structure closing debit may reach W + reserve/100.
 

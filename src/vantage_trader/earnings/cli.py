@@ -1,7 +1,7 @@
 """CLI per CONTRACT.md. JSON on stdout.
 
 Exit codes: 0 success (decision may be no_trade), 2 invalid input (stdout is
-{"error": ...}), 3 halted by circuit breaker (score only), 4 self-check failed
+{"error": ...}), 3 halted by circuit breaker (score) or blocked (gate), 4 self-check failed
 (selfcheck only), 5 lease held by the other session (lease take only). An unexpected internal error exits 1 with {"error": "internal: ..."}
 (not an input problem; do not retry blindly).
 
@@ -41,6 +41,9 @@ Additive options beyond the contract (all optional, contract invocations work as
     --cost-frac takes that share of the entry credit off each result as trading cost.
     --bars may be a .json or a .json.gz file.
   replay-summary --input FILE [--all] [--cost-frac X] re-summarises a derived file.
+  gate [--input FILE|-] [--config] [--journal] runs ONE candidate through every entry rule
+    (v1.1-v1.5) and prints the decision record (docs/earnings/GATE.md). Reads stdin when
+    --input is absent or "-". Exit 0 = may be entered, 3 = blocked, 2 = bad input.
 """
 from __future__ import annotations
 
@@ -53,6 +56,7 @@ from pathlib import Path
 from typing import Any
 
 from . import calibrate as calib
+from . import gate as gate_mod
 from . import health, history, journal, lease, metrics, projection, proposals, reconcile, reflect, replay, rules, scoring
 from .config import EngineInputError, load_config
 
@@ -200,6 +204,10 @@ def build_parser() -> argparse.ArgumentParser:
     rs.add_argument("--input", required=True)
     rs.add_argument("--all", action="store_true")
     rs.add_argument("--cost-frac", dest="cost_frac", type=float, default=0.0)
+    g = sub.add_parser("gate")
+    g.add_argument("--input", default="-")
+    g.add_argument("--config")
+    g.add_argument("--journal")
     sc = sub.add_parser("selfcheck")
     sc.add_argument("--journal")
     sc.add_argument("--metrics", default=DEFAULT_METRICS)
@@ -289,6 +297,18 @@ def run(argv: list[str] | None = None) -> tuple[dict[str, Any], int]:
             args.date, journal.read_journal(args.journal or cfg["journal_path"]),
             metrics.read_metrics(args.metrics), positions, reflect.read_lessons(args.lessons),
             cfg["max_loss_tolerance"]), 0
+    if args.cmd == "gate":
+        if args.input == "-":
+            try:
+                cand = json.loads(sys.stdin.read())
+            except json.JSONDecodeError as e:
+                raise EngineInputError(f"candidate on stdin is not valid JSON: {e}")
+        else:
+            cand = _load_json(args.input, "candidate")
+        jpath = args.journal or cfg["journal_path"]
+        out, code = gate_mod.evaluate(cand, cfg, journal.read_journal(jpath))
+        out["journal"] = {"path": jpath, "found": Path(jpath).exists()}
+        return out, code
     if args.cmd == "score":
         snap = _load_json(args.snapshot, "snapshot")
         jpath = args.journal or cfg["journal_path"]
