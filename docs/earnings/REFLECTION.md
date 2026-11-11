@@ -47,7 +47,9 @@ tested as hypotheses and go to Brad as proposals. The loop never changes a rule 
    - Retire a lesson that shows `weak` (4+ observations, more against than for).
 5. **Health.** Run `selfcheck`. List the scheduled tasks and check each one's last run,
    that it is enabled, and that the day's expected outputs exist (watchlist, entry
-   decision, journaled exits). Anything missed or failed becomes a `heal` proposal today.
+   decision, journaled exits). Read the open one-shot reminders too: a reminder whose numbers differ
+   from `positions.json` or the rules in force is rewritten to point at the plan file (P026).
+   Anything missed or failed becomes a `heal` proposal today.
 6. **Proposals** (`state/earnings/proposals.jsonl`, see "Daily proposals" below): fixes
    the agent can make are made and logged; anything touching rules, risk or cost goes to
    Brad, at most 3 a day, ranked.
