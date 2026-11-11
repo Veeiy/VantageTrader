@@ -47,6 +47,8 @@ d) EARLY DROP: if either body leg has no bid, or atm_spread_pct > 0.25, record t
 STEP 3, HISTORY (only symbols still alive).
 a) get_earnings_results(symbol), one symbol per call. Past reports = entries with an actual EPS
    and a report date before {TODAY}. events = {"SYM":[{"date":"YYYY-MM-DD","timing":"am"|"pm"}]}.
+   EARLY DROP: a symbol with fewer than 4 past reports is dropped here with reason "history"
+   (record n_past_reports and the dates). Do NOT pull price bars for it: the rule needs 4.
 b) get_equity_historicals(symbols=[up to 10], start_time="2024-10-01T00:00:00Z",
    end_time="{TODAY}T00:00:00Z", interval="day"). With python build
    bars = {"SYM":[{"date": begins_at[:10], "close": float(close_price), "interpolated": bool}]}

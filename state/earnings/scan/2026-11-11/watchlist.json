@@ -226,7 +226,8 @@
    "intraday_pct": 0.0137,
    "atm_spread_pct": 0.6047,
    "timing": "am",
-   "report_date": "2026-11-12"
+   "report_date": "2026-11-12",
+   "recheck_0948": "still blocked: 2 past reports (needs 4); spread 30% at the 11.5 strike nearest spot"
   }
  },
  "skipped": {
@@ -311,7 +312,7 @@
   "risk_cap": 1000,
   "risk_used": 172
  },
- "entry_plan": "LUNR x1 entered 07:57 PT. No other name passes; the 11:46 sweep re-quotes FIGR and XE for the record and moves the standby entry switch.",
+ "entry_plan": "LUNR x1 entered 07:57 PT. No other name passes (09:47 PT re-check: XE has 2 past reports, FIGR spread and edge, NBIS and FPS intraday). The 11:46 sweep runs the LUNR add check (1 contract of 10/12.5/15 planned, v1.7) and moves the standby entry switch.",
  "recheck_0947": {
   "as_of": "2026-11-11T17:47Z",
   "macro": {
@@ -376,7 +377,8 @@
    "straddle_mid": 0.975,
    "straddle_pct": 0.0868,
    "atm_spread_worst": 0.1667,
-   "verdict": "spread now inside 25% (was 60% at the morning scan): sent to one read-only analyst for history, regime, wings and a news check (batch_X.json)"
+   "verdict": "blocked: only 2 past earnings reports (2026-06-04, 2026-08-13; the rule needs 4). Also, at the 09:48 PT read spot 11.255 made 11.5 the nearest strike, where the spread is 30% (limit 25%). Analyst file: batch_X.json.",
+   "n_past_reports": 2
   },
   "NBIS": {
    "spot": 158.96,
