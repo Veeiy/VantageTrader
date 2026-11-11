@@ -1,0 +1,43 @@
+BRIEF: same-day-expiry premium scan ("zero_dte"). Time budget: 9 minutes.
+First read brief_common.txt in the parent folder. Your folder: zero_dte/ . Output file:
+zero_dte/result.json
+
+GOAL: find where options that EXPIRE TODAY (2026-11-11) are priced rich compared with how far
+the underlying has actually moved over the same hours of the day recently.
+
+SYMBOLS TO TEST: SPY QQQ IWM DIA GLD SLV TLT USO UNG IBIT NVDA AAPL AMZN META MSFT GOOGL AVGO
+AMD PLTR COIN MSTR HOOD SMH XLE XLF EEM FXI KWEB GDX HYG TQQQ SOXL MU NFLX INTC BABA UBER SOFI
+
+STEP 1. get_equity_quotes (20 symbols per call): spot = last_trade_price, prev_close =
+adjusted_previous_close.
+STEP 2. Same-day expiry? For each symbol query the listed strike nearest spot for expiration
+2026-11-11 (try up to 3 plausible strikes on different grids). No contracts = no same-day
+expiry: drop with reason "no_0dte". Keep call id and put id of the strike nearest spot (K).
+STEP 3. get_option_quotes (20 ids per call) for the K call and put: bid, ask, open_interest,
+updated_at. straddle_mid = call mid + put mid; straddle_pct = straddle_mid / spot;
+atm_spread_pct = ((call ask - call bid) + (put ask - put bid)) / straddle_mid. Re-quote spot in
+the same minute. Record T = the quote time (UTC). Drop if a leg has no bid ("no_bid").
+STEP 4. Realized move over the same hours: get_equity_historicals(symbols up to 10 per call,
+start_time="2026-10-19T00:00:00Z", interval="30minute", bounds regular). With python, for each
+of the last 15 COMPLETED regular sessions before today: P_T = the OPEN of the 30-minute bar
+that contains the same New York clock time as T (mind the daylight-time change in
+brief_common.txt), P_C = the close of that session's last bar; move = abs(P_C / P_T - 1).
+Give avg_move, median_move, max_move, n_sessions. Also today_so_far = abs(spot / today's first
+bar open - 1).
+STEP 5. cushion_avg = straddle_pct / avg_move; cushion_median = straddle_pct / median_move.
+(Above 1 means the premium is bigger than the typical move; a seller wants it well above 1.)
+STEP 6. For every symbol with cushion_avg >= 1.0 (at most the best 6): wings = the listed
+strikes nearest K + straddle_mid and K - straddle_mid (at least one strike step away). Quote
+them. credit_mid = straddle_mid - wing call mid - wing put mid; credit_natural = call bid +
+put bid - wing call ask - wing put ask; width = wider wing distance; max_loss_mid =
+(width - credit_mid) * 100; breakevens = K -/+ credit_mid. Record all four option ids, the
+tick size (min_ticks) and sellout_datetime.
+
+OUTPUT result.json: {"as_of_utc","T_new_york","rows":[{"symbol","spot","K","call":{"id","bid",
+"ask","oi"},"put":{...},"straddle_mid","straddle_pct","atm_spread_pct","avg_move",
+"median_move","max_move","n_sessions","today_so_far","cushion_avg","cushion_median",
+"wings":{...} or null}],"dropped":[{"symbol","reason"}],"errors":[]}
+FINAL MESSAGE (nothing else, at most 30 lines): the file path; a table sorted by cushion_avg,
+best first: SYMBOL spot K straddle% avg/median/max move cushion_avg cushion_median spread% and,
+where quoted, fly credit mid/natural and max loss; the list of symbols with no same-day
+expiry; anything odd in one or two lines.

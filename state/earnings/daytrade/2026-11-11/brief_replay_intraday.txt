@@ -1,0 +1,31 @@
+BRIEF: collect intraday prices for past earnings events ("replay_intraday"). Time budget: 20
+minutes. First read brief_common.txt in the parent folder. Your folder: replay_intraday/ .
+Output file: replay_intraday/raw_intraday.jsonl
+
+You collect prices only. Do no arithmetic: a script will do the maths afterwards.
+
+INPUT (read-only): /home/user/VantageTrader/state/earnings/replay/2026-11-10_unbiased/
+ derived.jsonl (one JSON object per event) and events.json. With python list the events whose
+ derived record has "clean": true (32 expected). For each you need: symbol, X (the exit day =
+ the first trading day after the report reaction; field "X" in events.json), expiry, and the
+ body strike K (in the derived record or in raw.jsonl in the same folder; print one record's
+ keys first to find the field names).
+
+FOR EACH EVENT:
+1. get_option_instruments(chain_symbol=symbol, expiration_dates=expiry, strike_price=K as
+   "NN.NNNN", state="expired") -> the call id and the put id.
+2. get_option_historicals for those two ids: 30-minute bars covering day X's whole regular
+   session (see session hours in brief_common.txt; read the tool schema for the parameters).
+3. get_equity_historicals(symbols=[symbol], interval="30minute") covering day X's regular
+   session. Events that share the same X can share one call (up to 10 symbols).
+4. Append one line to raw_intraday.jsonl:
+   {"symbol","X","expiry","K","call_id","put_id",
+    "bars":[{"end_ny":"10:00","stock":<close>,"call":<close>,"put":<close>}, ... 13 bars to "16:00"],
+    "stock_open": <open of the first bar>, "notes": ""}
+   "end_ny" is the New York clock time at which the bar ENDS. Copy closes exactly. An option
+   bar at or under 0.011, or missing, is null. If an event cannot be collected write
+   {"symbol","X","status":"failed","reason":...} and move on.
+Work in batches of about 6 events and append after each batch.
+
+FINAL MESSAGE (nothing else, at most 12 lines): the file path; "events collected: N of 32";
+events with more than 3 null option bars between 10:30 and 15:30; failures with reasons.
