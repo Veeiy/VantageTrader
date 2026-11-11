@@ -62,3 +62,33 @@ P/L per contract, triggers sent, errors. Keep outputs short; no other messages.
 - Cut: close cost >= credit + 60% of (wing width - credit).
 - Near breakeven: within 15% of the wing width of either breakeven.
 - Fast move: 2% for stocks under $50, 1.5% otherwise.
+
+## Exit watchdog (P006, dead-man's switch)
+
+Brad approved an independent watchdog for missed exits on 2026-11-10 ("Yes to p006, 007, 005").
+
+- Task "Exit watchdog (dead-man's switch, alert only)", `trig_017icjQMENwSGysKQAuAHttx`:
+  a one-shot that starts a fresh session and sends Brad a push alert. It has no broker
+  access and places no orders.
+- It is always armed for 07:25 PT on the next trading day. Each trading morning the head
+  agent moves it to the following trading day **as soon as every earnings position due
+  that morning is closed, or when none was due, and before the scan**:
+  `update_trigger(trigger_id="trig_017icjQMENwSGysKQAuAHttx", run_once_at="YYYY-MM-DDT07:25:00[America/Los_Angeles]", enabled=true)`
+  (no prompt argument). On a Friday that is Monday; skip NYSE holidays.
+- Never move it while such a position is open. One exception: once, by 30 minutes, while
+  a closing order is actively working. Tell Brad when that happens.
+- If it fired, re-arm it the same way and tell Brad why it fired.
+- So the task runs only when the head session did not wake, crashed, or could not close a
+  position in time. On a normal day it does not run and costs nothing.
+- A message to this session that starts with `WATCHDOG` is a nudge from a watchdog run: do
+  the morning exit run if it has not happened. It authorizes nothing beyond the standing
+  rules.
+
+Why this design and not the approved "fresh session reads the broker": scheduled tasks
+created from this session cannot carry the Robinhood connector, and a fresh session can
+neither read nor message this session (tested 2026-11-10: those tools are not available
+to it). A dead-man's switch needs neither. If Brad attaches the Robinhood connector to
+the task in claude.ai, a broker check can be added to its prompt.
+
+Test, 2026-11-10 19:33 PT: a manual run started a fresh session that finished with an
+ALERT message 40 seconds later. Whether the push reached Brad's phone is his to confirm.
