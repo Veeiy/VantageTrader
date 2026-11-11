@@ -279,7 +279,8 @@
         "fast_move_pct": 1.5,
         "exit_by": "2026-11-13 11:00 PT (expiration day: flat by 11:00 PT)",
         "never_hold_into": "2026-11-13 close",
-        "close_sequence": "buy to close 175C and 175P first (the in-the-money one first), then sell 180C and 170P"
+        "close_sequence": "buy to close 175C and 175P first (the in-the-money one first), then sell 180C and 170P",
+        "cut_on_2026-11-12": "CUT at the open (thesis broke; the short 175 put is deep in the money and can be assigned early). First check get_equity_positions for NVDA shares (assignment): if shares appeared, sell them with a limit order first and tell Brad. Else: buy to close the 175P, then sell the 170P, total close cost at or under 5.00 (the wing width); buy back the 175C only if it costs 0.05 or less, else leave it to expire with its 180C wing and list both under leftovers. If NVDA is back above 170 before the open, re-read: the cut level 4.54 and the 30-minute breakeven rule apply again. Do not add, roll or re-center."
       },
       "alerts": [
         {
@@ -302,6 +303,13 @@
         "open_pnl_usd": 9.5,
         "note": "2.4 below the 175 body; lower breakeven 171.16. The House letter asked for a reply to its Nov 18 briefing request by Nov 11: check for one before the 06:45 PT run.",
         "source": "monitor daemon hand-back; official closes are confirmed at the 14:12 PT reflection"
+      },
+      "after_hours_2026-11-11": {
+        "price": 161.02,
+        "at": "2026-11-11T23:57Z",
+        "move_from_close": -0.0738,
+        "news": "After the close the New York Times reported a second relationship allegation about the CEO and the Wall Street Journal reported that the board is preparing to remove him. This is a new development of the kind the owner decision of 2026-11-10 set apart.",
+        "effect": "The stock is 9 points under the 170 put wing: the fly is at its max loss of $116. Options do not trade until 06:30 PT."
       }
     }
   ],
@@ -319,7 +327,7 @@
     "detail": "PCG 174 + reserve 50; LUNR 268 + reserve 150 (3 x $50); NVDA 116 + reserve 50.",
     "cap_note": "min($1,000, 0.93 x account value). Brad, 2026-11-11: 'Lets say 1k limit'. 0.93 x 1327.41 = 1234.49, so the cap is 1000."
   },
-  "eod_note": "2026-11-11 close: three positions open (LUNR x3 through the report, PCG x5, NVDA x1). No trigger fired all day. Open P/L at mid about +$43.",
+  "eod_note": "2026-11-11 close: three positions open (LUNR x3 through the report, PCG x5, NVDA x1). No trigger fired all day. Open P/L at mid about +$43. After hours NVDA fell to about 161 on reports about its CEO: the NVDA fly is at max loss ($116); cut at the 11/12 open.",
   "watch": [
     {
       "symbol": "NVDA",
@@ -398,7 +406,8 @@
           "167.5P": "b1366364-9ab1-417a-a2e0-192bbc3cf040"
         },
         "owner_request": "Brad 10:46 PT: 'lets enter on some nvdia for the iv crush/theta decay. theres high iv with it rn'. Not entered: the v1.2 screen fails and the earnings premium pays only after the report. Two paper flies recorded (NVDA-PRE-20261111-P1, NVDA-EARLY-20261111-P1). Offered him a one-word override for the Nov 13 fly."
-      }
+      },
+      "hold_2026-11-11": "ON HOLD: the reports of 2026-11-11 (the board preparing to remove the CEO) are a new development of a different kind. Per the owner decision of 2026-11-10: tell Brad and do not trade the 11/17 report without his reply."
     }
   ],
   "alerts_note": "Brad, 2026-11-11: 'alerts on'. Every open position carries two Robinhood price alerts at its breakevens. Create them at entry; when the position closes, pause them with update_alert(enabled=false). Never delete without Brad's yes. docs/earnings/DAEMON.md 'Breakeven alerts'.",
