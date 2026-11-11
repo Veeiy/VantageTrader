@@ -461,3 +461,18 @@ Brad, with $266 of the $1,000 cap in use: "we have a ton of buying power. start 
 Same as v1.7: after 10 closed trades, result per dollar of max loss; and at once if the
 account falls under $1,000, where the agent will ask Brad whether to keep 20%.
 
+### Paper test widened (2026-11-11 12:19 PT)
+Brad: "lets add meta, nvdia and some of those other high liquidity stocks to the paper testing"
+
+- From 2026-11-12 the same-day paper flies cover 10 liquid names: SPY, QQQ, IWM, NVDA, META,
+  AAPL, AMZN, MSFT, AMD and IBIT (never TSLA). A name is recorded only on days it has a
+  same-day expiry: the three funds every day, the stocks on Mondays, Wednesdays and Fridays.
+- Same design as before: opened at the 07:15 PT run, take-profit check at 10:15 PT (close
+  cost at or under half the credit), result at 12:15 PT. Still paper only (P017).
+- A read-only paper-desk agent does the quoting; the head only imports its file
+  (`paper-import`). Cost: about 150,000 tokens a day.
+- Day 1 (2026-11-11, SPY and IWM only): -$111 at mid, -$120 at natural. META, recorded as
+  an extra, made +$132 at mid and +$73 at natural.
+- With about 8 flies a day instead of 2, the 10-session test holds roughly 80 results
+  instead of 20.
+

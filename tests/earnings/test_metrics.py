@@ -104,3 +104,36 @@ def test_cli_live_metrics(tmp_path):
     p = _write(tmp_path, [_entry("AAA-1", "AAA", 0.8, 0.10, 0.96, 0.05)])
     out, code = cli.run(["live-metrics", "--metrics", str(p)])
     assert code == 0 and out["counts"]["entries"] == 1
+
+
+def test_paper_import_appends_once_and_rejects_bad_lines(tmp_path):
+    mp = _write(tmp_path, [_entry("LUNR-1", "LUNR", 0.7, 0.11, 0.95, 0.1)])
+    desk = tmp_path / "paper_desk.jsonl"
+    good_open = {"trade_id": "QQQ-0DTE-20261112-P1", "record": "paper", "live": False, "symbol": "QQQ", "ts": "2026-11-12T15:15:00Z",
+                 "kind": "intraday_0dte", "credit_mid": 2.0, "max_loss_usd": 100}
+    good_mark = dict(good_open, ts="2026-11-12T18:15:00Z", mark={"close_cost_mid": 1.5})
+    good_result = dict(good_open, ts="2026-11-12T20:15:00Z", result=True, pnl_mid_usd=40.0, pnl_natural_usd=31.0)
+    bad = [dict(good_open, record="entry"), dict(good_open, live=True), dict(good_open, symbol="TSLA", trade_id="TSLA-0DTE-P1"),
+           dict(good_result, pnl_mid_usd="40")]
+    lines = [json.dumps(r) for r in (good_open, good_mark, good_result, *bad)] + ["not json"]
+    desk.write_text("\n".join(lines) + "\n")
+    out = metrics.import_paper(desk, mp)
+    assert out["added"] == 3 and out["skipped_duplicates"] == 0 and len(out["rejected"]) == 5
+    assert out["results_added"] == 1 and out["pnl_mid_usd"] == 40.0 and out["pnl_natural_usd"] == 31.0
+    again = metrics.import_paper(desk, mp)
+    assert again["added"] == 0 and again["skipped_duplicates"] == 3
+    recs = metrics.read_metrics(mp)
+    assert [r["record"] for r in recs] == ["entry", "paper", "paper", "paper"]
+    with pytest.raises(EngineInputError):
+        metrics.import_paper(tmp_path / "missing.jsonl", mp)
+
+
+def test_cli_paper_import(tmp_path, capsys):
+    mp = tmp_path / "live_metrics.jsonl"
+    desk = tmp_path / "desk.jsonl"
+    desk.write_text(json.dumps({"trade_id": "SPY-0DTE-20261112-P1", "record": "paper", "live": False, "symbol": "SPY",
+                                "ts": "2026-11-12T15:15:00Z"}) + "\n")
+    code = cli.main(["paper-import", "--file", str(desk), "--metrics", str(mp)])
+    out = json.loads(capsys.readouterr().out)
+    assert code == 0 and out["added"] == 1 and mp.exists()
+

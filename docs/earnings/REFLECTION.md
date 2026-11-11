@@ -26,11 +26,13 @@ tested as hypotheses and go to Brad as proposals. The loop never changes a rule 
    60 minutes after the next open, wings at 1x and 2x the straddle priced by the model.
    At most 6 names a day unless Brad asks for more. Write them as `paper` records in
    `live_metrics.jsonl`. Results with a failed put-call parity check are not evidence.
-   Paper day trades (`live_metrics.jsonl`, record `paper`, kind `intraday_0dte`): score each
-   from 5-minute bars of its four legs (`get_option_historicals`, through a read-only agent,
-   never in the head session): the first touch of its take-profit or stop, else its time
-   stop, and the 12:45 PT mark as the hold-to-the-end case. Write `pnl_mid_usd` on a new
-   `paper` record with the same `trade_id` and add the day to the tally in
+   Paper day trades (`live_metrics.jsonl`, record `paper`, kind `intraday_0dte`): since
+   2026-11-12 a read-only paper desk records them for 10 liquid names (SPY, QQQ, IWM, NVDA,
+   META, AAPL, AMZN, MSFT, AMD, IBIT; `docs/earnings/prompts/brief_paper_desk.md`). First
+   make sure the day's file was imported (`paper-import`). Then report, per name and in
+   total: results at mid and at natural, wins, and the result as a share of max loss. Keep
+   two totals apart: every fly, and the flies with a max loss of $200 or less (the ones the
+   non-earnings rule would allow live). Add the day to the running table in
    `state/earnings/daytrade/` (P017 is decided on 10 sessions).
 3. **Grade decisions on process.** One row per entry, exit, adjustment, skip and
    cancelled order: was the rule followed, was the information complete, was the size

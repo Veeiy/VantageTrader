@@ -11,6 +11,8 @@ Additive options beyond the contract (all optional, contract invocations work as
   exit --journal (same default) adds a ``circuit_breaker`` block for context only; exits
     are produced and the exit code is 0 even when the breaker is tripped.
   reconcile --config for cancel_by.
+  paper-import --file DESK.jsonl [--metrics PATH] appends the paper records a read-only
+                         paper-desk agent wrote (duplicates skipped; exit 3 if a line is rejected)
   live-metrics [--metrics PATH] summarises the live metrics dataset (read-only; an absent
     file gives an empty summary).
   daily-review --date YYYY-MM-DD [--journal --metrics --positions --lessons --config] builds
@@ -172,6 +174,9 @@ def build_parser() -> argparse.ArgumentParser:
     h.add_argument("--events", required=True)
     m = sub.add_parser("live-metrics")
     m.add_argument("--metrics", default=DEFAULT_METRICS)
+    pi = sub.add_parser("paper-import")
+    pi.add_argument("--file", required=True)
+    pi.add_argument("--metrics", default=DEFAULT_METRICS)
     d = sub.add_parser("daily-review")
     d.add_argument("--date", required=True)
     d.add_argument("--journal")
@@ -260,6 +265,9 @@ def run(argv: list[str] | None = None) -> tuple[dict[str, Any], int]:
         return history.compute_all(_load_json(args.bars, "bars"), _load_json(args.events, "events")), 0
     if args.cmd == "live-metrics":
         return metrics.summarize(metrics.read_metrics(args.metrics)), 0
+    if args.cmd == "paper-import":
+        out = metrics.import_paper(args.file, args.metrics)
+        return out, (3 if out["rejected"] else 0)
     if args.cmd == "lessons":
         return {**reflect.lessons_view(reflect.read_lessons(args.lessons)),
                 "trader_lease": _lessons_lease(args.lease)}, 0

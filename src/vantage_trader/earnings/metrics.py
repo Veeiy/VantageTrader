@@ -145,3 +145,74 @@ def summarize(records: list[dict[str, Any]]) -> dict[str, Any]:
         },
         "trades": trades,
     }
+
+
+# ---------------------------------------------------------------- paper desk import
+
+PAPER_NEVER = {"TSLA"}   # never TSLA, on paper either
+
+
+def _paper_key(rec: dict[str, Any]) -> tuple[Any, ...]:
+    return (rec.get("trade_id"), rec.get("ts"), "mark" in rec, bool(rec.get("result")))
+
+
+def import_paper(desk_path: str | Path, metrics_path: str | Path) -> dict[str, Any]:
+    """Append the records a read-only paper-desk agent wrote to the live metrics dataset.
+
+    The desk writes one JSON object per line. Only ``paper`` records with ``live`` false are
+    taken. A line already in the dataset (same trade_id, ts and stage) is skipped, so the
+    import can be run again. Bad lines are reported, never appended.
+    """
+    dp = Path(desk_path)
+    if not dp.exists():
+        raise EngineInputError(f"paper desk file not found: {desk_path}")
+    have = {_paper_key(r) for r in read_metrics(metrics_path) if r.get("record") == "paper"}
+    added: list[dict[str, Any]] = []
+    rejected: list[dict[str, Any]] = []
+    skipped = 0
+    for n, line in enumerate(dp.read_text().splitlines(), 1):
+        if not line.strip():
+            continue
+        try:
+            rec = json.loads(line)
+        except json.JSONDecodeError as e:
+            rejected.append({"line": n, "reason": f"not valid JSON: {e}"})
+            continue
+        why = None
+        if not isinstance(rec, dict):
+            why = "not an object"
+        elif rec.get("record") != "paper":
+            why = "record is not 'paper'"
+        elif rec.get("live") is not False:
+            why = "live must be false"
+        elif not isinstance(rec.get("trade_id"), str) or not rec["trade_id"].strip():
+            why = "trade_id missing"
+        elif not isinstance(rec.get("symbol"), str) or not rec["symbol"].strip():
+            why = "symbol missing"
+        elif rec["symbol"].strip().upper() in PAPER_NEVER:
+            why = "symbol is never traded, on paper either"
+        elif not isinstance(rec.get("ts"), str) or not rec["ts"].strip():
+            why = "ts missing"
+        elif any(k in rec and _num(rec[k]) is None for k in ("pnl_mid_usd", "pnl_natural_usd")):
+            why = "pnl fields must be numbers"
+        if why:
+            rejected.append({"line": n, "reason": why})
+            continue
+        key = _paper_key(rec)
+        if key in have:
+            skipped += 1
+            continue
+        have.add(key)
+        added.append(rec)
+    if added:
+        mp = Path(metrics_path)
+        mp.parent.mkdir(parents=True, exist_ok=True)
+        with mp.open("a") as f:
+            for rec in added:
+                f.write(json.dumps(rec) + "\n")
+    results = [r for r in added if r.get("result")]
+    return {"file": str(desk_path), "added": len(added), "skipped_duplicates": skipped, "rejected": rejected,
+            "results_added": len(results),
+            "pnl_mid_usd": round(sum(_num(r.get("pnl_mid_usd")) or 0.0 for r in results), 2),
+            "pnl_natural_usd": round(sum(_num(r.get("pnl_natural_usd")) or 0.0 for r in results), 2)}
+
