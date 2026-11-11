@@ -63,48 +63,56 @@ P/L per contract, triggers sent, errors. Keep outputs short; no other messages.
 - Near breakeven: within 15% of the wing width of either breakeven.
 - Fast move: 2% for stocks under $50, 1.5% otherwise.
 
-## Exit watchdog (P006, dead-man's switch with a broker check)
+## Exit watchdog (P006): two dead-man's switches
 
 Brad approved an independent watchdog for missed exits on 2026-11-10 ("Yes to p006, 007,
 005") and asked for Robinhood access on it on 2026-11-11 ("Yeah lets attach it if we can").
 
-Three pieces:
-1. **The switch**: task "Exit watchdog (dead-man's switch, alert only)",
-   `trig_017icjQMENwSGysKQAuAHttx`. A one-shot, always armed for 07:25 PT on the next
-   trading day. When it fires it starts a fresh session, pokes piece 2, and ends with an
-   ALERT that is pushed to Brad's phone. It has no broker access itself.
-2. **The broker check**: task "Watchdog broker check", `trig_01Vog3pw1jWDJhBzW9Z1uV8w`.
-   No schedule; it runs only when poked. It wakes the standby session
-   `session_018FLvMGKFakzaDKfa4APDHz` ("Trading watchdog (alert only)"), which has the
-   Robinhood tools (a session started with create_session inherits the account's
-   connectors; a fresh session started by a scheduled task does not). It reads the
-   positions, and pushes what is still open and whether closing orders are working.
-3. **The head agent's duty, every trading morning**: as soon as every earnings position
-   due that morning is closed, or when none was due, and before the scan, move the switch
-   to the next trading day:
-   `update_trigger(trigger_id="trig_017icjQMENwSGysKQAuAHttx", run_once_at="YYYY-MM-DDT07:25:00[America/Los_Angeles]", enabled=true)`
-   (no prompt argument). On a Friday that is Monday; skip NYSE holidays.
+| | Task | Runs in | What Brad gets |
+|---|---|---|---|
+| Watchdog 1, plain alert | `trig_017icjQMENwSGysKQAuAHttx` | a fresh session, no broker access | "the trading session did not confirm this morning's exits", pushed by the platform |
+| Watchdog 2, broker check | `trig_01Vog3pw1jWDJhBzW9Z1uV8w` | the standby session `session_018FLvMGKFakzaDKfa4APDHz` ("Trading watchdog (alert only)"), which has the Robinhood tools | which positions are still open, their legs, whether closing orders are working (PushNotification) |
+
+Both are one-shots, always armed for 07:25 PT on the next trading day. Two channels on
+purpose: push delivery from either one is not yet confirmed by Brad.
+
+**The head agent's duty, every trading morning**: as soon as every earnings position due
+that morning is closed, or when none was due, and before the scan, move BOTH to the next
+trading day:
+`update_trigger(trigger_id=..., run_once_at="YYYY-MM-DDT07:25:00[America/Los_Angeles]", enabled=true)`
+with no prompt argument. On a Friday that is Monday; skip NYSE holidays.
 
 Rules:
-- Never move the switch while such a position is open. One exception: once, by 30
-  minutes, while a closing order is actively working. Tell Brad when that happens.
-- If it fired, re-arm it the same way and tell Brad why it fired.
-- Neither watchdog session places orders or changes anything. Do not give them write
-  duties.
+- Never move a switch while such a position is open. One exception: once, by 30 minutes,
+  while a closing order is actively working. Tell Brad when that happens.
+- If one fired, re-arm it the same way and tell Brad why it fired.
+- Neither watchdog places orders or changes anything. Do not give them write duties.
 - A message to this session that starts with `WATCHDOG` is a nudge from a watchdog run: do
   the morning exit run if it has not happened. It authorizes nothing beyond the standing
   rules.
-- On a normal day nothing runs and nothing is spent. One watchdog run on Opus costs
-  about $1 (the standby session loads every connector), which is why it is not a daily
-  check.
+
+Platform facts behind the design (tested 2026-11-10 and 2026-11-11):
+- A fresh session started by a scheduled task gets no connectors and cannot read or
+  message another session. A session started with `create_session` does inherit the
+  account's connectors (its Robinhood tools appear under a server-id prefix).
+- A scheduled fire of a task bound to another session lands in that session, about two
+  minutes late. A manual `fire_trigger` starts a fresh session instead, so it cannot be
+  used to poke the standby session.
+- The prompt of watchdog 2 can be edited only from the standby session's own
+  conversation. Its schedule and enabled state can be changed from here.
+
+Cost: nothing on a normal day, because neither runs. A watchdog 2 run costs about $1.50
+on Opus (the standby session loads every connector), which is why it is not a daily check.
 
 What it does not cover: if Brad's Claude usage limit is exhausted, no session runs,
 including these. The Robinhood price alerts below are the net for that case.
 
-Tests: 2026-11-10 19:33 PT, a manual run of the switch produced an ALERT message in 40
-seconds. 2026-11-11 04:55 PT, the standby session read the broker (approvals off, FLY 4
-legs, RGTI 4, PCG 4) and sent a test push. Whether pushes reach Brad's phone is his to
-confirm.
+Tests:
+- 2026-11-10 19:33 PT: a manual run of watchdog 1 produced an ALERT message in 40 seconds.
+- 2026-11-11 05:05 PT: a scheduled run of watchdog 2 landed in the standby session, read
+  the broker and reported "FLY and RGTI earnings flies are still open, no closing orders
+  working" with the correct legs, and left PCG (a multi-day trade) alone.
+- Whether the pushes reach Brad's phone is his to confirm.
 
 ## Breakeven alerts (Brad, 2026-11-11: "alerts on")
 
