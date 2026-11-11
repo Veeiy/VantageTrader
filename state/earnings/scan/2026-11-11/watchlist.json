@@ -100,7 +100,25 @@
     "edge_ratio": 0.7047,
     "edge_ratio_atm_equivalent": 0.7023
    },
-   "decision_0706": "NOT entered early. The edge ratio read 0.691 at 07:02 and 0.705 at 07:05: it sits on the 0.70 early-entry line, inside the noise of a one-cent change in the quotes. Under v1.5 timing a name must be at or under 0.70 to go early; a 0.70 to 0.85 name is entered at the 11:46 sweep. Re-check at 09:45 PT (enter then if 0.70 or under), otherwise 11:46 PT."
+   "decision_0706": "NOT entered early. The edge ratio read 0.691 at 07:02 and 0.705 at 07:05: it sits on the 0.70 early-entry line, inside the noise of a one-cent change in the quotes. Under v1.5 timing a name must be at or under 0.70 to go early; a 0.70 to 0.85 name is entered at the 11:46 sweep. Re-check at 09:45 PT (enter then if 0.70 or under), otherwise 11:46 PT.",
+   "entered": {
+    "ts": "2026-11-11T15:57:27Z",
+    "structure": "iron fly 11/12.5/14 (body moved to 12.5 with the stock)",
+    "credit": 1.06,
+    "max_loss_usd": 44,
+    "breakevens": [
+     11.44,
+     13.56
+    ],
+    "gate_0752": {
+     "spot": 12.525,
+     "intraday_pct": 0.0605,
+     "edge_ratio": 0.6924,
+     "atm_spread_worst_leg": 0.1576,
+     "code_gate": "sell, all 14 gates pass"
+    }
+   },
+   "decision_0752": "Entered early under v1.5 once P020 dropped the 0.70 timing layer (replay batch 2: nothing special at 0.70)."
   }
  ],
  "blocked": {
@@ -293,5 +311,5 @@
   "risk_cap": 1000,
   "risk_used": 172
  },
- "entry_plan": "LUNR x1: early entry only if the edge ratio is clearly 0.70 or under at the 09:45 re-check; otherwise at the 11:46 final sweep if it still passes every gate (edge 0.85 or under, spread 25% or under, intraday 5% or under, or 5-7% with the sector). Net credit floor max(natural, 0.92 x mid). Body = strike nearest spot at that moment (12.5 needs new option ids)."
+ "entry_plan": "LUNR x1 entered 07:57 PT. No other name passes; the 11:46 sweep re-quotes FIGR and XE for the record and moves the standby entry switch."
 }
