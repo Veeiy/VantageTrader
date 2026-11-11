@@ -311,5 +311,82 @@
   "risk_cap": 1000,
   "risk_used": 172
  },
- "entry_plan": "LUNR x1 entered 07:57 PT. No other name passes; the 11:46 sweep re-quotes FIGR and XE for the record and moves the standby entry switch."
+ "entry_plan": "LUNR x1 entered 07:57 PT. No other name passes; the 11:46 sweep re-quotes FIGR and XE for the record and moves the standby entry switch.",
+ "recheck_0947": {
+  "as_of": "2026-11-11T17:47Z",
+  "macro": {
+   "spy_pct": 0.015,
+   "note": "SPY +1.5% (761.14 vs 749.92). The macro veto is at 2%: re-read before any entry."
+  },
+  "LUNR": {
+   "status": "held x1 (11/12.5/14)",
+   "spot": 12.375,
+   "intraday_pct": 0.0478,
+   "K": 12.5,
+   "call": {
+    "bid": 0.71,
+    "ask": 0.83
+   },
+   "put": {
+    "bid": 0.81,
+    "ask": 0.92
+   },
+   "straddle_mid": 1.635,
+   "edge_ratio": 0.7042,
+   "atm_spread_worst": 0.1558,
+   "add_check_v17": {
+    "wings": "10P (4a6c4516-dafb-4914-bad3-8850e907df48) 0.07 x 0.09, 15C (369dfe6f-f257-4e80-b9a7-d1b6313d8ebd) 0.13 x 0.14",
+    "fly": "10/12.5/15, credit mid 1.42, natural 1.29, floor 1.31, max loss at floor 119.36, width 1.53x the straddle",
+    "gate": "no_trade: early_tranche_full. Target 159.29, held 44, planned 1 more contract in the final window (from 11:30 PT). Every other gate passes; spot is 0.125 from the body (room 0.41).",
+    "watch": "intraday move 4.78% is close to the 5% gate"
+   }
+  },
+  "FIGR": {
+   "spot": 24.32,
+   "intraday_pct": 0.042,
+   "K": 24,
+   "call": {
+    "bid": 1.45,
+    "ask": 1.7
+   },
+   "put": {
+    "bid": 1.25,
+    "ask": 1.7
+   },
+   "straddle_mid": 3.05,
+   "straddle_pct": 0.1254,
+   "atm_spread_worst": 0.305,
+   "edge_ratio": 1.11,
+   "verdict": "blocked: put spread 30% (limit 25%) and edge ratio 1.11"
+  },
+  "XE": {
+   "spot": 11.235,
+   "intraday_pct": 0.0242,
+   "K": 11,
+   "call": {
+    "id": "ee6e3571-3ca8-4023-99d3-451c3898e36c",
+    "bid": 0.55,
+    "ask": 0.65
+   },
+   "put": {
+    "id": "8e8ced0a-0b57-4388-96b6-2ec43873bbcb",
+    "bid": 0.35,
+    "ask": 0.4
+   },
+   "straddle_mid": 0.975,
+   "straddle_pct": 0.0868,
+   "atm_spread_worst": 0.1667,
+   "verdict": "spread now inside 25% (was 60% at the morning scan): sent to one read-only analyst for history, regime, wings and a news check (batch_X.json)"
+  },
+  "NBIS": {
+   "spot": 158.96,
+   "intraday_pct": 0.1863,
+   "verdict": "blocked: intraday move above 7%; edge ratio 1.14 at the morning read"
+  },
+  "FPS": {
+   "spot": 24.35,
+   "intraday_pct": 0.1336,
+   "verdict": "blocked: intraday move above 7%"
+  }
+ }
 }
