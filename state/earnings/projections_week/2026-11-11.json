@@ -1,0 +1,124 @@
+{
+ "made_at": "2026-11-11T21:25:00Z",
+ "week": "2026-11-09 to 2026-11-13",
+ "asked_by": "Brad, 2026-11-11 13:17 PT: 'based on todays trades how are we looking for projected p/l for the week?'",
+ "realized_so_far_usd": 63.16,
+ "realized_detail": {
+  "RGTI": 28.76,
+  "FLY": 44.72,
+  "RGTI trim (rebalance)": -10.32
+ },
+ "LUNR": {
+  "position": "3 contracts on the 12.5 body (1 x 11/12.5/14 at 1.06, 2 x 10/12.5/15 at 1.38)",
+  "exit": "2026-11-12 06:45 PT",
+  "close": 12.19,
+  "volatility": {
+   "front_iv": 2.0374,
+   "back_iv_nov20": 1.3662,
+   "ambient_daily_sigma": 0.0682,
+   "sigma_pre_report": 0.1508,
+   "event_sigma": 0.1159,
+   "implied_abs_move": 0.0927,
+   "sigma_post_term_structure": 0.0953,
+   "sigma_post_low_base_high": [
+    0.0858,
+    0.1048,
+    0.1286
+   ],
+   "note": "base = term structure x 1.1, the size of the miss on RGTI and FLY on 2026-11-11"
+  },
+  "pnl_mid_by_move_base_vol": {
+   "-25%": -238,
+   "-20%": -193,
+   "-15%": -120,
+   "-10%": -32,
+   "-7.5%": 10,
+   "-5%": 48,
+   "-2.5%": 76,
+   "0%": 95,
+   "+2.5%": 101,
+   "+5%": 96,
+   "+7.5%": 80,
+   "+10%": 56,
+   "+15%": -7,
+   "+20%": -77,
+   "+25%": -139
+  },
+  "best_case_mid_usd": [
+   62,
+   101,
+   140
+  ],
+  "zero_line_after_slippage": [
+   11.37,
+   13.75
+  ],
+  "slippage_assumed_usd": 24,
+  "expected_usd_after_slippage": {
+   "six_past_reports": 26.6,
+   "market_implied_distribution": -14.0,
+   "history_sized_normal": 3.8
+  },
+  "p_profit": [
+   0.57,
+   0.64
+  ],
+  "max_loss_usd": -268,
+  "note": "The $382 max profit is the payoff at Friday's expiry with the stock at 12.50. At the next-morning exit the options still hold about two days of time value (the market prices 6.8% a day for LUNR), so the ceiling is about $100."
+ },
+ "NVDA": {
+  "position": "1 x 170/175/180, Nov 13, credit 3.84",
+  "exit": "by 2026-11-13 11:00 PT",
+  "close": 173.85,
+  "pnl_mid_at_fri_1015": {
+   "168": -58,
+   "171": 33,
+   "173.85": 109,
+   "175": 117,
+   "180": 5
+  },
+  "expected_usd_after_slippage": [
+   -15,
+   -5
+  ],
+  "p_profit": [
+   0.45,
+   0.49
+  ],
+  "max_loss_usd": -116
+ },
+ "PCG": {
+  "position": "5 x 12/13/14, Nov 20, average credit 0.652",
+  "status": "stays open into next week unless take-profit (0.33) or cut (0.86) triggers",
+  "mark_now_usd": 18.5,
+  "mark_by_friday_usd": {
+   "-6%": -12,
+   "-3%": 35,
+   "0%": 46,
+   "+3%": 19,
+   "+6%": -31
+  },
+  "max_loss_usd": -174
+ },
+ "thursday_entries": "not priced yet (AMAT, CSCO, NU and others report Thursday after the close). Replay average: +3% to +6% of max loss a trade, so roughly +$10 to +$30 expected on two names with swings of $150 to $250.",
+ "week_scenarios_usd": {
+  "expected": {
+   "realized": 68,
+   "with_pcg_mark": 110,
+   "how": "63 + LUNR about +15 + NVDA about -10, PCG mark about +40"
+  },
+  "good": {
+   "total": 290,
+   "how": "LUNR opens within 5% (+85), NVDA sits near 174-175 on Friday (+100), PCG +45"
+  },
+  "bad": {
+   "total": -225,
+   "how": "LUNR gaps 20% down (-193), NVDA through a wing (-116), PCG +20"
+  },
+  "worst": {
+   "total": -495,
+   "how": "all three at max loss"
+  }
+ },
+ "to_check": "Friday scorecard: compare each line with what happened."
+}
