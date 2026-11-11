@@ -171,7 +171,7 @@
       "kind": "earnings",
       "report": "2026-11-17 after close",
       "owner_decision": "2026-11-10 Brad: 'We can trade nvdia.' The news veto is waived for the board investigation (announced 11/08) and the House briefing request (proposed 11/18). All other gates apply. See RULES_CHANGELOG.",
-      "plan": "Enter Tue 11/17 near the close, 1 contract iron fly on the Nov 20 expiry at the strike nearest spot, wings sized so max loss + $50 fits the remaining budget (about $10 wide at 11/10 prices). Exit Wed 11/18 at the 06:45 PT check-in.",
+      "plan": "Enter Tue 11/17 in the final window (11:30 to 12:35 PT), iron fly at the strike nearest spot. Expiry: Nov 18 is the first after the report (NVDA lists Mon, Wed and Fri); use it unless its at-the-money spread is above 12%, then Nov 20. Wings per v1.6 (nearest 1.5x the entry straddle, stepped in until max loss at the credit floor is $350 or less); contracts per v1.7 (the gate). Exit Wed 11/18 at the 06:45 PT check-in; a Nov 18 fly expires that day, so it must be flat by 11:00 PT.",
       "snapshot_2026-11-10_close": {
         "spot": 168.79,
         "after_hours": 170.44,
@@ -220,7 +220,30 @@
         "175C": "376aa83a-04a9-4149-9358-04207fa963ed",
         "180C": "a3445353-ea9b-4d67-850c-704938381d56"
       },
-      "tick": "0.01 below $3.00, 0.05 above"
+      "tick": "0.01 below $3.00, 0.05 above",
+      "snapshot_2026-11-11_1053PT": {
+        "spot": 177.15,
+        "intraday_pct": 0.0489,
+        "iv_rank": 0.739,
+        "front_iv": 0.6315,
+        "hv10": 0.5926,
+        "straddle_177_5": {
+          "nov13": 6.9,
+          "nov16": 8.725,
+          "nov18": 16.375,
+          "nov20": 17.4
+        },
+        "implied_earnings_move_abs": 0.073,
+        "hist_avg_pct": 3.86,
+        "edge_ratio_est": 0.61,
+        "nov18_option_ids": {
+          "177.5C": "c980db41-d14e-4867-a14e-a51d12f516a5",
+          "177.5P": "292ac598-c349-4a94-ba24-7be700d31966",
+          "187.5C": "04390ae4-72bc-482a-a5bd-7c7d3a56899f",
+          "167.5P": "b1366364-9ab1-417a-a2e0-192bbc3cf040"
+        },
+        "owner_request": "Brad 10:46 PT: 'lets enter on some nvdia for the iv crush/theta decay. theres high iv with it rn'. Not entered: the v1.2 screen fails and the earnings premium pays only after the report. Two paper flies recorded (NVDA-PRE-20261111-P1, NVDA-EARLY-20261111-P1). Offered him a one-word override for the Nov 13 fly."
+      }
     }
   ],
   "alerts_note": "Brad, 2026-11-11: 'alerts on'. Every open position carries two Robinhood price alerts at its breakevens. Create them at entry; when the position closes, pause them with update_alert(enabled=false). Never delete without Brad's yes. docs/earnings/DAEMON.md 'Breakeven alerts'.",
