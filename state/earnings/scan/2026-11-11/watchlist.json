@@ -312,7 +312,7 @@
   "risk_cap": 1000,
   "risk_used": 172
  },
- "entry_plan": "LUNR x1 entered 07:57 PT. No other name passes (09:47 PT re-check: XE has 2 past reports, FIGR spread and edge, NBIS and FPS intraday). The 11:46 sweep runs the LUNR add check (1 contract of 10/12.5/15 planned, v1.7) and moves the standby entry switch.",
+ "entry_plan": "Done for 2026-11-11: LUNR 3 contracts (1 at 07:57 PT, 2 added at 11:49 PT), PCG 5 contracts (1 added at 11:15 PT), NVDA 1 contract (owner-directed, 11:12 PT).",
  "recheck_0947": {
   "as_of": "2026-11-11T17:47Z",
   "macro": {
@@ -390,5 +390,55 @@
    "intraday_pct": 0.1336,
    "verdict": "blocked: intraday move above 7%"
   }
+ },
+ "final_sweep_1147": {
+  "as_of": "2026-11-11T19:47Z",
+  "macro": {
+   "spy_pct": 0.0142,
+   "vix": 17.49,
+   "veto": false
+  },
+  "LUNR": {
+   "decision": "add 2 contracts of 10/12.5/15 (v1.7 scale in, v1.8 target)",
+   "gate": "exit 0, edge 0.696, 15 of 15 gates pass, contracts 2",
+   "fill_credit": 1.38,
+   "position": "3 contracts, max loss 268"
+  },
+  "FIGR": {
+   "spot": 23.455,
+   "intraday_pct": 0.0049,
+   "K": 24,
+   "call": [
+    1.1,
+    1.4
+   ],
+   "put": [
+    1.5,
+    1.85
+   ],
+   "straddle_mid": 2.925,
+   "edge_ratio_est": 1.14,
+   "decision": "blocked: no edge (above 0.85); spread 24%"
+  },
+  "XE": {
+   "spot": 11.035,
+   "decision": "blocked: 2 past reports (needs 4)"
+  },
+  "NBIS": {
+   "spot": 156.42,
+   "intraday_pct": 0.1673,
+   "decision": "blocked: intraday move above 7%"
+  },
+  "FPS": {
+   "spot": 24.32,
+   "intraday_pct": 0.1322,
+   "decision": "blocked: intraday move above 7%"
+  },
+  "non_earnings": {
+   "PCG": "screen passes (IV rank 0.93, IV30 2.57x HV10): 1 contract added at 11:15 PT",
+   "CAPR": "passes the screen numbers but is a biotech up 19% today with no checked driver: not traded",
+   "NVDA": "screen fails (IV rank 0.74, front IV 1.07x HV10): owner-directed fly opened at 11:12 PT"
+  },
+  "entry_decision": "made at 11:50 PT. Standby entry switch already armed for 2026-11-12 12:05 PT."
  }
 }
