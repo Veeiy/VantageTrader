@@ -303,3 +303,22 @@ def test_cli_replay_end_to_end(tmp_path):
         cli.run(args)
     (tmp_path / "raw_b.jsonl").write_text("not json\n")
     assert cli.main(args) == 2
+
+
+def test_missing_wing_strikes_are_synthesized_from_the_entry_straddle():
+    """Lite method (REPLAY.md): only the stock and the two body options are collected."""
+    raw = make_raw()
+    for key in ("w1c_strike", "w1p_strike", "w2c_strike", "w2p_strike"):
+        raw.pop(key)
+    for leg in ("w1c", "w1p", "w2c", "w2p"):
+        raw["legs"].pop(leg)
+    rec = rp.derive(EVENT, raw)
+    f1, f2 = rec["fly1"], rec["fly2"]
+    assert f1["synthetic_strikes"] is True and f2["synthetic_strikes"] is True
+    w1 = f1["call_strike"] - 100.0
+    assert f1["put_strike"] == pytest.approx(100.0 - w1) and f1["width_over_straddle"] == pytest.approx(1.0, abs=1e-3)
+    assert f2["call_strike"] - 100.0 == pytest.approx(2 * w1, rel=1e-3)
+    assert "traded" not in f1 and f1["model"]["pnl_b2_usd"] is not None
+    assert 0 < f1["model"]["credit"] < w1
+    # listed strikes still win when they are given
+    assert rp.derive(EVENT, make_raw())["fly1"]["synthetic_strikes"] is False

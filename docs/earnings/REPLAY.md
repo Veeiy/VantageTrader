@@ -75,7 +75,14 @@ Raw record:
  "quality", "status": "ok"|"no_weekly"|"no_data"}
 ```
 Only `stock`, `K`, `kc` and `kp` are needed for the headline result. Wing strikes without
-wing prices are enough for the model variant.
+wing prices are enough for the model variant. With no wing strikes at all (lite method) the
+code places the wings at 1x and 2x the entry straddle from the body (`synthetic_strikes`:
+true; not rounded to a listed strike).
+
+Since batch 2 (2026-11-11) a raw record may also carry `bars`: the closes of all 13
+half-hour bars of day X for the stock and for each body option (bars ending 10:00 to 16:00
+New York time). `b1` and `b2` are the first two. The extra bars feed the intraday tests in
+`state/earnings/daytrade/`.
 
 ## Run it
 ```

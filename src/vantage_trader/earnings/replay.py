@@ -166,13 +166,20 @@ def _fly(raw: dict[str, Any], n: str, k: float, spots: dict[str, float | None],
          body: dict[str, dict[str, Any]], sigma: dict[str, float | None],
          mult: dict[str, float]) -> dict[str, Any] | None:
     cs, ps = _f(raw.get(f"w{n}c_strike")), _f(raw.get(f"w{n}p_strike"))
+    se, s_entry = body["entry"]["straddle"], spots["entry"]
+    synthetic = False
+    if cs is None and ps is None and se:
+        # lite method: no wing strikes were collected, so the wings sit n x the entry straddle
+        # from the body (not rounded to a listed strike) and exist only in the model variant
+        w = float(n) * se
+        cs, ps, synthetic = k + w, k - w, True
     if cs is None or ps is None or cs <= k or ps >= k or ps <= 0:
         return None
     wc, wp = cs - k, k - ps
     width = max(wc, wp)
-    se, s_entry = body["entry"]["straddle"], spots["entry"]
-    out: dict[str, Any] = {"call_strike": cs, "put_strike": ps, "width_call": _r(wc), "width_put": _r(wp),
-                           "width_over_straddle": _r((wc + wp) / 2.0 / se) if se else None}
+    out: dict[str, Any] = {"call_strike": _r(cs), "put_strike": _r(ps), "width_call": _r(wc), "width_put": _r(wp),
+                           "width_over_straddle": _r((wc + wp) / 2.0 / se) if se else None,
+                           "synthetic_strikes": synthetic}
     if se is None or not s_entry:
         return out
     # 1. model wings: real body, wings from the body's implied stdev (headline)
