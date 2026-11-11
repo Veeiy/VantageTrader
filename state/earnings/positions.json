@@ -171,7 +171,7 @@
       "kind": "earnings",
       "report": "2026-11-17 after close",
       "owner_decision": "2026-11-10 Brad: 'We can trade nvdia.' The news veto is waived for the board investigation (announced 11/08) and the House briefing request (proposed 11/18). All other gates apply. See RULES_CHANGELOG.",
-      "plan": "Enter Tue 11/17 in the final window (11:30 to 12:35 PT), iron fly at the strike nearest spot. Expiry: Nov 18 is the first after the report (NVDA lists Mon, Wed and Fri); use it unless its at-the-money spread is above 12%, then Nov 20. Wings per v1.6 (nearest 1.5x the entry straddle, stepped in until max loss at the credit floor is $350 or less); contracts per v1.7 (the gate). Exit Wed 11/18 at the 06:45 PT check-in; a Nov 18 fly expires that day, so it must be flat by 11:00 PT.",
+      "plan": "Enter Tue 11/17 in the final window (11:30 to 12:35 PT), iron fly at the strike nearest spot. Expiry: Nov 18 is the first after the report (NVDA lists Mon, Wed and Fri); use it unless its at-the-money spread is above 12%, then Nov 20. Wings per v1.6 (nearest 1.5x the entry straddle, stepped in until max loss at the credit floor is $350 or less); contracts per v1.7 (the gate). Exit Wed 11/18 at the 06:45 PT check-in; a Nov 18 fly expires that day, so it must be flat by 11:00 PT. At the entry and again at the exit, mark the paper fly NVDA-EARLY-20261111-P1 (167.5/177.5/187.5, Nov 18) in the same minute.",
       "snapshot_2026-11-10_close": {
         "spot": 168.79,
         "after_hours": 170.44,
