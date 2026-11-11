@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-11-11T19:52:00Z",
+  "as_of": "2026-11-11T21:05:00Z",
   "account_value": 1326.87,
   "cap_total_max_loss": 1000,
   "execution": {
@@ -93,7 +93,15 @@
             "6af4bece-f34f-4606-bf3c-06daf1b69d50"
           ]
         }
-      ]
+      ],
+      "eod_2026-11-11": {
+        "last_stock": 13.095,
+        "close_cost_mid_last_reliable": 0.615,
+        "at": "20:47Z",
+        "open_pnl_usd": 18.5,
+        "note": "the 21:00Z reading (0.74) came from a 13C quote that widened to 0.39 x 0.82 at the bell: not a signal. No special session called.",
+        "source": "monitor daemon hand-back; official closes are confirmed at the 14:12 PT reflection"
+      }
     },
     {
       "symbol": "LUNR",
@@ -212,7 +220,17 @@
       },
       "net_credit_first_tranche": 1.06,
       "total_credit": 3.82,
-      "edge_ratio_add": 0.6959
+      "edge_ratio_add": 0.6959,
+      "eod_2026-11-11": {
+        "last_stock": 12.19,
+        "day_change_pct": 0.032,
+        "close_cost_total_mid": 3.67,
+        "credit_total": 3.82,
+        "open_pnl_usd": 15.0,
+        "note": "closing spreads wide. No LUNR news. Report Thu 2026-11-12 before the open, call 08:30 ET.",
+        "source": "monitor daemon hand-back; official closes are confirmed at the 14:12 PT reflection"
+      },
+      "entry_day_close": 12.19
     },
     {
       "symbol": "NVDA",
@@ -274,7 +292,17 @@
           "condition": "price_above",
           "threshold": 178.84
         }
-      ]
+      ],
+      "eod_2026-11-11": {
+        "last_stock": 173.83,
+        "at": "20:57:55Z",
+        "day_change_pct": 0.029,
+        "close_cost_mid": 3.745,
+        "credit": 3.84,
+        "open_pnl_usd": 9.5,
+        "note": "2.4 below the 175 body; lower breakeven 171.16. The House letter asked for a reply to its Nov 18 briefing request by Nov 11: check for one before the 06:45 PT run.",
+        "source": "monitor daemon hand-back; official closes are confirmed at the 14:12 PT reflection"
+      }
     }
   ],
   "blockers": [
@@ -291,7 +319,7 @@
     "detail": "PCG 174 + reserve 50; LUNR 268 + reserve 150 (3 x $50); NVDA 116 + reserve 50.",
     "cap_note": "min($1,000, 0.93 x account value). Brad, 2026-11-11: 'Lets say 1k limit'. 0.93 x 1327.41 = 1234.49, so the cap is 1000."
   },
-  "eod_note": "2026-11-11 07:58 PT: RGTI and FLY closed this morning (+$28.76, +$44.72). LUNR x1 entered 07:57 PT (report 11/12 before the open; exit at the 06:45 PT check-in on 11/12). PCG x4 stays open under its plan.",
+  "eod_note": "2026-11-11 close: three positions open (LUNR x3 through the report, PCG x5, NVDA x1). No trigger fired all day. Open P/L at mid about +$43.",
   "watch": [
     {
       "symbol": "NVDA",
