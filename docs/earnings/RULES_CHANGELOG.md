@@ -247,3 +247,18 @@ now. Lets say 1k limit."
   loss of $300 to $500.
 - Engine note: `config/earnings.yaml` still carries the old hard cap of $700 per
   position in code. It does not bind at 1 contract; it is raised with P004.
+
+## Long-straddle side switched off (2026-11-11, P010)
+
+Brad, 2026-11-11 06:14 PT: "yes p010 and p009".
+
+- No long straddles. The rule "buy an ATM straddle when the edge ratio is 1.25 or more
+  and the ATM spread is 12% or less" is set aside.
+- Why: in the replay of 2026-11-10, 8 names had an edge ratio of 1.25 or more. The long
+  straddle lost on 6 of them, -$755 in total before costs (hypothesis H009, 6 for, 2
+  against).
+- Names with an edge ratio of 1.25 or more are still scored on paper as long straddles.
+  If the next 8 win at least 2 to 1, it comes back to Brad.
+- Selling rules are unchanged.
+- Engine note: `buy_min_ratio` in `config/earnings.yaml` still marks such names "buy" in
+  the dry score. Treat "buy" as "no trade" until the config is updated with P004.
