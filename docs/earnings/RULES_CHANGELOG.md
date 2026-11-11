@@ -290,3 +290,16 @@ An earnings fly earns its money overnight, on the IV crush. Entering hours earli
 ordinary daytime movement before the report and commits budget before later names are
 known. It also gives more time to work the legs. Early entry is roughly neutral for a
 strong name and not worth it for a marginal one, which is why the two are split above.
+
+
+### Timing layer removed (2026-11-11 08:00 PT, P020, agent's own layer)
+The agent had added "0.70 or under goes early, 0.70 to 0.85 waits for 11:46". Replay batch 2
+(103 clean events combined) shows nothing special at 0.70: 15 wins of 25 at +$4.50 a fly
+against 46 of 78 at +$17. The layer is dropped. Any name that passes ALL the entry rules
+(edge ratio at or under 0.85) with a clean news check may be entered at any check-in on its
+entry day, as Brad said: "Whenever a trade qualifies, it can execute".
+
+## Replay batch 2 (2026-11-11): what it says about the rules
+`state/earnings/replay/2026-11-11_batch2/FINDINGS.md`. No rule changes without Brad:
+- P018 (owner): wings at about 1.5x the straddle, max loss per trade $350 or less.
+- P019 (owner): the 0.85 edge gate does not pick winners; keep as a throttle or drop.
