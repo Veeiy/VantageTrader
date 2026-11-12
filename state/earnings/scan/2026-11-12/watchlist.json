@@ -266,7 +266,7 @@
   "risk_cap": 1000,
   "risk_used": 390
  },
- "entry_plan": "Nothing qualifies at 07:00 PT. 09:45 PT: re-quote AMAT only (it needs a straddle of about 8.0% of spot to reach 0.85; it is 7.3%). 11:46 PT final sweep: re-quote AMAT, CSCO and NU, and record the 1.5x-straddle fly of each as an untraded paper record (U1) so the reflection can score the gate.",
+ "entry_plan": "Done for 2026-11-12: no entry. Exits only (LUNR -26.88, NVDA -70.32).",
  "recheck_0946": {
   "as_of": "2026-11-12T17:46Z",
   "macro": {
@@ -565,5 +565,209 @@
    "exit_need_usd": 110.0,
    "exit_room_usd": 920.91
   }
+ },
+ "final_sweep_1147": {
+  "as_of": "2026-11-12T19:47:37Z",
+  "phase": "final",
+  "macro": {
+   "spy_pct": -0.0026,
+   "vix": 18.64,
+   "vix_prev": 17.49,
+   "veto": false
+  },
+  "account": {
+   "account_value": 1245.91,
+   "buying_power": 1040.91,
+   "open_risk_usd": 224,
+   "budget": 776
+  },
+  "AMAT": {
+   "decision": "no entry",
+   "gate": {
+    "action": "no_trade",
+    "blocked_by": [
+     "no_edge",
+     "exit_not_feasible"
+    ],
+    "edge_ratio": 0.9601,
+    "implied_move": 0.060163,
+    "avg_hist_move": 0.057762,
+    "spread_worst": 0.0273,
+    "intraday": -0.03536,
+    "exit_feasible": {
+     "pass": false,
+     "need": 1650.0,
+     "room": 715.91
+    }
+   },
+   "spot": 381.11,
+   "prev_close": 395.08,
+   "K": 380.0,
+   "call": {
+    "bid": 13.95,
+    "ask": 14.3
+   },
+   "put": {
+    "bid": 12.65,
+    "ask": 13.0
+   },
+   "wings": {
+    "call_strike": 395.0,
+    "put_strike": 365.0,
+    "call": {
+     "bid": 7.75,
+     "ask": 8.05
+    },
+    "put": {
+     "bid": 6.5,
+     "ask": 6.8
+    }
+   },
+   "ids": {
+    "380C": "31f26ed7-be53-475d-88a2-10de9677d3bb",
+    "380P": "8182692b-ca01-4333-ba0a-126eee832f0a",
+    "395C": "e5aec435-9f1a-42d1-bfcd-62243d446f4e",
+    "365P": "cdfd7f21-98c3-4df2-8d53-c13d61a8653b"
+   },
+   "fly": {
+    "credit_mid": 12.4,
+    "credit_natural": 11.75,
+    "credit_floor": 11.75,
+    "width": 15.0,
+    "max_loss_mid": 260.0,
+    "max_loss_floor": 325.0,
+    "breakevens_mid": [
+     367.6,
+     392.4
+    ]
+   },
+   "untraded": "score as <SYM>-20261112-U1 at the 2026-11-13 reflection (the real fly above, exit at the 06:45 PT quotes)"
+  },
+  "CSCO": {
+   "decision": "no entry",
+   "gate": {
+    "action": "no_trade",
+    "blocked_by": [
+     "no_edge",
+     "name_risk_cap",
+     "exit_not_feasible"
+    ],
+    "edge_ratio": 1.0296,
+    "implied_move": 0.073112,
+    "avg_hist_move": 0.075278,
+    "spread_worst": 0.0809,
+    "intraday": 0.019353,
+    "exit_feasible": {
+     "pass": false,
+     "need": 1100.0,
+     "room": 664.91
+    }
+   },
+   "spot": 102.71,
+   "prev_close": 100.76,
+   "K": 103.0,
+   "call": {
+    "bid": 4.15,
+    "ask": 4.5
+   },
+   "put": {
+    "bid": 4.35,
+    "ask": 4.7
+   },
+   "wings": {
+    "call_strike": 113.0,
+    "put_strike": 93.0,
+    "call": {
+     "bid": 1.01,
+     "ask": 1.11
+    },
+    "put": {
+     "bid": 0.87,
+     "ask": 1.15
+    }
+   },
+   "ids": {
+    "103C": "9d8d751f-e8d9-4b8e-bff3-9d4f61a3861b",
+    "103P": "4bb7dce2-c306-4b25-88d5-951fc810d6fe",
+    "113C": "b64bb65b-5c3e-461c-b495-5a5f028aff1e",
+    "93P": "32bc369e-b5af-495b-aea2-388d033fbbb1"
+   },
+   "fly": {
+    "credit_mid": 6.78,
+    "credit_natural": 6.24,
+    "credit_floor": 6.24,
+    "width": 10.0,
+    "max_loss_mid": 322.0,
+    "max_loss_floor": 376.0,
+    "breakevens_mid": [
+     96.22,
+     109.78
+    ]
+   },
+   "untraded": "score as <SYM>-20261112-U1 at the 2026-11-13 reflection (the real fly above, exit at the 06:45 PT quotes)"
+  },
+  "NU": {
+   "decision": "no entry",
+   "gate": {
+    "action": "no_trade",
+    "blocked_by": [
+     "no_edge"
+    ],
+    "edge_ratio": 1.0118,
+    "implied_move": 0.0623,
+    "avg_hist_move": 0.063033,
+    "spread_worst": 0.1266,
+    "intraday": -0.035106,
+    "exit_feasible": {
+     "pass": true,
+     "need": 110.0,
+     "room": 805.23
+    }
+   },
+   "spot": 11.8875,
+   "prev_close": 12.32,
+   "K": 12.0,
+   "call": {
+    "bid": 0.37,
+    "ask": 0.42
+   },
+   "put": {
+    "bid": 0.47,
+    "ask": 0.5
+   },
+   "wings": {
+    "call_strike": 13.0,
+    "put_strike": 11.0,
+    "call": {
+     "bid": 0.11,
+     "ask": 0.12
+    },
+    "put": {
+     "bid": 0.09,
+     "ask": 0.12
+    }
+   },
+   "ids": {
+    "12C": "dc1ba00b-70b5-4ffb-a2a0-f3d02908ca90",
+    "12P": "e690f011-b9d8-4c8e-8fba-fad5b0470ed0",
+    "13C": "fe1323f4-600f-480d-9f0f-646da50bc4fc",
+    "11P": "70cbac6d-2133-4f1a-82d6-5b3789a97f4c"
+   },
+   "fly": {
+    "credit_mid": 0.66,
+    "credit_natural": 0.6,
+    "credit_floor": 0.6072,
+    "width": 1.0,
+    "max_loss_mid": 34.0,
+    "max_loss_floor": 39.28,
+    "breakevens_mid": [
+     11.34,
+     12.66
+    ]
+   },
+   "untraded": "score as <SYM>-20261112-U1 at the 2026-11-13 reflection (the real fly above, exit at the 06:45 PT quotes)"
+  },
+  "owner_note": "Brad, 10:19 PT: 'Those 3 stocks you listed look like good trades'. The agent answered with the three flies and its reasons against (10:25 PT) and offered an owner-directed entry on his word; no instruction to enter came before the sweep.",
+  "decision": "No entry on 2026-11-12. All three are blocked by the edge gate; AMAT and CSCO also fail the exit check (v1.9), CSCO also the $350 name cap."
  }
 }
