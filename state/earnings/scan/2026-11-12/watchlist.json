@@ -332,5 +332,209 @@
    "status": "blocked: edge ratio over 0.85 (1.10 at 06:50 PT)"
   },
   "decision": "No entry. All three moved further from the limit as the straddles lost a morning of time value."
+ },
+ "flies_1020": {
+  "as_of": "2026-11-12T18:20:48Z",
+  "why": "Brad, 10:19 PT: 'Those 3 stocks you listed look like good trades'. Real flies priced for the answer; all three are still blocked by the edge gate.",
+  "AMAT_15_wide": {
+   "spot": 392.36,
+   "K": 392.5,
+   "strikes": [
+    377.5,
+    392.5,
+    407.5
+   ],
+   "straddle_mid": 27.675,
+   "straddle_pct": 0.0705,
+   "credit_mid": 12.525,
+   "credit_natural": 11.95,
+   "credit_floor": 11.95,
+   "width": 15.0,
+   "max_loss_mid_usd": 247.5,
+   "max_loss_floor_usd": 305.0,
+   "breakevens": [
+    379.98,
+    405.02
+   ],
+   "breakeven_pct_of_spot": [
+    -0.0316,
+    0.0323
+   ],
+   "past_moves": [
+    -0.052532,
+    -0.140698,
+    0.012454,
+    0.080758,
+    -0.008943,
+    -0.051184
+   ],
+   "past_inside_breakevens": "2/6",
+   "past_pnl_at_expiry_usd": [
+    -247.5,
+    -247.5,
+    777.9,
+    -247.5,
+    887.6,
+    -247.5
+   ],
+   "past_avg_pnl_at_expiry_usd": 112.6,
+   "itm_short_cost_at_implied_move_usd": 2768.0
+  },
+  "AMAT_10_wide": {
+   "spot": 392.36,
+   "K": 392.5,
+   "strikes": [
+    382.5,
+    392.5,
+    402.5
+   ],
+   "straddle_mid": 27.675,
+   "straddle_pct": 0.0705,
+   "credit_mid": 8.875,
+   "credit_natural": 8.25,
+   "credit_floor": 8.25,
+   "width": 10.0,
+   "max_loss_mid_usd": 112.5,
+   "max_loss_floor_usd": 175.0,
+   "breakevens": [
+    383.62,
+    401.38
+   ],
+   "breakeven_pct_of_spot": [
+    -0.0223,
+    0.023
+   ],
+   "past_moves": [
+    -0.052532,
+    -0.140698,
+    0.012454,
+    0.080758,
+    -0.008943,
+    -0.051184
+   ],
+   "past_inside_breakevens": "2/6",
+   "past_pnl_at_expiry_usd": [
+    -112.5,
+    -112.5,
+    412.9,
+    -112.5,
+    522.6,
+    -112.5
+   ],
+   "past_avg_pnl_at_expiry_usd": 80.9,
+   "itm_short_cost_at_implied_move_usd": 2768.0
+  },
+  "CSCO_10_wide": {
+   "spot": 101.705,
+   "K": 102.0,
+   "strikes": [
+    92.0,
+    102.0,
+    112.0
+   ],
+   "straddle_mid": 8.75,
+   "straddle_pct": 0.086,
+   "credit_mid": 6.64,
+   "credit_natural": 6.2,
+   "credit_floor": 6.2,
+   "width": 10.0,
+   "max_loss_mid_usd": 336.0,
+   "max_loss_floor_usd": 380.0,
+   "breakevens": [
+    95.36,
+    108.64
+   ],
+   "breakeven_pct_of_spot": [
+    -0.0624,
+    0.0682
+   ],
+   "past_moves": [
+    0.048458,
+    -0.015625,
+    0.046241,
+    -0.123217,
+    0.134092,
+    -0.084033
+   ],
+   "past_inside_breakevens": "3/6",
+   "past_pnl_at_expiry_usd": [
+    200.7,
+    475.6,
+    223.2,
+    -336.0,
+    -336.0,
+    -220.2
+   ],
+   "past_avg_pnl_at_expiry_usd": 1.2,
+   "itm_short_cost_at_implied_move_usd": 875.0
+  },
+  "NU_1_wide": {
+   "spot": 11.98,
+   "K": 12.0,
+   "strikes": [
+    11.0,
+    12.0,
+    13.0
+   ],
+   "straddle_mid": 0.815,
+   "straddle_pct": 0.068,
+   "credit_mid": 0.63,
+   "credit_natural": 0.6,
+   "credit_floor": 0.6,
+   "width": 1.0,
+   "max_loss_mid_usd": 37.0,
+   "max_loss_floor_usd": 40.0,
+   "breakevens": [
+    11.37,
+    12.63
+   ],
+   "breakeven_pct_of_spot": [
+    -0.0509,
+    0.0543
+   ],
+   "past_moves": [
+    0.026636,
+    0.090758,
+    0.014753,
+    -0.095495,
+    -0.057231,
+    0.093324
+   ],
+   "past_inside_breakevens": "2/6",
+   "past_pnl_at_expiry_usd": [
+    33.1,
+    -37.0,
+    47.3,
+    -37.0,
+    -7.6,
+    -37.0
+   ],
+   "past_avg_pnl_at_expiry_usd": -6.4,
+   "itm_short_cost_at_implied_move_usd": 82.0
+  },
+  "ids": {
+   "AMAT": {
+    "392.5C": "fbc992bb-eec4-4b1d-a632-bbc49770f73d",
+    "392.5P": "d5a27c1f-f13a-4d28-bd56-117ab02277c7",
+    "407.5C": "7d3211ab-c1ae-4b22-9606-07bd44a36e68",
+    "377.5P": "deaa91b5-9ab4-457e-97a3-bb7713d0ee33",
+    "402.5C": "e3e48649-8c8e-4090-a128-59f459cdcaba",
+    "382.5P": "697d3522-2640-4cd4-893d-7a8e6e05892f"
+   },
+   "CSCO": {
+    "102C": "43ec51b8-5c46-4d77-b5ab-684e6b15cf71",
+    "102P": "686d849c-b9c6-425f-8b2e-35f7e75b84d3",
+    "112C": "09fba44d-39bd-4054-9f75-3f7ecf2e23e8",
+    "92P": "0daab37d-07d9-4d7c-a222-918e28cf42dd"
+   },
+   "NU": {
+    "12C": "dc1ba00b-70b5-4ffb-a2a0-f3d02908ca90",
+    "12P": "e690f011-b9d8-4c8e-8fba-fad5b0470ed0",
+    "13C": "fe1323f4-600f-480d-9f0f-646da50bc4fc",
+    "11P": "70cbac6d-2133-4f1a-82d6-5b3789a97f4c"
+   }
+  },
+  "buying_power": 1040.91,
+  "exit_feasibility": "With multi-leg orders blocked, the in-the-money short leg must be bought back alone. At the implied move that leg costs about $2,770 on AMAT and $875 on CSCO per contract against about $1,040 of buying power (less after the entry's collateral); NU about $80."
  }
 }
