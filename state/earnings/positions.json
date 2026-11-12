@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-12T20:17:00Z",
+ "as_of": "2026-11-12T20:56:00Z",
  "account_value": 1247.91,
  "cap_total_max_loss": 1000,
  "execution": {
@@ -222,6 +222,41 @@
     "close_cost_mid": 0.605,
     "pnl_mid_usd": 23.5,
     "decision": "hold (take profit at 0.33, cut at 0.86)"
+   },
+   "eod_2026-11-12": {
+    "last_stock": 12.985,
+    "at": "2026-11-12T20:55Z",
+    "stock_range": [
+     12.875,
+     13.07
+    ],
+    "close_cost_mid": 0.585,
+    "close_cost_range": [
+     0.58,
+     0.715
+    ],
+    "credit": 0.652,
+    "open_pnl_usd": 33.5,
+    "legs": {
+     "13C": [
+      0.36,
+      0.47
+     ],
+     "13P": [
+      0.36,
+      0.45
+     ],
+     "14C": [
+      0.15,
+      0.19
+     ],
+     "12P": [
+      0.05,
+      0.08
+     ]
+    },
+    "news": "No special-session proclamation on any of six checks. Latest item: a Nov 3 Consumer Watchdog release citing the LA Times on a PG&E push for a special session before Thanksgiving, with a Nov 15 deadline for a bill to reach the governor. Driver unresolved.",
+    "source": "monitor daemon hand-back; the official close is confirmed at the 14:12 PT reflection"
    }
   }
  ],
@@ -240,7 +275,7 @@
   "detail": "PCG 174 + reserve 50.",
   "cap_note": "min($1,000, 0.93 x account value). Brad, 2026-11-11: 'Lets say 1k limit'. 0.93 x 1247.91 = 1160.56, so the cap is 1000."
  },
- "eod_note": "2026-11-11 close: three positions open (LUNR x3 through the report, PCG x5, NVDA x1). No trigger fired all day. Open P/L at mid about +$43. After hours NVDA fell to about 161 on reports about its CEO: the NVDA fly is at max loss ($116); cut at the 11/12 open.",
+ "eod_note": "2026-11-12 close: one position open (PCG x5, about +$33 at mid). Closed today: LUNR x3 (-26.88) and NVDA x1 (-70.32). No entry: AMAT, CSCO and NU all failed the edge gate. Realized today -97.20; this week -34.04.",
  "watch": [
   {
    "symbol": "NVDA",
