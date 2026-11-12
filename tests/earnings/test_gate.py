@@ -6,7 +6,7 @@ import pytest
 
 from vantage_trader.earnings import gate, projection
 from vantage_trader.earnings.cli import main
-from vantage_trader.earnings.config import EngineInputError
+from vantage_trader.earnings.config import ConfigError, EngineInputError
 
 from .factories import cfg, trade
 
@@ -18,7 +18,7 @@ LUNR = {
               "call": {"bid": 0.32, "ask": 0.36}, "put": {"bid": 0.12, "ask": 0.23}},
     "hist_moves": [0.224211, -0.042857, 0.100462, 0.044174, 0.023543, 0.035988],
     "regime_20d": 0.0615, "flags": [], "sector_same_direction": False,
-    "account_value": 1339, "open_risk_usd": 172,
+    "account_value": 1339, "open_risk_usd": 172, "buying_power": 1180.0,
 }
 
 # A wide fly (max loss above $350) on a $100 stock.
@@ -28,7 +28,7 @@ WIDE = {
     "wings": {"call_strike": 115.0, "put_strike": 85.0,
               "call": {"bid": 0.2, "ask": 0.3}, "put": {"bid": 0.2, "ask": 0.3}},
     "hist_moves": [0.05, -0.05, 0.05, -0.05], "regime_20d": 0.01, "flags": [],
-    "account_value": 2000, "open_risk_usd": 0,
+    "account_value": 2000, "open_risk_usd": 0, "buying_power": 5000.0,
 }
 
 
@@ -71,7 +71,7 @@ def test_lunr_2026_11_11():
     r = rec["risk"]
     assert r["risk_cap"] == 1000.0 and r["budget_before"] == 828.0
     assert r["this_trade_usd"] == pytest.approx(100.64) and r["budget_left"] == pytest.approx(727.36)
-    assert [x["n"] for x in rec["gates"]] == list(range(1, 16))
+    assert [x["n"] for x in rec["gates"]] == list(range(1, 17))
     assert all(x["pass"] for x in rec["gates"])
 
 
@@ -408,3 +408,46 @@ def test_v18_default_target_is_a_fifth_of_the_account():
     assert code == 0 and rec["sizing"]["target"] == pytest.approx(267.8) and rec["contracts"] == 4
     assert rec["max_loss"]["name_total_floor"] <= 350.0
 
+
+
+# ---- gate 16, exit feasibility (rules v1.9, 2026-11-12) ----
+
+def test_exit_feasible_passes_on_a_cheap_fly():
+    rec, code = run(cand(phase="final"))
+    x = g(rec, "exit_feasible")
+    assert code == 0 and x["pass"] is True and x["n"] == 16
+    assert x["value"] == pytest.approx(165.0)                 # 1.1 x 1.5 wide x 100
+    assert x["limit"] == pytest.approx(1180.0 - rec["contracts"] * 50.64)
+
+
+def test_exit_not_feasible_on_a_wide_fly_with_small_buying_power():
+    # 15 wide: one in-the-money short at the wing costs about $1,650; the account has $1,040
+    rec, code = run(cand(WIDE, buying_power=1040.0))
+    x = g(rec, "exit_feasible")
+    assert code == 3 and x["pass"] is False and x["reason"] == "exit_not_feasible"
+    assert "exit_not_feasible" in rec["blocked_by"] and rec["contracts"] == 0
+    assert g(run(cand(WIDE))[0], "exit_feasible")["pass"] is True      # $5,000 of buying power
+
+
+def test_exit_check_cuts_the_contracts_to_what_fits():
+    full, _ = run(cand(phase="final"))
+    assert full["contracts"] == 3
+    rec, code = run(cand(phase="final", buying_power=165.0 + 2 * 50.64 + 1.0))
+    assert code == 0 and rec["contracts"] == 2 and rec["sizing"]["limits"]["exit_feasible"] == 2
+    assert g(rec, "exit_feasible")["pass"] is True
+    rec, code = run(cand(phase="final", buying_power=200.0))            # not even one contract fits
+    assert code == 3 and g(rec, "exit_feasible")["reason"] == "exit_not_feasible"
+
+
+def test_exit_check_needs_buying_power():
+    c = cand()
+    del c["buying_power"]
+    rec, code = run(c)
+    assert code == 3 and g(rec, "exit_feasible")["reason"] == "buying_power_missing"
+    with pytest.raises(EngineInputError):
+        run(cand(buying_power=-1))
+
+
+def test_exit_buyback_mult_cannot_be_loosened():
+    with pytest.raises(ConfigError):
+        cfg(exit_buyback_mult=0.9)

@@ -37,6 +37,7 @@ name_risk_frac: 0.20         # HARD CAP <= 0.27. Max loss one name should carry,
 name_risk_cap: 350.0         # HARD CAP <= 350. Max loss per name at the credit floor (owner limit).
 early_tranche_frac: 0.5      # share of the name target that may be entered before the final window
 add_center_frac: 0.25        # an add needs spot within this x body straddle of the body strike
+exit_buyback_mult: 1.1       # HARD FLOOR >= 1.0. One in-the-money short leg at the wing (x width x 100) must fit the buying power left after entry (v1.9)
 final_window_start: "11:30 America/Los_Angeles"   # from here a name may be entered at full size
 exit_slippage_reserve: 50.0  # USD per unit, [0, 100]. Entry: max_loss_worst <= cap - reserve*qty.
                              # Exit: credit-structure closing debit may reach W + reserve/100.

@@ -33,6 +33,7 @@ streaks.
 | 13 | add_centered | an add only (`held` given): same body strike as the open tranche, and spot within 0.25 x the body straddle of it. A first entry passes |
 | 14 | name_risk | max loss on the name (held + the contracts entered now, at the credit floor) <= $350, and at least one contract may be entered at this check-in |
 | 15 | risk_budget | open_risk_usd + max loss at the credit floor + $50 reserve per contract <= min($1,000, 0.93 x account value) |
+| 16 | exit_feasible | v1.9: one in-the-money short leg with the stock at its wing costs about 1.1 x wing width x 100; that must fit the buying power left after the entry (`buying_power` - contracts x max loss at the floor). Contracts are cut to what fits. No `buying_power` given = blocked |
 
 Band (a label only since P020, 2026-11-11: any passing name may be entered at any check-in
 on its entry day): `tight` (edge <= 0.70), `final_sweep` (0.70 to 0.85), `no_edge` (above
@@ -72,12 +73,13 @@ execution rules accept; `max_loss.mid` and `max_loss.natural` are reported next 
            "call": {"bid": 0.32, "ask": 0.36}, "put": {"bid": 0.12, "ask": 0.23}},
  "hist_moves": [0.224211, -0.042857, 0.100462, 0.044174, 0.023543, 0.035988],
  "regime_20d": 0.0615, "flags": [], "sector_same_direction": false,
- "account_value": 1339, "open_risk_usd": 172}
+ "account_value": 1339, "open_risk_usd": 172, "buying_power": 1180}
 ```
 
 Required: `symbol`, `spot`, `prev_close`, `K`, `call`, `put`, `hist_moves` (oldest first),
 `regime_20d`, `account_value`, `open_risk_usd` (max loss PLUS exit reserves of every open
-position, as positions.json records them). Optional: `timing`, `wings` (without them the
+position, as positions.json records them), `buying_power` (from get_portfolio at that
+moment; gate 16 blocks without it). Optional: `timing`, `wings` (without them the
 candidate is blocked with `no_wings`), `flags` (list of risk-sentinel flags, or an object
 of booleans), `sector_same_direction` (default false), `macro_veto` and `circuit_breaker`
 (true or a reason string blocks), `sector` + `sectors_entered_today`, `tick` (default

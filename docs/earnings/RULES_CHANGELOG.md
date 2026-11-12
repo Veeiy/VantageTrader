@@ -528,3 +528,35 @@ Brad: "Get rid of the one contract per name rule"
 - What still limits size is risk, not a contract count: the per-name target (20% of the
   account), the $350 per name, $200 on a non-earnings name, half the target before
   11:30 PT, and the $1,000 total. The $350 and the $1,000 change only on Brad's own words.
+
+## v1.9 (2026-11-12 10:40 PT): a fly must be closable with single-leg orders
+Decided by the agent under Brad's standing delegation of 2026-11-11. It only removes trades.
+
+### Why
+- NVDA, 2026-11-12: the short 175 put cost $1,545 at the open, the buying power was $994 and
+  the 4-leg closing order was refused. The fly could not be closed until the stock bounced.
+- AMAT and CSCO the same day (Brad, 10:19 PT: "Those 3 stocks you listed look like good
+  trades"): an ordinary earnings move would put AMAT's short leg at about $2,800 and
+  CSCO's at $900 to $1,300, against about $1,040 of buying power.
+
+### Changed
+- New gate 16, `exit_feasible`. With the stock between the body and a wing, the
+  in-the-money short leg costs up to the wing width. One such buyback, 1.1 x width x 100,
+  must fit the buying power left after the entry (buying power - contracts x max loss at the
+  credit floor). The contract count is cut to what fits; if not even one fits, the name is
+  blocked (`exit_not_feasible`).
+- The gate input carries `buying_power` (from get_portfolio at that moment). Without it the
+  name is blocked (`buying_power_missing`).
+- Exits: when the buying power does not cover all the in-the-money shorts at once, the
+  position is closed one contract at a time.
+
+### What it means
+- With about $1,000 of buying power, a fly wider than about $7 does not pass. In practice
+  that is stocks under roughly $60: the range of RGTI, FLY, LUNR and PCG.
+- Beyond a wing the position is at its max loss and v1.2.2 applies.
+- The gate stops binding the day Robinhood accepts the agent's multi-leg orders (P005) or
+  the account holds more buying power.
+
+### Not tested
+- Whether Robinhood refuses a buy-to-close whose cost is above the buying power. The review
+  call shows no alert for it. It is treated as refused until a live order shows otherwise.

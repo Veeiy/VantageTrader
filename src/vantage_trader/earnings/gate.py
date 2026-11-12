@@ -15,6 +15,7 @@ Candidate (the compact shape the analysts already produce)::
      "sector_same_direction"?: bool, "macro_veto"?: bool|str, "circuit_breaker"?: bool|str,
      "sector"?: str, "sectors_entered_today"?: [str], "tick"?: float,
      "account_value", "open_risk_usd",
+     "buying_power",                               # get_portfolio buying power now (gate 16)
      "held"?: {"quantity", "max_loss_usd", "K"},   # contracts already open on this name (an add)
      "phase"?: "early" | "final"}                  # the CLI fills it from the clock when absent
 
@@ -53,6 +54,12 @@ Gates (all evaluated; ``reason`` is the first failure, ``blocked_by`` lists all)
                           credit floor) <= $350, and at least one contract may be entered now
     15 risk_budget        open_risk_usd + max loss at the floor + exit reserve <= the cap
                           min($1,000, 0.93 x account value)
+    16 exit_feasible      v1.9: the position must be closable with single-leg orders. One
+                          in-the-money short leg with the stock at its wing costs about
+                          wing width x 100 (x exit_buyback_mult 1.1 for time value); that
+                          must fit the buying power left after the entry
+                          (buying_power - contracts x max loss at the floor). Contracts are
+                          cut to what fits; no buying_power given = blocked.
 
 Max loss is checked at the credit FLOOR max(natural, 0.92 x mid) of the fly, the worst
 price the execution rules accept; ``max_loss_mid`` is reported next to it. The exit reserve
@@ -240,6 +247,8 @@ def parse_candidate(c: Any) -> dict[str, Any]:
     if phase is not None and phase not in ("early", "final"):
         raise EngineInputError("phase must be 'early' or 'final'")
     out["phase"] = phase
+    out["buying_power"] = (None if c.get("buying_power") is None
+                           else _num(c.get("buying_power"), "buying_power", nonneg=True))
     w = c.get("wings")
     if w is not None:
         if not isinstance(w, dict):
@@ -400,6 +409,21 @@ def evaluate(raw: Any, cfg: dict[str, Any], journal_events: list[dict[str, Any]]
                        dict(cfg, name_risk_cap=name_cap),
                        held_qty=held_qty, held_max_loss=held_ml, phase=phase)
     qty = plan["now"]
+    # 16 exit feasibility (v1.9), worked out here because it can cut the contract count.
+    # Multi-leg orders are refused for the agent, so an exit buys back each short leg alone.
+    # With the stock between the body and a wing the in-the-money short costs up to the wing
+    # width; that buyback must fit the buying power that is left once this entry is on.
+    bp = c["buying_power"]
+    exit_need = exit_room = n_exit = None
+    if ml_unit is not None and bp is not None:
+        exit_need = round(max(cfg["exit_buyback_mult"], 1.0) * f["width"] * 100.0, 2)
+        n_exit = int((bp - exit_need) // ml_unit) if bp >= exit_need else 0
+        if qty > n_exit:
+            plan = dict(plan, now=max(n_exit, 0), later=max(plan["planned"] - max(n_exit, 0), 0),
+                        limits=dict(plan["limits"], exit_feasible=n_exit),
+                        binding="exit_not_feasible" if n_exit < 1 else plan["binding"])
+            qty = plan["now"]
+        exit_room = round(bp - max(qty, 1) * ml_unit, 2)
     q_eval = max(qty, 1)
     ml_floor = round(ml_unit * q_eval, 2) if ml_unit is not None else None
     # 13 add centered
@@ -428,12 +452,23 @@ def evaluate(raw: Any, cfg: dict[str, Any], journal_events: list[dict[str, Any]]
         note=f"cap {cap} - open risk {c['open_risk_usd']} = {budget}; needs max loss at floor + "
              f"${reserve:.0f} reserve per contract", reason="max_loss_exceeds_cap")
 
+    # 16 exit feasible
+    add("exit_feasible",
+        exit_need is not None and n_exit is not None and n_exit >= 1 and exit_need <= exit_room + EPS,
+        exit_need, exit_room,
+        note=("buying_power not given: take it from get_portfolio" if bp is None else
+              (f"one in-the-money short leg at the wing costs about {exit_need} "
+               f"({cfg['exit_buyback_mult']} x width x 100); buying power {bp} less the entry leaves "
+               f"{exit_room}; at most {n_exit} contract(s) fit" if exit_need is not None else
+               "no valid fly to check")),
+        reason="buying_power_missing" if bp is None else "exit_not_feasible")
+
     failures = [g for g in gates if not g["pass"]]
     action = "no_trade" if failures else "sell"
     record: dict[str, Any] = {
         "symbol": c["symbol"], "timing": c["timing"], "action": action,
         "reason": failures[0]["reason"] if failures else "passes: may be entered at any check-in on its entry day (v1.5)",
-        "blocked_by": [g["reason"] for g in failures],
+        "blocked_by": list(dict.fromkeys(g["reason"] for g in failures)),
         "band": band,
         "metrics": {
             "spot": spot, "prev_close": c["prev_close"], "K": k, "intraday_move": round(intraday, 6),

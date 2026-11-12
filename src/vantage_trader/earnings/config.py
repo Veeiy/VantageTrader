@@ -75,6 +75,7 @@ DEFAULTS: dict[str, Any] = {
     "early_tranche_frac": 0.5,       # v1.7: share of the name target that may be entered before the final window
     "add_center_frac": 0.25,         # v1.7: an add needs spot within this x body straddle of the body strike
     "final_window_start": "11:30 America/Los_Angeles",  # v1.7: from here a name may be entered at full size
+    "exit_buyback_mult": 1.1,        # v1.9: one in-the-money short leg at the wing (x width x 100) must fit the buying power left after entry
     "exit_slippage_reserve": 50.0,
     # --- order pricing ---
     "tick": 0.05,
@@ -129,6 +130,7 @@ HARD_CAPS: dict[str, tuple[str, float]] = {
     "name_risk_cap": ("max", 350.0),
     "early_tranche_frac": ("max", 1.0),
     "add_center_frac": ("max", 0.5),
+    "exit_buyback_mult": ("min", 1.0),   # the exit check may only be made stricter
     "min_price": ("min", 10.0),
     "min_account_value": ("min", 400.0),
     "max_consecutive_max_loss": ("max", 2),
@@ -141,6 +143,7 @@ _NUMERIC = {
     "min_price", "max_spread_pct", "max_intraday_move", "straddle_factor",
     "wide_spread_pct", "wide_spread_max_loss", "max_intraday_move_sector", "regime_mult",
     "tight_max_ratio", "name_risk_frac", "name_risk_cap", "early_tranche_frac", "add_center_frac",
+    "exit_buyback_mult",
     "sell_max_ratio", "buy_min_ratio", "min_ev_per_dollar_risk", "max_loss_abs",
     "max_loss_bp_frac", "tick", "step_small", "step_large", "step_threshold",
     "credit_floor_mid_frac", "debit_ceiling_mid_frac", "min_account_value",
@@ -158,7 +161,7 @@ _POSITIVE = {
     "credit_floor_mid_frac", "debit_ceiling_mid_frac", "min_history", "history_lookback",
     "max_quantity", "max_consecutive_max_loss", "wide_spread_pct", "wide_spread_max_loss",
     "max_intraday_move_sector", "regime_mult", "tight_max_ratio",
-    "name_risk_frac", "name_risk_cap", "early_tranche_frac", "add_center_frac",
+    "name_risk_frac", "name_risk_cap", "early_tranche_frac", "add_center_frac", "exit_buyback_mult",
     "max_consecutive_losses", "max_spread_pct", "max_intraday_move", "max_loss_tolerance",
     "straddle_take_profit", "calibrate_min_trades", "max_expiry_days_after_report",
 }

@@ -536,5 +536,34 @@
   },
   "buying_power": 1040.91,
   "exit_feasibility": "With multi-leg orders blocked, the in-the-money short leg must be bought back alone. At the implied move that leg costs about $2,770 on AMAT and $875 on CSCO per contract against about $1,040 of buying power (less after the entry's collateral); NU about $80."
+ },
+ "gate_v19_1020": {
+  "AMAT": {
+   "blocked_by": [
+    "no_edge",
+    "exit_not_feasible"
+   ],
+   "edge_ratio": 0.9636,
+   "exit_need_usd": 1650.0,
+   "exit_room_usd": 735.91
+  },
+  "CSCO": {
+   "blocked_by": [
+    "no_edge",
+    "name_risk_cap",
+    "exit_not_feasible"
+   ],
+   "edge_ratio": 1.0313,
+   "exit_need_usd": 1100.0,
+   "exit_room_usd": 660.91
+  },
+  "NU": {
+   "blocked_by": [
+    "no_edge"
+   ],
+   "edge_ratio": 1.0912,
+   "exit_need_usd": 110.0,
+   "exit_room_usd": 920.91
+  }
  }
 }
