@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-12T14:50:00Z",
+ "as_of": "2026-11-12T15:20:00Z",
  "account_value": 1222.1,
  "cap_total_max_loss": 1000,
  "execution": {
@@ -102,6 +102,30 @@
     "open_pnl_usd": 18.5,
     "note": "the 21:00Z reading (0.74) came from a 13C quote that widened to 0.39 x 0.82 at the bell: not a signal. No special session called.",
     "source": "monitor daemon hand-back; official closes are confirmed at the 14:12 PT reflection"
+   },
+   "check_2026-11-12_0717": {
+    "spot": 12.905,
+    "legs": {
+     "13C": [
+      0.32,
+      0.46
+     ],
+     "13P": [
+      0.41,
+      0.48
+     ],
+     "14C": [
+      0.11,
+      0.16
+     ],
+     "12P": [
+      0.05,
+      0.17
+     ]
+    },
+    "close_cost_mid": 0.59,
+    "pnl_mid_usd": 31.0,
+    "decision": "hold (take profit at 0.33, cut at 0.86)"
    }
   },
   {
@@ -201,10 +225,38 @@
     "decision": "HOLD as a max-loss position ($116, defined). Brad was told at 06:50 PT and can close it himself in the app with one 4-leg order (limit about 4.70 debit or better).",
     "rules_until_expiry": [
      "Every check-in: get_equity_positions first. If NVDA shares appeared (early assignment of the 175 put): tell Brad at once, then sell the shares with a limit order and sell the 170 put right after (or exercise the 170 put); the loss stays at $116.",
-     "If NVDA trades above 168: re-quote. Close with single legs only when the 175 put costs less than the buying power AND the total close cost is at or under 4.00; sequence: buy to close 175C, buy to close 175P, sell 170P at once (pre-reviewed), sell 180C.",
+     "REVISED 07:20 PT (the 06:50 text said 'above 168 and total close cost at or under 4.00'; that held a thesis-broken position longer than rules v1.2 allow). Cut with single legs as soon as BOTH hold: (a) the 175 put's ask x 100 is at or under the buying power, so it can be bought back FIRST with no reliance on collateral coming back (about NVDA 165.5 to 166 with $994), and (b) the close cost at mid is at or under 4.40 (under the 90% line of v1.2.2 with room for the fills). Sequence, every leg reviewed before the first order: buy to close 175P, sell 170P at once, buy to close 175C, sell 180C. Do not buy back the 175 call first: if the put buyback were then refused, the worst case would grow from $116 to about $157.",
      "Friday 11/13: if NVDA is under 165 at 10:30 PT, leave the fly to expire (both puts in the money: exercise and assignment offset, loss $116). If NVDA is between 165 and 185, close by 11:00 PT with single legs if the buying power allows, else tell Brad to close it in the app before 11:00 PT.",
      "Do not add, roll or re-center. No new NVDA trade without Brad's reply (owner decision of 2026-11-10)."
-    ]
+    ],
+    "check_0717": {
+     "at": "2026-11-12T15:17Z",
+     "spot": 163.4,
+     "legs": {
+      "175C": [
+       0.7,
+       0.71
+      ],
+      "175P": [
+       12.2,
+       12.5
+      ],
+      "180C": [
+       0.3,
+       0.31
+      ],
+      "170P": [
+       8.15,
+       8.3
+      ]
+     },
+     "close_cost_mid": 4.525,
+     "close_cost_natural": 4.76,
+     "mark_pnl_usd": -68.5,
+     "pct_of_width": 0.905,
+     "decision": "hold (at or above 90% of the width; the 175 put costs $1,250 against $994 of buying power)",
+     "shares": 0
+    }
    }
   }
  ],
