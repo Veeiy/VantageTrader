@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-12T20:56:00Z",
+ "as_of": "2026-11-12T22:40:00Z",
  "account_value": 1247.91,
  "cap_total_max_loss": 1000,
  "execution": {
@@ -256,7 +256,29 @@
      ]
     },
     "news": "No special-session proclamation on any of six checks. Latest item: a Nov 3 Consumer Watchdog release citing the LA Times on a PG&E push for a special session before Thanksgiving, with a Nov 15 deadline for a bill to reach the governor. Driver unresolved.",
-    "source": "monitor daemon hand-back; the official close is confirmed at the 14:12 PT reflection"
+    "source": "monitor daemon hand-back; the official close is confirmed at the 14:12 PT reflection",
+    "official_close": 12.965,
+    "close_cost_mid_at_close": 0.595,
+    "open_pnl_usd_at_close": 28.5,
+    "legs_at_close": {
+     "13C": [
+      0.36,
+      0.47
+     ],
+     "13P": [
+      0.36,
+      0.45
+     ],
+     "14C": [
+      0.13,
+      0.19
+     ],
+     "12P": [
+      0.05,
+      0.08
+     ]
+    },
+    "flow_note": "The 14 call traded 14,126 contracts on the day (201 by midday) and the 13 call 2,886: late call buying, in line with the special-session story. Upper breakeven 13.65."
    }
   }
  ],
@@ -622,5 +644,6 @@
    ]
   }
  ],
- "morning_note_2026-11-12": "06:41-06:44 PT: LUNR x3 closed for -$26.88. 08:09-08:10 PT: NVDA closed for -$70.32 (cut once the 175 put could be bought back first). Realized today -$97.20; this week -$34.04. Open: PCG x5. Standby exit switch and plain alert moved to Fri 11/13."
+ "morning_note_2026-11-12": "06:41-06:44 PT: LUNR x3 closed for -$26.88. 08:09-08:10 PT: NVDA closed for -$70.32 (cut once the 175 put could be bought back first). Realized today -$97.20; this week -$34.04. Open: PCG x5. Standby exit switch and plain alert moved to Fri 11/13.",
+ "streak_note": "2026-11-12: two closed losses in a row (LUNR, NVDA). A third loss in a row trips the circuit breaker: no new entries, tell Brad."
 }

@@ -3,7 +3,11 @@
 Brad, 2026-11-10: "If a trade opens we need daemon agents live monitoring."
 
 ## What a daemon is
-- One read-only background agent per open position, started by the head agent.
+- ONE read-only background agent for all open positions, started by the head agent (P030,
+  2026-11-12: one agent watching two positions used 271k tokens in a day; three agents on
+  2026-11-11 used 566k). The brief below is filled once per position inside the same prompt.
+- Report levels sit at or inside the head's action levels. A level set just outside one
+  (4.45 against an action level of 4.40 on 2026-11-12) wakes the head for nothing.
 - It polls during market hours and reports to the head with `SendMessage(to: "main")`
   when a trigger fires. It keeps running after a report.
 - Cadence (2026-11-10, cost): **every 10 minutes by default** (`{WAIT}` = 590). Use the
