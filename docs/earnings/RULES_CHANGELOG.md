@@ -514,3 +514,17 @@ The fly cost 4.65 to close against a width of 5.00: closing saved about $35 at b
 - Review every leg before the first closing order; sell a wing the moment its short leg is
   flat, at one tick under its mid.
 - A wide in-the-money short leg starts at its parity value, not at the quoted mid.
+
+### One contract per name: the last traces removed (2026-11-12 08:40 PT)
+Brad: "Get rid of the one contract per name rule"
+
+- The rule itself ended on 2026-11-11 with v1.7 (his words that day: "you can open more
+  contracts for one ticker if it meets the criteria. or want to scale in as well"). Since
+  then the `gate` command sizes every live entry by risk: LUNR went to 3 contracts, PCG to 5.
+- What was left and is now gone: the older `score` command still returned one contract per
+  name. It now uses the same plan as the gate (target 20% of account value per name, up to
+  10 contracts, never above $350 of max loss per name). No live instruction used it.
+- Wording fixed in the engine notes and in the vol-analyst brief ("a 1-contract iron fly").
+- What still limits size is risk, not a contract count: the per-name target (20% of the
+  account), the $350 per name, $200 on a non-earnings name, half the target before
+  11:30 PT, and the $1,000 total. The $350 and the $1,000 change only on Brad's own words.

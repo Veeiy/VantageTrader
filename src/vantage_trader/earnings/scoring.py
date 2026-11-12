@@ -45,8 +45,9 @@ Regime guard: applied when the candidate carries ``regime_20d`` (the ``gate`` co
 Flags: any flag skips, except ``big_intraday_move`` (a price fact the intraday gate covers).
 Risk cap: min(max_loss_abs $1,000, 0.93 x account.total_value) minus
   ``account.open_risk_usd`` (max loss + exit reserves of positions already open; required
-  when ``open_positions`` is not empty). Quantity: this older chain-based path stays at
-  1 contract per name; sizing above 1 (v1.7) is decided by the ``gate`` command only.
+  when ``open_positions`` is not empty). Quantity: contracts by risk, as in the ``gate``
+  command (rules v1.7 and v1.8): the name's target max loss decides the count, up to
+  ``max_quantity``. The one-contract limit is gone (Brad, 2026-11-11 and 2026-11-12).
 
 Ranking: tradeable candidates by ev_per_dollar_risk desc, then skipped ones. The top
 tradeable candidate becomes ``order``. ``status`` is "halted" (exit 3) if the circuit
@@ -208,14 +209,33 @@ def score_candidate(c: dict[str, Any], ctx: dict[str, Any], cfg: dict[str, Any])
     if sym in ctx["open_symbols"]:
         return skip("already_open")
 
-    cap = ctx["cap"]
-    if spread["worst"] > cfg["wide_spread_pct"] + 1e-12:
+    wide = spread["worst"] > cfg["wide_spread_pct"] + 1e-12
+    if wide:
         row["spread_band_cap"] = cfg["wide_spread_max_loss"]
-        cap = min(cap, cfg["wide_spread_max_loss"] + cfg["exit_slippage_reserve"] * ctx["qty_limit"])
-    order, reason = structures.build_iron_fly(chain, spot, moves, cap, dict(cfg, max_quantity=ctx["qty_limit"]))
+
+    def cap_for(q: int) -> float:
+        # A wide-spread name may carry wide_spread_max_loss plus the exit reserve of q contracts.
+        if wide:
+            return min(ctx["cap"], cfg["wide_spread_max_loss"] + cfg["exit_slippage_reserve"] * q)
+        return ctx["cap"]
+
+    order, reason = structures.build_iron_fly(chain, spot, moves, cap_for(1), dict(cfg, max_quantity=1))
     if order is None:
         row["action_if_allowed"] = band
         return skip(reason or "no_structure")
+    # Contracts by risk (rules v1.7 / v1.8), the same plan the gate command uses: the name's
+    # target max loss decides the count. One contract stays the floor on a name that fits.
+    plan = sizing.plan(float(order["max_loss_worst"]), cfg["exit_slippage_reserve"],
+                       ctx["account_value"], ctx["open_risk"], cfg, phase="final")
+    want = min(int(ctx["qty_limit"]), max(1, int(plan["planned"])))
+    if want > 1:
+        bigger, _ = structures.build_iron_fly(chain, spot, moves, cap_for(want),
+                                              dict(cfg, max_quantity=want))
+        if (bigger is not None and bigger["atm_strike"] == order["atm_strike"]
+                and bigger["wing_width"] == order["wing_width"]):
+            order = bigger
+    row["sizing"] = {"target": plan["target"], "planned": int(plan["planned"]),
+                     "binding": plan["binding"], "contracts": int(order["quantity"])}
     row["ev_per_dollar_risk"] = order["ev_per_dollar_risk"]
     if order["ev_per_dollar_risk"] <= cfg["min_ev_per_dollar_risk"]:
         row["action_if_allowed"] = band
@@ -244,7 +264,9 @@ def score(snapshot: dict[str, Any], cfg: dict[str, Any], journal_events: list[di
     open_risk = float(acct.get("open_risk_usd") or 0.0)
     cap = sizing.risk_budget(float(acct["total_value"]), open_risk, cfg)
     closed = len(jr.closed_trades(journal_events))
-    ctx = {"cap": cap, "open_positions": open_positions, "qty_limit": 1,
+    ctx = {"cap": cap, "open_positions": open_positions,
+           "qty_limit": sizing.max_quantity(closed, cfg),
+           "account_value": float(acct["total_value"]), "open_risk": open_risk,
            "today": rules.local_date(snapshot["as_of"], cfg["market_timezone"]),
            "open_symbols": {norm_symbol(p.get("symbol")) for p in open_positions if isinstance(p, dict)}}
     rows = [score_candidate(c, ctx, cfg) for c in snapshot["candidates"]]

@@ -262,3 +262,30 @@ def test_reserve_pushes_wide_fly_over_cap():
     assert d["order"]["wing_width"] == 10.0
     d, _ = score(_with_open_risk(500.0, 353.4), cfg(), [])    # budget 111.6 < 105 + 50
     assert row(d)["skip_reason"] == "max_loss_exceeds_cap"
+
+
+def test_contracts_by_risk_not_one_per_name():
+    # Brad, 2026-11-12: "Get rid of the one contract per name rule". A cheap fly (about $26 of
+    # max loss a contract) on a $750 account gets the contracts its 20% target allows.
+    chain = [
+        {"strike": 20.0, "call": {"id": "C20", "bid": 0.50, "ask": 0.52}, "put": {"id": "P20", "bid": 0.48, "ask": 0.50}},
+        {"strike": 19.0, "call": {"id": "C19", "bid": 1.20, "ask": 1.30}, "put": {"id": "P19", "bid": 0.10, "ask": 0.12}},
+        {"strike": 21.0, "call": {"id": "C21", "bid": 0.10, "ask": 0.12}, "put": {"id": "P21", "bid": 1.20, "ask": 1.30}},
+    ]
+    c = straddle_candidate([0.02, -0.03, 0.01, -0.02, 0.03, 0.02], spot=20.0, chain=chain)
+    d, code = run([c])
+    o = d["order"]
+    assert code == 0 and d["status"] == "trade"
+    assert d["contracts_limit"] == 10
+    assert o["quantity"] > 1                                    # no one-contract limit
+    unit = o["max_loss_worst"] / o["quantity"]
+    assert abs(o["max_loss_worst"] - 150.0) <= unit             # about the name target: 20% of $750
+    assert o["max_loss_worst"] <= 350.0                         # the per-name cap still holds
+    assert o["max_loss_worst"] + 50.0 * o["quantity"] <= d["risk_cap"]
+    s = row(d, "XYZ")["sizing"]
+    assert s["contracts"] == o["quantity"] and s["planned"] >= o["quantity"]
+
+
+def test_expensive_fly_still_gets_one_contract():
+    d, _ = run()                                                # ARM: one contract is over the target
+    assert d["order"]["quantity"] == 1 and row(d)["sizing"]["contracts"] == 1

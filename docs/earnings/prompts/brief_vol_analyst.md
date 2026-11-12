@@ -14,7 +14,7 @@ Never guess a price or a date. Never ask questions. Finish within 15 minutes; ha
 results rather than run over.
 
 CONTEXT. Each symbol in your list reports earnings either today {TODAY} after the close
-("pm") or on {NEXT_TRADING_DAY} before the open ("am"). We consider selling a 1-contract iron fly
+("pm") or on {NEXT_TRADING_DAY} before the open ("am"). We consider selling an iron fly (your numbers are per contract; the head sizes it)
 (short the at-the-money call and put, long one wing each side) on the {EXPIRY} expiry today
 and closing it tomorrow at 06:45 PT. Your job: the numbers that decide it.
 

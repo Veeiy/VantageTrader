@@ -9,8 +9,9 @@ working engine. Validation rules:
   carry the live rules v1.1-v1.5 (docs/earnings/RULES_CHANGELOG.md): total risk cap
   min($1,000, 0.93 x account value) across ALL open positions, ATM spread <= 25% with a
   $350 max loss above 12%, intraday move 5% (7% with a sector move), regime guard 1.25x,
-  edge ratio <= 0.85 (<= 0.70 "tight"), >= 4 past moves, 1 contract per name while fewer
-  than 10 live trades are closed. There is no limit on the number of open positions (v1.4).
+  edge ratio <= 0.85 (<= 0.70 "tight"), >= 4 past moves, contracts by risk (v1.7 and v1.8:
+  a target max loss per name, up to ``max_quantity`` contracts; the one-contract limit is
+  gone). There is no limit on the number of open positions (v1.4).
 * ``sell_max_ratio`` must be < ``buy_min_ratio`` and both must sit inside the
   calibration bounds.
 * ``cancel_by`` may use any timezone; it is converted to America/Los_Angeles (checked on
