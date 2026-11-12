@@ -1,12 +1,12 @@
 {
- "as_of": "2026-11-12T15:20:00Z",
- "account_value": 1222.1,
+ "as_of": "2026-11-12T16:12:00Z",
+ "account_value": 1247.91,
  "cap_total_max_loss": 1000,
  "execution": {
   "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
   "method": "single-leg limit orders: buy both wings first, then sell the body legs. To close: buy back the shorts first, then sell the wings. Never sell a wing while its short leg is open.",
   "approval": "single-leg orders need no customer approval while human_must_approve_trades=false",
-  "deep_itm_note": "A short leg that is deep in the money cannot be bought back alone when its price is above the buying power (NVDA 175P on 2026-11-12: $1,545 against $994). A spread at its max loss is then held to expiry or closed by Brad in the app in one order."
+  "deep_itm_note": "A short leg that is deep in the money cannot be bought back alone when its price is above the buying power (NVDA 175P on 2026-11-12: $1,545 against $994 at the open). Such a spread is held at its max loss (v1.2.2) until the short leg's ask x 100 is inside the buying power, then closed short leg first, with the wing sold at once as a marketable limit."
  },
  "open": [
   {
@@ -127,189 +127,6 @@
     "pnl_mid_usd": 31.0,
     "decision": "hold (take profit at 0.33, cut at 0.86)"
    }
-  },
-  {
-   "symbol": "NVDA",
-   "kind": "non_earnings",
-   "owner_directed": true,
-   "structure": "iron fly 170/175/180",
-   "expiry": "2026-11-13",
-   "quantity": 1,
-   "opened": "2026-11-11T19:12:42Z",
-   "legs": {
-    "short_175C": {
-     "option_id": "35bf8057-5605-4392-ab7e-226343c6288e",
-     "fill": 4.0
-    },
-    "short_175P": {
-     "option_id": "230aa2f5-c4a6-4654-9c71-2eddab1f8090",
-     "fill": 3.0
-    },
-    "long_180C": {
-     "option_id": "c152baf3-bad4-4f62-9871-3bf77ff0be8c",
-     "fill": 1.78
-    },
-    "long_170P": {
-     "option_id": "6a7a0a59-b36d-46cb-9989-a1bc6047d9b2",
-     "fill": 1.38
-    }
-   },
-   "net_credit": 3.84,
-   "max_loss_usd": 116,
-   "max_profit_usd": 384,
-   "exit_reserve_usd": 50,
-   "breakevens": [
-    171.16,
-    178.84
-   ],
-   "entry_spot": 175.93,
-   "tick_size": "0.01 below $3.00, 0.05 at or above",
-   "thesis": "Owner-directed theta trade ahead of the 11/17 report. The agent's screen did not pass (IV rank 0.74, front IV 1.07x the 10-day realized): no measured edge.",
-   "plan": {
-    "take_profit_close_cost": 1.92,
-    "cut_close_cost": 4.54,
-    "near_breakeven": [
-     171.91,
-     178.09
-    ],
-    "fast_move_pct": 1.5,
-    "exit_by": "2026-11-13 11:00 PT (expiration day: flat by 11:00 PT)",
-    "never_hold_into": "2026-11-13 close",
-    "close_sequence": "buy to close 175C and 175P first (the in-the-money one first), then sell 180C and 170P",
-    "cut_on_2026-11-12": "NOT EXECUTED, see status_2026-11-12. (Plan as written on 11/11: cut at the open; buy to close the 175P, then sell the 170P, total close cost at or under 5.00.)"
-   },
-   "alerts": [
-    {
-     "alert_id": "60b2bbcf-c4aa-4575-945d-281d3bad9c7a",
-     "condition": "price_below",
-     "threshold": 171.16
-    },
-    {
-     "alert_id": "22b10cec-dc68-4da2-9059-1d0079883b80",
-     "condition": "price_above",
-     "threshold": 178.84
-    }
-   ],
-   "eod_2026-11-11": {
-    "last_stock": 173.83,
-    "at": "20:57:55Z",
-    "day_change_pct": 0.029,
-    "close_cost_mid": 3.745,
-    "credit": 3.84,
-    "open_pnl_usd": 9.5,
-    "note": "2.4 below the 175 body; lower breakeven 171.16. The House letter asked for a reply to its Nov 18 briefing request by Nov 11: check for one before the 06:45 PT run.",
-    "source": "monitor daemon hand-back; official closes are confirmed at the 14:12 PT reflection"
-   },
-   "after_hours_2026-11-11": {
-    "price": 161.02,
-    "at": "2026-11-11T23:57Z",
-    "move_from_close": -0.0738,
-    "news": "After the close the New York Times reported a second relationship allegation about the CEO and the Wall Street Journal reported that the board is preparing to remove him. This is a new development of the kind the owner decision of 2026-11-10 set apart.",
-    "effect": "The stock is 9 points under the 170 put wing: the fly is at its max loss of $116. Options do not trade until 06:30 PT."
-   },
-   "status_2026-11-12": {
-    "at": "2026-11-12T14:45Z",
-    "spot": 160.0,
-    "spot_open": 150.96,
-    "close_cost_mid": 4.65,
-    "close_cost_natural": 4.86,
-    "mark_pnl_usd": -81,
-    "max_loss_usd": 116,
-    "no_assignment": "06:38 PT: no NVDA shares in the account, all four legs intact.",
-    "why_not_cut": [
-     "Robinhood refused the 4-leg closing order (4.65 debit) at 06:41 PT: 'this account requires the customer to approve agent-placed trades, and a multi-leg strategy cannot be sent for approval yet'.",
-     "Single legs do not work here: buying back the 175 put costs about $1,545 and buying power is $994 (the collateral only comes back once the 175 call is closed too, and that still leaves it about $80 short).",
-     "Even with the buying power, legging out means holding the long 170 put alone (worth about $1,100, $80 per $1 in NVDA) between the two orders, in a stock moving $1 a minute. That adds more risk than the cut removes.",
-     "The position is already near its max loss: a close at the mid saves about $35 against the worst case and gives up the roughly 1 in 8 chance that NVDA is back inside 171.16 to 178.84 on Friday."
-    ],
-    "decision": "HOLD as a max-loss position ($116, defined). Brad was told at 06:50 PT and can close it himself in the app with one 4-leg order (limit about 4.70 debit or better).",
-    "rules_until_expiry": [
-     "Every check-in: get_equity_positions first. If NVDA shares appeared (early assignment of the 175 put): tell Brad at once, then sell the shares with a limit order and sell the 170 put right after (or exercise the 170 put); the loss stays at $116.",
-     "REVISED 07:20 PT (the 06:50 text said 'above 168 and total close cost at or under 4.00'; that held a thesis-broken position longer than rules v1.2 allow). Cut with single legs as soon as BOTH hold: (a) the 175 put's ask x 100 is at or under the buying power, so it can be bought back FIRST with no reliance on collateral coming back (about NVDA 165.5 to 166 with $994), and (b) the close cost at mid is at or under 4.40 (under the 90% line of v1.2.2 with room for the fills). Sequence, every leg reviewed before the first order: buy to close 175P, sell 170P at once, buy to close 175C, sell 180C. Do not buy back the 175 call first: if the put buyback were then refused, the worst case would grow from $116 to about $157.",
-     "Friday 11/13: if NVDA is under 165 at 10:30 PT, leave the fly to expire (both puts in the money: exercise and assignment offset, loss $116). If NVDA is between 165 and 185, close by 11:00 PT with single legs if the buying power allows, else tell Brad to close it in the app before 11:00 PT.",
-     "Do not add, roll or re-center. No new NVDA trade without Brad's reply (owner decision of 2026-11-10)."
-    ],
-    "check_0717": {
-     "at": "2026-11-12T15:17Z",
-     "spot": 163.4,
-     "legs": {
-      "175C": [
-       0.7,
-       0.71
-      ],
-      "175P": [
-       12.2,
-       12.5
-      ],
-      "180C": [
-       0.3,
-       0.31
-      ],
-      "170P": [
-       8.15,
-       8.3
-      ]
-     },
-     "close_cost_mid": 4.525,
-     "close_cost_natural": 4.76,
-     "mark_pnl_usd": -68.5,
-     "pct_of_width": 0.905,
-     "decision": "hold (at or above 90% of the width; the 175 put costs $1,250 against $994 of buying power)",
-     "shares": 0
-    },
-    "check_0731": {
-     "at": "2026-11-12T15:32Z",
-     "daemon_trigger": "nvda_cut_zone at 15:31:14Z (stock 164.535, close cost 4.435)",
-     "requote_153145": {
-      "spot": 164.36,
-      "legs": {
-       "175C": [
-        0.86,
-        0.88
-       ],
-       "175P": [
-        11.2,
-        11.3
-       ],
-       "180C": [
-        0.39,
-        0.4
-       ],
-       "170P": [
-        7.2,
-        7.3
-       ]
-      },
-      "close_cost_mid": 4.475,
-      "close_cost_natural": 4.59
-     },
-     "requote_153201": {
-      "legs": {
-       "175C": [
-        0.72,
-        0.73
-       ],
-       "175P": [
-        11.95,
-        12.15
-       ],
-       "180C": [
-        0.32,
-        0.34
-       ],
-       "170P": [
-        7.85,
-        7.9
-       ]
-      },
-      "close_cost_mid": 4.57
-     },
-     "buying_power": 995.1,
-     "decision": "hold: the close cost was not at or under 4.40 on either re-quote, and the 175 put's ask (11.30, then 12.15) is above the buying power",
-     "reviews": "175P and 175C buybacks reviewed clean. The 170P and 180C sales show collateral alerts while their shorts are open (expected: selling a wing first would leave the short naked).",
-     "note": "When the close cost is at or under 4.40 on my own quote: place the 175P buyback first. If the broker refuses it for buying power, nothing has changed; wait until the 175P ask x 100 is at or under the buying power."
-    }
-   }
   }
  ],
  "blockers": [
@@ -319,13 +136,13 @@
  "pending": [],
  "buying_power": "see broker",
  "risk": {
-  "total_max_loss_usd": 290,
-  "exit_reserves_usd": 100,
-  "used_usd": 390,
+  "total_max_loss_usd": 174,
+  "exit_reserves_usd": 50,
+  "used_usd": 224,
   "cap_usd": 1000,
-  "free_usd": 610,
-  "detail": "PCG 174 + reserve 50; NVDA 116 + reserve 50.",
-  "cap_note": "min($1,000, 0.93 x account value). Brad, 2026-11-11: 'Lets say 1k limit'. 0.93 x 1222.10 = 1136.55, so the cap is 1000."
+  "free_usd": 776,
+  "detail": "PCG 174 + reserve 50.",
+  "cap_note": "min($1,000, 0.93 x account value). Brad, 2026-11-11: 'Lets say 1k limit'. 0.93 x 1247.91 = 1160.56, so the cap is 1000."
  },
  "eod_note": "2026-11-11 close: three positions open (LUNR x3 through the report, PCG x5, NVDA x1). No trigger fired all day. Open P/L at mid about +$43. After hours NVDA fell to about 161 on reports about its CEO: the NVDA fly is at max loss ($116); cut at the 11/12 open.",
  "watch": [
@@ -539,7 +356,139 @@
      "paused": "2026-11-12T14:45Z"
     }
    ]
+  },
+  {
+   "symbol": "NVDA",
+   "structure": "iron fly 170/175/180",
+   "quantity": 1,
+   "net_credit": 3.84,
+   "owner_directed": true,
+   "closed": "2026-11-12T16:10:35Z",
+   "close_debit": 4.54,
+   "pnl_usd": -70.32,
+   "exit_spot": 166.55,
+   "realized_move": -0.0413,
+   "exit_reason": "cut, thesis broken (CEO resigned); held at max loss until the 175 put could be bought back",
+   "status_2026-11-12": {
+    "at": "2026-11-12T14:45Z",
+    "spot": 160.0,
+    "spot_open": 150.96,
+    "close_cost_mid": 4.65,
+    "close_cost_natural": 4.86,
+    "mark_pnl_usd": -81,
+    "max_loss_usd": 116,
+    "no_assignment": "06:38 PT: no NVDA shares in the account, all four legs intact.",
+    "why_not_cut": [
+     "Robinhood refused the 4-leg closing order (4.65 debit) at 06:41 PT: 'this account requires the customer to approve agent-placed trades, and a multi-leg strategy cannot be sent for approval yet'.",
+     "Single legs do not work here: buying back the 175 put costs about $1,545 and buying power is $994 (the collateral only comes back once the 175 call is closed too, and that still leaves it about $80 short).",
+     "Even with the buying power, legging out means holding the long 170 put alone (worth about $1,100, $80 per $1 in NVDA) between the two orders, in a stock moving $1 a minute. That adds more risk than the cut removes.",
+     "The position is already near its max loss: a close at the mid saves about $35 against the worst case and gives up the roughly 1 in 8 chance that NVDA is back inside 171.16 to 178.84 on Friday."
+    ],
+    "decision": "HOLD as a max-loss position ($116, defined). Brad was told at 06:50 PT and can close it himself in the app with one 4-leg order (limit about 4.70 debit or better).",
+    "rules_until_expiry": [
+     "Every check-in: get_equity_positions first. If NVDA shares appeared (early assignment of the 175 put): tell Brad at once, then sell the shares with a limit order and sell the 170 put right after (or exercise the 170 put); the loss stays at $116.",
+     "REVISED 07:20 PT (the 06:50 text said 'above 168 and total close cost at or under 4.00'; that held a thesis-broken position longer than rules v1.2 allow). Cut with single legs as soon as BOTH hold: (a) the 175 put's ask x 100 is at or under the buying power, so it can be bought back FIRST with no reliance on collateral coming back (about NVDA 165.5 to 166 with $994), and (b) the close cost at mid is at or under 4.40 (under the 90% line of v1.2.2 with room for the fills). Sequence, every leg reviewed before the first order: buy to close 175P, sell 170P at once, buy to close 175C, sell 180C. Do not buy back the 175 call first: if the put buyback were then refused, the worst case would grow from $116 to about $157.",
+     "Friday 11/13: if NVDA is under 165 at 10:30 PT, leave the fly to expire (both puts in the money: exercise and assignment offset, loss $116). If NVDA is between 165 and 185, close by 11:00 PT with single legs if the buying power allows, else tell Brad to close it in the app before 11:00 PT.",
+     "Do not add, roll or re-center. No new NVDA trade without Brad's reply (owner decision of 2026-11-10)."
+    ],
+    "check_0717": {
+     "at": "2026-11-12T15:17Z",
+     "spot": 163.4,
+     "legs": {
+      "175C": [
+       0.7,
+       0.71
+      ],
+      "175P": [
+       12.2,
+       12.5
+      ],
+      "180C": [
+       0.3,
+       0.31
+      ],
+      "170P": [
+       8.15,
+       8.3
+      ]
+     },
+     "close_cost_mid": 4.525,
+     "close_cost_natural": 4.76,
+     "mark_pnl_usd": -68.5,
+     "pct_of_width": 0.905,
+     "decision": "hold (at or above 90% of the width; the 175 put costs $1,250 against $994 of buying power)",
+     "shares": 0
+    },
+    "check_0731": {
+     "at": "2026-11-12T15:32Z",
+     "daemon_trigger": "nvda_cut_zone at 15:31:14Z (stock 164.535, close cost 4.435)",
+     "requote_153145": {
+      "spot": 164.36,
+      "legs": {
+       "175C": [
+        0.86,
+        0.88
+       ],
+       "175P": [
+        11.2,
+        11.3
+       ],
+       "180C": [
+        0.39,
+        0.4
+       ],
+       "170P": [
+        7.2,
+        7.3
+       ]
+      },
+      "close_cost_mid": 4.475,
+      "close_cost_natural": 4.59
+     },
+     "requote_153201": {
+      "legs": {
+       "175C": [
+        0.72,
+        0.73
+       ],
+       "175P": [
+        11.95,
+        12.15
+       ],
+       "180C": [
+        0.32,
+        0.34
+       ],
+       "170P": [
+        7.85,
+        7.9
+       ]
+      },
+      "close_cost_mid": 4.57
+     },
+     "buying_power": 995.1,
+     "decision": "hold: the close cost was not at or under 4.40 on either re-quote, and the 175 put's ask (11.30, then 12.15) is above the buying power",
+     "reviews": "175P and 175C buybacks reviewed clean. The 170P and 180C sales show collateral alerts while their shorts are open (expected: selling a wing first would leave the short naked).",
+     "note": "When the close cost is at or under 4.40 on my own quote: place the 175P buyback first. If the broker refuses it for buying power, nothing has changed; wait until the 175P ask x 100 is at or under the buying power."
+    }
+   },
+   "alerts": [
+    {
+     "alert_id": "60b2bbcf-c4aa-4575-945d-281d3bad9c7a",
+     "condition": "price_below",
+     "threshold": 171.16,
+     "enabled": false,
+     "paused": "2026-11-12T16:11Z"
+    },
+    {
+     "alert_id": "22b10cec-dc68-4da2-9059-1d0079883b80",
+     "condition": "price_above",
+     "threshold": 178.84,
+     "enabled": false,
+     "paused": "2026-11-12T16:11Z"
+    }
+   ]
   }
  ],
- "morning_note_2026-11-12": "06:41-06:44 PT: LUNR x3 closed for -$26.88 after fees. NVDA held at max loss (cut not executable, see its status). Realized this week: +$36.28. Standby exit switch and plain alert moved to Fri 11/13."
+ "morning_note_2026-11-12": "06:41-06:44 PT: LUNR x3 closed for -$26.88. 08:09-08:10 PT: NVDA closed for -$70.32 (cut once the 175 put could be bought back first). Realized today -$97.20; this week -$34.04. Open: PCG x5. Standby exit switch and plain alert moved to Fri 11/13."
 }
