@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-12T17:16:00Z",
+ "as_of": "2026-11-12T18:16:00Z",
  "account_value": 1247.91,
  "cap_total_max_loss": 1000,
  "execution": {
@@ -149,6 +149,30 @@
     },
     "close_cost_mid": 0.63,
     "pnl_mid_usd": 11.0,
+    "decision": "hold (take profit at 0.33, cut at 0.86)"
+   },
+   "check_2026-11-12_1015": {
+    "spot": 12.92,
+    "legs": {
+     "13C": [
+      0.36,
+      0.43
+     ],
+     "13P": [
+      0.42,
+      0.44
+     ],
+     "14C": [
+      0.13,
+      0.16
+     ],
+     "12P": [
+      0.06,
+      0.08
+     ]
+    },
+    "close_cost_mid": 0.61,
+    "pnl_mid_usd": 21.0,
     "decision": "hold (take profit at 0.33, cut at 0.86)"
    }
   }
