@@ -256,6 +256,58 @@
      "pct_of_width": 0.905,
      "decision": "hold (at or above 90% of the width; the 175 put costs $1,250 against $994 of buying power)",
      "shares": 0
+    },
+    "check_0731": {
+     "at": "2026-11-12T15:32Z",
+     "daemon_trigger": "nvda_cut_zone at 15:31:14Z (stock 164.535, close cost 4.435)",
+     "requote_153145": {
+      "spot": 164.36,
+      "legs": {
+       "175C": [
+        0.86,
+        0.88
+       ],
+       "175P": [
+        11.2,
+        11.3
+       ],
+       "180C": [
+        0.39,
+        0.4
+       ],
+       "170P": [
+        7.2,
+        7.3
+       ]
+      },
+      "close_cost_mid": 4.475,
+      "close_cost_natural": 4.59
+     },
+     "requote_153201": {
+      "legs": {
+       "175C": [
+        0.72,
+        0.73
+       ],
+       "175P": [
+        11.95,
+        12.15
+       ],
+       "180C": [
+        0.32,
+        0.34
+       ],
+       "170P": [
+        7.85,
+        7.9
+       ]
+      },
+      "close_cost_mid": 4.57
+     },
+     "buying_power": 995.1,
+     "decision": "hold: the close cost was not at or under 4.40 on either re-quote, and the 175 put's ask (11.30, then 12.15) is above the buying power",
+     "reviews": "175P and 175C buybacks reviewed clean. The 170P and 180C sales show collateral alerts while their shorts are open (expected: selling a wing first would leave the short naked).",
+     "note": "When the close cost is at or under 4.40 on my own quote: place the 175P buyback first. If the broker refuses it for buying power, nothing has changed; wait until the 175P ask x 100 is at or under the buying power."
     }
    }
   }
