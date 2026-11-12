@@ -476,3 +476,41 @@ Brad: "lets add meta, nvdia and some of those other high liquidity stocks to the
 - With about 8 flies a day instead of 2, the 10-session test holds roughly 80 results
   instead of 20.
 
+
+## v1.2.2 (2026-11-12): a position at its max loss is held, not legged out
+Decided by the agent under Brad's standing delegation of 2026-11-11 ("you have owners
+permission to automate"). Brad was told the same morning. He reverses it with one word.
+
+### What happened
+NVDA's CEO resigned overnight and the stock opened 13% lower, 19 points under the put wing of
+the 170/175/180 fly. The cut rule (v1.2) said close. Three things stood in the way:
+- Robinhood refused the 4-leg closing order: "this account requires the customer to approve
+  agent-placed trades, and a multi-leg strategy cannot be sent for approval yet".
+- Buying back the short 175 put alone cost about $1,545. Buying power was $994.
+- Legging would have left the long 170 put (about $1,100, $80 per $1 in the stock) alone
+  between two orders, in a stock moving $1 a minute.
+The fly cost 4.65 to close against a width of 5.00: closing saved about $35 at best.
+
+### Changed
+- A position whose cost to close is **at or above 90% of its wing width** is at its max loss.
+  The cut rule no longer forces a single-leg close of it.
+- The agent tries ONE multi-leg closing order at the mid. If the broker refuses it, the
+  position is held at its defined max loss and Brad is told he can close it in the app in
+  one order, with the limit.
+- At every check-in the agent looks for assigned shares first. Assigned shares are sold with
+  a limit order and the long wing is sold right after (or exercised); the loss stays the
+  max loss.
+- If the stock comes back, the position's own rules in `positions.json` say when a
+  single-leg close is allowed again (the short leg must cost less than the buying power).
+- On expiration morning a position with both legs of the losing side in the money is left
+  to expire: exercise and assignment offset, and the loss is the max loss.
+
+### Unchanged
+- Every limit. The max loss was counted in full against the $350 per name and the $1,000
+  total from the start, so holding adds no risk that was not already in the budget.
+- The cut rule for every position that is not yet at its max loss.
+
+### Execution notes from the same morning (P027)
+- Review every leg before the first closing order; sell a wing the moment its short leg is
+  flat, at one tick under its mid.
+- A wide in-the-money short leg starts at its parity value, not at the quoted mid.

@@ -1,0 +1,328 @@
+{
+ "batch": "A",
+ "as_of_utc": "2026-11-12T14:51:27Z",
+ "expiry": "2026-11-13",
+ "dropped": [
+  {
+   "symbol": "ARWR",
+   "reason": "no_expiry",
+   "spot": null,
+   "intraday_pct": null,
+   "report_date": "2026-11-12",
+   "timing": "pm",
+   "verified": true,
+   "chain_id": "6019d91f-a67f-4b99-b46a-8349dfa2e223",
+   "notes": "first expiry 2026-11-20; no 2026-11-13"
+  },
+  {
+   "symbol": "NKTR",
+   "reason": "no_expiry",
+   "spot": null,
+   "intraday_pct": null,
+   "report_date": "2026-11-12",
+   "timing": "pm",
+   "verified": true,
+   "chain_id": "ac482db9-de1e-44f6-817d-50ea1f4e8c2d",
+   "notes": "first expiry 2026-11-20; no 2026-11-13"
+  },
+  {
+   "symbol": "DLO",
+   "reason": "no_expiry",
+   "spot": null,
+   "intraday_pct": null,
+   "report_date": "2026-11-12",
+   "timing": "pm",
+   "verified": true,
+   "chain_id": "5eecf64d-4b8c-4b8b-b2c5-2cd9a84a675f",
+   "notes": "first expiry 2026-11-20; no 2026-11-13"
+  },
+  {
+   "symbol": "HTFL",
+   "reason": "no_expiry",
+   "spot": null,
+   "intraday_pct": null,
+   "report_date": "2026-11-12",
+   "timing": "pm",
+   "verified": true,
+   "chain_id": "41043682-19a5-4b4b-8c89-344c630f4c58",
+   "notes": "first expiry 2026-11-20; no 2026-11-13"
+  },
+  {
+   "symbol": "SA",
+   "reason": "no_expiry",
+   "spot": null,
+   "intraday_pct": null,
+   "report_date": "2026-11-12",
+   "timing": "pm",
+   "verified": true,
+   "chain_id": "a0ea0b08-b6b3-4285-929d-87257ef2da17",
+   "notes": "first expiry 2026-11-20; no 2026-11-13"
+  },
+  {
+   "symbol": "COO",
+   "reason": "timing",
+   "spot": null,
+   "intraday_pct": null,
+   "report_date": "2026-12-03",
+   "timing": "pm",
+   "verified": true,
+   "n_past_reports": 6,
+   "notes": "next report 2026-12-03, no report 11-12/13; scanner earnings date 11-12/13 disagrees with get_earnings_results"
+  },
+  {
+   "symbol": "ORKA",
+   "reason": "timing",
+   "spot": null,
+   "intraday_pct": null,
+   "report_date": "2026-11-09",
+   "timing": "pm",
+   "verified": true,
+   "n_past_reports": 7,
+   "notes": "already reported 2026-11-09 (actual EPS); next 2027-03-11; scanner earnings date 11-12/13 disagrees with get_earnings_results"
+  },
+  {
+   "symbol": "TNK",
+   "reason": "timing",
+   "spot": null,
+   "intraday_pct": null,
+   "report_date": "2026-11-11",
+   "timing": "pm",
+   "verified": true,
+   "n_past_reports": 7,
+   "notes": "already reported 2026-11-11 pm (actual EPS); scanner earnings date 11-12/13 disagrees with get_earnings_results"
+  },
+  {
+   "symbol": "ECO",
+   "reason": "timing",
+   "spot": null,
+   "intraday_pct": null,
+   "report_date": "2026-11-11",
+   "timing": "pm",
+   "verified": true,
+   "n_past_reports": 7,
+   "notes": "already reported 2026-11-11 pm (actual EPS); scanner earnings date 11-12/13 disagrees with get_earnings_results"
+  },
+  {
+   "symbol": "ERAS",
+   "reason": "timing",
+   "spot": null,
+   "intraday_pct": null,
+   "report_date": "2026-11-24",
+   "timing": "pm",
+   "verified": false,
+   "n_past_reports": 6,
+   "notes": "upcoming report 2026-11-24, tentative; scanner earnings date 11-12/13 disagrees with get_earnings_results"
+  },
+  {
+   "symbol": "KOD",
+   "reason": "timing",
+   "spot": null,
+   "intraday_pct": null,
+   "report_date": "2026-11-24",
+   "timing": "pm",
+   "verified": false,
+   "n_past_reports": 6,
+   "notes": "upcoming report 2026-11-24, tentative; scanner earnings date 11-12/13 disagrees with get_earnings_results"
+  },
+  {
+   "symbol": "SKE",
+   "reason": "timing",
+   "spot": null,
+   "intraday_pct": null,
+   "report_date": "2026-11-16",
+   "timing": "pm",
+   "verified": true,
+   "n_past_reports": 6,
+   "notes": "upcoming report 2026-11-16; scanner earnings date 11-12/13 disagrees with get_earnings_results"
+  },
+  {
+   "symbol": "PPTA",
+   "reason": "timing",
+   "spot": null,
+   "intraday_pct": null,
+   "report_date": "2026-11-24",
+   "timing": "am",
+   "verified": false,
+   "n_past_reports": 6,
+   "notes": "upcoming report 2026-11-24, tentative; scanner earnings date 11-12/13 disagrees with get_earnings_results"
+  },
+  {
+   "symbol": "OMER",
+   "reason": "timing",
+   "spot": null,
+   "intraday_pct": null,
+   "report_date": "2026-11-16",
+   "timing": "pm",
+   "verified": true,
+   "n_past_reports": 6,
+   "notes": "upcoming report 2026-11-16; scanner earnings date 11-12/13 disagrees with get_earnings_results"
+  },
+  {
+   "symbol": "SGMT",
+   "reason": "timing",
+   "spot": null,
+   "intraday_pct": null,
+   "report_date": "2026-11-24",
+   "timing": "am",
+   "verified": false,
+   "n_past_reports": 6,
+   "notes": "upcoming report 2026-11-24, tentative; scanner earnings date 11-12/13 disagrees with get_earnings_results"
+  }
+ ],
+ "analyzed": [
+  {
+   "symbol": "AMAT",
+   "timing": "pm",
+   "report_date": "2026-11-12",
+   "verified": true,
+   "spot": 383.8275,
+   "prev_close": 395.08,
+   "intraday_pct": -0.02848,
+   "K": 385.0,
+   "strike_step": 2.5,
+   "call": {
+    "id": "925a5556-418b-4424-af9f-cab0995e2999",
+    "bid": 13.4,
+    "ask": 13.9,
+    "oi": 269
+   },
+   "put": {
+    "id": "ce8fa673-c4fa-42ab-8950-14fadd7a08aa",
+    "bid": 14.1,
+    "ask": 14.6,
+    "oi": 172
+   },
+   "straddle_mid": 28.0,
+   "straddle_pct": 0.07295,
+   "atm_spread_pct": 0.0357,
+   "hist_moves": [
+    -0.052532,
+    -0.140698,
+    0.012454,
+    0.080758,
+    -0.008943,
+    -0.051184
+   ],
+   "hist_dates": [
+    "2025-05-15",
+    "2025-08-14",
+    "2025-11-13",
+    "2026-02-12",
+    "2026-05-14",
+    "2026-08-13"
+   ],
+   "avg_hist_move": 0.05776,
+   "median_hist_move": 0.05186,
+   "max_hist_move": -0.140698,
+   "n_hist": 6,
+   "regime_20d": 0.04241,
+   "edge_ratio": 0.9315,
+   "wings": null,
+   "past_moves_beyond_breakevens": null,
+   "notes": "edge_ratio 0.93 > 0.90, wings not quoted; spot down 2.8% intraday; quotes 14:50Z; chain AMAT 912190a6-ee19-4d47-b7ea-f631c75db650"
+  },
+  {
+   "symbol": "CSCO",
+   "timing": "pm",
+   "report_date": "2026-11-12",
+   "verified": true,
+   "spot": 100.68,
+   "prev_close": 100.76,
+   "intraday_pct": -0.00079,
+   "K": 101.0,
+   "strike_step": 1.0,
+   "call": {
+    "id": "c7149b63-059e-4806-a8c5-ad66b1b8d2a2",
+    "bid": 3.8,
+    "ask": 4.6,
+    "oi": 198
+   },
+   "put": {
+    "id": "a9a8420c-31af-4030-b7ae-ac80e821b573",
+    "bid": 4.35,
+    "ask": 4.95,
+    "oi": 666
+   },
+   "straddle_mid": 8.85,
+   "straddle_pct": 0.0879,
+   "atm_spread_pct": 0.1582,
+   "hist_moves": [
+    0.048458,
+    -0.015625,
+    0.046241,
+    -0.123217,
+    0.134092,
+    -0.084033
+   ],
+   "hist_dates": [
+    "2025-05-14",
+    "2025-08-13",
+    "2025-11-12",
+    "2026-02-11",
+    "2026-05-13",
+    "2026-08-12"
+   ],
+   "avg_hist_move": 0.07528,
+   "median_hist_move": 0.06625,
+   "max_hist_move": 0.134092,
+   "n_hist": 6,
+   "regime_20d": 0.02213,
+   "edge_ratio": 1.0075,
+   "wings": null,
+   "past_moves_beyond_breakevens": null,
+   "notes": "edge_ratio 1.01, wings not quoted; no 100.5 strike so step 1; body spread 15.8% (early session); chain be0b09bc-e649-45c8-a344-0bd1d77245a9"
+  },
+  {
+   "symbol": "NU",
+   "timing": "pm",
+   "report_date": "2026-11-12",
+   "verified": true,
+   "spot": 12.035,
+   "prev_close": 12.32,
+   "intraday_pct": -0.02313,
+   "K": 12.0,
+   "strike_step": 0.5,
+   "call": {
+    "id": "dc1ba00b-70b5-4ffb-a2a0-f3d02908ca90",
+    "bid": 0.38,
+    "ask": 0.44,
+    "oi": 3966
+   },
+   "put": {
+    "id": "e690f011-b9d8-4c8e-8fba-fad5b0470ed0",
+    "bid": 0.36,
+    "ask": 0.45,
+    "oi": 13805
+   },
+   "straddle_mid": 0.815,
+   "straddle_pct": 0.06772,
+   "atm_spread_pct": 0.184,
+   "hist_moves": [
+    0.026636,
+    0.090758,
+    0.014753,
+    -0.095495,
+    -0.057231,
+    0.093324
+   ],
+   "hist_dates": [
+    "2025-05-13",
+    "2025-08-14",
+    "2025-11-13",
+    "2026-02-25",
+    "2026-05-14",
+    "2026-08-13"
+   ],
+   "avg_hist_move": 0.06303,
+   "median_hist_move": 0.07399,
+   "max_hist_move": -0.095495,
+   "n_hist": 6,
+   "regime_20d": 0.02669,
+   "edge_ratio": 1.0951,
+   "wings": null,
+   "past_moves_beyond_breakevens": null,
+   "notes": "edge_ratio 1.10 (implied cheap vs history), wings not quoted; spot -2.3% intraday; chain d092629b-cf79-45c9-b37a-02c765cdc0a0"
+  }
+ ],
+ "errors": []
+}

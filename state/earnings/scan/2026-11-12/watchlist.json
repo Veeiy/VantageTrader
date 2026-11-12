@@ -1,0 +1,270 @@
+{
+ "date": "2026-11-12",
+ "as_of": "2026-11-12T15:00Z (07:00 PT)",
+ "expiry": "2026-11-13",
+ "exit": "Fri 2026-11-13 06:45 PT check-in (expiration day: flat by 11:00 PT)",
+ "universe": {
+  "scanner_names": 30,
+  "in_window_sent_to_analyst": 18,
+  "timing_known_pm_today": 8,
+  "scanner_only_timing_unknown": 10,
+  "with_nov13_expiry_and_in_window": 3,
+  "note": "Reports 11/12 after the close and 11/13 before the open. Scanner pre-filter (P016), then one vol-analyst (149k tokens, 43 tool calls, 84 seconds of agent time per call batch)."
+ },
+ "account_vetoes": [],
+ "macro": {
+  "veto_all": false,
+  "spy_pct": -0.0029,
+  "qqq_pct": -0.0054,
+  "iwm_pct": -0.0078,
+  "vix": 18.19,
+  "note": "No tier-1 release before Fri 06:45 PT (the veto list is FOMC, CPI, payrolls). October CPI was Tue 11/10. PPI is Fri 11/13 05:30 PT, before the exit: second tier, noted. NVDA opened down 13% after its CEO resigned and bounced to about 160 (-8%).",
+  "sources": [
+   "https://www.bls.gov/schedule/2026/11_sched_list.htm"
+  ]
+ },
+ "candidates": [],
+ "blocked": {
+  "AMAT": {
+   "rule": "edge ratio 0.93 over 0.85",
+   "timing": "pm",
+   "spot": 383.8275,
+   "prev_close": 395.08,
+   "intraday_pct": -0.02848,
+   "K": 385.0,
+   "strike_step": 2.5,
+   "straddle_mid": 28.0,
+   "straddle_pct": 0.07295,
+   "atm_spread_pct": 0.0357,
+   "hist_moves": [
+    -0.052532,
+    -0.140698,
+    0.012454,
+    0.080758,
+    -0.008943,
+    -0.051184
+   ],
+   "avg_hist_move": 0.05776,
+   "median_hist_move": 0.05186,
+   "max_hist_move": -0.140698,
+   "n_hist": 6,
+   "regime_20d": 0.04241,
+   "edge_ratio": 0.9315,
+   "body_legs": {
+    "call": {
+     "id": "925a5556-418b-4424-af9f-cab0995e2999",
+     "bid": 13.4,
+     "ask": 13.9,
+     "oi": 269
+    },
+    "put": {
+     "id": "ce8fa673-c4fa-42ab-8950-14fadd7a08aa",
+     "bid": 14.1,
+     "ask": 14.6,
+     "oi": 172
+    }
+   },
+   "also": "one contract with wings at 1.5x the straddle (about 42 wide) has a max loss far above $350; the stepped-in fly would be about 10 wide on a 28-dollar straddle",
+   "straddle_pct_needed_for_0.85": 0.0799
+  },
+  "CSCO": {
+   "rule": "edge ratio 1.01 over 0.85",
+   "timing": "pm",
+   "spot": 100.68,
+   "prev_close": 100.76,
+   "intraday_pct": -0.00079,
+   "K": 101.0,
+   "strike_step": 1.0,
+   "straddle_mid": 8.85,
+   "straddle_pct": 0.0879,
+   "atm_spread_pct": 0.1582,
+   "hist_moves": [
+    0.048458,
+    -0.015625,
+    0.046241,
+    -0.123217,
+    0.134092,
+    -0.084033
+   ],
+   "avg_hist_move": 0.07528,
+   "median_hist_move": 0.06625,
+   "max_hist_move": 0.134092,
+   "n_hist": 6,
+   "regime_20d": 0.02213,
+   "edge_ratio": 1.0075,
+   "body_legs": {
+    "call": {
+     "id": "c7149b63-059e-4806-a8c5-ad66b1b8d2a2",
+     "bid": 3.8,
+     "ask": 4.6,
+     "oi": 198
+    },
+    "put": {
+     "id": "a9a8420c-31af-4030-b7ae-ac80e821b573",
+     "bid": 4.35,
+     "ask": 4.95,
+     "oi": 666
+    }
+   },
+   "straddle_pct_needed_for_0.85": 0.1042
+  },
+  "NU": {
+   "rule": "edge ratio 1.10 over 0.85",
+   "timing": "pm",
+   "spot": 12.035,
+   "prev_close": 12.32,
+   "intraday_pct": -0.02313,
+   "K": 12.0,
+   "strike_step": 0.5,
+   "straddle_mid": 0.815,
+   "straddle_pct": 0.06772,
+   "atm_spread_pct": 0.184,
+   "hist_moves": [
+    0.026636,
+    0.090758,
+    0.014753,
+    -0.095495,
+    -0.057231,
+    0.093324
+   ],
+   "avg_hist_move": 0.06303,
+   "median_hist_move": 0.07399,
+   "max_hist_move": -0.095495,
+   "n_hist": 6,
+   "regime_20d": 0.02669,
+   "edge_ratio": 1.0951,
+   "body_legs": {
+    "call": {
+     "id": "dc1ba00b-70b5-4ffb-a2a0-f3d02908ca90",
+     "bid": 0.38,
+     "ask": 0.44,
+     "oi": 3966
+    },
+    "put": {
+     "id": "e690f011-b9d8-4c8e-8fba-fad5b0470ed0",
+     "bid": 0.36,
+     "ask": 0.45,
+     "oi": 13805
+    }
+   },
+   "straddle_pct_needed_for_0.85": 0.0872
+  }
+ },
+ "skipped": {
+  "no_nov13_expiry": [
+   "ARWR",
+   "NKTR",
+   "DLO",
+   "HTFL",
+   "SA"
+  ],
+  "scanner_date_wrong_already_reported": {
+   "ORKA": "2026-11-09 pm",
+   "TNK": "2026-11-11 pm",
+   "ECO": "2026-11-11 pm"
+  },
+  "scanner_date_wrong_reports_later": {
+   "SKE": "2026-11-16 pm",
+   "OMER": "2026-11-16 pm",
+   "COO": "2026-12-03 pm",
+   "ERAS": "2026-11-24 pm (not confirmed)",
+   "KOD": "2026-11-24 pm (not confirmed)",
+   "PPTA": "2026-11-24 am (not confirmed)",
+   "SGMT": "2026-11-24 am (not confirmed)"
+  },
+  "scanner_names_reported_before_the_window": [
+   "ENS",
+   "NBIS",
+   "TWST",
+   "BN",
+   "YETI",
+   "FIGR",
+   "FPS",
+   "EYE",
+   "LUNR",
+   "CLBT",
+   "PERI"
+  ],
+  "calendar_pm_today_dropped_by_scanner": [
+   "ANDG",
+   "DDS",
+   "SID",
+   "EC",
+   "CIG",
+   "ACCV",
+   "HAWK",
+   "STN",
+   "QXO",
+   "STNE",
+   "CBRS",
+   "TMC",
+   "LFTO",
+   "JCAP",
+   "FLO",
+   "INTR",
+   "ATAI",
+   "TELFY",
+   "PHI"
+  ],
+  "calendar_am_tomorrow_dropped_by_scanner": [
+   "ONEXF",
+   "MUFG",
+   "RKUNY",
+   "USAS",
+   "SMFG",
+   "SMCAY",
+   "MFG"
+  ],
+  "not_analyzed": {
+   "AEXA": "blank-check company"
+  },
+  "note": "All 10 scanner-only dates disagreed with get_earnings_results. A scanner name the calendar does not list needs its date confirmed before any other work, as done here."
+ },
+ "non_earnings_screen": {
+  "as_of": "2026-11-12T14:50Z",
+  "hits": [
+   "ZS",
+   "CAPR"
+  ],
+  "ZS": {
+   "last": 190.41,
+   "iv_rank": 0.887,
+   "iv30_over_hv10": 1.202,
+   "front_iv": 0.8556,
+   "back_iv": 0.8263,
+   "hv10": 0.5143,
+   "avg_options_volume": 15446,
+   "decision": "no trade",
+   "reason": "No driver that resolves before the near expiries: the stock fell about 15% in a week (224.40 on Nov 4) and the report is around Nov 23 to 24, not yet confirmed. IV is barely above realized (1.20x) and a fly inside the $200 limit would have wings far inside the expected move.",
+   "sources": [
+    "https://altindex.com/earnings-calendar/zs",
+    "https://therighttrader.com/earnings-calendar/zs",
+    "https://optioncharts.io/options/ZS"
+   ]
+  },
+  "CAPR": {
+   "last": 10.24,
+   "iv_rank": 0.953,
+   "iv30_over_hv10": 2.437,
+   "front_iv": 4.4811,
+   "back_iv": 4.1655,
+   "hv10": 1.5654,
+   "avg_options_volume": 18290,
+   "decision": "no trade",
+   "reason": "Binary FDA decision on deramiocel (action date Nov 22; the advisory panel voted 9 to 3 against in July). A yes or no on the only product moves the stock by about what the options price; nothing here says the options overstate it.",
+   "sources": [
+    "https://www.biopharminternational.com/view/fda-extends-deramiocel-pdufa-date-to-november-2026-after-capricor-submits-refined-dmd-indication",
+    "https://globalgenes.org/raredaily/fda-extends-pdufa-date-for-capricors-dmd-therapy/"
+   ]
+  },
+  "note": "PCG (held x5) no longer shows on the screen at the 15,000 volume and 0.8 rank cut; it is managed by its plan."
+ },
+ "account": {
+  "as_of": "2026-11-12T14:44Z",
+  "account_value": 1222.1,
+  "buying_power": 994.15,
+  "risk_cap": 1000,
+  "risk_used": 390
+ },
+ "entry_plan": "Nothing qualifies at 07:00 PT. 09:45 PT: re-quote AMAT only (it needs a straddle of about 8.0% of spot to reach 0.85; it is 7.3%). 11:46 PT final sweep: re-quote AMAT, CSCO and NU, and record the 1.5x-straddle fly of each as an untraded paper record (U1) so the reflection can score the gate."
+}
