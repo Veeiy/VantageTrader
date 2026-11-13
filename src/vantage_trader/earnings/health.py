@@ -8,6 +8,7 @@ error where the journal, positions file and metrics drift apart.
 from __future__ import annotations
 
 import json
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Callable
 
@@ -39,8 +40,22 @@ def _lease(path: str | None) -> str:
     return f"{current['holder']} holds {current['date']}"
 
 
+FUTURE_TOLERANCE = timedelta(minutes=2)
+
+
+def _ts(value: Any) -> datetime | None:
+    """A record's ``ts`` as an aware UTC time; None when absent or not ISO."""
+    if not isinstance(value, str):
+        return None
+    try:
+        t = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    return t if t.tzinfo else t.replace(tzinfo=timezone.utc)
+
+
 def selfcheck(journal: str, metrics: str, positions: str, lessons: str, proposals: str,
-              lease: str | None = None) -> dict[str, Any]:
+              lease: str | None = None, now: datetime | None = None) -> dict[str, Any]:
     checks: list[dict[str, Any]] = []
     loaded: dict[str, Any] = {}
 
@@ -95,6 +110,23 @@ def selfcheck(journal: str, metrics: str, positions: str, lessons: str, proposal
             raise ValueError(f"max loss plus reserves {total} is above the cap {risk['cap_usd']}")
         return f"{total:.0f} of {float(risk['cap_usd']):.0f}"
 
+    def no_future_timestamps() -> str:
+        # Twice on 2026-11-13 the head wrote ledger times ahead of the clock (P037).
+        clock = now or datetime.now(timezone.utc)
+        late: list[str] = []
+        for key in ("journal", "metrics", "lessons", "proposals"):
+            for r in loaded.get(key) or []:
+                t = _ts(r.get("ts")) if isinstance(r, dict) else None
+                if t is not None and t > clock + FUTURE_TOLERANCE:
+                    late.append(f"{key} {r.get('id') or r.get('trade_id') or r.get('symbol') or ''} {r['ts']}".replace("  ", " "))
+        t = _ts((loaded.get("positions") or {}).get("as_of"))
+        if t is not None and t > clock + FUTURE_TOLERANCE:
+            late.append(f"positions as_of {loaded['positions']['as_of']}")
+        if late:
+            raise ValueError(f"{len(late)} record(s) dated ahead of the clock ({clock:%Y-%m-%dT%H:%MZ}): " + "; ".join(late[:5]))
+        return "no record is dated ahead of the clock"
+
+    run("no_future_timestamps", no_future_timestamps)
     if all(k in loaded for k in ("journal", "positions")):
         run("positions_match_journal", positions_match_journal)
     if all(k in loaded for k in ("metrics", "positions")):

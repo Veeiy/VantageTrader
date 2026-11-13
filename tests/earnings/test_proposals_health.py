@@ -129,3 +129,19 @@ def test_standing_delegation_lets_the_agent_approve_owner_kinds_inside_its_scope
     brad = [flagged, {"event": "decision", "id": "P1", "decision": "approved", "by": "Brad, 2026-11-12: \"yes\""}]
     assert len(proposals.read_proposals(_write(tmp_path, "b.jsonl", brad))) == 2
     assert proposals.under_delegation(by, "2026-11-11T16:13:00Z") and not proposals.under_delegation(by, "")
+
+
+def test_selfcheck_flags_records_dated_ahead_of_the_clock(tmp_path):
+    # P037 (2026-11-13): ledger times were written ahead of the clock twice in one day
+    from datetime import datetime, timezone
+    f = _files(tmp_path)
+    (tmp_path / "p.jsonl").write_text(json.dumps({
+        "ts": "2026-11-13T22:40:00Z", "event": "proposal", "id": "P900", "date": "2026-11-13",
+        "type": "heal", "kind": "process", "decider": "agent", "title": "t", "problem": "p",
+        "change": "c", "measure": "m"}) + "\n")
+    f["proposals"] = str(tmp_path / "p.jsonl")
+    early = health.selfcheck(**f, now=datetime(2026, 11, 13, 22, 24, tzinfo=timezone.utc))
+    assert [c["check"] for c in early["checks"] if not c["ok"]] == ["no_future_timestamps"]
+    assert "P900" in next(c["detail"] for c in early["checks"] if c["check"] == "no_future_timestamps")
+    on_time = health.selfcheck(**f, now=datetime(2026, 11, 13, 22, 39, tzinfo=timezone.utc))   # inside the 2-minute tolerance
+    assert on_time["ok"] is True
