@@ -176,9 +176,10 @@ In 10 lines or fewer, with a push notification:
 Brad, 2026-11-13 07:53 PT, in the head session: "I want you to be able to use the entire funds in the mcp account. I allocated funds specifically for you to trade with."
 
 - Head: total max loss plus exit reserves across all open positions <= the account value.
-- Standby: the stored text of its two switch tasks still says min($1,000, 0.93 x account
-  value), and only the standby session can edit it. The head relayed Brad's words on
-  2026-11-13. The standby uses the account value once it has found those words in the head's
-  transcript (the switchboard rule); until then it keeps the tighter $1,000, which can only
-  make it place less.
+- Standby: the head relayed Brad's words on 2026-11-13. At 07:59 PT the standby answered that it
+  had found them in the head's transcript (the switchboard rule), accepted rules v1.11 and
+  updated the cap sentence in both of its switch prompts ("total risk cap = the account value
+  ...; max $350 per name"). The head read both tasks back at 08:14 PT: the text is as reported
+  and the schedules are unchanged (07:25 PT and 12:05 PT on 2026-11-16). Both sessions now
+  run the same cap.
 - Exits are never limited by the cap.

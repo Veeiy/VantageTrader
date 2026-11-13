@@ -632,6 +632,6 @@ Owner decision. Brad: "I want you to be able to use the entire funds in the mcp 
   hit max loss can now take the whole account instead of $1,000 of it.
 
 ### Standby
-- The backup trader's two switch tasks still carry the old number in their stored text
-  (only that session can edit them). Brad's words were relayed to it on 2026-11-13; until it
-  confirms them in the head's transcript it keeps the tighter $1,000 number, which is safe.
+- Brad's words were relayed to the backup trader on 2026-11-13. It verified them in the
+  head's transcript, accepted v1.11 and updated the cap sentence in both of its switch tasks
+  (07:59 PT). The head read both tasks back at 08:14 PT: same cap in both sessions.
