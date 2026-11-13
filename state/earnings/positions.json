@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-13T20:16:08Z",
+ "as_of": "2026-11-13T20:56:00Z",
  "account_value": 1275.91,
  "cap_total_max_loss": 1275.91,
  "execution": {
@@ -531,6 +531,45 @@
     "pnl_mid_usd": 31.0,
     "pnl_conservative_usd": 28.5,
     "decision": "hold (take profit at 0.33, cut at 0.86)"
+   },
+   "monitor_final_2026-11-13": {
+    "ts": "2026-11-13T20:55:00Z",
+    "source": "position monitor (read-only), 33 cycles, no trigger sent, no errors",
+    "spot": 13.255,
+    "legs": {
+     "13C": [
+      0.47,
+      0.65
+     ],
+     "13P": [
+      0.27,
+      0.3
+     ],
+     "14C": [
+      0.15,
+      0.19
+     ],
+     "12P": [
+      0.03,
+      0.09
+     ]
+    },
+    "close_cost_mid": 0.615,
+    "close_cost_conservative": 0.625,
+    "pnl_conservative_usd": 13.5,
+    "range_today": {
+     "stock": [
+      13.065,
+      13.255
+     ],
+     "close_cost": [
+      0.545,
+      0.625
+     ]
+    },
+    "note": "The stock closed at the top of its range, 0.255 above the body; the 13 call market widened to 0.47 x 0.65 in the last minutes (0.49 x 0.55 at 20:24Z, close cost 0.57). Upper breakeven 13.65, near-breakeven level 13.50.",
+    "news": "No proclamation, special-session call or bill found as of 20:24Z. The Nov 15 date comes from a Nov 3 Consumer Watchdog release citing the LA Times; no new primary source today.",
+    "decision": "hold over the weekend per plan (no cut rule met; a special-session call is the scenario that costs the max loss of 174)"
    }
   }
  ],
