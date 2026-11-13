@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-13T15:39:00Z",
+ "as_of": "2026-11-13T15:55:00Z",
  "account_value": 1275.91,
  "cap_total_max_loss": 1000,
  "execution": {
@@ -342,12 +342,38 @@
     "pnl_conservative_usd": 23.5,
     "note": "The 12 put market is 0.06 x 0.25, so its mid is not trusted: the conservative mark takes it at bid + 0.02. From today the monitor reports on the conservative mark.",
     "decision": "hold (take profit at 0.33, cut at 0.86)"
+   },
+   "check_2026-11-13_0747": {
+    "spot": 13.08,
+    "legs": {
+     "13C": [
+      0.42,
+      0.52
+     ],
+     "13P": [
+      0.3,
+      0.39
+     ],
+     "14C": [
+      0.14,
+      0.16
+     ],
+     "12P": [
+      0.05,
+      0.25
+     ]
+    },
+    "close_cost_mid": 0.515,
+    "close_cost_conservative": 0.595,
+    "pnl_conservative_usd": 28.5,
+    "decision": "hold (take profit at 0.33, cut at 0.86)"
    }
   }
  ],
  "blockers": [
   "2026-11-10: Robinhood rejects agent-placed multi-leg orders. Workaround in use: single-leg legging (see execution).",
-  "2026-11-12 06:41 PT: retried a multi-leg order (4-leg close of the NVDA fly). Still refused: 'this account requires the customer to approve agent-placed trades, and a multi-leg strategy cannot be sent for approval yet \u2014 the order was NOT placed; place it in the Robinhood app, or place one-leg orders instead'. review_option_order accepts the same order; only placement is blocked."
+  "2026-11-12 06:41 PT: retried a multi-leg order (4-leg close of the NVDA fly). Still refused: 'this account requires the customer to approve agent-placed trades, and a multi-leg strategy cannot be sent for approval yet \u2014 the order was NOT placed; place it in the Robinhood app, or place one-leg orders instead'. review_option_order accepts the same order; only placement is blocked.",
+  "2026-11-13 07:48 PT (Friday retry): a 4-leg closing order for PCG x5 at a 0.33 net debit (the take-profit level). review_option_order: no alerts, customer_approval_required false, fees $0.80. place_option_order: refused with the same text as on 11/12 ('a multi-leg strategy cannot be sent for approval yet'). get_trade_approval_setting shows human_must_approve_trades false since 2026-11-10, so this is not a switch Brad can flip in the app: it is a product limit on agent multi-leg orders (P005). Nothing was placed."
  ],
  "pending": [],
  "buying_power": 1040.91,

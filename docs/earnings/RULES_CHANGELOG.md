@@ -580,7 +580,8 @@ AMAT, CSCO and NU: "Those 3 stocks you listed look like good trades". Live from 
   proof that it is better, and it flips between the two replay batches. Price band, implied
   move level and report timing were tested the same way: none holds in both batches.
 - This week's blocked names in that band, scored on real prices at the planned exit: PBR
-  +$9, AMAT +$296, CSCO +$180, NU +$4 a contract. Four of four.
+  +$9, AMAT +$296, CSCO +$180, NU +$4 a contract, CRWV -$51. Four of five; CRWV also
+  carried news flags, which block a name in any band.
 - So the 0.85 line is a throttle, not a selector (P019). It kept the account out of every
   earnings name on 2026-11-12.
 
