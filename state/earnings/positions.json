@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-13T16:12:20Z",
+ "as_of": "2026-11-13T16:34:20Z",
  "account_value": 1275.91,
  "cap_total_max_loss": 1275.91,
  "execution": {
@@ -400,6 +400,33 @@
     "decision": "no add",
     "why": "Priced at 08:17 PT: a new contract sells for about 0.56 (floor 0.52), max loss about $44 to $48. By Tuesday about +$9 (IV unchanged) to +$17 (IV 0.40) a contract if no special session is called, against the max loss if one is called over the weekend: an expected value near zero at a 15% to 20% chance of the event. The 13 put was 0.29 x 0.38 (27% wide, limit 25%), the stock 0.19 above the body (limit 0.21) and the 14 call had traded 3,827 contracts by 08:12 PT.",
     "revisit": "Monday 2026-11-16 at the morning run, after the Nov 15 date has passed: add only if the screen still passes and the stock is within 0.21 of 13."
+   },
+   "check_2026-11-13_0834": {
+    "spot": 13.155,
+    "legs": {
+     "13C": [
+      0.47,
+      0.52
+     ],
+     "13P": [
+      0.3,
+      0.35
+     ],
+     "14C": [
+      0.16,
+      0.19
+     ],
+     "12P": [
+      0.03,
+      0.14
+     ]
+    },
+    "close_cost_mid": 0.56,
+    "close_cost_conservative": 0.595,
+    "pnl_mid_usd": 46.0,
+    "pnl_conservative_usd": 28.5,
+    "decision": "hold (take profit at 0.33, cut at 0.86)",
+    "note": "The 08:15 PT hourly task fired at 08:34 PT (19 minutes late)."
    }
   }
  ],
@@ -607,7 +634,8 @@
   ],
   "check_2026-11-12_1216": "All five leftover legs (RGTI 15C, RGTI 9P, FLY 19P, LUNR 10P x2) show a zero bid and are out of the money (RGTI 10.44, FLY 25.03, LUNR 13.42). Nothing to sell; they expire 11/13.",
   "check_2026-11-13_0730": "All five show a zero bid and are out of the money (RGTI 9.57: 15C and 9P; FLY 23.66: 19P; LUNR 12.16: 10P x2). They expire today. The monitor reports a bid of 0.01 or a strike reached (RGTI 9.05, FLY 19.05, LUNR 10.05).",
-  "check_2026-11-13_0812": "All five still show a zero bid and are out of the money (RGTI 9.585, FLY 24.16, LUNR 12.38). No shares in the account."
+  "check_2026-11-13_0812": "All five still show a zero bid and are out of the money (RGTI 9.585, FLY 24.16, LUNR 12.38). No shares in the account.",
+  "check_2026-11-13_0834": "All five still zero bid and out of the money (RGTI 9.685, FLY 24.32, LUNR 12.44). No shares, no orders."
  },
  "closed_2026-11-12": [
   {
