@@ -79,3 +79,10 @@
   loss. Too few to settle it: the four are priced on paper at the 12:15 PT check and scored
   on Monday morning.
 - Visual page for this scorecard: a private artifact in Brad's account (link in the chat).
+
+## Close of Nov 13
+- No fills on Friday. Week realized -$34.04; PCG open +$33.50 at closing mids (fly 0.585).
+  Account $1,250.91, buying power $1,040.91.
+- Grades for the week with Friday in: 47 decisions, A 4, A- 9, B+ 9, B 8, B- 5, C+ 3, C 8, D 1.
+- Paper desk after three sessions: 16 flies, 8 wins, +$353 at mid, +$24 at natural.
+- Rules v1.13 (wing floor 0.9x the straddle) added at the reflection; H010 opened.

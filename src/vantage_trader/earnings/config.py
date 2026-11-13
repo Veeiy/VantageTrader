@@ -68,6 +68,7 @@ DEFAULTS: dict[str, Any] = {
     "min_ev_per_dollar_risk": 0.0,
     # --- structures ---
     "wing_widths_pct": [0.05, 0.075, 0.10, 0.125],
+    "min_wing_over_straddle": 0.9,   # v1.13: the narrower wing sits at least this x the body straddle from the body (hard floor 0.9)
     # --- risk / sizing ---
     # v1.11 (owner, 2026-11-13: "I want you to be able to use the entire funds in the mcp account"):
     # the total risk cap is the whole account value. max_loss_abs None = no dollar ceiling;
@@ -137,6 +138,7 @@ HARD_CAPS: dict[str, tuple[str, float]] = {
     "early_tranche_frac": ("max", 1.0),
     "add_center_frac": ("max", 0.5),
     "exit_buyback_mult": ("min", 1.0),   # the exit check may only be made stricter
+    "min_wing_over_straddle": ("min", 0.9),   # v1.13: flies narrower than the replay tested are not traded
     "min_price": ("min", 10.0),
     "min_account_value": ("min", 400.0),
     "max_consecutive_max_loss": ("max", 2),
@@ -149,7 +151,7 @@ _NUMERIC = {
     "min_price", "max_spread_pct", "max_intraday_move", "straddle_factor",
     "wide_spread_pct", "wide_spread_max_loss", "max_intraday_move_sector", "regime_mult",
     "tight_max_ratio", "name_risk_frac", "name_risk_cap", "early_tranche_frac", "add_center_frac",
-    "exit_buyback_mult", "near_miss_max_ratio", "near_miss_size_frac",
+    "exit_buyback_mult", "near_miss_max_ratio", "near_miss_size_frac", "min_wing_over_straddle",
     "sell_max_ratio", "buy_min_ratio", "min_ev_per_dollar_risk",
     "max_loss_bp_frac", "tick", "step_small", "step_large", "step_threshold",
     "credit_floor_mid_frac", "debit_ceiling_mid_frac", "min_account_value",
@@ -168,7 +170,7 @@ _POSITIVE = {
     "max_quantity", "max_consecutive_max_loss", "wide_spread_pct", "wide_spread_max_loss",
     "max_intraday_move_sector", "regime_mult", "tight_max_ratio",
     "name_risk_frac", "name_risk_cap", "early_tranche_frac", "add_center_frac", "exit_buyback_mult",
-    "near_miss_max_ratio", "near_miss_size_frac",
+    "near_miss_max_ratio", "near_miss_size_frac", "min_wing_over_straddle",
     "max_consecutive_losses", "max_spread_pct", "max_intraday_move", "max_loss_tolerance",
     "straddle_take_profit", "calibrate_min_trades", "max_expiry_days_after_report",
 }

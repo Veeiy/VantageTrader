@@ -29,7 +29,7 @@ streaks.
 | 9 | macro_veto | not set |
 | 10 | circuit_breaker | not set, account value >= $400, no 2 max losses / 3 losses in a row in the journal |
 | 11 | sector | `sector` not in `sectors_entered_today` (checked only when both are given) |
-| 12 | structure | wings given on both sides, 0 < mid credit < width, a fillable limit range |
+| 12 | structure | wings given on both sides, 0 < mid credit < width, a fillable limit range, and (v1.13) the narrower wing at least 0.9 x the body straddle from the body (`wings_too_narrow` otherwise) |
 | 13 | add_centered | an add only (`held` given): same body strike as the open tranche, and spot within 0.25 x the body straddle of it. A first entry passes |
 | 14 | name_risk | max loss on the name (held + the contracts entered now, at the credit floor) <= $350, and at least one contract may be entered at this check-in |
 | 15 | risk_budget | open_risk_usd + max loss at the credit floor + $50 reserve per contract <= the account value (rules v1.11, Brad 2026-11-13: "use the entire funds in the mcp account"; before that min($1,000, 0.93 x account value)) |

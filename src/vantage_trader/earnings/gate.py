@@ -49,6 +49,8 @@ Gates (all evaluated; ``reason`` is the first failure, ``blocked_by`` lists all)
                           checked when both are given)
     12 structure          wings present, K-put_strike > 0, call_strike-K > 0, 0 < mid credit
                           < width, a fillable limit range (floor <= start)
+                          and (v1.13) the narrower wing at least 0.9 x the body
+                          straddle away from the body
     13 add_centered       an add only: same body strike as the held tranche, and spot
                           within 0.25 x body straddle of it. A first entry passes.
     14 name_risk          max loss on the name (held + the contracts entered now, at the
@@ -301,6 +303,9 @@ def fly(c: dict[str, Any], cfg: dict[str, Any]) -> dict[str, Any] | None:
         # v1.6 (P018): the wings should sit about 1.5x the body straddle from the body
         "width_over_straddle": (round(width / (_mid(c["call"]) + _mid(c["put"])), 4)
                                 if _mid(c["call"]) + _mid(c["put"]) > 0 else None),
+        # v1.13: the narrower wing against the body straddle (gate 12 blocks flies narrower than tested)
+        "narrow_width_over_straddle": (round(min(width_call, width_put) / (_mid(c["call"]) + _mid(c["put"])), 4)
+                                       if _mid(c["call"]) + _mid(c["put"]) > 0 else None),
         "credit_mid": round(mid, 4), "credit_natural": round(natural, 4),
         "credit_floor": round(floor_credit, 4),
         "limit_start": start, "limit_floor": floor_rounded, "tick": tick,
@@ -406,9 +411,16 @@ def evaluate(raw: Any, cfg: dict[str, Any], journal_events: list[dict[str, Any]]
     if f is None:
         add("structure", False, None, None, note="no wings given", reason="no_wings")
     else:
-        add("structure", f["valid"] and f["fillable"], {"credit_mid": f["credit_mid"], "width": f["width"]},
-            None, note=None if f["valid"] else "wings or credit out of range",
-            reason="no_valid_wings" if not f["valid"] else "no_fillable_limit_range")
+        narrow = f["narrow_width_over_straddle"]
+        wide_enough = narrow is None or narrow + EPS >= cfg["min_wing_over_straddle"]
+        add("structure", f["valid"] and f["fillable"] and wide_enough,
+            {"credit_mid": f["credit_mid"], "width": f["width"], "narrow_width_over_straddle": narrow},
+            {"min_wing_over_straddle": cfg["min_wing_over_straddle"]},
+            note=("wings or credit out of range" if not f["valid"] else
+                  None if wide_enough else
+                  "the narrower wing is closer to the body than the tested range (v1.13)"),
+            reason=("no_valid_wings" if not f["valid"] else
+                    "no_fillable_limit_range" if not f["fillable"] else "wings_too_narrow"))
 
     # sizing and caps (v1.7: by risk, in tranches)
     closed = len(jr.closed_trades(events))

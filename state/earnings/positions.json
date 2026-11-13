@@ -1,7 +1,7 @@
 {
- "as_of": "2026-11-13T20:56:00Z",
- "account_value": 1275.91,
- "cap_total_max_loss": 1275.91,
+ "as_of": "2026-11-13T22:17:00Z",
+ "account_value": 1250.91,
+ "cap_total_max_loss": 1250.91,
  "execution": {
   "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
   "method": "single-leg limit orders: buy both wings first, then sell the body legs. To close: buy back the shorts first, then sell the wings. Never sell a wing while its short leg is open.",
@@ -570,6 +570,37 @@
     "note": "The stock closed at the top of its range, 0.255 above the body; the 13 call market widened to 0.47 x 0.65 in the last minutes (0.49 x 0.55 at 20:24Z, close cost 0.57). Upper breakeven 13.65, near-breakeven level 13.50.",
     "news": "No proclamation, special-session call or bill found as of 20:24Z. The Nov 15 date comes from a Nov 3 Consumer Watchdog release citing the LA Times; no new primary source today.",
     "decision": "hold over the weekend per plan (no cut rule met; a special-session call is the scenario that costs the max loss of 174)"
+   },
+   "eod_2026-11-13": {
+    "close": 13.25,
+    "after_hours": 13.13,
+    "after_hours_ts": "2026-11-13T22:06:52Z",
+    "legs": {
+     "13C": [
+      0.47,
+      0.6
+     ],
+     "13P": [
+      0.27,
+      0.3
+     ],
+     "14C": [
+      0.16,
+      0.2
+     ],
+     "12P": [
+      0.04,
+      0.07
+     ]
+    },
+    "close_cost_mid": 0.585,
+    "close_cost_conservative": 0.585,
+    "pnl_mid_usd": 33.5,
+    "range": "With the 13 call 0.13 wide the close cost is 0.52 to 0.65: +$1 to +$66. The monitor's 12:55 PT mark was 0.625 (+$13.50).",
+    "vs_prior_close": "about flat on the fly (0.585 at 20:55Z on 11/12, 0.595 at that close); account value 1,250.91 against 1,245.91 (+$5)",
+    "distance": "0.25 above the body, 0.40 under the upper breakeven 13.65, 0.90 above the lower 12.35",
+    "weekend": "Held. The Nov 15 special-session date falls on Sunday. A call would likely gap the stock up: max loss 174. No proclamation, call or bill found as of 12:24 PT.",
+    "plan": "Unchanged: take profit at a close cost of 0.33, cut at 0.86 or 30 minutes beyond a breakeven, out by the 2026-11-18 close. Add revisited Monday (limit $400, only if the screen still passes and the stock is within 0.21 of 13)."
    }
   }
  ],
@@ -590,12 +621,12 @@
   "total_max_loss_usd": 174,
   "exit_reserves_usd": 50,
   "used_usd": 224,
-  "cap_usd": 1275.91,
-  "free_usd": 1051.91,
+  "cap_usd": 1250.91,
+  "free_usd": 1026.91,
   "detail": "PCG 174 + reserve 50.",
   "cap_note": "Rules v1.11: the cap is the account value (Brad, 2026-11-13: 'I want you to be able to use the entire funds in the mcp account'). cap_usd is the account value at the last check; it is not lowered below the risk already open when marks fall (the cap binds at entry)."
  },
- "eod_note": "2026-11-12 close: one position open (PCG x5, about +$33 at mid). Closed today: LUNR x3 (-26.88) and NVDA x1 (-70.32). No entry: AMAT, CSCO and NU all failed the edge gate. Realized today -97.20; this week -34.04.",
+ "eod_note": "2026-11-13 close: PCG x5 open (fly 0.585 at closing mids, +$33.50; about flat on the day, account +$5). No fills today. Account 1,250.91, buying power 1,040.91, risk used 224. Two losses in a row stand (LUNR, NVDA): a third pauses new entries.",
  "watch": [
   {
    "symbol": "NVDA",
@@ -783,7 +814,8 @@
   "check_2026-11-13_1016": "All five still show a zero bid and are out of the money (RGTI 9.57: 15C and 9P; FLY 24.64: 19P; LUNR 12.46: 10P x2). RGTI is down 7.4% on the day and 0.57 above the 9 put: the one to watch. No resting sell order placed (a 0.01 offer would give the put away if RGTI falls); the monitor reports a bid or a strike reached, and a put with a bid is sold before 11:00 PT.",
   "check_2026-11-13_1115": "Past 11:00 PT and all five still show a zero bid, so none can be sold; all are out of the money (RGTI 9.675: 15C and 9P; FLY 25.25: 19P; LUNR 12.75: 10P x2). They expire worthless at the close unless RGTI falls 0.68 to the 9 put, in which case the put gets a bid and is sold.",
   "check_2026-11-13_1216": "45 minutes before the close all five still show a zero bid and are out of the money (RGTI 9.695: 15C and 9P; FLY 25.68: 19P; LUNR 13.045: 10P x2). Nothing to sell. They expire worthless tonight; confirm at Monday's first run that they are gone from the positions.",
-  "monday_check": "At the first run on Mon 2026-11-16 confirm the five expired wings are gone from get_option_positions and no shares appeared, then delete this block."
+  "monday_check": "At the first run on Mon 2026-11-16 confirm the five expired wings are gone from get_option_positions and no shares appeared, then delete this block.",
+  "close_2026-11-13": "All five show pending_expiration_quantity at the close (RGTI closed 9.62, FLY 25.22, LUNR 12.99: all out of the money). They expire worthless tonight; their cost is already in the closed trades' P/L."
  },
  "closed_2026-11-12": [
   {

@@ -72,6 +72,9 @@ width = the wider of the two wing distances. max_loss_mid = (width - credit_mid)
 max_loss_natural = (width - credit_natural) * 100. breakevens = K -/+ credit_mid.
 If max_loss_natural > 350, step the wings in one strike at a time until it is 350 or less and
 report that fly instead (say so in notes).
+Floor (rules v1.13): never step a wing closer to K than 0.9 x straddle_mid. If the max loss is
+still above 350 at that floor, report the last fly at or above the floor and say in notes that
+it does not fit (the gate blocks it; nobody narrows it further).
 Record the option ids of all four legs and the tick size you see (0.01 or 0.05).
 
 OUTPUT. Write one JSON file batch_<LETTER>.json in the scan folder:

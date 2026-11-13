@@ -28,6 +28,8 @@ min_ev_per_dollar_risk: 0.0  # require historical EV / max loss strictly above t
 
 # --- structures ---
 wing_widths_pct: [0.05, 0.075, 0.10, 0.125]   # iron fly wing candidates as fraction of spot
+min_wing_over_straddle: 0.9  # HARD FLOOR >= 0.9 (v1.13). The narrower wing sits at least this x the body straddle
+                             # from the body. Wings are aimed at 1.5x (v1.6); stepping them in for a cap stops here.
 
 # --- risk / sizing ---
 # No limit on the number of open positions or trades per day (v1.4): the total risk cap is the limit.

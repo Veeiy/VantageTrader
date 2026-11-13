@@ -524,3 +524,42 @@ def test_v111_a_dollar_ceiling_can_still_be_set():
         cfg(max_loss_bp_frac=1.01)                           # never more than the account
     with pytest.raises(ConfigError):
         cfg(max_loss_abs=-5)
+
+
+# ---- rules v1.13 (2026-11-13): wings no narrower than 0.9 x the body straddle ----
+
+def test_v113_narrow_wings_block():
+    # LUNR body straddle 1.595: 1-wide wings sit 0.63 x the straddle from the body
+    rec, code = run(cand(wings={"call_strike": 13.0, "put_strike": 11.0,
+                                "call": {"bid": 0.45, "ask": 0.50}, "put": {"bid": 0.22, "ask": 0.30}}))
+    assert code == 3 and rec["reason"] == "wings_too_narrow" and rec["blocked_by"] == ["wings_too_narrow"]
+    s = g(rec, "structure")
+    assert s["pass"] is False
+    assert s["value"]["narrow_width_over_straddle"] == pytest.approx(1.0 / 1.595, abs=1e-3)
+    assert s["limit"] == {"min_wing_over_straddle": 0.9}
+
+
+def test_v113_the_narrower_wing_decides_and_the_tested_range_passes():
+    # the real LUNR fly: 1.5-wide on a 1.595 straddle = 0.94x, inside the tested range
+    rec, code = run(cand())
+    assert code == 0
+    assert g(rec, "structure")["value"]["narrow_width_over_straddle"] == pytest.approx(0.9404, abs=1e-3)
+    # lopsided: the call wing 1.5 away, the put wing 1.0 away
+    rec, code = run(cand(wings={"call_strike": 13.5, "put_strike": 11.0,
+                                "call": {"bid": 0.32, "ask": 0.36}, "put": {"bid": 0.22, "ask": 0.30}}))
+    assert code == 3 and rec["reason"] == "wings_too_narrow"
+    assert rec["fly"]["width_over_straddle"] == pytest.approx(0.9404, abs=1e-3)       # the wider side
+    assert rec["fly"]["narrow_width_over_straddle"] == pytest.approx(0.627, abs=1e-3)  # the one that counts
+
+
+def test_v113_floor_is_a_hard_floor():
+    with pytest.raises(ConfigError):
+        cfg(min_wing_over_straddle=0.5)                      # may only be made stricter
+    rec, code = run(cand(), min_wing_over_straddle=1.0)      # stricter: the 0.94x fly no longer passes
+    assert code == 3 and rec["reason"] == "wings_too_narrow"
+
+
+def test_v113_inverted_wings_keep_their_own_reason():
+    rec, code = run(cand(wings={"call_strike": 11.5, "put_strike": 10.5,
+                                "call": {"bid": 0.9, "ask": 1.0}, "put": {"bid": 0.1, "ask": 0.2}}))
+    assert code == 3 and rec["reason"] == "no_valid_wings"

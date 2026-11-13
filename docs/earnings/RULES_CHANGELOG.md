@@ -661,3 +661,32 @@ Owner decision. Brad: "Raise the non earnings limit to 400"
   sat $0.19 above the body with heavy buying of the 14 calls.
 - The backup trader's switch prompts say "max $350 per name". It opens earnings flies only,
   so that stricter number changes nothing for it.
+
+## v1.13 (2026-11-13, daily reflection): a floor under the wing width (P036, decided under the delegation)
+A tightening. It blocks trades and adds no risk.
+
+### Changed
+- Gate 12 (structure) also needs the narrower wing to sit at least **0.9 x the body straddle**
+  from the body. A fly that fails is blocked with `wings_too_narrow`. Config
+  `min_wing_over_straddle: 0.9`, a hard floor: the config may only raise it.
+- Wings are still aimed at 1.5x the straddle (v1.6) and still stepped in one strike at a time
+  when the max loss is above the name cap. That stepping now stops at 0.9x. A name that does
+  not fit its cap or the exit check (gate 16) at 0.9x is not traded; nobody narrows it further.
+
+### Why
+- The replay priced flies with wings at 1x and at 2x the straddle. Nothing narrower was ever
+  tested, and at 1x the result was already about zero at mid (edge 0.85 or under: -$9 a fly
+  at 1x against -$3 at 2x, 37 events; edge 0.85 to 1.10: +$10 against +$43, 26 events).
+- With single-leg exits and about $1,040 of buying power, gate 16 passes flies up to about $7
+  wide. Stepping the wings in until a fly fits is the easy way around it: a $200 stock with a
+  $16 straddle would pass at 7 wide, 0.44x the straddle, breakevens inside half the implied
+  move. No rule stopped that. From Monday the near-miss tier ($175 a name) adds the same pull.
+- Found on 2026-11-13 while pricing the Friday paper flies: BIDU's 1.5x fly (86/70) was
+  stepped to 85/71 for the $350 cap, failed gate 16, and passed at 84/72 (1.09x).
+- Nothing traded so far is affected: LUNR 0.94x, PCG 0.97x, BIDU paper 1.09x all pass.
+
+### What this means for which names can be traded
+- With single-leg exits the account trades flies up to about $7 wide. At 1.5x wings that is a
+  straddle of about $4.70, so stocks under roughly $55 when the options price an 8.5% move.
+- More names need multi-leg orders (no gate 16, cheaper exits), more buying power, or both.
+  Raising the $350 name cap is Brad's call and is not proposed.
