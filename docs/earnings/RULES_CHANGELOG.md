@@ -635,3 +635,29 @@ Owner decision. Brad: "I want you to be able to use the entire funds in the mcp 
 - Brad's words were relayed to the backup trader on 2026-11-13. It verified them in the
   head's transcript, accepted v1.11 and updated the cap sentence in both of its switch tasks
   (07:59 PT). The head read both tasks back at 08:14 PT: same cap in both sessions.
+
+## v1.12 (2026-11-13 08:15 PT): non-earnings names may risk up to $400
+Owner decision. Brad: "Raise the non earnings limit to 400"
+
+### Changed
+- Max loss on one non-earnings name (rules v1.2 trades such as PCG): $400, was $200.
+  It is counted like every other risk: max loss at the credit floor, plus the exit reserve,
+  inside the total cap (the account value, v1.11).
+- Earnings names are unchanged: $350 a name, $175 for a near-miss name (v1.10).
+
+### Unchanged for a non-earnings trade (rules v1.2)
+- The screen (IV rank 0.8 or more, 30-day IV at least 1.15x the 10-day realized volatility,
+  15,000 options a day, price $10 or more), a named driver with its dates, defined risk,
+  an at-the-money spread of 25% or less, take profit at 50% of max profit and the cut rules.
+- The exit must be feasible with single-leg orders (the gate 16 arithmetic applies to any
+  fly): Brad, same message: "Dont think robinhood supports multileg trading with mcp atleast
+  not yet." P005 is parked; the Friday retry of one multi-leg order stays, so the day it
+  works is noticed.
+
+### First use
+- None on 2026-11-13. An add to PCG (5 contracts, max loss $174) was priced and passed over:
+  about +$9 to +$17 a contract by Tuesday if nothing happens against $44 a contract if the
+  special session is called over the weekend; the 13 put's market was 27% wide; the stock
+  sat $0.19 above the body with heavy buying of the 14 calls.
+- The backup trader's switch prompts say "max $350 per name". It opens earnings flies only,
+  so that stricter number changes nothing for it.

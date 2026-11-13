@@ -183,3 +183,6 @@ Brad, 2026-11-13 07:53 PT, in the head session: "I want you to be able to use th
   and the schedules are unchanged (07:25 PT and 12:05 PT on 2026-11-16). Both sessions now
   run the same cap.
 - Exits are never limited by the cap.
+- Per name: $350 on an earnings name ($175 near-miss). A non-earnings name may risk up to $400
+  since rules v1.12 (Brad, 2026-11-13); only the head opens non-earnings trades, so the
+  standby's "max $350 per name" needs no change.

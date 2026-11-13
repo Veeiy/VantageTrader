@@ -394,6 +394,12 @@
     "pnl_conservative_usd": 26.0,
     "note": "The 14 call has traded 3,827 contracts by 08:12 PT (call buying again). Stock 0.32 under the 13.50 report level.",
     "decision": "hold (take profit at 0.33, cut at 0.86)"
+   },
+   "limit_note": "Non-earnings limit per name is $400 since rules v1.12 (Brad, 2026-11-13: 'Raise the non earnings limit to 400'); it was $200. Held: $174 of max loss.",
+   "add_check_2026-11-13_0818": {
+    "decision": "no add",
+    "why": "Priced at 08:17 PT: a new contract sells for about 0.56 (floor 0.52), max loss about $44 to $48. By Tuesday about +$9 (IV unchanged) to +$17 (IV 0.40) a contract if no special session is called, against the max loss if one is called over the weekend: an expected value near zero at a 15% to 20% chance of the event. The 13 put was 0.29 x 0.38 (27% wide, limit 25%), the stock 0.19 above the body (limit 0.21) and the 14 call had traded 3,827 contracts by 08:12 PT.",
+    "revisit": "Monday 2026-11-16 at the morning run, after the Nov 15 date has passed: add only if the screen still passes and the stock is within 0.21 of 13."
    }
   }
  ],
