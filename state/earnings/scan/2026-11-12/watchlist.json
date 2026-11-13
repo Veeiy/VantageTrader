@@ -813,5 +813,24 @@
   },
   "method": "Black-Scholes at the sweep credits, stock at tonight's after-hours price, 6.25 trading hours left, three post-report vols per name. Rough: the real score comes from option prices at the 11/13 open.",
   "note": "On these prices all three would have won. AMAT and CSCO still fail the exit check (v1.9) and together would have used about $700 of the $1,000 cap."
+ },
+ "scored_2026-11-13": {
+  "file": "state/earnings/scan/2026-11-12/untraded_1112.json",
+  "pnl_mid_usd_at_0645": {
+   "AMAT_x1": 296.0,
+   "CSCO_x1": 180.0,
+   "NU_per_contract": 4.0
+  },
+  "pnl_mid_usd_at_0730": {
+   "AMAT_x1": 60.5,
+   "CSCO_x1": 66.5,
+   "NU_per_contract": -4.0
+  },
+  "after_hours_estimate_usd": {
+   "AMAT_x1": 358,
+   "CSCO_x1": 448,
+   "NU_per_contract": 27
+  },
+  "note": "All three were up at the planned exit, by about half of the after-hours estimate. The estimate was made 4 hours after the close with the stocks within 0.5% to 3.2% of it; they opened 1.3% to 4.5% away and kept trending."
  }
 }
