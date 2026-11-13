@@ -57,8 +57,11 @@ and no prompt argument.
 | Plain alert | `trig_017icjQMENwSGysKQAuAHttx` | 08:00 PT | a fresh session, no broker | head with the exit switch; or the standby after its exit takeover | next trading day 08:00 PT |
 | Standby entry | `trig_01E1KZZayvkKf2PJJYhRLY8M` | 12:05 PT | standby session | head, after the day's entry decision (trades placed or a no-trade recorded) | next entry day (Mon to Thu) 12:05 PT |
 
-Order of the nets on a morning with an exit due: head 06:45 PT, head's hourly monitor
-07:15 PT, standby exit switch 07:25 PT, plain alert to Brad's phone 08:00 PT. Brad is only
+Order of the nets on a morning with an exit due: the head's in-session timer at 06:36 PT
+(started by the pre-open wake at 05:52 PT, `docs/earnings/prompts/preopen.md`, P031), the
+head's 06:45 PT task, the head's hourly monitor 07:15 PT, standby exit switch 07:25 PT,
+plain alert to Brad's phone 08:00 PT. Scheduled tasks between 06:00 and 09:00 PT can fire
+late (52 minutes on 2026-11-13), which is why the first net is a timer inside the session. Brad is only
 pinged when both sessions failed. The old alert-only broker check
 (`trig_01Vog3pw1jWDJhBzW9Z1uV8w`, bound to the first standby session) is switched off.
 

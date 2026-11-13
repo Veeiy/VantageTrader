@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-13T15:50:00Z",
+ "as_of": "2026-11-13T15:39:00Z",
  "what": "Real option marks for the three flies priced at the 11:47 PT sweep on 2026-11-12 and not entered (edge gate). Exit rule for scoring: the 06:45 PT marks on 2026-11-13.",
  "sources": [
   "get_option_historicals 5minute bars 14:30Z to 15:35Z (bar open prices; option bars are marks, not trades)",

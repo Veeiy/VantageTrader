@@ -113,7 +113,8 @@ def test_p011_helper_at_the_money_is_unchanged():
 
 @pytest.mark.parametrize("ratio,band", [
     (0.50, "tight"), (0.70, "tight"), (0.7001, "final_sweep"), (0.85, "final_sweep"),
-    (0.8501, "no_edge"), (1.2499, "no_edge"), (1.25, "long_straddle_off"), (2.0, "long_straddle_off"),
+    (0.8501, "near_miss"), (1.10, "near_miss"), (1.1001, "no_edge"),
+    (1.2499, "no_edge"), (1.25, "long_straddle_off"), (2.0, "long_straddle_off"),
 ])
 def test_edge_band_boundaries(ratio, band):
     assert gate.edge_band(ratio, cfg()) == band
@@ -126,8 +127,8 @@ def _moves_for(ratio):
 
 
 @pytest.mark.parametrize("ratio,passed,reason", [
-    (0.69, True, None), (0.84, True, None), (0.86, False, "no_edge"),
-    (1.24, False, "no_edge"), (1.26, False, "long_straddle_off"),
+    (0.69, True, None), (0.84, True, None), (0.86, True, None), (1.09, True, None),
+    (1.11, False, "no_edge"), (1.24, False, "no_edge"), (1.26, False, "long_straddle_off"),
 ])
 def test_edge_gate(ratio, passed, reason):
     rec, code = run(cand(hist_moves=_moves_for(ratio), regime_20d=0.001))
@@ -451,3 +452,49 @@ def test_exit_check_needs_buying_power():
 def test_exit_buyback_mult_cannot_be_loosened():
     with pytest.raises(ConfigError):
         cfg(exit_buyback_mult=0.9)
+
+
+# ---- near-miss tier (rules v1.10, 2026-11-13) ----
+
+def test_near_miss_tier_trades_at_half_size():
+    # v1.8 target on $1,339: $267.80 -> 5 contracts of $50.64. The tier halves it: $133.90 -> 3.
+    core, code = gate.evaluate(cand(open_risk_usd=0, phase="final"), cfg(), [])
+    assert code == 0 and core["tier"] == "core" and core["contracts"] == 5
+    rec, code = gate.evaluate(cand(open_risk_usd=0, phase="final", hist_moves=_moves_for(0.95),
+                                   regime_20d=0.001), cfg(), [])
+    assert code == 0 and rec["action"] == "sell"
+    assert rec["band"] == "near_miss" and rec["tier"] == "near_miss"
+    assert rec["sizing"]["target"] == pytest.approx(133.9) and rec["contracts"] == 3
+    assert rec["risk"]["name_risk_cap"] == pytest.approx(175.0)
+    assert "half size" in rec["reason"]
+    assert g(rec, "edge_ratio")["limit"] == pytest.approx(1.10)
+
+
+def test_near_miss_tier_halves_the_name_cap():
+    # one contract of this fly risks about $250 at the floor: fine for a core name, too much for the tier
+    fly = dict(wings={"call_strike": 16.0, "put_strike": 8.0,
+                      "call": {"bid": 0.08, "ask": 0.12}, "put": {"bid": 0.04, "ask": 0.08}})
+    core, code = gate.evaluate(cand(open_risk_usd=0, phase="final", **fly), cfg(), [])
+    assert code == 0 and core["contracts"] == 1 and 175.0 < core["max_loss"]["per_contract_floor"] <= 350.0
+    rec, code = gate.evaluate(cand(open_risk_usd=0, phase="final", hist_moves=_moves_for(0.95),
+                                   regime_20d=0.001, **fly), cfg(), [])
+    assert code == 3 and rec["band"] == "near_miss" and "name_risk_cap" in rec["blocked_by"]
+    assert rec["contracts"] == 0
+
+
+def test_near_miss_tier_keeps_every_other_gate():
+    rec, code = gate.evaluate(cand(phase="final", hist_moves=_moves_for(0.95), regime_20d=0.001,
+                                   prev_close=11.0), cfg(), [])           # up 10.6% on the day
+    assert code == 3 and g(rec, "edge_ratio")["pass"] is True and g(rec, "intraday")["pass"] is False
+
+
+def test_near_miss_tier_can_be_switched_off_and_not_widened():
+    rec, code = gate.evaluate(cand(phase="final", hist_moves=_moves_for(0.95), regime_20d=0.001),
+                              cfg(near_miss_max_ratio=0.85), [])
+    assert code == 3 and rec["reason"] == "no_edge" and rec["tier"] is None
+    with pytest.raises(ConfigError):
+        cfg(near_miss_max_ratio=1.2)            # above the hard cap of 1.10
+    with pytest.raises(ConfigError):
+        cfg(near_miss_max_ratio=0.80)           # under the sell gate
+    with pytest.raises(ConfigError):
+        cfg(near_miss_size_frac=0.75)           # above the hard cap of 0.5

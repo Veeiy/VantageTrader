@@ -7,6 +7,7 @@ the file. One text, under version control, read by the head and by the standby
 
 | File | Task | Id | Schedule (PT) | Source of truth |
 |---|---|---|---|---|
+| `preopen.md` | Pre-open wake: lease and exit timer | `trig_01S3WvuyCCJtpJkXCkxen4qV` | 05:52 Mon-Fri | this file |
 | `exit_scan.md` | Earnings daily: exit + scan | `trig_013Ktx56ZUVFeNtAVR475toV` | 06:45 Mon-Fri | this file |
 | `midday_scan.md` | Earnings daily: midday scan | `trig_018qBZwkxCi6h76t2PQ2ddGZ` | 09:45 Mon-Thu | this file |
 | `entry.md` | Earnings daily: ENTRY | `trig_01Qhfn5qNQaxKvQtse2nevgA` | 11:46 Mon-Thu | this file |

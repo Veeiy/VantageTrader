@@ -22,7 +22,11 @@ Clock: `TZ=America/Los_Angeles date +%H:%M` is the Pacific time used below. To w
 python3 -c "import time; time.sleep(N)" with N at most 590 and a 600000 ms timeout, and
 check the clock again.
 
-STEP 1, OPEN (at once).
+STEP 0, WAIT. If the Pacific time is before 07:15, wait until 07:15 (the desk always opens 45
+minutes after the market does; P031). If it is later, start at once and say so in the final
+message.
+
+STEP 1, OPEN (at 07:15 Pacific, or at once when started later).
 a) get_option_chains(symbol) for each name. Keep the names whose expiration_dates include
    {TODAY}. The others are skipped today (reason "no_same_day_expiry").
 b) get_equity_quotes for the kept names: spot = last_trade_price.

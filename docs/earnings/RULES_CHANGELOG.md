@@ -560,3 +560,47 @@ Decided by the agent under Brad's standing delegation of 2026-11-11. It only rem
 ### Not tested
 - Whether Robinhood refuses a buy-to-close whose cost is above the buying power. The review
   call shows no alert for it. It is treated as refused until a live order shows otherwise.
+
+## v1.10 (2026-11-13): a half-size tier for names just above the edge gate
+Decided by the agent under Brad's standing delegation of 2026-11-11, which named P019 ("for
+these iterations like p018 and p019, youre good to push"). Brad, 2026-11-12 10:19 PT, on
+AMAT, CSCO and NU: "Those 3 stocks you listed look like good trades". Live from Monday
+2026-11-16 (no earnings entries on a Friday).
+
+### Why
+- The Friday selector test on the full replay set (103 clean events, exit 10:00 ET):
+
+  | Edge ratio | Short straddle won | Mean, % of the entry straddle | 1x fly after costs | 2x fly after costs |
+  |---|---|---|---|---|
+  | 0.85 or under (what the gate lets in) | 25 of 37 | +8.3 (se 6.1) | -$9 | -$3 |
+  | 0.85 to 1.10 (blocked until today) | 22 of 26 | +20.3 (se 5.5) | +$10 | +$43 |
+  | above 1.10 | 24 of 38 | +13.6 (se 5.3) | -$1 | +$21 |
+
+  The blocked band did no worse than the band we trade. The gap (12 points, z = 1.5) is not
+  proof that it is better, and it flips between the two replay batches. Price band, implied
+  move level and report timing were tested the same way: none holds in both batches.
+- This week's blocked names in that band, scored on real prices at the planned exit: PBR
+  +$9, AMAT +$296, CSCO +$180, NU +$4 a contract. Four of four.
+- So the 0.85 line is a throttle, not a selector (P019). It kept the account out of every
+  earnings name on 2026-11-12.
+
+### Changed
+- Gate 4: an edge ratio above 0.85 and up to 1.10 passes in the band `near_miss`.
+- Size: a near-miss name gets half the name target (10% of account value instead of 20%)
+  and half the name cap ($175 of max loss at the credit floor instead of $350).
+- Every other gate applies unchanged: spread, regime, intraday move, news, macro veto,
+  circuit breaker, structure, risk budget and gate 16 (the exit must be feasible).
+- Config: `near_miss_max_ratio` 1.10 and `near_miss_size_frac` 0.5, both hard-capped at
+  those values. Setting `near_miss_max_ratio` to 0.85 switches the tier off.
+- Above 1.10 nothing changes: `no_edge`, and `long_straddle_off` from 1.25.
+
+### What it means in dollars
+- With $1,276 in the account the tier target is about $128 a name. On 2026-11-12 it would
+  have entered NU x3 (max loss $118): +$12 at the 06:45 PT exit, -$12 at 07:30 PT.
+- AMAT and CSCO stay blocked: both need more than $175 a contract and both fail gate 16.
+  Trades of that size need multi-leg orders (P005) or more buying power.
+
+### Review
+- After 10 closed tier trades or on 2026-11-25 with P019, whichever comes first: result per
+  trade after fees against the core names over the same days.
+- Off at once if the tier's first five closed trades lose more than $150 in total.

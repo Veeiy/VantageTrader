@@ -34,7 +34,8 @@ Gates (all evaluated; ``reason`` is the first failure, ``blocked_by`` lists all)
      1 blocklist          never TSLA (config blocklist)
      2 price              spot >= $10
      3 history            >= 4 past earnings moves
-     4 edge_ratio         <= 0.85; >= 1.25 -> "long_straddle_off" (never a buy)
+     4 edge_ratio         <= 0.85 at full size; above 0.85 and up to 1.10 at half size (v1.10,
+                          band "near_miss"); >= 1.25 -> "long_straddle_off" (never a buy)
      5 atm_spread         worse of the call, put and straddle (ask-bid)/mid <= 25%
      6 regime             regime_20d < 1.25 x average past earnings move
      7 intraday           |spot/prev_close - 1| <= 5%; 5-7% only with sector_same_direction
@@ -70,7 +71,10 @@ Contracts (v1.7 and v1.8, sizing.plan): sized by risk. The name's target is 20% 
 ``contracts_planned`` what the name may still add in total, ``contracts_later`` the part
 that waits for the final window (from 11:30 PT). Before the final window a name carries at
 most half its target; one contract is always allowed on a name with nothing held.
-Band: a label only since v1.5 ("tight" edge <= 0.70, "final_sweep" 0.70 to 0.85, "no_edge").
+Band: "tight" (edge <= 0.70) and "final_sweep" (0.70 to 0.85) are labels only since v1.5.
+"near_miss" (above 0.85, up to 1.10; v1.10) changes the size: the name's target and its name
+cap are both halved (``near_miss_size_frac``), every other gate applies unchanged. Above 1.10
+the band is "no_edge". The record carries ``tier``: "core", "near_miss" or None.
 
 Exit code (CLI): 0 when the candidate may be entered, 3 when blocked, 2 on bad input.
 Nothing here places orders or reads the market.
@@ -122,7 +126,17 @@ def edge_band(ratio: float | None, cfg: dict[str, Any]) -> str | None:
         return "tight"
     if ratio <= cfg["sell_max_ratio"] + EPS:
         return "final_sweep"
+    if ratio <= cfg["near_miss_max_ratio"] + EPS:
+        return "near_miss"
     return "no_edge"
+
+
+SELL_BANDS = ("tight", "final_sweep", "near_miss")
+
+
+def size_frac(band: str | None, cfg: dict[str, Any]) -> float:
+    """Share of the name target and of the name cap this band may use (v1.10)."""
+    return float(cfg["near_miss_size_frac"]) if band == "near_miss" else 1.0
 
 
 def spread_pcts(call: tuple[float, float], put: tuple[float, float]) -> dict[str, float]:
@@ -345,8 +359,12 @@ def evaluate(raw: Any, cfg: dict[str, Any], journal_events: list[dict[str, Any]]
             note="no implied move: body straddle at or below intrinsic, or no history",
             reason="bad_quotes" if implied is None else "insufficient_history")
     else:
-        add("edge_ratio", band in ("tight", "final_sweep"), round(edge, 4), cfg["sell_max_ratio"],
-            note=f"band {band}", reason="long_straddle_off" if band == "long_straddle_off" else "no_edge")
+        add("edge_ratio", band in SELL_BANDS, round(edge, 4),
+            cfg["near_miss_max_ratio"] if band == "near_miss" else cfg["sell_max_ratio"],
+            note=(f"band {band}" + (f": above {cfg['sell_max_ratio']}, traded at "
+                                    f"{cfg['near_miss_size_frac']} of the normal size (v1.10)"
+                                    if band == "near_miss" else "")),
+            reason="long_straddle_off" if band == "long_straddle_off" else "no_edge")
     # 5 spread
     add("atm_spread", sp["worst"] <= cfg["max_spread_pct"] + EPS, round(sp["worst"], 4), cfg["max_spread_pct"],
         note=(f"straddle {sp['straddle']:.4f}, call {sp['call']:.4f}, put {sp['put']:.4f}; "
@@ -405,8 +423,11 @@ def evaluate(raw: Any, cfg: dict[str, Any], journal_events: list[dict[str, Any]]
     ml_unit = f["max_loss_floor"] if f is not None and f["valid"] and f["max_loss_floor"] > 0 else None
     # above the 12% spread band the name cap is the tighter of the two limits (both $350 today)
     name_cap = min(cfg["name_risk_cap"], cfg["wide_spread_max_loss"]) if wide else cfg["name_risk_cap"]
+    # v1.10: a near-miss name (edge above the sell gate) works with half the target and half the cap
+    frac = size_frac(band, cfg)
+    name_cap = round(name_cap * frac, 2)
     plan = sizing.plan(ml_unit, reserve, c["account_value"], c["open_risk_usd"],
-                       dict(cfg, name_risk_cap=name_cap),
+                       dict(cfg, name_risk_cap=name_cap, name_risk_frac=cfg["name_risk_frac"] * frac),
                        held_qty=held_qty, held_max_loss=held_ml, phase=phase)
     qty = plan["now"]
     # 16 exit feasibility (v1.9), worked out here because it can cut the contract count.
@@ -443,7 +464,8 @@ def evaluate(raw: Any, cfg: dict[str, Any], journal_events: list[dict[str, Any]]
         name_ml, name_cap,
         note=(f"target {plan['target']} (phase {phase}): planned {plan['planned']} more, {plan['now']} now, "
               f"{plan['later']} later; held {held_qty} with max loss {held_ml}"
-              + (f"; spread above {cfg['wide_spread_pct']}" if wide else "")),
+              + (f"; spread above {cfg['wide_spread_pct']}" if wide else "")
+              + (f"; near-miss tier: {frac} of the target and of the cap" if band == "near_miss" else "")),
         reason=("name_risk_cap" if name_ml is not None and name_ml > name_cap + EPS
                 else (plan["binding"] or "name_risk_cap")))
     # 15 risk budget
@@ -467,9 +489,12 @@ def evaluate(raw: Any, cfg: dict[str, Any], journal_events: list[dict[str, Any]]
     action = "no_trade" if failures else "sell"
     record: dict[str, Any] = {
         "symbol": c["symbol"], "timing": c["timing"], "action": action,
-        "reason": failures[0]["reason"] if failures else "passes: may be entered at any check-in on its entry day (v1.5)",
+        "reason": failures[0]["reason"] if failures else (
+            "passes: may be entered at any check-in on its entry day (v1.5)"
+            + (" at half size (near-miss tier, v1.10)" if band == "near_miss" else "")),
         "blocked_by": list(dict.fromkeys(g["reason"] for g in failures)),
         "band": band,
+        "tier": "near_miss" if band == "near_miss" else ("core" if band in SELL_BANDS else None),
         "metrics": {
             "spot": spot, "prev_close": c["prev_close"], "K": k, "intraday_move": round(intraday, 6),
             "avg_hist_move": avg, "n_hist": len(moves), "implied": im,

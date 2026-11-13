@@ -62,6 +62,8 @@ DEFAULTS: dict[str, Any] = {
     "history_lookback": 12,
     "sell_max_ratio": 0.85,
     "tight_max_ratio": 0.70,         # v1.5: edge ratio at or under this may be entered early
+    "near_miss_max_ratio": 1.10,     # v1.10: edge ratio above sell_max_ratio and up to this is tradable at reduced size
+    "near_miss_size_frac": 0.5,      # v1.10: share of the name target and of the name cap a near-miss name may use
     "buy_min_ratio": 1.25,           # long straddles are OFF (P010): this only labels "long_straddle_off"
     "min_ev_per_dollar_risk": 0.0,
     # --- structures ---
@@ -128,6 +130,8 @@ HARD_CAPS: dict[str, tuple[str, float]] = {
     "max_quantity": ("max", 10),
     "name_risk_frac": ("max", 0.27),    # the $350 name cap is the binding owner limit
     "name_risk_cap": ("max", 350.0),
+    "near_miss_max_ratio": ("max", 1.10),   # v1.10: the reduced-size tier may not reach further
+    "near_miss_size_frac": ("max", 0.5),    # ... and may not be sized above half
     "early_tranche_frac": ("max", 1.0),
     "add_center_frac": ("max", 0.5),
     "exit_buyback_mult": ("min", 1.0),   # the exit check may only be made stricter
@@ -143,7 +147,7 @@ _NUMERIC = {
     "min_price", "max_spread_pct", "max_intraday_move", "straddle_factor",
     "wide_spread_pct", "wide_spread_max_loss", "max_intraday_move_sector", "regime_mult",
     "tight_max_ratio", "name_risk_frac", "name_risk_cap", "early_tranche_frac", "add_center_frac",
-    "exit_buyback_mult",
+    "exit_buyback_mult", "near_miss_max_ratio", "near_miss_size_frac",
     "sell_max_ratio", "buy_min_ratio", "min_ev_per_dollar_risk", "max_loss_abs",
     "max_loss_bp_frac", "tick", "step_small", "step_large", "step_threshold",
     "credit_floor_mid_frac", "debit_ceiling_mid_frac", "min_account_value",
@@ -162,6 +166,7 @@ _POSITIVE = {
     "max_quantity", "max_consecutive_max_loss", "wide_spread_pct", "wide_spread_max_loss",
     "max_intraday_move_sector", "regime_mult", "tight_max_ratio",
     "name_risk_frac", "name_risk_cap", "early_tranche_frac", "add_center_frac", "exit_buyback_mult",
+    "near_miss_max_ratio", "near_miss_size_frac",
     "max_consecutive_losses", "max_spread_pct", "max_intraday_move", "max_loss_tolerance",
     "straddle_take_profit", "calibrate_min_trades", "max_expiry_days_after_report",
 }
@@ -251,6 +256,12 @@ def validate(cfg: dict[str, Any]) -> dict[str, Any]:
         raise ConfigError("sell_max_ratio must be < buy_min_ratio")
     if out["tight_max_ratio"] > out["sell_max_ratio"]:
         raise ConfigError("tight_max_ratio must be <= sell_max_ratio")
+    # v1.10: the near-miss tier sits between the sell gate and the long-straddle label.
+    # near_miss_max_ratio == sell_max_ratio switches the tier off.
+    if out["near_miss_max_ratio"] < out["sell_max_ratio"]:
+        raise ConfigError("near_miss_max_ratio must be >= sell_max_ratio (equal switches the tier off)")
+    if out["near_miss_max_ratio"] >= out["buy_min_ratio"]:
+        raise ConfigError("near_miss_max_ratio must be < buy_min_ratio")
     if out["wide_spread_pct"] > out["max_spread_pct"]:
         raise ConfigError("wide_spread_pct must be <= max_spread_pct")
     if out["max_intraday_move"] > out["max_intraday_move_sector"]:

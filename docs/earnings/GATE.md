@@ -21,7 +21,7 @@ streaks.
 | 1 | blocklist | symbol not in the blocklist (TSLA always) |
 | 2 | price | spot >= $10 |
 | 3 | history | at least 4 past earnings moves |
-| 4 | edge_ratio | avg abs past move / (0.85 x ATM-equivalent straddle / spot) <= 0.85; at 1.25 or more the reason is `long_straddle_off` (never a buy) |
+| 4 | edge_ratio | avg abs past move / (0.85 x ATM-equivalent straddle / spot) <= 0.85 at full size; above 0.85 and up to 1.10 at half size (v1.10, band `near_miss`); above 1.10 `no_edge`; at 1.25 or more `long_straddle_off` (never a buy) |
 | 5 | atm_spread | (ask - bid) / mid <= 25% for the call, the put and the straddle (the worst of the three is used) |
 | 6 | regime | 20-session avg abs daily move < 1.25 x avg past earnings move |
 | 7 | intraday | abs(spot / prev_close - 1) <= 5%; 5% to 7% only with `sector_same_direction: true` and no stock-news flag; above 7% blocks |
@@ -36,8 +36,14 @@ streaks.
 | 16 | exit_feasible | v1.9: one in-the-money short leg with the stock at its wing costs about 1.1 x wing width x 100; that must fit the buying power left after the entry (`buying_power` - contracts x max loss at the floor). Contracts are cut to what fits. No `buying_power` given = blocked |
 
 Band (a label only since P020, 2026-11-11: any passing name may be entered at any check-in
-on its entry day): `tight` (edge <= 0.70), `final_sweep` (0.70 to 0.85), `no_edge` (above
-0.85), `long_straddle_off` (1.25 or more).
+on its entry day): `tight` (edge <= 0.70), `final_sweep` (0.70 to 0.85), `near_miss` (above
+0.85, up to 1.10), `no_edge` (above 1.10), `long_straddle_off` (1.25 or more).
+
+Near-miss tier (rules v1.10, 2026-11-13): the band `near_miss` is the one band that changes
+the size. The name's target is 10% of account value instead of 20% and its name cap is $175
+instead of $350 (gate 14 shows the halved cap). The record carries `"tier": "near_miss"`
+and the pass reason says "at half size". All other gates are the same. Journal and
+live-metrics records of a tier trade carry `tier: "near_miss"` so the review can split them.
 
 Contracts (rules v1.7 and v1.8, `sizing.plan`): sized by risk. The name's target is a max loss of
 20% of account value (12% until v1.8), never above $350; new contracts are (target - max loss held) / max
