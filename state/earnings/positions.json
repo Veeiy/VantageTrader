@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-13T18:16:33Z",
+ "as_of": "2026-11-13T19:15:51Z",
  "account_value": 1275.91,
  "cap_total_max_loss": 1275.91,
  "execution": {
@@ -479,6 +479,32 @@
     "pnl_mid_usd": 53.5,
     "pnl_conservative_usd": 48.5,
     "decision": "hold (take profit at 0.33, cut at 0.86)"
+   },
+   "check_2026-11-13_1115": {
+    "spot": 13.105,
+    "legs": {
+     "13C": [
+      0.41,
+      0.49
+     ],
+     "13P": [
+      0.29,
+      0.35
+     ],
+     "14C": [
+      0.14,
+      0.15
+     ],
+     "12P": [
+      0.05,
+      0.14
+     ]
+    },
+    "close_cost_mid": 0.53,
+    "close_cost_conservative": 0.555,
+    "pnl_mid_usd": 61.0,
+    "pnl_conservative_usd": 48.5,
+    "decision": "hold (take profit at 0.33, cut at 0.86)"
    }
   }
  ],
@@ -689,7 +715,8 @@
   "check_2026-11-13_0812": "All five still show a zero bid and are out of the money (RGTI 9.585, FLY 24.16, LUNR 12.38). No shares in the account.",
   "check_2026-11-13_0834": "All five still zero bid and out of the money (RGTI 9.685, FLY 24.32, LUNR 12.44). No shares, no orders.",
   "check_2026-11-13_0915": "All five still zero bid and out of the money (RGTI 9.605, 0.61 above the 9 put; FLY 24.30; LUNR 12.37). No shares, no orders.",
-  "check_2026-11-13_1016": "All five still show a zero bid and are out of the money (RGTI 9.57: 15C and 9P; FLY 24.64: 19P; LUNR 12.46: 10P x2). RGTI is down 7.4% on the day and 0.57 above the 9 put: the one to watch. No resting sell order placed (a 0.01 offer would give the put away if RGTI falls); the monitor reports a bid or a strike reached, and a put with a bid is sold before 11:00 PT."
+  "check_2026-11-13_1016": "All five still show a zero bid and are out of the money (RGTI 9.57: 15C and 9P; FLY 24.64: 19P; LUNR 12.46: 10P x2). RGTI is down 7.4% on the day and 0.57 above the 9 put: the one to watch. No resting sell order placed (a 0.01 offer would give the put away if RGTI falls); the monitor reports a bid or a strike reached, and a put with a bid is sold before 11:00 PT.",
+  "check_2026-11-13_1115": "Past 11:00 PT and all five still show a zero bid, so none can be sold; all are out of the money (RGTI 9.675: 15C and 9P; FLY 25.25: 19P; LUNR 12.75: 10P x2). They expire worthless at the close unless RGTI falls 0.68 to the 9 put, in which case the put gets a bid and is sold."
  },
  "closed_2026-11-12": [
   {
