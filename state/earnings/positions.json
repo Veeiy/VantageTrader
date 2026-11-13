@@ -541,9 +541,9 @@
  ],
  "pending": [
   {
-   "when": "2026-11-13 12:15 PT check-in",
-   "what": "Paper only, no orders: price one iron fly each on BIDU, TSN, BEKE and ARMK (they report Mon 2026-11-16 before the open; confirm the timing with get_earnings_results), body at the strike nearest spot, wings nearest 1.5x the straddle, expiry Nov 20. Record them as paper records FRI-<SYM>-20261113-P1 in live_metrics.jsonl (kind earnings_friday_entry) and score them at the Monday morning run at the first liquid quotes. Purpose: evidence on the rule 'no earnings entries on Fridays' (replay: 3 events, straddle kept 81% after the report).",
-   "asked_by": "agent; Brad 08:15 PT asked 'Scouting any good trades today?'"
+   "when": "Mon 2026-11-16: the morning run at the first liquid quotes (06:38 to 06:45 PT), after any live exit; second mark at the 07:15 PT hourly run",
+   "what": "Paper only, no orders: score the four Friday-entry paper flies FRI-BIDU/TSN/BEKE/ARMK-20261113-P1 (leg ids and the scoring recipe are in their records in state/earnings/live_metrics.jsonl under paper_plan; BIDU also has alt_fly_wider). Write one result record per fly (pnl_mid_usd, pnl_natural_usd, straddle_kept, realized_move, beyond_breakeven) and tell Brad in the morning message. Only BIDU counts as evidence on the Friday rule (the gate would have sold it); the other three were blocked by spread or edge and are reference only.",
+   "asked_by": "agent, 2026-11-13 (Brad 08:15 PT: 'Scouting any good trades today?')"
   }
  ],
  "buying_power": 1040.91,
@@ -743,7 +743,8 @@
   "check_2026-11-13_0915": "All five still zero bid and out of the money (RGTI 9.605, 0.61 above the 9 put; FLY 24.30; LUNR 12.37). No shares, no orders.",
   "check_2026-11-13_1016": "All five still show a zero bid and are out of the money (RGTI 9.57: 15C and 9P; FLY 24.64: 19P; LUNR 12.46: 10P x2). RGTI is down 7.4% on the day and 0.57 above the 9 put: the one to watch. No resting sell order placed (a 0.01 offer would give the put away if RGTI falls); the monitor reports a bid or a strike reached, and a put with a bid is sold before 11:00 PT.",
   "check_2026-11-13_1115": "Past 11:00 PT and all five still show a zero bid, so none can be sold; all are out of the money (RGTI 9.675: 15C and 9P; FLY 25.25: 19P; LUNR 12.75: 10P x2). They expire worthless at the close unless RGTI falls 0.68 to the 9 put, in which case the put gets a bid and is sold.",
-  "check_2026-11-13_1216": "45 minutes before the close all five still show a zero bid and are out of the money (RGTI 9.695: 15C and 9P; FLY 25.68: 19P; LUNR 13.045: 10P x2). Nothing to sell. They expire worthless tonight; confirm at Monday's first run that they are gone from the positions."
+  "check_2026-11-13_1216": "45 minutes before the close all five still show a zero bid and are out of the money (RGTI 9.695: 15C and 9P; FLY 25.68: 19P; LUNR 13.045: 10P x2). Nothing to sell. They expire worthless tonight; confirm at Monday's first run that they are gone from the positions.",
+  "monday_check": "At the first run on Mon 2026-11-16 confirm the five expired wings are gone from get_option_positions and no shares appeared, then delete this block."
  },
  "closed_2026-11-12": [
   {
