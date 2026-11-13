@@ -279,6 +279,42 @@
      ]
     },
     "flow_note": "The 14 call traded 14,126 contracts on the day (201 by midday) and the 13 call 2,886: late call buying, in line with the special-session story. Upper breakeven 13.65."
+   },
+   "projection_2026-11-12": {
+    "made_at": "2026-11-13T01:10Z",
+    "method": "Black-Scholes, today's skew kept, 5 contracts, at mid before exit costs",
+    "tue_11_17_close_usd": {
+     "iv_0.54": {
+      "12.6": 53,
+      "12.8": 82,
+      "13.0": 96,
+      "13.2": 93,
+      "13.4": 74
+     },
+     "iv_0.40": {
+      "12.6": 84,
+      "12.8": 127,
+      "13.0": 144,
+      "13.2": 132,
+      "13.4": 97
+     },
+     "iv_0.30": {
+      "12.6": 106,
+      "12.8": 164,
+      "13.0": 186,
+      "13.2": 165,
+      "13.4": 111
+     }
+    },
+    "at_a_breakeven_usd": [
+     0,
+     36
+    ],
+    "beyond_a_wing_usd": -174,
+    "take_profit_usd": 161,
+    "base_case_usd": 130,
+    "weighted_usd": 70,
+    "note": "Base case: stock 12.8 to 13.2 on Tuesday with IV near 40% once the Nov 15 bill deadline has passed. Weighted figure allows about 15% for a special session being called."
    }
   }
  ],

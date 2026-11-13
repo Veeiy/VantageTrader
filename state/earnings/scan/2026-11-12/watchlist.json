@@ -769,5 +769,49 @@
   },
   "owner_note": "Brad, 10:19 PT: 'Those 3 stocks you listed look like good trades'. The agent answered with the three flies and its reasons against (10:25 PT) and offered an owner-directed entry on his word; no instruction to enter came before the sweep.",
   "decision": "No entry on 2026-11-12. All three are blocked by the edge gate; AMAT and CSCO also fail the exit check (v1.9), CSCO also the $350 name cap."
+ },
+ "after_hours_1707": {
+  "as_of": "2026-11-13T01:07Z (17:07 PT on 11/12)",
+  "why": "Brad, 17:05 PT: 'What did you open for trades today? And what are you projecting?' Nothing was opened on 11/12; this is the paper read on the three blocked names.",
+  "prices": {
+   "AMAT": {
+    "close": 380.95,
+    "after_hours": 382.5
+   },
+   "CSCO": {
+    "close": 102.01,
+    "after_hours": 101.65
+   },
+   "NU": {
+    "close": 11.83,
+    "after_hours": 12.21
+   }
+  },
+  "paper_estimate_at_fri_0645_exit_usd": {
+   "AMAT_365_380_395_x1": {
+    "low": 247,
+    "mid": 358,
+    "high": 516,
+    "at_expiry_if_unchanged": 990,
+    "max_loss": 325
+   },
+   "CSCO_93_103_113_x1": {
+    "low": 381,
+    "mid": 448,
+    "high": 490,
+    "at_expiry_if_unchanged": 543,
+    "max_loss": 376
+   },
+   "NU_11_12_13_per_contract": {
+    "low": 19,
+    "mid": 27,
+    "high": 34,
+    "at_expiry_if_unchanged": 45,
+    "max_loss": 39.28,
+    "contracts_at_20pct_target": 6
+   }
+  },
+  "method": "Black-Scholes at the sweep credits, stock at tonight's after-hours price, 6.25 trading hours left, three post-report vols per name. Rough: the real score comes from option prices at the 11/13 open.",
+  "note": "On these prices all three would have won. AMAT and CSCO still fail the exit check (v1.9) and together would have used about $700 of the $1,000 cap."
  }
 }
