@@ -60,7 +60,22 @@
 
 ## For Brad
 1. The repo is public. Make it private when you have a minute.
-2. Robinhood: ask support when agents can place multi-leg option orders. That one change
-   removes the legging cost and opens names like AMAT and CSCO.
+2. Robinhood multi-leg orders: nothing to do. Brad, 08:15 PT: "Dont think robinhood supports
+   multileg trading with mcp atleast not yet." Parked (P005); one retry every Friday.
 3. NVDA 11/17 earnings trade is on hold since the CEO resigned. "NVDA on" re-enables it.
 4. P017 (live same-day flies) comes to you after 10 paper sessions (3 done by today's close).
+
+## Later on Nov 13 (owner decisions after the scorecard)
+- v1.11, 07:53 PT: the total risk limit is the whole account ($1,275.91 that morning; it was $1,000).
+- v1.12, 08:15 PT: a non-earnings name may risk up to $400 (it was $200). No add to PCG that
+  day: priced at about +$9 to +$17 a contract if nothing happens against $44 if the special
+  session is called over the weekend.
+- Brad on the week: "you've made good judgements. The big loss was the trade that I forced
+  with nvdia". Noted with two of the agent's own misses on that trade: the cut plan could not
+  be placed at the open, and legging out cost about $20.
+- Friday entries stay off. Four liquid names report Monday before the open (BIDU, TSN, BEKE,
+  ARMK). In the replay a fly held over a weekend into a report kept 81% of its straddle
+  after the report (61% for Monday to Thursday entries) and the three such events averaged a
+  loss. Too few to settle it: the four are priced on paper at the 12:15 PT check and scored
+  on Monday morning.
+- Visual page for this scorecard: a private artifact in Brad's account (link in the chat).

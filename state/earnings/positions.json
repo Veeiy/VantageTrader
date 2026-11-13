@@ -408,7 +408,13 @@
   "2026-11-12 06:41 PT: retried a multi-leg order (4-leg close of the NVDA fly). Still refused: 'this account requires the customer to approve agent-placed trades, and a multi-leg strategy cannot be sent for approval yet \u2014 the order was NOT placed; place it in the Robinhood app, or place one-leg orders instead'. review_option_order accepts the same order; only placement is blocked.",
   "2026-11-13 07:48 PT (Friday retry): a 4-leg closing order for PCG x5 at a 0.33 net debit (the take-profit level). review_option_order: no alerts, customer_approval_required false, fees $0.80. place_option_order: refused with the same text as on 11/12 ('a multi-leg strategy cannot be sent for approval yet'). get_trade_approval_setting shows human_must_approve_trades false since 2026-11-10, so this is not a switch Brad can flip in the app: it is a product limit on agent multi-leg orders (P005). Nothing was placed."
  ],
- "pending": [],
+ "pending": [
+  {
+   "when": "2026-11-13 12:15 PT check-in",
+   "what": "Paper only, no orders: price one iron fly each on BIDU, TSN, BEKE and ARMK (they report Mon 2026-11-16 before the open; confirm the timing with get_earnings_results), body at the strike nearest spot, wings nearest 1.5x the straddle, expiry Nov 20. Record them as paper records FRI-<SYM>-20261113-P1 in live_metrics.jsonl (kind earnings_friday_entry) and score them at the Monday morning run at the first liquid quotes. Purpose: evidence on the rule 'no earnings entries on Fridays' (replay: 3 events, straddle kept 81% after the report).",
+   "asked_by": "agent; Brad 08:15 PT asked 'Scouting any good trades today?'"
+  }
+ ],
  "buying_power": 1040.91,
  "risk": {
   "total_max_loss_usd": 174,
