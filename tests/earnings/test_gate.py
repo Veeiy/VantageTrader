@@ -40,6 +40,8 @@ def cand(base=LUNR, **over):
 
 def run(c, events=None, **cfg_over):
     cfg_over.setdefault("name_risk_frac", 0.12)      # these cases were written at the v1.7 target
+    cfg_over.setdefault("max_loss_abs", 1000.0)      # ... and at the pre-v1.11 total cap,
+    cfg_over.setdefault("max_loss_bp_frac", 0.93)    # min($1,000, 0.93 x account value)
     return gate.evaluate(c, cfg(**cfg_over), events or [])
 
 
@@ -498,3 +500,27 @@ def test_near_miss_tier_can_be_switched_off_and_not_widened():
         cfg(near_miss_max_ratio=0.80)           # under the sell gate
     with pytest.raises(ConfigError):
         cfg(near_miss_size_frac=0.75)           # above the hard cap of 0.5
+
+
+# ---- rules v1.11 (2026-11-13): the total cap is the whole account ----
+
+def test_v111_total_cap_is_the_whole_account():
+    rec, code = gate.evaluate(cand(open_risk_usd=172, phase="final"), cfg(), [])
+    assert code == 0 and rec["risk"]["risk_cap"] == pytest.approx(1339.0)
+    assert rec["risk"]["budget_before"] == pytest.approx(1167.0)
+    # $1,100 already at risk: over the old $1,000 ceiling, still inside the account
+    rec, code = gate.evaluate(cand(open_risk_usd=1100, phase="final", buying_power=1180.0), cfg(), [])
+    assert code == 0 and rec["contracts"] == 2               # budget 239 / (50.64 + 50)
+    assert g(rec, "risk_budget")["pass"] is True
+    # nothing may be added once the account itself is fully at risk
+    rec, code = gate.evaluate(cand(open_risk_usd=1339, phase="final"), cfg(), [])
+    assert code == 3 and rec["contracts"] == 0
+
+
+def test_v111_a_dollar_ceiling_can_still_be_set():
+    rec, _ = gate.evaluate(cand(open_risk_usd=172, phase="final"), cfg(max_loss_abs=1000.0), [])
+    assert rec["risk"]["risk_cap"] == 1000.0
+    with pytest.raises(ConfigError):
+        cfg(max_loss_bp_frac=1.01)                           # never more than the account
+    with pytest.raises(ConfigError):
+        cfg(max_loss_abs=-5)

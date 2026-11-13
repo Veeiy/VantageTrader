@@ -43,7 +43,7 @@ Intraday: |intraday_move| <= 5%; 5-7% only with candidate ``sector_same_directio
 Regime guard: applied when the candidate carries ``regime_20d`` (the ``gate`` command
   requires it): regime_20d must be < regime_mult (1.25) x avg_hist_move.
 Flags: any flag skips, except ``big_intraday_move`` (a price fact the intraday gate covers).
-Risk cap: min(max_loss_abs $1,000, 0.93 x account.total_value) minus
+Risk cap: the account's total_value since v1.11 (an optional max_loss_abs ceiling applies) minus
   ``account.open_risk_usd`` (max loss + exit reserves of positions already open; required
   when ``open_positions`` is not empty). Quantity: contracts by risk, as in the ``gate``
   command (rules v1.7 and v1.8): the name's target max loss decides the count, up to

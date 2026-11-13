@@ -104,7 +104,7 @@ report_date; expiry not on a `market_early_closes` day.
 - `limit_floor` = worst acceptable price (credit: lowest credit; debit: highest debit).
 - `max_loss_worst` = loss if filled at `limit_floor`; always <= `risk_cap` -
   `exit_slippage_reserve` x quantity.
-- `risk_cap` = min(`max_loss_abs` $1,000, `max_loss_bp_frac` x total_value) - `open_risk_usd`
+- `risk_cap` = `max_loss_bp_frac` (1.0 since rules v1.11) x total_value, under an optional `max_loss_abs` ceiling, - `open_risk_usd`
   (the budget left for this entry; `risk_cap_total` is the cap before open risk). Above a
   12% ATM spread the candidate's `max_loss_worst` is also capped at $350. Long straddles
   are off: `order.structure` is always `iron_fly`.

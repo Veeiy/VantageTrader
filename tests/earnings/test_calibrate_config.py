@@ -67,7 +67,8 @@ def test_empty_config_gives_defaults(tmp_path):
     p = tmp_path / "e.yaml"
     p.write_text("")
     c = load_config(p)
-    assert c["max_loss_abs"] == 1000.0 and c["blocklist"] == ["TSLA"] and c["min_history"] == 4
+    assert c["max_loss_abs"] is None and c["max_loss_bp_frac"] == 1.0     # v1.11: the whole account
+    assert c["blocklist"] == ["TSLA"] and c["min_history"] == 4
 
 
 def test_repo_config_matches_defaults():
@@ -84,8 +85,9 @@ def test_missing_config_file():
 
 @pytest.mark.parametrize("bad", [
     {"max_los_abs": 500},
-    {"max_loss_abs": 1200},
-    {"max_loss_bp_frac": 0.99},
+    {"max_loss_abs": -1},
+    {"max_loss_abs": "all"},
+    {"max_loss_bp_frac": 1.01},
     {"max_open_positions": 2},
     {"min_price": 5},
     {"max_spread_pct": 0.3},

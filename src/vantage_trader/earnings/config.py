@@ -69,8 +69,11 @@ DEFAULTS: dict[str, Any] = {
     # --- structures ---
     "wing_widths_pct": [0.05, 0.075, 0.10, 0.125],
     # --- risk / sizing ---
-    "max_loss_abs": 1000.0,          # 2026-11-11: total risk cap min($1,000, 0.93 x account value)
-    "max_loss_bp_frac": 0.93,
+    # v1.11 (owner, 2026-11-13: "I want you to be able to use the entire funds in the mcp account"):
+    # the total risk cap is the whole account value. max_loss_abs None = no dollar ceiling;
+    # a number here puts one back (min of the two applies).
+    "max_loss_abs": None,
+    "max_loss_bp_frac": 1.0,
     "max_quantity": 10,              # v1.7: most contracts one name may hold (hard cap 10)
     "name_risk_frac": 0.20,          # v1.8: max loss one name should carry, as a share of account value (was 0.12 in v1.7)
     "name_risk_cap": 350.0,          # max loss per name at the credit floor (owner limit, hard cap $350)
@@ -122,8 +125,7 @@ def norm_symbol(s: Any) -> str:
 
 # key -> (direction, limit). "max": value must be <= limit. "min": value must be >= limit.
 HARD_CAPS: dict[str, tuple[str, float]] = {
-    "max_loss_abs": ("max", 1000.0),
-    "max_loss_bp_frac": ("max", 0.93),
+    "max_loss_bp_frac": ("max", 1.0),    # v1.11: never more than the account itself (defined risk, no leverage)
     "max_spread_pct": ("max", 0.25),
     "wide_spread_pct": ("max", 0.12),
     "wide_spread_max_loss": ("max", 350.0),
@@ -148,7 +150,7 @@ _NUMERIC = {
     "wide_spread_pct", "wide_spread_max_loss", "max_intraday_move_sector", "regime_mult",
     "tight_max_ratio", "name_risk_frac", "name_risk_cap", "early_tranche_frac", "add_center_frac",
     "exit_buyback_mult", "near_miss_max_ratio", "near_miss_size_frac",
-    "sell_max_ratio", "buy_min_ratio", "min_ev_per_dollar_risk", "max_loss_abs",
+    "sell_max_ratio", "buy_min_ratio", "min_ev_per_dollar_risk",
     "max_loss_bp_frac", "tick", "step_small", "step_large", "step_threshold",
     "credit_floor_mid_frac", "debit_ceiling_mid_frac", "min_account_value",
     "max_loss_tolerance", "straddle_take_profit", "exit_slippage_reserve",
@@ -160,7 +162,7 @@ _INT = {
     "max_expiry_days_after_report",
 }
 _POSITIVE = {
-    "min_price", "straddle_factor", "sell_max_ratio", "buy_min_ratio", "max_loss_abs",
+    "min_price", "straddle_factor", "sell_max_ratio", "buy_min_ratio",
     "max_loss_bp_frac", "tick", "step_small", "step_large", "step_threshold",
     "credit_floor_mid_frac", "debit_ceiling_mid_frac", "min_history", "history_lookback",
     "max_quantity", "max_consecutive_max_loss", "wide_spread_pct", "wide_spread_max_loss",
@@ -200,6 +202,11 @@ def validate(cfg: dict[str, Any]) -> dict[str, Any]:
         if not _is_number(out[k]):
             raise ConfigError(f"{k} must be a number, got {out[k]!r}")
         out[k] = float(out[k])
+    # optional dollar ceiling on the total risk cap (None = the account value is the only limit, v1.11)
+    if out["max_loss_abs"] is not None:
+        if not _is_number(out["max_loss_abs"]) or float(out["max_loss_abs"]) <= 0:
+            raise ConfigError(f"max_loss_abs must be null or a number > 0, got {out['max_loss_abs']!r}")
+        out["max_loss_abs"] = float(out["max_loss_abs"])
     for k in _INT:
         v = out[k]
         if not (_is_number(v) and float(v).is_integer()):

@@ -32,7 +32,7 @@ streaks.
 | 12 | structure | wings given on both sides, 0 < mid credit < width, a fillable limit range |
 | 13 | add_centered | an add only (`held` given): same body strike as the open tranche, and spot within 0.25 x the body straddle of it. A first entry passes |
 | 14 | name_risk | max loss on the name (held + the contracts entered now, at the credit floor) <= $350, and at least one contract may be entered at this check-in |
-| 15 | risk_budget | open_risk_usd + max loss at the credit floor + $50 reserve per contract <= min($1,000, 0.93 x account value) |
+| 15 | risk_budget | open_risk_usd + max loss at the credit floor + $50 reserve per contract <= the account value (rules v1.11, Brad 2026-11-13: "use the entire funds in the mcp account"; before that min($1,000, 0.93 x account value)) |
 | 16 | exit_feasible | v1.9: one in-the-money short leg with the stock at its wing costs about 1.1 x wing width x 100; that must fit the buying power left after the entry (`buying_power` - contracts x max loss at the floor). Contracts are cut to what fits. No `buying_power` given = blocked |
 
 Band (a label only since P020, 2026-11-11: any passing name may be entered at any check-in

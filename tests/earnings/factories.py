@@ -54,6 +54,15 @@ def cfg(**over):
     return validate(dict(over))
 
 
+# The total risk cap before rules v1.11 (2026-11-13): min($1,000, 0.93 x account value).
+# Numeric cases written before that date keep it, so they still test the ceiling mechanism.
+LEGACY_CAP = {"max_loss_abs": 1000.0, "max_loss_bp_frac": 0.93}
+
+
+def cfg_legacy_cap(**over):
+    return validate({**LEGACY_CAP, **over})
+
+
 def straddle_chain(spot=100.0, call=(2.0, 2.1), put=(1.9, 2.0)):
     """Single-strike chain at 100 for long straddle tests."""
     return [{"strike": 100.0, "call": {"id": "C100", "bid": call[0], "ask": call[1]},

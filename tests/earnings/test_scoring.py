@@ -3,7 +3,10 @@ import pytest
 from vantage_trader.earnings.config import EngineInputError
 from vantage_trader.earnings.scoring import score
 
-from .factories import arm_candidate, cfg, chain_rows, snapshot, straddle_candidate, trade
+from .factories import arm_candidate, chain_rows, snapshot, straddle_candidate, trade
+from .factories import cfg as cfg_default
+# These cases were written at the pre-v1.11 total cap, min($1,000, 0.93 x account value).
+from .factories import cfg_legacy_cap as cfg
 
 
 def run(cands=None, events=None, **kw):
@@ -289,3 +292,12 @@ def test_contracts_by_risk_not_one_per_name():
 def test_expensive_fly_still_gets_one_contract():
     d, _ = run()                                                # ARM: one contract is over the target
     assert d["order"]["quantity"] == 1 and row(d)["sizing"]["contracts"] == 1
+
+
+# ---- rules v1.11 (2026-11-13): the total cap is the whole account ----
+
+def test_v111_default_cap_is_the_account_value():
+    d, code = score(snapshot(), cfg_default(), [])
+    assert d["risk_cap_total"] == 750.0                      # the snapshot account holds $750
+    legacy, _ = score(snapshot(), cfg(), [])
+    assert legacy["risk_cap_total"] == 697.5

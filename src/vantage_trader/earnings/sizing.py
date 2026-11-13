@@ -1,8 +1,10 @@
 """Position sizing.
 
-cap      = min(max_loss_abs, max_loss_bp_frac * account_value)   (hard caps: $1,000, 0.93)
+cap      = max_loss_bp_frac * account_value, i.e. the whole account since v1.11 (owner,
+           2026-11-13: "I want you to be able to use the entire funds in the mcp account").
+           An optional max_loss_abs puts a dollar ceiling back (the smaller of the two applies).
            This is the TOTAL risk cap across ALL open positions (earnings and non-earnings),
-           max loss plus exit reserves (RULES_CHANGELOG v1.3 and the 2026-11-11 decision).
+           max loss plus exit reserves (RULES_CHANGELOG v1.3, 2026-11-11 and v1.11).
            It is computed from account value, not buying power: buying power already drops
            by the collateral of open positions and would count them twice (v1.3).
 budget   = cap - open_risk_usd (max loss + exit reserves of the positions already open)
@@ -37,7 +39,10 @@ EPS = 1e-9
 def risk_cap(account_value: float, cfg: dict[str, Any]) -> float:
     if account_value is None or account_value <= 0:
         return 0.0
-    return round(min(cfg["max_loss_abs"], cfg["max_loss_bp_frac"] * account_value), 2)
+    cap = cfg["max_loss_bp_frac"] * account_value
+    if cfg.get("max_loss_abs") is not None:
+        cap = min(cap, cfg["max_loss_abs"])
+    return round(cap, 2)
 
 
 def risk_budget(account_value: float, open_risk_usd: float, cfg: dict[str, Any]) -> float:

@@ -31,9 +31,11 @@ wing_widths_pct: [0.05, 0.075, 0.10, 0.125]   # iron fly wing candidates as frac
 
 # --- risk / sizing ---
 # No limit on the number of open positions or trades per day (v1.4): the total risk cap is the limit.
-max_loss_abs: 1000.0         # HARD CAP <= 1000. TOTAL cap across all open positions incl. exit reserves:
-                             # min(max_loss_abs, max_loss_bp_frac * account value)
-max_loss_bp_frac: 0.93       # HARD CAP <= 0.93
+# v1.11 (owner, 2026-11-13: "I want you to be able to use the entire funds in the mcp account. I
+# allocated funds specifically for you to trade with."): the TOTAL cap across all open positions,
+# max loss plus exit reserves, is the whole account value.
+max_loss_abs: null           # no dollar ceiling. A number here puts one back (the smaller of the two applies).
+max_loss_bp_frac: 1.0        # HARD CAP <= 1.0: share of account value that may be at risk
 # v1.7 (owner 2026-11-11: more contracts per name and scaling in are allowed): size by risk.
 max_quantity: 10             # HARD CAP <= 10. Most contracts one name may hold.
 name_risk_frac: 0.20         # HARD CAP <= 0.27. Max loss one name should carry, as a share of account value

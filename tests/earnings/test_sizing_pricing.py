@@ -5,17 +5,30 @@ from vantage_trader.earnings import pricing, sizing
 from .factories import cfg
 
 
-def test_cap_with_750_account_value():
-    assert sizing.risk_cap(750.0, cfg()) == 697.5          # 0.93*750 < 1000
-    assert sizing.risk_cap(5000.0, cfg()) == 1000.0        # abs cap (2026-11-11: $1,000)
-    assert sizing.risk_cap(1075.0, cfg()) == 999.75        # under about $1,075 the 0.93 factor binds
+OLD_CAP = dict(max_loss_abs=1000.0, max_loss_bp_frac=0.93)   # the total cap before rules v1.11
+
+
+def test_cap_is_the_whole_account_since_v111():
+    assert sizing.risk_cap(750.0, cfg()) == 750.0
+    assert sizing.risk_cap(1275.91, cfg()) == 1275.91
+    assert sizing.risk_cap(5000.0, cfg()) == 5000.0
     assert sizing.risk_cap(0.0, cfg()) == 0.0
     assert sizing.risk_cap(-5.0, cfg()) == 0.0
 
 
+def test_cap_with_a_dollar_ceiling_and_a_fraction():
+    c = cfg(**OLD_CAP)
+    assert sizing.risk_cap(750.0, c) == 697.5              # 0.93*750 < 1000
+    assert sizing.risk_cap(5000.0, c) == 1000.0            # the dollar ceiling
+    assert sizing.risk_cap(1075.0, c) == 999.75            # under about $1,075 the 0.93 factor binds
+    assert sizing.risk_cap(5000.0, cfg(max_loss_abs=1200)) == 1200.0
+
+
 def test_risk_budget_counts_open_risk():
-    assert sizing.risk_budget(1339.0, 172.0, cfg()) == 828.0
-    assert sizing.risk_budget(1339.0, 1200.0, cfg()) == 0.0
+    assert sizing.risk_budget(1339.0, 172.0, cfg(**OLD_CAP)) == 828.0
+    assert sizing.risk_budget(1339.0, 1200.0, cfg(**OLD_CAP)) == 0.0
+    assert sizing.risk_budget(1339.0, 172.0, cfg()) == 1167.0     # v1.11: the whole account
+    assert sizing.risk_budget(1339.0, 1400.0, cfg()) == 0.0
 
 
 def test_no_data_phase_since_v17():
@@ -31,7 +44,7 @@ def test_name_target():
 
 
 def test_plan_by_risk():
-    c = cfg(name_risk_frac=0.12)
+    c = cfg(name_risk_frac=0.12, **OLD_CAP)
     p = sizing.plan(50.0, 50.0, 1327.0, 0.0, c)                 # 159.24 / 50 -> 3
     assert (p["planned"], p["now"], p["later"], p["binding"]) == (3, 3, 0, "name_target_reached")
     p = sizing.plan(50.0, 50.0, 1327.0, 0.0, c, phase="early")  # half the target: 79.62 / 50 -> 1

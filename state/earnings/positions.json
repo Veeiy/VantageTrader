@@ -1,7 +1,7 @@
 {
- "as_of": "2026-11-13T15:55:00Z",
+ "as_of": "2026-11-13T15:58:00Z",
  "account_value": 1275.91,
- "cap_total_max_loss": 1000,
+ "cap_total_max_loss": 1275.91,
  "execution": {
   "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
   "method": "single-leg limit orders: buy both wings first, then sell the body legs. To close: buy back the shorts first, then sell the wings. Never sell a wing while its short leg is open.",
@@ -381,10 +381,10 @@
   "total_max_loss_usd": 174,
   "exit_reserves_usd": 50,
   "used_usd": 224,
-  "cap_usd": 1000,
-  "free_usd": 776,
+  "cap_usd": 1275.91,
+  "free_usd": 1051.91,
   "detail": "PCG 174 + reserve 50.",
-  "cap_note": "min($1,000, 0.93 x account value). Brad, 2026-11-11: 'Lets say 1k limit'. 0.93 x 1247.91 = 1160.56, so the cap is 1000."
+  "cap_note": "Rules v1.11: the cap is the account value (Brad, 2026-11-13: 'I want you to be able to use the entire funds in the mcp account'). cap_usd is the account value at the last check; it is not lowered below the risk already open when marks fall (the cap binds at entry)."
  },
  "eod_note": "2026-11-12 close: one position open (PCG x5, about +$33 at mid). Closed today: LUNR x3 (-26.88) and NVDA x1 (-70.32). No entry: AMAT, CSCO and NU all failed the edge gate. Realized today -97.20; this week -34.04.",
  "watch": [
@@ -736,5 +736,6 @@
  ],
  "morning_note_2026-11-12": "06:41-06:44 PT: LUNR x3 closed for -$26.88. 08:09-08:10 PT: NVDA closed for -$70.32 (cut once the 175 put could be bought back first). Realized today -$97.20; this week -$34.04. Open: PCG x5. Standby exit switch and plain alert moved to Fri 11/13.",
  "streak_note": "2026-11-12: two closed losses in a row (LUNR, NVDA). A third loss in a row trips the circuit breaker: no new entries, tell Brad.",
- "morning_note_2026-11-13": "The 06:45 PT task did not fire (still listed as due at 14:45Z when checked at 07:29 and 07:34 PT). The 07:15 hourly check arrived at 07:29 PT and ran the morning routine: head lease taken 07:31 PT, positions checked (PCG x5 and five expiring leftovers, no shares, no orders), nothing was due to close, exit switch and plain alert moved to Mon 2026-11-16 at 07:34 PT (the 07:25 switch had not fired either). One monitor agent for PCG and the leftovers and the paper desk started at 07:38 PT (the desk about 25 minutes late). Heal proposal due in today's reflection."
+ "morning_note_2026-11-13": "The 06:45 PT task did not fire (still listed as due at 14:45Z when checked at 07:29 and 07:34 PT). The 07:15 hourly check arrived at 07:29 PT and ran the morning routine: head lease taken 07:31 PT, positions checked (PCG x5 and five expiring leftovers, no shares, no orders), nothing was due to close, exit switch and plain alert moved to Mon 2026-11-16 at 07:34 PT (the 07:25 switch had not fired either). One monitor agent for PCG and the leftovers and the paper desk started at 07:38 PT (the desk about 25 minutes late). Heal proposal due in today's reflection.",
+ "cap_total_max_loss_note": "Rules v1.11: the account value. Brad, 2026-11-13 07:53 PT: 'I want you to be able to use the entire funds in the mcp account. I allocated funds specifically for you to trade with.' Before: min($1,000, 0.93 x account value)."
 }

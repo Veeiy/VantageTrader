@@ -605,3 +605,33 @@ AMAT, CSCO and NU: "Those 3 stocks you listed look like good trades". Live from 
 - After 10 closed tier trades or on 2026-11-25 with P019, whichever comes first: result per
   trade after fees against the core names over the same days.
 - Off at once if the tier's first five closed trades lose more than $150 in total.
+
+## v1.11 (2026-11-13 07:53 PT): the total risk cap is the whole account
+Owner decision. Brad: "I want you to be able to use the entire funds in the mcp account. I allocated funds specifically for you to trade with."
+
+### Changed
+- Total risk cap: was min($1,000, 0.93 x account value). Now the account value itself
+  (`get_portfolio` total_value at the moment of the entry). Max loss plus exit reserves of
+  all open positions, earnings and non-earnings, must stay inside it.
+- Config: `max_loss_abs: null` (no dollar ceiling) and `max_loss_bp_frac: 1.0`. The code's
+  hard cap of $1,000 is gone; the fraction is hard-capped at 1.0 (never more than the
+  account: defined risk, no leverage). A dollar ceiling can be put back in the config.
+- The cap follows the account: money Brad adds is usable at once, and losses shrink it.
+
+### Not changed (each needs Brad's own words)
+- Max loss per name: $350 (near-miss names $175). Non-earnings names: $200.
+- Per-name target: 20% of account value (v1.8).
+- Defined risk only, limit orders only, this account only, never TSLA.
+- Circuit breaker: no new entries after 2 max losses or 3 losses in a row, or under $400.
+- Gate 16: every new fly must leave buying power for its own single-leg exit. With the whole
+  account usable this gate, not the cap, is what stops the last few hundred dollars.
+
+### What it means today
+- Account $1,275.91, at risk $224: $1,052 free instead of $776.
+- At $350 a name, about four full-size names fit at once, and a morning where all of them
+  hit max loss can now take the whole account instead of $1,000 of it.
+
+### Standby
+- The backup trader's two switch tasks still carry the old number in their stored text
+  (only that session can edit them). Brad's words were relayed to it on 2026-11-13; until it
+  confirms them in the head's transcript it keeps the tighter $1,000 number, which is safe.

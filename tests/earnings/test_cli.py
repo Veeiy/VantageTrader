@@ -70,7 +70,7 @@ def test_invalid_input_exit_2(tmp_path, capsys, argv_fn):
 
 def test_bad_config_exit_2(tmp_path, capsys):
     cfgp = tmp_path / "e.yaml"
-    cfgp.write_text("max_loss_abs: 5000\n")
+    cfgp.write_text("name_risk_cap: 5000\n")
     code, d = call(capsys, ["score", "--snapshot", write(tmp_path, "s.json", snapshot()), "--config", str(cfgp)])
     assert code == 2 and "hard cap" in d["error"]
 
