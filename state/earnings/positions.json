@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-13T22:17:00Z",
+ "as_of": "2026-11-14T20:41:41Z",
  "account_value": 1250.91,
  "cap_total_max_loss": 1250.91,
  "execution": {
@@ -614,6 +614,11 @@
    "when": "Mon 2026-11-16: the morning run at the first liquid quotes (06:38 to 06:45 PT), after any live exit; second mark at the 07:15 PT hourly run",
    "what": "Paper only, no orders: score the four Friday-entry paper flies FRI-BIDU/TSN/BEKE/ARMK-20261113-P1 (leg ids and the scoring recipe are in their records in state/earnings/live_metrics.jsonl under paper_plan; BIDU also has alt_fly_wider). Write one result record per fly (pnl_mid_usd, pnl_natural_usd, straddle_kept, realized_move, beyond_breakeven) and tell Brad in the morning message. Only BIDU counts as evidence on the Friday rule (the gate would have sold it); the other three were blocked by spread or edge and are reference only.",
    "asked_by": "agent, 2026-11-13 (Brad 08:15 PT: 'Scouting any good trades today?')"
+  },
+  {
+   "when": "Mon 2026-11-16, before 06:30 PT (the pre-open wake or the first morning turn)",
+   "what": "PCG: the Nov 15 special-session date fell on Sunday. Search the news for a proclamation, a special-session call or a bill before the open. If one came, expect a gap up through the 13.65 breakeven: apply the cut rules from the first liquid quotes (stock beyond a breakeven for 30 minutes, or close cost 0.86 or more) and tell Brad the plan before 06:30. If nothing came, the driver has passed: take profit as soon as the premium deflates (close cost 0.33 is the 50% mark).",
+   "asked_by": "agent, 2026-11-14 (no special session found as of Saturday midday)"
   }
  ],
  "buying_power": 1040.91,
@@ -707,6 +712,10 @@
     "owner_request": "Brad 10:46 PT: 'lets enter on some nvdia for the iv crush/theta decay. theres high iv with it rn'. Not entered: the v1.2 screen fails and the earnings premium pays only after the report. Two paper flies recorded (NVDA-PRE-20261111-P1, NVDA-EARLY-20261111-P1). Offered him a one-word override for the Nov 13 fly."
    },
    "hold_2026-11-11": "ON HOLD: the reports of 2026-11-11 (the board preparing to remove the CEO) are a new development of a different kind. Per the owner decision of 2026-11-10: tell Brad and do not trade the 11/17 report without his reply."
+  },
+  {
+   "symbol": "Thursday 2026-11-19",
+   "note": "Reporters whose 11/20 expiry is the exit day (hypothesis H010, proposal P038). After the close Thu: ROST, GAP, INTU, KEYS, ESTC, GLOB, POST, HP, BULL, ESE. Before the open Fri: BJ, BKE, FRO, WRD, MOG.A, BSP (RLX is under $10). Likely under $55: GAP, HP, BULL, FRO, WRD, BKE. The Thursday scan confirms prices, weeklies and timing."
   }
  ],
  "alerts_note": "Brad, 2026-11-11: 'alerts on'. Every open position carries two Robinhood price alerts at its breakevens. Create them at entry; when the position closes, pause them with update_alert(enabled=false). Never delete without Brad's yes. docs/earnings/DAEMON.md 'Breakeven alerts'.",
