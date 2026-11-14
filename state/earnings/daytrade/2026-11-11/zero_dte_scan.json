@@ -1,0 +1,959 @@
+{
+ "as_of_utc": "2026-11-11T15:21:55Z",
+ "T_new_york": "2026-11-11T10:21:55-05:00",
+ "rows": [
+  {
+   "symbol": "META",
+   "spot": 635.51,
+   "K": 637.5,
+   "call": {
+    "id": "e2e81ba6-517e-4598-96dc-bedc1974706d",
+    "bid": 2.18,
+    "ask": 2.37,
+    "oi": 313
+   },
+   "put": {
+    "id": "b33e3ca5-550b-4bca-be12-49d944c60fa4",
+    "bid": 4.15,
+    "ask": 4.35,
+    "oi": 319
+   },
+   "straddle_mid": 6.525,
+   "straddle_pct": 0.01027,
+   "atm_spread_pct": 0.0598,
+   "avg_move": 0.00671,
+   "median_move": 0.00632,
+   "max_move": 0.01697,
+   "n_sessions": 15,
+   "today_so_far": 0.01812,
+   "cushion_avg": 1.531,
+   "cushion_median": 1.625,
+   "wings": {
+    "body_requote_utc": "2026-11-11T15:23:00Z",
+    "body_call": {
+     "id": "e2e81ba6-517e-4598-96dc-bedc1974706d",
+     "bid": 2.8,
+     "ask": 2.96
+    },
+    "body_put": {
+     "id": "b33e3ca5-550b-4bca-be12-49d944c60fa4",
+     "bid": 3.2,
+     "ask": 3.55
+    },
+    "body_straddle_mid": 6.255,
+    "wing_call": {
+     "strike": 645,
+     "id": "3bcd094d-743b-4aaa-a229-a02b79e1d77d",
+     "bid": 0.61,
+     "ask": 0.69
+    },
+    "wing_put": {
+     "strike": 630,
+     "id": "2f9a99fb-33c6-4d4e-9b6c-7f2114eee9f7",
+     "bid": 0.84,
+     "ask": 0.9
+    },
+    "credit_mid": 4.735,
+    "credit_natural": 4.41,
+    "width": 7.5,
+    "max_loss_mid": 276.5,
+    "breakevens": [
+     632.765,
+     642.235
+    ],
+    "min_ticks": {
+     "above_tick": "0.05",
+     "below_tick": "0.01",
+     "cutoff_price": "3.00"
+    },
+    "sellout_datetime": "2026-11-11T20:30:00+00:00",
+    "wing_bid_zero": false
+   }
+  },
+  {
+   "symbol": "UNG",
+   "spot": 10.585,
+   "K": 10.5,
+   "call": {
+    "id": "c44529e8-32c6-45a5-a444-f82aeab8279e",
+    "bid": 0.11,
+    "ask": 0.17,
+    "oi": 1554
+   },
+   "put": {
+    "id": "a849af66-eb0f-441d-bcd9-bca3da704d09",
+    "bid": 0.06,
+    "ask": 0.07,
+    "oi": 248
+   },
+   "straddle_mid": 0.205,
+   "straddle_pct": 0.01937,
+   "atm_spread_pct": 0.3415,
+   "avg_move": 0.01347,
+   "median_move": 0.00829,
+   "max_move": 0.0338,
+   "n_sessions": 15,
+   "today_so_far": 0.00423,
+   "cushion_avg": 1.437,
+   "cushion_median": 2.336,
+   "wings": {
+    "body_requote_utc": "2026-11-11T15:23:00Z",
+    "body_call": {
+     "id": "c44529e8-32c6-45a5-a444-f82aeab8279e",
+     "bid": 0.11,
+     "ask": 0.17
+    },
+    "body_put": {
+     "id": "a849af66-eb0f-441d-bcd9-bca3da704d09",
+     "bid": 0.07,
+     "ask": 0.12
+    },
+    "body_straddle_mid": 0.235,
+    "wing_call": {
+     "strike": 11,
+     "id": "eafd743b-a4cd-4859-8ca8-4328bb9c45cc",
+     "bid": 0.0,
+     "ask": 0.02
+    },
+    "wing_put": {
+     "strike": 10,
+     "id": "c43f07ec-a9c2-4cf4-a3dd-debaff3e01e2",
+     "bid": 0.0,
+     "ask": 0.01
+    },
+    "credit_mid": 0.22,
+    "credit_natural": 0.15,
+    "width": 0.5,
+    "max_loss_mid": 28.0,
+    "breakevens": [
+     10.28,
+     10.72
+    ],
+    "min_ticks": {
+     "above_tick": "0.05",
+     "below_tick": "0.01",
+     "cutoff_price": "3.00"
+    },
+    "sellout_datetime": "2026-11-11T20:45:00+00:00",
+    "wing_bid_zero": true
+   }
+  },
+  {
+   "symbol": "SLV",
+   "spot": 47.145,
+   "K": 47,
+   "call": {
+    "id": "7485afcb-39f5-4749-97ce-0c28779e241a",
+    "bid": 0.26,
+    "ask": 0.27,
+    "oi": 2606
+   },
+   "put": {
+    "id": "78d378ff-480d-4ccf-a0f9-af01d18ee164",
+    "bid": 0.13,
+    "ask": 0.14,
+    "oi": 1012
+   },
+   "straddle_mid": 0.4,
+   "straddle_pct": 0.00848,
+   "atm_spread_pct": 0.05,
+   "avg_move": 0.00708,
+   "median_move": 0.00784,
+   "max_move": 0.01283,
+   "n_sessions": 15,
+   "today_so_far": 0.00556,
+   "cushion_avg": 1.198,
+   "cushion_median": 1.082,
+   "wings": {
+    "body_requote_utc": "2026-11-11T15:23:00Z",
+    "body_call": {
+     "id": "7485afcb-39f5-4749-97ce-0c28779e241a",
+     "bid": 0.26,
+     "ask": 0.28
+    },
+    "body_put": {
+     "id": "78d378ff-480d-4ccf-a0f9-af01d18ee164",
+     "bid": 0.11,
+     "ask": 0.12
+    },
+    "body_straddle_mid": 0.385,
+    "wing_call": {
+     "strike": 47.5,
+     "id": "342e91ef-ad77-4455-8443-07df41ca37f3",
+     "bid": 0.05,
+     "ask": 0.06
+    },
+    "wing_put": {
+     "strike": 46.5,
+     "id": "7a465072-08cc-44ce-ac72-85c53b83d097",
+     "bid": 0.03,
+     "ask": 0.04
+    },
+    "credit_mid": 0.295,
+    "credit_natural": 0.27,
+    "width": 0.5,
+    "max_loss_mid": 20.5,
+    "breakevens": [
+     46.705,
+     47.295
+    ],
+    "min_ticks": {
+     "above_tick": "0.05",
+     "below_tick": "0.01",
+     "cutoff_price": "3.00"
+    },
+    "sellout_datetime": "2026-11-11T20:45:00+00:00",
+    "wing_bid_zero": false
+   }
+  },
+  {
+   "symbol": "AAPL",
+   "spot": 353.565,
+   "K": 352.5,
+   "call": {
+    "id": "48de7311-27ff-42ab-865d-86038addf0e0",
+    "bid": 1.7,
+    "ask": 1.76,
+    "oi": 4930
+   },
+   "put": {
+    "id": "3cb8417e-dd61-41d2-a01f-bff9d4b72f93",
+    "bid": 0.63,
+    "ask": 0.67,
+    "oi": 1069
+   },
+   "straddle_mid": 2.38,
+   "straddle_pct": 0.00673,
+   "atm_spread_pct": 0.042,
+   "avg_move": 0.00604,
+   "median_move": 0.00447,
+   "max_move": 0.02169,
+   "n_sessions": 15,
+   "today_so_far": 0.01166,
+   "cushion_avg": 1.114,
+   "cushion_median": 1.507,
+   "wings": {
+    "body_requote_utc": "2026-11-11T15:23:00Z",
+    "body_call": {
+     "id": "48de7311-27ff-42ab-865d-86038addf0e0",
+     "bid": 1.61,
+     "ask": 1.67
+    },
+    "body_put": {
+     "id": "3cb8417e-dd61-41d2-a01f-bff9d4b72f93",
+     "bid": 0.7,
+     "ask": 0.71
+    },
+    "body_straddle_mid": 2.345,
+    "wing_call": {
+     "strike": 355,
+     "id": "085a5047-1ab4-479b-a1a9-b7ea35a7b348",
+     "bid": 0.43,
+     "ask": 0.46
+    },
+    "wing_put": {
+     "strike": 350,
+     "id": "7dc7df55-b17a-4915-b8a3-3597e82366c0",
+     "bid": 0.18,
+     "ask": 0.19
+    },
+    "credit_mid": 1.715,
+    "credit_natural": 1.66,
+    "width": 2.5,
+    "max_loss_mid": 78.5,
+    "breakevens": [
+     350.785,
+     354.215
+    ],
+    "min_ticks": {
+     "above_tick": "0.05",
+     "below_tick": "0.01",
+     "cutoff_price": "3.00"
+    },
+    "sellout_datetime": "2026-11-11T20:30:00+00:00",
+    "wing_bid_zero": false
+   }
+  },
+  {
+   "symbol": "IBIT",
+   "spot": 41.53,
+   "K": 41.5,
+   "call": {
+    "id": "fd69ad60-ad01-405b-adfd-01ed103bffb9",
+    "bid": 0.2,
+    "ask": 0.21,
+    "oi": 3920
+   },
+   "put": {
+    "id": "28ab6278-6605-41fb-88d5-2fd472da5aca",
+    "bid": 0.18,
+    "ask": 0.19,
+    "oi": 1763
+   },
+   "straddle_mid": 0.39,
+   "straddle_pct": 0.00939,
+   "atm_spread_pct": 0.0513,
+   "avg_move": 0.00871,
+   "median_move": 0.0086,
+   "max_move": 0.02768,
+   "n_sessions": 15,
+   "today_so_far": 0.00036,
+   "cushion_avg": 1.078,
+   "cushion_median": 1.091,
+   "wings": {
+    "body_requote_utc": "2026-11-11T15:23:00Z",
+    "body_call": {
+     "id": "fd69ad60-ad01-405b-adfd-01ed103bffb9",
+     "bid": 0.22,
+     "ask": 0.23
+    },
+    "body_put": {
+     "id": "28ab6278-6605-41fb-88d5-2fd472da5aca",
+     "bid": 0.17,
+     "ask": 0.18
+    },
+    "body_straddle_mid": 0.4,
+    "wing_call": {
+     "strike": 42,
+     "id": "66640c08-5281-4255-8f75-55d97e1a77e6",
+     "bid": 0.05,
+     "ask": 0.06
+    },
+    "wing_put": {
+     "strike": 41,
+     "id": "a917b3a0-a9a3-4311-b017-fbd82642684d",
+     "bid": 0.04,
+     "ask": 0.05
+    },
+    "credit_mid": 0.3,
+    "credit_natural": 0.28,
+    "width": 0.5,
+    "max_loss_mid": 20.0,
+    "breakevens": [
+     41.2,
+     41.8
+    ],
+    "min_ticks": {
+     "above_tick": "0.05",
+     "below_tick": "0.01",
+     "cutoff_price": "3.00"
+    },
+    "sellout_datetime": "2026-11-11T20:45:00+00:00",
+    "wing_bid_zero": false
+   }
+  },
+  {
+   "symbol": "TLT",
+   "spot": 80.5101,
+   "K": 80.5,
+   "call": {
+    "id": "09711b48-5aaa-44f1-86b9-8a2a82663cc0",
+    "bid": 0.11,
+    "ask": 0.13,
+    "oi": 1680
+   },
+   "put": {
+    "id": "4f9b6def-6d74-407d-a77f-207c9f3fc739",
+    "bid": 0.1,
+    "ask": 0.11,
+    "oi": 8151
+   },
+   "straddle_mid": 0.225,
+   "straddle_pct": 0.00279,
+   "atm_spread_pct": 0.1333,
+   "avg_move": 0.00272,
+   "median_move": 0.0016,
+   "max_move": 0.00869,
+   "n_sessions": 15,
+   "today_so_far": 0.00297,
+   "cushion_avg": 1.026,
+   "cushion_median": 1.749,
+   "wings": {
+    "body_requote_utc": "2026-11-11T15:23:00Z",
+    "body_call": {
+     "id": "09711b48-5aaa-44f1-86b9-8a2a82663cc0",
+     "bid": 0.11,
+     "ask": 0.12
+    },
+    "body_put": {
+     "id": "4f9b6def-6d74-407d-a77f-207c9f3fc739",
+     "bid": 0.09,
+     "ask": 0.1
+    },
+    "body_straddle_mid": 0.21,
+    "wing_call": {
+     "strike": 81,
+     "id": "f9552517-67d6-4549-90c0-10ecfb9bef8e",
+     "bid": 0.01,
+     "ask": 0.02
+    },
+    "wing_put": {
+     "strike": 80,
+     "id": "cf624e7e-cd8b-443d-bf28-f6a89ecb9564",
+     "bid": 0.0,
+     "ask": 0.01
+    },
+    "credit_mid": 0.19,
+    "credit_natural": 0.17,
+    "width": 0.5,
+    "max_loss_mid": 31.0,
+    "breakevens": [
+     80.31,
+     80.69
+    ],
+    "min_ticks": {
+     "above_tick": "0.05",
+     "below_tick": "0.01",
+     "cutoff_price": "3.00"
+    },
+    "sellout_datetime": "2026-11-11T20:45:00+00:00",
+    "wing_bid_zero": true
+   }
+  },
+  {
+   "symbol": "USO",
+   "spot": 144.34,
+   "K": 144,
+   "call": {
+    "id": "f6431e74-cf6b-4ae1-8c82-36b41ae7a934",
+    "bid": 0.89,
+    "ask": 0.97,
+    "oi": 642
+   },
+   "put": {
+    "id": "261563e0-6925-4c85-bf34-5427298747c9",
+    "bid": 0.61,
+    "ask": 0.72,
+    "oi": 739
+   },
+   "straddle_mid": 1.595,
+   "straddle_pct": 0.01105,
+   "atm_spread_pct": 0.1191,
+   "avg_move": 0.01094,
+   "median_move": 0.00831,
+   "max_move": 0.05003,
+   "n_sessions": 15,
+   "today_so_far": 0.01213,
+   "cushion_avg": 1.01,
+   "cushion_median": 1.33,
+   "wings": null
+  },
+  {
+   "symbol": "GLD",
+   "spot": 367.6,
+   "K": 368,
+   "call": {
+    "id": "493005a2-2f87-4531-bf63-9e105caab410",
+    "bid": 0.6,
+    "ask": 0.62,
+    "oi": 122
+   },
+   "put": {
+    "id": "e50dc5c1-fa7d-4d8b-8339-a193f57444d8",
+    "bid": 1.01,
+    "ask": 1.09,
+    "oi": 741
+   },
+   "straddle_mid": 1.66,
+   "straddle_pct": 0.00452,
+   "atm_spread_pct": 0.0602,
+   "avg_move": 0.00463,
+   "median_move": 0.00531,
+   "max_move": 0.00948,
+   "n_sessions": 15,
+   "today_so_far": 0.00482,
+   "cushion_avg": 0.975,
+   "cushion_median": 0.851,
+   "wings": null
+  },
+  {
+   "symbol": "MSFT",
+   "spot": 521.3,
+   "K": 522.5,
+   "call": {
+    "id": "76177b40-7b0c-4b18-a1ca-8a42b151e522",
+    "bid": 1.86,
+    "ask": 1.93,
+    "oi": 54
+   },
+   "put": {
+    "id": "0868812f-8644-4719-becc-3241665170eb",
+    "bid": 2.97,
+    "ask": 3.1,
+    "oi": 821
+   },
+   "straddle_mid": 4.93,
+   "straddle_pct": 0.00946,
+   "atm_spread_pct": 0.0406,
+   "avg_move": 0.00989,
+   "median_move": 0.00748,
+   "max_move": 0.03558,
+   "n_sessions": 15,
+   "today_so_far": 0.02446,
+   "cushion_avg": 0.957,
+   "cushion_median": 1.264,
+   "wings": null
+  },
+  {
+   "symbol": "AVGO",
+   "spot": 349.51,
+   "K": 350,
+   "call": {
+    "id": "8f6d9e01-49a1-4027-9a2c-83853fe5ada1",
+    "bid": 2.1,
+    "ask": 2.23,
+    "oi": 878
+   },
+   "put": {
+    "id": "5aa73737-3f9b-4239-8eee-427578f0bb5c",
+    "bid": 2.67,
+    "ask": 2.8,
+    "oi": 37
+   },
+   "straddle_mid": 4.9,
+   "straddle_pct": 0.01402,
+   "atm_spread_pct": 0.0531,
+   "avg_move": 0.01539,
+   "median_move": 0.01217,
+   "max_move": 0.04152,
+   "n_sessions": 15,
+   "today_so_far": 0.001,
+   "cushion_avg": 0.911,
+   "cushion_median": 1.152,
+   "wings": null
+  },
+  {
+   "symbol": "NVDA",
+   "spot": 172.96,
+   "K": 172.5,
+   "call": {
+    "id": "43b99f04-164a-492c-82d3-ec252e5fde86",
+    "bid": 1.5,
+    "ask": 1.53,
+    "oi": 15207
+   },
+   "put": {
+    "id": "8334987e-565a-48aa-816d-d4f1d5534df5",
+    "bid": 1.12,
+    "ask": 1.13,
+    "oi": 5290
+   },
+   "straddle_mid": 2.64,
+   "straddle_pct": 0.01526,
+   "atm_spread_pct": 0.0152,
+   "avg_move": 0.01683,
+   "median_move": 0.0115,
+   "max_move": 0.04527,
+   "n_sessions": 15,
+   "today_so_far": 0.0011,
+   "cushion_avg": 0.907,
+   "cushion_median": 1.328,
+   "wings": null
+  },
+  {
+   "symbol": "AMZN",
+   "spot": 267.69,
+   "K": 267.5,
+   "call": {
+    "id": "305017a4-c0b6-423b-9638-825b30bce596",
+    "bid": 1.21,
+    "ask": 1.28,
+    "oi": 916
+   },
+   "put": {
+    "id": "dcea564f-f3c1-4d51-af21-a0e6ac282aef",
+    "bid": 1.05,
+    "ask": 1.07,
+    "oi": 2484
+   },
+   "straddle_mid": 2.305,
+   "straddle_pct": 0.00861,
+   "atm_spread_pct": 0.039,
+   "avg_move": 0.0098,
+   "median_move": 0.00962,
+   "max_move": 0.01863,
+   "n_sessions": 15,
+   "today_so_far": 0.02056,
+   "cushion_avg": 0.879,
+   "cushion_median": 0.895,
+   "wings": null
+  },
+  {
+   "symbol": "MU",
+   "spot": 798.42,
+   "K": 800,
+   "call": {
+    "id": "464566c2-fb87-44f4-8d24-a8ef2c006cf1",
+    "bid": 7.5,
+    "ask": 7.6,
+    "oi": 3717
+   },
+   "put": {
+    "id": "f1c94316-7c77-4b77-b951-e0cc070ee85d",
+    "bid": 9.1,
+    "ask": 9.2,
+    "oi": 86
+   },
+   "straddle_mid": 16.7,
+   "straddle_pct": 0.02092,
+   "atm_spread_pct": 0.012,
+   "avg_move": 0.02426,
+   "median_move": 0.01763,
+   "max_move": 0.05356,
+   "n_sessions": 15,
+   "today_so_far": 0.02757,
+   "cushion_avg": 0.862,
+   "cushion_median": 1.187,
+   "wings": null
+  },
+  {
+   "symbol": "GDX",
+   "spot": 86.15,
+   "K": 86,
+   "call": {
+    "id": "8fd5c60a-0e07-4711-abba-022046c560f2",
+    "bid": 0.47,
+    "ask": 0.61,
+    "oi": 215
+   },
+   "put": {
+    "id": "ca307c66-76e5-4652-8c86-cb718797ba40",
+    "bid": 0.38,
+    "ask": 0.46,
+    "oi": 401
+   },
+   "straddle_mid": 0.96,
+   "straddle_pct": 0.01114,
+   "atm_spread_pct": 0.2292,
+   "avg_move": 0.01322,
+   "median_move": 0.01272,
+   "max_move": 0.02633,
+   "n_sessions": 15,
+   "today_so_far": 0.00854,
+   "cushion_avg": 0.843,
+   "cushion_median": 0.876,
+   "wings": null
+  },
+  {
+   "symbol": "XLF",
+   "spot": 58.1251,
+   "K": 58,
+   "call": {
+    "id": "34eec335-1338-4e87-9434-b027a3e85afc",
+    "bid": 0.18,
+    "ask": 0.23,
+    "oi": 1644
+   },
+   "put": {
+    "id": "cff4b44e-fcb9-4177-9229-762ed8dcff6f",
+    "bid": 0.06,
+    "ask": 0.07,
+    "oi": 838
+   },
+   "straddle_mid": 0.27,
+   "straddle_pct": 0.00465,
+   "atm_spread_pct": 0.2222,
+   "avg_move": 0.00599,
+   "median_move": 0.00349,
+   "max_move": 0.02944,
+   "n_sessions": 15,
+   "today_so_far": 8e-05,
+   "cushion_avg": 0.776,
+   "cushion_median": 1.332,
+   "wings": null
+  },
+  {
+   "symbol": "IWM",
+   "spot": 281.707,
+   "K": 282,
+   "call": {
+    "id": "b8788275-76d0-4c53-9f42-84eba62c04cf",
+    "bid": 0.51,
+    "ask": 0.52,
+    "oi": 2881
+   },
+   "put": {
+    "id": "a497ca44-87d4-4f3b-9602-3319cd8c7783",
+    "bid": 0.79,
+    "ask": 0.81,
+    "oi": 717
+   },
+   "straddle_mid": 1.315,
+   "straddle_pct": 0.00467,
+   "atm_spread_pct": 0.0228,
+   "avg_move": 0.0061,
+   "median_move": 0.00261,
+   "max_move": 0.02839,
+   "n_sessions": 15,
+   "today_so_far": 0.00453,
+   "cushion_avg": 0.765,
+   "cushion_median": 1.788,
+   "wings": null
+  },
+  {
+   "symbol": "GOOGL",
+   "spot": 290.7075,
+   "K": 290,
+   "call": {
+    "id": "d87c36bf-fbcb-4df9-a89c-f1df983e9df6",
+    "bid": 1.48,
+    "ask": 1.57,
+    "oi": 2791
+   },
+   "put": {
+    "id": "ff124370-356a-4265-93e1-ad86ec699f10",
+    "bid": 0.75,
+    "ask": 0.83,
+    "oi": 882
+   },
+   "straddle_mid": 2.315,
+   "straddle_pct": 0.00796,
+   "atm_spread_pct": 0.0734,
+   "avg_move": 0.0106,
+   "median_move": 0.00959,
+   "max_move": 0.02304,
+   "n_sessions": 15,
+   "today_so_far": 0.00237,
+   "cushion_avg": 0.751,
+   "cushion_median": 0.831,
+   "wings": null
+  },
+  {
+   "symbol": "AMD",
+   "spot": 538.1009,
+   "K": 540,
+   "call": {
+    "id": "73524789-18f5-40e2-b09d-59b477084930",
+    "bid": 4.3,
+    "ask": 4.55,
+    "oi": 1750
+   },
+   "put": {
+    "id": "ad6a1fc3-1d39-4882-9d3b-00b6e9fa7844",
+    "bid": 6.65,
+    "ask": 6.95,
+    "oi": 121
+   },
+   "straddle_mid": 11.225,
+   "straddle_pct": 0.02086,
+   "atm_spread_pct": 0.049,
+   "avg_move": 0.02805,
+   "median_move": 0.02308,
+   "max_move": 0.07337,
+   "n_sessions": 15,
+   "today_so_far": 0.00915,
+   "cushion_avg": 0.744,
+   "cushion_median": 0.904,
+   "wings": null
+  },
+  {
+   "symbol": "SMH",
+   "spot": 501.9288,
+   "K": 502.5,
+   "call": {
+    "id": "5f638515-0fbd-4a93-b5d4-899aac78b719",
+    "bid": 2.65,
+    "ask": 3.05,
+    "oi": 370
+   },
+   "put": {
+    "id": "8c0bdd94-7ed6-4971-9977-638d75b3df65",
+    "bid": 3.25,
+    "ask": 3.6,
+    "oi": 174
+   },
+   "straddle_mid": 6.275,
+   "straddle_pct": 0.0125,
+   "atm_spread_pct": 0.1195,
+   "avg_move": 0.01685,
+   "median_move": 0.01455,
+   "max_move": 0.04128,
+   "n_sessions": 15,
+   "today_so_far": 0.0052,
+   "cushion_avg": 0.742,
+   "cushion_median": 0.859,
+   "wings": null
+  },
+  {
+   "symbol": "XLE",
+   "spot": 63.14,
+   "K": 63,
+   "call": {
+    "id": "0d4ec4c2-4f6b-46a1-af4c-93bb127235c4",
+    "bid": 0.26,
+    "ask": 0.28,
+    "oi": 2700
+   },
+   "put": {
+    "id": "be859b4b-cd0c-452d-83bc-3cfd5731eab2",
+    "bid": 0.13,
+    "ask": 0.15,
+    "oi": 362
+   },
+   "straddle_mid": 0.41,
+   "straddle_pct": 0.00649,
+   "atm_spread_pct": 0.0976,
+   "avg_move": 0.00913,
+   "median_move": 0.00574,
+   "max_move": 0.042,
+   "n_sessions": 15,
+   "today_so_far": 0.00398,
+   "cushion_avg": 0.711,
+   "cushion_median": 1.132,
+   "wings": null
+  },
+  {
+   "symbol": "SPY",
+   "spot": 755.49,
+   "K": 756,
+   "call": {
+    "id": "535338e0-42e8-4a77-a2c2-6799c0eaae9f",
+    "bid": 1.07,
+    "ask": 1.08,
+    "oi": 6881
+   },
+   "put": {
+    "id": "58db097c-4c7c-4cd3-adbd-b5b9964250f3",
+    "bid": 1.56,
+    "ask": 1.57,
+    "oi": 676
+   },
+   "straddle_mid": 2.64,
+   "straddle_pct": 0.00349,
+   "atm_spread_pct": 0.0076,
+   "avg_move": 0.00544,
+   "median_move": 0.00322,
+   "max_move": 0.0277,
+   "n_sessions": 15,
+   "today_so_far": 0.00165,
+   "cushion_avg": 0.642,
+   "cushion_median": 1.086,
+   "wings": null
+  },
+  {
+   "symbol": "TQQQ",
+   "spot": 59.3431,
+   "K": 59,
+   "call": {
+    "id": "3095e62e-46d1-4436-b4ca-a828ce16478e",
+    "bid": 0.67,
+    "ask": 0.71,
+    "oi": 3451
+   },
+   "put": {
+    "id": "e518cb6e-6785-4298-936c-331128d6110f",
+    "bid": 0.33,
+    "ask": 0.36,
+    "oi": 96
+   },
+   "straddle_mid": 1.035,
+   "straddle_pct": 0.01744,
+   "atm_spread_pct": 0.0676,
+   "avg_move": 0.02724,
+   "median_move": 0.023,
+   "max_move": 0.08983,
+   "n_sessions": 15,
+   "today_so_far": 0.00565,
+   "cushion_avg": 0.64,
+   "cushion_median": 0.758,
+   "wings": null
+  },
+  {
+   "symbol": "QQQ",
+   "spot": 685.9,
+   "K": 686,
+   "call": {
+    "id": "684b0101-0d49-493b-9f1c-2ffafec019a7",
+    "bid": 1.82,
+    "ask": 1.83,
+    "oi": 1921
+   },
+   "put": {
+    "id": "e9b7ed0e-0649-4519-b599-44167c124dfb",
+    "bid": 2.02,
+    "ask": 2.04,
+    "oi": 261
+   },
+   "straddle_mid": 3.855,
+   "straddle_pct": 0.00562,
+   "atm_spread_pct": 0.0078,
+   "avg_move": 0.00909,
+   "median_move": 0.00808,
+   "max_move": 0.02855,
+   "n_sessions": 15,
+   "today_so_far": 0.00199,
+   "cushion_avg": 0.618,
+   "cushion_median": 0.696,
+   "wings": null
+  }
+ ],
+ "dropped": [
+  {
+   "symbol": "DIA",
+   "reason": "no_0dte"
+  },
+  {
+   "symbol": "PLTR",
+   "reason": "no_0dte"
+  },
+  {
+   "symbol": "COIN",
+   "reason": "no_0dte"
+  },
+  {
+   "symbol": "MSTR",
+   "reason": "no_0dte"
+  },
+  {
+   "symbol": "HOOD",
+   "reason": "no_0dte"
+  },
+  {
+   "symbol": "EEM",
+   "reason": "no_0dte"
+  },
+  {
+   "symbol": "FXI",
+   "reason": "no_0dte"
+  },
+  {
+   "symbol": "KWEB",
+   "reason": "no_0dte"
+  },
+  {
+   "symbol": "HYG",
+   "reason": "no_0dte"
+  },
+  {
+   "symbol": "SOXL",
+   "reason": "no_0dte"
+  },
+  {
+   "symbol": "NFLX",
+   "reason": "no_0dte"
+  },
+  {
+   "symbol": "INTC",
+   "reason": "no_0dte"
+  },
+  {
+   "symbol": "BABA",
+   "reason": "no_0dte"
+  },
+  {
+   "symbol": "UBER",
+   "reason": "no_0dte"
+  },
+  {
+   "symbol": "SOFI",
+   "reason": "no_0dte"
+  }
+ ],
+ "errors": [],
+ "notes": [
+  "P_T = open of 10:00-10:30 ET 30-min bar; sessions 2026-10-21..2026-11-10 (15)",
+  "straddle at strike nearest spot includes intrinsic when K!=spot (META K-spot=2.0, AAPL 1.07, MSFT 1.2, AMD 1.9, MU 1.6): inflates cushion",
+  "strikes probed per symbol for dropped: 2-3 each; AMD 537.5 not probed (540 used)",
+  "wings body re-quoted 15:23Z; META straddle fell 6.525->6.255 in 1 min"
+ ]
+}

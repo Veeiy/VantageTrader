@@ -1,0 +1,998 @@
+{
+ "as_of": "2026-11-14T20:41:41Z",
+ "account_value": 1250.91,
+ "cap_total_max_loss": 1250.91,
+ "execution": {
+  "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
+  "method": "single-leg limit orders: buy both wings first, then sell the body legs. To close: buy back the shorts first, then sell the wings. Never sell a wing while its short leg is open.",
+  "approval": "single-leg orders need no customer approval while human_must_approve_trades=false",
+  "deep_itm_note": "A short leg that is deep in the money cannot be bought back alone when its price is above the buying power (NVDA 175P on 2026-11-12: $1,545 against $994 at the open). Such a spread is held at its max loss (v1.2.2) until the short leg's ask x 100 is inside the buying power, then closed short leg first, with the wing sold at once as a marketable limit."
+ },
+ "open": [
+  {
+   "symbol": "PCG",
+   "kind": "non_earnings",
+   "structure": "iron fly 12/13/14",
+   "expiry": "2026-11-20",
+   "quantity": 5,
+   "opened": "2026-11-10T19:14:18Z",
+   "legs": {
+    "short_13C": {
+     "option_id": "2b96e166-e512-437c-b2eb-8c39755a6892",
+     "fill": 0.65
+    },
+    "short_13P": {
+     "option_id": "1319c643-e02f-453c-8a89-daf5a9232d1a",
+     "fill": 0.43
+    },
+    "long_14C": {
+     "option_id": "1b762445-7484-4149-b654-36759f98d5f2",
+     "fill": 0.3
+    },
+    "long_12P": {
+     "option_id": "cc6a019f-3537-4fc8-9e1e-7e0a5fa91f51",
+     "fill": 0.11
+    }
+   },
+   "net_credit": 0.652,
+   "max_loss_usd": 174,
+   "max_profit_usd": 326,
+   "exit_reserve_usd": 50,
+   "breakevens": [
+    12.35,
+    13.65
+   ],
+   "thesis": "IV rank 1.0 (Nov20 IV about 62% vs 10-day realized 18%). Options price a possible special session on wildfire liability (claimed bill deadline about Nov 15). Sentinel 11/10 11:08 PT: no proclamation, no bombshell.",
+   "plan": {
+    "take_profit_close_cost": 0.33,
+    "cut_close_cost": 0.86,
+    "near_breakeven": [
+     12.5,
+     13.5
+    ],
+    "fast_move_pct": 2.0,
+    "exit_by": "2026-11-18 close",
+    "never_hold_into": "2026-11-20",
+    "close_sequence": "buy to close 13C and 13P first (single-leg limits), then sell 14C and 12P"
+   },
+   "entry_day_close": 13.23,
+   "eod_2026-11-10": {
+    "close_cost_mid_last": 0.785,
+    "note": "quotes went wide into the close (13P 0.37 x 0.60); about 0.69 at normal spreads"
+   },
+   "alerts": [
+    {
+     "alert_id": "faf3b899-0570-4af7-b00c-868ee5eaae99",
+     "condition": "price_below",
+     "threshold": 12.33
+    },
+    {
+     "alert_id": "88d6e15b-601e-4561-be34-6d940fb3b744",
+     "condition": "price_above",
+     "threshold": 13.67
+    }
+   ],
+   "net_credit_first_tranche": 0.67,
+   "tranches": [
+    {
+     "n": 1,
+     "ts": "2026-11-10T19:14:18Z",
+     "quantity": 4,
+     "net_credit": 0.67,
+     "max_loss_usd": 132
+    },
+    {
+     "n": 2,
+     "ts": "2026-11-11T19:15:27Z",
+     "quantity": 1,
+     "net_credit": 0.58,
+     "max_loss_usd": 42,
+     "order_ids": [
+      "6af4be57-cc3a-4a0c-8920-c039b7e834fd",
+      "6af4be58-dfbd-48d5-be1c-b117c7eca19e",
+      "6af4becd-e026-43f2-824f-312e976a77b4",
+      "6af4bece-f34f-4606-bf3c-06daf1b69d50"
+     ]
+    }
+   ],
+   "eod_2026-11-11": {
+    "last_stock": 13.095,
+    "close_cost_mid_last_reliable": 0.615,
+    "at": "20:47Z",
+    "open_pnl_usd": 18.5,
+    "note": "the 21:00Z reading (0.74) came from a 13C quote that widened to 0.39 x 0.82 at the bell: not a signal. No special session called.",
+    "source": "monitor daemon hand-back; official closes are confirmed at the 14:12 PT reflection"
+   },
+   "check_2026-11-12_0717": {
+    "spot": 12.905,
+    "legs": {
+     "13C": [
+      0.32,
+      0.46
+     ],
+     "13P": [
+      0.41,
+      0.48
+     ],
+     "14C": [
+      0.11,
+      0.16
+     ],
+     "12P": [
+      0.05,
+      0.17
+     ]
+    },
+    "close_cost_mid": 0.59,
+    "pnl_mid_usd": 31.0,
+    "decision": "hold (take profit at 0.33, cut at 0.86)"
+   },
+   "check_2026-11-12_0915": {
+    "spot": 12.975,
+    "legs": {
+     "13C": [
+      0.39,
+      0.46
+     ],
+     "13P": [
+      0.39,
+      0.45
+     ],
+     "14C": [
+      0.13,
+      0.16
+     ],
+     "12P": [
+      0.05,
+      0.09
+     ]
+    },
+    "close_cost_mid": 0.63,
+    "pnl_mid_usd": 11.0,
+    "decision": "hold (take profit at 0.33, cut at 0.86)"
+   },
+   "check_2026-11-12_1015": {
+    "spot": 12.92,
+    "legs": {
+     "13C": [
+      0.36,
+      0.43
+     ],
+     "13P": [
+      0.42,
+      0.44
+     ],
+     "14C": [
+      0.13,
+      0.16
+     ],
+     "12P": [
+      0.06,
+      0.08
+     ]
+    },
+    "close_cost_mid": 0.61,
+    "pnl_mid_usd": 21.0,
+    "decision": "hold (take profit at 0.33, cut at 0.86)"
+   },
+   "check_2026-11-12_1115": {
+    "spot": 13.0,
+    "legs": {
+     "13C": [
+      0.36,
+      0.46
+     ],
+     "13P": [
+      0.36,
+      0.45
+     ],
+     "14C": [
+      0.13,
+      0.18
+     ],
+     "12P": [
+      0.05,
+      0.08
+     ]
+    },
+    "close_cost_mid": 0.595,
+    "pnl_mid_usd": 28.5,
+    "decision": "hold (take profit at 0.33, cut at 0.86)"
+   },
+   "check_2026-11-12_1216": {
+    "spot": 12.97,
+    "legs": {
+     "13C": [
+      0.36,
+      0.46
+     ],
+     "13P": [
+      0.38,
+      0.45
+     ],
+     "14C": [
+      0.13,
+      0.18
+     ],
+     "12P": [
+      0.05,
+      0.08
+     ]
+    },
+    "close_cost_mid": 0.605,
+    "pnl_mid_usd": 23.5,
+    "decision": "hold (take profit at 0.33, cut at 0.86)"
+   },
+   "eod_2026-11-12": {
+    "last_stock": 12.985,
+    "at": "2026-11-12T20:55Z",
+    "stock_range": [
+     12.875,
+     13.07
+    ],
+    "close_cost_mid": 0.585,
+    "close_cost_range": [
+     0.58,
+     0.715
+    ],
+    "credit": 0.652,
+    "open_pnl_usd": 33.5,
+    "legs": {
+     "13C": [
+      0.36,
+      0.47
+     ],
+     "13P": [
+      0.36,
+      0.45
+     ],
+     "14C": [
+      0.15,
+      0.19
+     ],
+     "12P": [
+      0.05,
+      0.08
+     ]
+    },
+    "news": "No special-session proclamation on any of six checks. Latest item: a Nov 3 Consumer Watchdog release citing the LA Times on a PG&E push for a special session before Thanksgiving, with a Nov 15 deadline for a bill to reach the governor. Driver unresolved.",
+    "source": "monitor daemon hand-back; the official close is confirmed at the 14:12 PT reflection",
+    "official_close": 12.965,
+    "close_cost_mid_at_close": 0.595,
+    "open_pnl_usd_at_close": 28.5,
+    "legs_at_close": {
+     "13C": [
+      0.36,
+      0.47
+     ],
+     "13P": [
+      0.36,
+      0.45
+     ],
+     "14C": [
+      0.13,
+      0.19
+     ],
+     "12P": [
+      0.05,
+      0.08
+     ]
+    },
+    "flow_note": "The 14 call traded 14,126 contracts on the day (201 by midday) and the 13 call 2,886: late call buying, in line with the special-session story. Upper breakeven 13.65."
+   },
+   "projection_2026-11-12": {
+    "made_at": "2026-11-13T01:10Z",
+    "method": "Black-Scholes, today's skew kept, 5 contracts, at mid before exit costs",
+    "tue_11_17_close_usd": {
+     "iv_0.54": {
+      "12.6": 53,
+      "12.8": 82,
+      "13.0": 96,
+      "13.2": 93,
+      "13.4": 74
+     },
+     "iv_0.40": {
+      "12.6": 84,
+      "12.8": 127,
+      "13.0": 144,
+      "13.2": 132,
+      "13.4": 97
+     },
+     "iv_0.30": {
+      "12.6": 106,
+      "12.8": 164,
+      "13.0": 186,
+      "13.2": 165,
+      "13.4": 111
+     }
+    },
+    "at_a_breakeven_usd": [
+     0,
+     36
+    ],
+    "beyond_a_wing_usd": -174,
+    "take_profit_usd": 161,
+    "base_case_usd": 130,
+    "weighted_usd": 70,
+    "note": "Base case: stock 12.8 to 13.2 on Tuesday with IV near 40% once the Nov 15 bill deadline has passed. Weighted figure allows about 15% for a special session being called."
+   },
+   "check_2026-11-13_0730": {
+    "spot": 13.075,
+    "legs": {
+     "13C": [
+      0.4,
+      0.51
+     ],
+     "13P": [
+      0.31,
+      0.44
+     ],
+     "14C": [
+      0.13,
+      0.16
+     ],
+     "12P": [
+      0.06,
+      0.25
+     ]
+    },
+    "close_cost_mid": 0.53,
+    "close_cost_conservative": 0.605,
+    "pnl_mid_usd": 61.0,
+    "pnl_conservative_usd": 23.5,
+    "note": "The 12 put market is 0.06 x 0.25, so its mid is not trusted: the conservative mark takes it at bid + 0.02. From today the monitor reports on the conservative mark.",
+    "decision": "hold (take profit at 0.33, cut at 0.86)"
+   },
+   "check_2026-11-13_0747": {
+    "spot": 13.08,
+    "legs": {
+     "13C": [
+      0.42,
+      0.52
+     ],
+     "13P": [
+      0.3,
+      0.39
+     ],
+     "14C": [
+      0.14,
+      0.16
+     ],
+     "12P": [
+      0.05,
+      0.25
+     ]
+    },
+    "close_cost_mid": 0.515,
+    "close_cost_conservative": 0.595,
+    "pnl_conservative_usd": 28.5,
+    "decision": "hold (take profit at 0.33, cut at 0.86)"
+   },
+   "check_2026-11-13_0812": {
+    "spot": 13.185,
+    "legs": {
+     "13C": [
+      0.46,
+      0.52
+     ],
+     "13P": [
+      0.29,
+      0.38
+     ],
+     "14C": [
+      0.16,
+      0.19
+     ],
+     "12P": [
+      0.03,
+      0.14
+     ]
+    },
+    "close_cost_mid": 0.565,
+    "close_cost_conservative": 0.6,
+    "pnl_mid_usd": 43.5,
+    "pnl_conservative_usd": 26.0,
+    "note": "The 14 call has traded 3,827 contracts by 08:12 PT (call buying again). Stock 0.32 under the 13.50 report level.",
+    "decision": "hold (take profit at 0.33, cut at 0.86)"
+   },
+   "limit_note": "Non-earnings limit per name is $400 since rules v1.12 (Brad, 2026-11-13: 'Raise the non earnings limit to 400'); it was $200. Held: $174 of max loss.",
+   "add_check_2026-11-13_0818": {
+    "decision": "no add",
+    "why": "Priced at 08:17 PT: a new contract sells for about 0.56 (floor 0.52), max loss about $44 to $48. By Tuesday about +$9 (IV unchanged) to +$17 (IV 0.40) a contract if no special session is called, against the max loss if one is called over the weekend: an expected value near zero at a 15% to 20% chance of the event. The 13 put was 0.29 x 0.38 (27% wide, limit 25%), the stock 0.19 above the body (limit 0.21) and the 14 call had traded 3,827 contracts by 08:12 PT.",
+    "revisit": "Monday 2026-11-16 at the morning run, after the Nov 15 date has passed: add only if the screen still passes and the stock is within 0.21 of 13."
+   },
+   "check_2026-11-13_0834": {
+    "spot": 13.155,
+    "legs": {
+     "13C": [
+      0.47,
+      0.52
+     ],
+     "13P": [
+      0.3,
+      0.35
+     ],
+     "14C": [
+      0.16,
+      0.19
+     ],
+     "12P": [
+      0.03,
+      0.14
+     ]
+    },
+    "close_cost_mid": 0.56,
+    "close_cost_conservative": 0.595,
+    "pnl_mid_usd": 46.0,
+    "pnl_conservative_usd": 28.5,
+    "decision": "hold (take profit at 0.33, cut at 0.86)",
+    "note": "The 08:15 PT hourly task fired at 08:34 PT (19 minutes late)."
+   },
+   "check_2026-11-13_0915": {
+    "spot": 13.115,
+    "legs": {
+     "13C": [
+      0.44,
+      0.49
+     ],
+     "13P": [
+      0.3,
+      0.35
+     ],
+     "14C": [
+      0.14,
+      0.18
+     ],
+     "12P": [
+      0.03,
+      0.15
+     ]
+    },
+    "close_cost_mid": 0.54,
+    "close_cost_conservative": 0.58,
+    "pnl_mid_usd": 56.0,
+    "pnl_conservative_usd": 36.0,
+    "decision": "hold (take profit at 0.33, cut at 0.86)"
+   },
+   "check_2026-11-13_1016": {
+    "spot": 13.105,
+    "legs": {
+     "13C": [
+      0.42,
+      0.48
+     ],
+     "13P": [
+      0.31,
+      0.35
+     ],
+     "14C": [
+      0.14,
+      0.17
+     ],
+     "12P": [
+      0.05,
+      0.11
+     ]
+    },
+    "close_cost_mid": 0.545,
+    "close_cost_conservative": 0.555,
+    "pnl_mid_usd": 53.5,
+    "pnl_conservative_usd": 48.5,
+    "decision": "hold (take profit at 0.33, cut at 0.86)"
+   },
+   "check_2026-11-13_1115": {
+    "spot": 13.105,
+    "legs": {
+     "13C": [
+      0.41,
+      0.49
+     ],
+     "13P": [
+      0.29,
+      0.35
+     ],
+     "14C": [
+      0.14,
+      0.15
+     ],
+     "12P": [
+      0.05,
+      0.14
+     ]
+    },
+    "close_cost_mid": 0.53,
+    "close_cost_conservative": 0.555,
+    "pnl_mid_usd": 61.0,
+    "pnl_conservative_usd": 48.5,
+    "decision": "hold (take profit at 0.33, cut at 0.86)"
+   },
+   "check_2026-11-13_1216": {
+    "spot": 13.157,
+    "legs": {
+     "13C": [
+      0.47,
+      0.49
+     ],
+     "13P": [
+      0.29,
+      0.37
+     ],
+     "14C": [
+      0.14,
+      0.17
+     ],
+     "12P": [
+      0.04,
+      0.09
+     ]
+    },
+    "close_cost_mid": 0.59,
+    "close_cost_conservative": 0.595,
+    "pnl_mid_usd": 31.0,
+    "pnl_conservative_usd": 28.5,
+    "decision": "hold (take profit at 0.33, cut at 0.86)"
+   },
+   "monitor_final_2026-11-13": {
+    "ts": "2026-11-13T20:55:00Z",
+    "source": "position monitor (read-only), 33 cycles, no trigger sent, no errors",
+    "spot": 13.255,
+    "legs": {
+     "13C": [
+      0.47,
+      0.65
+     ],
+     "13P": [
+      0.27,
+      0.3
+     ],
+     "14C": [
+      0.15,
+      0.19
+     ],
+     "12P": [
+      0.03,
+      0.09
+     ]
+    },
+    "close_cost_mid": 0.615,
+    "close_cost_conservative": 0.625,
+    "pnl_conservative_usd": 13.5,
+    "range_today": {
+     "stock": [
+      13.065,
+      13.255
+     ],
+     "close_cost": [
+      0.545,
+      0.625
+     ]
+    },
+    "note": "The stock closed at the top of its range, 0.255 above the body; the 13 call market widened to 0.47 x 0.65 in the last minutes (0.49 x 0.55 at 20:24Z, close cost 0.57). Upper breakeven 13.65, near-breakeven level 13.50.",
+    "news": "No proclamation, special-session call or bill found as of 20:24Z. The Nov 15 date comes from a Nov 3 Consumer Watchdog release citing the LA Times; no new primary source today.",
+    "decision": "hold over the weekend per plan (no cut rule met; a special-session call is the scenario that costs the max loss of 174)"
+   },
+   "eod_2026-11-13": {
+    "close": 13.25,
+    "after_hours": 13.13,
+    "after_hours_ts": "2026-11-13T22:06:52Z",
+    "legs": {
+     "13C": [
+      0.47,
+      0.6
+     ],
+     "13P": [
+      0.27,
+      0.3
+     ],
+     "14C": [
+      0.16,
+      0.2
+     ],
+     "12P": [
+      0.04,
+      0.07
+     ]
+    },
+    "close_cost_mid": 0.585,
+    "close_cost_conservative": 0.585,
+    "pnl_mid_usd": 33.5,
+    "range": "With the 13 call 0.13 wide the close cost is 0.52 to 0.65: +$1 to +$66. The monitor's 12:55 PT mark was 0.625 (+$13.50).",
+    "vs_prior_close": "about flat on the fly (0.585 at 20:55Z on 11/12, 0.595 at that close); account value 1,250.91 against 1,245.91 (+$5)",
+    "distance": "0.25 above the body, 0.40 under the upper breakeven 13.65, 0.90 above the lower 12.35",
+    "weekend": "Held. The Nov 15 special-session date falls on Sunday. A call would likely gap the stock up: max loss 174. No proclamation, call or bill found as of 12:24 PT.",
+    "plan": "Unchanged: take profit at a close cost of 0.33, cut at 0.86 or 30 minutes beyond a breakeven, out by the 2026-11-18 close. Add revisited Monday (limit $400, only if the screen still passes and the stock is within 0.21 of 13)."
+   }
+  }
+ ],
+ "blockers": [
+  "2026-11-10: Robinhood rejects agent-placed multi-leg orders. Workaround in use: single-leg legging (see execution).",
+  "2026-11-12 06:41 PT: retried a multi-leg order (4-leg close of the NVDA fly). Still refused: 'this account requires the customer to approve agent-placed trades, and a multi-leg strategy cannot be sent for approval yet \u2014 the order was NOT placed; place it in the Robinhood app, or place one-leg orders instead'. review_option_order accepts the same order; only placement is blocked.",
+  "2026-11-13 07:48 PT (Friday retry): a 4-leg closing order for PCG x5 at a 0.33 net debit (the take-profit level). review_option_order: no alerts, customer_approval_required false, fees $0.80. place_option_order: refused with the same text as on 11/12 ('a multi-leg strategy cannot be sent for approval yet'). get_trade_approval_setting shows human_must_approve_trades false since 2026-11-10, so this is not a switch Brad can flip in the app: it is a product limit on agent multi-leg orders (P005). Nothing was placed."
+ ],
+ "pending": [
+  {
+   "when": "Mon 2026-11-16: the morning run at the first liquid quotes (06:38 to 06:45 PT), after any live exit; second mark at the 07:15 PT hourly run",
+   "what": "Paper only, no orders: score the four Friday-entry paper flies FRI-BIDU/TSN/BEKE/ARMK-20261113-P1 (leg ids and the scoring recipe are in their records in state/earnings/live_metrics.jsonl under paper_plan; BIDU also has alt_fly_wider). Write one result record per fly (pnl_mid_usd, pnl_natural_usd, straddle_kept, realized_move, beyond_breakeven) and tell Brad in the morning message. Only BIDU counts as evidence on the Friday rule (the gate would have sold it); the other three were blocked by spread or edge and are reference only.",
+   "asked_by": "agent, 2026-11-13 (Brad 08:15 PT: 'Scouting any good trades today?')"
+  },
+  {
+   "when": "Mon 2026-11-16, before 06:30 PT (the pre-open wake or the first morning turn)",
+   "what": "PCG: the Nov 15 special-session date fell on Sunday. Search the news for a proclamation, a special-session call or a bill before the open. If one came, expect a gap up through the 13.65 breakeven: apply the cut rules from the first liquid quotes (stock beyond a breakeven for 30 minutes, or close cost 0.86 or more) and tell Brad the plan before 06:30. If nothing came, the driver has passed: take profit as soon as the premium deflates (close cost 0.33 is the 50% mark).",
+   "asked_by": "agent, 2026-11-14 (no special session found as of Saturday midday)"
+  }
+ ],
+ "buying_power": 1040.91,
+ "risk": {
+  "total_max_loss_usd": 174,
+  "exit_reserves_usd": 50,
+  "used_usd": 224,
+  "cap_usd": 1250.91,
+  "free_usd": 1026.91,
+  "detail": "PCG 174 + reserve 50.",
+  "cap_note": "Rules v1.11: the cap is the account value (Brad, 2026-11-13: 'I want you to be able to use the entire funds in the mcp account'). cap_usd is the account value at the last check; it is not lowered below the risk already open when marks fall (the cap binds at entry)."
+ },
+ "eod_note": "2026-11-13 close: PCG x5 open (fly 0.585 at closing mids, +$33.50; about flat on the day, account +$5). No fills today. Account 1,250.91, buying power 1,040.91, risk used 224. Two losses in a row stand (LUNR, NVDA): a third pauses new entries.",
+ "watch": [
+  {
+   "symbol": "NVDA",
+   "kind": "earnings",
+   "report": "2026-11-17 after close",
+   "owner_decision": "2026-11-10 Brad: 'We can trade nvdia.' The news veto is waived for the board investigation (announced 11/08) and the House briefing request (proposed 11/18). All other gates apply. See RULES_CHANGELOG.",
+   "plan": "Enter Tue 11/17 in the final window (11:30 to 12:35 PT), iron fly at the strike nearest spot. Expiry: Nov 18 is the first after the report (NVDA lists Mon, Wed and Fri); use it unless its at-the-money spread is above 12%, then Nov 20. Wings per v1.6 (nearest 1.5x the entry straddle, stepped in until max loss at the credit floor is $350 or less); contracts per v1.7 (the gate). Exit Wed 11/18 at the 06:45 PT check-in; a Nov 18 fly expires that day, so it must be flat by 11:00 PT. At the entry and again at the exit, mark the paper fly NVDA-EARLY-20261111-P1 (167.5/177.5/187.5, Nov 18) in the same minute.",
+   "snapshot_2026-11-10_close": {
+    "spot": 168.79,
+    "after_hours": 170.44,
+    "nov13_170_straddle": 8.98,
+    "nov13_iv": [
+     0.7,
+     0.8
+    ],
+    "nov20_170_straddle": 18.5,
+    "nov20_iv": [
+     0.81,
+     0.86
+    ],
+    "nov20_fly_160_170_180": {
+     "credit_mid": 8.25,
+     "max_loss_usd": 175,
+     "breakevens": [
+      161.75,
+      178.25
+     ]
+    },
+    "nov20_fly_165_170_175": {
+     "credit_mid": 4.58,
+     "max_loss_usd": 42,
+     "breakevens": [
+      165.42,
+      174.58
+     ]
+    },
+    "implied_earnings_move_est": 0.08,
+    "hist_abs_moves_pct": [
+     3.25,
+     0.79,
+     3.15,
+     5.46,
+     1.77,
+     8.74
+    ],
+    "hist_avg_pct": 3.86
+   },
+   "nov20_option_ids": {
+    "170C": "f5d34fd0-9b1c-48a9-8ccc-acdfe05c3492",
+    "170P": "4a9c9837-6049-4c9a-b49d-b6f43e1e9acb",
+    "160P": "8df7e042-7d0e-4858-bae1-0479c52fe4eb",
+    "165P": "afe70a05-327b-4b6a-8208-19675c1b80e7",
+    "175C": "376aa83a-04a9-4149-9358-04207fa963ed",
+    "180C": "a3445353-ea9b-4d67-850c-704938381d56"
+   },
+   "tick": "0.01 below $3.00, 0.05 above",
+   "snapshot_2026-11-11_1053PT": {
+    "spot": 177.15,
+    "intraday_pct": 0.0489,
+    "iv_rank": 0.739,
+    "front_iv": 0.6315,
+    "hv10": 0.5926,
+    "straddle_177_5": {
+     "nov13": 6.9,
+     "nov16": 8.725,
+     "nov18": 16.375,
+     "nov20": 17.4
+    },
+    "implied_earnings_move_abs": 0.073,
+    "hist_avg_pct": 3.86,
+    "edge_ratio_est": 0.61,
+    "nov18_option_ids": {
+     "177.5C": "c980db41-d14e-4867-a14e-a51d12f516a5",
+     "177.5P": "292ac598-c349-4a94-ba24-7be700d31966",
+     "187.5C": "04390ae4-72bc-482a-a5bd-7c7d3a56899f",
+     "167.5P": "b1366364-9ab1-417a-a2e0-192bbc3cf040"
+    },
+    "owner_request": "Brad 10:46 PT: 'lets enter on some nvdia for the iv crush/theta decay. theres high iv with it rn'. Not entered: the v1.2 screen fails and the earnings premium pays only after the report. Two paper flies recorded (NVDA-PRE-20261111-P1, NVDA-EARLY-20261111-P1). Offered him a one-word override for the Nov 13 fly."
+   },
+   "hold_2026-11-11": "ON HOLD: the reports of 2026-11-11 (the board preparing to remove the CEO) are a new development of a different kind. Per the owner decision of 2026-11-10: tell Brad and do not trade the 11/17 report without his reply."
+  },
+  {
+   "symbol": "Thursday 2026-11-19",
+   "note": "Reporters whose 11/20 expiry is the exit day (hypothesis H010, proposal P038). After the close Thu: ROST, GAP, INTU, KEYS, ESTC, GLOB, POST, HP, BULL, ESE. Before the open Fri: BJ, BKE, FRO, WRD, MOG.A, BSP (RLX is under $10). Likely under $55: GAP, HP, BULL, FRO, WRD, BKE. The Thursday scan confirms prices, weeklies and timing."
+  }
+ ],
+ "alerts_note": "Brad, 2026-11-11: 'alerts on'. Every open position carries two Robinhood price alerts at its breakevens. Create them at entry; when the position closes, pause them with update_alert(enabled=false). Never delete without Brad's yes. docs/earnings/DAEMON.md 'Breakeven alerts'.",
+ "closed_2026-11-11": [
+  {
+   "symbol": "RGTI",
+   "structure": "iron fly 9/12/15",
+   "quantity": 1,
+   "net_credit": 1.28,
+   "edge_ratio": 0.776,
+   "closed": "2026-11-11T14:50:02Z",
+   "close_debit": 0.99,
+   "pnl_usd": 28.76,
+   "exit_spot": 11.68,
+   "realized_move": -0.0387,
+   "implied_move": 0.099,
+   "alerts": [
+    {
+     "alert_id": "23d4d5d5-a8cf-4616-b4c6-6fe032b349db",
+     "condition": "price_below",
+     "threshold": 10.72,
+     "enabled": false,
+     "paused": "2026-11-11T14:51Z"
+    },
+    {
+     "alert_id": "174ad704-bf22-4e90-b608-dce68d6922bf",
+     "condition": "price_above",
+     "threshold": 13.28,
+     "enabled": false,
+     "paused": "2026-11-11T14:51Z"
+    }
+   ]
+  },
+  {
+   "symbol": "FLY",
+   "structure": "iron fly 19/23.5/27 (uneven wings: call 3.5 wide, put 4.5 wide)",
+   "quantity": 1,
+   "net_credit": 2.65,
+   "edge_ratio": 0.605,
+   "closed": "2026-11-11T14:48:43Z",
+   "close_debit": 2.2,
+   "pnl_usd": 44.72,
+   "exit_spot": 25.18,
+   "realized_move": 0.0624,
+   "implied_move": 0.131,
+   "alerts": [
+    {
+     "alert_id": "1309f081-a2fd-4c1c-961e-812e5e936c22",
+     "condition": "price_below",
+     "threshold": 20.85,
+     "enabled": false,
+     "paused": "2026-11-11T14:51Z"
+    },
+    {
+     "alert_id": "9a3e5ae2-5843-48d1-ba66-ebc78e513f87",
+     "condition": "price_above",
+     "threshold": 26.15,
+     "enabled": false,
+     "paused": "2026-11-11T14:51Z"
+    }
+   ]
+  }
+ ],
+ "leftover_long_wings": {
+  "note": "Zero-bid long wings left after the 11/11 and 11/12 exits. No risk (long options, already paid for). Friday 11/13 at the 06:45 PT check-in: sell any that shows a bid of 0.01 or more with a single-leg limit; otherwise let them expire. If one is in the money on 11/13, sell it before 11:00 PT (never let a long option auto-exercise).",
+  "legs": [
+   {
+    "symbol": "RGTI",
+    "leg": "long 15C",
+    "expiry": "2026-11-13",
+    "quantity": 1,
+    "option_id": "9d68d3d0-5306-4e5b-8754-1439c4f13890",
+    "cost": 0.08
+   },
+   {
+    "symbol": "RGTI",
+    "leg": "long 9P",
+    "expiry": "2026-11-13",
+    "quantity": 1,
+    "option_id": "206ea6d7-2a79-44d3-9e2c-5f875055fa27",
+    "cost": 0.02
+   },
+   {
+    "symbol": "FLY",
+    "leg": "long 19P",
+    "expiry": "2026-11-13",
+    "quantity": 1,
+    "option_id": "8b26493e-139f-4db0-a6fd-09d21d23567c",
+    "cost": 0.3
+   },
+   {
+    "symbol": "LUNR",
+    "leg": "long 10P",
+    "expiry": "2026-11-13",
+    "quantity": 2,
+    "option_id": "4a6c4516-dafb-4914-bad3-8850e907df48",
+    "cost": 0.1
+   }
+  ],
+  "check_2026-11-12_1216": "All five leftover legs (RGTI 15C, RGTI 9P, FLY 19P, LUNR 10P x2) show a zero bid and are out of the money (RGTI 10.44, FLY 25.03, LUNR 13.42). Nothing to sell; they expire 11/13.",
+  "check_2026-11-13_0730": "All five show a zero bid and are out of the money (RGTI 9.57: 15C and 9P; FLY 23.66: 19P; LUNR 12.16: 10P x2). They expire today. The monitor reports a bid of 0.01 or a strike reached (RGTI 9.05, FLY 19.05, LUNR 10.05).",
+  "check_2026-11-13_0812": "All five still show a zero bid and are out of the money (RGTI 9.585, FLY 24.16, LUNR 12.38). No shares in the account.",
+  "check_2026-11-13_0834": "All five still zero bid and out of the money (RGTI 9.685, FLY 24.32, LUNR 12.44). No shares, no orders.",
+  "check_2026-11-13_0915": "All five still zero bid and out of the money (RGTI 9.605, 0.61 above the 9 put; FLY 24.30; LUNR 12.37). No shares, no orders.",
+  "check_2026-11-13_1016": "All five still show a zero bid and are out of the money (RGTI 9.57: 15C and 9P; FLY 24.64: 19P; LUNR 12.46: 10P x2). RGTI is down 7.4% on the day and 0.57 above the 9 put: the one to watch. No resting sell order placed (a 0.01 offer would give the put away if RGTI falls); the monitor reports a bid or a strike reached, and a put with a bid is sold before 11:00 PT.",
+  "check_2026-11-13_1115": "Past 11:00 PT and all five still show a zero bid, so none can be sold; all are out of the money (RGTI 9.675: 15C and 9P; FLY 25.25: 19P; LUNR 12.75: 10P x2). They expire worthless at the close unless RGTI falls 0.68 to the 9 put, in which case the put gets a bid and is sold.",
+  "check_2026-11-13_1216": "45 minutes before the close all five still show a zero bid and are out of the money (RGTI 9.695: 15C and 9P; FLY 25.68: 19P; LUNR 13.045: 10P x2). Nothing to sell. They expire worthless tonight; confirm at Monday's first run that they are gone from the positions.",
+  "monday_check": "At the first run on Mon 2026-11-16 confirm the five expired wings are gone from get_option_positions and no shares appeared, then delete this block.",
+  "close_2026-11-13": "All five show pending_expiration_quantity at the close (RGTI closed 9.62, FLY 25.22, LUNR 12.99: all out of the money). They expire worthless tonight; their cost is already in the closed trades' P/L."
+ },
+ "closed_2026-11-12": [
+  {
+   "symbol": "LUNR",
+   "structure": "iron flies on the 12.5 body: 1 x 11/12.5/14 and 2 x 10/12.5/15",
+   "quantity": 3,
+   "net_credit": 1.2733,
+   "total_credit": 3.82,
+   "edge_ratio": 0.6924,
+   "closed": "2026-11-12T14:44:18Z",
+   "close_debit": 1.36,
+   "close_debit_total": 4.08,
+   "pnl_usd": -26.88,
+   "exit_spot": 13.875,
+   "realized_move": 0.1392,
+   "implied_move": 0.1134,
+   "alerts": [
+    {
+     "alert_id": "138e5a52-10a1-45af-8139-06b9ca54ccd1",
+     "condition": "price_below",
+     "threshold": 11.23,
+     "enabled": false,
+     "paused": "2026-11-12T14:45Z"
+    },
+    {
+     "alert_id": "c2bff4ca-4fd9-4c44-9ab6-89f42eb9abf7",
+     "condition": "price_above",
+     "threshold": 13.77,
+     "enabled": false,
+     "paused": "2026-11-12T14:45Z"
+    }
+   ]
+  },
+  {
+   "symbol": "NVDA",
+   "structure": "iron fly 170/175/180",
+   "quantity": 1,
+   "net_credit": 3.84,
+   "owner_directed": true,
+   "closed": "2026-11-12T16:10:35Z",
+   "close_debit": 4.54,
+   "pnl_usd": -70.32,
+   "exit_spot": 166.55,
+   "realized_move": -0.0413,
+   "exit_reason": "cut, thesis broken (CEO resigned); held at max loss until the 175 put could be bought back",
+   "status_2026-11-12": {
+    "at": "2026-11-12T14:45Z",
+    "spot": 160.0,
+    "spot_open": 150.96,
+    "close_cost_mid": 4.65,
+    "close_cost_natural": 4.86,
+    "mark_pnl_usd": -81,
+    "max_loss_usd": 116,
+    "no_assignment": "06:38 PT: no NVDA shares in the account, all four legs intact.",
+    "why_not_cut": [
+     "Robinhood refused the 4-leg closing order (4.65 debit) at 06:41 PT: 'this account requires the customer to approve agent-placed trades, and a multi-leg strategy cannot be sent for approval yet'.",
+     "Single legs do not work here: buying back the 175 put costs about $1,545 and buying power is $994 (the collateral only comes back once the 175 call is closed too, and that still leaves it about $80 short).",
+     "Even with the buying power, legging out means holding the long 170 put alone (worth about $1,100, $80 per $1 in NVDA) between the two orders, in a stock moving $1 a minute. That adds more risk than the cut removes.",
+     "The position is already near its max loss: a close at the mid saves about $35 against the worst case and gives up the roughly 1 in 8 chance that NVDA is back inside 171.16 to 178.84 on Friday."
+    ],
+    "decision": "HOLD as a max-loss position ($116, defined). Brad was told at 06:50 PT and can close it himself in the app with one 4-leg order (limit about 4.70 debit or better).",
+    "rules_until_expiry": [
+     "Every check-in: get_equity_positions first. If NVDA shares appeared (early assignment of the 175 put): tell Brad at once, then sell the shares with a limit order and sell the 170 put right after (or exercise the 170 put); the loss stays at $116.",
+     "REVISED 07:20 PT (the 06:50 text said 'above 168 and total close cost at or under 4.00'; that held a thesis-broken position longer than rules v1.2 allow). Cut with single legs as soon as BOTH hold: (a) the 175 put's ask x 100 is at or under the buying power, so it can be bought back FIRST with no reliance on collateral coming back (about NVDA 165.5 to 166 with $994), and (b) the close cost at mid is at or under 4.40 (under the 90% line of v1.2.2 with room for the fills). Sequence, every leg reviewed before the first order: buy to close 175P, sell 170P at once, buy to close 175C, sell 180C. Do not buy back the 175 call first: if the put buyback were then refused, the worst case would grow from $116 to about $157.",
+     "Friday 11/13: if NVDA is under 165 at 10:30 PT, leave the fly to expire (both puts in the money: exercise and assignment offset, loss $116). If NVDA is between 165 and 185, close by 11:00 PT with single legs if the buying power allows, else tell Brad to close it in the app before 11:00 PT.",
+     "Do not add, roll or re-center. No new NVDA trade without Brad's reply (owner decision of 2026-11-10)."
+    ],
+    "check_0717": {
+     "at": "2026-11-12T15:17Z",
+     "spot": 163.4,
+     "legs": {
+      "175C": [
+       0.7,
+       0.71
+      ],
+      "175P": [
+       12.2,
+       12.5
+      ],
+      "180C": [
+       0.3,
+       0.31
+      ],
+      "170P": [
+       8.15,
+       8.3
+      ]
+     },
+     "close_cost_mid": 4.525,
+     "close_cost_natural": 4.76,
+     "mark_pnl_usd": -68.5,
+     "pct_of_width": 0.905,
+     "decision": "hold (at or above 90% of the width; the 175 put costs $1,250 against $994 of buying power)",
+     "shares": 0
+    },
+    "check_0731": {
+     "at": "2026-11-12T15:32Z",
+     "daemon_trigger": "nvda_cut_zone at 15:31:14Z (stock 164.535, close cost 4.435)",
+     "requote_153145": {
+      "spot": 164.36,
+      "legs": {
+       "175C": [
+        0.86,
+        0.88
+       ],
+       "175P": [
+        11.2,
+        11.3
+       ],
+       "180C": [
+        0.39,
+        0.4
+       ],
+       "170P": [
+        7.2,
+        7.3
+       ]
+      },
+      "close_cost_mid": 4.475,
+      "close_cost_natural": 4.59
+     },
+     "requote_153201": {
+      "legs": {
+       "175C": [
+        0.72,
+        0.73
+       ],
+       "175P": [
+        11.95,
+        12.15
+       ],
+       "180C": [
+        0.32,
+        0.34
+       ],
+       "170P": [
+        7.85,
+        7.9
+       ]
+      },
+      "close_cost_mid": 4.57
+     },
+     "buying_power": 995.1,
+     "decision": "hold: the close cost was not at or under 4.40 on either re-quote, and the 175 put's ask (11.30, then 12.15) is above the buying power",
+     "reviews": "175P and 175C buybacks reviewed clean. The 170P and 180C sales show collateral alerts while their shorts are open (expected: selling a wing first would leave the short naked).",
+     "note": "When the close cost is at or under 4.40 on my own quote: place the 175P buyback first. If the broker refuses it for buying power, nothing has changed; wait until the 175P ask x 100 is at or under the buying power."
+    }
+   },
+   "alerts": [
+    {
+     "alert_id": "60b2bbcf-c4aa-4575-945d-281d3bad9c7a",
+     "condition": "price_below",
+     "threshold": 171.16,
+     "enabled": false,
+     "paused": "2026-11-12T16:11Z"
+    },
+    {
+     "alert_id": "22b10cec-dc68-4da2-9059-1d0079883b80",
+     "condition": "price_above",
+     "threshold": 178.84,
+     "enabled": false,
+     "paused": "2026-11-12T16:11Z"
+    }
+   ]
+  }
+ ],
+ "morning_note_2026-11-12": "06:41-06:44 PT: LUNR x3 closed for -$26.88. 08:09-08:10 PT: NVDA closed for -$70.32 (cut once the 175 put could be bought back first). Realized today -$97.20; this week -$34.04. Open: PCG x5. Standby exit switch and plain alert moved to Fri 11/13.",
+ "streak_note": "2026-11-12: two closed losses in a row (LUNR, NVDA). A third loss in a row trips the circuit breaker: no new entries, tell Brad.",
+ "morning_note_2026-11-13": "The 06:45 PT task did not fire (still listed as due at 14:45Z when checked at 07:29 and 07:34 PT). The 07:15 hourly check arrived at 07:29 PT and ran the morning routine: head lease taken 07:31 PT, positions checked (PCG x5 and five expiring leftovers, no shares, no orders), nothing was due to close, exit switch and plain alert moved to Mon 2026-11-16 at 07:34 PT (the 07:25 switch had not fired either). One monitor agent for PCG and the leftovers and the paper desk started at 07:38 PT (the desk about 25 minutes late). Heal proposal due in today's reflection.",
+ "cap_total_max_loss_note": "Rules v1.11: the account value. Brad, 2026-11-13 07:53 PT: 'I want you to be able to use the entire funds in the mcp account. I allocated funds specifically for you to trade with.' Before: min($1,000, 0.93 x account value)."
+}

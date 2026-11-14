@@ -1,0 +1,48 @@
+{
+ "date": "2026-11-13",
+ "as_of": "2026-11-13T16:00:00Z",
+ "why": "Friday: no earnings scan. Brad, 07:53 PT: 'I want you to be able to use the entire funds in the mcp account. I allocated funds specifically for you to trade with.' The non-earnings screen (rules v1.2) was run at once to see whether anything qualifies today.",
+ "screen": "preview_scan: average options volume >= 15,000 (1d, 30), last >= 10, ivRank >= 0.8, atmIv30Day / statVol10Day >= 1.15",
+ "hits": [
+  "CRM",
+  "ZS",
+  "PCG"
+ ],
+ "CRM": {
+  "last": 216.29,
+  "iv_rank": 0.806,
+  "iv30_over_hv10": 1.452,
+  "front_iv": 0.5513,
+  "back_iv": 0.5472,
+  "hv10": 0.3016,
+  "avg_options_volume": 26558,
+  "decision": "no trade",
+  "reason": "No dated driver that resolves before the near expiries: the next report is expected about Nov 30 (estimate, not confirmed by the company), so the rich 30-day IV is the earnings premium plus a weak software tape. At $216 a fly inside the $200 non-earnings limit is about $5 wide, with breakevens near 1.8% against a one-week move of about 7.7% priced.",
+  "sources": [
+   "https://earningswhispers.com/stocks/crm",
+   "https://optioncharts.io/options/CRM"
+  ]
+ },
+ "ZS": {
+  "last": 189.13,
+  "iv_rank": 0.846,
+  "iv30_over_hv10": 1.171,
+  "front_iv": 0.8349,
+  "back_iv": 0.8105,
+  "hv10": 0.5282,
+  "avg_options_volume": 15548,
+  "decision": "no trade",
+  "reason": "Same as 2026-11-12: no driver before the near expiries (report around Nov 23 to 24), IV barely above realized, and the stock price puts a $200 fly far inside the expected move."
+ },
+ "PCG": {
+  "last": 13.135,
+  "iv_rank": 0.927,
+  "iv30_over_hv10": 2.626,
+  "front_iv": 0.619,
+  "back_iv": 0.6466,
+  "hv10": 0.1731,
+  "avg_options_volume": 152620,
+  "decision": "held x5 (max loss $174 of the $200 non-earnings limit); one more contract would pass $200, so no add"
+ },
+ "result": "Nothing new qualifies. Risk in use stays $224 of $1,275.91."
+}

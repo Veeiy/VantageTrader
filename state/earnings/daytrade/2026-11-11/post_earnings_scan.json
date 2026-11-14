@@ -1,0 +1,224 @@
+{
+ "as_of_utc": "2026-11-11T15:21:00Z",
+ "rows": [
+  {
+   "symbol": "PBR",
+   "report": "2026-11-10 pm",
+   "spot": 18.025,
+   "today_move": 0.0139,
+   "today_range_so_far": 0.0279,
+   "K": 18.0,
+   "straddle_mid": 0.585,
+   "straddle_pct": 0.0325,
+   "atm_spread_pct": 0.188,
+   "sigma_total": 0.0406,
+   "D": 2.869,
+   "implied_daily": 0.024,
+   "normal_daily": 0.0296,
+   "excess": 0.808,
+   "path": [
+    {
+     "t": "09:35",
+     "stock": 17.82,
+     "call": 0.16,
+     "put": 0.47,
+     "straddle": 0.63,
+     "time_value": 0.45
+    },
+    {
+     "t": "10:00",
+     "stock": 17.865,
+     "call": 0.24,
+     "put": 0.36,
+     "straddle": 0.6,
+     "time_value": 0.465
+    },
+    {
+     "t": "10:20 latest",
+     "stock": 18.055,
+     "call": 0.33,
+     "put": 0.26,
+     "straddle": 0.59,
+     "time_value": 0.535
+    }
+   ],
+   "wings": null,
+   "notes": "Stock 18.025 near K=18. Open option bars thin (09:35 straddle 0.63 incl. 0.18 intrinsic); time value has not deflated (0.45 -> 0.535). Excess 0.81: no premium above normal. Quote 15:20 UTC."
+  },
+  {
+   "symbol": "RGTI",
+   "report": "2026-11-10 pm",
+   "spot": 11.695,
+   "today_move": 0.0374,
+   "today_range_so_far": 0.1144,
+   "K": 11.5,
+   "straddle_mid": 0.855,
+   "straddle_pct": 0.0731,
+   "atm_spread_pct": 0.152,
+   "sigma_total": 0.0914,
+   "D": 2.869,
+   "implied_daily": 0.054,
+   "normal_daily": 0.0693,
+   "excess": 0.778,
+   "path": [
+    {
+     "t": "09:35",
+     "stock": 12.0,
+     "call": 0.85,
+     "put": 0.22,
+     "straddle": 1.07,
+     "time_value": 0.57
+    },
+    {
+     "t": "10:00",
+     "stock": 11.695,
+     "call": 0.51,
+     "put": 0.35,
+     "straddle": 0.86,
+     "time_value": 0.665
+    },
+    {
+     "t": "10:20 latest",
+     "stock": 11.735,
+     "call": 0.55,
+     "put": 0.32,
+     "straddle": 0.87,
+     "time_value": 0.635
+    }
+   ],
+   "wings": null,
+   "notes": "Strike 11.5 nearest spot 11.695 (0.5 steps). Gapped open 12.94 -> faded to 11.7 (-3.7%). Time value 0.57 @09:35 -> 0.635 now (no deflation). Excess 0.78: straddle at/below normal movement (20d normal ~6.9%/day, very volatile run-up)."
+  },
+  {
+   "symbol": "FLY",
+   "report": "2026-11-10 pm",
+   "spot": 26.06,
+   "today_move": 0.0996,
+   "today_range_so_far": 0.1169,
+   "K": 26.0,
+   "straddle_mid": 2.325,
+   "straddle_pct": 0.0892,
+   "atm_spread_pct": 0.28,
+   "sigma_total": 0.1115,
+   "D": 2.869,
+   "implied_daily": 0.0658,
+   "normal_daily": 0.0848,
+   "excess": 0.776,
+   "path": [
+    {
+     "t": "09:35",
+     "stock": 25.825,
+     "call": 1.33,
+     "put": 2.03,
+     "straddle": 3.36,
+     "time_value": 3.185
+    },
+    {
+     "t": "10:00",
+     "stock": 26.05,
+     "call": 1.13,
+     "put": 1.15,
+     "straddle": 2.28,
+     "time_value": 2.23
+    },
+    {
+     "t": "10:20 latest",
+     "stock": 26.1101,
+     "call": 1.08,
+     "put": 1.15,
+     "straddle": 2.23,
+     "time_value": 2.12
+    }
+   ],
+   "wings": null,
+   "notes": "FLAGGED: atm_spread_pct 0.28 > 0.25 (spread rule drop); kept in rows as requested. Put OI only 6, vol 7. Time value 3.19 @09:35 -> 2.12 now (-33%), mostly deflated. Excess 0.78 vs very high recent realized (normal ~8.5%/day after 11/06-11/09 +37%,+17% moves)."
+  }
+ ],
+ "dropped": [
+  {
+   "symbol": "ODD",
+   "reason": "spread",
+   "detail": "atm_spread_pct 0.448 (call 0.70/1.15, put 0.60/0.90); excess would be 1.21 (implied_daily 0.0613 vs normal 0.0507); time value 2.27@09:35 -> 1.795 now",
+   "metrics": {
+    "symbol": "ODD",
+    "report": "2026-11-11 am",
+    "spot": 20.16,
+    "today_move": 0.0336,
+    "today_range_so_far": 0.141,
+    "K": 20.0,
+    "straddle_mid": 1.675,
+    "straddle_pct": 0.0831,
+    "atm_spread_pct": 0.448,
+    "sigma_total": 0.1039,
+    "D": 2.869,
+    "implied_daily": 0.0613,
+    "normal_daily": 0.0507,
+    "excess": 1.21,
+    "path": [
+     {
+      "t": "09:35",
+      "stock": 20.31,
+      "call": 1.85,
+      "put": 0.73,
+      "straddle": 2.58,
+      "time_value": 2.27
+     },
+     {
+      "t": "10:00",
+      "stock": 19.755,
+      "call": 0.93,
+      "put": 0.85,
+      "straddle": 1.78,
+      "time_value": 1.535
+     },
+     {
+      "t": "10:20 latest",
+      "stock": 20.215,
+      "call": 0.93,
+      "put": 1.08,
+      "straddle": 2.01,
+      "time_value": 1.795
+     }
+    ],
+    "wings": null
+   }
+  },
+  {
+   "symbol": "FLY",
+   "reason": "spread (kept in rows, flagged)",
+   "detail": "atm_spread_pct 0.28"
+  },
+  {
+   "symbol": "ALC",
+   "reason": "no_nov13",
+   "detail": "no 2026-11-13 contracts at 70, 70.5, 71"
+  },
+  {
+   "symbol": "PBR.A",
+   "reason": "no_nov13",
+   "detail": "no 2026-11-13 contracts at 15, 15.5, 16"
+  },
+  {
+   "symbol": "INMD",
+   "reason": "no_nov13",
+   "detail": "no 2026-11-13 contracts at 13, 13.5, 14"
+  },
+  {
+   "symbol": "ECO",
+   "reason": "not_reported",
+   "detail": "report 2026-11-11 pm (after today's close)"
+  },
+  {
+   "symbol": "SONY",
+   "reason": "not_reported_window",
+   "detail": "latest report 2026-11-05 am"
+  },
+  {
+   "symbol": "VOD",
+   "reason": "timing_unknown",
+   "detail": "report 2026-11-10 with timing null, data looks malformed"
+  }
+ ],
+ "errors": [],
+ "method_notes": "D=2+339/390=2.869 at 15:21 UTC. Path times are 5-min bar closes (09:35=14:30 bar, 10:00=14:55 bar, latest=15:15 bar closing 15:20 UTC); 10:30 NY not yet reached. normal_daily over 20 close-to-close moves ending 2026-11-10. Universe: scan returned 8; RGTI and FLY added by hand (not in scan). No symbol passed with excess>=1.10, so no wings quoted."
+}

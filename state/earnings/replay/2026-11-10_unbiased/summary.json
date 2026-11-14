@@ -1,0 +1,3139 @@
+{
+ "made": "2026-11-11T04:00:00Z",
+ "source": "Robinhood 30-minute option bars, read-only agents; docs/earnings/REPLAY.md",
+ "sample": "108 events drawn systematically from 660 earnings events (2026-10-12 to 2026-11-06) of stocks with 30-day average options volume >= 1,500 and price $10-150",
+ "macro_entry_dates": [
+  "2026-10-13",
+  "2026-11-05"
+ ],
+ "wing_multipliers_used": {
+  "1": {
+   "entry": 1.008,
+   "exit": 1.0068
+  },
+  "2": {
+   "entry": 1.0185,
+   "exit": 1.0893
+  }
+ },
+ "clean": {
+  "counts": {
+   "events": 108,
+   "by_status": {
+    "ok": 36,
+    "no_weekly": 72
+   },
+   "priced": 36,
+   "clean": 32,
+   "used": 32,
+   "clean_only": true,
+   "cost_frac": 0.0,
+   "flags": {
+    "body_floored_b1": 6,
+    "body_floored_b2": 3,
+    "entry_parity": 2,
+    "exit_parity_b1": 2,
+    "exit_parity_b2": 2
+   }
+  },
+  "edge_split": {
+   "tight": {
+    "cut": 0.7,
+    "in": {
+     "n": 8,
+     "wins": 6,
+     "win_rate": 0.75,
+     "total_usd": 256.7,
+     "avg_usd": 32.09,
+     "median_usd": 30.81,
+     "worst_usd": -40.77,
+     "best_usd": 96.6,
+     "avg_pnl_over_max_loss": 0.2241
+    },
+    "out": {
+     "n": 24,
+     "wins": 10,
+     "win_rate": 0.4167,
+     "total_usd": -65.9,
+     "avg_usd": -2.75,
+     "median_usd": -6.84,
+     "worst_usd": -152.99,
+     "best_usd": 94.85,
+     "avg_pnl_over_max_loss": -0.0521
+    },
+    "fisher_one_sided_p": 0.11
+   },
+   "tight_and_passing": {
+    "cut": 0.7,
+    "in": {
+     "n": 6,
+     "wins": 6,
+     "win_rate": 1.0,
+     "total_usd": 305.8,
+     "avg_usd": 50.97,
+     "median_usd": 60.47,
+     "worst_usd": 4.99,
+     "best_usd": 96.6,
+     "avg_pnl_over_max_loss": 0.3973
+    },
+    "out": {
+     "n": 26,
+     "wins": 10,
+     "win_rate": 0.3846,
+     "total_usd": -115.0,
+     "avg_usd": -4.42,
+     "median_usd": -7.69,
+     "worst_usd": -152.99,
+     "best_usd": 94.85,
+     "avg_pnl_over_max_loss": -0.0708
+    },
+    "fisher_one_sided_p": 0.0088
+   },
+   "passing": {
+    "in": {
+     "n": 9,
+     "wins": 6,
+     "win_rate": 0.6667,
+     "total_usd": 120.06,
+     "avg_usd": 13.34,
+     "median_usd": 11.0,
+     "worst_usd": -152.99,
+     "best_usd": 96.6,
+     "avg_pnl_over_max_loss": 0.0997
+    },
+    "out": {
+     "n": 23,
+     "wins": 10,
+     "win_rate": 0.4348,
+     "total_usd": 70.74,
+     "avg_usd": 3.08,
+     "median_usd": -7.05,
+     "worst_usd": -99.0,
+     "best_usd": 94.85,
+     "avg_pnl_over_max_loss": -0.0154
+    },
+    "fisher_one_sided_p": 0.2166
+   }
+  },
+  "stock_move_abs_mean": {
+   "open": 0.0484,
+   "b1": 0.063,
+   "b2": 0.0686,
+   "grew_open_to_b2": 24
+  },
+  "overall": {
+   "fly1_b1_model": {
+    "n": 32,
+    "wins": 22,
+    "win_rate": 0.6875,
+    "total_usd": 253.52,
+    "avg_usd": 7.92,
+    "median_usd": 5.4,
+    "worst_usd": -149.07,
+    "best_usd": 101.04,
+    "avg_pnl_over_max_loss": 0.0413
+   },
+   "fly1_b1_traded": {
+    "n": 28,
+    "wins": 15,
+    "win_rate": 0.5357,
+    "total_usd": 192.67,
+    "avg_usd": 6.88,
+    "median_usd": 2.5,
+    "worst_usd": -116.0,
+    "best_usd": 116.0,
+    "avg_pnl_over_max_loss": 0.0431
+   },
+   "fly1_b2_model": {
+    "n": 32,
+    "wins": 16,
+    "win_rate": 0.5,
+    "total_usd": 190.8,
+    "avg_usd": 5.96,
+    "median_usd": 0.5,
+    "worst_usd": -152.99,
+    "best_usd": 96.6,
+    "avg_pnl_over_max_loss": 0.017
+   },
+   "fly1_b2_traded": {
+    "n": 29,
+    "wins": 14,
+    "win_rate": 0.4828,
+    "total_usd": 26.0,
+    "avg_usd": 0.9,
+    "median_usd": -8.0,
+    "worst_usd": -142.0,
+    "best_usd": 113.0,
+    "avg_pnl_over_max_loss": -0.0465
+   },
+   "fly2_b1_model": {
+    "n": 31,
+    "wins": 21,
+    "win_rate": 0.6774,
+    "total_usd": 1112.98,
+    "avg_usd": 35.9,
+    "median_usd": 26.22,
+    "worst_usd": -173.01,
+    "best_usd": 217.75,
+    "avg_pnl_over_max_loss": 0.0614
+   },
+   "fly2_b1_traded": {
+    "n": 14,
+    "wins": 12,
+    "win_rate": 0.8571,
+    "total_usd": 919.82,
+    "avg_usd": 65.7,
+    "median_usd": 35.0,
+    "worst_usd": -120.0,
+    "best_usd": 220.0,
+    "avg_pnl_over_max_loss": 0.1066
+   },
+   "fly2_b2_model": {
+    "n": 31,
+    "wins": 17,
+    "win_rate": 0.5484,
+    "total_usd": 822.9,
+    "avg_usd": 26.55,
+    "median_usd": 12.09,
+    "worst_usd": -190.87,
+    "best_usd": 211.62,
+    "avg_pnl_over_max_loss": 0.034
+   },
+   "fly2_b2_traded": {
+    "n": 14,
+    "wins": 8,
+    "win_rate": 0.5714,
+    "total_usd": 678.0,
+    "avg_usd": 48.43,
+    "median_usd": 18.5,
+    "worst_usd": -127.0,
+    "best_usd": 214.0,
+    "avg_pnl_over_max_loss": 0.0779
+   }
+  },
+  "short_straddle_b2": {
+   "n": 32,
+   "wins": 19,
+   "win_rate": 0.5938,
+   "total_usd": 1321.0,
+   "avg_usd": 41.28,
+   "median_usd": 31.0,
+   "worst_usd": -223.0,
+   "best_usd": 254.0,
+   "avg_pnl_over_max_loss": null
+  },
+  "by_label": {
+   "1": {
+    "buy_zone": {
+     "n": 8,
+     "wins": 4,
+     "win_rate": 0.5,
+     "total_usd": 156.44,
+     "avg_usd": 19.55,
+     "median_usd": 3.76,
+     "worst_usd": -48.66,
+     "best_usd": 93.39,
+     "avg_pnl_over_max_loss": 0.0387
+    },
+    "no_edge": {
+     "n": 13,
+     "wins": 6,
+     "win_rate": 0.4615,
+     "total_usd": -36.6,
+     "avg_usd": -2.82,
+     "median_usd": -8.68,
+     "worst_usd": -99.0,
+     "best_usd": 94.85,
+     "avg_pnl_over_max_loss": -0.0056
+    },
+    "sell_blocked": {
+     "n": 2,
+     "wins": 0,
+     "win_rate": 0.0,
+     "total_usd": -49.1,
+     "avg_usd": -24.55,
+     "median_usd": -24.55,
+     "worst_usd": -40.77,
+     "best_usd": -8.33,
+     "avg_pnl_over_max_loss": -0.2957
+    },
+    "sell_pass": {
+     "n": 9,
+     "wins": 6,
+     "win_rate": 0.6667,
+     "total_usd": 120.06,
+     "avg_usd": 13.34,
+     "median_usd": 11.0,
+     "worst_usd": -152.99,
+     "best_usd": 96.6,
+     "avg_pnl_over_max_loss": 0.0997
+    }
+   },
+   "2": {
+    "buy_zone": {
+     "n": 8,
+     "wins": 6,
+     "win_rate": 0.75,
+     "total_usd": 544.72,
+     "avg_usd": 68.09,
+     "median_usd": 91.07,
+     "worst_usd": -100.07,
+     "best_usd": 204.99,
+     "avg_pnl_over_max_loss": 0.0612
+    },
+    "no_edge": {
+     "n": 13,
+     "wins": 6,
+     "win_rate": 0.4615,
+     "total_usd": 128.24,
+     "avg_usd": 9.86,
+     "median_usd": -13.98,
+     "worst_usd": -129.07,
+     "best_usd": 211.62,
+     "avg_pnl_over_max_loss": 0.0169
+    },
+    "sell_blocked": {
+     "n": 2,
+     "wins": 0,
+     "win_rate": 0.0,
+     "total_usd": -62.86,
+     "avg_usd": -31.43,
+     "median_usd": -31.43,
+     "worst_usd": -53.09,
+     "best_usd": -9.77,
+     "avg_pnl_over_max_loss": -0.1083
+    },
+    "sell_pass": {
+     "n": 8,
+     "wins": 5,
+     "win_rate": 0.625,
+     "total_usd": 212.8,
+     "avg_usd": 26.6,
+     "median_usd": 19.23,
+     "worst_usd": -190.87,
+     "best_usd": 174.11,
+     "avg_pnl_over_max_loss": 0.0704
+    }
+   }
+  },
+  "by_label_detail": {
+   "buy_zone": {
+    "n": 8,
+    "wins": 4,
+    "win_rate": 0.5,
+    "total_usd": 156.44,
+    "avg_usd": 19.55,
+    "median_usd": 3.76,
+    "worst_usd": -48.66,
+    "best_usd": 93.39,
+    "avg_pnl_over_max_loss": 0.0387
+   },
+   "no_edge": {
+    "n": 13,
+    "wins": 6,
+    "win_rate": 0.4615,
+    "total_usd": -36.6,
+    "avg_usd": -2.82,
+    "median_usd": -8.68,
+    "worst_usd": -99.0,
+    "best_usd": 94.85,
+    "avg_pnl_over_max_loss": -0.0056
+   },
+   "sell_blocked:intraday": {
+    "n": 1,
+    "wins": 0,
+    "win_rate": 0.0,
+    "total_usd": -8.33,
+    "avg_usd": -8.33,
+    "median_usd": -8.33,
+    "worst_usd": -8.33,
+    "best_usd": -8.33,
+    "avg_pnl_over_max_loss": -0.1786
+   },
+   "sell_blocked:intraday+macro": {
+    "n": 1,
+    "wins": 0,
+    "win_rate": 0.0,
+    "total_usd": -40.77,
+    "avg_usd": -40.77,
+    "median_usd": -40.77,
+    "worst_usd": -40.77,
+    "best_usd": -40.77,
+    "avg_pnl_over_max_loss": -0.4128
+   },
+   "sell_pass": {
+    "n": 9,
+    "wins": 6,
+    "win_rate": 0.6667,
+    "total_usd": 120.06,
+    "avg_usd": 13.34,
+    "median_usd": 11.0,
+    "worst_usd": -152.99,
+    "best_usd": 96.6,
+    "avg_pnl_over_max_loss": 0.0997
+   }
+  },
+  "by_edge_bucket": {
+   "1": {
+    "0.70-0.85": {
+     "n": 3,
+     "wins": 0,
+     "win_rate": 0.0,
+     "total_usd": -185.74,
+     "avg_usd": -61.91,
+     "median_usd": -26.11,
+     "worst_usd": -152.99,
+     "best_usd": -6.64,
+     "avg_pnl_over_max_loss": -0.4954
+    },
+    "0.85-1.00": {
+     "n": 6,
+     "wins": 3,
+     "win_rate": 0.5,
+     "total_usd": -96.88,
+     "avg_usd": -16.15,
+     "median_usd": -8.71,
+     "worst_usd": -50.55,
+     "best_usd": 13.91,
+     "avg_pnl_over_max_loss": -0.1328
+    },
+    "1.00-1.25": {
+     "n": 7,
+     "wins": 3,
+     "win_rate": 0.4286,
+     "total_usd": 60.28,
+     "avg_usd": 8.61,
+     "median_usd": -8.68,
+     "worst_usd": -99.0,
+     "best_usd": 94.85,
+     "avg_pnl_over_max_loss": 0.1034
+    },
+    "<=0.70": {
+     "n": 8,
+     "wins": 6,
+     "win_rate": 0.75,
+     "total_usd": 256.7,
+     "avg_usd": 32.09,
+     "median_usd": 30.81,
+     "worst_usd": -40.77,
+     "best_usd": 96.6,
+     "avg_pnl_over_max_loss": 0.2241
+    },
+    ">=1.25": {
+     "n": 8,
+     "wins": 4,
+     "win_rate": 0.5,
+     "total_usd": 156.44,
+     "avg_usd": 19.55,
+     "median_usd": 3.76,
+     "worst_usd": -48.66,
+     "best_usd": 93.39,
+     "avg_pnl_over_max_loss": 0.0387
+    }
+   },
+   "2": {
+    "0.70-0.85": {
+     "n": 3,
+     "wins": 0,
+     "win_rate": 0.0,
+     "total_usd": -257.88,
+     "avg_usd": -85.96,
+     "median_usd": -56.37,
+     "worst_usd": -190.87,
+     "best_usd": -10.64,
+     "avg_pnl_over_max_loss": -0.2165
+    },
+    "0.85-1.00": {
+     "n": 6,
+     "wins": 3,
+     "win_rate": 0.5,
+     "total_usd": -224.35,
+     "avg_usd": -37.39,
+     "median_usd": -18.36,
+     "worst_usd": -129.07,
+     "best_usd": 33.75,
+     "avg_pnl_over_max_loss": -0.075
+    },
+    "1.00-1.25": {
+     "n": 7,
+     "wins": 3,
+     "win_rate": 0.4286,
+     "total_usd": 352.59,
+     "avg_usd": 50.37,
+     "median_usd": -13.98,
+     "worst_usd": -26.31,
+     "best_usd": 211.62,
+     "avg_pnl_over_max_loss": 0.0956
+    },
+    "<=0.70": {
+     "n": 7,
+     "wins": 5,
+     "win_rate": 0.7143,
+     "total_usd": 407.82,
+     "avg_usd": 58.26,
+     "median_usd": 26.36,
+     "worst_usd": -53.09,
+     "best_usd": 174.11,
+     "avg_pnl_over_max_loss": 0.1423
+    },
+    ">=1.25": {
+     "n": 8,
+     "wins": 6,
+     "win_rate": 0.75,
+     "total_usd": 544.72,
+     "avg_usd": 68.09,
+     "median_usd": 91.07,
+     "worst_usd": -100.07,
+     "best_usd": 204.99,
+     "avg_pnl_over_max_loss": 0.0612
+    }
+   }
+  },
+  "by_r_over_i": {
+   "1": {
+    "0.35-0.70": {
+     "n": 8,
+     "wins": 8,
+     "win_rate": 1.0,
+     "total_usd": 266.64,
+     "avg_usd": 33.33,
+     "median_usd": 23.27,
+     "worst_usd": 1.26,
+     "best_usd": 96.6,
+     "avg_pnl_over_max_loss": 0.3287
+    },
+    "0.70-1.00": {
+     "n": 7,
+     "wins": 2,
+     "win_rate": 0.2857,
+     "total_usd": -112.31,
+     "avg_usd": -16.04,
+     "median_usd": -6.64,
+     "worst_usd": -99.0,
+     "best_usd": 7.78,
+     "avg_pnl_over_max_loss": -0.1262
+    },
+    "1.00-1.50": {
+     "n": 10,
+     "wins": 0,
+     "win_rate": 0.0,
+     "total_usd": -385.88,
+     "avg_usd": -38.59,
+     "median_usd": -23.02,
+     "worst_usd": -152.99,
+     "best_usd": -8.33,
+     "avg_pnl_over_max_loss": -0.3821
+    },
+    "<=0.35": {
+     "n": 6,
+     "wins": 6,
+     "win_rate": 1.0,
+     "total_usd": 472.9,
+     "avg_usd": 78.82,
+     "median_usd": 81.86,
+     "worst_usd": 50.62,
+     "best_usd": 94.85,
+     "avg_pnl_over_max_loss": 0.5234
+    },
+    ">1.50": {
+     "n": 1,
+     "wins": 0,
+     "win_rate": 0.0,
+     "total_usd": -50.55,
+     "avg_usd": -50.55,
+     "median_usd": -50.55,
+     "worst_usd": -50.55,
+     "best_usd": -50.55,
+     "avg_pnl_over_max_loss": -0.5229
+    }
+   },
+   "2": {
+    "0.35-0.70": {
+     "n": 7,
+     "wins": 7,
+     "win_rate": 1.0,
+     "total_usd": 400.35,
+     "avg_usd": 57.19,
+     "median_usd": 33.75,
+     "worst_usd": 7.21,
+     "best_usd": 139.59,
+     "avg_pnl_over_max_loss": 0.2083
+    },
+    "0.70-1.00": {
+     "n": 7,
+     "wins": 4,
+     "win_rate": 0.5714,
+     "total_usd": 186.22,
+     "avg_usd": 26.6,
+     "median_usd": 20.05,
+     "worst_usd": -21.91,
+     "best_usd": 91.23,
+     "avg_pnl_over_max_loss": 0.018
+    },
+    "1.00-1.50": {
+     "n": 10,
+     "wins": 0,
+     "win_rate": 0.0,
+     "total_usd": -661.82,
+     "avg_usd": -66.18,
+     "median_usd": -51.14,
+     "worst_usd": -190.87,
+     "best_usd": -9.77,
+     "avg_pnl_over_max_loss": -0.1951
+    },
+    "<=0.35": {
+     "n": 6,
+     "wins": 6,
+     "win_rate": 1.0,
+     "total_usd": 1027.22,
+     "avg_usd": 171.2,
+     "median_usd": 174.78,
+     "worst_usd": 118.53,
+     "best_usd": 211.62,
+     "avg_pnl_over_max_loss": 0.3022
+    },
+    ">1.50": {
+     "n": 1,
+     "wins": 0,
+     "win_rate": 0.0,
+     "total_usd": -129.07,
+     "avg_usd": -129.07,
+     "median_usd": -129.07,
+     "worst_usd": -129.07,
+     "best_usd": -129.07,
+     "avg_pnl_over_max_loss": -0.3903
+    }
+   }
+  },
+  "by_week": {
+   "1": {
+    "2026-10-12": {
+     "n": 3,
+     "wins": 3,
+     "win_rate": 1.0,
+     "total_usd": 222.62,
+     "avg_usd": 74.21,
+     "median_usd": 93.39,
+     "worst_usd": 32.63,
+     "best_usd": 96.6,
+     "avg_pnl_over_max_loss": 0.6968
+    },
+    "2026-10-19": {
+     "n": 3,
+     "wins": 1,
+     "win_rate": 0.3333,
+     "total_usd": -22.38,
+     "avg_usd": -7.46,
+     "median_usd": -8.68,
+     "worst_usd": -18.69,
+     "best_usd": 4.99,
+     "avg_pnl_over_max_loss": 0.0157
+    },
+    "2026-10-26": {
+     "n": 10,
+     "wins": 4,
+     "win_rate": 0.4,
+     "total_usd": -38.81,
+     "avg_usd": -3.88,
+     "median_usd": -3.45,
+     "worst_usd": -152.99,
+     "best_usd": 94.85,
+     "avg_pnl_over_max_loss": -0.0442
+    },
+    "2026-11-02": {
+     "n": 16,
+     "wins": 8,
+     "win_rate": 0.5,
+     "total_usd": 29.37,
+     "avg_usd": 1.84,
+     "median_usd": -3.54,
+     "worst_usd": -99.0,
+     "best_usd": 92.52,
+     "avg_pnl_over_max_loss": -0.0721
+    }
+   },
+   "2": {
+    "2026-10-12": {
+     "n": 3,
+     "wins": 3,
+     "win_rate": 1.0,
+     "total_usd": 395.56,
+     "avg_usd": 131.85,
+     "median_usd": 139.59,
+     "worst_usd": 80.52,
+     "best_usd": 175.45,
+     "avg_pnl_over_max_loss": 0.353
+    },
+    "2026-10-19": {
+     "n": 3,
+     "wins": 1,
+     "win_rate": 0.3333,
+     "total_usd": -58.15,
+     "avg_usd": -19.38,
+     "median_usd": -26.31,
+     "worst_usd": -43.93,
+     "best_usd": 12.09,
+     "avg_pnl_over_max_loss": -0.0025
+    },
+    "2026-10-26": {
+     "n": 9,
+     "wins": 5,
+     "win_rate": 0.5556,
+     "total_usd": 42.44,
+     "avg_usd": 4.72,
+     "median_usd": 26.36,
+     "worst_usd": -190.87,
+     "best_usd": 211.62,
+     "avg_pnl_over_max_loss": 0.0064
+    },
+    "2026-11-02": {
+     "n": 16,
+     "wins": 8,
+     "win_rate": 0.5,
+     "total_usd": 443.05,
+     "avg_usd": 27.69,
+     "median_usd": -1.28,
+     "worst_usd": -129.07,
+     "best_usd": 204.99,
+     "avg_pnl_over_max_loss": -0.0034
+    }
+   }
+  },
+  "by_intraday": {
+   "2-5%": {
+    "n": 14,
+    "wins": 7,
+    "win_rate": 0.5,
+    "total_usd": 282.44,
+    "avg_usd": 20.17,
+    "median_usd": 5.37,
+    "worst_usd": -99.0,
+    "best_usd": 96.6,
+    "avg_pnl_over_max_loss": 0.0807
+   },
+   "5-7%": {
+    "n": 3,
+    "wins": 1,
+    "win_rate": 0.3333,
+    "total_usd": -13.06,
+    "avg_usd": -4.35,
+    "median_usd": -7.05,
+    "worst_usd": -19.92,
+    "best_usd": 13.91,
+    "avg_pnl_over_max_loss": -0.0258
+   },
+   "<2%": {
+    "n": 10,
+    "wins": 5,
+    "win_rate": 0.5,
+    "total_usd": -135.92,
+    "avg_usd": -13.59,
+    "median_usd": -1.48,
+    "worst_usd": -152.99,
+    "best_usd": 50.62,
+    "avg_pnl_over_max_loss": -0.0857
+   },
+   ">7%": {
+    "n": 5,
+    "wins": 3,
+    "win_rate": 0.6,
+    "total_usd": 57.34,
+    "avg_usd": 11.47,
+    "median_usd": 1.26,
+    "worst_usd": -40.77,
+    "best_usd": 71.21,
+    "avg_pnl_over_max_loss": 0.0696
+   }
+  },
+  "by_regime": {
+   "ok": {
+    "n": 32,
+    "wins": 16,
+    "win_rate": 0.5,
+    "total_usd": 190.8,
+    "avg_usd": 5.96,
+    "median_usd": 0.5,
+    "worst_usd": -152.99,
+    "best_usd": 96.6,
+    "avg_pnl_over_max_loss": 0.017
+   }
+  },
+  "by_macro": {
+   "ok": {
+    "n": 31,
+    "wins": 16,
+    "win_rate": 0.5161,
+    "total_usd": 231.57,
+    "avg_usd": 7.47,
+    "median_usd": 1.26,
+    "worst_usd": -152.99,
+    "best_usd": 96.6,
+    "avg_pnl_over_max_loss": 0.0308
+   },
+   "veto_day": {
+    "n": 1,
+    "wins": 0,
+    "win_rate": 0.0,
+    "total_usd": -40.77,
+    "avg_usd": -40.77,
+    "median_usd": -40.77,
+    "worst_usd": -40.77,
+    "best_usd": -40.77,
+    "avg_pnl_over_max_loss": -0.4128
+   }
+  },
+  "by_timing": {
+   "am": {
+    "n": 20,
+    "wins": 13,
+    "win_rate": 0.65,
+    "total_usd": 471.05,
+    "avg_usd": 23.55,
+    "median_usd": 9.39,
+    "worst_usd": -50.55,
+    "best_usd": 96.6,
+    "avg_pnl_over_max_loss": 0.1478
+   },
+   "pm": {
+    "n": 12,
+    "wins": 3,
+    "win_rate": 0.25,
+    "total_usd": -280.25,
+    "avg_usd": -23.35,
+    "median_usd": -23.02,
+    "worst_usd": -152.99,
+    "best_usd": 93.39,
+    "avg_pnl_over_max_loss": -0.2012
+   }
+  },
+  "by_price": {
+   "$10-25": {
+    "n": 10,
+    "wins": 3,
+    "win_rate": 0.3,
+    "total_usd": -137.67,
+    "avg_usd": -13.77,
+    "median_usd": -11.79,
+    "worst_usd": -50.55,
+    "best_usd": 13.91,
+    "avg_pnl_over_max_loss": -0.203
+   },
+   "$100+": {
+    "n": 4,
+    "wins": 2,
+    "win_rate": 0.5,
+    "total_usd": 14.89,
+    "avg_usd": 3.72,
+    "median_usd": -5.46,
+    "worst_usd": -46.48,
+    "best_usd": 72.28,
+    "avg_pnl_over_max_loss": -0.0883
+   },
+   "$25-50": {
+    "n": 6,
+    "wins": 4,
+    "win_rate": 0.6667,
+    "total_usd": 145.7,
+    "avg_usd": 24.28,
+    "median_usd": 17.61,
+    "worst_usd": -48.66,
+    "best_usd": 96.6,
+    "avg_pnl_over_max_loss": 0.2488
+   },
+   "$50-100": {
+    "n": 12,
+    "wins": 7,
+    "win_rate": 0.5833,
+    "total_usd": 167.88,
+    "avg_usd": 13.99,
+    "median_usd": 18.15,
+    "worst_usd": -152.99,
+    "best_usd": 94.85,
+    "avg_pnl_over_max_loss": 0.1195
+   }
+  },
+  "exit_time_paired": {
+   "n": 32,
+   "b1": {
+    "n": 32,
+    "wins": 22,
+    "win_rate": 0.6875,
+    "total_usd": 253.52,
+    "avg_usd": 7.92,
+    "median_usd": 5.4,
+    "worst_usd": -149.07,
+    "best_usd": 101.04,
+    "avg_pnl_over_max_loss": 0.0413
+   },
+   "b2": {
+    "n": 32,
+    "wins": 16,
+    "win_rate": 0.5,
+    "total_usd": 190.8,
+    "avg_usd": 5.96,
+    "median_usd": 0.5,
+    "worst_usd": -152.99,
+    "best_usd": 96.6,
+    "avg_pnl_over_max_loss": 0.017
+   }
+  },
+  "model_vs_traded_paired": {
+   "n": 29,
+   "model": {
+    "n": 29,
+    "wins": 14,
+    "win_rate": 0.4828,
+    "total_usd": 94.01,
+    "avg_usd": 3.24,
+    "median_usd": -0.26,
+    "worst_usd": -152.99,
+    "best_usd": 94.85,
+    "avg_pnl_over_max_loss": -0.0212
+   },
+   "traded": {
+    "n": 29,
+    "wins": 14,
+    "win_rate": 0.4828,
+    "total_usd": 26.0,
+    "avg_usd": 0.9,
+    "median_usd": -8.0,
+    "worst_usd": -142.0,
+    "best_usd": 113.0,
+    "avg_pnl_over_max_loss": -0.0465
+   }
+  },
+  "max_loss_within_cap": {
+   "cap_usd": 350.0,
+   "fly1": {
+    "n": 30,
+    "wins": 14,
+    "win_rate": 0.4667,
+    "total_usd": 110.74,
+    "avg_usd": 3.69,
+    "median_usd": -3.45,
+    "worst_usd": -152.99,
+    "best_usd": 96.6,
+    "avg_pnl_over_max_loss": 0.0107
+   }
+  },
+  "edge_vs_realized": {
+   "n": 32,
+   "spearman_edge_vs_r_over_i": 0.0517,
+   "r_over_i_by_edge_bucket": {
+    "0.70-0.85": {
+     "n": 3,
+     "q1": 1.0658,
+     "median": 1.1645,
+     "q3": 1.219,
+     "min": 0.9672,
+     "max": 1.2735,
+     "mean": 1.1351
+    },
+    "0.85-1.00": {
+     "n": 6,
+     "q1": 0.5947,
+     "median": 0.8984,
+     "q3": 1.1498,
+     "min": 0.4021,
+     "max": 1.6068,
+     "mean": 0.9221
+    },
+    "1.00-1.25": {
+     "n": 7,
+     "q1": 0.2979,
+     "median": 0.9058,
+     "q3": 0.9735,
+     "min": 0.0513,
+     "max": 1.049,
+     "mean": 0.6498
+    },
+    "<=0.70": {
+     "n": 8,
+     "q1": 0.4223,
+     "median": 0.5898,
+     "q3": 0.7472,
+     "min": 0.3095,
+     "max": 1.1582,
+     "mean": 0.6397
+    },
+    ">=1.25": {
+     "n": 8,
+     "q1": 0.4402,
+     "median": 0.7782,
+     "q3": 0.9642,
+     "min": 0.0715,
+     "max": 1.43,
+     "mean": 0.7403
+    }
+   }
+  },
+  "r_over_i": {
+   "n": 32,
+   "q1": 0.479,
+   "median": 0.7782,
+   "q3": 1.0494,
+   "min": 0.0513,
+   "max": 1.6068,
+   "mean": 0.7665
+  },
+  "crush_post_over_pre": {
+   "b1": {
+    "n": 32,
+    "q1": 0.4825,
+    "median": 0.6483,
+    "q3": 0.7246,
+    "min": 0.3133,
+    "max": 0.8464,
+    "mean": 0.6089
+   },
+   "b2": {
+    "n": 32,
+    "q1": 0.5035,
+    "median": 0.6503,
+    "q3": 0.7113,
+    "min": 0.315,
+    "max": 0.8315,
+    "mean": 0.6119
+   }
+  },
+  "width_over_straddle": {
+   "1": {
+    "n": 32,
+    "q1": 0.9232,
+    "median": 0.9749,
+    "q3": 1.0004,
+    "min": 0.8065,
+    "max": 1.1848,
+    "mean": 0.9704
+   },
+   "2": {
+    "n": 31,
+    "q1": 1.9581,
+    "median": 2.0,
+    "q3": 2.0501,
+    "min": 1.8519,
+    "max": 2.3697,
+    "mean": 2.0092
+   }
+  },
+  "wing_calibration": {
+   "mult": {
+    "1": {
+     "entry": 1.008,
+     "exit": 1.0068
+    },
+    "2": {
+     "entry": 1.0185,
+     "exit": 1.0893
+    }
+   },
+   "prints": {
+    "1": {
+     "entry": 61,
+     "exit": 44
+    },
+    "2": {
+     "entry": 42,
+     "exit": 23
+    }
+   }
+  },
+  "long_straddle_in_buy_zone": {
+   "n": 8,
+   "wins": 2,
+   "win_rate": 0.25,
+   "total_usd": -755.0,
+   "avg_usd": -94.38,
+   "median_usd": -138.5,
+   "worst_usd": -254.0,
+   "best_usd": 109.0,
+   "avg_pnl_over_max_loss": -0.0907
+  },
+  "limits": [
+   "prices are last trades in 30-minute bars, not quotes: no bid-ask cost, prints can be stale",
+   "wings are priced by a model from the at-the-money straddle (multiplier calibrated on real wing prints)",
+   "the spread gate and the news gate cannot be replayed",
+   "one contract per event, filled at the printed prices"
+  ]
+ },
+ "all_priced": {
+  "counts": {
+   "events": 108,
+   "by_status": {
+    "ok": 36,
+    "no_weekly": 72
+   },
+   "priced": 36,
+   "clean": 32,
+   "used": 36,
+   "clean_only": false,
+   "cost_frac": 0.0,
+   "flags": {
+    "body_floored_b1": 6,
+    "body_floored_b2": 3,
+    "entry_parity": 2,
+    "exit_parity_b1": 2,
+    "exit_parity_b2": 2
+   }
+  },
+  "edge_split": {
+   "tight": {
+    "cut": 0.7,
+    "in": {
+     "n": 11,
+     "wins": 9,
+     "win_rate": 0.8182,
+     "total_usd": 361.77,
+     "avg_usd": 32.89,
+     "median_usd": 18.31,
+     "worst_usd": -40.77,
+     "best_usd": 96.6,
+     "avg_pnl_over_max_loss": 0.272
+    },
+    "out": {
+     "n": 25,
+     "wins": 11,
+     "win_rate": 0.44,
+     "total_usd": -63.86,
+     "avg_usd": -2.55,
+     "median_usd": -6.64,
+     "worst_usd": -152.99,
+     "best_usd": 94.85,
+     "avg_pnl_over_max_loss": -0.049
+    },
+    "fisher_one_sided_p": 0.0387
+   },
+   "tight_and_passing": {
+    "cut": 0.7,
+    "in": {
+     "n": 9,
+     "wins": 9,
+     "win_rate": 1.0,
+     "total_usd": 410.87,
+     "avg_usd": 45.65,
+     "median_usd": 50.62,
+     "worst_usd": 4.99,
+     "best_usd": 96.6,
+     "avg_pnl_over_max_loss": 0.3982
+    },
+    "out": {
+     "n": 27,
+     "wins": 11,
+     "win_rate": 0.4074,
+     "total_usd": -112.96,
+     "avg_usd": -4.18,
+     "median_usd": -7.05,
+     "worst_usd": -152.99,
+     "best_usd": 94.85,
+     "avg_pnl_over_max_loss": -0.0673
+    },
+    "fisher_one_sided_p": 0.0018
+   },
+   "passing": {
+    "in": {
+     "n": 12,
+     "wins": 9,
+     "win_rate": 0.75,
+     "total_usd": 225.13,
+     "avg_usd": 18.76,
+     "median_usd": 14.89,
+     "worst_usd": -152.99,
+     "best_usd": 96.6,
+     "avg_pnl_over_max_loss": 0.1748
+    },
+    "out": {
+     "n": 24,
+     "wins": 11,
+     "win_rate": 0.4583,
+     "total_usd": 72.78,
+     "avg_usd": 3.03,
+     "median_usd": -3.65,
+     "worst_usd": -99.0,
+     "best_usd": 94.85,
+     "avg_pnl_over_max_loss": -0.0137
+    },
+    "fisher_one_sided_p": 0.0951
+   }
+  },
+  "stock_move_abs_mean": {
+   "open": 0.046,
+   "b1": 0.0576,
+   "b2": 0.0627,
+   "grew_open_to_b2": 25
+  },
+  "overall": {
+   "fly1_b1_model": {
+    "n": 36,
+    "wins": 25,
+    "win_rate": 0.6944,
+    "total_usd": 373.41,
+    "avg_usd": 10.37,
+    "median_usd": 5.68,
+    "worst_usd": -149.07,
+    "best_usd": 101.04,
+    "avg_pnl_over_max_loss": 0.0741
+   },
+   "fly1_b1_traded": {
+    "n": 31,
+    "wins": 17,
+    "win_rate": 0.5484,
+    "total_usd": 211.67,
+    "avg_usd": 6.83,
+    "median_usd": 4.0,
+    "worst_usd": -116.0,
+    "best_usd": 116.0,
+    "avg_pnl_over_max_loss": 0.0517
+   },
+   "fly1_b2_model": {
+    "n": 36,
+    "wins": 20,
+    "win_rate": 0.5556,
+    "total_usd": 297.91,
+    "avg_usd": 8.28,
+    "median_usd": 2.85,
+    "worst_usd": -152.99,
+    "best_usd": 96.6,
+    "avg_pnl_over_max_loss": 0.0491
+   },
+   "fly1_b2_traded": {
+    "n": 32,
+    "wins": 17,
+    "win_rate": 0.5312,
+    "total_usd": 92.0,
+    "avg_usd": 2.88,
+    "median_usd": 3.0,
+    "worst_usd": -142.0,
+    "best_usd": 113.0,
+    "avg_pnl_over_max_loss": -0.0066
+   },
+   "fly2_b1_model": {
+    "n": 35,
+    "wins": 25,
+    "win_rate": 0.7143,
+    "total_usd": 1363.19,
+    "avg_usd": 38.95,
+    "median_usd": 26.22,
+    "worst_usd": -173.01,
+    "best_usd": 217.75,
+    "avg_pnl_over_max_loss": 0.0809
+   },
+   "fly2_b1_traded": {
+    "n": 15,
+    "wins": 13,
+    "win_rate": 0.8667,
+    "total_usd": 942.82,
+    "avg_usd": 62.85,
+    "median_usd": 34.0,
+    "worst_usd": -120.0,
+    "best_usd": 220.0,
+    "avg_pnl_over_max_loss": 0.1119
+   },
+   "fly2_b2_model": {
+    "n": 35,
+    "wins": 21,
+    "win_rate": 0.6,
+    "total_usd": 1054.36,
+    "avg_usd": 30.12,
+    "median_usd": 23.65,
+    "worst_usd": -190.87,
+    "best_usd": 211.62,
+    "avg_pnl_over_max_loss": 0.055
+   },
+   "fly2_b2_traded": {
+    "n": 15,
+    "wins": 9,
+    "win_rate": 0.6,
+    "total_usd": 701.0,
+    "avg_usd": 46.73,
+    "median_usd": 23.0,
+    "worst_usd": -127.0,
+    "best_usd": 214.0,
+    "avg_pnl_over_max_loss": 0.0851
+   }
+  },
+  "short_straddle_b2": {
+   "n": 36,
+   "wins": 23,
+   "win_rate": 0.6389,
+   "total_usd": 1607.0,
+   "avg_usd": 44.64,
+   "median_usd": 33.5,
+   "worst_usd": -223.0,
+   "best_usd": 254.0,
+   "avg_pnl_over_max_loss": null
+  },
+  "by_label": {
+   "1": {
+    "buy_zone": {
+     "n": 8,
+     "wins": 4,
+     "win_rate": 0.5,
+     "total_usd": 156.44,
+     "avg_usd": 19.55,
+     "median_usd": 3.76,
+     "worst_usd": -48.66,
+     "best_usd": 93.39,
+     "avg_pnl_over_max_loss": 0.0387
+    },
+    "no_edge": {
+     "n": 14,
+     "wins": 7,
+     "win_rate": 0.5,
+     "total_usd": -34.56,
+     "avg_usd": -2.47,
+     "median_usd": -3.71,
+     "worst_usd": -99.0,
+     "best_usd": 94.85,
+     "avg_pnl_over_max_loss": -0.0034
+    },
+    "sell_blocked": {
+     "n": 2,
+     "wins": 0,
+     "win_rate": 0.0,
+     "total_usd": -49.1,
+     "avg_usd": -24.55,
+     "median_usd": -24.55,
+     "worst_usd": -40.77,
+     "best_usd": -8.33,
+     "avg_pnl_over_max_loss": -0.2957
+    },
+    "sell_pass": {
+     "n": 12,
+     "wins": 9,
+     "win_rate": 0.75,
+     "total_usd": 225.13,
+     "avg_usd": 18.76,
+     "median_usd": 14.89,
+     "worst_usd": -152.99,
+     "best_usd": 96.6,
+     "avg_pnl_over_max_loss": 0.1748
+    }
+   },
+   "2": {
+    "buy_zone": {
+     "n": 8,
+     "wins": 6,
+     "win_rate": 0.75,
+     "total_usd": 544.72,
+     "avg_usd": 68.09,
+     "median_usd": 91.07,
+     "worst_usd": -100.07,
+     "best_usd": 204.99,
+     "avg_pnl_over_max_loss": 0.0612
+    },
+    "no_edge": {
+     "n": 14,
+     "wins": 7,
+     "win_rate": 0.5,
+     "total_usd": 152.09,
+     "avg_usd": 10.86,
+     "median_usd": -3.39,
+     "worst_usd": -129.07,
+     "best_usd": 211.62,
+     "avg_pnl_over_max_loss": 0.0203
+    },
+    "sell_blocked": {
+     "n": 2,
+     "wins": 0,
+     "win_rate": 0.0,
+     "total_usd": -62.86,
+     "avg_usd": -31.43,
+     "median_usd": -31.43,
+     "worst_usd": -53.09,
+     "best_usd": -9.77,
+     "avg_pnl_over_max_loss": -0.1083
+    },
+    "sell_pass": {
+     "n": 11,
+     "wins": 8,
+     "win_rate": 0.7273,
+     "total_usd": 420.41,
+     "avg_usd": 38.22,
+     "median_usd": 26.36,
+     "worst_usd": -190.87,
+     "best_usd": 174.11,
+     "avg_pnl_over_max_loss": 0.1246
+    }
+   }
+  },
+  "by_label_detail": {
+   "buy_zone": {
+    "n": 8,
+    "wins": 4,
+    "win_rate": 0.5,
+    "total_usd": 156.44,
+    "avg_usd": 19.55,
+    "median_usd": 3.76,
+    "worst_usd": -48.66,
+    "best_usd": 93.39,
+    "avg_pnl_over_max_loss": 0.0387
+   },
+   "no_edge": {
+    "n": 14,
+    "wins": 7,
+    "win_rate": 0.5,
+    "total_usd": -34.56,
+    "avg_usd": -2.47,
+    "median_usd": -3.71,
+    "worst_usd": -99.0,
+    "best_usd": 94.85,
+    "avg_pnl_over_max_loss": -0.0034
+   },
+   "sell_blocked:intraday": {
+    "n": 1,
+    "wins": 0,
+    "win_rate": 0.0,
+    "total_usd": -8.33,
+    "avg_usd": -8.33,
+    "median_usd": -8.33,
+    "worst_usd": -8.33,
+    "best_usd": -8.33,
+    "avg_pnl_over_max_loss": -0.1786
+   },
+   "sell_blocked:intraday+macro": {
+    "n": 1,
+    "wins": 0,
+    "win_rate": 0.0,
+    "total_usd": -40.77,
+    "avg_usd": -40.77,
+    "median_usd": -40.77,
+    "worst_usd": -40.77,
+    "best_usd": -40.77,
+    "avg_pnl_over_max_loss": -0.4128
+   },
+   "sell_pass": {
+    "n": 12,
+    "wins": 9,
+    "win_rate": 0.75,
+    "total_usd": 225.13,
+    "avg_usd": 18.76,
+    "median_usd": 14.89,
+    "worst_usd": -152.99,
+    "best_usd": 96.6,
+    "avg_pnl_over_max_loss": 0.1748
+   }
+  },
+  "by_edge_bucket": {
+   "1": {
+    "0.70-0.85": {
+     "n": 3,
+     "wins": 0,
+     "win_rate": 0.0,
+     "total_usd": -185.74,
+     "avg_usd": -61.91,
+     "median_usd": -26.11,
+     "worst_usd": -152.99,
+     "best_usd": -6.64,
+     "avg_pnl_over_max_loss": -0.4954
+    },
+    "0.85-1.00": {
+     "n": 7,
+     "wins": 4,
+     "win_rate": 0.5714,
+     "total_usd": -94.84,
+     "avg_usd": -13.55,
+     "median_usd": 1.26,
+     "worst_usd": -50.55,
+     "best_usd": 13.91,
+     "avg_pnl_over_max_loss": -0.1102
+    },
+    "1.00-1.25": {
+     "n": 7,
+     "wins": 3,
+     "win_rate": 0.4286,
+     "total_usd": 60.28,
+     "avg_usd": 8.61,
+     "median_usd": -8.68,
+     "worst_usd": -99.0,
+     "best_usd": 94.85,
+     "avg_pnl_over_max_loss": 0.1034
+    },
+    "<=0.70": {
+     "n": 11,
+     "wins": 9,
+     "win_rate": 0.8182,
+     "total_usd": 361.77,
+     "avg_usd": 32.89,
+     "median_usd": 18.31,
+     "worst_usd": -40.77,
+     "best_usd": 96.6,
+     "avg_pnl_over_max_loss": 0.272
+    },
+    ">=1.25": {
+     "n": 8,
+     "wins": 4,
+     "win_rate": 0.5,
+     "total_usd": 156.44,
+     "avg_usd": 19.55,
+     "median_usd": 3.76,
+     "worst_usd": -48.66,
+     "best_usd": 93.39,
+     "avg_pnl_over_max_loss": 0.0387
+    }
+   },
+   "2": {
+    "0.70-0.85": {
+     "n": 3,
+     "wins": 0,
+     "win_rate": 0.0,
+     "total_usd": -257.88,
+     "avg_usd": -85.96,
+     "median_usd": -56.37,
+     "worst_usd": -190.87,
+     "best_usd": -10.64,
+     "avg_pnl_over_max_loss": -0.2165
+    },
+    "0.85-1.00": {
+     "n": 7,
+     "wins": 4,
+     "win_rate": 0.5714,
+     "total_usd": -200.5,
+     "avg_usd": -28.64,
+     "median_usd": 7.21,
+     "worst_usd": -129.07,
+     "best_usd": 33.75,
+     "avg_pnl_over_max_loss": -0.0551
+    },
+    "1.00-1.25": {
+     "n": 7,
+     "wins": 3,
+     "win_rate": 0.4286,
+     "total_usd": 352.59,
+     "avg_usd": 50.37,
+     "median_usd": -13.98,
+     "worst_usd": -26.31,
+     "best_usd": 211.62,
+     "avg_pnl_over_max_loss": 0.0956
+    },
+    "<=0.70": {
+     "n": 10,
+     "wins": 8,
+     "win_rate": 0.8,
+     "total_usd": 615.43,
+     "avg_usd": 61.54,
+     "median_usd": 34.91,
+     "worst_usd": -53.09,
+     "best_usd": 174.11,
+     "avg_pnl_over_max_loss": 0.1803
+    },
+    ">=1.25": {
+     "n": 8,
+     "wins": 6,
+     "win_rate": 0.75,
+     "total_usd": 544.72,
+     "avg_usd": 68.09,
+     "median_usd": 91.07,
+     "worst_usd": -100.07,
+     "best_usd": 204.99,
+     "avg_pnl_over_max_loss": 0.0612
+    }
+   }
+  },
+  "by_r_over_i": {
+   "1": {
+    "0.35-0.70": {
+     "n": 9,
+     "wins": 9,
+     "win_rate": 1.0,
+     "total_usd": 284.95,
+     "avg_usd": 31.66,
+     "median_usd": 18.31,
+     "worst_usd": 1.26,
+     "best_usd": 96.6,
+     "avg_pnl_over_max_loss": 0.3234
+    },
+    "0.70-1.00": {
+     "n": 8,
+     "wins": 3,
+     "win_rate": 0.375,
+     "total_usd": -110.27,
+     "avg_usd": -13.78,
+     "median_usd": -3.45,
+     "worst_usd": -99.0,
+     "best_usd": 7.78,
+     "avg_pnl_over_max_loss": -0.1073
+    },
+    "1.00-1.50": {
+     "n": 10,
+     "wins": 0,
+     "win_rate": 0.0,
+     "total_usd": -385.88,
+     "avg_usd": -38.59,
+     "median_usd": -23.02,
+     "worst_usd": -152.99,
+     "best_usd": -8.33,
+     "avg_pnl_over_max_loss": -0.3821
+    },
+    "<=0.35": {
+     "n": 8,
+     "wins": 8,
+     "win_rate": 1.0,
+     "total_usd": 559.66,
+     "avg_usd": 69.96,
+     "median_usd": 73.25,
+     "worst_usd": 11.48,
+     "best_usd": 94.85,
+     "avg_pnl_over_max_loss": 0.5074
+    },
+    ">1.50": {
+     "n": 1,
+     "wins": 0,
+     "win_rate": 0.0,
+     "total_usd": -50.55,
+     "avg_usd": -50.55,
+     "median_usd": -50.55,
+     "worst_usd": -50.55,
+     "best_usd": -50.55,
+     "avg_pnl_over_max_loss": -0.5229
+    }
+   },
+   "2": {
+    "0.35-0.70": {
+     "n": 8,
+     "wins": 8,
+     "win_rate": 1.0,
+     "total_usd": 443.8,
+     "avg_usd": 55.48,
+     "median_usd": 38.6,
+     "worst_usd": 7.21,
+     "best_usd": 139.59,
+     "avg_pnl_over_max_loss": 0.2067
+    },
+    "0.70-1.00": {
+     "n": 8,
+     "wins": 5,
+     "win_rate": 0.625,
+     "total_usd": 210.07,
+     "avg_usd": 26.26,
+     "median_usd": 21.95,
+     "worst_usd": -21.91,
+     "best_usd": 91.23,
+     "avg_pnl_over_max_loss": 0.0238
+    },
+    "1.00-1.50": {
+     "n": 10,
+     "wins": 0,
+     "win_rate": 0.0,
+     "total_usd": -661.82,
+     "avg_usd": -66.18,
+     "median_usd": -51.14,
+     "worst_usd": -190.87,
+     "best_usd": -9.77,
+     "avg_pnl_over_max_loss": -0.1951
+    },
+    "<=0.35": {
+     "n": 8,
+     "wins": 8,
+     "win_rate": 1.0,
+     "total_usd": 1191.38,
+     "avg_usd": 148.92,
+     "median_usd": 158.31,
+     "worst_usd": 23.65,
+     "best_usd": 211.62,
+     "avg_pnl_over_max_loss": 0.3031
+    },
+    ">1.50": {
+     "n": 1,
+     "wins": 0,
+     "win_rate": 0.0,
+     "total_usd": -129.07,
+     "avg_usd": -129.07,
+     "median_usd": -129.07,
+     "worst_usd": -129.07,
+     "best_usd": -129.07,
+     "avg_pnl_over_max_loss": -0.3903
+    }
+   }
+  },
+  "by_week": {
+   "1": {
+    "2026-10-12": {
+     "n": 3,
+     "wins": 3,
+     "win_rate": 1.0,
+     "total_usd": 222.62,
+     "avg_usd": 74.21,
+     "median_usd": 93.39,
+     "worst_usd": 32.63,
+     "best_usd": 96.6,
+     "avg_pnl_over_max_loss": 0.6968
+    },
+    "2026-10-19": {
+     "n": 3,
+     "wins": 1,
+     "win_rate": 0.3333,
+     "total_usd": -22.38,
+     "avg_usd": -7.46,
+     "median_usd": -8.68,
+     "worst_usd": -18.69,
+     "best_usd": 4.99,
+     "avg_pnl_over_max_loss": 0.0157
+    },
+    "2026-10-26": {
+     "n": 13,
+     "wins": 7,
+     "win_rate": 0.5385,
+     "total_usd": 56.82,
+     "avg_usd": 4.37,
+     "median_usd": 2.04,
+     "worst_usd": -152.99,
+     "best_usd": 94.85,
+     "avg_pnl_over_max_loss": 0.0427
+    },
+    "2026-11-02": {
+     "n": 17,
+     "wins": 9,
+     "win_rate": 0.5294,
+     "total_usd": 40.85,
+     "avg_usd": 2.4,
+     "median_usd": 1.26,
+     "worst_usd": -99.0,
+     "best_usd": 92.52,
+     "avg_pnl_over_max_loss": -0.0544
+    }
+   },
+   "2": {
+    "2026-10-12": {
+     "n": 3,
+     "wins": 3,
+     "win_rate": 1.0,
+     "total_usd": 395.56,
+     "avg_usd": 131.85,
+     "median_usd": 139.59,
+     "worst_usd": 80.52,
+     "best_usd": 175.45,
+     "avg_pnl_over_max_loss": 0.353
+    },
+    "2026-10-19": {
+     "n": 3,
+     "wins": 1,
+     "win_rate": 0.3333,
+     "total_usd": -58.15,
+     "avg_usd": -19.38,
+     "median_usd": -26.31,
+     "worst_usd": -43.93,
+     "best_usd": 12.09,
+     "avg_pnl_over_max_loss": -0.0025
+    },
+    "2026-10-26": {
+     "n": 12,
+     "wins": 8,
+     "win_rate": 0.6667,
+     "total_usd": 250.25,
+     "avg_usd": 20.85,
+     "median_usd": 28.46,
+     "worst_usd": -190.87,
+     "best_usd": 211.62,
+     "avg_pnl_over_max_loss": 0.0617
+    },
+    "2026-11-02": {
+     "n": 17,
+     "wins": 9,
+     "win_rate": 0.5294,
+     "total_usd": 466.7,
+     "avg_usd": 27.45,
+     "median_usd": 7.21,
+     "worst_usd": -129.07,
+     "best_usd": 204.99,
+     "avg_pnl_over_max_loss": 0.0079
+    }
+   }
+  },
+  "by_intraday": {
+   "2-5%": {
+    "n": 15,
+    "wins": 8,
+    "win_rate": 0.5333,
+    "total_usd": 357.72,
+    "avg_usd": 23.85,
+    "median_usd": 11.0,
+    "worst_usd": -99.0,
+    "best_usd": 96.6,
+    "avg_pnl_over_max_loss": 0.1213
+   },
+   "5-7%": {
+    "n": 3,
+    "wins": 1,
+    "win_rate": 0.3333,
+    "total_usd": -13.06,
+    "avg_usd": -4.35,
+    "median_usd": -7.05,
+    "worst_usd": -19.92,
+    "best_usd": 13.91,
+    "avg_pnl_over_max_loss": -0.0258
+   },
+   "<2%": {
+    "n": 13,
+    "wins": 8,
+    "win_rate": 0.6154,
+    "total_usd": -104.09,
+    "avg_usd": -8.01,
+    "median_usd": 3.67,
+    "worst_usd": -152.99,
+    "best_usd": 50.62,
+    "avg_pnl_over_max_loss": -0.0248
+   },
+   ">7%": {
+    "n": 5,
+    "wins": 3,
+    "win_rate": 0.6,
+    "total_usd": 57.34,
+    "avg_usd": 11.47,
+    "median_usd": 1.26,
+    "worst_usd": -40.77,
+    "best_usd": 71.21,
+    "avg_pnl_over_max_loss": 0.0696
+   }
+  },
+  "by_regime": {
+   "ok": {
+    "n": 36,
+    "wins": 20,
+    "win_rate": 0.5556,
+    "total_usd": 297.91,
+    "avg_usd": 8.28,
+    "median_usd": 2.85,
+    "worst_usd": -152.99,
+    "best_usd": 96.6,
+    "avg_pnl_over_max_loss": 0.0491
+   }
+  },
+  "by_macro": {
+   "ok": {
+    "n": 35,
+    "wins": 20,
+    "win_rate": 0.5714,
+    "total_usd": 338.68,
+    "avg_usd": 9.68,
+    "median_usd": 3.67,
+    "worst_usd": -152.99,
+    "best_usd": 96.6,
+    "avg_pnl_over_max_loss": 0.0623
+   },
+   "veto_day": {
+    "n": 1,
+    "wins": 0,
+    "win_rate": 0.0,
+    "total_usd": -40.77,
+    "avg_usd": -40.77,
+    "median_usd": -40.77,
+    "worst_usd": -40.77,
+    "best_usd": -40.77,
+    "avg_pnl_over_max_loss": -0.4128
+   }
+  },
+  "by_timing": {
+   "am": {
+    "n": 22,
+    "wins": 15,
+    "win_rate": 0.6818,
+    "total_usd": 484.57,
+    "avg_usd": 22.03,
+    "median_usd": 9.39,
+    "worst_usd": -50.55,
+    "best_usd": 96.6,
+    "avg_pnl_over_max_loss": 0.1459
+   },
+   "pm": {
+    "n": 14,
+    "wins": 5,
+    "win_rate": 0.3571,
+    "total_usd": -186.66,
+    "avg_usd": -13.33,
+    "median_usd": -13.49,
+    "worst_usd": -152.99,
+    "best_usd": 93.39,
+    "avg_pnl_over_max_loss": -0.1031
+   }
+  },
+  "by_price": {
+   "$10-25": {
+    "n": 10,
+    "wins": 3,
+    "win_rate": 0.3,
+    "total_usd": -137.67,
+    "avg_usd": -13.77,
+    "median_usd": -11.79,
+    "worst_usd": -50.55,
+    "best_usd": 13.91,
+    "avg_pnl_over_max_loss": -0.203
+   },
+   "$100+": {
+    "n": 5,
+    "wins": 3,
+    "win_rate": 0.6,
+    "total_usd": 16.93,
+    "avg_usd": 3.39,
+    "median_usd": 2.04,
+    "worst_usd": -46.48,
+    "best_usd": 72.28,
+    "avg_pnl_over_max_loss": -0.0656
+   },
+   "$25-50": {
+    "n": 9,
+    "wins": 7,
+    "win_rate": 0.7778,
+    "total_usd": 250.77,
+    "avg_usd": 27.86,
+    "median_usd": 18.31,
+    "worst_usd": -48.66,
+    "best_usd": 96.6,
+    "avg_pnl_over_max_loss": 0.2992
+   },
+   "$50-100": {
+    "n": 12,
+    "wins": 7,
+    "win_rate": 0.5833,
+    "total_usd": 167.88,
+    "avg_usd": 13.99,
+    "median_usd": 18.15,
+    "worst_usd": -152.99,
+    "best_usd": 94.85,
+    "avg_pnl_over_max_loss": 0.1195
+   }
+  },
+  "exit_time_paired": {
+   "n": 36,
+   "b1": {
+    "n": 36,
+    "wins": 25,
+    "win_rate": 0.6944,
+    "total_usd": 373.41,
+    "avg_usd": 10.37,
+    "median_usd": 5.68,
+    "worst_usd": -149.07,
+    "best_usd": 101.04,
+    "avg_pnl_over_max_loss": 0.0741
+   },
+   "b2": {
+    "n": 36,
+    "wins": 20,
+    "win_rate": 0.5556,
+    "total_usd": 297.91,
+    "avg_usd": 8.28,
+    "median_usd": 2.85,
+    "worst_usd": -152.99,
+    "best_usd": 96.6,
+    "avg_pnl_over_max_loss": 0.0491
+   }
+  },
+  "model_vs_traded_paired": {
+   "n": 32,
+   "model": {
+    "n": 32,
+    "wins": 17,
+    "win_rate": 0.5312,
+    "total_usd": 125.84,
+    "avg_usd": 3.93,
+    "median_usd": 1.65,
+    "worst_usd": -152.99,
+    "best_usd": 94.85,
+    "avg_pnl_over_max_loss": -0.0025
+   },
+   "traded": {
+    "n": 32,
+    "wins": 17,
+    "win_rate": 0.5312,
+    "total_usd": 92.0,
+    "avg_usd": 2.88,
+    "median_usd": 3.0,
+    "worst_usd": -142.0,
+    "best_usd": 113.0,
+    "avg_pnl_over_max_loss": -0.0066
+   }
+  },
+  "max_loss_within_cap": {
+   "cap_usd": 350.0,
+   "fly1": {
+    "n": 34,
+    "wins": 18,
+    "win_rate": 0.5294,
+    "total_usd": 217.85,
+    "avg_usd": 6.41,
+    "median_usd": 1.65,
+    "worst_usd": -152.99,
+    "best_usd": 96.6,
+    "avg_pnl_over_max_loss": 0.0455
+   }
+  },
+  "edge_vs_realized": {
+   "n": 36,
+   "spearman_edge_vs_r_over_i": 0.1699,
+   "r_over_i_by_edge_bucket": {
+    "0.70-0.85": {
+     "n": 3,
+     "q1": 1.0658,
+     "median": 1.1645,
+     "q3": 1.219,
+     "min": 0.9672,
+     "max": 1.2735,
+     "mean": 1.1351
+    },
+    "0.85-1.00": {
+     "n": 7,
+     "q1": 0.6354,
+     "median": 0.7463,
+     "q3": 1.1167,
+     "min": 0.4021,
+     "max": 1.6068,
+     "mean": 0.8942
+    },
+    "1.00-1.25": {
+     "n": 7,
+     "q1": 0.2979,
+     "median": 0.9058,
+     "q3": 0.9735,
+     "min": 0.0513,
+     "max": 1.049,
+     "mean": 0.6498
+    },
+    "<=0.70": {
+     "n": 11,
+     "q1": 0.3187,
+     "median": 0.4779,
+     "q3": 0.6282,
+     "min": 0.1215,
+     "max": 1.1582,
+     "mean": 0.5354
+    },
+    ">=1.25": {
+     "n": 8,
+     "q1": 0.4402,
+     "median": 0.7782,
+     "q3": 0.9642,
+     "min": 0.0715,
+     "max": 1.43,
+     "mean": 0.7403
+    }
+   }
+  },
+  "r_over_i": {
+   "n": 36,
+   "q1": 0.4408,
+   "median": 0.7365,
+   "q3": 1.041,
+   "min": 0.0513,
+   "max": 1.6068,
+   "mean": 0.7229
+  },
+  "crush_post_over_pre": {
+   "b1": {
+    "n": 36,
+    "q1": 0.4825,
+    "median": 0.6483,
+    "q3": 0.7246,
+    "min": 0.3133,
+    "max": 0.8464,
+    "mean": 0.609
+   },
+   "b2": {
+    "n": 36,
+    "q1": 0.5036,
+    "median": 0.6503,
+    "q3": 0.7113,
+    "min": 0.315,
+    "max": 0.8315,
+    "mean": 0.6147
+   }
+  },
+  "width_over_straddle": {
+   "1": {
+    "n": 36,
+    "q1": 0.9232,
+    "median": 0.979,
+    "q3": 1.0138,
+    "min": 0.8065,
+    "max": 1.1848,
+    "mean": 0.9744
+   },
+   "2": {
+    "n": 35,
+    "q1": 1.9499,
+    "median": 2.0,
+    "q3": 2.0501,
+    "min": 1.8248,
+    "max": 2.3697,
+    "mean": 2.0033
+   }
+  },
+  "wing_calibration": {
+   "mult": {
+    "1": {
+     "entry": 1.008,
+     "exit": 1.0068
+    },
+    "2": {
+     "entry": 1.0185,
+     "exit": 1.0893
+    }
+   },
+   "prints": {
+    "1": {
+     "entry": 61,
+     "exit": 44
+    },
+    "2": {
+     "entry": 42,
+     "exit": 23
+    }
+   }
+  },
+  "long_straddle_in_buy_zone": {
+   "n": 8,
+   "wins": 2,
+   "win_rate": 0.25,
+   "total_usd": -755.0,
+   "avg_usd": -94.38,
+   "median_usd": -138.5,
+   "worst_usd": -254.0,
+   "best_usd": 109.0,
+   "avg_pnl_over_max_loss": -0.0907
+  },
+  "limits": [
+   "prices are last trades in 30-minute bars, not quotes: no bid-ask cost, prints can be stale",
+   "wings are priced by a model from the at-the-money straddle (multiplier calibrated on real wing prints)",
+   "the spread gate and the news gate cannot be replayed",
+   "one contract per event, filled at the printed prices"
+  ]
+ },
+ "clean_after_cost_7pct_of_credit": {
+  "counts": {
+   "events": 108,
+   "by_status": {
+    "ok": 36,
+    "no_weekly": 72
+   },
+   "priced": 36,
+   "clean": 32,
+   "used": 32,
+   "clean_only": true,
+   "cost_frac": 0.07,
+   "flags": {
+    "body_floored_b1": 6,
+    "body_floored_b2": 3,
+    "entry_parity": 2,
+    "exit_parity_b1": 2,
+    "exit_parity_b2": 2
+   }
+  },
+  "edge_split": {
+   "tight": {
+    "cut": 0.7,
+    "in": {
+     "n": 8,
+     "wins": 6,
+     "win_rate": 0.75,
+     "total_usd": 92.01,
+     "avg_usd": 11.5,
+     "median_usd": 5.83,
+     "worst_usd": -54.86,
+     "best_usd": 85.22,
+     "avg_pnl_over_max_loss": 0.0761
+    },
+    "out": {
+     "n": 24,
+     "wins": 7,
+     "win_rate": 0.2917,
+     "total_usd": -548.82,
+     "avg_usd": -22.87,
+     "median_usd": -18.8,
+     "worst_usd": -192.48,
+     "best_usd": 74.65,
+     "avg_pnl_over_max_loss": -0.2163
+    },
+    "fisher_one_sided_p": 0.0311
+   },
+   "tight_and_passing": {
+    "cut": 0.7,
+    "in": {
+     "n": 6,
+     "wins": 6,
+     "win_rate": 1.0,
+     "total_usd": 162.44,
+     "avg_usd": 27.07,
+     "median_usd": 17.57,
+     "worst_usd": 2.58,
+     "best_usd": 85.22,
+     "avg_pnl_over_max_loss": 0.2497
+    },
+    "out": {
+     "n": 26,
+     "wins": 7,
+     "win_rate": 0.2692,
+     "total_usd": -619.25,
+     "avg_usd": -23.82,
+     "median_usd": -18.8,
+     "worst_usd": -192.48,
+     "best_usd": 74.65,
+     "avg_pnl_over_max_loss": -0.2339
+    },
+    "fisher_one_sided_p": 0.0019
+   },
+   "passing": {
+    "in": {
+     "n": 9,
+     "wins": 6,
+     "win_rate": 0.6667,
+     "total_usd": -75.33,
+     "avg_usd": -8.37,
+     "median_usd": 3.69,
+     "worst_usd": -192.48,
+     "best_usd": 85.22,
+     "avg_pnl_over_max_loss": -0.0576
+    },
+    "out": {
+     "n": 23,
+     "wins": 7,
+     "win_rate": 0.3043,
+     "total_usd": -381.48,
+     "avg_usd": -16.59,
+     "median_usd": -17.16,
+     "worst_usd": -133.23,
+     "best_usd": 74.65,
+     "avg_pnl_over_max_loss": -0.1767
+    },
+    "fisher_one_sided_p": 0.0706
+   }
+  },
+  "stock_move_abs_mean": {
+   "open": 0.0484,
+   "b1": 0.063,
+   "b2": 0.0686,
+   "grew_open_to_b2": 24
+  },
+  "overall": {
+   "fly1_b1_model": {
+    "n": 32,
+    "wins": 14,
+    "win_rate": 0.4375,
+    "total_usd": -394.09,
+    "avg_usd": -12.32,
+    "median_usd": -6.79,
+    "worst_usd": -188.56,
+    "best_usd": 83.25,
+    "avg_pnl_over_max_loss": -0.1189
+   },
+   "fly1_b1_traded": {
+    "n": 28,
+    "wins": 11,
+    "win_rate": 0.3929,
+    "total_usd": -427.04,
+    "avg_usd": -15.25,
+    "median_usd": -9.77,
+    "worst_usd": -156.18,
+    "best_usd": 96.05,
+    "avg_pnl_over_max_loss": -0.1298
+   },
+   "fly1_b2_model": {
+    "n": 32,
+    "wins": 13,
+    "win_rate": 0.4062,
+    "total_usd": -456.81,
+    "avg_usd": -14.28,
+    "median_usd": -13.45,
+    "worst_usd": -192.48,
+    "best_usd": 85.22,
+    "avg_pnl_over_max_loss": -0.1432
+   },
+   "fly1_b2_traded": {
+    "n": 29,
+    "wins": 12,
+    "win_rate": 0.4138,
+    "total_usd": -600.64,
+    "avg_usd": -20.71,
+    "median_usd": -16.33,
+    "worst_usd": -182.18,
+    "best_usd": 79.77,
+    "avg_pnl_over_max_loss": -0.2181
+   },
+   "fly2_b1_model": {
+    "n": 31,
+    "wins": 18,
+    "win_rate": 0.5806,
+    "total_usd": 289.79,
+    "avg_usd": 9.35,
+    "median_usd": 3.79,
+    "worst_usd": -228.0,
+    "best_usd": 169.18,
+    "avg_pnl_over_max_loss": 0.0007
+   },
+   "fly2_b1_traded": {
+    "n": 14,
+    "wins": 9,
+    "win_rate": 0.6429,
+    "total_usd": 530.97,
+    "avg_usd": 37.93,
+    "median_usd": 10.61,
+    "worst_usd": -142.12,
+    "best_usd": 172.6,
+    "avg_pnl_over_max_loss": 0.0468
+   },
+   "fly2_b2_model": {
+    "n": 31,
+    "wins": 15,
+    "win_rate": 0.4839,
+    "total_usd": -0.29,
+    "avg_usd": -0.01,
+    "median_usd": -0.18,
+    "worst_usd": -245.86,
+    "best_usd": 182.19,
+    "avg_pnl_over_max_loss": -0.0266
+   },
+   "fly2_b2_traded": {
+    "n": 14,
+    "wins": 8,
+    "win_rate": 0.5714,
+    "total_usd": 289.15,
+    "avg_usd": 20.65,
+    "median_usd": 6.88,
+    "worst_usd": -149.12,
+    "best_usd": 184.6,
+    "avg_pnl_over_max_loss": 0.0181
+   }
+  },
+  "short_straddle_b2": {
+   "n": 32,
+   "wins": 19,
+   "win_rate": 0.5938,
+   "total_usd": 1321.0,
+   "avg_usd": 41.28,
+   "median_usd": 31.0,
+   "worst_usd": -223.0,
+   "best_usd": 254.0,
+   "avg_pnl_over_max_loss": null
+  },
+  "by_label": {
+   "1": {
+    "buy_zone": {
+     "n": 8,
+     "wins": 3,
+     "win_rate": 0.375,
+     "total_usd": -66.77,
+     "avg_usd": -8.35,
+     "median_usd": -17.77,
+     "worst_usd": -65.43,
+     "best_usd": 74.31,
+     "avg_pnl_over_max_loss": -0.1244
+    },
+    "no_edge": {
+     "n": 13,
+     "wins": 4,
+     "win_rate": 0.3077,
+     "total_usd": -244.28,
+     "avg_usd": -18.79,
+     "median_usd": -17.16,
+     "worst_usd": -133.23,
+     "best_usd": 74.65,
+     "avg_pnl_over_max_loss": -0.1677
+    },
+    "sell_blocked": {
+     "n": 2,
+     "wins": 0,
+     "win_rate": 0.0,
+     "total_usd": -70.43,
+     "avg_usd": -35.22,
+     "median_usd": -35.22,
+     "worst_usd": -54.86,
+     "best_usd": -15.57,
+     "avg_pnl_over_max_loss": -0.4446
+    },
+    "sell_pass": {
+     "n": 9,
+     "wins": 6,
+     "win_rate": 0.6667,
+     "total_usd": -75.33,
+     "avg_usd": -8.37,
+     "median_usd": 3.69,
+     "worst_usd": -192.48,
+     "best_usd": 85.22,
+     "avg_pnl_over_max_loss": -0.0576
+    }
+   },
+   "2": {
+    "buy_zone": {
+     "n": 8,
+     "wins": 6,
+     "win_rate": 0.75,
+     "total_usd": 242.85,
+     "avg_usd": 30.36,
+     "median_usd": 24.18,
+     "worst_usd": -122.5,
+     "best_usd": 152.64,
+     "avg_pnl_over_max_loss": -0.0
+    },
+    "no_edge": {
+     "n": 13,
+     "wins": 4,
+     "win_rate": 0.3077,
+     "total_usd": -160.65,
+     "avg_usd": -12.36,
+     "median_usd": -35.76,
+     "worst_usd": -147.92,
+     "best_usd": 182.19,
+     "avg_pnl_over_max_loss": -0.0445
+    },
+    "sell_blocked": {
+     "n": 2,
+     "wins": 0,
+     "win_rate": 0.0,
+     "total_usd": -90.77,
+     "avg_usd": -45.38,
+     "median_usd": -45.38,
+     "worst_usd": -71.24,
+     "best_usd": -19.53,
+     "avg_pnl_over_max_loss": -0.1654
+    },
+    "sell_pass": {
+     "n": 8,
+     "wins": 5,
+     "win_rate": 0.625,
+     "total_usd": 8.28,
+     "avg_usd": 1.03,
+     "median_usd": 12.64,
+     "worst_usd": -245.86,
+     "best_usd": 125.91,
+     "avg_pnl_over_max_loss": 0.0107
+    }
+   }
+  },
+  "by_label_detail": {
+   "buy_zone": {
+    "n": 8,
+    "wins": 3,
+    "win_rate": 0.375,
+    "total_usd": -66.77,
+    "avg_usd": -8.35,
+    "median_usd": -17.77,
+    "worst_usd": -65.43,
+    "best_usd": 74.31,
+    "avg_pnl_over_max_loss": -0.1244
+   },
+   "no_edge": {
+    "n": 13,
+    "wins": 4,
+    "win_rate": 0.3077,
+    "total_usd": -244.28,
+    "avg_usd": -18.79,
+    "median_usd": -17.16,
+    "worst_usd": -133.23,
+    "best_usd": 74.65,
+    "avg_pnl_over_max_loss": -0.1677
+   },
+   "sell_blocked:intraday": {
+    "n": 1,
+    "wins": 0,
+    "win_rate": 0.0,
+    "total_usd": -15.57,
+    "avg_usd": -15.57,
+    "median_usd": -15.57,
+    "worst_usd": -15.57,
+    "best_usd": -15.57,
+    "avg_pnl_over_max_loss": -0.3338
+   },
+   "sell_blocked:intraday+macro": {
+    "n": 1,
+    "wins": 0,
+    "win_rate": 0.0,
+    "total_usd": -54.86,
+    "avg_usd": -54.86,
+    "median_usd": -54.86,
+    "worst_usd": -54.86,
+    "best_usd": -54.86,
+    "avg_pnl_over_max_loss": -0.5554
+   },
+   "sell_pass": {
+    "n": 9,
+    "wins": 6,
+    "win_rate": 0.6667,
+    "total_usd": -75.33,
+    "avg_usd": -8.37,
+    "median_usd": 3.69,
+    "worst_usd": -192.48,
+    "best_usd": 85.22,
+    "avg_pnl_over_max_loss": -0.0576
+   }
+  },
+  "by_edge_bucket": {
+   "1": {
+    "0.70-0.85": {
+     "n": 3,
+     "wins": 0,
+     "win_rate": 0.0,
+     "total_usd": -237.77,
+     "avg_usd": -79.26,
+     "median_usd": -33.48,
+     "worst_usd": -192.48,
+     "best_usd": -11.81,
+     "avg_pnl_over_max_loss": -0.672
+    },
+    "0.85-1.00": {
+     "n": 6,
+     "wins": 1,
+     "win_rate": 0.1667,
+     "total_usd": -183.22,
+     "avg_usd": -30.54,
+     "median_usd": -24.89,
+     "worst_usd": -66.56,
+     "best_usd": 4.14,
+     "avg_pnl_over_max_loss": -0.2999
+    },
+    "1.00-1.25": {
+     "n": 7,
+     "wins": 3,
+     "win_rate": 0.4286,
+     "total_usd": -61.06,
+     "avg_usd": -8.72,
+     "median_usd": -17.16,
+     "worst_usd": -133.23,
+     "best_usd": 74.65,
+     "avg_pnl_over_max_loss": -0.0544
+    },
+    "<=0.70": {
+     "n": 8,
+     "wins": 6,
+     "win_rate": 0.75,
+     "total_usd": 92.01,
+     "avg_usd": 11.5,
+     "median_usd": 5.83,
+     "worst_usd": -54.86,
+     "best_usd": 85.22,
+     "avg_pnl_over_max_loss": 0.0761
+    },
+    ">=1.25": {
+     "n": 8,
+     "wins": 3,
+     "win_rate": 0.375,
+     "total_usd": -66.77,
+     "avg_usd": -8.35,
+     "median_usd": -17.77,
+     "worst_usd": -65.43,
+     "best_usd": 74.31,
+     "avg_pnl_over_max_loss": -0.1244
+    }
+   },
+   "2": {
+    "0.70-0.85": {
+     "n": 3,
+     "wins": 0,
+     "win_rate": 0.0,
+     "total_usd": -330.97,
+     "avg_usd": -110.32,
+     "median_usd": -66.49,
+     "worst_usd": -245.86,
+     "best_usd": -18.62,
+     "avg_pnl_over_max_loss": -0.2778
+    },
+    "0.85-1.00": {
+     "n": 6,
+     "wins": 1,
+     "win_rate": 0.1667,
+     "total_usd": -345.64,
+     "avg_usd": -57.61,
+     "median_usd": -38.27,
+     "worst_usd": -147.92,
+     "best_usd": 20.44,
+     "avg_pnl_over_max_loss": -0.1352
+    },
+    "1.00-1.25": {
+     "n": 7,
+     "wins": 3,
+     "win_rate": 0.4286,
+     "total_usd": 184.99,
+     "avg_usd": 26.43,
+     "median_usd": -35.76,
+     "worst_usd": -60.52,
+     "best_usd": 182.19,
+     "avg_pnl_over_max_loss": 0.0332
+    },
+    "<=0.70": {
+     "n": 7,
+     "wins": 5,
+     "win_rate": 0.7143,
+     "total_usd": 248.48,
+     "avg_usd": 35.5,
+     "median_usd": 16.44,
+     "worst_usd": -71.24,
+     "best_usd": 125.91,
+     "avg_pnl_over_max_loss": 0.0841
+    },
+    ">=1.25": {
+     "n": 8,
+     "wins": 6,
+     "win_rate": 0.75,
+     "total_usd": 242.85,
+     "avg_usd": 30.36,
+     "median_usd": 24.18,
+     "worst_usd": -122.5,
+     "best_usd": 152.64,
+     "avg_pnl_over_max_loss": -0.0
+    }
+   }
+  },
+  "by_r_over_i": {
+   "1": {
+    "0.35-0.70": {
+     "n": 8,
+     "wins": 7,
+     "win_rate": 0.875,
+     "total_usd": 142.33,
+     "avg_usd": 17.79,
+     "median_usd": 8.14,
+     "worst_usd": -6.25,
+     "best_usd": 85.22,
+     "avg_pnl_over_max_loss": 0.1767
+    },
+    "0.70-1.00": {
+     "n": 7,
+     "wins": 0,
+     "win_rate": 0.0,
+     "total_usd": -297.83,
+     "avg_usd": -42.55,
+     "median_usd": -20.77,
+     "worst_usd": -133.23,
+     "best_usd": -11.06,
+     "avg_pnl_over_max_loss": -0.2948
+    },
+    "1.00-1.50": {
+     "n": 10,
+     "wins": 0,
+     "win_rate": 0.0,
+     "total_usd": -537.12,
+     "avg_usd": -53.71,
+     "median_usd": -36.09,
+     "worst_usd": -192.48,
+     "best_usd": -15.57,
+     "avg_pnl_over_max_loss": -0.544
+    },
+    "<=0.35": {
+     "n": 6,
+     "wins": 6,
+     "win_rate": 1.0,
+     "total_usd": 300.59,
+     "avg_usd": 50.1,
+     "median_usd": 53.92,
+     "worst_usd": 7.98,
+     "best_usd": 74.65,
+     "avg_pnl_over_max_loss": 0.3631
+    },
+    ">1.50": {
+     "n": 1,
+     "wins": 0,
+     "win_rate": 0.0,
+     "total_usd": -64.78,
+     "avg_usd": -64.78,
+     "median_usd": -64.78,
+     "worst_usd": -64.78,
+     "best_usd": -64.78,
+     "avg_pnl_over_max_loss": -0.6701
+    }
+   },
+   "2": {
+    "0.35-0.70": {
+     "n": 7,
+     "wins": 6,
+     "win_rate": 0.8571,
+     "total_usd": 293.94,
+     "avg_usd": 41.99,
+     "median_usd": 20.44,
+     "worst_usd": -3.74,
+     "best_usd": 125.2,
+     "avg_pnl_over_max_loss": 0.1496
+    },
+    "0.70-1.00": {
+     "n": 7,
+     "wins": 3,
+     "win_rate": 0.4286,
+     "total_usd": -66.55,
+     "avg_usd": -9.51,
+     "median_usd": -0.18,
+     "worst_usd": -60.52,
+     "best_usd": 38.26,
+     "avg_pnl_over_max_loss": -0.0455
+    },
+    "1.00-1.50": {
+     "n": 10,
+     "wins": 0,
+     "win_rate": 0.0,
+     "total_usd": -872.9,
+     "avg_usd": -87.29,
+     "median_usd": -68.86,
+     "worst_usd": -245.86,
+     "best_usd": -19.53,
+     "avg_pnl_over_max_loss": -0.2554
+    },
+    "<=0.35": {
+     "n": 6,
+     "wins": 6,
+     "win_rate": 1.0,
+     "total_usd": 793.14,
+     "avg_usd": 132.19,
+     "median_usd": 137.97,
+     "worst_usd": 62.87,
+     "best_usd": 182.19,
+     "avg_pnl_over_max_loss": 0.2415
+    },
+    ">1.50": {
+     "n": 1,
+     "wins": 0,
+     "win_rate": 0.0,
+     "total_usd": -147.92,
+     "avg_usd": -147.92,
+     "median_usd": -147.92,
+     "worst_usd": -147.92,
+     "best_usd": -147.92,
+     "avg_pnl_over_max_loss": -0.4473
+    }
+   }
+  },
+  "by_week": {
+   "1": {
+    "2026-10-12": {
+     "n": 3,
+     "wins": 3,
+     "win_rate": 1.0,
+     "total_usd": 173.18,
+     "avg_usd": 57.73,
+     "median_usd": 74.31,
+     "worst_usd": 13.65,
+     "best_usd": 85.22,
+     "avg_pnl_over_max_loss": 0.5545
+    },
+    "2026-10-19": {
+     "n": 3,
+     "wins": 1,
+     "win_rate": 0.3333,
+     "total_usd": -53.29,
+     "avg_usd": -17.76,
+     "median_usd": -17.16,
+     "worst_usd": -38.71,
+     "best_usd": 2.58,
+     "avg_pnl_over_max_loss": -0.1304
+    },
+    "2026-10-26": {
+     "n": 10,
+     "wins": 4,
+     "win_rate": 0.4,
+     "total_usd": -241.59,
+     "avg_usd": -24.16,
+     "median_usd": -13.45,
+     "worst_usd": -192.48,
+     "best_usd": 74.65,
+     "avg_pnl_over_max_loss": -0.2119
+    },
+    "2026-11-02": {
+     "n": 16,
+     "wins": 5,
+     "win_rate": 0.3125,
+     "total_usd": -335.11,
+     "avg_usd": -20.94,
+     "median_usd": -18.17,
+     "worst_usd": -133.23,
+     "best_usd": 54.22,
+     "avg_pnl_over_max_loss": -0.2335
+    }
+   },
+   "2": {
+    "2026-10-12": {
+     "n": 3,
+     "wins": 3,
+     "win_rate": 1.0,
+     "total_usd": 330.54,
+     "avg_usd": 110.18,
+     "median_usd": 125.2,
+     "worst_usd": 55.32,
+     "best_usd": 150.02,
+     "avg_pnl_over_max_loss": 0.2982
+    },
+    "2026-10-19": {
+     "n": 3,
+     "wins": 1,
+     "win_rate": 0.3333,
+     "total_usd": -101.97,
+     "avg_usd": -33.99,
+     "median_usd": -38.01,
+     "worst_usd": -72.79,
+     "best_usd": 8.83,
+     "avg_pnl_over_max_loss": -0.0639
+    },
+    "2026-10-26": {
+     "n": 9,
+     "wins": 5,
+     "win_rate": 0.5556,
+     "total_usd": -176.83,
+     "avg_usd": -19.65,
+     "median_usd": 10.11,
+     "worst_usd": -245.86,
+     "best_usd": 182.19,
+     "avg_pnl_over_max_loss": -0.0552
+    },
+    "2026-11-02": {
+     "n": 16,
+     "wins": 6,
+     "win_rate": 0.375,
+     "total_usd": -52.03,
+     "avg_usd": -3.25,
+     "median_usd": -11.64,
+     "worst_usd": -147.92,
+     "best_usd": 152.64,
+     "avg_pnl_over_max_loss": -0.0644
+    }
+   }
+  },
+  "by_intraday": {
+   "2-5%": {
+    "n": 14,
+    "wins": 7,
+    "win_rate": 0.5,
+    "total_usd": 4.85,
+    "avg_usd": 0.35,
+    "median_usd": -5.7,
+    "worst_usd": -133.23,
+    "best_usd": 85.22,
+    "avg_pnl_over_max_loss": -0.0749
+   },
+   "5-7%": {
+    "n": 3,
+    "wins": 1,
+    "win_rate": 0.3333,
+    "total_usd": -74.26,
+    "avg_usd": -24.75,
+    "median_usd": -32.42,
+    "worst_usd": -45.98,
+    "best_usd": 4.14,
+    "avg_pnl_over_max_loss": -0.1912
+   },
+   "<2%": {
+    "n": 10,
+    "wins": 3,
+    "win_rate": 0.3,
+    "total_usd": -377.08,
+    "avg_usd": -37.71,
+    "median_usd": -16.29,
+    "worst_usd": -192.48,
+    "best_usd": 13.65,
+    "avg_pnl_over_max_loss": -0.2517
+   },
+   ">7%": {
+    "n": 5,
+    "wins": 2,
+    "win_rate": 0.4,
+    "total_usd": -10.32,
+    "avg_usd": -2.06,
+    "median_usd": -6.25,
+    "worst_usd": -54.86,
+    "best_usd": 54.22,
+    "avg_pnl_over_max_loss": -0.0885
+   }
+  },
+  "by_regime": {
+   "ok": {
+    "n": 32,
+    "wins": 13,
+    "win_rate": 0.4062,
+    "total_usd": -456.81,
+    "avg_usd": -14.28,
+    "median_usd": -13.45,
+    "worst_usd": -192.48,
+    "best_usd": 85.22,
+    "avg_pnl_over_max_loss": -0.1432
+   }
+  },
+  "by_macro": {
+   "ok": {
+    "n": 31,
+    "wins": 13,
+    "win_rate": 0.4194,
+    "total_usd": -401.95,
+    "avg_usd": -12.97,
+    "median_usd": -11.81,
+    "worst_usd": -192.48,
+    "best_usd": 85.22,
+    "avg_pnl_over_max_loss": -0.1299
+   },
+   "veto_day": {
+    "n": 1,
+    "wins": 0,
+    "win_rate": 0.0,
+    "total_usd": -54.86,
+    "avg_usd": -54.86,
+    "median_usd": -54.86,
+    "worst_usd": -54.86,
+    "best_usd": -54.86,
+    "avg_pnl_over_max_loss": -0.5554
+   }
+  },
+  "by_timing": {
+   "am": {
+    "n": 20,
+    "wins": 11,
+    "win_rate": 0.55,
+    "total_usd": 80.38,
+    "avg_usd": 4.02,
+    "median_usd": 3.13,
+    "worst_usd": -64.78,
+    "best_usd": 85.22,
+    "avg_pnl_over_max_loss": -0.0094
+   },
+   "pm": {
+    "n": 12,
+    "wins": 2,
+    "win_rate": 0.1667,
+    "total_usd": -537.19,
+    "avg_usd": -44.77,
+    "median_usd": -39.73,
+    "worst_usd": -192.48,
+    "best_usd": 74.31,
+    "avg_pnl_over_max_loss": -0.3661
+   }
+  },
+  "by_price": {
+   "$10-25": {
+    "n": 10,
+    "wins": 3,
+    "win_rate": 0.3,
+    "total_usd": -222.96,
+    "avg_usd": -22.3,
+    "median_usd": -18.01,
+    "worst_usd": -64.78,
+    "best_usd": 4.14,
+    "avg_pnl_over_max_loss": -0.3692
+   },
+   "$100+": {
+    "n": 4,
+    "wins": 1,
+    "win_rate": 0.25,
+    "total_usd": -138.01,
+    "avg_usd": -34.5,
+    "median_usd": -49.3,
+    "worst_usd": -66.56,
+    "best_usd": 27.16,
+    "avg_pnl_over_max_loss": -0.2474
+   },
+   "$25-50": {
+    "n": 6,
+    "wins": 3,
+    "win_rate": 0.5,
+    "total_usd": 62.74,
+    "avg_usd": 10.46,
+    "median_usd": 2.95,
+    "worst_usd": -65.43,
+    "best_usd": 85.22,
+    "avg_pnl_over_max_loss": 0.1018
+   },
+   "$50-100": {
+    "n": 12,
+    "wins": 6,
+    "win_rate": 0.5,
+    "total_usd": -158.58,
+    "avg_usd": -13.21,
+    "median_usd": -1.54,
+    "worst_usd": -192.48,
+    "best_usd": 74.65,
+    "avg_pnl_over_max_loss": -0.0426
+   }
+  },
+  "exit_time_paired": {
+   "n": 32,
+   "b1": {
+    "n": 32,
+    "wins": 14,
+    "win_rate": 0.4375,
+    "total_usd": -394.09,
+    "avg_usd": -12.32,
+    "median_usd": -6.79,
+    "worst_usd": -188.56,
+    "best_usd": 83.25,
+    "avg_pnl_over_max_loss": -0.1189
+   },
+   "b2": {
+    "n": 32,
+    "wins": 13,
+    "win_rate": 0.4062,
+    "total_usd": -456.81,
+    "avg_usd": -14.28,
+    "median_usd": -13.45,
+    "worst_usd": -192.48,
+    "best_usd": 85.22,
+    "avg_pnl_over_max_loss": -0.1432
+   }
+  },
+  "model_vs_traded_paired": {
+   "n": 29,
+   "model": {
+    "n": 29,
+    "wins": 11,
+    "win_rate": 0.3793,
+    "total_usd": -524.95,
+    "avg_usd": -18.1,
+    "median_usd": -15.08,
+    "worst_usd": -192.48,
+    "best_usd": 74.65,
+    "avg_pnl_over_max_loss": -0.182
+   },
+   "traded": {
+    "n": 29,
+    "wins": 12,
+    "win_rate": 0.4138,
+    "total_usd": -600.64,
+    "avg_usd": -20.71,
+    "median_usd": -16.33,
+    "worst_usd": -182.18,
+    "best_usd": 79.77,
+    "avg_pnl_over_max_loss": -0.2181
+   }
+  },
+  "max_loss_within_cap": {
+   "cap_usd": 350.0,
+   "fly1": {
+    "n": 30,
+    "wins": 12,
+    "win_rate": 0.4,
+    "total_usd": -424.07,
+    "avg_usd": -14.14,
+    "median_usd": -13.45,
+    "worst_usd": -192.48,
+    "best_usd": 85.22,
+    "avg_pnl_over_max_loss": -0.1507
+   }
+  },
+  "edge_vs_realized": {
+   "n": 32,
+   "spearman_edge_vs_r_over_i": 0.0517,
+   "r_over_i_by_edge_bucket": {
+    "0.70-0.85": {
+     "n": 3,
+     "q1": 1.0658,
+     "median": 1.1645,
+     "q3": 1.219,
+     "min": 0.9672,
+     "max": 1.2735,
+     "mean": 1.1351
+    },
+    "0.85-1.00": {
+     "n": 6,
+     "q1": 0.5947,
+     "median": 0.8984,
+     "q3": 1.1498,
+     "min": 0.4021,
+     "max": 1.6068,
+     "mean": 0.9221
+    },
+    "1.00-1.25": {
+     "n": 7,
+     "q1": 0.2979,
+     "median": 0.9058,
+     "q3": 0.9735,
+     "min": 0.0513,
+     "max": 1.049,
+     "mean": 0.6498
+    },
+    "<=0.70": {
+     "n": 8,
+     "q1": 0.4223,
+     "median": 0.5898,
+     "q3": 0.7472,
+     "min": 0.3095,
+     "max": 1.1582,
+     "mean": 0.6397
+    },
+    ">=1.25": {
+     "n": 8,
+     "q1": 0.4402,
+     "median": 0.7782,
+     "q3": 0.9642,
+     "min": 0.0715,
+     "max": 1.43,
+     "mean": 0.7403
+    }
+   }
+  },
+  "r_over_i": {
+   "n": 32,
+   "q1": 0.479,
+   "median": 0.7782,
+   "q3": 1.0494,
+   "min": 0.0513,
+   "max": 1.6068,
+   "mean": 0.7665
+  },
+  "crush_post_over_pre": {
+   "b1": {
+    "n": 32,
+    "q1": 0.4825,
+    "median": 0.6483,
+    "q3": 0.7246,
+    "min": 0.3133,
+    "max": 0.8464,
+    "mean": 0.6089
+   },
+   "b2": {
+    "n": 32,
+    "q1": 0.5035,
+    "median": 0.6503,
+    "q3": 0.7113,
+    "min": 0.315,
+    "max": 0.8315,
+    "mean": 0.6119
+   }
+  },
+  "width_over_straddle": {
+   "1": {
+    "n": 32,
+    "q1": 0.9232,
+    "median": 0.9749,
+    "q3": 1.0004,
+    "min": 0.8065,
+    "max": 1.1848,
+    "mean": 0.9704
+   },
+   "2": {
+    "n": 31,
+    "q1": 1.9581,
+    "median": 2.0,
+    "q3": 2.0501,
+    "min": 1.8519,
+    "max": 2.3697,
+    "mean": 2.0092
+   }
+  },
+  "wing_calibration": {
+   "mult": {
+    "1": {
+     "entry": 1.008,
+     "exit": 1.0068
+    },
+    "2": {
+     "entry": 1.0185,
+     "exit": 1.0893
+    }
+   },
+   "prints": {
+    "1": {
+     "entry": 61,
+     "exit": 44
+    },
+    "2": {
+     "entry": 42,
+     "exit": 23
+    }
+   }
+  },
+  "long_straddle_in_buy_zone": {
+   "n": 8,
+   "wins": 2,
+   "win_rate": 0.25,
+   "total_usd": -755.0,
+   "avg_usd": -94.38,
+   "median_usd": -138.5,
+   "worst_usd": -254.0,
+   "best_usd": 109.0,
+   "avg_pnl_over_max_loss": -0.0907
+  },
+  "limits": [
+   "prices are last trades in 30-minute bars, not quotes: no bid-ask cost, prints can be stale",
+   "wings are priced by a model from the at-the-money straddle (multiplier calibrated on real wing prints)",
+   "the spread gate and the news gate cannot be replayed",
+   "one contract per event, filled at the printed prices"
+  ]
+ }
+}

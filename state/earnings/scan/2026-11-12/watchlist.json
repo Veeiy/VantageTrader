@@ -1,0 +1,836 @@
+{
+ "date": "2026-11-12",
+ "as_of": "2026-11-12T15:00Z (07:00 PT)",
+ "expiry": "2026-11-13",
+ "exit": "Fri 2026-11-13 06:45 PT check-in (expiration day: flat by 11:00 PT)",
+ "universe": {
+  "scanner_names": 30,
+  "in_window_sent_to_analyst": 18,
+  "timing_known_pm_today": 8,
+  "scanner_only_timing_unknown": 10,
+  "with_nov13_expiry_and_in_window": 3,
+  "note": "Reports 11/12 after the close and 11/13 before the open. Scanner pre-filter (P016), then one vol-analyst (149k tokens, 43 tool calls, 84 seconds of agent time per call batch)."
+ },
+ "account_vetoes": [],
+ "macro": {
+  "veto_all": false,
+  "spy_pct": -0.0029,
+  "qqq_pct": -0.0054,
+  "iwm_pct": -0.0078,
+  "vix": 18.19,
+  "note": "No tier-1 release before Fri 06:45 PT (the veto list is FOMC, CPI, payrolls). October CPI was Tue 11/10. PPI is Fri 11/13 05:30 PT, before the exit: second tier, noted. NVDA opened down 13% after its CEO resigned and bounced to about 160 (-8%).",
+  "sources": [
+   "https://www.bls.gov/schedule/2026/11_sched_list.htm"
+  ]
+ },
+ "candidates": [],
+ "blocked": {
+  "AMAT": {
+   "rule": "edge ratio 0.93 over 0.85",
+   "timing": "pm",
+   "spot": 383.8275,
+   "prev_close": 395.08,
+   "intraday_pct": -0.02848,
+   "K": 385.0,
+   "strike_step": 2.5,
+   "straddle_mid": 28.0,
+   "straddle_pct": 0.07295,
+   "atm_spread_pct": 0.0357,
+   "hist_moves": [
+    -0.052532,
+    -0.140698,
+    0.012454,
+    0.080758,
+    -0.008943,
+    -0.051184
+   ],
+   "avg_hist_move": 0.05776,
+   "median_hist_move": 0.05186,
+   "max_hist_move": -0.140698,
+   "n_hist": 6,
+   "regime_20d": 0.04241,
+   "edge_ratio": 0.9315,
+   "body_legs": {
+    "call": {
+     "id": "925a5556-418b-4424-af9f-cab0995e2999",
+     "bid": 13.4,
+     "ask": 13.9,
+     "oi": 269
+    },
+    "put": {
+     "id": "ce8fa673-c4fa-42ab-8950-14fadd7a08aa",
+     "bid": 14.1,
+     "ask": 14.6,
+     "oi": 172
+    }
+   },
+   "also": "one contract with wings at 1.5x the straddle (about 42 wide) has a max loss far above $350; the stepped-in fly would be about 10 wide on a 28-dollar straddle",
+   "straddle_pct_needed_for_0.85": 0.0799
+  },
+  "CSCO": {
+   "rule": "edge ratio 1.01 over 0.85",
+   "timing": "pm",
+   "spot": 100.68,
+   "prev_close": 100.76,
+   "intraday_pct": -0.00079,
+   "K": 101.0,
+   "strike_step": 1.0,
+   "straddle_mid": 8.85,
+   "straddle_pct": 0.0879,
+   "atm_spread_pct": 0.1582,
+   "hist_moves": [
+    0.048458,
+    -0.015625,
+    0.046241,
+    -0.123217,
+    0.134092,
+    -0.084033
+   ],
+   "avg_hist_move": 0.07528,
+   "median_hist_move": 0.06625,
+   "max_hist_move": 0.134092,
+   "n_hist": 6,
+   "regime_20d": 0.02213,
+   "edge_ratio": 1.0075,
+   "body_legs": {
+    "call": {
+     "id": "c7149b63-059e-4806-a8c5-ad66b1b8d2a2",
+     "bid": 3.8,
+     "ask": 4.6,
+     "oi": 198
+    },
+    "put": {
+     "id": "a9a8420c-31af-4030-b7ae-ac80e821b573",
+     "bid": 4.35,
+     "ask": 4.95,
+     "oi": 666
+    }
+   },
+   "straddle_pct_needed_for_0.85": 0.1042
+  },
+  "NU": {
+   "rule": "edge ratio 1.10 over 0.85",
+   "timing": "pm",
+   "spot": 12.035,
+   "prev_close": 12.32,
+   "intraday_pct": -0.02313,
+   "K": 12.0,
+   "strike_step": 0.5,
+   "straddle_mid": 0.815,
+   "straddle_pct": 0.06772,
+   "atm_spread_pct": 0.184,
+   "hist_moves": [
+    0.026636,
+    0.090758,
+    0.014753,
+    -0.095495,
+    -0.057231,
+    0.093324
+   ],
+   "avg_hist_move": 0.06303,
+   "median_hist_move": 0.07399,
+   "max_hist_move": -0.095495,
+   "n_hist": 6,
+   "regime_20d": 0.02669,
+   "edge_ratio": 1.0951,
+   "body_legs": {
+    "call": {
+     "id": "dc1ba00b-70b5-4ffb-a2a0-f3d02908ca90",
+     "bid": 0.38,
+     "ask": 0.44,
+     "oi": 3966
+    },
+    "put": {
+     "id": "e690f011-b9d8-4c8e-8fba-fad5b0470ed0",
+     "bid": 0.36,
+     "ask": 0.45,
+     "oi": 13805
+    }
+   },
+   "straddle_pct_needed_for_0.85": 0.0872
+  }
+ },
+ "skipped": {
+  "no_nov13_expiry": [
+   "ARWR",
+   "NKTR",
+   "DLO",
+   "HTFL",
+   "SA"
+  ],
+  "scanner_date_wrong_already_reported": {
+   "ORKA": "2026-11-09 pm",
+   "TNK": "2026-11-11 pm",
+   "ECO": "2026-11-11 pm"
+  },
+  "scanner_date_wrong_reports_later": {
+   "SKE": "2026-11-16 pm",
+   "OMER": "2026-11-16 pm",
+   "COO": "2026-12-03 pm",
+   "ERAS": "2026-11-24 pm (not confirmed)",
+   "KOD": "2026-11-24 pm (not confirmed)",
+   "PPTA": "2026-11-24 am (not confirmed)",
+   "SGMT": "2026-11-24 am (not confirmed)"
+  },
+  "scanner_names_reported_before_the_window": [
+   "ENS",
+   "NBIS",
+   "TWST",
+   "BN",
+   "YETI",
+   "FIGR",
+   "FPS",
+   "EYE",
+   "LUNR",
+   "CLBT",
+   "PERI"
+  ],
+  "calendar_pm_today_dropped_by_scanner": [
+   "ANDG",
+   "DDS",
+   "SID",
+   "EC",
+   "CIG",
+   "ACCV",
+   "HAWK",
+   "STN",
+   "QXO",
+   "STNE",
+   "CBRS",
+   "TMC",
+   "LFTO",
+   "JCAP",
+   "FLO",
+   "INTR",
+   "ATAI",
+   "TELFY",
+   "PHI"
+  ],
+  "calendar_am_tomorrow_dropped_by_scanner": [
+   "ONEXF",
+   "MUFG",
+   "RKUNY",
+   "USAS",
+   "SMFG",
+   "SMCAY",
+   "MFG"
+  ],
+  "not_analyzed": {
+   "AEXA": "blank-check company"
+  },
+  "note": "All 10 scanner-only dates disagreed with get_earnings_results. A scanner name the calendar does not list needs its date confirmed before any other work, as done here."
+ },
+ "non_earnings_screen": {
+  "as_of": "2026-11-12T14:50Z",
+  "hits": [
+   "ZS",
+   "CAPR"
+  ],
+  "ZS": {
+   "last": 190.41,
+   "iv_rank": 0.887,
+   "iv30_over_hv10": 1.202,
+   "front_iv": 0.8556,
+   "back_iv": 0.8263,
+   "hv10": 0.5143,
+   "avg_options_volume": 15446,
+   "decision": "no trade",
+   "reason": "No driver that resolves before the near expiries: the stock fell about 15% in a week (224.40 on Nov 4) and the report is around Nov 23 to 24, not yet confirmed. IV is barely above realized (1.20x) and a fly inside the $200 limit would have wings far inside the expected move.",
+   "sources": [
+    "https://altindex.com/earnings-calendar/zs",
+    "https://therighttrader.com/earnings-calendar/zs",
+    "https://optioncharts.io/options/ZS"
+   ]
+  },
+  "CAPR": {
+   "last": 10.24,
+   "iv_rank": 0.953,
+   "iv30_over_hv10": 2.437,
+   "front_iv": 4.4811,
+   "back_iv": 4.1655,
+   "hv10": 1.5654,
+   "avg_options_volume": 18290,
+   "decision": "no trade",
+   "reason": "Binary FDA decision on deramiocel (action date Nov 22; the advisory panel voted 9 to 3 against in July). A yes or no on the only product moves the stock by about what the options price; nothing here says the options overstate it.",
+   "sources": [
+    "https://www.biopharminternational.com/view/fda-extends-deramiocel-pdufa-date-to-november-2026-after-capricor-submits-refined-dmd-indication",
+    "https://globalgenes.org/raredaily/fda-extends-pdufa-date-for-capricors-dmd-therapy/"
+   ]
+  },
+  "note": "PCG (held x5) no longer shows on the screen at the 15,000 volume and 0.8 rank cut; it is managed by its plan."
+ },
+ "account": {
+  "as_of": "2026-11-12T14:44Z",
+  "account_value": 1222.1,
+  "buying_power": 994.15,
+  "risk_cap": 1000,
+  "risk_used": 390
+ },
+ "entry_plan": "Done for 2026-11-12: no entry. Exits only (LUNR -26.88, NVDA -70.32).",
+ "recheck_0946": {
+  "as_of": "2026-11-12T17:46Z",
+  "macro": {
+   "spy_pct": 0.002,
+   "veto": false
+  },
+  "AMAT": {
+   "spot": 392.785,
+   "intraday_pct": -0.0058,
+   "K": 392.5,
+   "call": {
+    "id": "fbc992bb-eec4-4b1d-a632-bbc49770f73d",
+    "bid": 13.85,
+    "ask": 14.15
+   },
+   "put": {
+    "id": "d5a27c1f-f13a-4d28-bd56-117ab02277c7",
+    "bid": 13.4,
+    "ask": 13.75
+   },
+   "straddle_mid": 27.575,
+   "straddle_pct": 0.0702,
+   "atm_spread_pct": 0.0236,
+   "edge_ratio": 0.968,
+   "status": "blocked: edge ratio over 0.85 (0.93 at 06:50 PT)"
+  },
+  "CSCO": {
+   "spot": 101.885,
+   "intraday_pct": 0.0112,
+   "K": 102.0,
+   "call": {
+    "id": "43ec51b8-5c46-4d77-b5ab-684e6b15cf71",
+    "bid": 4.4,
+    "ask": 4.45
+   },
+   "put": {
+    "id": "686d849c-b9c6-425f-8b2e-35f7e75b84d3",
+    "bid": 4.1,
+    "ask": 4.7
+   },
+   "straddle_mid": 8.825,
+   "straddle_pct": 0.0866,
+   "atm_spread_pct": 0.0737,
+   "edge_ratio": 1.0225,
+   "status": "blocked: edge ratio over 0.85 (1.01 at 06:50 PT)"
+  },
+  "NU": {
+   "spot": 11.985,
+   "intraday_pct": -0.0272,
+   "K": 12.0,
+   "call": {
+    "bid": 0.39,
+    "ask": 0.41
+   },
+   "put": {
+    "bid": 0.39,
+    "ask": 0.41
+   },
+   "straddle_mid": 0.8,
+   "straddle_pct": 0.0668,
+   "atm_spread_pct": 0.05,
+   "edge_ratio": 1.111,
+   "status": "blocked: edge ratio over 0.85 (1.10 at 06:50 PT)"
+  },
+  "decision": "No entry. All three moved further from the limit as the straddles lost a morning of time value."
+ },
+ "flies_1020": {
+  "as_of": "2026-11-12T18:20:48Z",
+  "why": "Brad, 10:19 PT: 'Those 3 stocks you listed look like good trades'. Real flies priced for the answer; all three are still blocked by the edge gate.",
+  "AMAT_15_wide": {
+   "spot": 392.36,
+   "K": 392.5,
+   "strikes": [
+    377.5,
+    392.5,
+    407.5
+   ],
+   "straddle_mid": 27.675,
+   "straddle_pct": 0.0705,
+   "credit_mid": 12.525,
+   "credit_natural": 11.95,
+   "credit_floor": 11.95,
+   "width": 15.0,
+   "max_loss_mid_usd": 247.5,
+   "max_loss_floor_usd": 305.0,
+   "breakevens": [
+    379.98,
+    405.02
+   ],
+   "breakeven_pct_of_spot": [
+    -0.0316,
+    0.0323
+   ],
+   "past_moves": [
+    -0.052532,
+    -0.140698,
+    0.012454,
+    0.080758,
+    -0.008943,
+    -0.051184
+   ],
+   "past_inside_breakevens": "2/6",
+   "past_pnl_at_expiry_usd": [
+    -247.5,
+    -247.5,
+    777.9,
+    -247.5,
+    887.6,
+    -247.5
+   ],
+   "past_avg_pnl_at_expiry_usd": 112.6,
+   "itm_short_cost_at_implied_move_usd": 2768.0
+  },
+  "AMAT_10_wide": {
+   "spot": 392.36,
+   "K": 392.5,
+   "strikes": [
+    382.5,
+    392.5,
+    402.5
+   ],
+   "straddle_mid": 27.675,
+   "straddle_pct": 0.0705,
+   "credit_mid": 8.875,
+   "credit_natural": 8.25,
+   "credit_floor": 8.25,
+   "width": 10.0,
+   "max_loss_mid_usd": 112.5,
+   "max_loss_floor_usd": 175.0,
+   "breakevens": [
+    383.62,
+    401.38
+   ],
+   "breakeven_pct_of_spot": [
+    -0.0223,
+    0.023
+   ],
+   "past_moves": [
+    -0.052532,
+    -0.140698,
+    0.012454,
+    0.080758,
+    -0.008943,
+    -0.051184
+   ],
+   "past_inside_breakevens": "2/6",
+   "past_pnl_at_expiry_usd": [
+    -112.5,
+    -112.5,
+    412.9,
+    -112.5,
+    522.6,
+    -112.5
+   ],
+   "past_avg_pnl_at_expiry_usd": 80.9,
+   "itm_short_cost_at_implied_move_usd": 2768.0
+  },
+  "CSCO_10_wide": {
+   "spot": 101.705,
+   "K": 102.0,
+   "strikes": [
+    92.0,
+    102.0,
+    112.0
+   ],
+   "straddle_mid": 8.75,
+   "straddle_pct": 0.086,
+   "credit_mid": 6.64,
+   "credit_natural": 6.2,
+   "credit_floor": 6.2,
+   "width": 10.0,
+   "max_loss_mid_usd": 336.0,
+   "max_loss_floor_usd": 380.0,
+   "breakevens": [
+    95.36,
+    108.64
+   ],
+   "breakeven_pct_of_spot": [
+    -0.0624,
+    0.0682
+   ],
+   "past_moves": [
+    0.048458,
+    -0.015625,
+    0.046241,
+    -0.123217,
+    0.134092,
+    -0.084033
+   ],
+   "past_inside_breakevens": "3/6",
+   "past_pnl_at_expiry_usd": [
+    200.7,
+    475.6,
+    223.2,
+    -336.0,
+    -336.0,
+    -220.2
+   ],
+   "past_avg_pnl_at_expiry_usd": 1.2,
+   "itm_short_cost_at_implied_move_usd": 875.0
+  },
+  "NU_1_wide": {
+   "spot": 11.98,
+   "K": 12.0,
+   "strikes": [
+    11.0,
+    12.0,
+    13.0
+   ],
+   "straddle_mid": 0.815,
+   "straddle_pct": 0.068,
+   "credit_mid": 0.63,
+   "credit_natural": 0.6,
+   "credit_floor": 0.6,
+   "width": 1.0,
+   "max_loss_mid_usd": 37.0,
+   "max_loss_floor_usd": 40.0,
+   "breakevens": [
+    11.37,
+    12.63
+   ],
+   "breakeven_pct_of_spot": [
+    -0.0509,
+    0.0543
+   ],
+   "past_moves": [
+    0.026636,
+    0.090758,
+    0.014753,
+    -0.095495,
+    -0.057231,
+    0.093324
+   ],
+   "past_inside_breakevens": "2/6",
+   "past_pnl_at_expiry_usd": [
+    33.1,
+    -37.0,
+    47.3,
+    -37.0,
+    -7.6,
+    -37.0
+   ],
+   "past_avg_pnl_at_expiry_usd": -6.4,
+   "itm_short_cost_at_implied_move_usd": 82.0
+  },
+  "ids": {
+   "AMAT": {
+    "392.5C": "fbc992bb-eec4-4b1d-a632-bbc49770f73d",
+    "392.5P": "d5a27c1f-f13a-4d28-bd56-117ab02277c7",
+    "407.5C": "7d3211ab-c1ae-4b22-9606-07bd44a36e68",
+    "377.5P": "deaa91b5-9ab4-457e-97a3-bb7713d0ee33",
+    "402.5C": "e3e48649-8c8e-4090-a128-59f459cdcaba",
+    "382.5P": "697d3522-2640-4cd4-893d-7a8e6e05892f"
+   },
+   "CSCO": {
+    "102C": "43ec51b8-5c46-4d77-b5ab-684e6b15cf71",
+    "102P": "686d849c-b9c6-425f-8b2e-35f7e75b84d3",
+    "112C": "09fba44d-39bd-4054-9f75-3f7ecf2e23e8",
+    "92P": "0daab37d-07d9-4d7c-a222-918e28cf42dd"
+   },
+   "NU": {
+    "12C": "dc1ba00b-70b5-4ffb-a2a0-f3d02908ca90",
+    "12P": "e690f011-b9d8-4c8e-8fba-fad5b0470ed0",
+    "13C": "fe1323f4-600f-480d-9f0f-646da50bc4fc",
+    "11P": "70cbac6d-2133-4f1a-82d6-5b3789a97f4c"
+   }
+  },
+  "buying_power": 1040.91,
+  "exit_feasibility": "With multi-leg orders blocked, the in-the-money short leg must be bought back alone. At the implied move that leg costs about $2,770 on AMAT and $875 on CSCO per contract against about $1,040 of buying power (less after the entry's collateral); NU about $80."
+ },
+ "gate_v19_1020": {
+  "AMAT": {
+   "blocked_by": [
+    "no_edge",
+    "exit_not_feasible"
+   ],
+   "edge_ratio": 0.9636,
+   "exit_need_usd": 1650.0,
+   "exit_room_usd": 735.91
+  },
+  "CSCO": {
+   "blocked_by": [
+    "no_edge",
+    "name_risk_cap",
+    "exit_not_feasible"
+   ],
+   "edge_ratio": 1.0313,
+   "exit_need_usd": 1100.0,
+   "exit_room_usd": 660.91
+  },
+  "NU": {
+   "blocked_by": [
+    "no_edge"
+   ],
+   "edge_ratio": 1.0912,
+   "exit_need_usd": 110.0,
+   "exit_room_usd": 920.91
+  }
+ },
+ "final_sweep_1147": {
+  "as_of": "2026-11-12T19:47:37Z",
+  "phase": "final",
+  "macro": {
+   "spy_pct": -0.0026,
+   "vix": 18.64,
+   "vix_prev": 17.49,
+   "veto": false
+  },
+  "account": {
+   "account_value": 1245.91,
+   "buying_power": 1040.91,
+   "open_risk_usd": 224,
+   "budget": 776
+  },
+  "AMAT": {
+   "decision": "no entry",
+   "gate": {
+    "action": "no_trade",
+    "blocked_by": [
+     "no_edge",
+     "exit_not_feasible"
+    ],
+    "edge_ratio": 0.9601,
+    "implied_move": 0.060163,
+    "avg_hist_move": 0.057762,
+    "spread_worst": 0.0273,
+    "intraday": -0.03536,
+    "exit_feasible": {
+     "pass": false,
+     "need": 1650.0,
+     "room": 715.91
+    }
+   },
+   "spot": 381.11,
+   "prev_close": 395.08,
+   "K": 380.0,
+   "call": {
+    "bid": 13.95,
+    "ask": 14.3
+   },
+   "put": {
+    "bid": 12.65,
+    "ask": 13.0
+   },
+   "wings": {
+    "call_strike": 395.0,
+    "put_strike": 365.0,
+    "call": {
+     "bid": 7.75,
+     "ask": 8.05
+    },
+    "put": {
+     "bid": 6.5,
+     "ask": 6.8
+    }
+   },
+   "ids": {
+    "380C": "31f26ed7-be53-475d-88a2-10de9677d3bb",
+    "380P": "8182692b-ca01-4333-ba0a-126eee832f0a",
+    "395C": "e5aec435-9f1a-42d1-bfcd-62243d446f4e",
+    "365P": "cdfd7f21-98c3-4df2-8d53-c13d61a8653b"
+   },
+   "fly": {
+    "credit_mid": 12.4,
+    "credit_natural": 11.75,
+    "credit_floor": 11.75,
+    "width": 15.0,
+    "max_loss_mid": 260.0,
+    "max_loss_floor": 325.0,
+    "breakevens_mid": [
+     367.6,
+     392.4
+    ]
+   },
+   "untraded": "score as <SYM>-20261112-U1 at the 2026-11-13 reflection (the real fly above, exit at the 06:45 PT quotes)"
+  },
+  "CSCO": {
+   "decision": "no entry",
+   "gate": {
+    "action": "no_trade",
+    "blocked_by": [
+     "no_edge",
+     "name_risk_cap",
+     "exit_not_feasible"
+    ],
+    "edge_ratio": 1.0296,
+    "implied_move": 0.073112,
+    "avg_hist_move": 0.075278,
+    "spread_worst": 0.0809,
+    "intraday": 0.019353,
+    "exit_feasible": {
+     "pass": false,
+     "need": 1100.0,
+     "room": 664.91
+    }
+   },
+   "spot": 102.71,
+   "prev_close": 100.76,
+   "K": 103.0,
+   "call": {
+    "bid": 4.15,
+    "ask": 4.5
+   },
+   "put": {
+    "bid": 4.35,
+    "ask": 4.7
+   },
+   "wings": {
+    "call_strike": 113.0,
+    "put_strike": 93.0,
+    "call": {
+     "bid": 1.01,
+     "ask": 1.11
+    },
+    "put": {
+     "bid": 0.87,
+     "ask": 1.15
+    }
+   },
+   "ids": {
+    "103C": "9d8d751f-e8d9-4b8e-bff3-9d4f61a3861b",
+    "103P": "4bb7dce2-c306-4b25-88d5-951fc810d6fe",
+    "113C": "b64bb65b-5c3e-461c-b495-5a5f028aff1e",
+    "93P": "32bc369e-b5af-495b-aea2-388d033fbbb1"
+   },
+   "fly": {
+    "credit_mid": 6.78,
+    "credit_natural": 6.24,
+    "credit_floor": 6.24,
+    "width": 10.0,
+    "max_loss_mid": 322.0,
+    "max_loss_floor": 376.0,
+    "breakevens_mid": [
+     96.22,
+     109.78
+    ]
+   },
+   "untraded": "score as <SYM>-20261112-U1 at the 2026-11-13 reflection (the real fly above, exit at the 06:45 PT quotes)"
+  },
+  "NU": {
+   "decision": "no entry",
+   "gate": {
+    "action": "no_trade",
+    "blocked_by": [
+     "no_edge"
+    ],
+    "edge_ratio": 1.0118,
+    "implied_move": 0.0623,
+    "avg_hist_move": 0.063033,
+    "spread_worst": 0.1266,
+    "intraday": -0.035106,
+    "exit_feasible": {
+     "pass": true,
+     "need": 110.0,
+     "room": 805.23
+    }
+   },
+   "spot": 11.8875,
+   "prev_close": 12.32,
+   "K": 12.0,
+   "call": {
+    "bid": 0.37,
+    "ask": 0.42
+   },
+   "put": {
+    "bid": 0.47,
+    "ask": 0.5
+   },
+   "wings": {
+    "call_strike": 13.0,
+    "put_strike": 11.0,
+    "call": {
+     "bid": 0.11,
+     "ask": 0.12
+    },
+    "put": {
+     "bid": 0.09,
+     "ask": 0.12
+    }
+   },
+   "ids": {
+    "12C": "dc1ba00b-70b5-4ffb-a2a0-f3d02908ca90",
+    "12P": "e690f011-b9d8-4c8e-8fba-fad5b0470ed0",
+    "13C": "fe1323f4-600f-480d-9f0f-646da50bc4fc",
+    "11P": "70cbac6d-2133-4f1a-82d6-5b3789a97f4c"
+   },
+   "fly": {
+    "credit_mid": 0.66,
+    "credit_natural": 0.6,
+    "credit_floor": 0.6072,
+    "width": 1.0,
+    "max_loss_mid": 34.0,
+    "max_loss_floor": 39.28,
+    "breakevens_mid": [
+     11.34,
+     12.66
+    ]
+   },
+   "untraded": "score as <SYM>-20261112-U1 at the 2026-11-13 reflection (the real fly above, exit at the 06:45 PT quotes)"
+  },
+  "owner_note": "Brad, 10:19 PT: 'Those 3 stocks you listed look like good trades'. The agent answered with the three flies and its reasons against (10:25 PT) and offered an owner-directed entry on his word; no instruction to enter came before the sweep.",
+  "decision": "No entry on 2026-11-12. All three are blocked by the edge gate; AMAT and CSCO also fail the exit check (v1.9), CSCO also the $350 name cap."
+ },
+ "after_hours_1707": {
+  "as_of": "2026-11-13T01:07Z (17:07 PT on 11/12)",
+  "why": "Brad, 17:05 PT: 'What did you open for trades today? And what are you projecting?' Nothing was opened on 11/12; this is the paper read on the three blocked names.",
+  "prices": {
+   "AMAT": {
+    "close": 380.95,
+    "after_hours": 382.5
+   },
+   "CSCO": {
+    "close": 102.01,
+    "after_hours": 101.65
+   },
+   "NU": {
+    "close": 11.83,
+    "after_hours": 12.21
+   }
+  },
+  "paper_estimate_at_fri_0645_exit_usd": {
+   "AMAT_365_380_395_x1": {
+    "low": 247,
+    "mid": 358,
+    "high": 516,
+    "at_expiry_if_unchanged": 990,
+    "max_loss": 325
+   },
+   "CSCO_93_103_113_x1": {
+    "low": 381,
+    "mid": 448,
+    "high": 490,
+    "at_expiry_if_unchanged": 543,
+    "max_loss": 376
+   },
+   "NU_11_12_13_per_contract": {
+    "low": 19,
+    "mid": 27,
+    "high": 34,
+    "at_expiry_if_unchanged": 45,
+    "max_loss": 39.28,
+    "contracts_at_20pct_target": 6
+   }
+  },
+  "method": "Black-Scholes at the sweep credits, stock at tonight's after-hours price, 6.25 trading hours left, three post-report vols per name. Rough: the real score comes from option prices at the 11/13 open.",
+  "note": "On these prices all three would have won. AMAT and CSCO still fail the exit check (v1.9) and together would have used about $700 of the $1,000 cap."
+ },
+ "scored_2026-11-13": {
+  "file": "state/earnings/scan/2026-11-12/untraded_1112.json",
+  "pnl_mid_usd_at_0645": {
+   "AMAT_x1": 296.0,
+   "CSCO_x1": 180.0,
+   "NU_per_contract": 4.0
+  },
+  "pnl_mid_usd_at_0730": {
+   "AMAT_x1": 60.5,
+   "CSCO_x1": 66.5,
+   "NU_per_contract": -4.0
+  },
+  "after_hours_estimate_usd": {
+   "AMAT_x1": 358,
+   "CSCO_x1": 448,
+   "NU_per_contract": 27
+  },
+  "note": "All three were up at the planned exit, by about half of the after-hours estimate. The estimate was made 4 hours after the close with the stocks within 0.5% to 3.2% of it; they opened 1.3% to 4.5% away and kept trending."
+ }
+}
