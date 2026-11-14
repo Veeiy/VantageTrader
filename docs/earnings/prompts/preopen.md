@@ -10,6 +10,12 @@ cannot run late. This wake runs before the delay window and starts a timer insid
 session, so the morning run no longer waits for a scheduled task. The 06:45 task stays as
 the second net.
 
+Rehearsed on Saturday 2026-11-14: the same background sleep, 44 minutes with the session idle,
+returned on the second (12:42:38 to 13:26:38 PT) and re-invoked the session within 15 seconds;
+the machine stayed up throughout. A long idle does restart the machine (uptime was 2 minutes at
+the first message that Saturday, 22 hours after the last one), which is why the timer is started
+by the 05:52 wake and not by the previous evening's run. The first live run is 2026-11-16.
+
 This file IS the task's instruction. The stored prompt of the scheduled task only points
 here. Change the procedure by editing the text block below and pushing.
 
