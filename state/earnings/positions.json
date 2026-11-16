@@ -1,6 +1,6 @@
 {
- "as_of": "2026-11-14T20:41:41Z",
- "account_value": 1250.91,
+ "as_of": "2026-11-16T13:57:15Z",
+ "account_value": 1245.91,
  "cap_total_max_loss": 1250.91,
  "execution": {
   "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
@@ -601,6 +601,14 @@
     "distance": "0.25 above the body, 0.40 under the upper breakeven 13.65, 0.90 above the lower 12.35",
     "weekend": "Held. The Nov 15 special-session date falls on Sunday. A call would likely gap the stock up: max loss 174. No proclamation, call or bill found as of 12:24 PT.",
     "plan": "Unchanged: take profit at a close cost of 0.33, cut at 0.86 or 30 minutes beyond a breakeven, out by the 2026-11-18 close. Add revisited Monday (limit $400, only if the screen still passes and the stock is within 0.21 of 13)."
+   },
+   "preopen_2026-11-16": {
+    "ts": "2026-11-16T13:57:15Z",
+    "positions_match": true,
+    "news": "No proclamation, special-session call or bill found for Nov 15 or 16 (web search 05:57 PT; results are mostly older coverage). The dated driver has passed without the event.",
+    "pre_market": "one print at 13.45 at 05:36 PT on a 13.25 x 13.45 quote; Friday close 13.25",
+    "plan_today": "Nothing is due at the open. Manage per plan: take profit at a close cost of 0.33, cut at 0.86 or 30 minutes beyond 13.65 or 12.35, out by the 2026-11-18 close. Above 13.50 the monitor reports at once. The driver has passed, so take the first clean profit rather than wait for more decay.",
+    "buybacks_fit": "13C x5 and 13P x5 at Friday's asks cost about $450; buying power 1,040.91"
    }
   }
  ],
@@ -614,11 +622,6 @@
    "when": "Mon 2026-11-16: the morning run at the first liquid quotes (06:38 to 06:45 PT), after any live exit; second mark at the 07:15 PT hourly run",
    "what": "Paper only, no orders: score the four Friday-entry paper flies FRI-BIDU/TSN/BEKE/ARMK-20261113-P1 (leg ids and the scoring recipe are in their records in state/earnings/live_metrics.jsonl under paper_plan; BIDU also has alt_fly_wider). Write one result record per fly (pnl_mid_usd, pnl_natural_usd, straddle_kept, realized_move, beyond_breakeven) and tell Brad in the morning message. Only BIDU counts as evidence on the Friday rule (the gate would have sold it); the other three were blocked by spread or edge and are reference only.",
    "asked_by": "agent, 2026-11-13 (Brad 08:15 PT: 'Scouting any good trades today?')"
-  },
-  {
-   "when": "Mon 2026-11-16, before 06:30 PT (the pre-open wake or the first morning turn)",
-   "what": "PCG: the Nov 15 special-session date fell on Sunday. Search the news for a proclamation, a special-session call or a bill before the open. If one came, expect a gap up through the 13.65 breakeven: apply the cut rules from the first liquid quotes (stock beyond a breakeven for 30 minutes, or close cost 0.86 or more) and tell Brad the plan before 06:30. If nothing came, the driver has passed: take profit as soon as the premium deflates (close cost 0.33 is the 50% mark).",
-   "asked_by": "agent, 2026-11-14 (no special session found as of Saturday midday)"
   }
  ],
  "buying_power": 1040.91,
@@ -779,53 +782,6 @@
    ]
   }
  ],
- "leftover_long_wings": {
-  "note": "Zero-bid long wings left after the 11/11 and 11/12 exits. No risk (long options, already paid for). Friday 11/13 at the 06:45 PT check-in: sell any that shows a bid of 0.01 or more with a single-leg limit; otherwise let them expire. If one is in the money on 11/13, sell it before 11:00 PT (never let a long option auto-exercise).",
-  "legs": [
-   {
-    "symbol": "RGTI",
-    "leg": "long 15C",
-    "expiry": "2026-11-13",
-    "quantity": 1,
-    "option_id": "9d68d3d0-5306-4e5b-8754-1439c4f13890",
-    "cost": 0.08
-   },
-   {
-    "symbol": "RGTI",
-    "leg": "long 9P",
-    "expiry": "2026-11-13",
-    "quantity": 1,
-    "option_id": "206ea6d7-2a79-44d3-9e2c-5f875055fa27",
-    "cost": 0.02
-   },
-   {
-    "symbol": "FLY",
-    "leg": "long 19P",
-    "expiry": "2026-11-13",
-    "quantity": 1,
-    "option_id": "8b26493e-139f-4db0-a6fd-09d21d23567c",
-    "cost": 0.3
-   },
-   {
-    "symbol": "LUNR",
-    "leg": "long 10P",
-    "expiry": "2026-11-13",
-    "quantity": 2,
-    "option_id": "4a6c4516-dafb-4914-bad3-8850e907df48",
-    "cost": 0.1
-   }
-  ],
-  "check_2026-11-12_1216": "All five leftover legs (RGTI 15C, RGTI 9P, FLY 19P, LUNR 10P x2) show a zero bid and are out of the money (RGTI 10.44, FLY 25.03, LUNR 13.42). Nothing to sell; they expire 11/13.",
-  "check_2026-11-13_0730": "All five show a zero bid and are out of the money (RGTI 9.57: 15C and 9P; FLY 23.66: 19P; LUNR 12.16: 10P x2). They expire today. The monitor reports a bid of 0.01 or a strike reached (RGTI 9.05, FLY 19.05, LUNR 10.05).",
-  "check_2026-11-13_0812": "All five still show a zero bid and are out of the money (RGTI 9.585, FLY 24.16, LUNR 12.38). No shares in the account.",
-  "check_2026-11-13_0834": "All five still zero bid and out of the money (RGTI 9.685, FLY 24.32, LUNR 12.44). No shares, no orders.",
-  "check_2026-11-13_0915": "All five still zero bid and out of the money (RGTI 9.605, 0.61 above the 9 put; FLY 24.30; LUNR 12.37). No shares, no orders.",
-  "check_2026-11-13_1016": "All five still show a zero bid and are out of the money (RGTI 9.57: 15C and 9P; FLY 24.64: 19P; LUNR 12.46: 10P x2). RGTI is down 7.4% on the day and 0.57 above the 9 put: the one to watch. No resting sell order placed (a 0.01 offer would give the put away if RGTI falls); the monitor reports a bid or a strike reached, and a put with a bid is sold before 11:00 PT.",
-  "check_2026-11-13_1115": "Past 11:00 PT and all five still show a zero bid, so none can be sold; all are out of the money (RGTI 9.675: 15C and 9P; FLY 25.25: 19P; LUNR 12.75: 10P x2). They expire worthless at the close unless RGTI falls 0.68 to the 9 put, in which case the put gets a bid and is sold.",
-  "check_2026-11-13_1216": "45 minutes before the close all five still show a zero bid and are out of the money (RGTI 9.695: 15C and 9P; FLY 25.68: 19P; LUNR 13.045: 10P x2). Nothing to sell. They expire worthless tonight; confirm at Monday's first run that they are gone from the positions.",
-  "monday_check": "At the first run on Mon 2026-11-16 confirm the five expired wings are gone from get_option_positions and no shares appeared, then delete this block.",
-  "close_2026-11-13": "All five show pending_expiration_quantity at the close (RGTI closed 9.62, FLY 25.22, LUNR 12.99: all out of the money). They expire worthless tonight; their cost is already in the closed trades' P/L."
- },
  "closed_2026-11-12": [
   {
    "symbol": "LUNR",
@@ -994,5 +950,6 @@
  "morning_note_2026-11-12": "06:41-06:44 PT: LUNR x3 closed for -$26.88. 08:09-08:10 PT: NVDA closed for -$70.32 (cut once the 175 put could be bought back first). Realized today -$97.20; this week -$34.04. Open: PCG x5. Standby exit switch and plain alert moved to Fri 11/13.",
  "streak_note": "2026-11-12: two closed losses in a row (LUNR, NVDA). A third loss in a row trips the circuit breaker: no new entries, tell Brad.",
  "morning_note_2026-11-13": "The 06:45 PT task did not fire (still listed as due at 14:45Z when checked at 07:29 and 07:34 PT). The 07:15 hourly check arrived at 07:29 PT and ran the morning routine: head lease taken 07:31 PT, positions checked (PCG x5 and five expiring leftovers, no shares, no orders), nothing was due to close, exit switch and plain alert moved to Mon 2026-11-16 at 07:34 PT (the 07:25 switch had not fired either). One monitor agent for PCG and the leftovers and the paper desk started at 07:38 PT (the desk about 25 minutes late). Heal proposal due in today's reflection.",
- "cap_total_max_loss_note": "Rules v1.11: the account value. Brad, 2026-11-13 07:53 PT: 'I want you to be able to use the entire funds in the mcp account. I allocated funds specifically for you to trade with.' Before: min($1,000, 0.93 x account value)."
+ "cap_total_max_loss_note": "Rules v1.11: the account value. Brad, 2026-11-13 07:53 PT: 'I want you to be able to use the entire funds in the mcp account. I allocated funds specifically for you to trade with.' Before: min($1,000, 0.93 x account value).",
+ "morning_note_2026-11-16": "Pre-open 05:52 PT wake fired at 05:54. Lease: head. Timer armed for 06:36 PT. The five expired wings are gone and no shares appeared: the leftover block is deleted. Open: PCG x5 only."
 }
