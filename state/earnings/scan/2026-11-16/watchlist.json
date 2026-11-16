@@ -477,5 +477,40 @@
    "The early AS entry (08:32) took a 2.6% intraday drift (29.59 to 28.81) before the report: evidence on whether a one-contract name should wait for the final window. On today's tape a final-window entry would have been blocked by the macro veto, so the early entry is the only reason the trade exists.",
    "The macro veto came on at about 11:15 (VIX) and SPY crossed -2% before 11:47."
   ]
+ },
+ "owner_entries_1230": {
+  "as_of": "2026-11-16T20:39:02Z",
+  "why": "Brad, 12:28 PT: 'Open trades for earnings. Lets utilize all of the funding available. Is he or any of these others good setups for me to run the multi leg myself?' after the final sweep had recorded no entry under the macro veto.",
+  "JD": {
+   "entered_by": "agent, on Brad's instruction",
+   "contracts": 2,
+   "structure": "25/27.5/30",
+   "credit": 1.42,
+   "max_loss_usd": 216.0,
+   "waived": [
+    "news flag",
+    "macro veto",
+    "same sector as AS"
+   ]
+  },
+  "HD": {
+   "entered_by": "Brad, by hand, one 4-leg order",
+   "contracts": 1,
+   "structure": "330/347.5/365",
+   "credit": 11.9,
+   "max_loss_usd": 560.0,
+   "waived": [
+    "name cap 350",
+    "exit by legs (gate 16)",
+    "macro veto",
+    "same sector"
+   ]
+  },
+  "notes_for_reflection": [
+   "A permission denial left JD one-sided for 5.5 minutes with 23 minutes to the close: the entry procedure needs a rule for an order the session itself refuses (who is told, what is unwound, by when).",
+   "Brad's 4-leg HD order filled 9 cents under mid in one order: the first direct measure of what multi-leg execution is worth against legging.",
+   "Three earnings flies are open on a macro-veto day, all three before-the-open reporters, total max loss 911 of a 1,199 account: the result is the first evidence on the veto rule and on owner overrides (compare with the NVDA override of 2026-11-11).",
+   "Buying power after the HD entry is 323: single-leg exits are feasible only in sequence. Gate 16 was computed before HD existed; the gate should be re-run for open names when a hand entry changes buying power."
+  ]
  }
 }
