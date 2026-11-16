@@ -1,6 +1,6 @@
 {
- "as_of": "2026-11-16T20:45:03Z",
- "account_value": 2029.36,
+ "as_of": "2026-11-16T20:51:12Z",
+ "account_value": 2034.18,
  "cap_total_max_loss": 1235.08,
  "execution": {
   "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
@@ -284,40 +284,44 @@
    "tier": "core",
    "structure": "iron fly 25/27.5/30",
    "expiry": "2026-11-20",
-   "quantity": 2,
+   "quantity": 3,
    "opened": "2026-11-16T20:37:15Z",
    "legs": {
     "short_27.5C": {
      "option_id": "1afed536-42c2-4a1e-a6de-afda44b5a4b4",
-     "fill": 0.92
+     "fill": 0.9067,
+     "qty": 3
     },
     "short_27.5P": {
      "option_id": "1c89b042-3a30-4cab-873f-83400fa1fa80",
-     "fill": 0.8
+     "fill": 0.8033,
+     "qty": 3
     },
     "long_30C": {
      "option_id": "ebaadad1-3091-4fe1-8ef8-77725846ee7f",
-     "fill": 0.16
+     "fill": 0.1567,
+     "qty": 3
     },
     "long_25P": {
      "option_id": "def2f908-e09e-477d-b7c7-1fd987c212b6",
-     "fill": 0.14
+     "fill": 0.1433,
+     "qty": 3
     }
    },
-   "net_credit": 1.42,
-   "max_loss_usd": 216.0,
-   "max_profit_usd": 284.0,
-   "exit_reserve_usd": 100.0,
+   "net_credit": 1.41,
+   "max_loss_usd": 327.0,
+   "max_profit_usd": 423.0,
+   "exit_reserve_usd": 150.0,
    "breakevens": [
-    26.08,
-    28.92
+    26.09,
+    28.91
    ],
    "wing_width": 2.5,
    "report": "2026-11-17 before the open (call 04:00 PT, company release of 2026-11-04)",
-   "owner_override": "Brad, 2026-11-16 12:28 PT: 'Open trades for earnings. Lets utilize all of the funding available.' and 12:37 PT: 'place it'. Waived: the news flag, the macro veto, the same-sector rule.",
+   "owner_override": "Brad, 2026-11-16 12:28 PT: 'Open trades for earnings. Lets utilize all of the funding available.' and 12:37 PT: 'place it'. Waived: the news flag, the macro veto, the same-sector rule. 12:48 PT: 'no i want you to be slightly more aggressive with the trades.' (third contract, after the 12:35 cutoff, inside his window to 12:55).",
    "plan": {
     "exit": "Tue 2026-11-17 06:45 PT check-in, first liquid quotes",
-    "close_sequence": "close JD first: both short legs for the two contracts in one message when the buying power covers them (it is 1,123), then both wings; fall back to one fly at a time if an order is refused for buying power",
+    "close_sequence": "close JD first: the three short calls and three short puts in one message when the buying power covers them (it is about 1,012), then the wings; fall back to one fly at a time if an order is refused for buying power",
     "max_close_cost": 3.0,
     "take_profit_close_cost": 0.71,
     "cut_close_cost": 2.07,
@@ -358,8 +362,27 @@
       "6afb682e-b529-4471-9551-20f739b7c0b4",
       "6afb697b-caac-4a61-b13f-123fd54cce5e"
      ]
+    },
+    {
+     "n": 2,
+     "ts": "2026-11-16T20:50:21Z",
+     "quantity": 1,
+     "strikes": [
+      25,
+      27.5,
+      30
+     ],
+     "net_credit": 1.39,
+     "max_loss_usd": 111.0,
+     "order_ids": [
+      "6afb6c65-9424-415f-8378-55f256a76b79",
+      "6afb6c66-37eb-47fa-b4b5-be3ad01d94ea",
+      "6afb6c7b-a43a-460e-afad-208e9cb39e7b",
+      "6afb6c8d-b2fb-48c7-b930-790f12bc5dc2"
+     ]
     }
-   ]
+   ],
+   "alerts_note": "alerts sit at 26.08 / 28.92 (set for the first two contracts); the three-contract breakevens are 26.09 / 28.91, one cent inside, so they were left"
   },
   {
    "symbol": "HD",
@@ -450,18 +473,19 @@
   },
   "Tue 2026-11-17 06:45 PT: close AS-20261116-1 (earnings fly, reports before the open); pause its two alerts after the exit.",
   "By Thu 2026-11-19 (at a reflection): wire Friday earnings entries live at half size (P039) and tell Brad when it is in.",
-  "Tue 2026-11-17 06:45 PT exit order: JD (2), then AS (1), then HD (1) by legs if its short legs fit the buying power, else Brad's 4-leg ticket. Pause all six alerts after the exits."
+  "Tue 2026-11-17 06:45 PT exit order: JD (3), then AS (1), then HD (1) by legs if its short legs fit the buying power, else Brad's 4-leg ticket. Pause all six alerts after the exits.",
+  "Reflection 2026-11-16: turn Brad's 'slightly more aggressive' (lesson L020) into concrete rule changes and tell him which."
  ],
- "buying_power": 1123.36,
+ "buying_power": 1012.18,
  "risk": {
-  "total_max_loss_usd": 911.0,
-  "exit_reserves_usd": 200.0,
-  "used_usd": 1111.0,
-  "cap_usd": 2029.36,
-  "free_usd": 918.36,
-  "detail": "AS 135 + 50; JD 216 + 100; HD 560 + 50 (hand-entered by Brad, over the 350 name cap by his own order)",
+  "total_max_loss_usd": 1022.0,
+  "exit_reserves_usd": 250.0,
+  "used_usd": 1272.0,
+  "cap_usd": 2034.18,
+  "free_usd": 762.18,
+  "detail": "AS 135 + 50; JD 327 + 150 (3 contracts); HD 560 + 50 (hand-entered by Brad)",
   "cap_note": "Rules v1.11: the cap is the account value (Brad, 2026-11-13: 'I want you to be able to use the entire funds in the mcp account'). cap_usd is the account value at the last check; it is not lowered below the risk already open when marks fall (the cap binds at entry).",
-  "exit_buying_power": "1,123 after Brad added 800 at about 12:43 PT (it was 323). Exit order on Tuesday: JD first (two flies), then AS, then HD. Closing JD and AS frees about 850 of collateral, so HD's two short legs can be bought back by legs as long as they cost less than the buying power at that moment (roughly an HD move under 4.5%); beyond that, send Brad the 4-leg closing ticket."
+  "exit_buying_power": "about 1,012. Exit order on Tuesday: JD (3), then AS, then HD by legs if its two short legs fit the buying power at that moment, else Brad's 4-leg ticket."
  },
  "eod_note": "2026-11-13 close: PCG x5 open (fly 0.585 at closing mids, +$33.50; about flat on the day, account +$5). No fills today. Account 1,250.91, buying power 1,040.91, risk used 224. Two losses in a row stand (LUNR, NVDA): a third pauses new entries.",
  "watch": [
