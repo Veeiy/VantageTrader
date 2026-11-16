@@ -1,0 +1,221 @@
+{
+ "date": "2026-11-16",
+ "as_of": "2026-11-16T14:50Z (06:50 PT)",
+ "expiry": "2026-11-20",
+ "exit": "Tue 2026-11-17 morning run, first liquid quotes (three days before expiry)",
+ "universe": {
+  "scanner_names": 20,
+  "sent_to_analyst": 13,
+  "note": "Reports 11/16 after the close and 11/17 before the open. Scanner pre-filter (P016), one vol-analyst (183k tokens), one risk-sentinel (116k tokens)."
+ },
+ "macro": {
+  "veto_all": false,
+  "spy_pct": -0.0073,
+  "qqq_pct": -0.0135,
+  "vix": 20.56,
+  "note": "No tier-1 release before Tue 06:45 PT. PCE may print Tue 05:30 PT (tier 2; the calendars disagree)."
+ },
+ "candidates": [],
+ "blocked": {
+  "JD": {
+   "rule": "news flag: other:ceconomy_acquisition_closed (any sentinel flag skips the name). All numeric gates pass.",
+   "timing": "am",
+   "spot": 27.755,
+   "intraday_pct": -0.0056,
+   "K": 28.0,
+   "straddle_pct": 0.065,
+   "atm_spread_pct": 0.1607,
+   "avg_hist_move": 0.0311,
+   "n_hist": 6,
+   "edge_ratio": 0.562,
+   "fly": {
+    "call_strike": 30.5,
+    "put_strike": 25.5,
+    "call": {
+     "id": "93ca85c2-700b-4d4f-9424-3ca565670c41",
+     "bid": 0.08,
+     "ask": 0.18
+    },
+    "put": {
+     "id": "9da95876-e608-48dd-ad8e-04e9cece12ea",
+     "bid": 0.15,
+     "ask": 0.23
+    },
+    "credit_mid": 1.485,
+    "credit_natural": 1.25,
+    "width": 2.5,
+    "max_loss_mid": 101.5,
+    "max_loss_natural": 125.0,
+    "breakevens": [
+     26.515,
+     29.485
+    ],
+    "tick": 0.01,
+    "narrow_width_over_straddle": 1.385,
+    "floor_0p9x_straddle": 1.6245
+   },
+   "gate_clean": {
+    "contracts_now": 1,
+    "contracts_final": 2,
+    "limit_start": 1.49,
+    "limit_floor": 1.37,
+    "max_loss_floor": 113.38
+   },
+   "paper": "JD-20261116-U1",
+   "report_confirmed": "Tue 11/17 before the open, call 04:00 PT (company release of 11/04)"
+  },
+  "XP": {
+   "rule": "regime guard (ratio 2.03, limit 1.25) and earnings_date_unconfirmed",
+   "timing": "pm",
+   "spot": 14.97,
+   "intraday_pct": -0.0336,
+   "K": 15.0,
+   "straddle_pct": 0.0701,
+   "atm_spread_pct": 0.1905,
+   "avg_hist_move": 0.0271,
+   "n_hist": 6,
+   "edge_ratio": 0.455,
+   "fly": {
+    "call_strike": 16.5,
+    "put_strike": 13.5,
+    "call": {
+     "id": "628d5b84-6939-4f73-a5ec-51e7a23e3366",
+     "bid": 0.05,
+     "ask": 0.2
+    },
+    "put": {
+     "id": "a3f529d7-7abf-4bad-8988-7b9d945a0f37",
+     "bid": 0.0,
+     "ask": 0.15
+    },
+    "credit_mid": 0.85,
+    "credit_natural": 0.6,
+    "width": 1.5,
+    "max_loss_mid": 65.0,
+    "max_loss_natural": 90.0,
+    "breakevens": [
+     14.15,
+     15.85
+    ],
+    "tick": 0.05,
+    "narrow_width_over_straddle": 1.4286,
+    "floor_0p9x_straddle": 0.945
+   },
+   "regime_20d": 0.0549,
+   "regime_ex_gap": 0.0323,
+   "flags": [
+    "earnings_date_unconfirmed",
+    "other:post_crash_high_vol_regime",
+    "other:brazil_election_challenge"
+   ],
+   "paper": "XP-20261116-U1",
+   "oct_26": "-48% in one session after Lula's runoff win: a real crash, not a corporate action"
+  },
+  "DIS": {
+   "rule": "edge ratio 1.32 (long_straddle_off); a fly would also be too wide to exit",
+   "timing": "am",
+   "spot": 119.015,
+   "intraday_pct": 0.0004,
+   "K": 119.0,
+   "straddle_pct": 0.0592,
+   "atm_spread_pct": 0.1135,
+   "avg_hist_move": 0.0663,
+   "n_hist": 6,
+   "edge_ratio": 1.317
+  },
+  "HD": {
+   "rule": "not priced: at $348 the fly is far too wide for single-leg exits (gate 16)",
+   "timing": "am",
+   "spot": 347.71,
+   "intraday_pct": -0.0028,
+   "K": 347.5,
+   "straddle_pct": 0.0494,
+   "atm_spread_pct": 0.1194
+  },
+  "POWL": {
+   "rule": "not priced: too wide for single-leg exits; ATM spread 40%",
+   "timing": "pm",
+   "spot": 143.46,
+   "intraday_pct": 0.0052,
+   "K": 145.0,
+   "straddle_pct": 0.1523,
+   "atm_spread_pct": 0.3982
+  },
+  "SHAZ": {
+   "rule": "intraday move -13.9% (over 7%); ATM spread 88%; 2 past reports",
+   "timing": "pm",
+   "spot": 19.415,
+   "intraday_pct": -0.1394,
+   "K": 19.0,
+   "straddle_pct": 0.1751,
+   "atm_spread_pct": 0.8824
+  }
+ },
+ "skipped": {
+  "atm_spread_over_25pct": {
+   "SR": 1.88,
+   "AS": 0.305,
+   "OPRA": 1.447,
+   "KLAR": 0.342,
+   "OMER": 1.252
+  },
+  "timing": {
+   "TCOM": "reports 2026-11-27 pm (unverified)",
+   "PERI": "reported 2026-11-16 am"
+  },
+  "already_reported_this_morning": [
+   "BIDU",
+   "TSN",
+   "BEKE",
+   "ARMK"
+  ],
+  "tuesday_entries": [
+   "NVDA (on hold)",
+   "SQM",
+   "ZTO"
+  ],
+  "calendar_names_the_scanner_dropped": [
+   "INFQ",
+   "PAGS",
+   "ACM",
+   "SKE",
+   "ZK",
+   "GFF",
+   "WB",
+   "VIK",
+   "ESLT",
+   "MNSO",
+   "LUXE",
+   "MFP",
+   "TME",
+   "OCSL",
+   "ENR",
+   "HTHT",
+   "BXDC",
+   "XPEV"
+  ]
+ },
+ "non_earnings_screen": {
+  "as_of": "2026-11-16T14:44Z",
+  "hits": [
+   "CRM",
+   "HPQ",
+   "JD",
+   "PCG"
+  ],
+  "decision": "no trade",
+  "why": {
+   "CRM": "pre-earnings volatility (reports in early December), $217: no dated driver before that, too wide to exit",
+   "HPQ": "pre-earnings volatility (reports next week)",
+   "JD": "an earnings name, handled above",
+   "PCG": "closed this morning; the special-session window has no date and the stock is trending toward 13.65"
+  }
+ },
+ "account": {
+  "as_of": "2026-11-16T14:42Z",
+  "account_value": 1235.08,
+  "buying_power": 1235.08,
+  "risk_used": 0
+ },
+ "entry_plan": "No entry at the morning run. JD passes the numbers and is skipped on a news flag; XP is blocked. The 09:45 and 11:46 runs re-check; the flag on JD stands for the day."
+}
