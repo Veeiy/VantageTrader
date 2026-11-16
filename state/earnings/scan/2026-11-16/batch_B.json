@@ -1,0 +1,135 @@
+{
+ "batch": "B",
+ "as_of_utc": "2026-11-16T16:19:15Z",
+ "analyzed": [
+  {
+   "symbol": "AS",
+   "timing": "am",
+   "spot": 29.235,
+   "prev_close": 29.94,
+   "intraday_pct": -0.02355,
+   "K": 29.0,
+   "strike_step": 0.5,
+   "call": {
+    "id": "b863a789-df1a-4842-a7bd-0c0b142e5627",
+    "bid": 1.35,
+    "ask": 1.7,
+    "oi": 78
+   },
+   "put": {
+    "id": "14c4aff3-d697-456c-980b-66b7470d8448",
+    "bid": 1.3,
+    "ask": 1.5,
+    "oi": 142
+   },
+   "straddle_mid": 2.925,
+   "straddle_pct": 0.10005,
+   "atm_spread_pct": 0.18803,
+   "hist_moves": [
+    0.190507,
+    -0.046933,
+    0.084525,
+    -0.055569,
+    0.020513,
+    0.032238
+   ],
+   "avg_hist_move": 0.07171,
+   "median_hist_move": 0.05125,
+   "max_hist_move": 0.190507,
+   "n_hist": 6,
+   "regime_20d": 0.01932,
+   "edge_ratio": 0.8433,
+   "wings": {
+    "call_strike": 33.5,
+    "put_strike": 24.5,
+    "call": {
+     "id": "d75e2427-fb17-4630-ad51-6f48bb2e1a59",
+     "bid": 0.15,
+     "ask": 0.35
+    },
+    "put": {
+     "id": "4870b098-addd-4685-8942-2995cdeda821",
+     "bid": 0.05,
+     "ask": 0.35
+    },
+    "credit_mid": 2.475,
+    "credit_natural": 1.95,
+    "width": 4.5,
+    "max_loss_mid": 202.5,
+    "max_loss_natural": 255.0,
+    "breakevens": [
+     26.525,
+     31.475
+    ],
+    "tick": {
+     "below_3.00": 0.05,
+     "at_or_above_3.00": 0.1
+    }
+   },
+   "wings_wide": null,
+   "past_moves_beyond_breakevens": "2/6",
+   "news": {
+    "flags": [],
+    "report_confirmed": "2026-11-17, before market open, call 08:00 ET; company release https://s21.q4cdn.com/769814866/files/doc_news/Amer-Sports-Inc--to-Report-Third-Quarter-2026-Financial-Results-on-November-17-2026--2026.pdf (Amer Sports IR CDN; seen via search, direct fetch blocked by network)",
+    "evidence": [
+     "Checked last 10 days for guidance change, M&A, offering/lock-up, legal, management, investor event, short report, index change: none found. Q3 guidance raise (Sept 2026, https://finviz.com/news/392840/amer-sports-updates-long-term-financial-algorithm-and-third-quarter-2026-guidance) and Sept investor day are older than 10 days; Atomic president change (2026-10-19, effective 2027-01-01, https://fashionunited.com/news/people/amer-sports-promotes-michael-absmaier-to-president-of-atomic/2026101975257) is brand-level and outside the window; last secondary offering found was May 2025."
+    ],
+    "sector_same_direction": true,
+    "sector_note": "No close peer report found in the last two sessions; AS -2.4% today with DECK -3.4%, ONON -2.4%, VFC -0.9%, XRT -1.3%, NKE -0.1% (Robinhood quotes 16:20Z)."
+   },
+   "notes": "Edge 0.843 is borderline: at 16:18Z (call 1.35/1.60) it was 0.855 (cap 175 would force 32.5/25.5, natural ML 175.0 exactly); body call ask widened to 1.70 by 16:19Z; wing puts 24.5/25.0 bid only 0.05; AAII page dated 2026-11-04 shows Q3 EPS 0.22 vs 0.11 before the report (likely bad data), ignored."
+  },
+  {
+   "symbol": "KLAR",
+   "timing": "am",
+   "spot": 13.91,
+   "prev_close": 13.8,
+   "intraday_pct": 0.00797,
+   "K": 14.0,
+   "strike_step": 0.5,
+   "call": {
+    "id": "6b5d159a-a928-475f-905d-7862d4a75096",
+    "bid": 0.85,
+    "ask": 0.95,
+    "oi": 1047
+   },
+   "put": {
+    "id": "1d5bec71-a5cb-4215-a781-a2a1ad7c27cc",
+    "bid": 0.95,
+    "ask": 1.05,
+    "oi": 81
+   },
+   "straddle_mid": 1.9,
+   "straddle_pct": 0.13659,
+   "atm_spread_pct": 0.10526,
+   "hist_moves": [
+    -0.093177,
+    -0.269129,
+    0.203068,
+    -0.228088
+   ],
+   "avg_hist_move": 0.19837,
+   "median_hist_move": 0.21558,
+   "max_hist_move": -0.269129,
+   "n_hist": 4,
+   "regime_20d": 0.02369,
+   "edge_ratio": 1.7085,
+   "wings": null,
+   "wings_wide": null,
+   "past_moves_beyond_breakevens": null,
+   "news": {
+    "flags": [],
+    "report_confirmed": "2026-11-17, before US market open, webcast 08:30 ET; company release via Nasdaq news https://view.news.eu.nasdaq.com/view?id=1471935 (seen via search, direct fetch blocked by network); TipRanks/Investing.com list 2026-11-24, contradicting the company",
+    "evidence": [
+     "Checked last 10 days for guidance change, M&A, offering/lock-up, legal, management, investor event, short report, index change: none found. CFO/CMO departures and FY26 revenue cut were announced 2026-08-18 with Q2 (https://www.bankingdive.com/news/klarna-cfo-cmo-to-leave-reduced-outlook-new-york/828299/), older than 10 days; PriceRunner v Google judgment was last scheduled for 2026-07-01 (https://www.businesswire.com/news/home/20260410565555/en/Swedish-Court-Reschedules-Delivery-of-Judgment-in-PriceRunner-vs-Google-Antitrust-Case), outcome not confirmed, no date found in our window."
+    ],
+    "sector_same_direction": false,
+    "sector_note": "No BNPL peer report found in the last two sessions; KLAR +0.8% while AFRM -3.3%, SEZL +6.1%, PYPL +0.2% (mixed; main peer AFRM down)."
+   },
+   "notes": "Not tradable as a fly on the numbers: edge_ratio 1.71 (avg hist move 19.8% vs straddle 13.7%), 3 of 4 past reports moved >20%; wings skipped. Strike step 0.5 confirmed via 14.5 listing."
+  }
+ ],
+ "errors": [
+  "WebFetch blocked (host not allowed): s21.q4cdn.com, view.news.eu.nasdaq.com, rallies.ai; report dates confirmed from search results of the company releases only"
+ ]
+}

@@ -1,6 +1,6 @@
 {
- "as_of": "2026-11-16T15:20:40Z",
- "account_value": 1235.08,
+ "as_of": "2026-11-16T16:36:45Z",
+ "account_value": 1222.9,
  "cap_total_max_loss": 1235.08,
  "execution": {
   "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
@@ -8,7 +8,103 @@
   "approval": "single-leg orders need no customer approval while human_must_approve_trades=false",
   "deep_itm_note": "A short leg that is deep in the money cannot be bought back alone when its price is above the buying power (NVDA 175P on 2026-11-12: $1,545 against $994 at the open). Such a spread is held at its max loss (v1.2.2) until the short leg's ask x 100 is inside the buying power, then closed short leg first, with the wing sold at once as a marketable limit."
  },
- "open": [],
+ "open": [
+  {
+   "symbol": "AS",
+   "trade_id": "AS-20261116-1",
+   "kind": "earnings",
+   "tier": "near_miss",
+   "structure": "iron fly 26/29.5/33",
+   "expiry": "2026-11-20",
+   "quantity": 1,
+   "opened": "2026-11-16T16:32:37Z",
+   "legs": {
+    "short_29.5C": {
+     "option_id": "b73b2501-4f1d-4cbc-8b48-684915fa254c",
+     "fill": 1.5
+    },
+    "short_29.5P": {
+     "option_id": "126be83d-9a09-4928-ae6d-146330a8984b",
+     "fill": 1.4
+    },
+    "long_33C": {
+     "option_id": "d23b06e2-2084-49f9-ad44-8bdab2dfca25",
+     "fill": 0.4
+    },
+    "long_26P": {
+     "option_id": "1492889c-b6fa-4401-a15e-b4446310e4bc",
+     "fill": 0.35
+    }
+   },
+   "net_credit": 2.15,
+   "max_loss_usd": 135.0,
+   "max_profit_usd": 215.0,
+   "exit_reserve_usd": 50.0,
+   "breakevens": [
+    27.35,
+    31.65
+   ],
+   "wing_width": 3.5,
+   "report": "2026-11-17 before the open (call 08:00 ET); Robinhood lists it as verified, the company release was seen in search results",
+   "thesis": "Earnings IV crush at half size: options price a 9.7% move (8.3% after the 0.85 haircut) against a 7.2% average over six reports; edge ratio 0.866, the near-miss tier.",
+   "plan": {
+    "exit": "Tue 2026-11-17 06:45 PT check-in at the first liquid quotes after the open",
+    "close_sequence": "review all four legs first; buy to close 29.5C and 29.5P in one message (single-leg limits; parity pricing for a short that is deep in the money), then sell each wing in the first call after its short fills",
+    "max_close_cost": 4.0,
+    "take_profit_close_cost": 1.075,
+    "cut_close_cost": 2.96,
+    "near_breakeven": [
+     27.88,
+     31.12
+    ],
+    "fast_move_pct": 2.0,
+    "never_hold_into": "2026-11-20",
+    "add": "none: the tier size is one contract"
+   },
+   "exit_time": {
+    "best_case_usd": 77.0,
+    "zero_line": [
+     27.25,
+     31.87
+    ],
+    "average_over_past_moves_after_slippage_usd": 4.4,
+    "worst_case_usd": -128.0
+   },
+   "alerts": [
+    {
+     "alert_id": "e9e8fd05-3b31-43dd-a6e4-fcc33aaf12e7",
+     "condition": "price_below",
+     "threshold": 27.35
+    },
+    {
+     "alert_id": "1fc376aa-3740-4e9e-adc8-54dc14fec43b",
+     "condition": "price_above",
+     "threshold": 31.65
+    }
+   ],
+   "tranches": [
+    {
+     "n": 1,
+     "ts": "2026-11-16T16:32:37Z",
+     "quantity": 1,
+     "strikes": [
+      26,
+      29.5,
+      33
+     ],
+     "net_credit": 2.15,
+     "max_loss_usd": 135.0,
+     "order_ids": [
+      "6afb2f98-5faf-4c2c-b79c-4568814c705f",
+      "6afb3004-366a-403f-b70b-7dd465331a6a",
+      "6afb3024-abf5-431f-9522-fa9f7ec65478",
+      "6afb3025-4880-4d89-ac30-df86428a8952"
+     ]
+    }
+   ],
+   "monitor": "read-only position monitor running until 12:55 PT (started 08:35 PT)"
+  }
+ ],
  "blockers": [
   "2026-11-10: Robinhood rejects agent-placed multi-leg orders. Workaround in use: single-leg legging (see execution).",
   "2026-11-12 06:41 PT: retried a multi-leg order (4-leg close of the NVDA fly). Still refused: 'this account requires the customer to approve agent-placed trades, and a multi-leg strategy cannot be sent for approval yet \u2014 the order was NOT placed; place it in the Robinhood app, or place one-leg orders instead'. review_option_order accepts the same order; only placement is blocked.",
@@ -19,16 +115,19 @@
    "when": "Tue 2026-11-17, the morning run at the first liquid quotes",
    "what": "Paper only: score JD-20261116-U1 and XP-20261116-U1 (leg ids and recipe in their records in live_metrics.jsonl). For XP first check get_earnings_results: if it reports 11/17 after the close, the morning mark is before the report and is not a result.",
    "asked_by": "agent"
-  }
+  },
+  "Mon 2026-11-16 11:46 PT final sweep: AS is at its tier size (no add). JD's news flag stands unless Brad says 'JD on' before 12:35 PT. Move the standby entry switch after the sweep.",
+  "Tue 2026-11-17 06:45 PT: close AS-20261116-1 (earnings fly, reports before the open); pause its two alerts after the exit.",
+  "By Thu 2026-11-19 (at a reflection): wire Friday earnings entries live at half size (P039) and tell Brad when it is in."
  ],
- "buying_power": 1235.08,
+ "buying_power": 1099.9,
  "risk": {
-  "total_max_loss_usd": 0,
-  "exit_reserves_usd": 0,
-  "used_usd": 0,
+  "total_max_loss_usd": 135.0,
+  "exit_reserves_usd": 50.0,
+  "used_usd": 185.0,
   "cap_usd": 1235.08,
-  "free_usd": 1235.08,
-  "detail": "flat",
+  "free_usd": 1050.08,
+  "detail": "AS 135 + 50 reserve",
   "cap_note": "Rules v1.11: the cap is the account value (Brad, 2026-11-13: 'I want you to be able to use the entire funds in the mcp account'). cap_usd is the account value at the last check; it is not lowered below the risk already open when marks fall (the cap binds at entry)."
  },
  "eod_note": "2026-11-13 close: PCG x5 open (fly 0.585 at closing mids, +$33.50; about flat on the day, account +$5). No fills today. Account 1,250.91, buying power 1,040.91, risk used 224. Two losses in a row stand (LUNR, NVDA): a third pauses new entries.",
@@ -381,5 +480,11 @@
    }
   }
  ],
- "check_2026-11-16_0720": "Flat: no option positions, no shares, no working orders. Paper desk file exists (entries at 07:15 PT)."
+ "check_2026-11-16_0720": "Flat: no option positions, no shares, no working orders. Paper desk file exists (entries at 07:15 PT).",
+ "check_2026-11-16_0834": {
+  "at": "2026-11-16T16:36:45Z",
+  "account_value": 1222.9,
+  "buying_power": 1099.9,
+  "note": "AS fly opened 08:30 to 08:33 PT. Account value reads 1222.90 because the four legs are marked at wide quotes (options value -227 against 215 collected); nothing has been lost. Alerts set at 27.35 and 31.65."
+ }
 }

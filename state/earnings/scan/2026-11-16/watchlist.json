@@ -217,5 +217,98 @@
   "buying_power": 1235.08,
   "risk_used": 0
  },
- "entry_plan": "No entry at the morning run. JD passes the numbers and is skipped on a news flag; XP is blocked. The 09:45 and 11:46 runs re-check; the flag on JD stands for the day."
+ "entry_plan": "AS entered at 08:32 PT (near-miss tier, 1 contract). JD still skipped on a news flag; XP blocked; KLAR no edge. The 09:45 and 11:46 runs re-check; the flag on JD stands for the day.",
+ "recheck_0815": {
+  "as_of": "2026-11-16T16:15Z to 16:33Z (08:15 to 08:33 PT)",
+  "why": "Brad asked at 08:13 PT how entries looked. AS and KLAR had been dropped at 06:50 only for the ATM spread; both were back inside 25% at 08:15, so both got the cheap check (past reports 6 and 4) and one analyst run (151k tokens) for history, wings and news. File: batch_B.json.",
+  "AS": {
+   "decision": "entered",
+   "trade_id": "AS-20261116-1",
+   "tier": "near_miss",
+   "edge_ratio": 0.8663,
+   "edge_range_seen": [
+    0.843,
+    0.88
+   ],
+   "atm_spread_pct": 0.1913,
+   "worst_leg_spread_seen": [
+    0.2,
+    0.2642
+   ],
+   "avg_hist_move": 0.0717,
+   "n_hist": 6,
+   "news": "clean",
+   "fly": "26/29.5/33",
+   "credit": 2.15,
+   "max_loss_usd": 135.0,
+   "breakevens": [
+    27.35,
+    31.65
+   ],
+   "note": "The gate blocked it at 08:25 (call leg 26.4% wide) and passed it at 08:29 (20.0%). Wings at 1.5x (25/34) cost $225 at the floor, over the $175 tier cap, so the fly is stepped in to 26/33 (1.22x the straddle)."
+  },
+  "KLAR": {
+   "decision": "blocked",
+   "rule": "edge ratio 1.71 (no edge; 3 of 4 past reports moved more than 20%)",
+   "spot": 13.91,
+   "K": 14.0,
+   "straddle_pct": 0.1366,
+   "atm_spread_pct": 0.1053,
+   "avg_hist_move": 0.1984,
+   "n_hist": 4,
+   "news": "clean; reports 2026-11-17 before the open"
+  },
+  "JD": {
+   "decision": "still skipped on the news flag",
+   "requote_0815": {
+    "spot": 27.815,
+    "credit_mid": 1.45,
+    "credit_natural": 1.35,
+    "max_loss_mid": 105.0,
+    "edge_ratio": 0.59
+   }
+  },
+  "HD": {
+   "decision": "not tradable in this account",
+   "spot": 347.28,
+   "K": 347.5,
+   "straddle_mid": 16.425,
+   "straddle_pct": 0.0473,
+   "atm_spread_pct": 0.088,
+   "hist_moves": [
+    -0.0061,
+    0.0317,
+    -0.0602,
+    0.0199,
+    0.0088,
+    -0.0012
+   ],
+   "avg_hist_move": 0.0213,
+   "edge_ratio": 0.53,
+   "fly": "330/347.5/365 (1.07x the straddle, the narrowest fly the wing floor allows)",
+   "credit_mid": 11.965,
+   "credit_natural": 10.9,
+   "max_loss_mid": 553.5,
+   "max_loss_floor": 649.0,
+   "breakevens": [
+    335.5,
+    359.5
+   ],
+   "why": "One contract risks $554 to $649 against the $350 name cap, and a single-leg exit would need about $1,925 of buying power (gate 16). It needs multi-leg orders and a higher name cap. Recorded so the reflection can score it."
+  },
+  "multi_leg_retry": {
+   "at_pt": "08:29",
+   "order": "AS 26/29.5/33 iron fly, 1 contract, 2.20 credit",
+   "review": "clean (collateral 350, customer_approval_required false)",
+   "placement": "refused: 'this account requires the customer to approve agent-placed trades, and a multi-leg strategy cannot be sent for approval yet'"
+  },
+  "day_trade_premium": "state/earnings/daytrade/2026-11-16/premium_check.json (SPY 1.10x at 07:17, 0.96x at 08:16; IWM 0.81x; live trigger 1.15x)",
+  "notes_for_reflection": [
+   "Grade the AS entry (early phase, one contract, legging 142 s, fill 2.15 against mid 2.20).",
+   "Both shorts filled at once at or above mid: test starting the short legs one tick above mid.",
+   "The gate's worst-leg spread flipped the verdict within four minutes (26.4% then 20.0%): consider a second read before blocking or a short re-quote loop.",
+   "HD is the day's best edge (0.53) and out of reach: paper-score its 330/347.5/365 fly on Tuesday morning.",
+   "Brad, about 08:21 PT: 'This is for option trading. And should be trading all work days of the week' (P038 declined; P039 opened for Fridays)."
+  ]
+ }
 }
