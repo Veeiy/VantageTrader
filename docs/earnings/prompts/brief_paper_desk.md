@@ -35,6 +35,12 @@ c) Body strike K = the listed {TODAY} strike nearest spot. Find it with
    "172.5000"); a query without a type returns the call and the put. NEVER query an expiry
    without a strike. Probe neighbours until you know the strike step.
 d) get_option_quotes for the K call and the K put. straddle_mid = call mid + put mid.
+d2) PREMIUM CHECK for SPY, QQQ and IWM only (the live trigger of proposal P017): one call
+   get_equity_historicals(symbols=["SPY","QQQ","IWM"], start_time = 16 calendar days ago,
+   interval "hour"). For each of the last 10 completed sessions take the open of the hour bar
+   that contains the entry time and that session's last close; avg_abs_move_10 = the mean of
+   |close / open - 1|. premium_ratio = (straddle_mid / spot) / avg_abs_move_10. Write both into
+   the entry record's signal block. Parse with python; never print the bars.
 e) Wings: the listed strikes nearest K + straddle_mid (call) and K - straddle_mid (put), at
    least one strike step from K. Look them up and quote them.
 f) credit_mid = body mids - wing mids. credit_natural = body bids - wing asks.
