@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-16T20:51:12Z",
+ "as_of": "2026-11-16T20:56:15Z",
  "account_value": 2034.18,
  "cap_total_max_loss": 1235.08,
  "execution": {
@@ -102,7 +102,7 @@
      ]
     }
    ],
-   "monitor": "read-only position monitor running until 12:55 PT (started 08:35 PT)",
+   "monitor": "read-only position monitor ran 08:35 to 12:55 PT and handed back; none running overnight",
    "check_2026-11-16_0915": {
     "spot": 29.66,
     "legs": {
@@ -275,6 +275,34 @@
      0.09
     ],
     "decision": "hold into the report (take profit at 1.075, cut at 2.96)"
+   },
+   "eod_2026-11-16": {
+    "last_stock": 29.145,
+    "at": "2026-11-16T20:55Z",
+    "day_change_pct": -0.027,
+    "stock_range": [
+     28.75,
+     29.79
+    ],
+    "close_cost_mid": 2.075,
+    "close_cost_natural": 2.6,
+    "close_cost_mid_range": [
+     2.05,
+     2.325
+    ],
+    "close_cost_natural_max": 2.9,
+    "credit": 2.15,
+    "open_pnl_usd": 7.5,
+    "legs_mid": {
+     "29.5C": 1.175,
+     "29.5P": 1.475,
+     "33C": 0.25,
+     "26P": 0.325
+    },
+    "news": "report date unchanged (Tue before the open, call 08:00 ET); no pre-announcement, deal or halt found",
+    "triggers": "none; the afternoon drop from 29.79 to 28.75 was gradual (largest 15-minute move about -1.4%), with DECK -4.3%, ONON -3.5%, XRT -1.8%",
+    "note": "the natural close cost touched 2.90 at 11:35 PT on widened body quotes, close to the 2.96 cut level, while the mid never passed 2.33: a wide quote, not a signal",
+    "source": "monitor hand-back; official closes are confirmed at the 14:12 PT reflection"
    }
   },
   {
