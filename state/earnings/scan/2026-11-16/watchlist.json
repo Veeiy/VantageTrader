@@ -512,5 +512,16 @@
    "Three earnings flies are open on a macro-veto day, all three before-the-open reporters, total max loss 911 of a 1,199 account: the result is the first evidence on the veto rule and on owner overrides (compare with the NVDA override of 2026-11-11).",
    "Buying power after the HD entry is 323: single-leg exits are feasible only in sequence. Gate 16 was computed before HD existed; the gate should be re-run for open names when a hand entry changes buying power."
   ]
+ },
+ "owner_permission_1246": {
+  "at": "2026-11-16T20:47:16Z",
+  "brad": "permission to open now if you see fit. until 12:55",
+  "decision": "nothing opened",
+  "why": [
+   "three flies are already open into the same morning's reports, total max loss 911, on a day the macro veto is on (SPY -2.0%, VIX +23%)",
+   "the only name with edge left to add to is JD, which already needed the news flag, the macro veto and the sector rule waived; a third contract would be the agent's own judgment and the agent does not hold that view",
+   "nothing else on the list has edge (DIS 1.28, KLAR 1.71) or is tradable (XP regime guard, the rest too wide)"
+  ],
+  "note_for_reflection": "Brad left it to the agent's judgment and the agent declined: grade this against Tuesday's results."
  }
 }
