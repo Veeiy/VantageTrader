@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-16T17:16:07Z",
+ "as_of": "2026-11-16T17:47:06Z",
  "account_value": 1222.9,
  "cap_total_max_loss": 1235.08,
  "execution": {
@@ -132,6 +132,31 @@
      0.067
     ],
     "decision": "hold (take profit at 1.075, cut at 2.96; the report is tomorrow before the open)"
+   },
+   "check_2026-11-16_0946": {
+    "spot": 29.615,
+    "legs": {
+     "29.5C": [
+      1.5,
+      1.6
+     ],
+     "29.5P": [
+      1.35,
+      1.55
+     ],
+     "33C": [
+      0.35,
+      0.5
+     ],
+     "26P": [
+      0.25,
+      0.35
+     ]
+    },
+    "close_cost_mid": 2.275,
+    "close_cost_natural": 2.55,
+    "pnl_mid_usd": -12.5,
+    "decision": "hold (implied volatility is rising into the report: the straddle is 3.00 against 2.90 at entry)"
    }
   }
  ],

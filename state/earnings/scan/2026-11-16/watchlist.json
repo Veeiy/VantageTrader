@@ -310,5 +310,72 @@
    "HD is the day's best edge (0.53) and out of reach: paper-score its 330/347.5/365 fly on Tuesday morning.",
    "Brad, about 08:21 PT: 'This is for option trading. And should be trading all work days of the week' (P038 declined; P039 opened for Fridays)."
   ]
+ },
+ "recheck_0945": {
+  "as_of": "2026-11-16T17:46Z (09:46 PT)",
+  "macro": {
+   "spy_pct": -0.015,
+   "vix": 21.86,
+   "vix_change": 0.133,
+   "veto": false,
+   "note": "close to the veto lines (SPY at -2%, VIX up 15% = 22.20): the 11:46 sweep must re-read both before any order"
+  },
+  "ranking": [
+   {
+    "symbol": "HD",
+    "edge_ratio": 0.538,
+    "straddle_pct": 0.0466,
+    "atm_spread_pct": 0.062,
+    "intraday_pct": -0.002,
+    "status": "blocked: one contract risks about 554 to 660, over the 350 name cap, and it cannot be exited by legs (gate 16)"
+   },
+   {
+    "symbol": "JD",
+    "edge_ratio": 0.581,
+    "straddle_pct": 0.063,
+    "atm_spread_pct": 0.097,
+    "intraday_pct": -0.0072,
+    "credit_mid": 1.46,
+    "credit_natural": 1.36,
+    "max_loss_mid": 104.0,
+    "status": "skipped: news flag stands for the day (needs Brad's 'JD on'); spot 27.71 is now nearer the 27.5 strike than 28"
+   },
+   {
+    "symbol": "AS",
+    "edge_ratio": 0.866,
+    "status": "open since 08:32 PT (1 contract, tier size reached: no add)",
+    "close_cost_mid": 2.275,
+    "pnl_mid_usd": -12.5,
+    "spot": 29.615
+   },
+   {
+    "symbol": "XP",
+    "straddle_pct": 0.0694,
+    "atm_spread_pct": 0.146,
+    "intraday_pct": -0.0458,
+    "status": "blocked: regime guard 2.03 and report date unconfirmed"
+   },
+   {
+    "symbol": "DIS",
+    "edge_ratio": 1.283,
+    "straddle_pct": 0.0608,
+    "atm_spread_pct": 0.048,
+    "status": "blocked: no edge"
+   },
+   {
+    "symbol": "KLAR",
+    "edge_ratio": 1.71,
+    "status": "blocked: no edge"
+   }
+  ],
+  "still_too_wide": {
+   "SR": "90 call has no bid",
+   "OPRA": 0.73,
+   "OMER": 0.47,
+   "SHAZ": "0.26 and -13.7% on the day",
+   "POWL": "+6.6% on the day and too wide to exit by legs"
+  },
+  "entered": [],
+  "decision": "nothing new qualifies; the 11:46 PT run is the final sweep"
  }
 }
