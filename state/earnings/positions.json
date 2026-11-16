@@ -1,6 +1,6 @@
 {
- "as_of": "2026-11-16T20:33:30Z",
- "account_value": 1257.9,
+ "as_of": "2026-11-16T20:36:59Z",
+ "account_value": 1219.45,
  "cap_total_max_loss": 1235.08,
  "execution": {
   "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
@@ -319,6 +319,80 @@
    "owner_override": "Brad, 2026-11-16 about 12:28 PT: 'Open trades for earnings. Lets utilize all of the funding available.' The gate under the rules blocks JD (news flag, macro veto, same sector as AS); with those three waived it passes at 2 contracts (edge 0.598, credit mid 1.41, floor 1.34).",
    "to_do": "Sell 2 x 27.5 put at 0.80 or better (floor 0.72 keeps the fly at 1.34). If the put side is not on by 12:50 PT, buy back the two 27.5 calls and sell the wings: no one-sided spread into earnings.",
    "report": "2026-11-17 before the open (call 04:00 PT)"
+  },
+  {
+   "symbol": "HD",
+   "trade_id": "HD-20261116-1",
+   "kind": "earnings",
+   "hand_entered": true,
+   "structure": "iron fly 330/347.5/365",
+   "expiry": "2026-11-20",
+   "quantity": 1,
+   "opened": "2026-11-16T20:35:29Z",
+   "legs": {
+    "short_347.5C": {
+     "option_id": "8a72594a-5e61-4b78-b2a4-2abf398fcdb6",
+     "fill": 7.86
+    },
+    "short_347.5P": {
+     "option_id": "5695bc39-b94b-453d-80e9-178b48d7c715",
+     "fill": 8.62
+    },
+    "long_365C": {
+     "option_id": "824f6973-258c-4e48-adae-190b6d3c2e50",
+     "fill": 2.05
+    },
+    "long_330P": {
+     "option_id": "ad518d2e-315c-4ffb-9056-91692bac0bab",
+     "fill": 2.53
+    }
+   },
+   "net_credit": 11.9,
+   "max_loss_usd": 560.0,
+   "max_profit_usd": 1190.0,
+   "exit_reserve_usd": 50.0,
+   "breakevens": [
+    335.6,
+    359.4
+   ],
+   "wing_width": 17.5,
+   "report": "2026-11-17 before the open (call 09:00 ET)",
+   "plan": {
+    "exit": "Tue 2026-11-17 06:45 PT",
+    "who": "BRAD closes it with one 4-leg order in the app; the agent cannot close it by legs (buying power 163 after the entries, one leg alone can cost 400 to 1,700)",
+    "agent_duty": "at the 06:45 PT run quote the four legs, send Brad the exact closing ticket (buy 347.5 call and put, sell 365 call and 330 put, net debit limit at mid, then walking up) and a push notification; record his close",
+    "max_close_cost": 18.0,
+    "never_hold_into": "2026-11-20"
+   },
+   "alerts": [
+    {
+     "alert_id": "2d431e39-933c-4855-9313-c9e182b877aa",
+     "condition": "price_below",
+     "threshold": 335.6
+    },
+    {
+     "alert_id": "9814e875-a61a-492e-9546-00fa485fa834",
+     "condition": "price_above",
+     "threshold": 359.4
+    }
+   ],
+   "tranches": [
+    {
+     "n": 1,
+     "ts": "2026-11-16T20:35:29Z",
+     "quantity": 1,
+     "strikes": [
+      330,
+      347.5,
+      365
+     ],
+     "net_credit": 11.9,
+     "max_loss_usd": 560.0,
+     "order_ids": [
+      "6afb6910-9fcc-44e9-8235-050faabbdeac"
+     ]
+    }
+   ]
   }
  ],
  "blockers": [
@@ -334,16 +408,17 @@
   },
   "Tue 2026-11-17 06:45 PT: close AS-20261116-1 (earnings fly, reports before the open); pause its two alerts after the exit.",
   "By Thu 2026-11-19 (at a reflection): wire Friday earnings entries live at half size (P039) and tell Brad when it is in.",
-  "Manual tickets given to Brad at 08:45 PT on 2026-11-16 (he offered to enter multi-leg orders by hand): JD iron fly 25.5/28/30.5 Nov 20 (credit 1.45 down to 1.37, max loss about 105 to 113) and HD iron fly 330/347.5/365 Nov 20 (credit 11.85 down to 10.90, max loss about 565 to 660; the agent advised against HD at this account size). If either shows up in get_option_positions: record and journal it first as a hand-entered position. JD can be closed by legs at the Tue 06:45 PT exit. HD cannot be closed by legs (gate 16: one leg alone needs more buying power than the account has): at 06:45 PT Tuesday send Brad the exact 4-leg closing ticket and a push notification."
+  "Manual tickets given to Brad at 08:45 PT on 2026-11-16 (he offered to enter multi-leg orders by hand): JD iron fly 25.5/28/30.5 Nov 20 (credit 1.45 down to 1.37, max loss about 105 to 113) and HD iron fly 330/347.5/365 Nov 20 (credit 11.85 down to 10.90, max loss about 565 to 660; the agent advised against HD at this account size). If either shows up in get_option_positions: record and journal it first as a hand-entered position. JD can be closed by legs at the Tue 06:45 PT exit. HD cannot be closed by legs (gate 16: one leg alone needs more buying power than the account has): at 06:45 PT Tuesday send Brad the exact 4-leg closing ticket and a push notification.",
+  "Tue 2026-11-17 06:45 PT: HD-20261116-1 is closed by BRAD (4-leg order); send him the closing ticket and a push notification at that run."
  ],
- "buying_power": 1099.9,
+ "buying_power": 163.45,
  "risk": {
-  "total_max_loss_usd": 511.0,
-  "exit_reserves_usd": 150.0,
-  "used_usd": 661.0,
+  "total_max_loss_usd": 1071.0,
+  "exit_reserves_usd": 200.0,
+  "used_usd": 1271.0,
   "cap_usd": 1257.9,
-  "free_usd": 596.9,
-  "detail": "AS 135 + 50 reserve; JD incomplete 376 + 100 reserve (232 when the put side is sold)",
+  "free_usd": -13.1,
+  "detail": "AS 135 + 50; JD incomplete 376 + 100 (232 once the puts are sold); HD 560 + 50 (hand-entered by Brad). Over the cap by 13 until the JD put side is sold or the JD call side is unwound.",
   "cap_note": "Rules v1.11: the cap is the account value (Brad, 2026-11-13: 'I want you to be able to use the entire funds in the mcp account'). cap_usd is the account value at the last check; it is not lowered below the risk already open when marks fall (the cap binds at entry)."
  },
  "eod_note": "2026-11-13 close: PCG x5 open (fly 0.585 at closing mids, +$33.50; about flat on the day, account +$5). No fills today. Account 1,250.91, buying power 1,040.91, risk used 224. Two losses in a row stand (LUNR, NVDA): a third pauses new entries.",
