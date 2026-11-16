@@ -63,18 +63,20 @@ d) regime_20d = mean of |close/previous close - 1| over the last 20 completed se
    (python).
 e) edge_ratio = avg_hist_move / (0.85 * straddle_pct).
 
-STEP 4, WINGS (only symbols with edge_ratio <= 0.90 and n_hist >= 4).
+STEP 4, WINGS (only symbols with edge_ratio <= 1.10 and n_hist >= 4; rules v1.10 trade 0.85 to
+1.10 at half size).
 Wing strikes (rules v1.6): the listed strikes nearest K + 1.5 x straddle_mid and K - 1.5 x straddle_mid
 (at least one strike step from K). Quote both (exact-strike queries, then
 get_option_quotes). credit_mid = straddle_mid - wing call mid - wing put mid;
 credit_natural = call bid + put bid - wing call ask - wing put ask.
 width = the wider of the two wing distances. max_loss_mid = (width - credit_mid) * 100;
 max_loss_natural = (width - credit_natural) * 100. breakevens = K -/+ credit_mid.
-If max_loss_natural > 350, step the wings in one strike at a time until it is 350 or less and
+Cap per contract: 350 when edge_ratio <= 0.85, 175 when it is above 0.85 (the half-size tier).
+If max_loss_natural is above the cap, step the wings in one strike at a time until it fits and
 report that fly instead (say so in notes).
 Floor (rules v1.13): never step a wing closer to K than 0.9 x straddle_mid. If the max loss is
-still above 350 at that floor, report the last fly at or above the floor and say in notes that
-it does not fit (the gate blocks it; nobody narrows it further).
+still above the cap at that floor, report the last fly at or above the floor and say in notes
+that it does not fit (the gate blocks it; nobody narrows it further).
 Record the option ids of all four legs and the tick size you see (0.01 or 0.05).
 
 OUTPUT. Write one JSON file batch_<LETTER>.json in the scan folder:
