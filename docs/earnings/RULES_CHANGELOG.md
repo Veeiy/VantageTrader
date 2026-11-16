@@ -690,3 +690,100 @@ A tightening. It blocks trades and adds no risk.
   straddle of about $4.70, so stocks under roughly $55 when the options price an 8.5% move.
 - More names need multi-leg orders (no gate 16, cheaper exits), more buying power, or both.
   Raising the $350 name cap is Brad's call and is not proposed.
+
+## v1.14 (2026-11-16): one prudential condition at half size, two block (P040, decided under the delegation)
+Brad, 2026-11-16 12:48 PT: "no i want you to be slightly more aggressive with the trades."
+The rule is the agent's design under his standing delegation of 2026-11-11, the smallest
+step that answers him. He changes or reverses it with one word. Applies from the next entry.
+
+### Why
+- 2026-11-16: JD passed every numeric gate (edge ratio 0.56 to 0.60) and was skipped on one
+  mild news flag, a deal that had already closed. From about 11:15 PT the macro veto stopped
+  all new entries (S&P down 2.0%, VIX up 23% at 12:46 PT). Brad overrode both.
+- Both checks were all or nothing. A mild objection blocked a name the same way a serious
+  one does.
+
+### The rule
+- One mild prudential objection no longer blocks a trade. It halves its size. Two at once
+  still block.
+- The two objections are a soft news flag on the name and the soft macro band (both below).
+- With one of them the name gets half its target and half its name cap ($175, not $350),
+  the same mechanism as the near-miss tier (v1.10). The halves do not multiply: a near-miss
+  name with one soft condition is sized at 0.5, not 0.25.
+- A hard flag or a hard macro veto blocks as before. So does every other gate.
+
+### Soft and hard: the news check
+- Hard (blocks): the report date is unconfirmed; a pre-announcement or guidance change in
+  the last 10 days; a pending acquisition, vote or tender; an offering or lock-up expiry
+  inside the holding window; a dated legal or regulatory decision inside the holding window;
+  a management change in the last 10 days; an investor or product event inside the holding
+  window; a short-seller report in the last 10 days; a halt.
+- Soft (the flag starts with `soft:`, for example `soft:ceconomy_acquisition_closed`):
+  context that is public and already priced and has no date inside the holding window. For
+  example a deal that has already closed, a sector story, an old analyst day.
+- When unsure, the sentinel uses a hard flag.
+- The holding window runs from the entry to the planned exit.
+
+### Soft and hard: the macro veto
+- Hard (blocks, as before): a tier-1 release (FOMC decision, CPI, nonfarm payrolls) between
+  now and the next 06:45 PT exit; the S&P (SPY) up or down 3% or more today; VIX at 30 or
+  more, or up 25% or more today.
+- Soft (half size): SPY up or down 2% to under 3%, or VIX up 15% to under 25% with VIX
+  under 30. The gate gets it as `macro_veto: "soft: <numbers>"`, for example
+  `"soft: SPY -2.0%, VIX +23%"`.
+- Until now the veto started at 2% on SPY and at 15% up on VIX. From those lines to the
+  hard ones is now the soft band.
+- A market-wide halt today still blocks (`AGENTS.md`).
+
+### In code
+- Gate 8 (`news`): a hard flag fails it with the same reason as before (`flagged:<flags>`).
+  Soft flags alone pass, with a note that names them.
+- Gate 9 (`macro_veto`): `true` or a plain reason string fails it as before. A string that
+  starts with `soft:` passes, with the note "soft macro condition: half size (v1.14)".
+- New gate 17, `prudential`: its value lists the soft conditions present (`soft_news`,
+  `soft_macro`). One passes. Two fail with `two_prudential_conditions`.
+- The decision record carries `prudential` (that list) and `size_factor` (1.0, or 0.5).
+  `tier` is unchanged. The journal and live-metrics records of such a trade carry
+  `prudential` too, so the review can find them.
+- Config: `prudential_half_enabled` true, `prudential_size_factor` 0.5 and
+  `max_prudential_conditions` 1. The last two are hard caps: a config cannot raise them.
+- Several soft flags on one name count as one condition (`soft_news`).
+- Gate 7 is unchanged: in the 5% to 7% band a soft flag still counts as stock news.
+- The older `score` command is unchanged: any flag still skips a name there.
+
+### Off switch
+- Brad says "prudential off": `prudential_half_enabled` is set to false in
+  `config/earnings.yaml`. Soft flags and a soft macro string then block like hard ones,
+  exactly as before v1.14.
+
+### What it means
+- With $2,000 in the account a name with one soft condition may carry $175 of max loss at
+  the credit floor: half the 20% target would be $200, and the halved name cap binds first.
+- As in the near-miss tier, one contract is always allowed when it fits the $175. A fly that
+  risks more than $87.50 a contract gets one contract, and none if it risks more than $175.
+- 2026-11-16 again. JD at the 06:50 PT scan: its flag is a soft one, so 1 contract (max
+  loss about $113) instead of none. At 11:47 PT VIX was up 26.8%: a hard veto under v1.14
+  too. At about 12:46 PT (S&P down 2.0%, VIX up 23%) the macro band was soft: a name with no
+  flag could be entered at half size, and JD, with two soft conditions, stays blocked.
+- The HD fly and the JD contracts of that afternoon were owner overrides. They would still
+  need one.
+
+### Review
+- On 2026-11-30 or after 10 trades entered under this rule, whichever comes first: result
+  per fly after costs against the full-size flies.
+- The rule goes off by itself if the first five closed trades entered under it lose more
+  than $150 in total: `prudential_half_enabled` is set to false that day and Brad is told.
+
+### Unchanged
+- The owner's hard limits: this account only, defined risk only, limit orders only, never
+  TSLA, the name caps ($350 for an earnings name, $175 for a near-miss name, $400 for a
+  non-earnings name) and the total cap (the account value, v1.11).
+- The blocklist, price, history, edge ratio, spread, regime, intraday, circuit breaker,
+  sector, structure, name risk, risk budget and exit-feasibility gates, and the add rules.
+
+### Sector rule: what "sector" means (wording only, no code)
+- "No two earnings names from the same sector on the same day": sector here means the
+  industry (for example apparel and footwear, internet retail, home improvement retail), not
+  one of the eleven broad sectors.
+- On 2026-11-16 JD and HD were both read as the same sector as AS. By industry the three
+  differ, so the rule would not have stood between them.

@@ -73,7 +73,7 @@ def test_lunr_2026_11_11():
     r = rec["risk"]
     assert r["risk_cap"] == 1000.0 and r["budget_before"] == 828.0
     assert r["this_trade_usd"] == pytest.approx(100.64) and r["budget_left"] == pytest.approx(727.36)
-    assert [x["n"] for x in rec["gates"]] == list(range(1, 17))
+    assert [x["n"] for x in rec["gates"]] == list(range(1, 18))        # 17 gates since v1.14
     assert all(x["pass"] for x in rec["gates"])
 
 
@@ -563,3 +563,214 @@ def test_v113_inverted_wings_keep_their_own_reason():
     rec, code = run(cand(wings={"call_strike": 11.5, "put_strike": 10.5,
                                 "call": {"bid": 0.9, "ask": 1.0}, "put": {"bid": 0.1, "ask": 0.2}}))
     assert code == 3 and rec["reason"] == "no_valid_wings"
+
+
+# ---- rules v1.14 (2026-11-16): one prudential condition trades at half size, two block ----
+
+SOFT_FLAG = "soft:ceconomy_acquisition_closed"
+SOFT_MACRO = "soft: SPY -2.0%, VIX +23%"
+NEAR_MISS = {"hist_moves": _moves_for(0.95), "regime_20d": 0.001}     # edge ratio 0.95: the v1.10 tier
+
+
+def v114(cfg_over=None, **over):
+    """LUNR in the final window with nothing else open, at the live defaults (target 20% of $1,339)."""
+    return gate.evaluate(cand(**{"open_risk_usd": 0, "phase": "final", **over}), cfg(**(cfg_over or {})), [])
+
+
+def test_v114_one_soft_flag_trades_at_half_size():
+    # full size: target $267.80 -> 5 contracts of $50.64, name cap $350
+    core, code = v114()
+    assert code == 0 and core["contracts"] == 5 and core["risk"]["name_risk_cap"] == 350.0
+    # one soft flag: half the target ($133.90 -> 3 contracts) and half the cap ($175)
+    rec, code = v114(flags=[SOFT_FLAG])
+    assert code == 0 and rec["action"] == "sell" and rec["blocked_by"] == []
+    news, pru = g(rec, "news"), g(rec, "prudential")
+    assert news["n"] == 8 and news["pass"] is True and news["value"] == [SOFT_FLAG]
+    assert SOFT_FLAG in news["note"] and "half size (v1.14)" in news["note"]
+    assert pru["n"] == 17 and pru["pass"] is True and pru["value"] == ["soft_news"] and pru["limit"] == 1
+    assert rec["prudential"] == ["soft_news"] and rec["size_factor"] == 0.5 and rec["tier"] == "core"
+    assert rec["sizing"]["target"] == pytest.approx(133.9) and rec["risk"]["name_risk_cap"] == pytest.approx(175.0)
+    assert rec["contracts"] == 3 and rec["contracts_planned"] == 3
+    assert rec["max_loss"]["name_total_floor"] == pytest.approx(3 * 50.64) and g(rec, "name_risk")["limit"] == 175.0
+    assert rec["reason"].endswith("at half size (one prudential condition: soft_news, v1.14)")
+    # the object-of-booleans form of flags reads the same, and several soft flags are still one condition
+    assert v114(flags={SOFT_FLAG: True})[0]["prudential"] == ["soft_news"]
+    rec, code = v114(flags=[SOFT_FLAG, "soft:sector_tariff_story"])
+    assert code == 0 and rec["prudential"] == ["soft_news"] and rec["contracts"] == 3
+
+
+def test_v114_one_soft_condition_halves_the_name_cap():
+    # one contract of this fly risks about $268 at the floor: fine at full size, too much at half
+    fly = dict(wings={"call_strike": 16.0, "put_strike": 8.0,
+                      "call": {"bid": 0.08, "ask": 0.12}, "put": {"bid": 0.04, "ask": 0.08}})
+    core, code = v114(**fly)
+    assert code == 0 and core["contracts"] == 1 and 175.0 < core["max_loss"]["per_contract_floor"] <= 350.0
+    for soft in ({"flags": [SOFT_FLAG]}, {"macro_veto": SOFT_MACRO}):
+        rec, code = v114(**fly, **soft)
+        assert code == 3 and rec["reason"] == "name_risk_cap" and rec["contracts"] == 0
+        assert g(rec, "name_risk")["limit"] == 175.0 and g(rec, "prudential")["pass"] is True
+
+
+@pytest.mark.parametrize("flags,listed", [
+    (["news_shock"], "news_shock"),
+    ({"pending_litigation_ruling": True}, "pending_litigation_ruling"),
+    (["other:ceconomy_acquisition_closed"], "other:ceconomy_acquisition_closed"),   # no "soft:" prefix: hard
+    (["SOFT:ceconomy_acquisition_closed"], "SOFT:ceconomy_acquisition_closed"),     # the prefix is exact
+    (["earnings_date_unconfirmed", "trading_halt"], "earnings_date_unconfirmed,trading_halt"),
+])
+def test_v114_a_hard_flag_blocks_as_before(flags, listed):
+    rec, code = v114(flags=flags)
+    assert code == 3 and rec["action"] == "no_trade" and rec["contracts"] == 0
+    assert rec["reason"] == "flagged:" + listed and rec["blocked_by"] == ["flagged:" + listed]
+    news = g(rec, "news")
+    assert news["pass"] is False and news["value"] == listed.split(",") and news["limit"] == []
+    assert news["note"] is None and news["reason"] == "flagged:" + listed
+    assert g(rec, "prudential")["pass"] is True and rec["prudential"] == [] and rec["size_factor"] == 1.0
+    # the whole record equals the one with the rule switched off (only gate 17's note says it is off)
+    off, _ = v114({"prudential_half_enabled": False}, flags=flags)
+    assert g(off, "prudential").pop("note").startswith("switched off") and g(rec, "prudential").pop("note") is None
+    assert off == rec
+
+
+def test_v114_a_mixed_list_blocks_on_the_hard_flag():
+    for flags in ([SOFT_FLAG, "news_shock"], ["news_shock", SOFT_FLAG]):
+        rec, code = v114(flags=flags)
+        assert code == 3 and rec["action"] == "no_trade" and rec["contracts"] == 0
+        assert rec["reason"] == "flagged:news_shock" and rec["blocked_by"] == ["flagged:news_shock"]
+        assert g(rec, "news")["pass"] is False and SOFT_FLAG in g(rec, "news")["note"]
+
+
+def test_v114_a_soft_macro_string_trades_at_half_size():
+    rec, code = v114(macro_veto=SOFT_MACRO)
+    assert code == 0 and rec["action"] == "sell" and rec["blocked_by"] == []
+    m = g(rec, "macro_veto")
+    assert m["n"] == 9 and m["pass"] is True and m["value"] == SOFT_MACRO      # the numbers stay on the record
+    assert m["note"] == "soft macro condition: half size (v1.14)" and m["limit"] is False
+    assert g(rec, "prudential")["value"] == ["soft_macro"] and rec["prudential"] == ["soft_macro"]
+    assert rec["size_factor"] == 0.5 and rec["contracts"] == 3
+    assert rec["sizing"]["target"] == pytest.approx(133.9) and rec["risk"]["name_risk_cap"] == pytest.approx(175.0)
+    assert rec["reason"].endswith("at half size (one prudential condition: soft_macro, v1.14)")
+    # true, and a reason string without the exact prefix, are the hard veto as before
+    for hard in (True, "CPI tomorrow", "SPY -3.1%", "Soft: SPY -2.0%"):
+        rec, code = v114(macro_veto=hard)
+        assert code == 3 and rec["reason"] == "macro_veto" and g(rec, "macro_veto")["pass"] is False
+        assert rec["prudential"] == [] and rec["size_factor"] == 1.0 and rec["contracts"] == 0
+
+
+def test_v114_two_soft_conditions_block():
+    rec, code = v114(flags=[SOFT_FLAG], macro_veto=SOFT_MACRO)
+    assert code == 3 and rec["action"] == "no_trade" and rec["contracts"] == 0
+    assert rec["reason"] == "two_prudential_conditions" and rec["blocked_by"] == ["two_prudential_conditions"]
+    assert g(rec, "news")["pass"] is True and g(rec, "macro_veto")["pass"] is True
+    pru = g(rec, "prudential")
+    assert pru["pass"] is False and pru["value"] == ["soft_news", "soft_macro"] and pru["limit"] == 1
+    assert pru["reason"] == "two_prudential_conditions" and rec["prudential"] == ["soft_news", "soft_macro"]
+    # a soft condition next to a hard one: the hard one is the reason
+    rec, code = v114(flags=[SOFT_FLAG], macro_veto="CPI tomorrow")
+    assert code == 3 and rec["reason"] == "macro_veto" and rec["prudential"] == ["soft_news"]
+    rec, code = v114(flags=["news_shock"], macro_veto=SOFT_MACRO)
+    assert code == 3 and rec["reason"] == "flagged:news_shock" and rec["prudential"] == ["soft_macro"]
+
+
+def test_v114_near_miss_with_a_soft_flag_is_half_not_a_quarter():
+    alone, code = v114(**NEAR_MISS)
+    assert code == 0 and alone["tier"] == "near_miss" and alone["size_factor"] == 0.5 and alone["contracts"] == 3
+    rec, code = v114(flags=[SOFT_FLAG], **NEAR_MISS)
+    assert code == 0 and rec["action"] == "sell" and rec["tier"] == "near_miss"
+    assert rec["prudential"] == ["soft_news"] and rec["size_factor"] == 0.5        # the smaller factor, not 0.5 x 0.5
+    assert rec["sizing"]["target"] == pytest.approx(133.9)                         # a quarter would be $66.95 ...
+    assert rec["risk"]["name_risk_cap"] == pytest.approx(175.0)                    # ... with a cap of $87.50 ...
+    assert rec["contracts"] == alone["contracts"] == 3                             # ... and 1 contract
+    assert "near-miss tier, v1.10" in rec["reason"] and "soft_news, v1.14" in rec["reason"]
+    assert "half size" in rec["reason"]
+    # when the two factors differ the smaller one applies, whichever it is
+    rec, _ = v114({"near_miss_size_frac": 0.4}, flags=[SOFT_FLAG], **NEAR_MISS)
+    assert rec["size_factor"] == 0.4 and rec["risk"]["name_risk_cap"] == pytest.approx(140.0)
+    rec, _ = v114({"prudential_size_factor": 0.25}, flags=[SOFT_FLAG], **NEAR_MISS)
+    assert rec["size_factor"] == 0.25 and rec["risk"]["name_risk_cap"] == pytest.approx(87.5)
+    assert rec["sizing"]["target"] == pytest.approx(66.95) and rec["contracts"] == 1
+
+
+def test_v114_switched_off_soft_conditions_block_like_hard_ones():
+    off = {"prudential_half_enabled": False}
+    rec, code = v114(off, flags=[SOFT_FLAG])
+    assert code == 3 and rec["reason"] == "flagged:" + SOFT_FLAG and rec["contracts"] == 0
+    assert g(rec, "news")["pass"] is False and g(rec, "news")["note"] is None
+    assert rec["prudential"] == [] and rec["size_factor"] == 1.0 and g(rec, "prudential")["pass"] is True
+    rec, code = v114(off, macro_veto=SOFT_MACRO)
+    assert code == 3 and rec["reason"] == "macro_veto" and rec["contracts"] == 0
+    m = g(rec, "macro_veto")
+    assert m["pass"] is False and m["value"] is True and m["note"] == SOFT_MACRO
+    assert rec["prudential"] == [] and rec["size_factor"] == 1.0
+    rec, code = v114(off, flags=[SOFT_FLAG], macro_veto=SOFT_MACRO)
+    assert code == 3 and rec["blocked_by"] == ["flagged:" + SOFT_FLAG, "macro_veto"]
+    assert v114(off)[0]["contracts"] == 5                                          # a clean name is unaffected
+
+
+def test_v114_hard_caps():
+    with pytest.raises(ConfigError):
+        cfg(prudential_size_factor=0.75)        # above the hard cap of 0.5
+    with pytest.raises(ConfigError):
+        cfg(max_prudential_conditions=2)        # two soft conditions at once always block
+    for bad in ({"prudential_size_factor": 0}, {"prudential_size_factor": "half"},
+                {"max_prudential_conditions": 0}, {"max_prudential_conditions": 1.5},
+                {"prudential_half_enabled": "false"}, {"prudential_half_enabled": 0}):
+        with pytest.raises(ConfigError):
+            cfg(**bad)
+    c = cfg()
+    assert c["prudential_half_enabled"] is True and c["prudential_size_factor"] == 0.5
+    assert c["max_prudential_conditions"] == 1
+    assert cfg(prudential_size_factor=0.25)["prudential_size_factor"] == 0.25      # may only be made smaller
+
+
+def test_v114_no_soft_condition_changes_nothing():
+    rec, code = v114()
+    assert code == 0 and rec["prudential"] == [] and rec["size_factor"] == 1.0 and rec["tier"] == "core"
+    assert rec["contracts"] == 5 and rec["sizing"]["target"] == pytest.approx(267.8)
+    assert rec["reason"] == "passes: may be entered at any check-in on its entry day (v1.5)"
+    assert g(rec, "prudential") == {"n": 17, "gate": "prudential", "pass": True, "value": [], "limit": 1,
+                                    "note": None, "reason": None}
+    assert g(rec, "news")["note"] is None and g(rec, "macro_veto")["value"] is False
+    # a near-miss name keeps the factor and the wording it had before
+    near, code = v114(**NEAR_MISS)
+    assert code == 0 and near["prudential"] == [] and near["size_factor"] == 0.5
+    assert near["reason"].endswith("(v1.5) at half size (near-miss tier, v1.10)")
+    # a blocked name carries the two fields too
+    rec, code = v114(macro_veto=True)
+    assert code == 3 and rec["prudential"] == [] and rec["size_factor"] == 1.0
+
+
+def test_v114_the_other_gates_are_untouched():
+    names = ["blocklist", "price", "history", "edge_ratio", "atm_spread", "regime", "intraday", "news",
+             "macro_veto", "circuit_breaker", "sector", "structure", "add_centered", "name_risk", "risk_budget",
+             "exit_feasible", "prudential"]
+    rec, _ = v114(flags=[SOFT_FLAG])
+    assert [x["gate"] for x in rec["gates"]] == names and [x["n"] for x in rec["gates"]] == list(range(1, 18))
+    # gate 7 as before: 5% to 7% needs a sector move and no stock-news flag, and a soft flag is one
+    up = {"prev_close": 12.17 / 1.055, "sector_same_direction": True}
+    assert v114(**up)[1] == 0
+    rec, code = v114(flags=[SOFT_FLAG], **up)
+    assert code == 3 and rec["reason"] == "intraday_move_too_large" and g(rec, "news")["pass"] is True
+    # every other block still blocks a name that has one soft condition
+    rec, code = v114(flags=[SOFT_FLAG], symbol="TSLA")
+    assert code == 3 and rec["reason"] == "blocklisted"
+    rec, code = v114(flags=[SOFT_FLAG], sector="Aerospace", sectors_entered_today=["aerospace"])
+    assert code == 3 and rec["reason"] == "same_sector_today"
+    rec, code = v114(macro_veto=SOFT_MACRO, circuit_breaker="soft: means nothing to the breaker")
+    assert code == 3 and rec["reason"] == "circuit_breaker" and rec["prudential"] == ["soft_macro"]
+    # an add follows the held rules, against the halved target: $44 held of $133.90 -> 2 more, not 4
+    rec, code = v114(flags=[SOFT_FLAG], held=HELD, open_risk_usd=94)
+    assert code == 0 and rec["contracts"] == 2 and g(rec, "add_centered")["pass"] is True
+    assert rec["max_loss"]["name_total_floor"] == pytest.approx(44 + 2 * 50.64)
+    assert v114(held=HELD, open_risk_usd=94)[0]["contracts"] == 4
+
+
+def test_v114_cli_prints_the_new_fields(tmp_path, capsys):
+    p = tmp_path / "c.json"
+    p.write_text(json.dumps(cand(flags=[SOFT_FLAG], phase="final")))
+    code, d = _call(capsys, ["gate", "--input", str(p), "--journal", str(tmp_path / "none.jsonl")])
+    assert code == 0 and d["action"] == "sell" and d["prudential"] == ["soft_news"] and d["size_factor"] == 0.5
+    assert len(d["gates"]) == 17 and d["gates"][-1]["gate"] == "prudential"
+    p.write_text(json.dumps(cand(flags=[SOFT_FLAG], macro_veto=SOFT_MACRO, phase="final")))
+    code, d = _call(capsys, ["gate", "--input", str(p), "--journal", str(tmp_path / "none.jsonl")])
+    assert code == 3 and d["action"] == "no_trade" and d["reason"] == "two_prudential_conditions"

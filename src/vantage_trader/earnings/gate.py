@@ -1,6 +1,6 @@
 """The entry gate in code (proposals P004 and P011).
 
-One candidate in, one decision record out. Every rule from RULES_CHANGELOG v1.1 to v1.7 and
+One candidate in, one decision record out. Every rule from RULES_CHANGELOG v1.1 to v1.14 and
 the 2026-11-11 decisions is checked separately and reported with its number, its limit and
 pass/fail, so the decision can be compared line by line with the manual gate. A
 disagreement between this record and the manual gate blocks the entry until explained.
@@ -11,8 +11,10 @@ Candidate (the compact shape the analysts already produce)::
      "call": {"bid", "ask"}, "put": {"bid", "ask"},              # body strike K
      "wings"?: {"call_strike", "put_strike", "call": {"bid", "ask"}, "put": {"bid", "ask"}},
      "hist_moves": [signed fractions, oldest first], "regime_20d",
-     "flags"?: [risk-sentinel flags] or {"name": true|false},
-     "sector_same_direction"?: bool, "macro_veto"?: bool|str, "circuit_breaker"?: bool|str,
+     "flags"?: [risk-sentinel flags] or {"name": true|false},   # "soft:<slug>" = a soft flag (v1.14)
+     "sector_same_direction"?: bool,
+     "macro_veto"?: bool|str,                      # "soft: <numbers>" = the soft macro band (v1.14)
+     "circuit_breaker"?: bool|str,
      "sector"?: str, "sectors_entered_today"?: [str], "tick"?: float,
      "account_value", "open_risk_usd",
      "buying_power",                               # get_portfolio buying power now (gate 16)
@@ -40,9 +42,14 @@ Gates (all evaluated; ``reason`` is the first failure, ``blocked_by`` lists all)
      6 regime             regime_20d < 1.25 x average past earnings move
      7 intraday           |spot/prev_close - 1| <= 5%; 5-7% only with sector_same_direction
                           true and no stock-news flag; above 7% blocks
-     8 news               no stock-specific flag ("big_intraday_move" is a price fact covered
-                          by gate 7, not news)
-     9 macro_veto         blocks when set
+     8 news               no hard stock-specific flag ("big_intraday_move" is a price fact
+                          covered by gate 7, not news). v1.14: a flag that starts with "soft:"
+                          does not block by itself, it halves the size (gate 17); any other
+                          flag is hard and blocks as before. Gate 7 is unchanged: there a
+                          soft flag still counts as a stock-news flag
+     9 macro_veto         blocks when set (true or a reason string). v1.14: a reason string
+                          that starts with "soft:" is the soft macro band, it passes at half
+                          size (gate 17)
     10 circuit_breaker    blocks when set, when account value < $400, or on the journal's
                           loss streaks (2 max losses or 3 losses in a row)
     11 sector             blocks when ``sector`` is in ``sectors_entered_today`` (only
@@ -63,6 +70,13 @@ Gates (all evaluated; ``reason`` is the first failure, ``blocked_by`` lists all)
                           must fit the buying power left after the entry
                           (buying_power - contracts x max loss at the floor). Contracts are
                           cut to what fits; no buying_power given = blocked.
+    17 prudential         v1.14: value = the soft conditions present, "soft_news" (one or
+                          more soft flags) and "soft_macro". One is allowed
+                          (``max_prudential_conditions``) and sizes the name at
+                          ``prudential_size_factor`` (0.5); two at once block with
+                          "two_prudential_conditions". ``prudential_half_enabled: false``
+                          switches this off: soft flags and a soft macro string then block at
+                          gates 8 and 9 like hard ones.
 
 Max loss is checked at the credit FLOOR max(natural, 0.92 x mid) of the fly, the worst
 price the execution rules accept; ``max_loss_mid`` is reported next to it. The exit reserve
@@ -77,6 +91,10 @@ Band: "tight" (edge <= 0.70) and "final_sweep" (0.70 to 0.85) are labels only si
 "near_miss" (above 0.85, up to 1.10; v1.10) changes the size: the name's target and its name
 cap are both halved (``near_miss_size_frac``), every other gate applies unchanged. Above 1.10
 the band is "no_edge". The record carries ``tier``: "core", "near_miss" or None.
+One soft condition (v1.14) halves the target and the cap the same way
+(``prudential_size_factor``). The two do not multiply: the smaller factor applies, so a
+near-miss name with one soft condition is sized at 0.5, not 0.25. The record carries
+``prudential`` (the soft conditions present) and ``size_factor`` (the factor applied).
 
 Exit code (CLI): 0 when the candidate may be entered, 3 when blocked, 2 on bad input.
 Nothing here places orders or reads the market.
@@ -93,6 +111,7 @@ from .config import EngineInputError, cancel_by_la_minutes, norm_symbol
 from .projection import implied_sigma, straddle
 
 NEWS_EXEMPT_FLAGS = {"big_intraday_move"}
+SOFT_PREFIX = "soft:"     # v1.14: a flag or a macro_veto string that starts with this is a soft condition
 EPS = 1e-9
 
 
@@ -141,6 +160,15 @@ def size_frac(band: str | None, cfg: dict[str, Any]) -> float:
     return float(cfg["near_miss_size_frac"]) if band == "near_miss" else 1.0
 
 
+def prudential_frac(conditions: list[str], cfg: dict[str, Any]) -> float:
+    """Share of the name target and of the name cap a name with a soft condition may use (v1.14)."""
+    return float(cfg["prudential_size_factor"]) if conditions else 1.0
+
+
+def size_words(frac: float) -> str:
+    return "half size" if abs(frac - 0.5) <= EPS else f"{frac:g} of the normal size"
+
+
 def spread_pcts(call: tuple[float, float], put: tuple[float, float]) -> dict[str, float]:
     """(ask-bid)/mid for the call, the put and the straddle; ``worst`` is the max of the three."""
     def pct(bid: float, ask: float) -> float:
@@ -166,6 +194,22 @@ def intraday_verdict(move: float, sector_same_direction: bool, news_flags: list[
 
 def news_flags(flags: list[str]) -> list[str]:
     return [f for f in flags if f not in NEWS_EXEMPT_FLAGS]
+
+
+def is_soft(text: str) -> bool:
+    """v1.14: "soft:..." marks context that is public, already priced and has no date in the holding window."""
+    return text.strip().startswith(SOFT_PREFIX)
+
+
+def split_news_flags(flags: list[str], cfg: dict[str, Any]) -> tuple[list[str], list[str]]:
+    """(hard, soft) news flags (v1.14). A hard flag blocks; soft flags alone only cut the size.
+
+    With ``prudential_half_enabled`` false every flag is hard, exactly as before v1.14.
+    """
+    found = news_flags(flags)
+    if not cfg["prudential_half_enabled"]:
+        return found, []
+    return [f for f in found if not is_soft(f)], [f for f in found if is_soft(f)]
 
 
 # ---------------------------------------------------------------- input parsing
@@ -386,12 +430,23 @@ def evaluate(raw: Any, cfg: dict[str, Any], journal_events: list[dict[str, Any]]
     ok, why = intraday_verdict(intraday, c["sector_same_direction"], nflags, cfg)
     add("intraday", ok, round(intraday, 6), [cfg["max_intraday_move"], cfg["max_intraday_move_sector"]],
         note=f"{why}; sector_same_direction={c['sector_same_direction']}", reason="intraday_move_too_large")
-    # 8 news
-    add("news", not nflags, nflags, [], note=("ignored: " + ",".join(sorted(set(c["flags"]) - set(nflags))))
-        if set(c["flags"]) - set(nflags) else None, reason="flagged:" + ",".join(nflags))
-    # 9 macro
+    # 8 news. v1.14: a hard flag blocks as before; soft flags alone pass and cut the size (gate 17)
+    hard_flags, soft_flags = split_news_flags(c["flags"], cfg)
+    half = size_words(cfg["prudential_size_factor"])
+    ignored = sorted(set(c["flags"]) - set(nflags))
+    news_notes = ["ignored: " + ",".join(ignored)] if ignored else []
+    if soft_flags:
+        news_notes.append("soft flag(s) " + ",".join(soft_flags) + (
+            f": {half} (v1.14)" if not hard_flags else ": they do not block by themselves (v1.14)"))
+    add("news", not hard_flags, nflags, [], note="; ".join(news_notes) or None,
+        reason="flagged:" + ",".join(hard_flags))
+    # 9 macro. v1.14: a reason string that starts with "soft:" is the soft band, it passes and cuts the size
     mv, mreason = c["macro_veto"]
-    add("macro_veto", not mv, mv, False, note=mreason, reason="macro_veto")
+    soft_macro = bool(cfg["prudential_half_enabled"] and mv and mreason and is_soft(mreason))
+    add("macro_veto", not mv or soft_macro, mreason if soft_macro else mv, False,
+        note=f"soft macro condition: {half} (v1.14)" if soft_macro else mreason, reason="macro_veto")
+    # the soft conditions present (v1.14); gate 17 counts them, the sizing below uses them
+    prudential = (["soft_news"] if soft_flags else []) + (["soft_macro"] if soft_macro else [])
     # 10 circuit breaker
     cb = rules.circuit_breaker({"total_value": c["account_value"]}, events, cfg)
     cbi, cbreason = c["circuit_breaker"]
@@ -435,8 +490,10 @@ def evaluate(raw: Any, cfg: dict[str, Any], journal_events: list[dict[str, Any]]
     ml_unit = f["max_loss_floor"] if f is not None and f["valid"] and f["max_loss_floor"] > 0 else None
     # above the 12% spread band the name cap is the tighter of the two limits (both $350 today)
     name_cap = min(cfg["name_risk_cap"], cfg["wide_spread_max_loss"]) if wide else cfg["name_risk_cap"]
-    # v1.10: a near-miss name (edge above the sell gate) works with half the target and half the cap
-    frac = size_frac(band, cfg)
+    # v1.10: a near-miss name (edge above the sell gate) works with half the target and half the cap.
+    # v1.14: so does a name with a soft condition. The factors do not multiply: the smaller one applies.
+    nm_frac, pr_frac = size_frac(band, cfg), prudential_frac(prudential, cfg)
+    frac = min(nm_frac, pr_frac)
     name_cap = round(name_cap * frac, 2)
     plan = sizing.plan(ml_unit, reserve, c["account_value"], c["open_risk_usd"],
                        dict(cfg, name_risk_cap=name_cap, name_risk_frac=cfg["name_risk_frac"] * frac),
@@ -477,7 +534,11 @@ def evaluate(raw: Any, cfg: dict[str, Any], journal_events: list[dict[str, Any]]
         note=(f"target {plan['target']} (phase {phase}): planned {plan['planned']} more, {plan['now']} now, "
               f"{plan['later']} later; held {held_qty} with max loss {held_ml}"
               + (f"; spread above {cfg['wide_spread_pct']}" if wide else "")
-              + (f"; near-miss tier: {frac} of the target and of the cap" if band == "near_miss" else "")),
+              + (f"; near-miss tier: {nm_frac} of the target and of the cap" if band == "near_miss" else "")
+              + (f"; prudential ({', '.join(prudential)}, v1.14): {pr_frac} of the target and of the cap"
+                 if prudential else "")
+              + (f"; the smaller factor applies, not the product: {frac}"
+                 if band == "near_miss" and prudential else "")),
         reason=("name_risk_cap" if name_ml is not None and name_ml > name_cap + EPS
                 else (plan["binding"] or "name_risk_cap")))
     # 15 risk budget
@@ -496,17 +557,35 @@ def evaluate(raw: Any, cfg: dict[str, Any], journal_events: list[dict[str, Any]]
                f"{exit_room}; at most {n_exit} contract(s) fit" if exit_need is not None else
                "no valid fly to check")),
         reason="buying_power_missing" if bp is None else "exit_not_feasible")
+    # 17 prudential (v1.14): one soft condition is traded at reduced size, more than the limit block
+    if not cfg["prudential_half_enabled"]:
+        pnote = ("switched off (prudential_half_enabled false): soft flags and a soft macro string block "
+                 "like hard ones")
+    elif len(prudential) == 1:
+        pnote = f"one soft condition ({prudential[0]}): {pr_frac} of the name target and of the name cap"
+    elif prudential:
+        pnote = "a soft news flag and a soft macro condition at once: no trade"
+    else:
+        pnote = None
+    add("prudential", len(prudential) <= cfg["max_prudential_conditions"], prudential,
+        cfg["max_prudential_conditions"], note=pnote, reason="two_prudential_conditions")
 
     failures = [g for g in gates if not g["pass"]]
     action = "no_trade" if failures else "sell"
+    if prudential:      # v1.14: the soft condition goes into the reason (a passing name has exactly one)
+        size_note = (f" at {size_words(frac)} (" + ("near-miss tier, v1.10; " if band == "near_miss" else "")
+                     + f"one prudential condition: {', '.join(prudential)}, v1.14)")
+    else:
+        size_note = " at half size (near-miss tier, v1.10)" if band == "near_miss" else ""
     record: dict[str, Any] = {
         "symbol": c["symbol"], "timing": c["timing"], "action": action,
         "reason": failures[0]["reason"] if failures else (
-            "passes: may be entered at any check-in on its entry day (v1.5)"
-            + (" at half size (near-miss tier, v1.10)" if band == "near_miss" else "")),
+            "passes: may be entered at any check-in on its entry day (v1.5)" + size_note),
         "blocked_by": list(dict.fromkeys(g["reason"] for g in failures)),
         "band": band,
         "tier": "near_miss" if band == "near_miss" else ("core" if band in SELL_BANDS else None),
+        "prudential": prudential,        # v1.14: the soft conditions present ("soft_news", "soft_macro")
+        "size_factor": frac,             # share of the name target and of the name cap that was applied
         "metrics": {
             "spot": spot, "prev_close": c["prev_close"], "K": k, "intraday_move": round(intraday, 6),
             "avg_hist_move": avg, "n_hist": len(moves), "implied": im,

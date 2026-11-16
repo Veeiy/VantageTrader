@@ -1,7 +1,7 @@
 # Entry gate in code (`gate`, proposals P004 and P011)
 
 `gate` runs ONE earnings candidate through every entry rule of RULES_CHANGELOG v1.1 to
-v1.7 and the 2026-11-11 decisions, and prints a decision record. It never places orders
+v1.14 and the 2026-11-11 decisions, and prints a decision record. It never places orders
 and never reads the market. Run it on every candidate before entry and compare it with
 the manual gate: a disagreement blocks the entry until it is explained.
 
@@ -25,8 +25,8 @@ streaks.
 | 5 | atm_spread | (ask - bid) / mid <= 25% for the call, the put and the straddle (the worst of the three is used) |
 | 6 | regime | 20-session avg abs daily move < 1.25 x avg past earnings move |
 | 7 | intraday | abs(spot / prev_close - 1) <= 5%; 5% to 7% only with `sector_same_direction: true` and no stock-news flag; above 7% blocks |
-| 8 | news | no stock-specific flag (`big_intraday_move` is a price fact covered by gate 7) |
-| 9 | macro_veto | not set |
+| 8 | news | no hard stock-specific flag (`big_intraday_move` is a price fact covered by gate 7). v1.14: a flag that starts with `soft:` is a soft flag. Soft flags alone pass, with a note that names them and says "half size (v1.14)". Every other flag is hard and blocks as before (`flagged:<flags>`) |
+| 9 | macro_veto | not set. v1.14: a reason string that starts with `soft:` is the soft macro band and passes, with the note "soft macro condition: half size (v1.14)". `true` or any other string is the hard veto and blocks as before |
 | 10 | circuit_breaker | not set, account value >= $400, no 2 max losses / 3 losses in a row in the journal |
 | 11 | sector | `sector` not in `sectors_entered_today` (checked only when both are given) |
 | 12 | structure | wings given on both sides, 0 < mid credit < width, a fillable limit range, and (v1.13) the narrower wing at least 0.9 x the body straddle from the body (`wings_too_narrow` otherwise) |
@@ -34,6 +34,7 @@ streaks.
 | 14 | name_risk | max loss on the name (held + the contracts entered now, at the credit floor) <= $350, and at least one contract may be entered at this check-in |
 | 15 | risk_budget | open_risk_usd + max loss at the credit floor + $50 reserve per contract <= the account value (rules v1.11, Brad 2026-11-13: "use the entire funds in the mcp account"; before that min($1,000, 0.93 x account value)) |
 | 16 | exit_feasible | v1.9: one in-the-money short leg with the stock at its wing costs about 1.1 x wing width x 100; that must fit the buying power left after the entry (`buying_power` - contracts x max loss at the floor). Contracts are cut to what fits. No `buying_power` given = blocked |
+| 17 | prudential | v1.14: at most one soft condition. The value lists the ones present: `soft_news` (one or more soft flags) and `soft_macro` (a soft `macro_veto` string). The limit is `max_prudential_conditions` (1). Two at once fail with `two_prudential_conditions` |
 
 Band (a label only since P020, 2026-11-11: any passing name may be entered at any check-in
 on its entry day): `tight` (edge <= 0.70), `final_sweep` (0.70 to 0.85), `near_miss` (above
@@ -44,6 +45,20 @@ the size. The name's target is 10% of account value instead of 20% and its name 
 instead of $350 (gate 14 shows the halved cap). The record carries `"tier": "near_miss"`
 and the pass reason says "at half size". All other gates are the same. Journal and
 live-metrics records of a tier trade carry `tier: "near_miss"` so the review can split them.
+
+One prudential condition (rules v1.14, 2026-11-16): one soft condition, a soft news flag or
+the soft macro band, no longer blocks a name. It is sized like a near-miss name: half the
+name target and half the name cap (`prudential_size_factor` 0.5; gate 14 shows the halved
+cap). The two factors do not multiply. The smaller one applies, so a near-miss name with one
+soft condition is sized at 0.5, not 0.25. Two soft conditions at once block (gate 17). The
+record carries `"prudential"` (the soft conditions present) and `"size_factor"` (the factor
+applied: 1.0, or 0.5), and the pass reason says "at half size (one prudential condition:
+soft_news, v1.14)". `tier` is unchanged. Journal and live-metrics records of such a trade
+carry `prudential` so the review can split them. Several soft flags on one name are one
+condition. Gate 7 is unchanged: in the 5% to 7% band a soft flag still counts as a
+stock-news flag. With `prudential_half_enabled: false` a soft flag and a soft macro string
+block at gates 8 and 9 like hard ones, as before v1.14. What counts as soft and what as
+hard is in RULES_CHANGELOG v1.14.
 
 Contracts (rules v1.7 and v1.8, `sizing.plan`): sized by risk. The name's target is a max loss of
 20% of account value (12% until v1.8), never above $350; new contracts are (target - max loss held) / max
@@ -91,11 +106,18 @@ of booleans), `sector_same_direction` (default false), `macro_veto` and `circuit
 (true or a reason string blocks), `sector` + `sectors_entered_today`, `tick` (default
 config `tick`, used only for `limit_start` / `limit_floor`).
 
+Soft forms (rules v1.14):
+- `flags`: a flag that starts with `soft:` is a soft flag, for example
+  `"flags": ["soft:ceconomy_acquisition_closed"]`. Every other flag is hard.
+- `macro_veto`: a string that starts with `soft:` is the soft macro band, for example
+  `"macro_veto": "soft: SPY -2.0%, VIX +23%"`. `true` or any other string is the hard veto.
+- The prefix is exact: lower case, with the colon. Copy the sentinel's flags as written.
+
 ## Output (LUNR, 2026-11-11 07:05 PT re-quote; abridged)
 
 ```json
 {"symbol": "LUNR", "action": "sell", "reason": "enter at the final sweep", "blocked_by": [],
- "band": "final_sweep",
+ "band": "final_sweep", "tier": "core", "prudential": [], "size_factor": 1.0,
  "metrics": {"avg_hist_move": 0.078539, "implied_move": 0.111779, "edge_ratio": 0.7026,
              "implied": {"implied_move_raw": 0.111401, "body_offset_pct": -0.013969, "...": "..."},
              "spread_pct": {"call": 0.1436, "put": 0.1739, "straddle": 0.1567, "worst": 0.1739},
@@ -117,5 +139,14 @@ config `tick`, used only for `limit_start` / `limit_floor`).
 (Early phase: 1 of the 3 planned contracts now, 2 in the final window. The same candidate
 with `"phase": "final"` returns `"contracts": 3`.)
 
+`prudential` and `size_factor` (rules v1.14). `prudential` lists the soft conditions
+present: `[]`, `["soft_news"]`, `["soft_macro"]`, or both (which blocks). `size_factor` is
+the share of the name target and of the name cap that was applied: 1.0 for a core name, 0.5
+for a near-miss name or a name with one soft condition. The same candidate with
+`"flags": ["soft:ceconomy_acquisition_closed"]` returns `"prudential": ["soft_news"]`,
+`"size_factor": 0.5`, half the target and a name cap of $175. A blocked candidate carries
+both fields too.
+
 `score` (several candidates from a full chain) applies the same rules where its snapshot
-carries the inputs: see the docstring of `scoring.py` and CONTRACT.md.
+carries the inputs: see the docstring of `scoring.py` and CONTRACT.md. It does not know soft
+conditions (rules v1.14): any flag still skips a name there.

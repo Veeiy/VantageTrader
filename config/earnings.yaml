@@ -23,6 +23,11 @@ near_miss_max_ratio: 1.10    # HARD CAP <= 1.10 (v1.10). Above sell_max_ratio an
                              # traded at near_miss_size_frac of the name target and name cap.
                              # Set it equal to sell_max_ratio to switch the tier off.
 near_miss_size_frac: 0.5     # HARD CAP <= 0.5 (v1.10)
+prudential_half_enabled: true   # v1.14: one soft condition (a "soft:" news flag or a "soft:" macro_veto string)
+                                # halves the size instead of blocking. false ("prudential off"): soft blocks like hard.
+prudential_size_factor: 0.5     # HARD CAP <= 0.5 (v1.14). Share of the name target and name cap with one soft
+                                # condition. Not multiplied with near_miss_size_frac: the smaller of the two applies.
+max_prudential_conditions: 1    # HARD CAP <= 1 (v1.14). Two soft conditions at once block the name.
 buy_min_ratio: 1.25          # edge_ratio >= this -> NO TRADE "long_straddle_off" (P010); bounds [1.15, 1.60]
 min_ev_per_dollar_risk: 0.0  # require historical EV / max loss strictly above this
 

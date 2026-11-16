@@ -26,9 +26,11 @@ Rules:
 - **Binding decision = engine output + hard caps.** Monitors and the head may VETO
   (skip a symbol, or skip all entries for the day). Nobody may override a cap, resize
   past the engine's quantity, or trade a symbol the engine did not return as `order`.
-- **Any risk-sentinel flag on a symbol = that symbol is skipped.** The head copies the
+- **Any hard risk-sentinel flag on a symbol = that symbol is skipped.** The head copies the
   flags into the candidate's `flags` array (the engine skips flagged names) and also
-  enforces the skip itself.
+  enforces the skip itself. Since rules v1.14 a flag that starts with `soft:` is a soft
+  flag. Alone it does not skip the symbol: the `gate` command sizes it at half
+  (`GATE.md`). The `score` command still skips a symbol on any flag.
 - **Cap: max 8 subagents per run**, replacements and second opinions included. If the
   cap is reached, the head does the remaining read-only work itself.
 
@@ -127,9 +129,19 @@ Flag vocabulary (strings that go straight into CONTRACT `flags`):
 `earnings_date_unconfirmed`, `earnings_date_moved`, `pending_merger_or_tender`,
 `big_intraday_move` (|today's move| >= 5%), `news_shock` (major unscheduled news in the
 last 24h), `regulatory_decision_pending`, `other:<short_slug>`.
-`veto_all: true` when: a tier-1 macro release (FOMC decision, CPI, nonfarm payrolls)
-lands after today's 12:00 PT and before the next 06:45 PT exit; or a market-wide halt or
-circuit breaker today; or |SPY move today| >= 2%; or VIX >= 30 or VIX up >= 15% today.
+Soft flags (rules v1.14): `soft:<short_slug>`, for example
+`soft:ceconomy_acquisition_closed`. A soft flag is context that is public and already priced
+and has no date inside the holding window: a deal that has already closed, a sector story,
+an old analyst day. Every flag in the list above is a hard flag. When unsure, the sentinel
+uses a hard flag. The full hard list is in RULES_CHANGELOG v1.14.
+`veto_all: true` (the hard macro veto, it blocks as before) when: a tier-1 macro release
+(FOMC decision, CPI, nonfarm payrolls) lands after today's 12:00 PT and before the next
+06:45 PT exit; or a market-wide halt or circuit breaker today; or |SPY move today| >= 3%;
+or VIX >= 30 or VIX up >= 25% today.
+Soft macro band (rules v1.14, half size): nothing hard applies and |SPY move today| is 2%
+to under 3%, or VIX is up 15% to under 25% with VIX under 30. `veto_all` stays false and
+`veto_reason` is "soft: <numbers>", for example "soft: SPY -2.0%, VIX +23%". The head
+passes that string to the `gate` command as `macro_veto`.
 
 **position-monitor**
 ```json
@@ -284,7 +296,7 @@ Entry would be today ~12:00 PT; exit would be the next session after each report
    VIX via get_index_quotes if available, else note vix=null. Search the web for today's
    and tomorrow-morning macro calendar (FOMC, CPI, PPI, nonfarm payrolls, major Fed
    speakers) and any market-wide halt.
-2. Per symbol: search recent news (last 7 days) for: pending court or litigation
+2. Per symbol: search recent news (last 10 days) for: pending court or litigation
    rulings, regulatory decisions (FDA/FTC/DOJ), guidance pre-announcements, earnings date
    changes, trading halts, pending merger/tender, other shocks. Check today's move with
    get_equity_quotes.
@@ -293,9 +305,23 @@ Entry would be today ~12:00 PT; exit would be the next session after each report
    big_intraday_move (|today| >= 5%), news_shock, regulatory_decision_pending,
    other:<short_slug>. When unsure whether something is material, flag it and explain
    in notes. Every flag needs a source URL or tool name.
-4. veto_all=true if a tier-1 macro release (FOMC decision, CPI, nonfarm payrolls) falls
-   after today 12:00 PT and before tomorrow 06:45 PT, or there was a market-wide halt
-   today, or |SPY today| >= 2%, or VIX >= 30, or VIX up >= 15% today.
+   Hard and soft (rules v1.14). Every flag above is a HARD flag: it blocks the symbol.
+   Hard = the report date is unconfirmed; a pre-announcement or guidance change in the
+   last 10 days; a pending acquisition, vote or tender; an offering or lock-up expiry
+   inside the holding window; a dated legal or regulatory decision inside the holding
+   window; a management change in the last 10 days; an investor or product event inside
+   the holding window; a short-seller report in the last 10 days; a halt. Use the named
+   flag, or other:<short_slug> when none fits.
+   SOFT = context that is public and already priced and has no date inside the holding
+   window, for example a deal that has already closed, a sector story, an old analyst
+   day. Write a soft flag as soft:<short_slug> (for example
+   soft:ceconomy_acquisition_closed). When unsure, use a hard flag.
+4. veto_all=true (hard) if a tier-1 macro release (FOMC decision, CPI, nonfarm payrolls)
+   falls after today 12:00 PT and before tomorrow 06:45 PT, or there was a market-wide
+   halt today, or |SPY today| >= 3%, or VIX >= 30, or VIX up >= 25% today.
+   Soft band (rules v1.14): if nothing hard applies and |SPY today| is 2% to under 3%, or
+   VIX is up 15% to under 25% with VIX under 30, keep veto_all=false and set veto_reason
+   to "soft: <numbers>", for example "soft: SPY -2.0%, VIX +23%".
 Return data {"market_regime":{"summary","spy_move","qqq_move","soxx_move","vix",
 "macro_events":[{"name","time_pt","between_entry_and_exit"}],"veto_all","veto_reason"},
 "symbols":{"SYM":{"flags":[],"notes","sources":[]}}}. Every input symbol must appear.
@@ -382,7 +408,9 @@ Return data {"symbol","spot","expiry","atm_strike","straddle_mid","implied_move"
    Fix by re-pulling the specific item (head may call read-only tools directly for one
    or two items) or by a replacement agent scoped to those symbols.
 4. If `market_regime.veto_all` is true: run `score` anyway for the record, then treat the
-   result as `no_trade` with reason `risk_sentinel_veto_all`.
+   result as `no_trade` with reason `risk_sentinel_veto_all`. If it is false and
+   `veto_reason` starts with "soft:" (rules v1.14), pass that string to the `gate` command
+   as `macro_veto`: the gate sizes a name at half, or blocks it when it also has a soft flag.
 5. Second opinion (ENTRY only, when `status: trade`): compare its `implied_move` and
    `avg_hist_move` with the engine inputs for the chosen symbol (engine implied move from
    `ranked[]`, avg hist from `ranked[].avg_hist_move`). If either differs by more than

@@ -64,6 +64,9 @@ DEFAULTS: dict[str, Any] = {
     "tight_max_ratio": 0.70,         # v1.5: edge ratio at or under this may be entered early
     "near_miss_max_ratio": 1.10,     # v1.10: edge ratio above sell_max_ratio and up to this is tradable at reduced size
     "near_miss_size_frac": 0.5,      # v1.10: share of the name target and of the name cap a near-miss name may use
+    "prudential_half_enabled": True,   # v1.14: one soft condition ("soft:" news flag or macro string) halves the size instead of blocking
+    "prudential_size_factor": 0.5,     # v1.14: share of the name target and of the name cap with one soft condition (hard cap 0.5)
+    "max_prudential_conditions": 1,    # v1.14: more soft conditions than this at once block the name (hard cap 1)
     "buy_min_ratio": 1.25,           # long straddles are OFF (P010): this only labels "long_straddle_off"
     "min_ev_per_dollar_risk": 0.0,
     # --- structures ---
@@ -135,6 +138,8 @@ HARD_CAPS: dict[str, tuple[str, float]] = {
     "name_risk_cap": ("max", 350.0),
     "near_miss_max_ratio": ("max", 1.10),   # v1.10: the reduced-size tier may not reach further
     "near_miss_size_frac": ("max", 0.5),    # ... and may not be sized above half
+    "prudential_size_factor": ("max", 0.5),     # v1.14: a name with one soft condition is never sized above half
+    "max_prudential_conditions": ("max", 1),    # ... and two soft conditions at once always block
     "early_tranche_frac": ("max", 1.0),
     "add_center_frac": ("max", 0.5),
     "exit_buyback_mult": ("min", 1.0),   # the exit check may only be made stricter
@@ -152,13 +157,14 @@ _NUMERIC = {
     "wide_spread_pct", "wide_spread_max_loss", "max_intraday_move_sector", "regime_mult",
     "tight_max_ratio", "name_risk_frac", "name_risk_cap", "early_tranche_frac", "add_center_frac",
     "exit_buyback_mult", "near_miss_max_ratio", "near_miss_size_frac", "min_wing_over_straddle",
+    "prudential_size_factor",
     "sell_max_ratio", "buy_min_ratio", "min_ev_per_dollar_risk",
     "max_loss_bp_frac", "tick", "step_small", "step_large", "step_threshold",
     "credit_floor_mid_frac", "debit_ceiling_mid_frac", "min_account_value",
     "max_loss_tolerance", "straddle_take_profit", "exit_slippage_reserve",
 }
 _INT = {
-    "min_history", "history_lookback", "max_quantity",
+    "min_history", "history_lookback", "max_quantity", "max_prudential_conditions",
     "max_consecutive_max_loss", "max_consecutive_losses",
     "exit_min_minutes_since_open", "calibrate_min_trades", "calibrate_prior_weight",
     "max_expiry_days_after_report",
@@ -171,6 +177,7 @@ _POSITIVE = {
     "max_intraday_move_sector", "regime_mult", "tight_max_ratio",
     "name_risk_frac", "name_risk_cap", "early_tranche_frac", "add_center_frac", "exit_buyback_mult",
     "near_miss_max_ratio", "near_miss_size_frac", "min_wing_over_straddle",
+    "prudential_size_factor", "max_prudential_conditions",
     "max_consecutive_losses", "max_spread_pct", "max_intraday_move", "max_loss_tolerance",
     "straddle_take_profit", "calibrate_min_trades", "max_expiry_days_after_report",
 }
@@ -221,6 +228,9 @@ def validate(cfg: dict[str, Any]) -> dict[str, Any]:
         raise ConfigError("min_ev_per_dollar_risk must be >= 0")
     if out["calibrate_prior_weight"] < 0:
         raise ConfigError("calibrate_prior_weight must be >= 0")
+    # v1.14: the off switch is a real boolean (a quoted "false" would otherwise read as on)
+    if not isinstance(out["prudential_half_enabled"], bool):
+        raise ConfigError(f"prudential_half_enabled must be true or false, got {out['prudential_half_enabled']!r}")
 
     # blocklist
     bl = out["blocklist"]
