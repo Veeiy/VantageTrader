@@ -1,6 +1,6 @@
 {
- "as_of": "2026-11-16T19:15:45Z",
- "account_value": 1222.9,
+ "as_of": "2026-11-16T19:48:29Z",
+ "account_value": 1257.9,
  "cap_total_max_loss": 1235.08,
  "execution": {
   "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
@@ -215,6 +215,36 @@
      0.075
     ],
     "decision": "hold (take profit at 1.075, cut at 2.96); the stock is 0.06 from the body strike"
+   },
+   "check_2026-11-16_1147": {
+    "spot": 28.81,
+    "legs": {
+     "29.5C": [
+      0.85,
+      1.15
+     ],
+     "29.5P": [
+      1.7,
+      1.85
+     ],
+     "33C": [
+      0.15,
+      0.6
+     ],
+     "26P": [
+      0.4,
+      0.55
+     ]
+    },
+    "close_cost_mid": 1.925,
+    "close_cost_natural": 2.45,
+    "pnl_mid_usd": 22.5,
+    "pnl_natural_usd": -30.0,
+    "to_breakevens_pct": [
+     -0.051,
+     0.099
+    ],
+    "decision": "hold: no cut rule is met (cut at 2.96, near-breakeven watch at 27.88); the stock fell 2.1% in 32 minutes with the market"
    }
   }
  ],
@@ -229,7 +259,6 @@
    "what": "Paper only: score JD-20261116-U1 and XP-20261116-U1 (leg ids and recipe in their records in live_metrics.jsonl). For XP first check get_earnings_results: if it reports 11/17 after the close, the morning mark is before the report and is not a result.",
    "asked_by": "agent"
   },
-  "Mon 2026-11-16 11:46 PT final sweep: AS is at its tier size (no add). JD's news flag stands unless Brad says 'JD on' before 12:35 PT. Move the standby entry switch after the sweep.",
   "Tue 2026-11-17 06:45 PT: close AS-20261116-1 (earnings fly, reports before the open); pause its two alerts after the exit.",
   "By Thu 2026-11-19 (at a reflection): wire Friday earnings entries live at half size (P039) and tell Brad when it is in.",
   "Manual tickets given to Brad at 08:45 PT on 2026-11-16 (he offered to enter multi-leg orders by hand): JD iron fly 25.5/28/30.5 Nov 20 (credit 1.45 down to 1.37, max loss about 105 to 113) and HD iron fly 330/347.5/365 Nov 20 (credit 11.85 down to 10.90, max loss about 565 to 660; the agent advised against HD at this account size). If either shows up in get_option_positions: record and journal it first as a hand-entered position. JD can be closed by legs at the Tue 06:45 PT exit. HD cannot be closed by legs (gate 16: one leg alone needs more buying power than the account has): at 06:45 PT Tuesday send Brad the exact 4-leg closing ticket and a push notification."
@@ -678,5 +707,12 @@
    "note": "VIX is up more than 15% on the day: the macro veto is on, so no new entries unless it is back under 22.20 at the 11:46 sweep"
   },
   "agents": "position monitor and paper desk both running"
+ },
+ "check_2026-11-16_1147": {
+  "at": "2026-11-16T19:48:29Z",
+  "final_sweep": "no new entry (macro veto: SPY -2.14%, VIX 24.48, +26.8% on the day)",
+  "account_value": 1257.9,
+  "buying_power": 1099.9,
+  "standby_entry_switch": "moved to 2026-11-17 12:05 PT"
  }
 }
