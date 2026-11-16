@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-16T14:43:17Z",
+ "as_of": "2026-11-16T15:20:40Z",
  "account_value": 1235.08,
  "cap_total_max_loss": 1235.08,
  "execution": {
@@ -16,8 +16,8 @@
  ],
  "pending": [
   {
-   "when": "Mon 2026-11-16, the 07:15 PT hourly run",
-   "what": "Paper only: second mark of FRI-BIDU/TSN/BEKE/ARMK-20261113-P1 (leg ids in their entry records), one line each appended to live_metrics.jsonl as a mark. The results were taken at 06:42 PT.",
+   "when": "Tue 2026-11-17, the morning run at the first liquid quotes",
+   "what": "Paper only: score JD-20261116-U1 and XP-20261116-U1 (leg ids and recipe in their records in live_metrics.jsonl). For XP first check get_earnings_results: if it reports 11/17 after the close, the morning mark is before the report and is not a result.",
    "asked_by": "agent"
   }
  ],
@@ -373,7 +373,13 @@
      "enabled": false,
      "paused": "2026-11-16T14:41Z"
     }
-   ]
+   ],
+   "after_exit": {
+    "at": "2026-11-16T15:20:07Z",
+    "stock": 13.68,
+    "note": "40 minutes after the exit at 13.50 the stock is above the old upper breakeven (13.65)."
+   }
   }
- ]
+ ],
+ "check_2026-11-16_0720": "Flat: no option positions, no shares, no working orders. Paper desk file exists (entries at 07:15 PT)."
 }
