@@ -522,7 +522,8 @@
   "Tue 2026-11-17 06:45 PT: close AS-20261116-1 (earnings fly, reports before the open); pause its two alerts after the exit.",
   "By Thu 2026-11-19 (at a reflection): wire Friday earnings entries live at half size (P039) and tell Brad when it is in.",
   "Reflection 2026-11-16: turn Brad's 'slightly more aggressive' (lesson L020) into concrete rule changes and tell him which.",
-  "Tue 2026-11-17 exit: 06:36 PT timer. JD (3) then AS (1) by legs. HD (2): send Brad the 4-leg closing ticket and a push at once; legs only if they fit the buying power. Pause all six alerts after the exits."
+  "Tue 2026-11-17 exit: 06:36 PT timer. JD (3) then AS (1) by legs. HD (2): send Brad the 4-leg closing ticket and a push at once; legs only if they fit the buying power. Pause all six alerts after the exits.",
+  "Tue 2026-11-17 at the exits: score the four pre-report projections (state/earnings/projections.jsonl, stage pre_report) as state/earnings/projection_calibration.json says, append the scoreboard rows, and apply the update rules at the reflection."
  ],
  "buying_power": 456.98,
  "risk": {

@@ -1,0 +1,56 @@
+{
+ "version": 1,
+ "as_of": "2026-11-16T23:22:48Z",
+ "constants": {
+  "sigma_multiplier": 1.25,
+  "sigma_uncertainty_log": 0.15,
+  "wing_sigma_mult": 1.1,
+  "realized_over_implied": 0.75,
+  "blend_weight_history": 0.5,
+  "t_dof": 4,
+  "t_abs_mean": 1.0,
+  "market_sigma_close_to_exit": 0.01,
+  "draws": 100000,
+  "slippage_usd_per_fly": {
+   "penny_wide_chain_by_legs": 6.0,
+   "nickel_wide_chain_by_legs": 15.0,
+   "package_order": 15.0,
+   "wide_chain_by_legs": 40.0
+  }
+ },
+ "evidence": {
+  "sigma_actual_over_ambient_at_exit": {
+   "RGTI-20261110-1": 1.233,
+   "FLY-20261110-1": 1.173,
+   "LUNR-20261111-1": 1.363,
+   "mean": 1.256,
+   "n": 3,
+   "note": "the old multiplier was 1.10; the residual volatility at the exit ran above it three times in three"
+  },
+  "error_of_old_point_estimates_usd_per_fly": {
+   "RGTI": -8.1,
+   "FLY": -18.6,
+   "LUNR": -31.5,
+   "mean": -19.4,
+   "note": "all three too optimistic: one price was used for the stock, and a short fly loses on any move from that price"
+  },
+  "realized_over_implied_live": {
+   "value": 0.698,
+   "n": 5
+  }
+ },
+ "methods": {
+  "A": "model: report move drawn from a fat-tailed distribution (expected size = half the name's own history, half what names like it realise against the options), fly priced at the exit with ambient volatility x sigma_multiplier, less slippage",
+  "B": "replay average for this entry day: 12.5% of the entry straddle kept when three days are left at the exit, less slippage",
+  "C": "the earlier point estimate: six past moves at 1.1x ambient volatility"
+ },
+ "scoreboard": [],
+ "scoring": "At each exit record, per name: actual P/L after fees; error against A, B and C; whether it fell inside A's 50% and 80% bands; |move| / expected_abs_move; implied sigma at the exit read / ambient sigma; fill against mid. Append one scoreboard row per name.",
+ "update_rules": [
+  "sigma_multiplier = the mean of sigma_actual_over_ambient_at_exit over the last 10 exits (all of them until there are 10)",
+  "slippage_usd_per_fly = the mean of actual fill-against-mid by kind of chain over the last 10 exits of that kind",
+  "after 10 scored names: keep the method with the smallest mean absolute error as the point estimate, and re-fit blend_weight_history to the realised moves",
+  "after 10 scored names: if fewer than 6 of 10 fell inside the 80% band, lower t_dof to 3; if all 10 did, raise it to 6",
+  "a constant never changes by more than 20% in one update, and every change is logged here with the evidence"
+ ]
+}

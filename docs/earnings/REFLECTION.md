@@ -136,3 +136,10 @@ Ids: `L###` for execution, process and data lessons; `H###` for rule and risk hy
 The Friday scorecard adds: lessons applied this week and whether they held, hypotheses
 with their tallies, anything `ready_to_propose` or `proposed`, and the week's grade
 distribution (how many A/B/C/D decisions).
+
+## Projection calibration (P045, 2026-11-16)
+Before a report: `PYTHONPATH=src python3 scripts/earnings/pre_report_projection.py <positions.json> state/earnings/projection_calibration.json`
+(the file's `constants` block is the calibration input) gives each fly a mean, a median, 50% and 80%
+bands and the chance of a profit; write the result to `state/earnings/projections.jsonl` with stage
+`pre_report`, next to the two simpler estimates. At the exit, score it as the calibration file says and
+append a scoreboard row. At the reflection, apply the file's update rules and log every change there.
