@@ -118,7 +118,8 @@
   },
   "Mon 2026-11-16 11:46 PT final sweep: AS is at its tier size (no add). JD's news flag stands unless Brad says 'JD on' before 12:35 PT. Move the standby entry switch after the sweep.",
   "Tue 2026-11-17 06:45 PT: close AS-20261116-1 (earnings fly, reports before the open); pause its two alerts after the exit.",
-  "By Thu 2026-11-19 (at a reflection): wire Friday earnings entries live at half size (P039) and tell Brad when it is in."
+  "By Thu 2026-11-19 (at a reflection): wire Friday earnings entries live at half size (P039) and tell Brad when it is in.",
+  "Manual tickets given to Brad at 08:45 PT on 2026-11-16 (he offered to enter multi-leg orders by hand): JD iron fly 25.5/28/30.5 Nov 20 (credit 1.45 down to 1.37, max loss about 105 to 113) and HD iron fly 330/347.5/365 Nov 20 (credit 11.85 down to 10.90, max loss about 565 to 660; the agent advised against HD at this account size). If either shows up in get_option_positions: record and journal it first as a hand-entered position. JD can be closed by legs at the Tue 06:45 PT exit. HD cannot be closed by legs (gate 16: one leg alone needs more buying power than the account has): at 06:45 PT Tuesday send Brad the exact 4-leg closing ticket and a push notification."
  ],
  "buying_power": 1099.9,
  "risk": {
@@ -486,5 +487,54 @@
   "account_value": 1222.9,
   "buying_power": 1099.9,
   "note": "AS fly opened 08:30 to 08:33 PT. Account value reads 1222.90 because the four legs are marked at wide quotes (options value -227 against 215 collected); nothing has been lost. Alerts set at 27.35 and 31.65."
+ },
+ "manual_tickets_2026-11-16": {
+  "at": "2026-11-16T16:41:13Z",
+  "quotes_as_of_pt": "08:40",
+  "JD": {
+   "structure": "iron fly 25.5/28/30.5 exp 2026-11-20",
+   "spot": 27.77,
+   "credit_mid": 1.45,
+   "credit_natural": 1.38,
+   "limit_floor": 1.37,
+   "max_loss_usd": [
+    105,
+    113
+   ],
+   "exit_time": {
+    "zero_line": [
+     26.57,
+     29.48
+    ],
+    "avg_past_moves_after_slippage_usd": 18.9,
+    "winners": "5/6",
+    "worst_past_usd": -51.4
+   },
+   "note": "blocked for the agent by the news flag (ceconomy_acquisition_closed); the entry is Brad's override if he takes it"
+  },
+  "HD": {
+   "structure": "iron fly 330/347.5/365 exp 2026-11-20",
+   "spot": 347.24,
+   "credit_mid": 11.855,
+   "credit_natural": 10.85,
+   "limit_floor": 10.9,
+   "max_loss_usd": [
+    565,
+    660
+   ],
+   "edge_ratio": 0.53,
+   "exit_time": {
+    "zero_line": [
+     334.94,
+     360.95
+    ],
+    "avg_past_moves_after_slippage_usd": 48.9,
+    "winners": "5/6",
+    "worst_past_usd": -248.5,
+    "sigma_base": 0.0423
+   },
+   "news_quick_check": "report date confirmed (call 09:00 ET on 2026-11-17, company announcement of 2026-11-03); no new guidance or deal found this week; not the full sentinel pass",
+   "note": "over the 350 name cap and not exitable by legs; the agent advised against it"
+  }
  }
 }
