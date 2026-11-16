@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-16T19:48:29Z",
+ "as_of": "2026-11-16T20:16:36Z",
  "account_value": 1257.9,
  "cap_total_max_loss": 1235.08,
  "execution": {
@@ -245,6 +245,36 @@
      0.099
     ],
     "decision": "hold: no cut rule is met (cut at 2.96, near-breakeven watch at 27.88); the stock fell 2.1% in 32 minutes with the market"
+   },
+   "check_2026-11-16_1216": {
+    "spot": 29.045,
+    "legs": {
+     "29.5C": [
+      1.15,
+      1.25
+     ],
+     "29.5P": [
+      1.65,
+      1.7
+     ],
+     "33C": [
+      0.2,
+      0.4
+     ],
+     "26P": [
+      0.35,
+      0.45
+     ]
+    },
+    "close_cost_mid": 2.175,
+    "close_cost_natural": 2.4,
+    "pnl_mid_usd": -2.5,
+    "pnl_natural_usd": -25.0,
+    "to_breakevens_pct": [
+     -0.058,
+     0.09
+    ],
+    "decision": "hold into the report (take profit at 1.075, cut at 2.96)"
    }
   }
  ],
@@ -714,5 +744,15 @@
   "account_value": 1257.9,
   "buying_power": 1099.9,
   "standby_entry_switch": "moved to 2026-11-17 12:05 PT"
+ },
+ "check_2026-11-16_1216": {
+  "at": "2026-11-16T20:16:36Z",
+  "positions": "AS fly only; no shares; no open orders; nothing entered by hand",
+  "macro": {
+   "SPY_pct": -0.0208,
+   "vix": 24.08,
+   "vix_change": 0.248
+  },
+  "paper_desk": "day 4 imported: 10 flies, 4 wins, +97 at mid, -116 natural; running 4 sessions, 26 flies, 12 wins, +450 mid, -92 natural"
  }
 }
