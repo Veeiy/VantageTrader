@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-16T16:36:45Z",
+ "as_of": "2026-11-16T17:16:07Z",
  "account_value": 1222.9,
  "cap_total_max_loss": 1235.08,
  "execution": {
@@ -102,7 +102,37 @@
      ]
     }
    ],
-   "monitor": "read-only position monitor running until 12:55 PT (started 08:35 PT)"
+   "monitor": "read-only position monitor running until 12:55 PT (started 08:35 PT)",
+   "check_2026-11-16_0915": {
+    "spot": 29.66,
+    "legs": {
+     "29.5C": [
+      1.45,
+      1.65
+     ],
+     "29.5P": [
+      1.25,
+      1.5
+     ],
+     "33C": [
+      0.35,
+      0.5
+     ],
+     "26P": [
+      0.25,
+      0.35
+     ]
+    },
+    "close_cost_mid": 2.2,
+    "close_cost_natural": 2.55,
+    "pnl_mid_usd": -5.0,
+    "pnl_natural_usd": -40.0,
+    "to_breakevens_pct": [
+     -0.078,
+     0.067
+    ],
+    "decision": "hold (take profit at 1.075, cut at 2.96; the report is tomorrow before the open)"
+   }
   }
  ],
  "blockers": [
@@ -535,6 +565,17 @@
    },
    "news_quick_check": "report date confirmed (call 09:00 ET on 2026-11-17, company announcement of 2026-11-03); no new guidance or deal found this week; not the full sentinel pass",
    "note": "over the 350 name cap and not exitable by legs; the agent advised against it"
+  }
+ },
+ "check_2026-11-16_0915": {
+  "at": "2026-11-16T17:16:07Z",
+  "positions": "AS fly only (four legs, quantities as entered); no shares; no open orders; nothing entered by hand",
+  "agents": "position monitor and paper desk both running",
+  "market": {
+   "SPY_pct": -0.0131,
+   "AS_pct": -0.0094,
+   "DECK_pct": -0.0346,
+   "ONON_pct": -0.0269
   }
  }
 }
