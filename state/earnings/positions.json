@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-16T18:16:14Z",
+ "as_of": "2026-11-16T19:15:45Z",
  "account_value": 1222.9,
  "cap_total_max_loss": 1235.08,
  "execution": {
@@ -186,6 +186,35 @@
      0.063
     ],
     "decision": "hold (take profit at 1.075, cut at 2.96)"
+   },
+   "check_2026-11-16_1115": {
+    "spot": 29.44,
+    "legs": {
+     "29.5C": [
+      1.35,
+      1.65
+     ],
+     "29.5P": [
+      1.35,
+      1.75
+     ],
+     "33C": [
+      0.35,
+      0.5
+     ],
+     "26P": [
+      0.25,
+      0.35
+     ]
+    },
+    "close_cost_mid": 2.325,
+    "close_cost_natural": 2.8,
+    "pnl_mid_usd": -17.5,
+    "to_breakevens_pct": [
+     -0.071,
+     0.075
+    ],
+    "decision": "hold (take profit at 1.075, cut at 2.96); the stock is 0.06 from the body strike"
    }
   }
  ],
@@ -636,6 +665,18 @@
   "at": "2026-11-16T18:16:14Z",
   "positions": "AS fly only; no shares; no open orders; nothing entered by hand",
   "SPY_pct": -0.0162,
+  "agents": "position monitor and paper desk both running"
+ },
+ "check_2026-11-16_1115": {
+  "at": "2026-11-16T19:15:45Z",
+  "positions": "AS fly only; no shares; no open orders; nothing entered by hand",
+  "macro": {
+   "SPY_pct": -0.0183,
+   "vix": 23.28,
+   "vix_change": 0.206,
+   "veto": true,
+   "note": "VIX is up more than 15% on the day: the macro veto is on, so no new entries unless it is back under 22.20 at the 11:46 sweep"
+  },
   "agents": "position monitor and paper desk both running"
  }
 }
