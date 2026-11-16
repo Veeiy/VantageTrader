@@ -217,7 +217,7 @@
   "buying_power": 1235.08,
   "risk_used": 0
  },
- "entry_plan": "AS entered at 08:32 PT (near-miss tier, 1 contract). JD still skipped on a news flag; XP blocked; KLAR no edge. The 09:45 and 11:46 runs re-check; the flag on JD stands for the day.",
+ "entry_plan": "Final sweep 11:47 PT: no new entry (macro veto: SPY -2.1%, VIX +27%). AS (entered 08:32, near-miss tier, 1 contract) is the day's only trade. JD skipped on its news flag; XP, DIS, KLAR blocked; HD out of reach.",
  "recheck_0815": {
   "as_of": "2026-11-16T16:15Z to 16:33Z (08:15 to 08:33 PT)",
   "why": "Brad asked at 08:13 PT how entries looked. AS and KLAR had been dropped at 06:50 only for the ATM spread; both were back inside 25% at 08:15, so both got the cheap check (past reports 6 and 4) and one analyst run (151k tokens) for history, wings and news. File: batch_B.json.",
@@ -377,5 +377,105 @@
   },
   "entered": [],
   "decision": "nothing new qualifies; the 11:46 PT run is the final sweep"
+ },
+ "final_sweep_1147": {
+  "as_of": "2026-11-16T19:47Z (11:47 PT)",
+  "macro": {
+   "spy_pct": -0.0214,
+   "vix": 24.48,
+   "vix_prev_close": 19.3,
+   "vix_change": 0.268,
+   "veto": true,
+   "rule": "no new entries when |SPY today| >= 2% or VIX is up >= 15% on the day"
+  },
+  "decision": "no new entry",
+  "names": {
+   "JD": {
+    "decision": "not entered",
+    "reasons": [
+     "news flag stands (no 'JD on' from Brad)",
+     "macro veto"
+    ],
+    "spot": 27.555,
+    "intraday_pct": -0.0127,
+    "legs": {
+     "28C": [
+      0.66,
+      0.69
+     ],
+     "28P": [
+      1.09,
+      1.13
+     ],
+     "30.5C": [
+      0.09,
+      0.11
+     ],
+     "25.5P": [
+      0.19,
+      0.21
+     ]
+    },
+    "credit_mid_28_body": 1.485,
+    "note": "spot is now nearer the 27.5 strike; the paper record JD-20261116-U1 keeps the 28 body entered at 06:50"
+   },
+   "HD": {
+    "decision": "not entered",
+    "reasons": [
+     "one contract risks about 554 to 660 (name cap 350)",
+     "cannot be exited by legs (gate 16)",
+     "macro veto"
+    ],
+    "spot": 346.3
+   },
+   "XP": {
+    "decision": "not entered",
+    "reasons": [
+     "regime guard 2.03",
+     "report date unconfirmed",
+     "macro veto"
+    ],
+    "spot": 14.69,
+    "intraday_pct": -0.0516
+   },
+   "DIS": {
+    "decision": "not entered",
+    "reasons": [
+     "edge ratio about 1.28: no edge"
+    ],
+    "spot": 118.05
+   },
+   "KLAR": {
+    "decision": "not entered",
+    "reasons": [
+     "edge ratio 1.71: no edge"
+    ],
+    "spot": 13.67
+   },
+   "AS": {
+    "decision": "held, no add",
+    "reasons": [
+     "tier size (one contract) reached",
+     "macro veto"
+    ],
+    "spot": 28.81,
+    "intraday_pct": -0.0377,
+    "close_cost_mid": 1.925,
+    "pnl_mid_usd": 22.5,
+    "pnl_natural_usd": -30.0,
+    "reprojection": {
+     "spot": 28.81,
+     "avg_past_moves_mid_usd": 20.5,
+     "after_slippage_usd": 5.5,
+     "at_entry_after_slippage_usd": 4.4,
+     "note": "the stock fell 2.1% between 11:15 and 11:47 with the market and sits 2.3% under the body; the projected exit result is unchanged because four of the six past moves were up"
+    }
+   }
+  },
+  "hand_entries": "none seen (no JD or HD position, no open orders)",
+  "notes_for_reflection": [
+   "The early AS entry (08:32) took a 2.6% intraday drift (29.59 to 28.81) before the report: evidence on whether a one-contract name should wait for the final window. On today's tape a final-window entry would have been blocked by the macro veto, so the early entry is the only reason the trade exists.",
+   "The macro veto came on at about 11:15 (VIX) and SPY crossed -2% before 11:47."
+  ]
  }
 }
