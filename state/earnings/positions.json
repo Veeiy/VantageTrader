@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-17T19:47:30Z",
+ "as_of": "2026-11-17T20:16:30Z",
  "account_value": 2443.37,
  "cap_total_max_loss": 1235.08,
  "execution": {
@@ -194,10 +194,10 @@
   "Tue 2026-11-17, Wed 11-18, Fri 11-20, then Fridays: at about 06:50 PT start the spread scan agent (docs/earnings/prompts/brief_daytrade_scan.md; universe state/earnings/daytrade/universe/universe_2026-11-16.json; at most 40 names). It is paper: it never changes the day's pick by itself.",
   "Sat 2026-11-21 research day (docs/earnings/PLAN.md section 9; the Saturday task trig_01KLhgm9Zmpwv2gFcbHkeFAv, 09:00 PT): the overnight test at about 64 nights each for SPY, QQQ and IWM (pass bar fixed 2026-11-16: +$10 a fly after costs and a per-night t of 2 at the 07:00 PT buy-back, else dropped), the replay of the week's earnings reports, the week's spread scans and probe fills. No orders. Then: the same-day probe's review after 10 trades.",
   "Every reflection from 2026-11-17: write the day's round_trip_cost values (live-metrics) into the reflection; on Fridays put the averages on the scorecard (P055). Shrink rule: 10 closed earnings flies averaging above 0.09 halve the earnings sizes until fixed (PLAN.md section 3A).",
-  "TGT-20261117-1 and TJX-20261117-1: at the 12:15 PT run write the pre-report projection rows for both (scripts/earnings/pre_report_projection.py) and TGT's exit-time payoff. Wed 2026-11-18, the 06:36 PT run: the agent closes both by legs (EXECUTION.md ladder), TJX and TGT; pause the four alerts; score the projections.",
   "Reflection 2026-11-17: a background timer lives at most two hours (the harness stopped the 12:28 PT HD timer at 10:18 PT; it had been started at 08:18 PT). Write the rule into the prompts: a timer is started from the last check-in within two hours of its event, never earlier; the head restarted both timers at 10:18 PT (10:57 PT pilot exit, 12:16 PT backstop for the HD ticket).",
   "Reflection 2026-11-17: score IWM-0DTE-20261117-L1 (owner override, +1.68): add the IWM same-hours move for 11/17 (scripts/earnings/intraday_moves.py add), P058's measures start with the next pilot entry.",
-  "Reflection 2026-11-17: gate 16 (exit by legs) and the owner lane after today: (1) closing in the right order made HD closable by legs (put first when the buying power covers it, the wing next, then the call); (2) the bridge leg was planned and not needed, so it is still untested; (3) Brad wants the agent to trade everything, so a ticket to him is the last resort. Rewrite gate 16 and the lane text; decide whether the bridge gets a small live test."
+  "Reflection 2026-11-17: gate 16 (exit by legs) and the owner lane after today: (1) closing in the right order made HD closable by legs (put first when the buying power covers it, the wing next, then the call); (2) the bridge leg was planned and not needed, so it is still untested; (3) Brad wants the agent to trade everything, so a ticket to him is the last resort. Rewrite gate 16 and the lane text; decide whether the bridge gets a small live test.",
+  "Wed 2026-11-18, the 06:36 PT run: the agent closes TJX and TGT by legs (docs/earnings/EXECUTION.md ladder; buy back both short legs of a fly together, the wings after); pause the four alerts (TGT 4f54dc85..., e16d70ed...; TJX 1deae373..., 0c890302...); score the pre-report projections of 2026-11-17 12:16 PT and the LOW paper fly; mark the NVDA early-entry paper fly."
  ],
  "buying_power": 1538.37,
  "risk": {
@@ -1096,6 +1096,83 @@
    "standby_entry": "moved to Wed 2026-11-18 12:05 PT",
    "standby_exit": "Wed 2026-11-18 07:25 PT (set by the standby this morning)",
    "plain_alert": "Wed 2026-11-18 08:00 PT"
+  }
+ },
+ "check_2026-11-17_1215": {
+  "run": "12:15 PT run (the account watch's 12:14 mark, the head's 12:15 quotes)",
+  "hand_orders": 0,
+  "shares": 0,
+  "marks": {
+   "TGT": {
+    "spot": 158.88,
+    "close_cost_mid": 10.755,
+    "pnl_mid_usd": 54.5
+   },
+   "TJX": {
+    "spot": 130.05,
+    "close_cost_mid": 5.875,
+    "pnl_mid_usd": -47.5,
+    "note": "0.95 under the body; the 139 call is quoted 0.40 x 1.00, so the mid is loose"
+   }
+  },
+  "pre_report_projection": {
+   "file": "state/earnings/scan/2026-11-17/pre_report_projection_1216.json",
+   "TGT": {
+    "mean": 157.0,
+    "median": 230.7,
+    "p_profit": 0.797,
+    "band_50": [
+     59.7,
+     324.6
+    ],
+    "band_80": [
+     -214.9,
+     392.8
+    ]
+   },
+   "TJX": {
+    "mean": 51.0,
+    "median": 85.7,
+    "p_profit": 0.752,
+    "band_50": [
+     0.9,
+     129.6
+    ],
+    "band_80": [
+     -126.8,
+     160.4
+    ]
+   },
+   "book": {
+    "mean": 208.0,
+    "median": 272.7,
+    "p_profit": 0.809,
+    "band_50": [
+     72.8,
+     402.6
+    ],
+    "band_80": [
+     -183.7,
+     490.0
+    ],
+    "p_loss_over_500": 0.022
+   }
+  },
+  "paper_desk": {
+   "file": "state/earnings/daytrade/2026-11-17/paper_desk.jsonl",
+   "result_mid_usd": -288.0,
+   "result_natural_usd": -345.0,
+   "flies": {
+    "SPY": -100.5,
+    "QQQ": -87.0,
+    "IWM": -64.5,
+    "IBIT": -36.0
+   },
+   "note": "all four lost; the market fell 1.1% to 1.35% after the 07:15 PT entries; none reached the paper take profit"
+  },
+  "timers": {
+   "hd_ticket_backstop_1216": "fired; nothing to do, HD was closed at 11:02 PT",
+   "last_look_1257": "started"
   }
  }
 }
