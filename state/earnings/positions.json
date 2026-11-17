@@ -1063,6 +1063,30 @@
     "status": "FILLED by Brad 08:24:46 PT at 11.30 (order 6afc7fcd-43f5-4830-8c2e-aaaf9c0b4d1a): 157.5C 7.22, 157.5P 6.98, 175C 1.63, 140P 1.27. Recorded as TGT-20261117-1.",
     "note": "about $20 over the $600 name cap at the mid; he was told and took the ticket as shown. Exit: his 4-leg close Wed 2026-11-18 about 06:40 PT; fallback legs at 06:50 PT if they fit.",
     "max_loss": 620.0
+   },
+   {
+    "sent_pt": "10:11",
+    "symbol": "TJX",
+    "structure": "iron fly 123/131/139 exp 2026-11-20 x1",
+    "limit_credit": 5.45,
+    "walk": [
+     5.3,
+     5.15
+    ],
+    "not_below": 5.05,
+    "max_loss_about": 255,
+    "breakevens": [
+     125.55,
+     136.45
+    ],
+    "ids": {
+     "131C": "77b1ced2-52be-4c2e-9058-2074b0634307",
+     "131P": "68cb653f-3b20-4826-a491-da8b9fb88bad",
+     "139C": "a4ac6209-e82d-4c53-bfdd-5943dfd69b04",
+     "123P": "1c00327a-9127-4870-8980-fb4f13886acb"
+    },
+    "status": "sent; not placed yet",
+    "note": "Brad left the call to the agent ('Use your judgement on tjx'). Decision: yes, one contract, his 4-leg only; paper if he does not place it by 12:35 PT. Reports Wed 2026-11-18 before the open; exit as for TGT."
    }
   ],
   "staging_desk": {

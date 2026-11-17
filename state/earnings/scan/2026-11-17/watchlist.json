@@ -302,5 +302,67 @@
   "TGT": "open since 08:24 PT (owner-executed lane); not re-priced as a candidate",
   "NVDA": "owner hold, not priced",
   "decision": "no entry at 09:49 PT. Final sweep at 11:46 PT."
+ },
+ "tjx_decision_1010": {
+  "as_of": "2026-11-17T18:10Z (10:10 PT)",
+  "brad": "about 10:05 PT, after the agent's 'pass': 'Use your judgement on tjx. But i think having more trades under your belt will help us get more data.'",
+  "quotes": {
+   "spot": 130.99,
+   "131C": [
+    3.6,
+    3.9
+   ],
+   "131P": [
+    3.4,
+    3.9
+   ],
+   "139C": [
+    0.9,
+    1.25
+   ],
+   "123P": [
+    0.75,
+    1.0
+   ]
+  },
+  "macro": {
+   "spy_pct": -0.0107,
+   "vix": 25.79,
+   "vix_prev_close": 22.91,
+   "vix_change": 0.126,
+   "note": "under the 15% soft band, close to it; NVDA reports after today's close"
+  },
+  "gate": {
+   "as_rules_stand": "no_trade: name_risk_cap (max loss 299 at the floor against 175 = the 350 wide-market cap halved for the soft news condition)",
+   "with_waiver_owner_lane": "sell, 1 contract, limit 5.45 down to 5.05, max loss 255 at the mid and 299 at the floor, breakevens 125.55 / 136.45",
+   "with_waiver_agent_legs": "no_trade: exit_not_feasible (880 needed after entry, about 700 left)",
+   "files": [
+    "gate_TJX_owner_lane_rules_1008.json",
+    "gate_TJX_owner_lane_waiver_1008.json",
+    "gate_TJX_agent_waiver_1008.json"
+   ]
+  },
+  "decision": "YES at one contract, through the owner-executed lane only. Waived on the agent's judgement, with Brad's word: the half size for one soft condition (one contract cannot be halved; the fly is under the unhalved 350 wide-market cap). Not waived: the exit-by-legs check. The agent does not leg it in: the put leg is 14% wide, legging a market like that costs about the trade's whole expected edge, and with 956 of buying power an exit by legs is not certain tomorrow. If Brad does not place the ticket by 12:35 PT it is recorded as a paper trade (TJX-20261117-U1) so the outcome is still scored.",
+  "ticket": {
+   "sent_pt": "10:11",
+   "structure": "iron fly 123/131/139 exp 2026-11-20 x1",
+   "limit_credit": 5.45,
+   "walk": [
+    5.3,
+    5.15
+   ],
+   "not_below": 5.05,
+   "max_loss_at_limit": 255,
+   "breakevens": [
+    125.55,
+    136.45
+   ],
+   "ids": {
+    "131C": "77b1ced2-52be-4c2e-9058-2074b0634307",
+    "131P": "68cb653f-3b20-4826-a491-da8b9fb88bad",
+    "139C": "a4ac6209-e82d-4c53-bfdd-5943dfd69b04",
+    "123P": "1c00327a-9127-4870-8980-fb4f13886acb"
+   }
+  }
  }
 }

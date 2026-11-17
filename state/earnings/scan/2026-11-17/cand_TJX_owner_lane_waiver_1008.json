@@ -1,0 +1,48 @@
+{
+ "symbol": "TJX",
+ "timing": "am",
+ "spot": 130.99,
+ "prev_close": 131.09,
+ "K": 131.0,
+ "call": {
+  "bid": 3.6,
+  "ask": 3.9
+ },
+ "put": {
+  "bid": 3.4,
+  "ask": 3.9
+ },
+ "hist_moves": [
+  -0.028904,
+  0.027113,
+  0.00158,
+  -0.011671,
+  0.05661,
+  -0.042095
+ ],
+ "regime_20d": 0.01684,
+ "flags": [],
+ "account_value": 2375.91,
+ "open_risk_usd": 1413.5,
+ "buying_power": 955.91,
+ "tick": 0.05,
+ "wings": {
+  "call_strike": 139.0,
+  "put_strike": 123.0,
+  "call": {
+   "bid": 0.9,
+   "ask": 1.25
+  },
+  "put": {
+   "bid": 0.75,
+   "ask": 1.0
+  }
+ },
+ "sector": "apparel retail, off-price",
+ "sectors_entered_today": [
+  "discount stores",
+  "index fund"
+ ],
+ "owner_executed": true,
+ "owner_waiver": "Brad, 2026-11-17 about 10:05 PT: 'Use your judgement on tjx. But i think having more trades under your belt will help us get more data.' The agent's judgement: the half size for one soft condition is waived for one contract; the wide-market cap of 350 and every other rule stay."
+}
