@@ -1,6 +1,6 @@
 {
- "as_of": "2026-11-17T18:58:30Z",
- "account_value": 2463.73,
+ "as_of": "2026-11-17T19:05:30Z",
+ "account_value": 2439.37,
  "cap_total_max_loss": 1235.08,
  "execution": {
   "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
@@ -9,249 +9,6 @@
   "deep_itm_note": "A short leg that is deep in the money cannot be bought back alone when its price is above the buying power (NVDA 175P on 2026-11-12: $1,545 against $994 at the open). Such a spread is held at its max loss (v1.2.2) until the short leg's ask x 100 is inside the buying power, then closed short leg first, with the wing sold at once as a marketable limit."
  },
  "open": [
-  {
-   "symbol": "HD",
-   "trade_id": "HD-20261116-1",
-   "kind": "earnings",
-   "hand_entered": true,
-   "structure": "iron fly 330/347.5/365",
-   "expiry": "2026-11-20",
-   "quantity": 1,
-   "opened": "2026-11-16T20:35:29Z",
-   "legs": {
-    "short_347.5C": {
-     "option_id": "8a72594a-5e61-4b78-b2a4-2abf398fcdb6",
-     "fill": 8.05,
-     "qty": 1
-    },
-    "short_347.5P": {
-     "option_id": "5695bc39-b94b-453d-80e9-178b48d7c715",
-     "fill": 8.39,
-     "qty": 1
-    },
-    "long_365C": {
-     "option_id": "824f6973-258c-4e48-adae-190b6d3c2e50",
-     "fill": 2.08,
-     "qty": 1
-    },
-    "long_330P": {
-     "option_id": "ad518d2e-315c-4ffb-9056-91692bac0bab",
-     "fill": 2.435,
-     "qty": 1
-    }
-   },
-   "net_credit": 11.925,
-   "max_loss_usd": 557.5,
-   "max_profit_usd": 1192.5,
-   "exit_reserve_usd": 50.0,
-   "breakevens": [
-    335.58,
-    359.43
-   ],
-   "wing_width": 17.5,
-   "report": "2026-11-17 before the open (call 09:00 ET)",
-   "plan": {
-    "exit": "Tue 2026-11-17 06:45 PT",
-    "who": "BRAD, with one 4-leg closing order for both contracts (or two orders of one). The agent tries legs only for a fly whose two short legs cost less than the buying power at that moment, after JD and AS are closed.",
-    "agent_duty": "at the 06:36 to 06:45 PT run quote the four legs, send Brad the exact 4-leg closing ticket for 2 contracts (buy 2 x 347.5 call and put, sell 2 x 365 call and 330 put; net debit limit at mid, then the walk-up steps) and a push notification; close JD and AS meanwhile; then check whether one HD fly's short legs fit the buying power and say so; record his close",
-    "max_close_cost": 18.0,
-    "never_hold_into": "2026-11-20",
-    "close_sequence": "review all four legs; buy to close the cheaper short leg, then the dearer one (parity pricing when it is deep in the money), then sell both wings; never sell a wing while its short leg is open"
-   },
-   "alerts": [
-    {
-     "alert_id": "2d431e39-933c-4855-9313-c9e182b877aa",
-     "condition": "price_below",
-     "threshold": 335.6
-    },
-    {
-     "alert_id": "9814e875-a61a-492e-9546-00fa485fa834",
-     "condition": "price_above",
-     "threshold": 359.4
-    }
-   ],
-   "tranches": [
-    {
-     "n": 1,
-     "ts": "2026-11-16T20:35:29Z",
-     "quantity": 1,
-     "strikes": [
-      330,
-      347.5,
-      365
-     ],
-     "net_credit": 11.9,
-     "max_loss_usd": 560.0,
-     "order_ids": [
-      "6afb6910-9fcc-44e9-8235-050faabbdeac"
-     ]
-    },
-    {
-     "n": 2,
-     "ts": "2026-11-16T20:54:51Z",
-     "quantity": 1,
-     "strikes": [
-      330,
-      347.5,
-      365
-     ],
-     "net_credit": 11.95,
-     "max_loss_usd": 555.0,
-     "order_ids": [
-      "6afb6d9b-5459-4ce5-bf8b-1c463f58b230"
-     ]
-    }
-   ],
-   "alerts_note": "alerts sit at 335.60 / 359.40 (first contract); the two-contract breakevens are 335.58 / 359.43, within three cents, so they were left",
-   "multi_leg_attempt_2026-11-17": {
-    "review": "passed: no approval step asked for, collateral credit 3500, alert OPTION_WIDE_BID_ASK_SPREAD (0.91)",
-    "placement": "refused: multi-leg option orders are not available through this tool yet; the order was NOT placed; place it in the Robinhood app",
-    "structure": "HD 330/347.5/365 x2 close, net debit 10.30",
-    "at": "2026-11-17T14:38:10Z",
-    "note": "The day's one attempt (P051) went to HD, the fly that cannot be closed by legs. Outcome (a): refused. New since 2026-11-16: the review itself now accepts a 4-leg order."
-   },
-   "close_ticket_2026-11-17": {
-    "sent_utc": [
-     "2026-11-17T14:38:29Z push: net debit 10.30, walk to 10.80",
-     "2026-11-17T14:39:47Z push: mid moved to 10.75, use 10.80, up to 11.10"
-    ],
-    "order": "one 4-leg order, quantity 2: buy to close the 347.5 call and the 347.5 put, sell to close the 365 call and the 330 put, net debit",
-    "status": "one contract closed by Brad at 10.10 (07:59 PT); one still open",
-    "agent_cannot_leg": "one 347.5 put costs about 1,100 to buy back; buying power is 922 after the JD and AS exits"
-   },
-   "check_2026-11-17_0636": {
-    "spot": 340.935,
-    "close_cost_mid": 10.17,
-    "close_cost_natural": 10.74,
-    "pnl_mid_usd": 351.0,
-    "pnl_natural_usd": 237.0
-   },
-   "check_2026-11-17_0640": {
-    "spot": 338.4,
-    "close_cost_mid": 10.65,
-    "close_cost_natural": 10.99,
-    "pnl_mid_usd": 255.0,
-    "pnl_natural_usd": 187.0
-   },
-   "check_2026-11-17_0649": {
-    "spot": 342.3,
-    "legs": {
-     "347.5C": [
-      3.35,
-      3.65
-     ],
-     "347.5P": [
-      7.6,
-      7.95
-     ],
-     "365C": [
-      0.3,
-      0.36
-     ],
-     "330P": [
-      1.13,
-      1.27
-     ]
-    },
-    "close_cost_mid": 9.745,
-    "close_cost_natural": 10.17,
-    "pnl_mid_usd": 436.0,
-    "pnl_natural_usd": 351.0
-   },
-   "legs_fit_plan_2026-11-17": {
-    "why": "The plan of 2026-11-16 lets the agent leg one HD fly when its two short legs cost less than the buying power. At 06:49 PT they cost 1,160 against 922. They fit once the front implied volatility (42% now, 29% in the back month) comes down or the stock sits near the body.",
-    "trigger": "the watcher reports legs_fit when the 347.5 call ask plus the 347.5 put ask is 9.00 or less",
-    "then": "re-read the hand orders first (never race Brad's own closing order); push Brad that the legs are starting; one fly: review and buy back both shorts in one message (the put at parity if its market is wider than 15% of its mid), sell each wing the moment its short is flat; the collateral of that fly (1,750) then covers the second fly the same way",
-    "not_if": "Brad has an order working or has said to hold",
-    "status": "suspended 06:56 PT: Brad may let HD ride or close one himself; act only on his word"
-   },
-   "owner_note_2026-11-17_0655": {
-    "brad": "Hows it going? I may let the HD ones ride a little bit since theyre crushing well. Or close one of them",
-    "effect": "The agent does not close HD by legs on its own while this stands: the legs-fit plan waits for his word. He was given the numbers at 06:56 PT and a recommendation (close one, ride one with a take profit, a cut and a time stop before today's close)."
-   },
-   "check_2026-11-17_0656": {
-    "spot": 344.85,
-    "legs": {
-     "347.5C": [
-      4.05,
-      4.35
-     ],
-     "347.5P": [
-      6.6,
-      6.9
-     ],
-     "365C": [
-      0.39,
-      0.46
-     ],
-     "330P": [
-      0.91,
-      1.01
-     ]
-    },
-    "body_iv": [
-     0.412,
-     0.414
-    ],
-    "close_cost_mid": 9.565,
-    "close_cost_natural": 9.95,
-    "pnl_mid_usd": 472.0,
-    "pnl_natural_usd": 395.0,
-    "net_theta_usd_per_day_two_contracts": 175
-   },
-   "owner_partial_close_2026-11-17": {
-    "at": "2026-11-17T15:59:15Z",
-    "order_id": "6afc7963-fd94-44c7-adbb-bc9c76097bc2",
-    "quantity": 1,
-    "net_debit": 10.1,
-    "leg_fills": {
-     "347.5C": 2.93,
-     "347.5P": 8.9,
-     "365C": 0.16,
-     "330P": 1.57
-    },
-    "pnl_usd": 182.34,
-    "brad": [
-     "07:55 PT: 'When do you suggest i close hd?'",
-     "08:00 PT: 'You also still have a lot of buying power available. Closed one hd'"
-    ]
-   },
-   "rider": {
-    "status": "OWNER HOLD until today's close. Brad, 2026-11-17 08:19 PT: 'we can close hd before market close but let it ride for now'.",
-    "tell_brad_when": "HD trades at or under 338.50, or within 1.00 of a breakeven (336.60 / 358.40), or the close cost reaches 11.00 (the profit is gone at 11.93), or at 8.00 or less; and on Friday 2026-11-20 morning, when anything that expires that day has to be flat by 11:00 PT",
-    "not_a_pending_exit": "an owner hold recorded with his quote does not block the same-day pilot or the switches (FAILOVER.md, test 3)",
-    "counts_toward_risk": "557.5 max loss + 50 reserve stay inside the total risk cap",
-    "watcher": "reports rider_cut, rider_take_profit, near_breakeven, hand_order until 12:57 PT",
-    "close_today": {
-     "ticket_and_push_pt": "12:30",
-     "fallback": "12:45 PT: if he has not closed it, the agent closes it by legs (both shorts in one message, wings after); the legs fit the buying power",
-     "timer": "the first timer was stopped by the harness at its two-hour limit (10:18 PT); a backstop timer returns at 12:16 PT, and the 12:15 PT run starts the 12:28 PT one",
-     "legs_fit_note": "2026-11-17 08:37 PT: with TGT open the buying power is 956 and HD's two short legs cost about 1,225 (the 347.5 put alone about 990). The agent's legs at 12:45 PT happen only if the buying power then covers the short put first and the short call after it; otherwise the close is Brad's 4-leg order (ticket and push at 12:30 PT) and he is told at once. He was told at 08:37 PT."
-    }
-   },
-   "bridge_exit_plan": {
-    "written_pt": "10:32",
-    "notice_to_brad": "10:31 PT in the chat and by push: the agent closes HD by legs at about 11:05 PT, before it enters TJX, unless he replies 'hold HD' before 11:00 PT. His earlier words (08:19 PT): 'we can close hd before market close but let it ride for now'; 10:19 PT: 'Ideally you will trade all of it.'",
-    "why_first": "Buying power. After the IWM fly is closed there is about 1,030. HD's short put costs about 950 to 1,100 to buy back, so it is closed with a bridge; with TJX on first (about 285 of buying power) the bridge only works while HD is above about 337.5.",
-    "why_a_bridge": "The fly's collateral is the wider side (17.5 wide, 1,750). Buying back the short call removes the call side. A long put bought between the short put and the wing then covers the short put with a narrower spread, the broker releases the difference, the old 330 wing can be sold, and the short put can be bought back.",
-    "steps": [
-     "1. review all orders; read the buying power",
-     "2. buy to close the 347.5 call",
-     "3. buy to open the bridge put (342.5 if the buying power covers its ask, else 340); read the buying power again: it must rise by about (17.5 - new width) x 100 minus the put's cost",
-     "4. sell to close the 330 put (no longer the cover)",
-     "5. buy to close the 347.5 put",
-     "6. sell to close the bridge put and the 365 call"
-    ],
-    "if_the_collateral_is_not_released": "sell the bridge put back at once, tell Brad with the 4-leg closing ticket and a push; the fly minus its short call is still defined risk",
-    "bridge_ids": {
-     "345P": "8acc24d8-a12b-4f1b-9921-7aba529769f5",
-     "342.5P": "f1576f03-b962-4269-b27f-35bccb8674c8",
-     "340P": "d977b339-bbe2-46a1-b0c9-e0791ea4d658"
-    },
-    "pricing": "docs/earnings/EXECUTION.md ladder on every leg (HD ticks: 0.05 at and above 3.00, 0.01 below)",
-    "not_tested": "first use of a bridge at the broker; the bridge put is bought and sold the same day (the 25,000 day-trader rule ended on 2026-06-04; every review's order_checks is read)"
-   }
-  },
   {
    "symbol": "TGT",
    "trade_id": "TGT-20261117-1",
@@ -296,8 +53,8 @@
    "report": "2026-11-18 before the open",
    "plan": {
     "exit": "Wed 2026-11-18 about 06:40 PT",
-    "who": "BRAD, with one 4-leg closing order (owner-executed lane, rules v1.16.1)",
-    "agent_duty": "06:36 to 06:38 PT: quote the four legs, send him the closing ticket (buy to close the 157.5 call and put, sell to close the 175 call and 140 put; net debit limit at the mid, then the walk-up steps) and a push. 06:50 PT: if no closing order of his is in and the two short legs fit the buying power, tell him and leg it out (both shorts in one message, then the wings).",
+    "who": "the agent, by legs, at the 06:36 PT run (Brad, 10:19 PT: 'Ideally you will trade all of it'); a 4-leg ticket to Brad only if the short leg in the money costs more than the buying power",
+    "agent_duty": "06:36 PT: quote the four legs and the buying power; buy back both short legs together on the EXECUTION.md ladder, the cheaper one first if the buying power is tight, then sell the wings; TJX in the same run",
     "never_hold_into": "2026-11-20",
     "close_sequence": "buy back both short legs first, then sell both wings; never sell a wing while its short leg is open"
    },
@@ -331,6 +88,92 @@
     }
    ],
    "note": "Max loss 620 is 20 over the 600 name cap: Brad saw that on the ticket and placed it himself."
+  },
+  {
+   "symbol": "TJX",
+   "trade_id": "TJX-20261117-1",
+   "kind": "earnings",
+   "lane": "agent",
+   "owner_override": [
+    "half size for one soft condition (soft news: market selloff, HD peer report)"
+   ],
+   "structure": "iron fly 123/131/139",
+   "expiry": "2026-11-20",
+   "quantity": 1,
+   "opened": "2026-11-17T19:04:57Z",
+   "legs": {
+    "short_131C": {
+     "option_id": "77b1ced2-52be-4c2e-9058-2074b0634307",
+     "fill": 3.7,
+     "qty": 1
+    },
+    "short_131P": {
+     "option_id": "68cb653f-3b20-4826-a491-da8b9fb88bad",
+     "fill": 3.6,
+     "qty": 1
+    },
+    "long_139C": {
+     "option_id": "a4ac6209-e82d-4c53-bfdd-5943dfd69b04",
+     "fill": 0.95,
+     "qty": 1
+    },
+    "long_123P": {
+     "option_id": "1c00327a-9127-4870-8980-fb4f13886acb",
+     "fill": 0.95,
+     "qty": 1
+    }
+   },
+   "net_credit": 5.4,
+   "max_loss_usd": 260.0,
+   "max_profit_usd": 540.0,
+   "exit_reserve_usd": 50.0,
+   "breakevens": [
+    125.6,
+    136.4
+   ],
+   "wing_width": 8.0,
+   "report": "2026-11-18 before the open (call 11:00 ET)",
+   "ticks": "0.05 under 3.00, 0.10 at and above 3.00",
+   "plan": {
+    "exit": "Wed 2026-11-18, the 06:36 PT run",
+    "who": "the agent, by legs (docs/earnings/EXECUTION.md): both short legs bought back together, then the wings",
+    "max_close_cost": 8.5,
+    "never_hold_into": "2026-11-20",
+    "close_sequence": "buy back both short legs first, then sell both wings; never sell a wing while its short leg is open",
+    "buying_power_needed": "the short leg in the money: about 450 for a 3% move, 700 for 5%; 1,538 is free now"
+   },
+   "alerts": [
+    {
+     "alert_id": "1deae373-f903-4a17-9e7f-90b5cd9bc9e4",
+     "condition": "price_below",
+     "threshold": 125.6
+    },
+    {
+     "alert_id": "0c890302-072b-4754-9370-bbcdca8805fb",
+     "condition": "price_above",
+     "threshold": 136.4
+    }
+   ],
+   "tranches": [
+    {
+     "n": 1,
+     "ts": "2026-11-17T19:04:57Z",
+     "quantity": 1,
+     "strikes": [
+      123,
+      131,
+      139
+     ],
+     "net_credit": 5.4,
+     "max_loss_usd": 260.0,
+     "order_ids": [
+      "6afca4ea-42da-4c9d-aec6-542224edcb2c",
+      "6afca515-ad16-4846-a39d-2bd56f9b60af",
+      "6afca532-8964-4020-86c1-69190f688594",
+      "6afca559-ae18-4c5c-8888-e5844574df2d"
+     ]
+    }
+   ]
   }
  ],
  "blockers": [
@@ -351,21 +194,21 @@
   "Tue 2026-11-17, Wed 11-18, Fri 11-20, then Fridays: at about 06:50 PT start the spread scan agent (docs/earnings/prompts/brief_daytrade_scan.md; universe state/earnings/daytrade/universe/universe_2026-11-16.json; at most 40 names). It is paper: it never changes the day's pick by itself.",
   "Sat 2026-11-21 research day (docs/earnings/PLAN.md section 9; the Saturday task trig_01KLhgm9Zmpwv2gFcbHkeFAv, 09:00 PT): the overnight test at about 64 nights each for SPY, QQQ and IWM (pass bar fixed 2026-11-16: +$10 a fly after costs and a per-night t of 2 at the 07:00 PT buy-back, else dropped), the replay of the week's earnings reports, the week's spread scans and probe fills. No orders. Then: the same-day probe's review after 10 trades.",
   "Every reflection from 2026-11-17: write the day's round_trip_cost values (live-metrics) into the reflection; on Fridays put the averages on the scorecard (P055). Shrink rule: 10 closed earnings flies averaging above 0.09 halve the earnings sizes until fixed (PLAN.md section 3A).",
-  "HD x1 is Brad's hold (2026-11-17 08:04 PT: 'lets leave hd open'). Do not close it. Tell him at the levels under open[HD].rider.tell_brad_when. When he closes it: journal exit_filled for the trade with the total of both contracts (hand_exit true), pause the two HD alerts, write the exit read into projections.jsonl. Fri 2026-11-20: it expires that day; remind him before the open.",
-  "TGT-20261117-1 (owner lane): Brad's order filled 08:24 PT and is recorded. Still owed today: the exit-time payoff (L015) and the pre-report projection row, at the 12:15 PT run. Wed 2026-11-18: closing ticket and push at 06:38 PT, the agent's legs at 06:50 PT if he has not closed it and they fit. 12:28 PT timer today: HD closing ticket and push at 12:30, leg HD out at 12:45 only if he has not closed it AND the two short legs fit the buying power then (TGT now holds 620 of it).",
+  "TGT-20261117-1 and TJX-20261117-1: at the 12:15 PT run write the pre-report projection rows for both (scripts/earnings/pre_report_projection.py) and TGT's exit-time payoff. Wed 2026-11-18, the 06:36 PT run: the agent closes both by legs (EXECUTION.md ladder), TJX and TGT; pause the four alerts; score the projections.",
   "Reflection 2026-11-17: a background timer lives at most two hours (the harness stopped the 12:28 PT HD timer at 10:18 PT; it had been started at 08:18 PT). Write the rule into the prompts: a timer is started from the last check-in within two hours of its event, never earlier; the head restarted both timers at 10:18 PT (10:57 PT pilot exit, 12:16 PT backstop for the HD ticket).",
-  "Reflection 2026-11-17: score IWM-0DTE-20261117-L1 (owner override, +1.68): add the IWM same-hours move for 11/17 (scripts/earnings/intraday_moves.py add), P058's measures start with the next pilot entry."
+  "Reflection 2026-11-17: score IWM-0DTE-20261117-L1 (owner override, +1.68): add the IWM same-hours move for 11/17 (scripts/earnings/intraday_moves.py add), P058's measures start with the next pilot entry.",
+  "Reflection 2026-11-17: gate 16 (exit by legs) and the owner lane after today: (1) closing in the right order made HD closable by legs (put first when the buying power covers it, the wing next, then the call); (2) the bridge leg was planned and not needed, so it is still untested; (3) Brad wants the agent to trade everything, so a ticket to him is the last resort. Rewrite gate 16 and the lane text; decide whether the bridge gets a small live test."
  ],
- "buying_power": 1043.73,
+ "buying_power": 1538.37,
  "risk": {
-  "total_max_loss_usd": 1177.5,
+  "total_max_loss_usd": 880.0,
   "exit_reserves_usd": 100.0,
-  "used_usd": 1277.5,
-  "cap_usd": 2463.73,
-  "free_usd": 1186.23,
-  "detail": "HD x1 557.5 + 50 (Brad's hold; the agent closes it by legs with a bridge) ; TGT x1 620 + 50 (owner-executed lane).",
+  "used_usd": 980.0,
+  "cap_usd": 2439.37,
+  "free_usd": 1459.37,
+  "detail": "TGT x1 620 + 50 (placed by Brad, 4-leg) ; TJX x1 260.0 + 50 (the agent's legs).",
   "cap_note": "Rules v1.11: the cap is the account value (Brad, 2026-11-13: 'I want you to be able to use the entire funds in the mcp account'). cap_usd is the account value at the last check; it is not lowered below the risk already open when marks fall (the cap binds at entry).",
-  "exit_buying_power": "1,043.73 after the IWM fly was closed"
+  "exit_buying_power": "1,538.37. Tomorrow by legs: TJX needs about 450 to 700 for a 3% to 5% move; TGT about 700 to 1,300 for a 5% to 8% move. Both fit one after the other; the agent closes both (Brad: 'Ideally you will trade all of it')."
  },
  "eod_note": "2026-11-13 close: PCG x5 open (fly 0.585 at closing mids, +$33.50; about flat on the day, account +$5). No fills today. Account 1,250.91, buying power 1,040.91, risk used 224. Two losses in a row stand (LUNR, NVDA): a third pauses new entries.",
  "watch": [
@@ -1013,6 +856,20 @@
    "pnl_usd": 1.68,
    "closed_pt": "10:58",
    "note": "owner override ('Probe anyway'); time stop"
+  },
+  {
+   "trade_id": "HD-20261116-1",
+   "symbol": "HD",
+   "kind": "earnings",
+   "hand_entered": true,
+   "closed_by": "partial close by Brad 07:59 PT (+182.34); the last contract by the agent's legs 11:00 to 11:02 PT",
+   "rider_close_cost": 9.95,
+   "rider_pnl_usd": 197.34,
+   "total_pnl_usd": 379.68,
+   "alerts_paused": [
+    "2d431e39-933c-4855-9313-c9e182b877aa",
+    "9814e875-a61a-492e-9546-00fa485fa834"
+   ]
   }
  ],
  "leftover_long_wings": [
@@ -1064,7 +921,7 @@
      "140P": "7ba666a8-ec67-4ff0-ae5c-fa32698b3e43"
     },
     "status": "FILLED by Brad 08:24:46 PT at 11.30 (order 6afc7fcd-43f5-4830-8c2e-aaaf9c0b4d1a): 157.5C 7.22, 157.5P 6.98, 175C 1.63, 140P 1.27. Recorded as TGT-20261117-1.",
-    "note": "about $20 over the $600 name cap at the mid; he was told and took the ticket as shown. Exit: his 4-leg close Wed 2026-11-18 about 06:40 PT; fallback legs at 06:50 PT if they fit.",
+    "note": "about $20 over the $600 name cap at the mid; he was told and took the ticket as shown. Exit: his 4-leg close Wed 2026-11-18 about 06:40 PT; fallback legs at 06:50 PT if they fit. Exit update 11:05 PT: with HD closed there is enough buying power, so the agent closes TGT by legs at the 06:36 PT run and no ticket is needed.",
     "max_loss": 620.0
    },
    {
@@ -1214,6 +1071,7 @@
    "winners_after_slippage": "5/6",
    "worst_case_usd": -270.0,
    "caveat": "the earlier point estimates of this model were too optimistic three times out of three; the pre-report projection with ranges is written at 12:15 PT"
-  }
+  },
+  "status": "done 11:05 PT: TJX-20261117-1, credit 5.40"
  }
 }
