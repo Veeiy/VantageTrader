@@ -237,5 +237,70 @@
    "limits": "page fetches were blocked, so the check rests on search summaries; no hard flag was found on TGT, LOW or TJX; the soft flags are the market selloff and Home Depot's report (one prudential condition: half size, rules v1.14)"
   },
   "decision": "no entry at 08:10 PT. Next: 09:45 PT re-price of TJX and LOW; a name needs an at-the-money spread of 12% or less to use the 600 cap."
+ },
+ "recheck_0945": {
+  "as_of": "2026-11-17T17:46Z to 17:52Z (09:46 to 09:52 PT)",
+  "run": "midday scan (trig_018qBZwkxCi6h76t2PQ2ddGZ)",
+  "hand_orders_since_0916": 0,
+  "macro": {
+   "spy_pct": -0.0111,
+   "vix": 25.94,
+   "vix_change": "not computed: no entry depended on it; hard veto levels (VIX 30, SPY 3%) are not near",
+   "tier1_in_window": false
+  },
+  "TJX": {
+   "spot": 131.2,
+   "intraday_pct": 0.0008,
+   "K": 131.0,
+   "straddle_mid": 7.7,
+   "straddle_pct": 0.0587,
+   "edge_ratio": 0.5609,
+   "implied_move": 0.0499,
+   "atm_spread_pct": {
+    "call": 0.0741,
+    "put": 0.137,
+    "straddle": 0.1039
+   },
+   "fly_123_131_139": {
+    "credit_mid": 5.75,
+    "credit_natural": 5.05,
+    "credit_floor": 5.29,
+    "max_loss_floor": 271.0,
+    "width_over_straddle": 1.039,
+    "breakevens": [
+     125.25,
+     136.75
+    ]
+   },
+   "gate": "no_trade: name_risk_cap (max loss 271 against 175: the wide-market cap of 350 because the put leg's spread is 13.7%, halved for the soft news condition) and, for the agent, exit_not_feasible (needs 880 of buying power after entry, 685 left). As an owner-placed ticket the cap still blocks.",
+   "news": "sentinel 08:05 PT: report confirmed for 2026-11-18 before the open; soft flags only (market selloff, HD peer report). A search at 09:50 PT found nothing new on the name.",
+   "files": [
+    "cand_TJX_agent_0950.json",
+    "gate_TJX_agent_0950.json",
+    "cand_TJX_owner_lane_0950.json",
+    "gate_TJX_owner_lane_0950.json"
+   ],
+   "note": "The spreads came in from 24% to 40% at 08:00 PT to 7% (call) and 14% (put). The 9-wide fly would risk about 340 at the floor, so 123/131/139 is the widest that could fit a 300 cap; it does not fit 175. Told to Brad as a near miss with the ticket, the agent's view: pass under the rules."
+  },
+  "LOW": {
+   "spot": 222.93,
+   "intraday_pct": -0.0089,
+   "K": 222.5,
+   "straddle_mid": 10.75,
+   "atm_spread_pct": {
+    "call": 0.145,
+    "put": 0.248,
+    "straddle": 0.195
+   },
+   "fly_212.5_222.5_232.5": {
+    "credit_mid": 7.7,
+    "credit_natural": 6.25,
+    "max_loss_floor_about": 292.0
+   },
+   "rule": "spread 19.5% (put leg 24.8%): the wide-market cap of 350, halved for the soft news condition to 175; max loss about 292"
+  },
+  "TGT": "open since 08:24 PT (owner-executed lane); not re-priced as a candidate",
+  "NVDA": "owner hold, not priced",
+  "decision": "no entry at 09:52 PT. Final sweep at 11:46 PT."
  }
 }
