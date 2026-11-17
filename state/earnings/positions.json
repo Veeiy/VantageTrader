@@ -994,5 +994,14 @@
   "account_value": 2029.36,
   "buying_power": 1123.36,
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
+ },
+ "hand_order_watch": {
+  "last_query_utc": "2026-11-17T02:10:00Z",
+  "known_hand_order_ids": [
+   "6afb68fd-21cf-47fd-a743-31dc2466a80c",
+   "6afb6910-9fcc-44e9-8235-050faabbdeac",
+   "6afb6d9b-5459-4ce5-bf8b-1c463f58b230"
+  ],
+  "note": "P046. Every check-in queries get_option_orders and get_equity_orders with agent_initiated=false and created_at_gte=last_query_utc, then moves last_query_utc. The three ids are Brad's HD orders of 2026-11-16 (cancelled at 12.00, filled at 11.90 and 11.95)."
  }
 }

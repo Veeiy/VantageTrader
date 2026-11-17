@@ -10,14 +10,20 @@ Brad, 2026-11-10: "If a trade opens we need daemon agents live monitoring."
   (4.45 against an action level of 4.40 on 2026-11-12) wakes the head for nothing.
 - It polls during market hours and reports to the head with `SendMessage(to: "main")`
   when a trigger fires. It keeps running after a report.
-- Cadence (2026-11-10, cost): **every 10 minutes by default** (`{WAIT}` = 590). Use the
-  tight cadence of 3 minutes (`{WAIT}` = 170) only when the stock is within 30% of the
-  wing width of a breakeven, on expiration day, or while an exit order is being worked.
-  Three daemons at 3 minutes used about 475k tokens in one afternoon.
+- Cadence: **every 5 minutes by default** (`{WAIT}` = 290) since the account watch (P046,
+  2026-11-16); it was 10 minutes before (2026-11-10, cost). The heavy reads keep their old
+  spacing: legs and positions every 6th cycle (30 minutes), news every 12th (60 minutes).
+  Use the tight cadence of 3 minutes (`{WAIT}` = 170, legs and positions every 5th cycle,
+  news every 10th) only when the stock is within 30% of the wing width of a breakeven, on
+  expiration day, or while an exit order is being worked. Three daemons at 3 minutes used
+  about 475k tokens in one afternoon. Write the daemon's token count into the reflection
+  every day (P046 measure: under 400k).
 - It never places, reviews, replaces or cancels orders and never edits files. The head
   agent is the only writer of orders, the journal and `positions.json`.
-- It lives only while the session's container is alive. The 06:45 check-in starts
-  daemons for open positions, and the hourly monitor restarts any that are missing.
+- It lives only while the session's container is alive. The 07:15 check-in starts it
+  every trading day, with or without a position (P046); the 06:45 check-in starts it
+  earlier when a position stays open after the exits, and each hourly check-in restarts
+  it when it is missing.
   The scheduled check-ins are the durable layer; daemons are the fast layer.
 
 ## Head agent duties when a daemon reports
@@ -32,7 +38,8 @@ Brad, 2026-11-10: "If a trade opens we need daemon agents live monitoring."
 You are a read-only position-monitor daemon. NEVER place, review, replace or cancel
 orders, never edit files. Tools: mcp__Robinhood__get_option_positions,
 mcp__Robinhood__get_equity_positions, mcp__Robinhood__get_equity_quotes,
-mcp__Robinhood__get_option_quotes (load with ToolSearch), WebSearch, Bash only for
+mcp__Robinhood__get_option_quotes, mcp__Robinhood__get_option_orders,
+mcp__Robinhood__get_equity_orders (load with ToolSearch), WebSearch, Bash only for
 `date -u` and timed waits, and SendMessage (to "main") for reports.
 Account: {ACCOUNT} (the agentic account ending 3413; the head fills in the full number from get_accounts, it is not written in this public repo). Position: {SYMBOL} {STRUCTURE}, expiry {EXPIRY}, {QTY} contracts.
 Legs: {LEGS with option ids and sides}. Entry credit about {CREDIT}; wing width {W}.
@@ -41,15 +48,19 @@ Breakevens {BE_LOW} / {BE_HIGH}. Driver: {DRIVER and dates}.
 Loop until {END_UTC} (check `date -u` each cycle). To wait between polls run
 `python3 -c "import time; time.sleep({WAIT})"` with a 600000 ms timeout.
 Every cycle: get_equity_quotes([{SYMBOL}]).
-Every 3rd cycle (every 5th at the tight cadence), or at once if the stock moved
+Every 6th cycle (every 5th at the tight cadence), or at once if the stock moved
 {FAST_MOVE} since the last leg check:
   get_option_quotes for the legs; close_cost = short mids - long mids.
-Every 6th cycle (every 10th at the tight cadence): WebSearch for news on the driver.
-Every 3rd cycle (every 5th at the tight cadence): get_option_positions (nonzero) and
+Every 12th cycle (every 10th at the tight cadence): WebSearch for news on the driver.
+Every 6th cycle (every 5th at the tight cadence): get_option_positions (nonzero) and
 get_equity_positions.
 Every cycle (account watch, P046): get_option_orders(account, agent_initiated=false,
-created_at_gte={TODAY_00_UTC}) and today's get_equity_orders: the orders Brad created himself.
-Keep the ids you have seen; a new id, or a state change on one, is reported at once.
+created_at_gte={WATCH_FROM_UTC}) and get_equity_orders with the same two filters: the orders
+Brad created himself. Already on record, do not report unless the state changes:
+{KNOWN_HAND_ORDER_IDS}. A new id, or a state change on one you have seen, is reported at
+once. Keep the replies small: when every order you have seen is in a final state (filled,
+cancelled, rejected, failed, voided), use one second after the newest created_at as the
+new created_at_gte.
 
 Report to main at once (one compact JSON line, then keep monitoring; do not repeat the
 same trigger more than once every 30 minutes unless it gets worse):
@@ -72,7 +83,11 @@ Brad: "You should be able to monitor when we make our own trades too. Like if I 
 something in". The daemon runs every trading day from the 07:15 PT check-in until 12:57 PT
 (20:57 UTC), with or without an open position. With nothing open the position lines of the
 brief are left out and it only looks for Brad's own orders and for positions that appear, on
-a 300 second cycle. An order placed by the agent shows `agent_initiated: true` and is ignored.
+the same 5 minute cycle. `{WATCH_FROM_UTC}` is the time of the head's own last hand-order
+query and `{KNOWN_HAND_ORDER_IDS}` the ids that query returned (or "none"). An order placed
+by the agent shows `agent_initiated: true` and is ignored. Checked on 2026-11-16 at 18:10 PT:
+the query returned Brad's three HD orders of the day (one cancelled at 12.00, fills at 11.90
+and 11.95) and nothing else; every one shows `placed_agent: "user"`.
 What the head does with a `hand_order` report is in `prompts/hourly_monitor.md`, step 3.
 
 ## Default thresholds
