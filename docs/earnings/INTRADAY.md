@@ -57,6 +57,9 @@ The honest reading is that a larger live fly would be a coin flip that pays cost
 - No entry after a move of more than 1% from the prior close, on a day with a tier-1 release
   or a Fed decision between the entry and the time stop (or within 15 minutes after it), or
   under a macro veto, hard or soft.
+- Morning exits come first. While a position due to close that morning is still open (also
+  one waiting on Brad's own closing order) there is no pilot entry: its buying power is not
+  lent out. Flat before 07:50 PT: the gate is run again. After 07:50: no pilot trade that day.
 
 ## Limits (in code: `config/earnings.yaml`, hard caps in `config.py`)
 | | Value | Hard cap |
@@ -101,8 +104,8 @@ Off switch: "day trades paper" from Brad sets `intraday_live_enabled: false`.
    at least 1. Look up the K+W call and the K-W put and quote them.
 5. **Gate.** Write the candidate (shape at the top of `src/vantage_trader/earnings/intraday.py`:
    symbol, spot, prev_close, K, expiry, call, put, wings, same_hours_moves, event_ahead,
-   macro_veto, account_value, open_risk_usd, buying_power from `get_portfolio`, open_intraday,
-   entries_today) and run `... intraday-gate --input <file>`. Exit code 3: no trade today;
+   macro_veto, exits_pending, account_value, open_risk_usd, buying_power from `get_portfolio`,
+   open_intraday, entries_today) and run `... intraday-gate --input <file>`. Exit code 3: no trade today;
    write the reason into the day's notes. Exit code 0: enter.
 6. **Enter** (four single-leg limit orders, each reviewed first). Buy both wings at the ask in
    one message. When both are filled, sell the body call and the body put at the bid in one

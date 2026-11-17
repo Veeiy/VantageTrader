@@ -849,7 +849,7 @@ sessions, sold at 07:30 PT (`state/earnings/daytrade/replay/`).
 - The total risk cap, the exit-feasibility check and every hard limit apply as to any trade.
 
 ### In code
-- `src/vantage_trader/earnings/intraday.py`: sixteen gates, the tier, the exit plan, the
+- `src/vantage_trader/earnings/intraday.py`: seventeen gates, the tier, the exit plan, the
   pilot's breaker. CLI `intraday-gate` (exit 0 = enter, 3 = no trade) and `intraday-status`.
 - `config/earnings.yaml`: the `intraday_*` keys. Hard caps a config cannot raise: 1 contract,
   1 entry a day, probe max loss $80, signal max loss $200, pause at -$150 or 3 losses, time

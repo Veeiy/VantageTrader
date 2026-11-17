@@ -62,7 +62,7 @@ def test_iwm_probe_passes_with_one_contract():
     assert d["plan"]["time_stop_pt"] == "11:00" and d["plan"]["take_profit_close_cost"] is None
     assert d["plan"]["cut_close_cost"] is None
     assert d["metrics"]["premium_ratio"] == pytest.approx(0.8026, abs=1e-3)
-    assert len(d["gates"]) == 16 and all(g["pass"] for g in d["gates"])
+    assert len(d["gates"]) == 17 and all(g["pass"] for g in d["gates"])
 
 
 def test_the_premium_ratio_is_recorded_but_does_not_gate_a_probe():
@@ -137,6 +137,8 @@ def test_signal_needs_enough_history_for_the_ratio():
     ({"buying_power": 250}, "exit_not_feasible"),
     ({"open_risk_usd": 1900}, "max_loss_exceeds_cap"),
     ({"wings": None}, "no_wings"),
+    ({"exits_pending": "HD x2 waits for the owner's closing order"}, "morning_exit_pending"),
+    ({"exits_pending": True}, "morning_exit_pending"),
     ({"same_hours_moves": [0.004] * 9}, "insufficient_history"),
 ])
 def test_each_gate_blocks(over, reason):

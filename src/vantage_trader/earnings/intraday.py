@@ -26,6 +26,8 @@ Candidate::
      "wings": {"call_strike", "put_strike", "call": {"bid", "ask"}, "put": {"bid", "ask"}},
      "same_hours_moves": [signed fractions, oldest first],          # entry time -> close, per session
      "event_ahead"?: bool|str,       # a tier-1 release or a Fed decision still to come before the time stop
+     "exits_pending"?: bool|str,     # a position due to close this morning is still open (also one
+                                     # waiting on the owner's own closing order)
      "macro_veto"?: bool|str, "circuit_breaker"?: bool|str,
      "account_value", "open_risk_usd", "buying_power",
      "open_intraday"?: int, "entries_today"?: int,
@@ -50,6 +52,7 @@ Gates (all evaluated; ``reason`` is the first failure, ``blocked_by`` lists all)
     14 one_a_day          nothing open in the pilot, fewer than intraday_max_entries_per_day today
     15 risk_budget        max loss at the credit floor + the exit reserve fits the total risk cap
     16 exit_feasible      exit_buyback_mult x width x 100 fits the buying power left after entry
+    17 morning_exits      no position due to close this morning is still open: exits come first
 
 Exit plan in the record: take profit when the fly can be bought back for
 credit x (1 - intraday_take_profit_frac); no stop unless intraday_cut_frac is set (the wings are
@@ -207,6 +210,7 @@ def parse_candidate(raw: Any) -> dict[str, Any]:
         "wings": w,
         "moves": moves,
         "event_ahead": _set_flag(raw.get("event_ahead"), "candidate.event_ahead"),
+        "exits_pending": _set_flag(raw.get("exits_pending"), "candidate.exits_pending"),
         "macro_veto": _set_flag(raw.get("macro_veto"), "candidate.macro_veto"),
         "circuit_breaker": _set_flag(raw.get("circuit_breaker"), "candidate.circuit_breaker"),
         "account_value": _num(raw.get("account_value"), "candidate.account_value", positive=True),
@@ -384,6 +388,12 @@ def evaluate(raw: Any, cfg: dict[str, Any], journal_events: list[dict[str, Any]]
               None if exit_need is None else
               f"one in-the-money short at the wing costs about {exit_need}; buying power {bp} less the entry leaves {exit_room}"),
         reason="buying_power_missing" if bp is None else "exit_not_feasible")
+
+    # 17 morning exits come first: their buying power is not lent to the pilot
+    xp, xreason = c["exits_pending"]
+    add("morning_exits", not xp, xreason if xp else False, False,
+        note="a position due this morning is still open; no pilot entry until it is flat" if xp else None,
+        reason="morning_exit_pending")
 
     failures = [g for g in gates if not g["pass"]]
     action = "sell" if not failures else "no_trade"

@@ -153,7 +153,7 @@ conditions (rules v1.14): any flag still skips a name there.
 
 ## The same-day pilot has its own gate (rules v1.15)
 `PYTHONPATH=src python3 -m vantage_trader.earnings intraday-gate --input cand.json` runs one
-same-day iron fly candidate through sixteen gates of its own (`intraday.py`; rules and
+same-day iron fly candidate through seventeen gates of its own (`intraday.py`; rules and
 procedure in `docs/earnings/INTRADAY.md`). Exit 0 = enter one contract, 3 = no trade,
 2 = bad input. `intraday-status` prints the pilot's record and whether it is paused. The
 earnings gate above is unchanged and never sees those candidates.
