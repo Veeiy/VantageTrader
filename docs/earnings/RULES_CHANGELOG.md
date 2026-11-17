@@ -831,7 +831,7 @@ sessions, sold at 07:30 PT (`state/earnings/daytrade/replay/`).
 - **One live same-day iron fly a day, one contract.** Body at the strike nearest the price,
   wings at the listed strikes nearest one body straddle away. Entry 07:25 to 07:50 PT. Flat
   by 11:00 PT, the same hour as every other position that expires that day.
-- **Probe tier (on):** IWM only, max loss at most $80. It is traded for what paper cannot
+- **Probe tier (on):** IWM only, max loss at most $80 (raised to $150 in v1.15.1 below). It is traded for what paper cannot
   give: real fills on single-leg orders in same-day options and a live record against the
   replay. Expected cost about $5 a trade.
 - **Signal tier (off):** up to $200 of max loss on SPY, QQQ or IWM inside a premium-ratio
@@ -839,7 +839,7 @@ sessions, sold at 07:30 PT (`state/earnings/daytrade/replay/`).
 - **No stop and no take profit.** The wings are the stop.
 - **No entry** after a move of more than 1% from the prior close, with a tier-1 release or a
   Fed decision before the time stop, or under a macro veto (hard or soft).
-- **Its own breaker:** the pilot pauses at -$150 in total or after 3 losses in a row. P017
+- **Its own breaker:** the pilot pauses at -$150 in total or after 3 losses in a row (now -$500 or 6, v1.15.1 below). P017
   said 2 in a row; at a 50% win rate that would pause it every other week for no reason.
 - **Pilot trades do not count in the account's loss streaks.** P017 said they would. A
   one-contract pilot must not be able to halt the main line. The account breaker still
@@ -852,7 +852,7 @@ sessions, sold at 07:30 PT (`state/earnings/daytrade/replay/`).
 - `src/vantage_trader/earnings/intraday.py`: seventeen gates, the tier, the exit plan, the
   pilot's breaker. CLI `intraday-gate` (exit 0 = enter, 3 = no trade) and `intraday-status`.
 - `config/earnings.yaml`: the `intraday_*` keys. Hard caps a config cannot raise: 1 contract,
-  1 entry a day, probe max loss $80, signal max loss $200, pause at -$150 or 3 losses, time
+  1 entry a day, probe max loss $80, signal max loss $200, pause at -$150 or 3 losses (see v1.15.1), time
   stop no later than 12:15 PT.
 - Journal events of the pilot carry `"kind": "intraday_0dte"`. `closed_trades` reports the
   kind; the account breaker and the edge calibration leave those trades out.
@@ -873,3 +873,25 @@ sessions, sold at 07:30 PT (`state/earnings/daytrade/replay/`).
   ends it), the live mean against the replay's, every exit on time.
 - The replay's next batch (the 30 sessions before 2026-10-06) tests two filters fixed today:
   an overnight gap under 1%, and that plus a first-hour move under 0.2%.
+
+## v1.15.1 (2026-11-16, later the same evening): the pilot's caps after the cap-level test
+Brad: "$150 is an extremely small cap. Can you test it with different cap levels? Could be a
+buying power issue." and "Scan the market for optimal daytrading options. Lets not lock
+ourselves to just a few tickets. But liquidity and tightish spreads is important not to eat
+into profits". Tested the same evening (`scripts/earnings/intraday_caps.py`, tables in
+`INTRADAY.md`), decided by the agent under the delegation of 2026-11-16.
+
+- **He was right about the budget.** At -$150 a one-contract IWM pilot with no edge is stopped
+  by luck in about 1 run of 4, and "3 losses in a row" stops it in 6 to 8 runs of 10. Now:
+  **-$500 in total or 6 losses in a row.**
+- **Probe max loss $150** (was $80), so one contract of more names than IWM fits. Still one
+  contract, one fly a day. The signal tier's $200 is unchanged and still off.
+- **A bigger per-trade cap does not help.** From $80 to $600 every level lost a little on
+  average and the loss grew with the cap (SPY at $400: -$105 a day). The body straddle with no
+  wings did worse than the fly. Buying power is not the constraint: a $400 cap fits a flat
+  account.
+- **Names come from a scan, not a list:** the universe of liquid same-day names is rebuilt from
+  options volume, a morning spread scan ranks them, and a name joins the live list when its
+  spread and its own replay earn it (`INTRADAY.md`, "Which names"). IWM is the only live name
+  tonight because it is the only one whose replay came out at breakeven.
+- Hard caps in code: probe max loss $150, budget $500, streak 6, 1 contract, 1 entry a day.

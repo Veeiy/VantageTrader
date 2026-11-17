@@ -133,11 +133,11 @@ DEFAULTS: dict[str, Any] = {
     "intraday_signal_max_ratio": None,        # None = no upper bound
     "intraday_max_loss": 200.0,               # max loss of a signal-tier fly at the credit floor (hard cap 200)
     "intraday_probe_enabled": True,           # the probe tier: the smallest fly, traded for execution data
-    "intraday_probe_max_loss": 80.0,          # max loss of a probe at the credit floor (hard cap 80)
+    "intraday_probe_max_loss": 150.0,         # max loss of a probe at the credit floor (hard cap 150)
     "intraday_max_quantity": 1,               # hard cap 1
     "intraday_max_entries_per_day": 1,        # hard cap 1
-    "intraday_pilot_loss_limit": 150.0,       # the pilot pauses at this cumulative realized loss (hard cap 150)
-    "intraday_max_consecutive_losses": 3,     # ... or after this many pilot losses in a row (hard cap 3)
+    "intraday_pilot_loss_limit": 500.0,       # the pilot pauses at this cumulative realized loss (hard cap 500)
+    "intraday_max_consecutive_losses": 6,     # ... or after this many pilot losses in a row (hard cap 6)
     "intraday_pilot_reset_ts": None,          # ISO ts; pilot trades closed before it do not count (a ledgered restart)
     "intraday_review_after_trades": 10,       # the pilot is reviewed after this many closed live trades
     "intraday_take_profit_frac": None,        # close when the profit reaches this share of the credit; None = off
@@ -179,15 +179,19 @@ HARD_CAPS: dict[str, tuple[str, float]] = {
     "max_consecutive_max_loss": ("max", 2),
     "max_consecutive_losses": ("max", 3),
     "cancel_by_latest_minutes": ("max", 12 * 60 + 50),  # virtual key, checked below
-    # v1.15: the same-day pilot stays a pilot. These caps move only by a ledgered decision that cites
-    # a filter which passed its out-of-sample test (docs/earnings/INTRADAY.md).
+    # v1.15: the same-day pilot stays a pilot. The contract count and the signal tier's cap move
+    # only by a ledgered decision that cites a filter which passed its out-of-sample test
+    # (docs/earnings/INTRADAY.md). The probe cap, the loss budget and the streak were reset on
+    # 2026-11-16 after the owner's "$150 is an extremely small cap" and the cap-level test
+    # (scripts/earnings/intraday_caps.py): a budget of 150 or a streak of 3 stops a zero-edge pilot
+    # by luck far too often.
     "intraday_max_spread_pct": ("max", 0.05),
     "intraday_max_loss": ("max", 200.0),
-    "intraday_probe_max_loss": ("max", 80.0),
+    "intraday_probe_max_loss": ("max", 150.0),
     "intraday_max_quantity": ("max", 1),
     "intraday_max_entries_per_day": ("max", 1),
-    "intraday_pilot_loss_limit": ("max", 150.0),
-    "intraday_max_consecutive_losses": ("max", 3),
+    "intraday_pilot_loss_limit": ("max", 500.0),
+    "intraday_max_consecutive_losses": ("max", 6),
     "intraday_max_pre_move": ("max", 0.03),
     "intraday_max_off_center": ("max", 0.5),
 }

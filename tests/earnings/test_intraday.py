@@ -80,9 +80,9 @@ def test_spy_is_not_a_probe_name_and_the_signal_tier_is_off():
 def test_a_probe_above_its_max_loss_is_blocked():
     wide = cand(wings={"call_strike": 277, "put_strike": 271,
                        "call": {"bid": 0.10, "ask": 0.11}, "put": {"bid": 0.11, "ask": 0.12}})
-    d, code = intraday.evaluate(wide, cfg())
+    d, code = intraday.evaluate(wide, cfg(intraday_max_wing_over_straddle=1.8))
     assert code == 3 and "max_loss_above_cap" in blocked(d)
-    assert d["fly"]["max_loss_floor"] > 80
+    assert d["fly"]["max_loss_floor"] > 150
 
 
 def test_probe_tier_off_blocks_when_there_is_no_signal():
@@ -106,7 +106,8 @@ def test_signal_tier_outside_the_band_is_no_signal():
 
 
 def test_signal_tier_respects_its_max_loss():
-    c = cfg(intraday_signal_enabled=True, intraday_signal_min_ratio=0.9, intraday_max_loss=100.0)
+    c = cfg(intraday_signal_enabled=True, intraday_signal_min_ratio=0.9, intraday_max_loss=100.0,
+            intraday_probe_max_loss=80.0)
     d, code = intraday.evaluate(cand(SPY), c)
     assert code == 3 and "max_loss_above_cap" in blocked(d)
 
@@ -189,12 +190,17 @@ def test_bad_input_raises(bad):
 
 # ------------------------------------------------------------------ the pilot's breaker
 
-def test_three_pilot_losses_in_a_row_pause_the_pilot():
-    events = pilot_trade("IWM", -20, 1) + pilot_trade("IWM", -15, 2) + pilot_trade("IWM", -30, 3)
-    st = intraday.pilot_state(events, cfg())
-    assert st["paused"] and st["consecutive_losses"] == 3 and st["pnl_usd"] == -65.0
-    d, code = intraday.evaluate(cand(), cfg(), events)
+def test_six_pilot_losses_in_a_row_pause_the_pilot_and_three_do_not():
+    three = pilot_trade("IWM", -20, 1) + pilot_trade("IWM", -15, 2) + pilot_trade("IWM", -30, 3)
+    st = intraday.pilot_state(three, cfg())
+    assert not st["paused"] and st["consecutive_losses"] == 3 and st["pnl_usd"] == -65.0
+    six = three + pilot_trade("IWM", -10, 4) + pilot_trade("IWM", -10, 5) + pilot_trade("IWM", -10, 6)
+    st = intraday.pilot_state(six, cfg())
+    assert st["paused"] and st["consecutive_losses"] == 6 and st["pnl_usd"] == -95.0
+    d, code = intraday.evaluate(cand(), cfg(), six)
     assert code == 3 and blocked(d) == ["pilot_paused"]
+    # a config may tighten the streak, never loosen it
+    assert intraday.pilot_state(three, cfg(intraday_max_consecutive_losses=3))["paused"]
 
 
 def test_a_win_resets_the_streak():
@@ -208,7 +214,13 @@ def test_the_cumulative_loss_limit_pauses_the_pilot():
     events = pilot_trade("IWM", -76, 1) + pilot_trade("IWM", 10, 2) + pilot_trade("IWM", -76, 3) \
         + pilot_trade("IWM", 5, 4) + pilot_trade("IWM", -20, 5)
     st = intraday.pilot_state(events, cfg())
-    assert st["pnl_usd"] == -157.0 and st["paused"] and "at or under -150" in st["reasons"][0]
+    assert st["pnl_usd"] == -157.0 and not st["paused"]          # inside the 500 budget
+    st = intraday.pilot_state(events, cfg(intraday_pilot_loss_limit=150.0))
+    assert st["paused"] and "at or under -150" in st["reasons"][0]
+    big = events + pilot_trade("SPY", -140, 6, max_loss=140.0) + pilot_trade("SPY", 30, 7, max_loss=140.0) \
+        + pilot_trade("SPY", -140, 8, max_loss=140.0) + pilot_trade("SPY", -100, 9, max_loss=140.0)
+    st = intraday.pilot_state(big, cfg())
+    assert st["pnl_usd"] == -507.0 and st["paused"] and "at or under -500" in st["reasons"][0]
 
 
 def test_an_unknown_result_counts_as_its_max_loss():
@@ -220,8 +232,9 @@ def test_an_unknown_result_counts_as_its_max_loss():
 
 def test_a_ledgered_restart_clears_the_record():
     events = pilot_trade("IWM", -60, 1) + pilot_trade("IWM", -60, 2) + pilot_trade("IWM", -60, 3)
-    assert intraday.pilot_state(events, cfg())["paused"]
-    st = intraday.pilot_state(events, cfg(intraday_pilot_reset_ts="2026-10-04T00:00:00Z"))
+    assert intraday.pilot_state(events, cfg(intraday_max_consecutive_losses=3))["paused"]
+    st = intraday.pilot_state(events, cfg(intraday_max_consecutive_losses=3,
+                                          intraday_pilot_reset_ts="2026-10-04T00:00:00Z"))
     assert not st["paused"] and st["trades"] == 0
 
 
@@ -233,7 +246,8 @@ def test_review_is_due_after_ten_trades():
 
 
 def test_pilot_losses_do_not_halt_the_main_line():
-    events = pilot_trade("IWM", -20, 1) + pilot_trade("IWM", -15, 2) + pilot_trade("IWM", -30, 3)
+    events = pilot_trade("IWM", -20, 1) + pilot_trade("IWM", -15, 2) + pilot_trade("IWM", -30, 3) \
+        + pilot_trade("IWM", -20, 4)
     cb = rules.circuit_breaker({"total_value": 2000}, events, cfg())
     assert not cb["halted"] and cb["consecutive_losses"] == 0
 
@@ -260,10 +274,10 @@ def test_closed_trades_carry_the_kind_and_calibration_skips_the_pilot():
 @pytest.mark.parametrize("over", [
     {"intraday_max_quantity": 2},
     {"intraday_max_entries_per_day": 2},
-    {"intraday_probe_max_loss": 100.0},
+    {"intraday_probe_max_loss": 160.0},
     {"intraday_max_loss": 250.0},
-    {"intraday_pilot_loss_limit": 200.0},
-    {"intraday_max_consecutive_losses": 4},
+    {"intraday_pilot_loss_limit": 600.0},
+    {"intraday_max_consecutive_losses": 7},
     {"intraday_max_spread_pct": 0.08},
     {"intraday_max_pre_move": 0.05},
     {"intraday_time_stop": "12:30 America/Los_Angeles"},

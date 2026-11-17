@@ -130,11 +130,13 @@ intraday_signal_min_ratio: null
 intraday_signal_max_ratio: null
 intraday_max_loss: 200.0            # HARD CAP <= 200 (signal tier)
 intraday_probe_enabled: true
-intraday_probe_max_loss: 80.0       # HARD CAP <= 80
+intraday_probe_max_loss: 150.0      # HARD CAP <= 150 (was 80; the owner asked for more names than IWM)
 intraday_max_quantity: 1            # HARD CAP <= 1
 intraday_max_entries_per_day: 1     # HARD CAP <= 1
-intraday_pilot_loss_limit: 150.0    # HARD CAP <= 150: the pilot pauses at this cumulative loss
-intraday_max_consecutive_losses: 3  # HARD CAP <= 3: ... or after this many pilot losses in a row
+intraday_pilot_loss_limit: 500.0    # HARD CAP <= 500: the pilot pauses at this cumulative loss. Was 150,
+                                    # which stops one-contract IWM probes by luck in 1 run of 4 (cap-level test)
+intraday_max_consecutive_losses: 6  # HARD CAP <= 6: ... or after this many pilot losses in a row. Was 3,
+                                    # which a coin-flip trade hits in 6 to 8 runs of 10
 intraday_pilot_reset_ts: null
 intraday_review_after_trades: 10
 intraday_take_profit_frac: null     # off: the replay found no gain from a take profit

@@ -39,6 +39,7 @@ from pathlib import Path
 
 TIMES = ["07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30"]
 PARITY_TOL = {"SPY": 0.30, "QQQ": 0.30, "IWM": 0.12}     # dollars; see build()
+MAX_CREDIT_OVER_WIDTH = 0.85
 COST = {"SPY": 8.0, "QQQ": 8.0, "IWM": 5.0}             # round trip per fly: eight single-leg orders, penny-wide
 
 
@@ -122,7 +123,9 @@ def build(eq: dict, rows: list[dict], lookback: int = 10) -> list[dict]:
             "straddle": straddle, "straddle_pct": straddle / spot,
             "credit": credit, "credit_over_width": credit / width if width else None,
             "max_loss_usd": (width - credit) * 100.0,
-            "valid": 0 < credit < width,
+            # a 1x fly collects 0.52 to 0.78 of its width in this data; a credit at the full width
+            # (IWM 2026-11-12) is a bad print, not a free trade
+            "valid": 0 < credit <= MAX_CREDIT_OVER_WIDTH * width,
             "premium_ratio": (straddle / spot) / st.mean(moves_close) if len(moves_close) >= lookback else None,
             "premium_ratio_1230": (straddle / spot) / st.mean(moves_1230) if len(moves_1230) >= lookback else None,
             "premium_ratio_median": (straddle / spot) / st.median(moves_close) if len(moves_close) >= lookback else None,

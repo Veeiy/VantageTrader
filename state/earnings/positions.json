@@ -1008,7 +1008,7 @@
   "note": "P046. Every check-in queries get_option_orders and get_equity_orders with agent_initiated=false and created_at_gte=last_query_utc, then moves last_query_utc. The three ids are Brad's HD orders of 2026-11-16 (cancelled at 12.00, filled at 11.90 and 11.95)."
  },
  "same_day_pilot": {
-  "rules": "v1.15",
+  "rules": "v1.15.1",
   "status": "live from 2026-11-17 as probes",
   "tier": "probe",
   "names": [
@@ -1017,9 +1017,9 @@
   "limits": {
    "contracts": 1,
    "entries_a_day": 1,
-   "max_loss_usd": 80,
-   "pilot_loss_limit_usd": 150,
-   "losses_in_a_row": 3,
+   "max_loss_usd": 150,
+   "pilot_loss_limit_usd": 500,
+   "losses_in_a_row": 6,
    "entry_window_pt": [
     "07:25",
     "07:50"

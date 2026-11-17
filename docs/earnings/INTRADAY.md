@@ -47,8 +47,9 @@ price and is skipped; 30 days is one market regime (a falling one).
 ## What the pilot does about it
 The honest reading is that a larger live fly would be a coin flip that pays costs. So:
 
-- **Probe tier (on).** One contract of the smallest fly, IWM only, max loss at most $80
-  (about $26 when the wings are one strike wide, about $75 at two). It buys what paper cannot
+- **Probe tier (on).** One contract, max loss at most $150. Today the only name on the live
+  list is IWM (about $26 of max loss when the wings are one strike wide, about $75 at two);
+  other names join by the rule under "Which names" below. It buys what paper cannot
   give: real fills on eight single-leg orders in same-day options, the first same-day round
   trip at the broker, and a live record to check the replay against. Expected cost about $5 a
   trade.
@@ -66,12 +67,12 @@ The honest reading is that a larger live fly would be a coin flip that pays cost
 |---|---|---|
 | Contracts | 1 | 1 |
 | Entries a day | 1 | 1 |
-| Probe max loss | $80 | $80 |
+| Probe max loss | $150 | $150 |
 | Signal max loss | $200 | $200 |
 | Entry window | 07:25 to 07:50 PT | |
 | Flat by | 11:00 PT | 12:15 PT |
 | Body spread | 3% of the straddle | 5% |
-| Pilot pauses at | -$150 in total, or 3 losses in a row | same |
+| Pilot pauses at | -$500 in total, or 6 losses in a row | same |
 | Review | after 10 closed trades | |
 
 The total risk cap covers both lines: the fly's max loss plus a $50 exit reserve must fit, and
@@ -83,6 +84,65 @@ halt the main line. (P017 as written counted them. Changed on purpose.) The acco
 still stops the pilot.
 
 Off switch: "day trades paper" from Brad sets `intraday_live_enabled: false`.
+
+## Cap levels: what was tested (2026-11-16)
+Brad: "$150 is an extremely small cap. Can you test it with different cap levels? Could be a
+buying power issue." `scripts/earnings/intraday_caps.py` ran the 77 clean flies of the replay
+at an 11:00 PT exit; numbers in `state/earnings/daytrade/replay/cap_levels.json`.
+
+**The per-trade cap** (contracts = cap / one fly's max loss). A bigger cap scales the result and
+the swing together; it does not find an edge.
+
+| Cap | IWM a day | SPY a day | QQQ a day | Buying power needed |
+|---|---|---|---|---|
+| $80 | -$5 (sd $43) | -$42 | too big | about $300 |
+| $150 | -$11 (sd $87) | -$31 | -$36 | $370 to $700 |
+| $200 | -$14 (sd $122) | -$49 | -$36 | $390 to $860 |
+| $400 | -$28 (sd $254) | -$105 | -$62 | $620 to $1,280 |
+| $600 | -$44 (sd $389) | -$147 | -$98 | $800 to $1,560 |
+
+Buying power is not what holds the line back: a $400 cap fits a flat account. With the earnings
+book on (about $450 to $900 free) SPY and QQQ flies above about $200 do not fit.
+
+**Wider wings.** The body straddle with no wings at all is the limit of ever wider wings. It did
+worse than the 1x fly on every name (all names: -$39 against -$13 a trade, with more than three
+times the swing). A wider fly and a bigger cap buy swing, not profit, on this data.
+
+**The budget.** Here he was right. Over 20 one-contract IWM probes with no edge:
+
+| Rule | Stops the pilot by luck |
+|---|---|
+| -$150 in total | 23% to 26% of runs |
+| -$200 | 11% to 13% |
+| -$300 | 2% |
+| 3 losses in a row | 60% to 79% |
+| 5 losses in a row | 12% to 25% |
+| 6 losses in a row | 5% to 12% |
+
+With SPY-size flies in the mix (one contract, max loss up to $150) a -$300 budget stops 30% of
+runs by luck and -$500 stops 5%.
+
+**Decided the same evening:** probe max loss $150 (was $80), budget -$500 (was -$150), streak 6
+(was 3), still one contract and one fly a day. The time box (20 probes or 2026-12-18) is what
+bounds the cost: about $20 to $170 in expectation depending on the names.
+
+## Which names
+Brad, 2026-11-16: "Scan the market for optimal daytrading options. Lets not lock ourselves to
+just a few tickets. But liquidity and tightish spreads is important not to eat into profits".
+
+- **The universe** is rebuilt from the market, not typed in: every name with average options
+  volume of 100,000 contracts a day or more, plus the index funds and products, and for each
+  the days it has a same-day expiration (`state/earnings/daytrade/universe/`).
+- **The spread scan** quotes every universe name that expires that day at about 07:00 PT and
+  ranks them by the body straddle's bid-ask spread and by the cost of crossing it as a share
+  of the credit (`prompts/brief_daytrade_scan.md`; Tue, Wed and Fri this week, then Fridays).
+- **A name joins the live list** (`intraday_probe_names`) when all three hold: its median body
+  spread over five scan mornings is 3% of the straddle or less; a replay of at least 20 of its
+  sessions shows a mean after costs no worse than IWM's per dollar of max loss; one contract
+  fits the probe cap. The decision is ledgered. TSLA never; NVDA not while its hold stands.
+- **The day's pick** among live names: the one whose spread cost is the smallest share of its
+  credit that morning, and never the same name more than three days running.
+- The paper desk keeps its ten names every day as the control.
 
 ## The day
 1. **Timer.** The morning run (`prompts/exit_scan.md`) starts a background timer for 07:27 PT
