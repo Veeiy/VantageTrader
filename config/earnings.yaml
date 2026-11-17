@@ -122,7 +122,7 @@ intraday_live_names: [SPY, QQQ, IWM]
 intraday_probe_names: [IWM]         # the probe tier trades the smallest fly only
 intraday_entry_start: "07:25 America/Los_Angeles"
 intraday_entry_end: "07:50 America/Los_Angeles"
-intraday_time_stop: "11:40 America/Los_Angeles"   # HARD CAP <= 12:15 PT
+intraday_time_stop: "11:00 America/Los_Angeles"   # HARD CAP <= 12:15 PT
 intraday_max_spread_pct: 0.03       # HARD CAP <= 0.05
 intraday_lookback: 10
 intraday_signal_enabled: false      # the signal tier is off: no premium-ratio band has passed a test

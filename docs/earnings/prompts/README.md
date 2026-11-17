@@ -13,10 +13,14 @@ the file. One text, under version control, read by the head and by the standby
 | `entry.md` | Earnings daily: ENTRY | `trig_01Qhfn5qNQaxKvQtse2nevgA` | 11:46 Mon-Thu | this file |
 | `entry_backup.md` | Earnings daily: entry backup | `trig_019jPgVcNE935MqnfZedVRLm` | 12:17 Mon-Thu | this file |
 | `hourly_monitor.md` | Positions: hourly monitor | `trig_012TXxzQAdCppBr1AWwNEksg` | minute 15, 07 to 12, Mon-Fri | this file |
-| `daily_reflection.md` | Daily reflection | `trig_01D3GLpqio93gGPGemaPBKhR` | 14:12 Mon-Fri | the task's stored prompt (this is a copy from 2026-11-11 06:20 PT) |
+| `daily_reflection.md` | Daily reflection | `trig_01D3GLpqio93gGPGemaPBKhR` | 14:12 Mon-Fri | this file (since 2026-11-16) |
 | `standby_exit_switch.md` | Standby exit switch | `trig_01NmMk2eNXRyukjX8pxGVcX3` | 07:25, one-shot, moved daily | the task's stored prompt (copy) |
 | `standby_entry_switch.md` | Standby entry switch | `trig_01E1KZZayvkKf2PJJYhRLY8M` | 12:05, one-shot, moved daily | the task's stored prompt (copy) |
 
 The two standby switches are bound to the standby session, so their stored prompts cannot
 be edited from the head session. They only point at `docs/earnings/FAILOVER.md`.
 `head_failover_line.md` is the sentence every head instruction starts with.
+
+The same-day pilot (rules v1.15) has no scheduled task of its own. Its entry is a timer the
+morning run starts (`exit_scan.md`, part A2), its exit a timer the 10:15 hourly run starts
+(`hourly_monitor.md`). The procedure is `docs/earnings/INTRADAY.md`.

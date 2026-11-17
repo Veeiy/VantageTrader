@@ -59,7 +59,7 @@ def test_iwm_probe_passes_with_one_contract():
     assert d["fly"]["strikes"] == [272.0, 274.0, 276.0]
     assert d["fly"]["credit_mid"] == pytest.approx(1.26) and d["fly"]["credit_floor"] == pytest.approx(1.24)
     assert d["fly"]["max_loss_floor"] == pytest.approx(76.0)
-    assert d["plan"]["time_stop_pt"] == "11:40" and d["plan"]["take_profit_close_cost"] is None
+    assert d["plan"]["time_stop_pt"] == "11:00" and d["plan"]["take_profit_close_cost"] is None
     assert d["plan"]["cut_close_cost"] is None
     assert d["metrics"]["premium_ratio"] == pytest.approx(0.8026, abs=1e-3)
     assert len(d["gates"]) == 16 and all(g["pass"] for g in d["gates"])

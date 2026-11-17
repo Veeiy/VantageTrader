@@ -524,7 +524,9 @@
   "Reflection 2026-11-16: turn Brad's 'slightly more aggressive' (lesson L020) into concrete rule changes and tell him which.",
   "Tue 2026-11-17 exit: 06:36 PT timer. JD (3) then AS (1) by legs. HD (2): send Brad the 4-leg closing ticket and a push at once; legs only if they fit the buying power. Pause all six alerts after the exits.",
   "Tue 2026-11-17 at the exits: score the four pre-report projections (state/earnings/projections.jsonl, stage pre_report) as state/earnings/projection_calibration.json says, append the scoreboard rows, and apply the update rules at the reflection.",
-  "Tue 2026-11-17: during the exits poll get_option_orders(agent_initiated=false) for Brad's HD close and record it; at the 07:15 PT run start the account-watch daemon (P046, DAEMON.md) for the rest of the session."
+  "Tue 2026-11-17: during the exits poll get_option_orders(agent_initiated=false) for Brad's HD close and record it; at the 07:15 PT run start the account-watch daemon (P046, DAEMON.md) for the rest of the session.",
+  "Tue 2026-11-17 SAME-DAY PILOT, first probe (rules v1.15, docs/earnings/INTRADAY.md): the morning run starts a timer for 07:27 PT after the exits are placed; then intraday-status, yesterday's same-hours move for IWM, quotes, intraday-gate, and on exit code 0 one IWM same-day iron fly, one contract, by four single-leg orders. JD and AS exits come first; skip the pilot for the day if it is past 07:50 PT. Flat by 11:00 PT (the 10:15 run starts the 10:57 timer). This is also the first same-day round trip at the broker: if a closing order is refused, tell Brad at once with the ticket.",
+  "Sat 2026-11-21: replay batch 2 (P047): the 30 sessions before 2026-10-06 for SPY, QQQ, IWM, filters F1 and F2 fixed on 2026-11-16."
  ],
  "buying_power": 456.98,
  "risk": {
@@ -1003,5 +1005,30 @@
    "6afb6d9b-5459-4ce5-bf8b-1c463f58b230"
   ],
   "note": "P046. Every check-in queries get_option_orders and get_equity_orders with agent_initiated=false and created_at_gte=last_query_utc, then moves last_query_utc. The three ids are Brad's HD orders of 2026-11-16 (cancelled at 12.00, filled at 11.90 and 11.95)."
+ },
+ "same_day_pilot": {
+  "rules": "v1.15",
+  "status": "live from 2026-11-17 as probes",
+  "tier": "probe",
+  "names": [
+   "IWM"
+  ],
+  "limits": {
+   "contracts": 1,
+   "entries_a_day": 1,
+   "max_loss_usd": 80,
+   "pilot_loss_limit_usd": 150,
+   "losses_in_a_row": 3,
+   "entry_window_pt": [
+    "07:25",
+    "07:50"
+   ],
+   "flat_by_pt": "11:00"
+  },
+  "time_box": "20 probes or 2026-12-18",
+  "closed_probes": 0,
+  "pnl_usd": 0.0,
+  "off_switch": "Brad says \"day trades paper\": intraday_live_enabled false",
+  "log": []
  }
 }

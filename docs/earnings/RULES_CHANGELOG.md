@@ -787,3 +787,89 @@ step that answers him. He changes or reverses it with one word. Applies from the
   one of the eleven broad sectors.
 - On 2026-11-16 JD and HD were both read as the same sector as AS. By industry the three
   differ, so the rule would not have stood between them.
+
+## Delegation (2026-11-16 about 18:15 PT): the agent decides, and tells him after
+Brad: "Push the day trading pilot" and "Dont need a decision on me. Remember, self healing and
+strengthening the model with your own decision making".
+
+What it changes: proposals that were waiting for his yes are decided by the agent. That now
+includes the two kinds the delegation of 2026-11-11 left with him: a max loss per name above
+the stated number, and a new live strategy line at pilot size. The agent logs the decision as
+"agent, under Brad's standing delegation of 2026-11-16" with his words, implements, and tells
+him the same day. He reverses any of them with a few words.
+
+The agent's reading of the scope (its own interpretation; Brad corrects it if it is wrong):
+- **Covered:** everything the first delegation covered, plus per-name limits inside the total
+  cap, pilots of a new line at pilot size, and what a pilot must show before it grows.
+- **Still only on his words (`hard_limit` in the proposals ledger; the code refuses an agent
+  approval):** the account (MCP only), never TSLA, defined risk only, limit orders only, the
+  total risk cap (max loss plus exit reserves no larger than the account value), anything that
+  moves money in or out.
+- **Standard the agent holds itself to:** the one above (a written proposal with numbers and a
+  measure, evidence behind a rule change, a review date, roll back what does not work), and
+  for a new line: a replay or a paper test first, the smallest size that answers the open
+  question, a loss budget fixed in code, and a test written before the data that decides
+  whether it grows.
+
+Decided under it on 2026-11-16: the shape of the same-day pilot (v1.15), P041 and P044.
+
+## v1.15 (2026-11-16): the same-day pilot goes live as probes (P017)
+Brad, 2026-11-16: "Push the day trading pilot". The line is his decision. Its shape is the
+agent's, under the delegation above, and it is not the shape P017 proposed on 2026-11-11.
+Full text: `docs/earnings/INTRADAY.md`. Applies from Tuesday 2026-11-17.
+
+### Why the shape changed
+The replay ran the evening he said it: 90 real same-day iron flies on SPY, QQQ and IWM over 30
+sessions, sold at 07:30 PT (`state/earnings/daytrade/replay/`).
+- About breakeven before costs, -$2 to -$12 a fly after them, at every exit from 09:30 on.
+- P017's trigger (straddle at least 1.15x the 10-session same-hours move) is not supported:
+  the 1.10 to 1.25 bucket was the worst of all.
+- A stop made it worse. A take profit changed nothing.
+- IWM came out at breakeven after costs, with the smallest loss when wrong.
+
+### The rule
+- **One live same-day iron fly a day, one contract.** Body at the strike nearest the price,
+  wings at the listed strikes nearest one body straddle away. Entry 07:25 to 07:50 PT. Flat
+  by 11:00 PT, the same hour as every other position that expires that day.
+- **Probe tier (on):** IWM only, max loss at most $80. It is traded for what paper cannot
+  give: real fills on single-leg orders in same-day options and a live record against the
+  replay. Expected cost about $5 a trade.
+- **Signal tier (off):** up to $200 of max loss on SPY, QQQ or IWM inside a premium-ratio
+  band. Off until a filter passes the out-of-sample test in `INTRADAY.md`.
+- **No stop and no take profit.** The wings are the stop.
+- **No entry** after a move of more than 1% from the prior close, with a tier-1 release or a
+  Fed decision before the time stop, or under a macro veto (hard or soft).
+- **Its own breaker:** the pilot pauses at -$150 in total or after 3 losses in a row. P017
+  said 2 in a row; at a 50% win rate that would pause it every other week for no reason.
+- **Pilot trades do not count in the account's loss streaks.** P017 said they would. A
+  one-contract pilot must not be able to halt the main line. The account breaker still
+  stops the pilot.
+- **Time-boxed:** 20 probes or 2026-12-18, whichever comes first, unless a filter has passed.
+  Review after 10.
+- The total risk cap, the exit-feasibility check and every hard limit apply as to any trade.
+
+### In code
+- `src/vantage_trader/earnings/intraday.py`: sixteen gates, the tier, the exit plan, the
+  pilot's breaker. CLI `intraday-gate` (exit 0 = enter, 3 = no trade) and `intraday-status`.
+- `config/earnings.yaml`: the `intraday_*` keys. Hard caps a config cannot raise: 1 contract,
+  1 entry a day, probe max loss $80, signal max loss $200, pause at -$150 or 3 losses, time
+  stop no later than 12:15 PT.
+- Journal events of the pilot carry `"kind": "intraday_0dte"`. `closed_trades` reports the
+  kind; the account breaker and the edge calibration leave those trades out.
+- `scripts/earnings/intraday_replay.py` scores the replay; `scripts/earnings/intraday_moves.py`
+  keeps the ten same-hours moves the gate needs.
+
+### Off switch
+- Brad says "day trades paper": `intraday_live_enabled` is set to false. The paper desk is
+  unaffected either way.
+
+### What it means
+- At most about $26 to $75 at risk on a morning, inside the total cap. Buying power used:
+  $100 to $200 until 11:00 PT.
+- A month of probes costs about $100 in expectation and is capped at $150.
+
+### Review
+- After 10 closed probes: round-trip cost against mid ($6 or less keeps it going, above $8
+  ends it), the live mean against the replay's, every exit on time.
+- The replay's next batch (the 30 sessions before 2026-10-06) tests two filters fixed today:
+  an overnight gap under 1%, and that plus a first-hour move under 0.2%.

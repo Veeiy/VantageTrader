@@ -90,6 +90,16 @@ the query returned Brad's three HD orders of the day (one cancelled at 12.00, fi
 and 11.95) and nothing else; every one shows `placed_agent: "user"`.
 What the head does with a `hand_order` report is in `prompts/hourly_monitor.md`, step 3.
 
+## The same-day pilot fly (rules v1.15)
+When the morning run opens the pilot fly (`docs/earnings/INTRADAY.md`), add it to the running
+monitor's brief with `SendMessage`, or start the monitor with it: symbol IWM, the four legs
+with ids, the credit, the wing width. It has no take-profit and no cut level: leave those two
+report lines out for it. Add one line instead:
+- "pilot_time_stop": the clock passed {PILOT_STOP_UTC} (10:57 PT) and the IWM fly is still
+  open. Repeat every 5 minutes until it is gone.
+The monitor still reports `position_changed` and `fast_move` for it. The head's own 10:57 PT
+timer is the first net; this report is the second; the 11:15 hourly run is the third.
+
 ## Default thresholds
 - Take profit: close cost <= 50% of the entry credit.
 - Cut: close cost >= credit + 60% of (wing width - credit).

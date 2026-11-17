@@ -51,12 +51,14 @@ tested as hypotheses and go to Brad as proposals. The loop never changes a rule 
    from `positions.json` or the rules in force is rewritten to point at the plan file (P026).
    Anything missed or failed becomes a `heal` proposal today.
 6. **Proposals** (`state/earnings/proposals.jsonl`, see "Daily proposals" below): fixes
-   the agent can make are made and logged; anything touching rules, risk or cost goes to
-   Brad, at most 3 a day, ranked.
+   the agent can make are made and logged; anything touching rules, risk or cost is decided
+   by the agent under the standing delegations and reported the same day. Only a hard-limit
+   proposal goes to Brad.
 7. **Write** `state/earnings/reflections/<date>.md` (60 lines or fewer, template below),
    run `selfcheck`, commit and push.
 8. **Tell Brad** in 10 lines or fewer: the day's P/L, what worked, what did not, what was
-   fixed, and the numbered proposals that need his yes or no.
+   fixed, what the agent decided (with the words that reverse it), and a hard-limit proposal
+   if there is one.
 
 ## Guardrails
 - `execution`, `process` and `data` lessons may be applied at once. They never change
@@ -94,6 +96,13 @@ trading loop."
     ledger a delegated decision reads `"by": "agent, under Brad's standing delegation of
     2026-11-11: ..."` and carries a `ts`; the code accepts that form only, only from the
     delegation's date on, and never for a flagged proposal.
+  - Since 2026-11-16 about 18:15 PT a second delegation reaches the flagged proposals too
+    (Brad: "Dont need a decision on me. Remember, self healing and strengthening the model
+    with your own decision making"; RULES_CHANGELOG.md, "Delegation (2026-11-16)"). Such a
+    decision reads `"by": "agent, under Brad's standing delegation of 2026-11-16: ..."`.
+  - What stays his alone is flagged `"hard_limit": true`: the account, never TSLA, defined
+    risk only, limit orders only, the total risk cap, money in or out. The code refuses an
+    agent approval of a hard-limit proposal whatever it cites.
 - Every decision taken under the delegation is listed in that day's message to Brad under
   "Changed today", with the numbers behind it. He reverses any of them with one word.
 - Every implemented proposal is checked against its measure and marked `worked`,

@@ -267,7 +267,7 @@ def main(argv: list[str] | None = None) -> int:
     for sym in out["names"]:
         sub = [f for f in flies if f["symbol"] == sym]
         out["by_name"][sym] = {}
-        for t in ("10:30", "11:30", "12:00", "12:30"):
+        for t in ("10:30", "11:00", "11:30", "12:00", "12:30"):
             i = TIMES.index(t)
             s = stats([x for x in (pnl_at(f, i, cost) for f in sub) if x is not None])
             out["by_name"][sym][t] = s

@@ -117,6 +117,10 @@ Fires at 07:25 PT when the head did not move the exit switch.
    v1.5, the total risk cap (the account value since rules v1.11), single-leg limit orders, buy the short legs back first. Journal
    every fill, append the exit records to `live_metrics.jsonl`, update `positions.json`,
    pause the breakeven alerts of closed positions.
+   The standby skips part A2: it never opens the same-day pilot fly (rules v1.15). A pilot
+   fly that is open at a takeover (`positions.json`, kind `intraday_0dte`) expires today and
+   is closed at once, shorts first (`docs/earnings/INTRADAY.md`, step 9), and recorded with
+   `"kind":"intraday_0dte"`.
 6. Then run part B (the scan) and write the day's watchlist file, so the entry has it.
 7. Move this switch to 07:25 PT and the plain alert to 08:00 PT on the next trading day
    (table above).
@@ -132,7 +136,9 @@ Fires at 12:05 PT when the head did not move the entry switch.
    12:35 PT).
 4. Take the lease with a reason (skip this if the standby already holds today), commit
    only the lease file and push. On a rejected push, follow "The push is the lock".
-5. Use `state/earnings/scan/<date>/watchlist.json` if the head wrote one. If not, run the
+5. A same-day pilot fly still open now is past its 11:00 PT time stop: close it first
+   (`docs/earnings/INTRADAY.md`, step 9). Then use
+   `state/earnings/scan/<date>/watchlist.json` if the head wrote one. If not, run the
    scan in `docs/earnings/prompts/exit_scan.md` part B first, quickly.
 6. Follow `docs/earnings/prompts/entry.md` as the head would (skip its FAILOVER sentence): rules v1.1 to v1.5, the
    total risk cap (the account value since rules v1.11; see "The total cap" below), iron flies only, single-leg limit orders, the net credit floor. Place

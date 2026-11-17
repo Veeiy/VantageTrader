@@ -13,7 +13,10 @@ Events:
 
 Guardrails enforced on read:
   * kinds ``rule``, ``risk`` and ``cost`` are the owner's call: ``decider`` must be
-    ``owner`` and an approval must name the person who gave it;
+    ``owner`` and an approval must name the person who gave it, or be an agent's decision
+    that cites a standing delegation reaching that proposal (see ``DELEGATIONS``);
+  * a proposal flagged ``hard_limit`` (the account, never TSLA, defined risk, limit orders,
+    the total risk cap, money in or out) is approved by the owner's words only;
   * nothing is ``implemented`` before it is approved, and nothing is ``verified`` before
     it is implemented.
 """
@@ -39,21 +42,32 @@ def _is_agent(by: Any) -> bool:
 
 # Standing delegations from the owner (docs/earnings/RULES_CHANGELOG.md, "Delegation").
 # An agent may approve an owner-kind proposal only when its "by" cites one of these by its
-# marker, the decision is dated on or after it, and the proposal is not flagged
-# ``needs_owner`` (set that flag on anything outside the delegation's scope: the hard
-# limits, a max loss per name above $350, a new live strategy line, money in or out).
-# Sizing above 1 contract left that list on 2026-11-11 (RULES_CHANGELOG v1.7).
-DELEGATIONS: tuple[dict[str, str], ...] = (
-    {"since": "2026-11-11T16:13:00Z", "marker": "delegation of 2026-11-11",
+# marker and the decision is dated on or after it.
+#   * The delegation of 2026-11-11 covers rule, risk and cost iterations. It does not cover a
+#     proposal flagged ``needs_owner`` (a max loss per name above the stated numbers, a new live
+#     strategy line).
+#   * The delegation of 2026-11-16 ("Dont need a decision on me. Remember, self healing and
+#     strengthening the model with your own decision making") covers ``needs_owner`` proposals
+#     too: the agent decides them and tells the owner after.
+#   * Nothing covers a proposal flagged ``hard_limit``: the account, never TSLA, defined risk
+#     only, limit orders only, the total risk cap, money in or out. Those need the owner's words.
+# Sizing above 1 contract left the owner-only list on 2026-11-11 (RULES_CHANGELOG v1.7).
+DELEGATIONS: tuple[dict[str, Any], ...] = (
+    {"since": "2026-11-11T16:13:00Z", "marker": "delegation of 2026-11-11", "covers_needs_owner": False,
      "quote": "for these iterations like p018 and p019, youre good to push. but i want you to push these "
               "reccommendations and changes if you see fit. you have owners permission to automate."},
+    {"since": "2026-11-17T02:14:00Z", "marker": "delegation of 2026-11-16", "covers_needs_owner": True,
+     "quote": "Dont need a decision on me. Remember, self healing and strengthening the model with your "
+              "own decision making"},
 )
 
 
-def under_delegation(by: Any, ts: Any) -> bool:
-    """True when an agent's decision cites a standing delegation that was in force at ``ts``."""
+def under_delegation(by: Any, ts: Any, needs_owner: bool = False) -> bool:
+    """True when an agent's decision cites a standing delegation that was in force at ``ts`` and
+    that reaches this proposal (a ``needs_owner`` proposal needs the delegation of 2026-11-16)."""
     text, when = str(by or "").lower(), str(ts or "")
-    return any(d["marker"] in text and when >= d["since"] for d in DELEGATIONS)
+    return any(d["marker"] in text and when >= d["since"] and (d["covers_needs_owner"] or not needs_owner)
+               for d in DELEGATIONS)
 
 
 def read_proposals(path: str | Path) -> list[dict[str, Any]]:
@@ -84,7 +98,7 @@ def read_proposals(path: str | Path) -> list[dict[str, Any]]:
             if ev["kind"] in OWNER_KINDS and ev["decider"] != "owner":
                 raise EngineInputError(f"proposals line {n}: a {ev['kind']} proposal is the owner's decision")
             meta[pid] = {"decider": ev["decider"], "approved": False, "implemented": False,
-                         "needs_owner": bool(ev.get("needs_owner"))}
+                         "needs_owner": bool(ev.get("needs_owner")), "hard_limit": bool(ev.get("hard_limit"))}
         else:
             if pid not in meta:
                 raise EngineInputError(f"proposals line {n}: {kind_of} for unknown proposal {pid}")
@@ -92,8 +106,8 @@ def read_proposals(path: str | Path) -> list[dict[str, Any]]:
             if kind_of == "decision":
                 if ev.get("decision") not in DECISIONS or not str(ev.get("by") or "").strip():
                     raise EngineInputError(f"proposals line {n}: a decision needs a known value and 'by'")
-                if ev["decision"] == "approved" and m["decider"] == "owner" and _is_agent(ev["by"]):
-                    if m["needs_owner"] or not under_delegation(ev["by"], ev.get("ts")):
+                if ev["decision"] == "approved" and _is_agent(ev["by"]) and (m["decider"] == "owner" or m["hard_limit"]):
+                    if m["hard_limit"] or not under_delegation(ev["by"], ev.get("ts"), m["needs_owner"]):
                         raise EngineInputError(f"proposals line {n}: {pid} can only be approved by the owner")
                 m["approved"] = ev["decision"] == "approved"
             elif kind_of == "implemented":

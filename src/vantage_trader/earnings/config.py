@@ -125,7 +125,7 @@ DEFAULTS: dict[str, Any] = {
     "intraday_probe_names": ["IWM"],          # names a probe (the small tier) may use; a subset of the live names
     "intraday_entry_start": "07:25 America/Los_Angeles",
     "intraday_entry_end": "07:50 America/Los_Angeles",
-    "intraday_time_stop": "11:40 America/Los_Angeles",   # flat by this time (hard cap 12:15 PT)
+    "intraday_time_stop": "11:00 America/Los_Angeles",   # flat by this time (hard cap 12:15 PT)
     "intraday_max_spread_pct": 0.03,          # body straddle (ask-bid)/mid (hard cap 0.05)
     "intraday_lookback": 10,                  # sessions behind the premium ratio
     "intraday_signal_enabled": False,         # the signal tier: a premium ratio inside the band below

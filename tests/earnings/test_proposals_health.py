@@ -131,6 +131,37 @@ def test_standing_delegation_lets_the_agent_approve_owner_kinds_inside_its_scope
     assert proposals.under_delegation(by, "2026-11-11T16:13:00Z") and not proposals.under_delegation(by, "")
 
 
+def test_delegation_of_2026_11_16_reaches_flagged_proposals_but_never_a_hard_limit(tmp_path):
+    """Brad, 2026-11-16: "Dont need a decision on me. Remember, self healing and strengthening the
+    model with your own decision making" (RULES_CHANGELOG, Delegation of 2026-11-16)."""
+    by16 = "agent, under Brad's standing delegation of 2026-11-16: \"Dont need a decision on me\""
+    by11 = "agent, under Brad's standing delegation of 2026-11-11: \"you have owners permission to automate\""
+    flagged = dict(_prop("P1", kind="risk", decider="owner"), needs_owner=True)
+    ok = [flagged, {"event": "decision", "id": "P1", "decision": "approved", "by": by16,
+                    "ts": "2026-11-17T03:00:00Z"}, {"event": "implemented", "id": "P1"}]
+    assert len(proposals.read_proposals(_write(tmp_path, "ok.jsonl", ok))) == 3
+    # the older delegation still does not reach a flagged proposal, even after 2026-11-16
+    with pytest.raises(EngineInputError, match="only be approved by the owner"):
+        proposals.read_proposals(_write(tmp_path, "old.jsonl", [flagged, {
+            "event": "decision", "id": "P1", "decision": "approved", "by": by11, "ts": "2026-11-17T03:00:00Z"}]))
+    # a decision dated before he said it does not count
+    with pytest.raises(EngineInputError, match="only be approved by the owner"):
+        proposals.read_proposals(_write(tmp_path, "early.jsonl", [flagged, {
+            "event": "decision", "id": "P1", "decision": "approved", "by": by16, "ts": "2026-11-16T22:00:00Z"}]))
+    # a hard limit (the account, TSLA, defined risk, limit orders, the total cap, money) is his alone,
+    # whatever the kind and whatever the agent cites
+    for kind, decider in (("risk", "owner"), ("process", "agent")):
+        hard = dict(_prop("P1", kind=kind, decider=decider), hard_limit=True)
+        with pytest.raises(EngineInputError, match="only be approved by the owner"):
+            proposals.read_proposals(_write(tmp_path, "hard.jsonl", [hard, {
+                "event": "decision", "id": "P1", "decision": "approved", "by": by16, "ts": "2026-11-17T03:00:00Z"}]))
+        brad = [hard, {"event": "decision", "id": "P1", "decision": "approved", "by": "Brad, 2026-11-17: \"yes\""}]
+        assert len(proposals.read_proposals(_write(tmp_path, "brad.jsonl", brad))) == 2
+    assert proposals.under_delegation(by16, "2026-11-17T03:00:00Z", needs_owner=True)
+    assert not proposals.under_delegation(by11, "2026-11-17T03:00:00Z", needs_owner=True)
+    assert proposals.under_delegation(by11, "2026-11-17T03:00:00Z")
+
+
 def test_selfcheck_flags_records_dated_ahead_of_the_clock(tmp_path):
     # P037 (2026-11-13): ledger times were written ahead of the clock twice in one day
     from datetime import datetime, timezone
