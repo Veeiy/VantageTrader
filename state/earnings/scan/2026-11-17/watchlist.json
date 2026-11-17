@@ -158,5 +158,84 @@
   "risk_used": 1215.0,
   "note": "HD x2 (hand-entered) is still open, waiting for Brad's 4-leg close"
  },
- "entry_plan": "No early entry: nothing passes at 06:48 PT. 09:45 PT: re-price LOW, TJX, GLBE, BLSH, GLNG and BRBR when their at-the-money markets are inside 25%, with history, wings and a news check for any that pass. 11:46 PT: the sweep. NVDA only on Brad's 'NVDA on'."
+ "entry_plan": "No early entry: nothing passes at 06:48 PT. 09:45 PT: re-price LOW, TJX, GLBE, BLSH, GLNG and BRBR when their at-the-money markets are inside 25%, with history, wings and a news check for any that pass. 11:46 PT: the sweep. NVDA only on Brad's 'NVDA on'.",
+ "recheck_0800": {
+  "as_of": "2026-11-17T16:00Z to 16:10Z (08:00 to 08:10 PT)",
+  "why": "Brad, 08:00 PT: 'You also still have a lot of buying power available.' and 08:04 PT: 'i want you to continue to execute and plan trades for today'. The eight names dropped at 06:47 only for their spread were priced again (batch_B.json, 191k tokens); TGT was re-priced by the head at its new body strike; one risk-sentinel (121k tokens) checked TGT, LOW and TJX.",
+  "name_cap": "raised from 350 to 600 at 08:05 PT on Brad's words (rules v1.16)",
+  "TGT": {
+   "spot": 157.13,
+   "intraday_pct": -0.0199,
+   "K": 157.5,
+   "straddle_mid": 14.175,
+   "straddle_pct": 0.0902,
+   "atm_spread_pct": 0.0247,
+   "edge_ratio": 0.6352,
+   "wide_fly_140_175": {
+    "credit_mid": 11.27,
+    "credit_natural": 10.93,
+    "max_loss_floor": 657.0,
+    "gate": "no_trade: name_risk_cap (657 over 600) and exit_not_feasible (needs 1,925; 1,005 left after entry)"
+   },
+   "narrow_fly_145_170": {
+    "credit_mid": 9.215,
+    "credit_natural": 8.86,
+    "max_loss_floor": 364.0,
+    "gate": "no_trade: wings_too_narrow (0.88x the straddle, floor 0.9x) and exit_not_feasible (needs 1,375; 1,298 left)"
+   },
+   "note": "142.5 is not a listed put strike. Offered to Brad as his own 4-leg trade (140/157.5/175) with the agent's view: pass.",
+   "files": [
+    "gate_TGT_wide_140_175_0808.json",
+    "gate_TGT_narrow_145_170_0808.json"
+   ]
+  },
+  "GLBE": {
+   "edge_ratio": 0.787,
+   "atm_spread_pct": 0.19,
+   "intraday_pct": -0.0453,
+   "floor_fly": "30/40/50",
+   "max_loss_natural": 595.0,
+   "rule": "wide-market cap 350 (spread above 12%); the 30 put has no bid"
+  },
+  "TJX": {
+   "edge_ratio_about": 0.55,
+   "atm_spread_pct_seen": [
+    0.242,
+    0.301,
+    0.4
+   ],
+   "floor_fly": "123/131/139",
+   "max_loss_natural": 420.0,
+   "rule": "spread over 25% on the last pull; between 12% and 25% the 350 wide-market cap applies"
+  },
+  "LOW": {
+   "edge_ratio_about": 0.63,
+   "atm_spread_pct_seen": [
+    0.205,
+    0.266,
+    0.266
+   ],
+   "floor_fly": "212.5/222.5/232.5",
+   "max_loss_natural": 530.0,
+   "rule": "spread over 25% on the last pull; between 12% and 25% the 350 wide-market cap applies"
+  },
+  "too_wide": {
+   "BLSH": 0.74,
+   "GLNG": 0.41,
+   "BRBR": 0.36,
+   "SQM": 1.32,
+   "ZTO": 1.2
+  },
+  "sentinel": {
+   "file": "sentinel_A.json",
+   "verdicts": {
+    "TGT": "soft_only",
+    "LOW": "soft_only",
+    "TJX": "soft_only"
+   },
+   "tier1_in_window": false,
+   "limits": "page fetches were blocked, so the check rests on search summaries; no hard flag was found on TGT, LOW or TJX; the soft flags are the market selloff and Home Depot's report (one prudential condition: half size, rules v1.14)"
+  },
+  "decision": "no entry at 08:10 PT. Next: 09:45 PT re-price of TJX and LOW; a name needs an at-the-money spread of 12% or less to use the 600 cap."
+ }
 }
