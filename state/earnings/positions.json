@@ -890,6 +890,11 @@
     "status": "sent; not placed yet",
     "note": "about $20 over the $600 name cap at the mid; he was told and took the ticket as shown. Exit: his 4-leg close Wed 2026-11-18 about 06:40 PT; fallback legs at 06:50 PT if they fit."
    }
-  ]
+  ],
+  "staging_desk": {
+   "asked": "Brad, 2026-11-17 about 08:25 PT: 'Would you be able to stage the orders on robinhood with my chrome access if I have you work on my laptop too?' and 'Id want it setup so that way we could trade faster ya know?'",
+   "status": "brief written (docs/earnings/prompts/brief_staging_desk.md); waiting for a Claude session on his laptop with the Chrome extension connected; not tested; the hub has no Chrome tools and no computer of his is attached",
+   "rules": "stage only (never review or submit), the account ending 3413 only, one ticket as given"
+  }
  }
 }

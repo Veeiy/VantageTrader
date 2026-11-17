@@ -32,3 +32,7 @@ reports, the week's spread scans. Its instruction is the task's stored prompt.
 
 `docs/earnings/PLAN.md` is the plan every one of these tasks works to: which lines are traded,
 at what size, what is only tested, and what a line has to show before it grows.
+
+`brief_staging_desk.md` (rules v1.16.1) is the brief for a Claude session on Brad's own computer
+with the Chrome extension: it fills in a 4-leg ticket on robinhood.com in the account ending
+3413 and stops; Brad reviews and submits. Not tested yet (2026-11-17).
