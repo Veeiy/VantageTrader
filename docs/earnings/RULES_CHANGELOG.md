@@ -994,3 +994,24 @@ would get rid of a lot of the slippage".
 - Measure (P059): after 20 legs on contracts wider than two ticks, the average give-up
   against the mid is at most a third of the half-spread, and no entry is one-sided for more
   than 60 seconds. Review 2026-12-05.
+
+## v1.16.4 (2026-11-17, at the reflection): the agent trades all of it
+Brad, 2026-11-17 10:19 PT, after the agent offered TJX as his 4-leg ticket: "Ideally you will
+trade all of it."
+- **The owner-executed lane (v1.16.1) is the last resort.** A name that fails only the
+  exit-by-legs check is first made to pass: close what is due, enter after the day's exits,
+  use the close order of `EXECUTION.md` section 5. A ticket goes to Brad only when the broker
+  leaves the agent no way to enter or to exit, and it names the step that failed.
+- **Exits of flies he placed are the agent's** when the buying power allows (TGT on
+  2026-11-18): by legs, on the pricing ladder.
+- **Gate 16 stays as it is in code** (1.1 x wing width x 100 left after the entry). It blocked
+  TJX at 10:08 PT and passed it at 11:02 PT once HD's collateral was back, which is the
+  behaviour wanted. A lighter test (the dearer short leg at the largest past earnings move)
+  waits for 8 exits with `bp_at_exit` and `dearer_short_ask` on record.
+- **The bridge leg** (`EXECUTION.md` section 5, step 5) is written down and not tested.
+- With it: timers live at most two hours (P060); the account-watch daemon keeps its 5 minute
+  cycle on an owner hold (P061); a time in a record comes from the clock (L025).
+- Measure (P062): over the next 10 trading days every exit is placed by the agent (0
+  tickets), or each ticket names the step of section 5 that failed. "Tickets on" from Brad
+  brings the lane back as a first choice.
+

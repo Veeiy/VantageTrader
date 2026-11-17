@@ -62,3 +62,25 @@ half of that kind of order filled.
 After 20 legs on contracts wider than two ticks: the average give-up against the mid is at
 most a third of the half-spread (crossing gives up all of it), and no entry was one-sided for
 more than 60 seconds. Review on 2026-12-05.
+
+## 5. Closing a fly when the buying power is tight (2026-11-17, HD)
+Buying a short leg back takes its whole price in buying power, and a fly's collateral comes
+back only when the last short leg of its wider side is gone. Work down this list:
+
+1. Read the buying power and the asks of the two short legs.
+2. Both fit together: buy both back together (the normal case), then sell the wings.
+3. Only the dearer one fits: buy it back first, sell its wing at once (that cash is needed),
+   buy back the other short leg (the collateral comes back with it), sell the last wing.
+   HD on 2026-11-17: 1,043 of buying power; put 925, its wing +150, call 233, last wing +13.
+   The three risk legs took 35 seconds.
+4. The dearer one does not fit: free buying power first (close a position that is due, sell
+   leftover long wings). Never sell a wing while its short leg is open.
+5. Still short: a bridge. Buy back the cheaper short leg. Buy to open the same type one or
+   two strikes inside the dearer short leg, between it and its wing: the short leg is then
+   covered by a narrower spread and the difference in collateral comes back. Sell the old
+   wing, buy back the short leg, sell the bridge. NOT tested at the broker: read the buying
+   power after the bridge fills; if it did not rise, sell the bridge back and go to 6.
+6. Last resort: the 4-leg closing ticket to Brad, with a push, naming the step that failed.
+
+Record on every exit: `bp_at_exit`, `dearer_short_ask`, and the step of this list that was used.
+

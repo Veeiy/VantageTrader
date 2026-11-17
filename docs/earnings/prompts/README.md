@@ -38,3 +38,5 @@ with the Chrome extension: it fills in a 4-leg ticket on robinhood.com in the ac
 3413 and stops; Brad reviews and submits. Not tested yet (2026-11-17).
 
 The trading hub page (live P/L, every trade, what the model is learning) and how it is refreshed: `docs/earnings/HUB.md`.
+
+Timers (P060, 2026-11-17). The harness stops an in-session background timer after two hours: a 12:28 PT timer started at 08:18 PT died at 10:18 PT. A timer is started from the last check-in within two hours of its event (the 05:52 wake for 06:36, the morning run for 07:27, the 10:15 run for 10:57, the 12:15 run for 12:57). An event further away is written into `positions.json` `pending` with its clock time; the hourly run starts its timer.

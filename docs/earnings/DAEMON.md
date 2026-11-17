@@ -18,6 +18,10 @@ Brad, 2026-11-10: "If a trade opens we need daemon agents live monitoring."
   expiration day, or while an exit order is being worked. Three daemons at 3 minutes used
   about 475k tokens in one afternoon. Write the daemon's token count into the reflection
   every day (P046 measure: under 400k).
+  An owner hold is not a reason for the tight cadence (P061; on 2026-11-17 one daemon at 150
+  seconds for six hours used 808k tokens): its flag levels go into the brief at the default
+  5 minute cycle, and the level that matters most also goes to Brad's phone as a Robinhood
+  price alert.
 - It never places, reviews, replaces or cancels orders and never edits files. The head
   agent is the only writer of orders, the journal and `positions.json`.
 - It lives only while the session's container is alive. The 07:15 check-in starts it
