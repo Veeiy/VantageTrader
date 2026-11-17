@@ -80,7 +80,7 @@ def main(argv: list[str] | None = None) -> int:
           f"{'worst day':>9} {'total':>7} {'max drawdown':>12} {'buying power':>12}")
     out["per_trade_cap"] = {}
     for cap in CAPS:
-        for sym in ("IWM", "SPY", "QQQ"):
+        for sym in sorted({f["symbol"] for f in flies}):
             vals, ns, risks, bps = [], [], [], []
             for f in sorted((f for f in flies if f["symbol"] == sym), key=lambda f: f["date"]):
                 n = int(cap // f["max_loss_usd"])
@@ -160,7 +160,7 @@ def main(argv: list[str] | None = None) -> int:
     print("== 3. width: the body straddle alone (not tradable here: undefined risk) against the 1x fly ==")
     raw = {(r["symbol"], r["date"]): r for r in rows}
     out["width"] = {}
-    for sym in ("IWM", "SPY", "QQQ", "ALL"):
+    for sym in sorted({f["symbol"] for f in flies}) + ["ALL"]:
         sv, fv = [], []
         for f in flies:
             if sym != "ALL" and f["symbol"] != sym:

@@ -38,9 +38,15 @@ import sys
 from pathlib import Path
 
 TIMES = ["07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30"]
-PARITY_TOL = {"SPY": 0.30, "QQQ": 0.30, "IWM": 0.12}     # dollars; see build()
+PARITY_TOL = {"SPY": 0.30, "QQQ": 0.30, "IWM": 0.12}     # dollars; see build(). Other names: 0.05% of the price
 MAX_CREDIT_OVER_WIDTH = 0.85
-COST = {"SPY": 8.0, "QQQ": 8.0, "IWM": 5.0}             # round trip per fly: eight single-leg orders, penny-wide
+# Round trip per fly with eight single-leg orders that cross the spread: twice (credit at mid -
+# credit at the bid/ask) as the paper desk quoted it at 07:15 PT on 2026-11-13 and 2026-11-16.
+# Index funds are a penny wide. Stock options above $3 trade in nickels, which is most of META.
+COST = {"SPY": 8.0, "QQQ": 8.0, "IWM": 5.0, "NVDA": 8.0, "AAPL": 16.0, "AMZN": 17.0, "META": 40.0}
+DEFAULT_COST = 20.0
+# The pilot's own gates (config intraday_*), applied with --gate: what it would really have traded.
+GATE = {"max_pre_move": 0.01, "max_off_center": 0.35, "wing_over_straddle": (0.6, 1.6), "max_loss": 150.0}
 
 
 def load(folder: Path) -> tuple[dict, list[dict]]:
@@ -108,7 +114,7 @@ def build(eq: dict, rows: list[dict], lookback: int = 10) -> list[dict]:
         # Data quality. A body call minus a body put must equal stock minus strike on expiration
         # day. Where the bar-start prints disagree with the stock's bar by more than the tolerance
         # the prints are not from the same moment and that mark is not used.
-        tol = PARITY_TOL.get(sym, 0.30)
+        tol = PARITY_TOL.get(sym, max(0.08, 0.0005 * spot))
         good = []
         for i, tm in enumerate(TIMES):
             c_, p_ = _val(r, "C", i), _val(r, "P", i)
@@ -133,6 +139,7 @@ def build(eq: dict, rows: list[dict], lookback: int = 10) -> list[dict]:
             "drive": spot / bars["06:30"]["o"] - 1.0,
             "range_pre": (max(bars[t]["h"] for t in ("06:30", "07:00")) - min(bars[t]["l"] for t in ("06:30", "07:00"))) / spot,
             "off_center": (spot - k) / straddle if straddle else None,
+            "wing_over_straddle": width / straddle if straddle else None,
             "path": path, "good": good, "entry_good": good[0],
             "spots": [implied_spot(r, i) for i in range(len(TIMES))],
             "clipped": sum(1 for i in range(len(TIMES))
@@ -143,7 +150,16 @@ def build(eq: dict, rows: list[dict], lookback: int = 10) -> list[dict]:
 
 
 def cost_of(f: dict, cost: float | None) -> float:
-    return COST.get(f["symbol"], 8.0) if cost is None else cost
+    return COST.get(f["symbol"], DEFAULT_COST) if cost is None else cost
+
+
+def passes_gate(f: dict) -> bool:
+    """The pilot's entry gates that can be checked from history (rules v1.15.1)."""
+    lo, hi = GATE["wing_over_straddle"]
+    return bool(f["gap"] is not None and abs(f["gap"]) <= GATE["max_pre_move"]
+                and f["off_center"] is not None and abs(f["off_center"]) <= GATE["max_off_center"]
+                and f["wing_over_straddle"] is not None and lo <= f["wing_over_straddle"] <= hi
+                and f["max_loss_usd"] <= GATE["max_loss"])
 
 
 def usable_mark(f: dict, i: int, strict: bool = False) -> int | None:
@@ -217,6 +233,49 @@ def line(label: str, s: dict) -> str:
             f"  sd {s['sd']:>6.1f}  t {s['t'] if s['t'] is not None else '-':>5}  total {s['total']:>7.0f}  worst {s['worst']:>6.0f}")
 
 
+def midday(f: dict, cost: float | None) -> float | None:
+    """One number per fly: the result averaged over the 11:00, 11:30 and 12:00 exits (single marks are noisy)."""
+    v = [x for x in (pnl_at(f, TIMES.index(t), cost) for t in ("11:00", "11:30", "12:00")) if x is not None]
+    return st.mean(v) if v else None
+
+
+def admission(every: list[dict], a: argparse.Namespace) -> int:
+    """Per name: every clean fly, and the flies the pilot's gates would have let through."""
+    flies = [f for f in every if f["entry_good"]]
+    if a.from_date:
+        flies = [f for f in flies if f["date"] >= a.from_date]
+    if a.to_date:
+        flies = [f for f in flies if f["date"] <= a.to_date]
+    out: dict = {"window": [min(f["date"] for f in flies), max(f["date"] for f in flies)], "names": {}}
+    print(f"window {out['window'][0]} to {out['window'][1]}; result = average of the 11:00, 11:30 and 12:00 exits, after costs")
+    print(f"{'name':<5} {'cost':>4} | {'all':>4} {'mean':>7} {'t':>6} {'win':>5} | {'gated':>5} {'mean':>7} {'se':>5} {'t':>6} {'win':>5} "
+          f"{'worst':>6} {'max loss':>8} {'per $100 risk':>13}")
+    names = sorted({f["symbol"] for f in flies})
+    for sym in names + ["ALL"]:
+        sub = [f for f in flies if sym == "ALL" or f["symbol"] == sym]
+        allv = [x for x in (midday(f, a.cost) for f in sub) if x is not None]
+        g = [f for f in sub if passes_gate(f)]
+        gv = [x for x in (midday(f, a.cost) for f in g) if x is not None]
+        sa, sg = stats(allv), stats(gv)
+        if sym == "ALL":                       # the day is the unit when names are pooled
+            sa = stats(by_day(sub, [midday(f, a.cost) for f in sub]))
+            sg = stats(by_day(g, [midday(f, a.cost) for f in g]))
+        ml = st.mean(f["max_loss_usd"] for f in g) if g else None
+        per100 = None if not gv or not ml else round(st.mean(gv) / ml * 100.0, 1)
+        out["names"][sym] = {"cost": None if sym == "ALL" else (COST.get(sym, DEFAULT_COST) if a.cost is None else a.cost),
+                             "all": sa, "gated": sg, "gated_mean_max_loss": None if ml is None else round(ml),
+                             "gated_mean_per_100_risk": per100}
+        c = "" if sym == "ALL" else f"{out['names'][sym]['cost']:.0f}"
+        if not sg.get("n"):
+            print(f"{sym:<5} {c:>4} | {sa.get('n', 0):>4}   (no gated flies)")
+            continue
+        print(f"{sym:<5} {c:>4} | {sa['n']:>4} {sa['mean']:>7} {str(sa['t']):>6} {sa['win_rate']*100:>4.0f}% | {sg['n']:>5} {sg['mean']:>7} "
+              f"{str(sg['se']):>5} {str(sg['t']):>6} {sg['win_rate']*100:>4.0f}% {sg['worst']:>6} {round(ml):>8} {str(per100):>13}")
+    if a.json:
+        Path(a.json).write_text(json.dumps(out, indent=1))
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("folder", nargs="?", default="state/earnings/daytrade/replay")
@@ -226,16 +285,28 @@ def main(argv: list[str] | None = None) -> int:
                     help="keep sessions whose 07:30 prints fail the parity check")
     ap.add_argument("--names", default=None, help="comma-separated subset of names")
     ap.add_argument("--from-date", default=None)
+    ap.add_argument("--to-date", default=None)
+    ap.add_argument("--gate", action="store_true",
+                    help="only flies the pilot's own gates would have let through (gap, centering, wings, max loss 150)")
+    ap.add_argument("--brief", action="store_true", help="time exits and the by-name table only")
+    ap.add_argument("--admission", action="store_true",
+                    help="one line per name: all flies and gated flies, result averaged over the 11:00, 11:30 and 12:00 exits")
     ap.add_argument("--json", default=None)
     ap.add_argument("--max-loss", type=float, default=None, help="only flies with max loss at or under this")
     a = ap.parse_args(argv)
     eq, rows = load(Path(a.folder))
     every = [f for f in build(eq, rows) if f["valid"]]
+    if a.admission:
+        return admission(every, a)
     flies = every if a.keep_bad_entries else [f for f in every if f["entry_good"]]
     if a.names:
         flies = [f for f in flies if f["symbol"] in a.names.split(",")]
     if a.from_date:
         flies = [f for f in flies if f["date"] >= a.from_date]
+    if a.to_date:
+        flies = [f for f in flies if f["date"] <= a.to_date]
+    if a.gate:
+        flies = [f for f in flies if passes_gate(f)]
     dropped = len(every) - len([f for f in every if f["entry_good"]])
     if a.max_loss is not None:
         flies = [f for f in flies if f["max_loss_usd"] <= a.max_loss]
@@ -246,7 +317,7 @@ def main(argv: list[str] | None = None) -> int:
     out: dict = {"cost_usd": cost, "n_flies": len(flies), "n_days": len({f["date"] for f in flies}),
                  "names": sorted({f["symbol"] for f in flies})}
     out["entries_failing_parity"] = dropped
-    cost_txt = "SPY 8, QQQ 8, IWM 5" if cost is None else f"{cost:.0f}"
+    cost_txt = ", ".join(f"{s} {COST.get(s, DEFAULT_COST):.0f}" for s in out["names"]) if cost is None else f"{cost:.0f}"
     marks = sum(len(f["good"]) - 1 for f in flies)
     bad = sum(1 for f in flies for g in f["good"][1:] if not g)
     print(f"{len(flies)} flies, {out['n_days']} days, names {out['names']}, round-trip cost ${cost_txt} a fly; "
@@ -275,6 +346,15 @@ def main(argv: list[str] | None = None) -> int:
             s = stats([x for x in (pnl_at(f, i, cost) for f in sub) if x is not None])
             out["by_name"][sym][t] = s
             print(line(f"{sym} exit {t}", s))
+        ml = [f["max_loss_usd"] for f in sub]
+        out["by_name"][sym]["max_loss"] = {"mean": round(st.mean(ml)), "min": round(min(ml)), "max": round(max(ml))}
+        out["by_name"][sym]["cost"] = COST.get(sym, DEFAULT_COST) if cost is None else cost
+    if a.brief:
+        if a.json:
+            Path(a.json).write_text(json.dumps(out, indent=1))
+        return 0
+    for _ in ():
+        pass
 
     print("\n== rules (take profit / stop checked at bar starts), then time exit ==")
     out["rules"] = {}

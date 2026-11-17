@@ -1,0 +1,68 @@
+BRIEF: same-day iron fly replay, 90-day window (read-only research), {SYM}
+
+You are a read-only research agent. Nothing here is a live trade. NEVER call
+review_option_order, place_option_order, cancel_option_order or any other order, alert,
+watchlist or settings tool. Write only files whose names contain {SYM} inside
+/home/user/VantageTrader/state/earnings/daytrade/replay/ and inside your OWN scratch folder
+/tmp/claude-0/-home-user/0404299d-9c05-5c73-b871-6f9ce33809a2/scratchpad/replay90_{SYM}/
+(create it; use no other scratch location: other agents run at the same time). No git
+commands. Never guess or invent a price: a missing value is null. Never ask questions. Finish
+within 50 minutes; hand back partial results rather than run over.
+
+GOAL. For each session in plan90_{SYM}.json (same replay folder) collect the 30-minute price
+bars of four {SYM} options that expired that same day: the call and the put at the body strike
+K, the call at K+W and the put at K-W. APPEND one JSON line per session to raw_{SYM}.jsonl
+(create the file if it does not exist; never rewrite lines that are already there; skip any
+date already in the file).
+
+PLAN FILE. A JSON list. Each item: date, K (the body strike, already chosen: the strike on a
+grid of `step` dollars nearest the 07:30 Pacific price), spot_0730, step (the strike grid: 1
+for index funds, 2.5 for the stocks), hist_start and hist_end (the UTC timestamps of 07:30 and
+13:00 Pacific on that date; daylight saving is already handled). Read it with python.
+
+TOOLS. Load with ToolSearch:
+"select:mcp__Robinhood__get_option_instruments,mcp__Robinhood__get_option_historicals"
+Read the schemas first.
+- Lookup: get_option_instruments(chain_symbol="{SYM}", expiration_dates="<date>",
+  strike_price="<strike as 123.5000>", state="expired") returns the call and the put at that
+  strike. ALWAYS pass strike_price: a query without it returns hundreds of contracts. Add
+  type="call" or type="put" when you need only one of the two.
+- Bars: get_option_historicals(instrument_ids=[two ids], start_time=hist_start,
+  end_time=hist_end, interval="30minute"). It returns 11 bars per contract, beginning 07:30,
+  08:00, ... 12:30 Pacific. You need each bar's open_price (the price at the bar's start), the
+  close_price of the last bar, and which bars carry interpolated=true.
+Send independent calls in parallel, 6 per message. On a rate limit or transient error wait 20 s
+(python3 -c "import time; time.sleep(20)") and retry, at most 3 times; after that record the
+session with an "error" field and move on. If you meet rate limits three batches in a row, stop
+and hand back what you have.
+
+NO EXPIRY THAT DAY. If the body lookup at K returns no contracts, try once the multiple of 5
+nearest the 07:30 price (stocks only). If that also returns nothing, the name had no option
+expiring that day: append {"symbol":"{SYM}","date":"...","skipped":"no_same_day_expiry"} and do
+no more work on that date.
+
+PROCEDURE, in batches of 6 sessions. Finish a batch before starting the next.
+1. Body lookups for the 6 sessions (6 calls, each returns the K call and the K put).
+2. Body bars for the 6 sessions (6 calls, 2 ids each).
+3. With python: straddle_0730 = call open + put open of the 07:30 bar. W = straddle_0730 rounded
+   to the nearest multiple of `step`, at least one `step`. Wing strikes: call K+W, put K-W.
+4. Wing lookups (12 calls: K+W with type="call", K-W with type="put"). If a strike is not
+   listed, use the next listed strike farther from K (one more `step`) and record the strike you
+   used.
+5. Wing bars for the 6 sessions (6 calls, 2 ids each: the wing call and the wing put).
+6. APPEND the 6 sessions to raw_{SYM}.jsonl with python NOW (do not wait for the end). Copy the
+   numbers exactly as returned. One line per session:
+   {"symbol":"{SYM}","date":"...","K":...,"spot_0730":...,"straddle_0730":...,"W":...,
+    "strikes":{"WC":<call wing strike>,"WP":<put wing strike>},
+    "ids":{"C":"...","P":"...","WC":"...","WP":"..."},
+    "times_pt":["07:30","08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30","12:00","12:30"],
+    "open":{"C":[11 numbers],"P":[11],"WC":[11],"WP":[11]},
+    "last_close":{"C":...,"P":...,"WC":...,"WP":...},
+    "interp":{"C":[indexes 0-10 of interpolated bars],"P":[],"WC":[],"WP":[]},
+    "notes":""}
+   W is the wider of the two wing distances actually used. A contract that returns fewer than
+   11 bars: put null where a bar is missing and say so in notes.
+
+FINAL MESSAGE (at most 8 lines, nothing else): the file path; the number of lines now in the
+file; how many sessions were skipped for no same-day expiry; sessions with errors; anything
+odd in one or two lines.
