@@ -1,6 +1,6 @@
 {
- "as_of": "2026-11-17T20:16:30Z",
- "account_value": 2443.37,
+ "as_of": "2026-11-17T20:57:15Z",
+ "account_value": 2559.37,
  "cap_total_max_loss": 1235.08,
  "execution": {
   "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
@@ -669,7 +669,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-17T17:16:00Z",
+  "last_query_utc": "2026-11-17T20:57:00Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -1174,5 +1174,34 @@
    "hd_ticket_backstop_1216": "fired; nothing to do, HD was closed at 11:02 PT",
    "last_look_1257": "started"
   }
+ },
+ "check_2026-11-17_1257": {
+  "run": "last look 12:57 PT (the in-session timer)",
+  "hand_orders_since_1146": 0,
+  "shares": 0,
+  "positions": "TGT x1, TJX x1, leftover long wings JD 30C x3 (GFD offer 0.01, expires unfilled today) and AS 26P x1; unchanged",
+  "closing_marks": {
+   "TGT": {
+    "spot": 159.32,
+    "day_pct": -0.0062,
+    "close_cost_mid": 10.435,
+    "credit": 11.3,
+    "pnl_mid_usd": 86.5,
+    "front_iv": 1.07
+   },
+   "TJX": {
+    "spot": 129.58,
+    "day_pct": -0.0115,
+    "close_cost_mid": 4.9,
+    "credit": 5.4,
+    "pnl_mid_usd": 50.0,
+    "note": "loose: the 131 put was quoted 2.50 x 4.90 and the 139 call 0.25 x 0.95 three minutes before the close; the stock is 1.42 under the body, 3.1% above the lower breakeven"
+   },
+   "SPY_day_pct": -0.0125,
+   "NVDA": 154.43,
+   "LOW": 220.32
+  },
+  "account_value": 2559.37,
+  "note": "the account value is marked at these loose mids"
  }
 }
