@@ -547,7 +547,7 @@ BODY = f"""
     <span class="chip">Half size from 0.85 to 1.10</span>
     <span class="chip">One soft condition: half size</span>
     <span class="chip">Wings 1.5x the straddle, never under 0.9x</span>
-    <span class="chip">Exit must work by single legs</span>
+    <span class="chip">Exit by single legs, or Brad places the 4-leg order</span>
     <span class="chip test">Same-day pilot: 1 contract, $150, flat by 11:00</span>
     <span class="chip off">Long straddles off</span>
   </div>
