@@ -1,0 +1,26 @@
+{
+ "symbol": "TJX",
+ "body": 131.0,
+ "call_wing": 139.0,
+ "put_wing": 123.0,
+ "credit": 5.3,
+ "quantity": 1,
+ "close": 131.18,
+ "spot_base": 131.18,
+ "sigma_base": 0.0382,
+ "spots": [
+  127.39,
+  134.74,
+  131.39,
+  129.65,
+  138.61,
+  125.66
+ ],
+ "sigmas": [
+  0.0313,
+  0.0382,
+  0.047
+ ],
+ "slippage_usd": 25.0,
+ "wing_sigma_mult": 1.1
+}

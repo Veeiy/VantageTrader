@@ -228,6 +228,28 @@
      "timer": "the first timer was stopped by the harness at its two-hour limit (10:18 PT); a backstop timer returns at 12:16 PT, and the 12:15 PT run starts the 12:28 PT one",
      "legs_fit_note": "2026-11-17 08:37 PT: with TGT open the buying power is 956 and HD's two short legs cost about 1,225 (the 347.5 put alone about 990). The agent's legs at 12:45 PT happen only if the buying power then covers the short put first and the short call after it; otherwise the close is Brad's 4-leg order (ticket and push at 12:30 PT) and he is told at once. He was told at 08:37 PT."
     }
+   },
+   "bridge_exit_plan": {
+    "written_pt": "10:40",
+    "notice_to_brad": "10:38 PT in the chat and by push: the agent closes HD by legs at about 11:05 PT, before it enters TJX, unless he replies 'hold HD' before 11:00 PT. His earlier words (08:19 PT): 'we can close hd before market close but let it ride for now'; 10:19 PT: 'Ideally you will trade all of it.'",
+    "why_first": "Buying power. After the IWM fly is closed there is about 1,030. HD's short put costs about 950 to 1,100 to buy back, so it is closed with a bridge; with TJX on first (about 285 of buying power) the bridge only works while HD is above about 337.5.",
+    "why_a_bridge": "The fly's collateral is the wider side (17.5 wide, 1,750). Buying back the short call removes the call side. A long put bought between the short put and the wing then covers the short put with a narrower spread, the broker releases the difference, the old 330 wing can be sold, and the short put can be bought back.",
+    "steps": [
+     "1. review all orders; read the buying power",
+     "2. buy to close the 347.5 call",
+     "3. buy to open the bridge put (342.5 if the buying power covers its ask, else 340); read the buying power again: it must rise by about (17.5 - new width) x 100 minus the put's cost",
+     "4. sell to close the 330 put (no longer the cover)",
+     "5. buy to close the 347.5 put",
+     "6. sell to close the bridge put and the 365 call"
+    ],
+    "if_the_collateral_is_not_released": "sell the bridge put back at once, tell Brad with the 4-leg closing ticket and a push; the fly minus its short call is still defined risk",
+    "bridge_ids": {
+     "345P": "8acc24d8-a12b-4f1b-9921-7aba529769f5",
+     "342.5P": "f1576f03-b962-4269-b27f-35bccb8674c8",
+     "340P": "d977b339-bbe2-46a1-b0c9-e0791ea4d658"
+    },
+    "pricing": "docs/earnings/EXECUTION.md ladder on every leg (HD ticks: 0.05 at and above 3.00, 0.01 below)",
+    "not_tested": "first use of a bridge at the broker; the bridge put is bought and sold the same day (the 25,000 day-trader rule ended on 2026-06-04; every review's order_checks is read)"
    }
   },
   {
@@ -1184,5 +1206,34 @@
    "HD: the agent closes it by legs before the close (12:30 PT), with a bridge leg: buy to open a put one strike under the short put, so the short put is covered by a 2.5-wide spread and the collateral is released; then buy back the short put, the short call, and sell the three long options. Not tested at the broker yet; if the collateral is not released the bridge put is sold back and Brad gets the 4-leg ticket.",
    "Rules: the exit-by-legs check (gate 16) is to be rewritten around the bridge at the reflection, once it has worked at the broker."
   ]
+ },
+ "tjx_plan": {
+  "decided_pt": "10:20",
+  "entry": "by the agent's legs at about 11:20 PT, after the IWM fly and HD are closed; one contract, 123/131/139, expiry 2026-11-20; wings first on the ladder, then both body legs together",
+  "ticks": "0.05 under 3.00, 0.10 at and above 3.00 (all four contracts)",
+  "waived": [
+   "the half size for one soft condition (one contract cannot be halved; the fly is under the 350 wide-market cap)"
+  ],
+  "exit_time_payoff": {
+   "file": "state/earnings/scan/2026-11-17/project_TJX_1030_out.json",
+   "credit_assumed": 5.3,
+   "ambient_daily_sigma": 0.0204,
+   "sigma_base": 0.0382,
+   "past_moves_usd_mid": {
+    "-2.9%": 98.7,
+    "+2.7%": 99.35,
+    "+0.2%": 165.98,
+    "-1.2%": 156.4,
+    "+5.7%": -48.65,
+    "-4.2%": 30.69
+   },
+   "average_usd": {
+    "mid": 83.7,
+    "after_slippage_25": 58.7
+   },
+   "winners_after_slippage": "5/6",
+   "worst_case_usd": -270.0,
+   "caveat": "the earlier point estimates of this model were too optimistic three times out of three; the pre-report projection with ranges is written at 12:15 PT"
+  }
  }
 }

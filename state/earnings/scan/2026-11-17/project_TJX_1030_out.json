@@ -1,0 +1,74 @@
+{
+  "projections": [
+    {
+      "symbol": "TJX",
+      "quantity": 1.0,
+      "credit": 5.3,
+      "structure": {
+        "body": 131.0,
+        "call_wing": 139.0,
+        "put_wing": 123.0
+      },
+      "base": {
+        "spot": 131.18,
+        "sigma": 0.0382,
+        "legs": {
+          "body_call": 2.0889,
+          "body_put": 1.9089,
+          "wing_call": 0.2183,
+          "wing_put": 0.1452,
+          "close_cost": 3.6343
+        },
+        "close_cost": 3.6343,
+        "pnl_mid_usd": 166.57,
+        "pnl_after_slippage_usd": 141.57
+      },
+      "grid_pnl_mid_usd": [
+        {
+          "spot": 127.39,
+          "sigma_0.031": 122.19,
+          "sigma_0.038": 98.7,
+          "sigma_0.047": 71.26
+        },
+        {
+          "spot": 134.74,
+          "sigma_0.031": 119.9,
+          "sigma_0.038": 99.35,
+          "sigma_0.047": 74.35
+        },
+        {
+          "spot": 131.39,
+          "sigma_0.031": 215.47,
+          "sigma_0.038": 165.98,
+          "sigma_0.047": 117.51
+        },
+        {
+          "spot": 129.65,
+          "sigma_0.031": 202.49,
+          "sigma_0.038": 156.4,
+          "sigma_0.047": 110.57
+        },
+        {
+          "spot": 138.61,
+          "sigma_0.031": -71.11,
+          "sigma_0.038": -48.65,
+          "sigma_0.047": -32.27
+        },
+        {
+          "spot": 125.66,
+          "sigma_0.031": 31.61,
+          "sigma_0.038": 30.69,
+          "sigma_0.047": 23.29
+        }
+      ],
+      "range_pnl_mid_usd": [
+        -71.11,
+        215.47
+      ],
+      "assumptions": {
+        "wing_sigma_mult": 1.1,
+        "slippage_usd": 25.0
+      }
+    }
+  ]
+}
