@@ -1086,7 +1086,7 @@
      "139C": "a4ac6209-e82d-4c53-bfdd-5943dfd69b04",
      "123P": "1c00327a-9127-4870-8980-fb4f13886acb"
     },
-    "status": "sent; not placed yet",
+    "status": "withdrawn 10:20 PT: Brad wants the agent to trade it ('Ideally you will trade all of it'); the agent enters it by legs after the 11:00 PT pilot exit",
     "note": "Brad left the call to the agent ('Use your judgement on tjx'). Decision: yes, one contract, his 4-leg only; paper if he does not place it by 12:35 PT. Reports Wed 2026-11-18 before the open; exit as for TGT."
    }
   ],
@@ -1175,5 +1175,14 @@
   "tjx": "ticket sent 10:11 PT (owner lane, the agent's call: yes at one contract); not placed yet",
   "pilot_exit_timer": "running since 08:35 PT (returns 10:57 PT)",
   "hd_ticket_timer": "running (returns 12:28 PT)"
+ },
+ "owner_instruction_2026-11-17_1019": {
+  "brad": "about 10:19 PT, after the agent wrote that TJX was best placed by him as a 4-leg order: 'Ideally you will trade all of it.' Before that, about 10:05 PT: 'Use your judgement on tjx. But i think having more trades under your belt will help us get more data.' and about 10:10 PT: 'you should do middle limit orders instead of market. And use the data from last sales etc for better pricing judgement.'",
+  "reading": "The agent enters and exits every trade itself. A ticket for Brad is the last resort, used only when the broker leaves the agent no way to do it.",
+  "what_changes": [
+   "TJX: the agent enters it by legs with the pricing ladder (docs/earnings/EXECUTION.md), right after the IWM fly is closed at 11:00 PT. The owner ticket of 10:11 PT is withdrawn: Brad was told the agent takes it.",
+   "HD: the agent closes it by legs before the close (12:30 PT), with a bridge leg: buy to open a put one strike under the short put, so the short put is covered by a 2.5-wide spread and the collateral is released; then buy back the short put, the short call, and sell the three long options. Not tested at the broker yet; if the collateral is not released the bridge put is sold back and Brad gets the 4-leg ticket.",
+   "Rules: the exit-by-legs check (gate 16) is to be rewritten around the bridge at the reflection, once it has worked at the broker."
+  ]
  }
 }
