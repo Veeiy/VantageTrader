@@ -225,7 +225,8 @@
     "close_today": {
      "ticket_and_push_pt": "12:30",
      "fallback": "12:45 PT: if he has not closed it, the agent closes it by legs (both shorts in one message, wings after); the legs fit the buying power",
-     "timer": "a background timer returns at 12:28 PT"
+     "timer": "a background timer returns at 12:28 PT",
+     "legs_fit_note": "2026-11-17 08:37 PT: with TGT open the buying power is 956 and HD's two short legs cost about 1,225 (the 347.5 put alone about 990). The agent's legs at 12:45 PT happen only if the buying power then covers the short put first and the short call after it; otherwise the close is Brad's 4-leg order (ticket and push at 12:30 PT) and he is told at once. He was told at 08:37 PT."
     }
    }
   },
