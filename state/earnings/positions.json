@@ -132,6 +132,37 @@
     "close_cost_natural": 10.99,
     "pnl_mid_usd": 255.0,
     "pnl_natural_usd": 187.0
+   },
+   "check_2026-11-17_0649": {
+    "spot": 342.3,
+    "legs": {
+     "347.5C": [
+      3.35,
+      3.65
+     ],
+     "347.5P": [
+      7.6,
+      7.95
+     ],
+     "365C": [
+      0.3,
+      0.36
+     ],
+     "330P": [
+      1.13,
+      1.27
+     ]
+    },
+    "close_cost_mid": 9.745,
+    "close_cost_natural": 10.17,
+    "pnl_mid_usd": 436.0,
+    "pnl_natural_usd": 351.0
+   },
+   "legs_fit_plan_2026-11-17": {
+    "why": "The plan of 2026-11-16 lets the agent leg one HD fly when its two short legs cost less than the buying power. At 06:49 PT they cost 1,160 against 922. They fit once the front implied volatility (42% now, 29% in the back month) comes down or the stock sits near the body.",
+    "trigger": "the watcher reports legs_fit when the 347.5 call ask plus the 347.5 put ask is 9.00 or less",
+    "then": "re-read the hand orders first (never race Brad's own closing order); push Brad that the legs are starting; one fly: review and buy back both shorts in one message (the put at parity if its market is wider than 15% of its mid), sell each wing the moment its short is flat; the collateral of that fly (1,750) then covers the second fly the same way",
+    "not_if": "Brad has an order working or has said to hold"
    }
   }
  ],
