@@ -976,3 +976,21 @@ seconds earlier as its limit, the call missed, and IWM fell 0.40 while the fly w
   leg slip at or under $3 a fly. Above $5 the pilot stops entering by single legs and waits
   for multi-leg orders, the owner lane or the staging desk: the replay's edge before costs is
   about $5 a fly.
+
+## v1.16.3 (2026-11-17 10:11 PT): how a leg is priced
+Brad, 2026-11-17: "when you were trading them one by one, you should do middle limit orders
+instead of market. And use the data from last sales etc for better pricing judgement. That
+would get rid of a lot of the slippage".
+- **Already so:** every order is a limit order, and an earnings leg starts at the mid. On the
+  penny-wide IWM fly the agent crossed the spread on purpose; that cost two cents. The other
+  twelve were the time between the legs (v1.16.2).
+- **New:** the fair price of a leg is the mid pulled halfway toward a recent print that lies
+  inside the quote. The broker's own fill hints (`low_fill_rate_*`, `high_fill_rate_*`, in
+  every quote and unused until now) make the ladder: low-fill hint, fair price, high-fill
+  hint, then ticks. Patient steps where nothing is exposed (wings), fast ones once a fly is
+  one-sided. `docs/earnings/EXECUTION.md`.
+- **Learning:** every leg is recorded (`legs_detail`); after 20 legs the ladder's start moves
+  to the step where the fills happen.
+- Measure (P059): after 20 legs on contracts wider than two ticks, the average give-up
+  against the mid is at most a third of the half-spread, and no entry is one-sided for more
+  than 60 seconds. Review 2026-12-05.
