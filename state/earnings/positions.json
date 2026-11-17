@@ -1030,6 +1030,9 @@
   "closed_probes": 0,
   "pnl_usd": 0.0,
   "off_switch": "Brad says \"day trades paper\": intraday_live_enabled false",
-  "log": []
+  "log": [],
+  "iwm_chain_id": "72362eb7-bc7c-4d10-9be4-48a53fffd101",
+  "note": "IWM lists an expiry every trading day (checked 2026-11-16 evening: 2026-11-17 is listed, penny ticks). Robinhood sells out same-day positions 30 minutes before the 13:15 PT expiration.",
+  "replay_batch_2_reminder": "trig_01KLhgm9Zmpwv2gFcbHkeFAv fires Sat 2026-11-21 09:00 PT into the head session (P047)"
  }
 }

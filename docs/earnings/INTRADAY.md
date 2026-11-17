@@ -97,7 +97,8 @@ Off switch: "day trades paper" from Brad sets `intraday_live_enabled: false`.
    `python3 scripts/earnings/intraday_moves.py show --symbol IWM` prints the ten moves; its
    `last_date` must be the previous session.
 4. **Quotes.** `get_equity_quotes(["IWM","SPY"])`: spot and `adjusted_previous_close`.
-   `get_option_chains("IWM")`: today must be in `expiration_dates`. Body strike K = the whole
+   `get_option_chains("IWM")`: today must be in `expiration_dates`. (IWM lists an expiry every trading day; chain id
+   `72362eb7-bc7c-4d10-9be4-48a53fffd101`, penny ticks.) Body strike K = the whole
    strike nearest spot. `get_option_instruments(chain_symbol="IWM", expiration_dates=<today>,
    strike_price="<K>.0000")` gives the call and the put (never query without a strike);
    `get_option_quotes` for both. W = the body straddle mid rounded to the nearest whole number,
