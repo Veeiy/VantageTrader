@@ -24,3 +24,11 @@ be edited from the head session. They only point at `docs/earnings/FAILOVER.md`.
 The same-day pilot (rules v1.15) has no scheduled task of its own. Its entry is a timer the
 morning run starts (`exit_scan.md`, part A2), its exit a timer the 10:15 hourly run starts
 (`hourly_monitor.md`). The procedure is `docs/earnings/INTRADAY.md`.
+
+The Saturday research day (`trig_01KLhgm9Zmpwv2gFcbHkeFAv`, one-shot, Sat 2026-11-21 09:00 PT,
+re-armed for the next Saturday when it runs) places no orders. It works the research queue of
+`docs/earnings/PLAN.md` section 9: the next test in line, a replay of the week's earnings
+reports, the week's spread scans. Its instruction is the task's stored prompt.
+
+`docs/earnings/PLAN.md` is the plan every one of these tasks works to: which lines are traded,
+at what size, what is only tested, and what a line has to show before it grows.

@@ -5,8 +5,8 @@
 The page is published as the artifact "Trading Loop Map"
 (https://claude.ai/artifact/DmYhPS8UVrQM2uNi2ixCdH): build it into the folder it was last
 published from (the session scratchpad, loop_map/) and publish that index.html to the same
-link. The text below is the page's content as of 2026-11-16; edit it here when the process
-changes. style_base.css holds the page's design tokens and base styles.
+link. The text below is the page's content as of 2026-11-16 (evening, after the 90-day replay and
+PLAN.md); edit it here when the process changes. style_base.css holds the page's design tokens and base styles.
 """
 import json, sys
 from pathlib import Path
@@ -74,6 +74,85 @@ def chart_c():
     out.append("</svg>")
     return "\n".join(out)
 
+adm = json.loads((REPO / "state/earnings/daytrade/replay/admission_90d.json").read_text())["names"]
+ovn = json.loads((REPO / "state/earnings/daytrade/overnight/summary_SPY.json").read_text())
+NAMES90 = sorted((n for n in adm if n != "ALL"), key=lambda n: -adm[n]["all"]["mean"])
+
+def money(v, plus=False):
+    r = round(v)
+    if r == 0:
+        return "$0"
+    return ("-$" if r < 0 else ("+$" if plus else "$")) + str(abs(r))
+
+# ---------------- chart P: result per trade after costs, by line (the plan)
+# Earnings numbers: the 103-report replay (docs/earnings/PLAN.md section 2). Same-day: 290 flies,
+# 11:00 PT exit. Overnight: state/earnings/daytrade/overnight/summary_SPY.json, 07:00 PT buy-back.
+PLAN_ROWS = [("Earnings fly, wings 2x", "103 reports", 16.9, True),
+             ("Earnings fly, wings 1.5x", "103 reports", 8.7, True),
+             ("Overnight fly, SPY", f'{ovn["exits"]["07:00"]["after_costs"]["n"]} nights', ovn["exits"]["07:00"]["after_costs"]["mean"], False),
+             ("Same-day fly, out by 11:00", "290 flies, 7 names", -9.7, False)]
+
+def chart_p():
+    xl, k, rh = 30, 9.375, 40                        # k px per dollar; plot spans -$12 to +$20
+    xz = xl + 12 * k
+    out = ['<svg viewBox="0 0 360 180" role="img" aria-label="Average result per trade after costs, one contract. Earnings fly with wings at 2 times the straddle: plus 17 dollars. Earnings fly with wings at 1.5 times: plus 9. Overnight fly on SPY: minus 6. Same-day fly out by 11:00: minus 10.">']
+    y = 6
+    for label, sample, v, key in PLAN_ROWS:
+        w = max(abs(v) * k, 1.5)
+        r = min(4.0, w / 2)
+        out.append(f'<text class="rl" x="{xl}" y="{y + 11}"><tspan class="rb">{label}</tspan><tspan class="rs" dx="7">{sample}</tspan></text>')
+        out.append(f'<line class="grid zero" x1="{xz}" x2="{xz}" y1="{y + 15}" y2="{y + 33}"/>')
+        if v >= 0:
+            d = f"M{xz},{y + 17} h{w - r:.1f} a{r},{r} 0 0 1 {r},{r} v{14 - 2 * r:.1f} a{r},{r} 0 0 1 -{r},{r} h-{w - r:.1f} z"
+            out.append(f'<path class="bar{" key" if key else ""}" d="{d}"><title>{label}: {money(v, True)} a trade after costs ({sample})</title></path>')
+            out.append(f'<text class="val" x="{xz + w + 6:.1f}" y="{y + 28}">{money(v, True)}</text>')
+        else:
+            d = f"M{xz},{y + 17} h-{w - r:.1f} a{r},{r} 0 0 0 -{r},{r} v{14 - 2 * r:.1f} a{r},{r} 0 0 0 {r},{r} h{w - r:.1f} z"
+            out.append(f'<path class="bar{" key" if key else ""}" d="{d}"><title>{label}: {money(v)} a trade after costs ({sample})</title></path>')
+            out.append(f'<text class="val" x="{xz - w - 6:.1f}" y="{y + 28}" text-anchor="end">{money(v)}</text>')
+        y += rh
+    out.append(f'<text class="ax" x="{xz}" y="{y + 5}" text-anchor="middle">$0</text>')
+    out.append("</svg>")
+    return "\n".join(out)
+
+# ---------------- chart N: 90 days, seven names, result per fly after costs (midday exit)
+def chart_n():
+    x0, pitch, bw, y0, k = 52, 43, 27, 40, 6.4       # k px per dollar; -20 -> y0 + 128
+    desc = ", ".join(f'{n} {money(adm[n]["all"]["mean"]).replace("-$", "minus ")}' for n in NAMES90)
+    out = [f'<svg viewBox="0 0 360 192" role="img" aria-label="Average result per same-day fly after costs over 90 days, in dollars, by name: {desc}. Every name is below zero.">']
+    for g in (0, -5, -10, -15, -20):
+        y = y0 - g * k
+        out.append(f'<line class="grid{" zero" if g == 0 else ""}" x1="40" x2="352" y1="{y:.1f}" y2="{y:.1f}"/>')
+        out.append(f'<text class="ax" x="35" y="{y + 3.5:.1f}" text-anchor="end">{"$0" if g == 0 else "-$" + str(-g)}</text>')
+    for i, n in enumerate(NAMES90):
+        a, g = adm[n]["all"], adm[n]["gated"]
+        x = x0 + i * pitch
+        h = max(-a["mean"] * k, 1.0)
+        r = min(4.0, h / 2)
+        key = n == "IWM"
+        d = f"M{x},{y0} h{bw} v{h - r:.1f} a{r},{r} 0 0 1 -{r},{r} h-{bw - 2 * r:.1f} a{r},{r} 0 0 1 -{r},-{r} z"
+        tip = (f'{n}: {money(a["mean"])} a fly after costs over {a["n"]} flies, {a["win_rate"] * 100:.0f}% winners. '
+               f'Passing the gate: {money(g["mean"])} over {g["n"]} flies.')
+        out.append(f'<path class="bar{" key" if key else ""}" d="{d}"><title>{tip}</title></path>')
+        out.append(f'<text class="rl" x="{x + bw / 2:.1f}" y="{y0 - 8}" text-anchor="middle" style="font-weight:700">{n}</text>')
+        out.append(f'<text class="val" x="{x + bw / 2:.1f}" y="{y0 + h + 13:.1f}" text-anchor="middle">{money(a["mean"])}</text>')
+        if key:
+            out.append(f'<text class="note" x="{x + bw / 2:.1f}" y="12" text-anchor="middle">live probe</text>')
+    out.append("</svg>")
+    return "\n".join(out)
+
+WHY = {"IWM": "Live probe. Risks about $36", "AAPL": "Spread about 4%, the rule is 3%", "META": "$40 to trade, over the cap",
+       "SPY": "Loses after costs", "NVDA": "Loses. On hold", "QQQ": "Loses after costs", "AMZN": "Worst of the seven"}
+
+def names_table():
+    rows = []
+    for n in NAMES90:
+        a, g = adm[n]["all"], adm[n]["gated"]
+        gated = f'{g["n"]} only' if g["n"] < 5 else f'{money(g["mean"])} ({g["n"]})'
+        rows.append(f'<tr><td>{n}</td><td class="m">{money(a["mean"])} ({a["n"]})</td><td class="m">{gated}</td><td>{WHY[n]}</td></tr>')
+    return ('<div class="tblwrap"><table class="wraphead"><thead><tr><th>Name</th><th>All flies</th><th>Passing the gate</th>'
+            '<th>Verdict</th></tr></thead><tbody>' + "".join(rows) + "</tbody></table></div>")
+
 EXTRA_CSS = """
 /* Added 2026-11-16: status strip, two lines, worked example, charts, tables, names */
 .strip{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.86rem;color:var(--muted);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:8px 0}
@@ -120,6 +199,18 @@ td.m{font-family:var(--f-mono)}
 .names h3 span{font-family:var(--f-body);font-size:.8rem;font-weight:400;color:var(--muted)}
 .chip.hold{color:var(--warn);border-color:var(--warn)}
 .chip.livechip{color:var(--good);border-color:var(--good)}
+.lines.three{grid-template-columns:1fr}
+.chart .rb{font-weight:700}
+.chart .rs{fill:var(--muted);font-size:10.5px}
+.thin a,.steps a{color:var(--accent);font-weight:600}
+.thin li b{display:inline;margin:0;color:var(--fg)}
+.sec-h{font-size:1rem;margin-top:4px}
+table.wraphead thead th{white-space:normal;vertical-align:bottom}
+table.wraphead td:last-child{font-size:.82rem;color:var(--muted);text-align:left}
+table.wraphead th:last-child{text-align:left}
+@media (max-width:480px){table.wraphead th,table.wraphead td{padding:8px 6px}}
+.steps.tight{gap:6px}
+.steps.tight .b>p{font-size:.92rem}
 .who ul li{font-weight:600}
 .who p{font-size:.84rem;margin-top:8px}
 @media (max-width:480px){.who{grid-template-columns:1fr}}
@@ -206,14 +297,57 @@ BODY = f"""
   <span>Realized <b>-$15</b></span>
   <span>Open <b>3</b> flies into Tuesday's reports</span>
   <span>Same-day pilot <b>starts Tue</b></span>
+  <span>Plan <b>v1</b>, Nov 16</span>
 </div>
 
 <nav aria-label="Sections">
-  <a href="#day">Day</a><a href="#lines">Two lines</a><a href="#loops">11 loops</a><a href="#learn">How it learns</a><a href="#heal">Healing loop, one case</a><a href="#caps">Cap test</a><a href="#names">Names</a><a href="#tested">Being tested</a><a href="#who">Who decides</a><a href="#rules">Rules</a>
+  <a href="#plan">The plan</a><a href="#day">Day</a><a href="#loops">11 loops</a><a href="#learn">How it learns</a><a href="#heal">Healing loop, one case</a><a href="#caps">Cap test</a><a href="#names">90 days, 7 names</a><a href="#tested">Being tested</a><a href="#who">Who decides</a><a href="#rules">Rules</a>
 </nav>
 
+<section id="plan">
+  <h2><span class="n">01</span>The plan</h2>
+  <p class="hint"><span class="q">"Research it, boss.. I want to harden out such a solid trading plan and algo that we can continue to iterate and generate money."</span> Nov 16. Written the same evening from 90 days of replays and the published research.</p>
+  <figure class="chart"><h3>Result per trade after costs, by line</h3>
+    {chart_p()}
+    <figcaption>One contract, costs in. <b>Only the earnings fly is above zero</b>, and it is the one the research backs. None of these is settled: the earnings number is not yet significant at fly level and the overnight number is 25 nights.</figcaption></figure>
+  <div class="lines three">
+    <div class="card"><div class="top"><h3><span class="k">A</span>Earnings premium</h3><span class="pill live">Core, live</span></div>
+      <ul><li>Sell an iron fly the day before the report, buy it back the next morning.</li>
+      <li>Replay: short straddles won <b>71 of 101 reports</b>, +13% of the premium on average.</li>
+      <li><b>Hardening:</b> replay every week's reports on Saturday, widest wings the cap allows, cheaper fills.</li>
+      <li><b>Grows</b> after 30 live flies averaging +$8, or 300 replayed reports above +$10 a fly.</li></ul></div>
+    <div class="card"><div class="top"><h3><span class="k">B</span>Same-day fly</h3><span class="pill new">Probe, ends Dec 18</span></div>
+      <ul><li>One IWM fly a day, one contract, 7:30 to 11:00.</li>
+      <li>90 days, 7 names, 290 flies: <b>no name makes money after costs.</b></li>
+      <li>Kept only for real fills, about $1 to $3 a trade. Not widened. Ends after 20 probes.</li></ul></div>
+    <div class="card"><div class="top"><h3><span class="k">C</span>Overnight fly</h3><span class="pill batch">Research only</span></div>
+      <ul><li>Sell near the close, buy back by 7:00 AM. The research says this is when sellers get paid.</li>
+      <li>First test, 25 SPY nights: <b>about zero.</b> Quiet nights +$28, gap nights -$54.</li>
+      <li>Next: 64 nights each on SPY, QQQ and IWM. Paper only if it clears <b>+$10 a fly</b> after costs.</li></ul></div>
+  </div>
+  <div class="thin"><b>What the research says</b>
+    <ul><li>Option sellers are paid <b>overnight</b>, not during the day. <a href="https://econpapers.repec.org/RePEc:eee:jfinec:v:136:y:2020:i:1:p:219-238">Muravyev and Ni, 2020</a></li>
+    <li>Retail <b>overpays before earnings</b>: buyers lose 5 to 9% around reports. <a href="https://www.gsb.stanford.edu/faculty-research/publications/losing-optional-retail-option-trading-expected-announcement">de Silva, Smith and So</a></li>
+    <li>Same-day options are a <b>cost game</b>: about 60% of retail's loss is trading cost. <a href="https://www.cxoadvisory.com/individual-investing/retail-0dte-option-trader-performance">Beckmeyer, Branger and Gayda</a></li>
+    <li>Selling index premium has paid for decades, with deep drawdowns in selloffs. <a href="https://www.cboe.com/insights/posts/generating-income-and-managing-risk-cash-secured-put-writing-in-a-low-equity-return-environment">Cboe PUT index</a></li></ul></div>
+  <h3 class="sec-h">How anything gets real money</h3>
+  <ol class="steps tight">
+    <li><div class="b"><p><b>A written reason</b> it should work, from the research or our own data.</p></div></li>
+    <li><div class="b"><p><b>A replay with costs in</b>, big enough that a real edge would show.</p></div></li>
+    <li><div class="b"><p><b>A check on sessions the idea was not found in.</b></p></div></li>
+    <li><div class="b"><p><b>Paper</b> with real quotes.</p></div></li>
+    <li><div class="b"><p><b>A one-contract pilot</b> with a loss budget sized from the trade's own noise.</p></div></li>
+    <li><div class="b"><p><b>More size</b> only after +$10 a trade after costs and 2 standard errors on 60 or more days.</p></div></li>
+  </ol>
+  <div class="callout">
+    <p class="big">What to expect</p>
+    <p>If the earnings replay number holds and 8 to 12 flies a week fit, that is <b>roughly $70 to $200 a week</b> on this account, with losing weeks in between. That "if" is not settled: the live record is 5 trades and this season's moves have run above what options priced.</p>
+    <p><b>The biggest accelerator is deeper price history.</b> Every test here covers 6 to 13 weeks of one falling market. A paid options data feed (about $30 to $100 a month) would let the earnings line be checked on thousands of reports in an evening. Your call.</p>
+  </div>
+</section>
+
 <section id="day">
-  <h2><span class="n">01</span>A trading day</h2>
+  <h2><span class="n">02</span>A trading day</h2>
   <p class="hint">Pacific time. Filled dots are the trade moments.</p>
   <ol class="tl">
     <li><span class="t">5:52 AM</span><div class="d"><b>Pre-open wake.</b> <span>Takes the day's trading lock, starts the exit timer, writes the exit tickets.</span></div></li>
@@ -232,22 +366,8 @@ BODY = f"""
     <li class="sepli"><span class="sep">Off the daily clock</span></li>
     <li class="off"><span class="t">Evening</span><div class="d"><b>P/L projection</b> <span>with ranges for the next morning's reports. Scored against the real exit.</span></div></li>
     <li class="off"><span class="t">Friday</span><div class="d"><b>Weekly scorecard</b> <span>and one retry of a multi-leg order.</span></div></li>
-    <li class="off"><span class="t">Saturday</span><div class="d"><b>Replay batches.</b> <span>Next: Nov 21, the out-of-sample test for the pilot's two filters.</span></div></li>
+    <li class="off"><span class="t">Saturday</span><div class="d"><b>Research day.</b> <span>Nov 21: the overnight test on 64 nights each for SPY, QQQ and IWM, and a replay of the week's earnings reports.</span></div></li>
   </ol>
-</section>
-
-<section id="lines">
-  <h2><span class="n">02</span>Two lines</h2>
-  <div class="lines">
-    <div class="card"><div class="top"><h3>Earnings IV crush</h3><span class="pill live">Live since Nov 10</span></div>
-      <ul><li>Sell an iron fly the day before the report, buy it back the next morning.</li>
-      <li>Gate: <b>edge ratio 0.85 or under</b>. Half size up to 1.10.</li>
-      <li>About <b>20% of the account</b> per name. Total risk never above the account.</li></ul></div>
-    <div class="card"><div class="top"><h3>Same-day theta</h3><span class="pill new">Pilot from Nov 17</span></div>
-      <ul><li>One iron fly in options that expire today. In at 7:30, out by 11:00.</li>
-      <li><b>Probes:</b> 1 contract, max loss <b>$150</b> or less. Only IWM is on the live list tonight.</li>
-      <li>Pauses at <b>-$500</b> or 6 losses in a row. Ends after 20 trades or Dec 18.</li></ul></div>
-  </div>
 </section>
 
 <section id="loops">
@@ -265,9 +385,9 @@ BODY = f"""
     <div class="card"><div class="top"><h3><span class="k">5</span>Reflection</h3><span class="pill live">Live</span></div>
       <p>Scores skipped names, grades decisions on process, logs evidence, checks health.</p></div>
     <div class="card"><div class="top"><h3><span class="k">6</span>Proposals</h3><span class="pill live">Live</span></div>
-      <p>49 numbered fixes so far, <b>each with a measure</b>. The agent decides and reports.</p></div>
-    <div class="card"><div class="top"><h3><span class="k">7</span>Replay</h3><span class="pill batch">2 datasets</span></div>
-      <p><b>103 earnings events</b> and <b>90 same-day flies</b>, priced from real option history.</p></div>
+      <p>53 numbered fixes so far, <b>each with a measure</b>. The agent decides and reports.</p></div>
+    <div class="card"><div class="top"><h3><span class="k">7</span>Replay</h3><span class="pill batch">3 datasets</span></div>
+      <p><b>103 earnings reports</b>, <b>344 same-day sessions</b> on 7 names and <b>33 overnight nights</b>, priced from real option history.</p></div>
     <div class="card"><div class="top"><h3><span class="k">8</span>Paper desk</h3><span class="pill live">Live</span></div>
       <p>Ten names traded on paper every day, plus the morning spread scan across the market.</p></div>
     <div class="card"><div class="top"><h3><span class="k">9</span>Weekly</h3><span class="pill live">Live</span></div>
@@ -289,7 +409,7 @@ BODY = f"""
 
 <section id="heal">
   <h2><span class="n">05</span>The healing loop on one real case</h2>
-  <p class="hint">The same-day pilot, from your ask to tonight. Each step changed the next one.</p>
+  <p class="hint">The same-day pilot, from your ask to tonight's plan. Each step changed the next one.</p>
   <ol class="steps">
     <li><div class="b"><p><span class="q">"lets do some day trading for the iv crush/theta decay."</span> Nov 11. <b>Paper first:</b> same-day iron flies on SPY and IWM, then ten names.</p></div></li>
     <li><div class="b"><p><b>Paper, 4 sessions, 26 flies:</b> +$450 at mid prices, <b>-$92 at worst-case fills</b>. The gap is wide spreads on single stocks.</p></div></li>
@@ -300,7 +420,9 @@ BODY = f"""
       <p>Stops made it worse. A take profit changed nothing. The 1.15x premium trigger from the first proposal sat in the worst bucket.</p></div></li>
     <li><div class="b"><p><b>Decision:</b> live, as small probes. One contract, IWM (the only name at breakeven after costs). It buys real fills and the first same-day round trip at the broker. The bigger tier stays off until a filter passes a test written before the data.</p></div></li>
     <li><div class="b"><p><span class="q">"$150 is an extremely small cap. Can you test it with different cap levels?"</span> <b>Tested the same evening.</b> You were right about the budget: it would have stopped the pilot by bad luck. Results in the next section. <b>Fixed:</b> -$500 and 6 in a row.</p></div></li>
-    <li><div class="b"><p><b>Next:</b> spread scan Tue, Wed, Fri. Review after 10 probes. Sat Nov 21: replay 30 more sessions to test two filters (overnight gap under 1%, quiet first hour) on data they were not found in.</p></div></li>
+    <li><div class="b"><p><span class="q">"How about we run simulations on the last 90 days for this"</span> Other stocks too, if they meet the criteria. <b>Run the same evening:</b> 344 sessions on 7 names, Aug 18 to Nov 16. Before costs +$5 a fly. <b>After costs every exit loses and no new name gets in</b> (section 07). On sessions the filters were not found in, the gap filter kept its direction and the quiet-open filter failed.</p></div></li>
+    <li><div class="b"><p><span class="q">"Research it, boss.."</span> <b>Read the published research</b> and ran a first overnight test on SPY. Sellers are paid overnight and around earnings, not intraday. That became the plan in section 01: earnings is the core, same-day stays a probe, overnight gets a real test.</p></div></li>
+    <li><div class="b"><p><b>Next:</b> spread scan Tue, Wed, Fri. Review after 10 probes. Sat Nov 21: the overnight test at 64 nights for three index funds, with the pass bar written before the data.</p></div></li>
   </ol>
 </section>
 
@@ -326,7 +448,18 @@ BODY = f"""
 </section>
 
 <section id="names">
-  <h2><span class="n">07</span>Names with same-day options</h2>
+  <h2><span class="n">07</span>Ninety days, seven names</h2>
+  <p class="hint">Every session from Aug 18 to Nov 16 with same-day options: 344 sessions, 290 flies with clean prices. Sold at 7:30 AM, closed around midday.</p>
+  <figure class="chart"><h3>Average result per fly after costs, by name</h3>
+    {chart_n()}
+    <figcaption><b>No name is above zero.</b> Before costs the average fly made $5, and costs took it. Hover a bar for the count and the win rate.</figcaption></figure>
+  <p class="hint">Dollars a fly after costs. In brackets: how many flies.</p>
+  {names_table()}
+  <div class="thin"><b>What it says</b>
+    <ul><li>More names is more cost, not more edge. The live list stays IWM only.</li>
+    <li>AAPL was closest: about $0 on flies that pass the gate. Its spread is too wide to cross.</li>
+    <li>"Passing the gate" = quiet pre-market, strikes centered, one contract fits the $150 cap.</li></ul></div>
+  <h3 class="sec-h">Names with same-day options</h3>
   <p class="hint">Scanned tonight: 72 names with heavy options volume. Spreads get measured live at 6:50 AM on scan days.</p>
   <div class="names">
     <div><h3>Every day <span>9 names</span></h3>
@@ -353,8 +486,10 @@ BODY = f"""
     {row("The macro veto blocks days that are no worse", 2, 2, "Testing")}
     {row("Losing days come in clusters", 1, 2, "Testing")}
     {row("Long straddles lose", 15, 12, "Adopted Nov 11: off", "v-adopt")}
-    <div class="thin"><b>New tonight, no observations yet</b>
-      <ul><li>A same-day index fly has no edge without a filter.</li><li>A same-day fly does better after an overnight gap under 1%.</li></ul>
+    <div class="thin"><b>Added Nov 16, one replay batch each</b>
+      <ul><li>A same-day index fly has no edge without a filter. <b>1 for.</b></li>
+      <li>A same-day fly does better after an overnight gap under 1%. <b>1 for</b>, as a risk filter only.</li>
+      <li>An overnight index fly earns a premium after costs. <b>1 neutral</b> (25 nights).</li></ul>
     </div>
   </div>
 </section>
@@ -374,7 +509,7 @@ BODY = f"""
   <h2><span class="n">10</span>What self-learning means here</h2>
   <div class="callout">
     <p class="big">An evidence ledger, tests written before the data, and rules that change only on enough observations.</p>
-    <p><b>It is not a model that retrains itself.</b> With <b>5 closed live trades</b> so far, anything automatic would fit noise. Tonight's replay is the pattern: 90 real flies checked a plan before the first live dollar.</p>
+    <p><b>It is not a model that retrains itself.</b> With <b>5 closed live trades</b> so far, anything automatic would fit noise. Tonight is the pattern: 344 replayed sessions tested an idea before the first live dollar, and the answer changed the plan.</p>
   </div>
 </section>
 

@@ -85,6 +85,42 @@ still stops the pilot.
 
 Off switch: "day trades paper" from Brad sets `intraday_live_enabled: false`.
 
+## Ninety days, seven names (2026-11-16, later the same evening)
+Brad: "What about for using robinhood if we widen the daytrading parameters? Like so it can be
+run on other stocks if they meet the criteria? How about we run simulations on the last 90 days
+for this". Done the same evening: every session from 2026-08-18 to 2026-11-16 for SPY, QQQ and
+IWM (64 each) and every Mon/Wed/Fri same-day session of NVDA, AAPL, AMZN and META (38 each), 344
+sessions, 290 with clean entry prints. `scripts/earnings/intraday_replay.py --admission`; numbers
+in `state/earnings/daytrade/replay/admission_90d.json`. Result = the average of the 11:00, 11:30
+and 12:00 exits, after costs.
+
+| Name | Cost a fly | All flies | Mean | Flies the pilot's gates pass | Mean | Max loss |
+|---|---|---|---|---|---|---|
+| IWM | $5 | 52 | -$3 | 36 | -$1 | $36 |
+| AAPL | $16 | 33 | -$6 | 14 | $0 | $83 |
+| QQQ | $8 | 55 | -$13 | 30 | -$3 | $111 |
+| NVDA | $8 | 26 | -$9 | 6 | -$7 | $95 |
+| SPY | $8 | 57 | -$7 | 43 | -$8 | $77 |
+| AMZN | $17 | 34 | -$19 | 10 | -$20 | $99 |
+| META | $40 | 33 | -$2 | 3 | too few | $133 |
+| All, per day | | 62 days | -$8 | 56 days | -$6 | |
+
+- **No name makes money on this trade.** Before any cost the 290 flies average +$5 (standard
+  error $4): nothing. After costs every exit time is negative, and the first 90 minutes are
+  significantly so (-$16 at 08:00, t about -5 per day).
+- **Widening does not help.** AAPL is the only stock near breakeven and its spread (about 4% of
+  the straddle) is over the 3% line. AMZN is clearly negative. META needs more than the $150
+  cap and costs about $40 a fly to cross. NVDA is on hold and negative anyway.
+- **The two filters, on sessions they were not found in** (index funds, 2026-08-18 to
+  2026-10-05): the overnight-gap filter kept its direction (-$4 a fly after a gap under 1%
+  against -$20 after a bigger one, the same -$20 as in the first batch) but the flies it keeps
+  still lose; the calm-open filter failed (-$9 against -$5). The gap gate stays as a risk
+  filter. Neither is an edge.
+- **The premium ratio** does nothing in any bucket (-$4, -$8, -$15, -$9, -$5 from cheap to rich).
+- **So:** the live list stays IWM alone, the probe keeps its time box, and nothing is scaled.
+  The research moves to where the evidence says sellers are paid: overnight
+  (`docs/earnings/PLAN.md`).
+
 ## Cap levels: what was tested (2026-11-16)
 Brad: "$150 is an extremely small cap. Can you test it with different cap levels? Could be a
 buying power issue." `scripts/earnings/intraday_caps.py` ran the 77 clean flies of the replay
@@ -155,8 +191,10 @@ names: 60 from the scanner, 12 added by hand):
 - Spreads cannot be judged with the market closed. What the paper desk saw at 07:15 PT on
   2026-11-16, body spread as a share of the straddle: SPY 0.7%, QQQ 0.7%, NVDA 1.0%, IWM 1.1%,
   META 2.6%, AMZN 2.8%, AAPL 3.8%, IBIT 4.2%, AMD 5.1%, MSFT 5.2%.
-- The Saturday replay (2026-11-21) adds IBIT, GLD and XSP and the three tightest Mon/Wed/Fri
-  names from the week's scans.
+- Seven names got their own 90-day replay on 2026-11-16 ("Ninety days, seven names" above)
+  and none was admitted besides IWM. IBIT, GLD and XSP are not replayed before the 10-probe
+  review: the test found no edge before costs worth protecting with a cheaper name
+  (`PLAN.md`, line B). The morning spread scans keep running and are read on Saturdays.
 
 ## The day
 1. **Timer.** The morning run (`prompts/exit_scan.md`) starts a background timer for 07:27 PT
@@ -217,10 +255,11 @@ that is the last net and never the plan.
   inside two standard errors of the replay mean, and is the round-trip cost against mid $6 or
   less?
 - **The replay grows.** `brief_replay.txt` and the plan files in the replay folder are
-  reusable. Next batch: the 30 sessions before 2026-10-06, on a weekend, as an out-of-sample
-  test of the two patterns above. The filters are fixed now, before that data is looked at:
-  F1 = overnight gap under 1% (already a gate); F2 = F1 and |price at 07:30 / open - 1| under
-  0.2%.
+  reusable. The out-of-sample batch (the 34 sessions before 2026-10-06) was run on 2026-11-16,
+  the same evening the two filters were fixed: F1 = overnight gap under 1% (already a gate)
+  kept its direction and is no edge; F2 = F1 and |price at 07:30 / open - 1| under 0.2%
+  failed ("Ninety days, seven names"). No further same-day batch is planned before the
+  10-probe review. The research queue is in `PLAN.md` section 9.
 - **The signal tier turns on** only for a filter that, on sessions it was not fitted on, shows
   a mean of at least +$10 a fly after costs with a per-day t of 2 or more over at least 60
   sessions in all. Until then: probes.

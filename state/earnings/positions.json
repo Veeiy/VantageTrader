@@ -526,9 +526,9 @@
   "Tue 2026-11-17 at the exits: score the four pre-report projections (state/earnings/projections.jsonl, stage pre_report) as state/earnings/projection_calibration.json says, append the scoreboard rows, and apply the update rules at the reflection.",
   "Tue 2026-11-17: during the exits poll get_option_orders(agent_initiated=false) for Brad's HD close and record it; at the 07:15 PT run start the account-watch daemon (P046, DAEMON.md) for the rest of the session.",
   "Tue 2026-11-17 SAME-DAY PILOT, first probe (rules v1.15, docs/earnings/INTRADAY.md): the morning run starts a timer for 07:27 PT after the exits are placed; then intraday-status, yesterday's same-hours move for IWM, quotes, intraday-gate, and on exit code 0 one IWM same-day iron fly, one contract, by four single-leg orders. JD and AS exits come first; skip the pilot for the day if it is past 07:50 PT. Flat by 11:00 PT (the 10:15 run starts the 10:57 timer). This is also the first same-day round trip at the broker: if a closing order is refused, tell Brad at once with the ticket.",
-  "Sat 2026-11-21: replay batch 2 (P047): the 30 sessions before 2026-10-06 for SPY, QQQ, IWM, filters F1 and F2 fixed on 2026-11-16.",
   "Tue 2026-11-17 reflection: decide P041 (earnings name cap $350 to $400) with 8 live trades closed; the agent decides (delegation of 2026-11-16) and tells Brad. If yes: config name_risk_cap and its hard cap, the tests, RULES_CHANGELOG, brief_vol_analyst.md, and the stored hard limits in the exit+scan and ENTRY task prompts.",
-  "Tue 2026-11-17, Wed 11-18, Fri 11-20, then Fridays: at about 06:50 PT start the spread scan agent (docs/earnings/prompts/brief_daytrade_scan.md; universe state/earnings/daytrade/universe/universe_2026-11-16.json; at most 40 names). It is paper: it never changes the day's pick by itself."
+  "Tue 2026-11-17, Wed 11-18, Fri 11-20, then Fridays: at about 06:50 PT start the spread scan agent (docs/earnings/prompts/brief_daytrade_scan.md; universe state/earnings/daytrade/universe/universe_2026-11-16.json; at most 40 names). It is paper: it never changes the day's pick by itself.",
+  "Sat 2026-11-21 research day (docs/earnings/PLAN.md section 9; the Saturday task trig_01KLhgm9Zmpwv2gFcbHkeFAv, 09:00 PT): the overnight test at about 64 nights each for SPY, QQQ and IWM (pass bar fixed 2026-11-16: +$10 a fly after costs and a per-night t of 2 at the 07:00 PT buy-back, else dropped), the replay of the week's earnings reports, the week's spread scans and probe fills. No orders. Then: the same-day probe's review after 10 trades."
  ],
  "buying_power": 456.98,
  "risk": {
@@ -1034,7 +1034,6 @@
   "log": [],
   "iwm_chain_id": "72362eb7-bc7c-4d10-9be4-48a53fffd101",
   "note": "IWM lists an expiry every trading day (checked 2026-11-16 evening: 2026-11-17 is listed, penny ticks). Robinhood sells out same-day positions 30 minutes before the 13:15 PT expiration.",
-  "replay_batch_2_reminder": "trig_01KLhgm9Zmpwv2gFcbHkeFAv fires Sat 2026-11-21 09:00 PT into the head session (P047)",
   "universe_file": "state/earnings/daytrade/universe/universe_2026-11-16.json",
   "daily_names": [
    "SPY",
@@ -1047,6 +1046,8 @@
    "NDX",
    "RUT"
   ],
-  "loop_map_page": "https://claude.ai/artifact/DmYhPS8UVrQM2uNi2ixCdH (built by scripts/earnings/loop_map/build.py)"
+  "loop_map_page": "https://claude.ai/artifact/DmYhPS8UVrQM2uNi2ixCdH (built by scripts/earnings/loop_map/build.py)",
+  "ninety_day_test": "2026-11-16: 290 clean flies on SPY, QQQ, IWM, NVDA, AAPL, AMZN, META average +$5 before costs and -$6 to -$10 after. No name admitted besides IWM. Plan: docs/earnings/PLAN.md.",
+  "saturday_research_task": "trig_01KLhgm9Zmpwv2gFcbHkeFAv fires Sat 2026-11-21 09:00 PT into the head session (P052): overnight test, the week's earnings replay, spread scans. Batch 2 (P047) and the seven-name replay were done on 2026-11-16."
  }
 }
