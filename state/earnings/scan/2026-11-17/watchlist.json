@@ -1,0 +1,162 @@
+{
+ "date": "2026-11-17",
+ "as_of": "2026-11-17T14:48Z (06:48 PT)",
+ "expiry": "2026-11-20",
+ "exit": "Wed 2026-11-18 morning run, first liquid quotes (two days before expiry)",
+ "universe": {
+  "scanner_names": 23,
+  "sent_to_analyst": 11,
+  "note": "Reports 11/17 after the close and 11/18 before the open. Scanner pre-filter (P016), one vol-analyst (190k tokens). No name passed the numbers, so no risk-sentinel was started."
+ },
+ "macro": {
+  "veto_all": false,
+  "spy_pct": -0.0024,
+  "qqq_pct": -0.0012,
+  "vixy_pct": -0.0101,
+  "note": "No tier-1 release before Wed 06:45 PT. NVDA reports tonight after the close: a market-wide event inside the holding window of any fly entered today."
+ },
+ "candidates": [],
+ "blocked": {
+  "TGT": {
+   "timing": "am",
+   "spot": 159.49,
+   "intraday_pct": -0.00518,
+   "K": 160.0,
+   "straddle_pct": 0.09076,
+   "atm_spread_pct": 0.038,
+   "avg_hist_move": 0.04864,
+   "median_hist_move": 0.04742,
+   "max_hist_move": 0.067421,
+   "n_hist": 6,
+   "regime_20d": 0.02007,
+   "edge_ratio": 0.6305,
+   "rule": "name cap: at the 0.9x floor (145/160/175) one contract risks 457 at mid and 502 at natural, over the 350 cap; the 1.5x fly risks about 1,040",
+   "fly": {
+    "K": 160.0,
+    "call_strike": 175.0,
+    "put_strike": 145.0,
+    "credit_mid": 10.425,
+    "credit_natural": 9.98,
+    "width": 15.0,
+    "max_loss_mid": 457.5,
+    "max_loss_natural": 502.0,
+    "breakevens": [
+     149.575,
+     170.425
+    ],
+    "ids": {
+     "call": "12b2225f-3e11-43f1-9618-e30eb33dc06a",
+     "put": "0e12f25e-961c-4007-8bd3-5b2f037a1091",
+     "wing_call": "8053fe9f-d1cd-462d-afda-ab2d8c1cce40",
+     "wing_put": "e6c65ab8-1a47-4d07-94bb-383bd6aa6f69"
+    },
+    "tick": "min_ticks: 0.01 below $3, 0.05 at/above $3"
+   },
+   "note": "edge 0.63 and a 3.8% spread: the numbers pass, the size does not fit. The scanner had dropped TGT; it was priced because the calendar lists it."
+  },
+  "NVDA": {
+   "timing": "pm",
+   "spot": 155.99,
+   "intraday_pct": -0.00096,
+   "K": 155.0,
+   "straddle_pct": 0.0936,
+   "atm_spread_pct": 0.0137,
+   "avg_hist_move": 0.03859,
+   "median_hist_move": 0.03201,
+   "max_hist_move": 0.08738,
+   "n_hist": 6,
+   "regime_20d": 0.02957,
+   "edge_ratio": 0.4851,
+   "rule": "owner hold (Brad, after the CEO resigned on 2026-11-12: on hold unless he says 'NVDA on'); and the name cap: the 0.9x floor fly (140/155/170) risks 477 at natural, over 350",
+   "fly": {
+    "K": 155.0,
+    "call_strike": 170.0,
+    "put_strike": 140.0,
+    "credit_mid": 10.355,
+    "credit_natural": 10.23,
+    "width": 15.0,
+    "max_loss_mid": 464.5,
+    "max_loss_natural": 477.0,
+    "breakevens": [
+     144.645,
+     165.355
+    ],
+    "ids": {
+     "call": "fc9fa201-a26a-43ec-92f3-1f840844d81b",
+     "put": "d9c5e106-6a25-4a08-9bda-fdc94f96d8f2",
+     "wing_call": "f5d34fd0-9b1c-48a9-8ccc-acdfe05c3492",
+     "wing_put": "b4ef2ee1-5416-402c-953c-4e2770d99866"
+    },
+    "tick": "min_ticks: 0.01 below $3, 0.05 at/above $3"
+   },
+   "owner_hold": true
+  }
+ },
+ "skipped": {
+  "atm_spread_over_25pct": {
+   "SQM": 1.338,
+   "ZTO": 1.2,
+   "LOW": 0.299,
+   "TJX": 0.369,
+   "GLNG": 0.545,
+   "GLBE": 0.379,
+   "ZIM": 1.992,
+   "BLSH": 0.436,
+   "BRBR": 0.55
+  },
+  "atm_spread_note": "Quotes were read 15 minutes after the open. LOW (30%) and TJX (37%) are liquid names whose markets tighten later: re-priced at the 09:45 PT scan with GLBE, BLSH, GLNG and BRBR.",
+  "timing": {
+   "POWL": "reported 2026-11-16 pm (the scanner's date was stale)",
+   "TCOM": "reports 2026-12-01 pm (unverified)",
+   "XP": "reported 2026-11-16 pm"
+  },
+  "already_reported_this_morning": [
+   "HD",
+   "DIS",
+   "AS",
+   "JD",
+   "KLAR",
+   "OPRA"
+  ],
+  "wednesday_entries": [
+   "WWD",
+   "PANW",
+   "P",
+   "SBLK (all 11/18 after the close)",
+   "WMT (11/19 before the open)"
+  ],
+  "calendar_names_the_scanner_dropped": [
+   "CAAP",
+   "GBDC",
+   "LZB",
+   "DLB",
+   "HAFN",
+   "TCEHY",
+   "PONY",
+   "JJSF",
+   "TGT (priced anyway)"
+  ]
+ },
+ "non_earnings_screen": {
+  "as_of": "2026-11-17T14:46Z",
+  "hits": [
+   "CRM",
+   "WMT",
+   "PCG"
+  ],
+  "decision": "no trade",
+  "why": {
+   "CRM": "down 5.0% today on news, and its volatility is the December 2 report: no dated driver that passes before a Friday expiry",
+   "WMT": "an earnings name (reports Thu 11/19 before the open): Wednesday's scan",
+   "PCG": "closed 11/16; the special-session window runs to 11/30 with no date"
+  }
+ },
+ "account": {
+  "as_of": "2026-11-17T14:41Z",
+  "account_value": 2292.47,
+  "buying_power": 922.47,
+  "risk_used": 1215.0,
+  "note": "HD x2 (hand-entered) is still open, waiting for Brad's 4-leg close"
+ },
+ "entry_plan": "No early entry: nothing passes at 06:48 PT. 09:45 PT: re-price LOW, TJX, GLBE, BLSH, GLNG and BRBR when their at-the-money markets are inside 25%, with history, wings and a news check for any that pass. 11:46 PT: the sweep. NVDA only on Brad's 'NVDA on'."
+}
