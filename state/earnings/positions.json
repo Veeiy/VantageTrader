@@ -230,8 +230,8 @@
     }
    },
    "bridge_exit_plan": {
-    "written_pt": "10:40",
-    "notice_to_brad": "10:38 PT in the chat and by push: the agent closes HD by legs at about 11:05 PT, before it enters TJX, unless he replies 'hold HD' before 11:00 PT. His earlier words (08:19 PT): 'we can close hd before market close but let it ride for now'; 10:19 PT: 'Ideally you will trade all of it.'",
+    "written_pt": "10:32",
+    "notice_to_brad": "10:31 PT in the chat and by push: the agent closes HD by legs at about 11:05 PT, before it enters TJX, unless he replies 'hold HD' before 11:00 PT. His earlier words (08:19 PT): 'we can close hd before market close but let it ride for now'; 10:19 PT: 'Ideally you will trade all of it.'",
     "why_first": "Buying power. After the IWM fly is closed there is about 1,030. HD's short put costs about 950 to 1,100 to buy back, so it is closed with a bridge; with TJX on first (about 285 of buying power) the bridge only works while HD is above about 337.5.",
     "why_a_bridge": "The fly's collateral is the wider side (17.5 wide, 1,750). Buying back the short call removes the call side. A long put bought between the short put and the wing then covers the short put with a narrower spread, the broker releases the difference, the old 330 wing can be sold, and the short put can be bought back.",
     "steps": [
