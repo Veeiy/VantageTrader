@@ -64,6 +64,28 @@ def _execution_stats(recs: list[dict[str, Any]]) -> dict[str, Any]:
     }
 
 
+def round_trip_cost(entry: dict[str, Any] | None, exit_: dict[str, Any] | None) -> float | None:
+    """Cost against mid of one closed trade, as a share of its entry credit (fees left out).
+
+    Entry: ``fill_vs_mid`` = fill / mid, so the credit given up is fill * (1 / fvm - 1).
+    Exit: ``fill_vs_mid`` = mid / fill, so the debit overpaid is fill * (1 - fvm).
+    A fill better than mid counts as a negative cost. None when a number is missing.
+    The earnings replay assumes 7% (``docs/earnings/PLAN.md``, "Costs").
+    """
+    e, x = _block(entry or {}, "execution"), _block(exit_ or {}, "execution")
+    credit, fe = _num(e.get("fill_credit")), _num(e.get("fill_vs_mid"))
+    debit, fx = _num(x.get("fill_debit")), _num(x.get("fill_vs_mid"))
+    if credit is None or fe is None or debit is None or fx is None or credit <= 0 or fe <= 0:
+        return None
+    return round((credit * (1.0 / fe - 1.0) + debit * (1.0 - fx)) / credit, 4)
+
+
+def _cost_stats(pairs: list[tuple[dict[str, Any] | None, dict[str, Any]]]) -> dict[str, Any]:
+    vals = [c for c in (round_trip_cost(e, x) for e, x in pairs) if c is not None]
+    return {"n": len(vals), "avg_share_of_credit": _avg(vals),
+            "min": min(vals) if vals else None, "max": max(vals) if vals else None}
+
+
 def summarize(records: list[dict[str, Any]]) -> dict[str, Any]:
     live = [r for r in records if r.get("live", True) and r.get("record") != "paper"]
     entries = {r["trade_id"]: r for r in live if r["record"] == "entry"}
@@ -112,6 +134,7 @@ def summarize(records: list[dict[str, Any]]) -> dict[str, Any]:
             "edge_ratio": sig.get("edge_ratio"), "fill_credit": exe.get("fill_credit"),
             "fill_vs_mid": exe.get("fill_vs_mid"), "max_loss_usd": max_loss,
             "status": "closed" if x else "open",
+            "round_trip_cost": round_trip_cost(e, x) if x else None,
             "pnl_usd": x.get("pnl_usd") if x else None,
             "realized_move": x.get("realized_move") if x else None,
         })
@@ -126,6 +149,11 @@ def summarize(records: list[dict[str, Any]]) -> dict[str, Any]:
             "by_tick": {k: _execution_stats(v) for k, v in sorted(by_tick.items())},
         },
         "exit_execution": _execution_stats([x for _, x in closed]),
+        # cost against mid of a whole round trip, as a share of the entry credit
+        "round_trip_cost": {
+            "all": _cost_stats(closed),
+            "earnings": _cost_stats([(e, x) for e, x in closed if (e or {}).get("kind") == "earnings"]),
+        },
         "outcomes": {
             "n": len(scored),
             "wins": sum(1 for p in pnl_vals if p > 0),

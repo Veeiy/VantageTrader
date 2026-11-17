@@ -1,5 +1,16 @@
 # Replay batch 2 (2026-11-11) and the combined sample (P009)
 
+> **Correction, 2026-11-16.** Sections 1 and 5 below compare the 10:00 ET exit with the 10:30 ET
+> exit on different events. Two or three events have no 10:00 print, and one of them (FTNT,
+> 2026-10-28) is the largest loss in the sample, so the 10:00 rows left the worst event out.
+> On the same events the two exits differ by $1 to $3 a fly (standard error $3 to $5): no real
+> difference. Every clean event at its first exit bar, after the 7% cost: -$8 a fly at 1x
+> wings, -$2 at 1.5x, +$3 at 2x with no cap; +$7.5 (standard error $10) for the fly as the
+> rules trade it, aimed at 1.5x and stepped in to a $350 max loss. The short straddle: 72 of
+> 103, 12.7% of the straddle, 3.8 standard errors. Numbers:
+> `scripts/earnings/earnings_fly_table.py`, `fly_table.json` in this folder,
+> `docs/earnings/PLAN.md` section 2. The text below is left as written on 2026-11-11.
+
 Method and limits: `docs/earnings/REPLAY.md` (lite method: stock bars and the two body
 options, wings from the model at exactly 1x and 2x the entry straddle). One contract per
 event. "Clean" = at-the-money prints pass put-call parity. Costs = 7% of the entry credit.

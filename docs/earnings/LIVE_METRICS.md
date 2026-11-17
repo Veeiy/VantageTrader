@@ -46,6 +46,10 @@ All records carry `trade_id` (`SYMBOL-YYYYMMDD-n`), `record`, `ts` (UTC), `symbo
   `pnl_mid_usd`, `pnl_natural_usd`, `realized_move`.
 
 ## How it is used
+- `round_trip_cost` (in the `live-metrics` summary, per trade and averaged, all trades and
+  earnings only): the cost against mid of a closed trade as a share of its entry credit,
+  entry give-up plus exit overpayment, fees left out. The earnings replay assumes 0.07 and
+  breaks even at about 0.09 (`PLAN.md`).
 - Friday scorecard: live vs paper win rate and P/L, entry and exit `fill_vs_mid` by
   spread band and tick size, realized move over implied by edge-ratio bucket.
 - `calibrate` proposes threshold changes from the journal once 8 trades are closed.

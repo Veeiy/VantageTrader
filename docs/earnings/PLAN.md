@@ -18,11 +18,22 @@ by ledgered decisions (`state/earnings/proposals.jsonl`), not by mood.
 ### Ours
 | Test | Size | Result |
 |---|---|---|
-| Earnings, short straddle held over the report | 101 replayed events | Won 71 of 101, +13% of the straddle on average, about 4 standard errors. The premium is real. |
-| Earnings, iron fly as traded | 103 events | Keeps +$9 (wings 1.5x) to +$17 (wings 2x) a fly after costs. Not yet significant at fly level. |
+| Earnings, short straddle held over the report | 103 replayed events | Won 72 of 103 at the first exit bar and made 12.7% of the straddle on average, 3.8 standard errors. The premium is real. |
+| Earnings, iron fly with no cap on its max loss | 103 events | After a 7% cost: -$8 a fly with wings at 1x the straddle, -$2 at 1.5x, +$3 at 2x. One report in the hundred (FTNT, 2026-10-28: -$1,199 at 1.5x) takes the whole edge. |
+| Earnings, iron fly as the rules trade it: aimed at 1.5x, stepped in to a $350 max loss | 101 events that fit | +$7.5 a fly after a 7% cost, standard error $10, worst -$244. Aimed at 2x inside the same cap: +$10. Not distinguishable from zero yet. |
+| Earnings, the per-name cap | 103 events | Caps from $250 to $500 all keep $5 to $9 a fly (aim 1.5x). No cap keeps nothing. Raising $350 to $400 adds $0.3 a fly. |
+| Earnings, what the trade costs | 101 events, 5 live round trips | The capped fly makes $33 before costs on a credit of about $364: it breaks even at a cost of 9% of the credit. At 7% it keeps $7.5, at 5% $15, at 3% $22. Live so far (`live-metrics`, `round_trip_cost`): 6.3% on the five closed trades, 4.5% on the three earnings trades, range 1% to 12%. |
+| Earnings, exit time | 100 events with both prints | 10:00 ET against 10:30 ET on the same events: $3 a fly for the earlier exit, standard error $3.5. No real difference. |
 | Earnings, the 0.85 edge gate | 103 events | Throttles more than it selects. No filter holds in both batches. |
 | Same-day fly, sold 07:30 PT | 290 flies, 7 names, 90 days | +$5 before costs (se $4), -$6 to -$10 after. No name passes. More names, bigger caps and wider wings do not change it. |
 | Overnight fly, sold 12:30 PT, bought back 07:00 PT | 25 nights, SPY | +$2 before costs (se $15), -$6 after. Wins 68% of nights and gives it back on gap nights. Too few nights to call. |
+
+Corrected 2026-11-16: the table of 2026-11-11 (+$9 a fly at 1.5x, +$17 at 2x, "the early exit
+saves $6 to $16") compared the 10:00 ET exit with the 10:30 ET exit on different events. The
+10:00 rows left out the events with no 10:00 print, and one of those is the largest loss in the
+sample. `scripts/earnings/earnings_fly_table.py` prices every clean event at its first exit
+bar and steps the wings in to the cap the way the rules do; its output is
+`state/earnings/replay/2026-11-11_batch2/fly_table.json`.
 
 ### Published research
 - **Option sellers are paid overnight, not during the day.** S&P 500 option returns are about
@@ -47,8 +58,12 @@ by ledgered decisions (`state/earnings/proposals.jsonl`), not by mood.
    probe and is not widened.
 3. The overnight line is the right idea on paper and unproven on 25 nights. It needs a bigger
    test before a dollar goes on it.
-4. The fly gives a third of the premium back to the wings. Width and cost are where the
-   earnings line can be made better.
+4. The per-name cap is part of the edge, not only a risk rule. A fly with no cap keeps
+   nothing, because one bad report in a hundred takes it all. With the cap the same trades
+   keep $5 to $9.
+5. On the earnings line the whole margin is a gross edge of about 9% of the credit against a
+   cost of 6 to 7%. One point of cost is about $4 a fly. Execution is worth as much as any
+   selection rule found so far.
 
 ## 3. The lines
 
@@ -57,22 +72,32 @@ by ledgered decisions (`state/earnings/proposals.jsonl`), not by mood.
   `RULES_CHANGELOG.md` v1.1 to v1.14, gate in code.
 - Size: about 20% of the account a name, total risk never above the account.
 - Being hardened, in this order:
-  1. **Sample.** Replay every week's reports the following Saturday, so the 103 events become
-     300 or more by year end and the bands can be judged.
-  2. **Width.** Wings at 2x the straddle kept about twice what 1.5x kept. Use the widest wings
-     the name cap and the single-leg exit check allow; prefer names where 2x fits.
-  3. **Cost.** Penny-wide names first, patient limits, one multi-leg attempt a day until
-     Robinhood allows it.
-  4. **Projection.** A range before every report, scored the next morning, constants refit by
+  1. **Cost.** Measured on every closed trade as a share of its credit (`live-metrics`,
+     `round_trip_cost`). Target 5% or less: penny-wide names first, patient limits walked one
+     tick at a time, one multi-leg attempt a day until Robinhood allows it.
+  2. **The cap stays.** It is what holds the tail. The replay gives no reason to raise it
+     ($350 to $400 adds $0.3 a fly); P041 is decided at the 2026-11-17 reflection with that
+     in hand. More size comes from more names inside the cap, not from a bigger cap.
+  3. **Sample.** Replay every week's reports the following Saturday, so the 103 events become
+     300 or more by year end and the bands can be judged. Every table says which events each
+     row holds.
+  4. **Width.** Inside the $350 cap, aiming the wings at 2x the straddle kept $10 a fly
+     against $7.5 for 1.5x. The rule today aims at 1.5x (v1.13); whether to aim wider where
+     the cap and the single-leg exit check allow is decided at its review (by 2026-11-27).
+  5. **Exit.** The 06:36 PT exit stays: on the same events half an hour of waiting made no
+     real difference, and less time in the trade is less risk.
+  6. **Projection.** A range before every report, scored the next morning, constants refit by
      written rules (`REFLECTION.md`).
 - Grows when: 30 closed live flies average at least +$8 after costs, or the replay passes 300
   events with the traded band above +$10 a fly and 2 standard errors.
-- Shrinks when: the account breaker fires, or 20 closed live flies average under -$15.
+- Shrinks when: the account breaker fires, or 20 closed live flies average under -$15, or the
+  round-trip cost of 10 closed earnings flies averages above 9% of the credit (the line is
+  then trading at breakeven: half size until the cost is fixed).
 
 ### B. Same-day fly (probe, time-boxed)
 - One IWM fly a day, one contract, 07:30 to 11:00 PT (`INTRADAY.md`, rules v1.15.1).
-- It is there for real fills and the first same-day round trip, about $1 to $3 a trade in
-  expectation. It ends after 20 probes or on 2026-12-18. Review after 10.
+- It is there for real fills and the first same-day round trip, at an expected cost of about
+  $1 to $3 a trade. It ends after 20 probes or on 2026-12-18. Review after 10.
 - No other name is admitted: none passed the 90-day test.
 - It restarts at size only for a filter that shows +$10 a fly after costs with a per-day t of 2
   on at least 60 sessions it was not found in.
@@ -112,14 +137,22 @@ The account ending 3413 only. Never TSLA. Defined risk only. Limit orders only. 
 larger than the account. No money in or out.
 
 ## 7. Costs
+- Measure them: `PYTHONPATH=src python3 -m vantage_trader.earnings live-metrics` gives
+  `round_trip_cost`, the cost against mid of each closed trade as a share of its entry credit.
+  The earnings replay assumes 7% and breaks even at about 9%.
 - Count costs in every test, at what the paper desk actually quoted.
 - Prefer penny-wide contracts. A spread above 3% of the straddle is a no for a day trade.
 - One multi-leg attempt on the first trade of each day; legs otherwise.
 - Never widen a universe to "get more trades". More trades of a zero edge is more cost.
 
 ## 8. What to expect
-- If the earnings line's replay number holds (+$9 to +$17 a fly) and 8 to 12 flies a week fit,
-  that is roughly $70 to $200 a week on this account, with single weeks well below zero.
+- The best single estimate for the fly as the rules trade it is +$7.5 after costs (101
+  replayed reports). Its standard error is $10, so the true number may be zero.
+- If it is true and 8 to 12 flies a week fit, that is roughly $60 to $90 a week on this
+  account. One fly swings about $100, so a ten-fly week swings about $300 either way. Most
+  single weeks will say nothing about the edge.
+- Each point of cost saved is worth about $4 a fly, $30 to $45 a week at that pace. At a 5%
+  cost the same flies keep $15.
 - That "if" is not settled. The live record is five trades and this season realized moves have
   run above implied.
 - Nothing here is fast money. The firms that make it with algorithms sell speed and scale. A

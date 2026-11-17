@@ -137,3 +137,30 @@ def test_cli_paper_import(tmp_path, capsys):
     out = json.loads(capsys.readouterr().out)
     assert code == 0 and out["added"] == 1 and mp.exists()
 
+
+
+def test_round_trip_cost_is_a_share_of_the_entry_credit(tmp_path):
+    # entry: 1.00 filled at 0.96 of mid -> gave up 1.00 * (1/0.96 - 1) = 0.0417
+    # exit: paid 0.80 where mid was 0.76 (mid / fill = 0.95) -> overpaid 0.04
+    e = {"record": "entry", "trade_id": "A-1", "symbol": "A", "kind": "earnings", "quantity": 1,
+         "execution": {"fill_credit": 1.0, "fill_vs_mid": 0.96}, "risk": {"max_loss_usd": 150}}
+    x = {"record": "exit", "trade_id": "A-1", "pnl_usd": 20.0,
+         "execution": {"fill_debit": 0.8, "fill_vs_mid": 0.95}}
+    assert metrics.round_trip_cost(e, x) == pytest.approx(0.0817, abs=1e-4)
+    # a fill better than mid on the way out lowers the cost
+    better = {"record": "exit", "trade_id": "A-1", "execution": {"fill_debit": 0.8, "fill_vs_mid": 1.05}}
+    assert metrics.round_trip_cost(e, better) == pytest.approx(0.0017, abs=1e-4)
+    # a missing number gives no cost, never a guess
+    assert metrics.round_trip_cost(e, {"record": "exit", "trade_id": "A-1", "execution": {}}) is None
+    assert metrics.round_trip_cost(None, x) is None
+
+    other = {"record": "entry", "trade_id": "B-1", "symbol": "B", "kind": "non_earnings", "quantity": 1,
+             "execution": {"fill_credit": 2.0, "fill_vs_mid": 1.0}, "risk": {"max_loss_usd": 150}}
+    other_x = {"record": "exit", "trade_id": "B-1", "pnl_usd": -5.0,
+               "execution": {"fill_debit": 1.0, "fill_vs_mid": 0.9}}
+    s = metrics.summarize([e, x, other, other_x])
+    assert s["round_trip_cost"]["earnings"] == {"n": 1, "avg_share_of_credit": 0.0817, "min": 0.0817, "max": 0.0817}
+    assert s["round_trip_cost"]["all"]["n"] == 2
+    assert s["round_trip_cost"]["all"]["avg_share_of_credit"] == pytest.approx((0.0817 + 0.05) / 2, abs=1e-4)
+    by_id = {t["trade_id"]: t for t in s["trades"]}
+    assert by_id["A-1"]["round_trip_cost"] == 0.0817

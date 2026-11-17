@@ -335,6 +335,11 @@ The agent's reading of the scope (its own interpretation; Brad corrects it if it
   -$1.5 a fly, 1.5x +$8.7 (standard error $11.9), 2x +$16.9 but an average max loss of $486.
   With the $350 cap: 69 events, +$10.5 a fly. Not statistically solid; the direction is
   consistent across both batches.
+  *Correction, 2026-11-16:* these are 10:00 ET numbers and leave out the events with no 10:00
+  print, the largest loss among them. On every clean event at its first exit bar: 1x -$8,
+  1.5x -$2, 2x +$3 with no cap; +$7.5 a fly (standard error $10) for wings aimed at 1.5x and
+  stepped in to the $350 cap, +$10 aimed at 2x. The wider-wings decision stands on the capped
+  numbers; the cap itself is what holds the tail (`PLAN.md` section 2).
 - Applies from the next entry. LUNR (opened 07:57 PT with 1.5-wide wings, about 0.9x) stays
   as it is: rolling its wings would cost more than the expected gain.
 - Review after 10 live trades with the new wings, or at once if a trade's max loss comes out

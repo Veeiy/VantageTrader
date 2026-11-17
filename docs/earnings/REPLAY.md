@@ -29,6 +29,16 @@ The same method scores the names that were not traded each day (REFLECTION.md, s
    average past move / (0.85 x implied move). The regime guard uses the 20 sessions that
    end the day before E.
 
+## Tables: same events, or say which (learned 2026-11-16)
+- A print can be missing at one exit time and present at another. A table that compares two
+  exits, two widths or two rules on whatever events each one happens to have can drop the
+  worst event from one side. It did: the 10:00 ET rows of 2026-11-11 left out the largest
+  loss of the sample.
+- So: compare variants on the same events (paired), or use the first exit bar that has a
+  price for every event, and state the count and the worst event of every row.
+- `PYTHONPATH=src python3 scripts/earnings/earnings_fly_table.py` does this for the fly by
+  wing width, exit bar, cost and per-name cap.
+
 ## What the data really is (learned 2026-11-10)
 - Option bars are **last trades**. There is no volume and no usable "interpolated" flag.
   A bar with no trade prints **0.01**. Any print at or below 0.011 is treated as missing.
