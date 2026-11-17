@@ -1,6 +1,6 @@
 {
- "as_of": "2026-11-16T22:15:17Z",
- "account_value": 1994.98,
+ "as_of": "2026-11-17T14:43:44Z",
+ "account_value": 2292.47,
  "cap_total_max_loss": 1235.08,
  "execution": {
   "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
@@ -9,409 +9,6 @@
   "deep_itm_note": "A short leg that is deep in the money cannot be bought back alone when its price is above the buying power (NVDA 175P on 2026-11-12: $1,545 against $994 at the open). Such a spread is held at its max loss (v1.2.2) until the short leg's ask x 100 is inside the buying power, then closed short leg first, with the wing sold at once as a marketable limit."
  },
  "open": [
-  {
-   "symbol": "AS",
-   "trade_id": "AS-20261116-1",
-   "kind": "earnings",
-   "tier": "near_miss",
-   "structure": "iron fly 26/29.5/33",
-   "expiry": "2026-11-20",
-   "quantity": 1,
-   "opened": "2026-11-16T16:32:37Z",
-   "legs": {
-    "short_29.5C": {
-     "option_id": "b73b2501-4f1d-4cbc-8b48-684915fa254c",
-     "fill": 1.5
-    },
-    "short_29.5P": {
-     "option_id": "126be83d-9a09-4928-ae6d-146330a8984b",
-     "fill": 1.4
-    },
-    "long_33C": {
-     "option_id": "d23b06e2-2084-49f9-ad44-8bdab2dfca25",
-     "fill": 0.4
-    },
-    "long_26P": {
-     "option_id": "1492889c-b6fa-4401-a15e-b4446310e4bc",
-     "fill": 0.35
-    }
-   },
-   "net_credit": 2.15,
-   "max_loss_usd": 135.0,
-   "max_profit_usd": 215.0,
-   "exit_reserve_usd": 50.0,
-   "breakevens": [
-    27.35,
-    31.65
-   ],
-   "wing_width": 3.5,
-   "report": "2026-11-17 before the open (call 08:00 ET); Robinhood lists it as verified, the company release was seen in search results",
-   "thesis": "Earnings IV crush at half size: options price a 9.7% move (8.3% after the 0.85 haircut) against a 7.2% average over six reports; edge ratio 0.866, the near-miss tier.",
-   "plan": {
-    "exit": "Tue 2026-11-17 06:45 PT check-in at the first liquid quotes after the open",
-    "close_sequence": "review all four legs first; buy to close 29.5C and 29.5P in one message (single-leg limits; parity pricing for a short that is deep in the money), then sell each wing in the first call after its short fills",
-    "max_close_cost": 4.0,
-    "take_profit_close_cost": 1.075,
-    "cut_close_cost": 2.96,
-    "near_breakeven": [
-     27.88,
-     31.12
-    ],
-    "fast_move_pct": 2.0,
-    "never_hold_into": "2026-11-20",
-    "add": "none: the tier size is one contract"
-   },
-   "exit_time": {
-    "best_case_usd": 77.0,
-    "zero_line": [
-     27.25,
-     31.87
-    ],
-    "average_over_past_moves_after_slippage_usd": 4.4,
-    "worst_case_usd": -128.0
-   },
-   "alerts": [
-    {
-     "alert_id": "e9e8fd05-3b31-43dd-a6e4-fcc33aaf12e7",
-     "condition": "price_below",
-     "threshold": 27.35
-    },
-    {
-     "alert_id": "1fc376aa-3740-4e9e-adc8-54dc14fec43b",
-     "condition": "price_above",
-     "threshold": 31.65
-    }
-   ],
-   "tranches": [
-    {
-     "n": 1,
-     "ts": "2026-11-16T16:32:37Z",
-     "quantity": 1,
-     "strikes": [
-      26,
-      29.5,
-      33
-     ],
-     "net_credit": 2.15,
-     "max_loss_usd": 135.0,
-     "order_ids": [
-      "6afb2f98-5faf-4c2c-b79c-4568814c705f",
-      "6afb3004-366a-403f-b70b-7dd465331a6a",
-      "6afb3024-abf5-431f-9522-fa9f7ec65478",
-      "6afb3025-4880-4d89-ac30-df86428a8952"
-     ]
-    }
-   ],
-   "monitor": "read-only position monitor ran 08:35 to 12:55 PT and handed back; none running overnight",
-   "check_2026-11-16_0915": {
-    "spot": 29.66,
-    "legs": {
-     "29.5C": [
-      1.45,
-      1.65
-     ],
-     "29.5P": [
-      1.25,
-      1.5
-     ],
-     "33C": [
-      0.35,
-      0.5
-     ],
-     "26P": [
-      0.25,
-      0.35
-     ]
-    },
-    "close_cost_mid": 2.2,
-    "close_cost_natural": 2.55,
-    "pnl_mid_usd": -5.0,
-    "pnl_natural_usd": -40.0,
-    "to_breakevens_pct": [
-     -0.078,
-     0.067
-    ],
-    "decision": "hold (take profit at 1.075, cut at 2.96; the report is tomorrow before the open)"
-   },
-   "check_2026-11-16_0946": {
-    "spot": 29.615,
-    "legs": {
-     "29.5C": [
-      1.5,
-      1.6
-     ],
-     "29.5P": [
-      1.35,
-      1.55
-     ],
-     "33C": [
-      0.35,
-      0.5
-     ],
-     "26P": [
-      0.25,
-      0.35
-     ]
-    },
-    "close_cost_mid": 2.275,
-    "close_cost_natural": 2.55,
-    "pnl_mid_usd": -12.5,
-    "decision": "hold (implied volatility is rising into the report: the straddle is 3.00 against 2.90 at entry)"
-   },
-   "check_2026-11-16_1016": {
-    "spot": 29.765,
-    "legs": {
-     "29.5C": [
-      1.5,
-      1.7
-     ],
-     "29.5P": [
-      1.3,
-      1.55
-     ],
-     "33C": [
-      0.35,
-      0.5
-     ],
-     "26P": [
-      0.25,
-      0.35
-     ]
-    },
-    "close_cost_mid": 2.3,
-    "close_cost_natural": 2.65,
-    "pnl_mid_usd": -15.0,
-    "to_breakevens_pct": [
-     -0.081,
-     0.063
-    ],
-    "decision": "hold (take profit at 1.075, cut at 2.96)"
-   },
-   "check_2026-11-16_1115": {
-    "spot": 29.44,
-    "legs": {
-     "29.5C": [
-      1.35,
-      1.65
-     ],
-     "29.5P": [
-      1.35,
-      1.75
-     ],
-     "33C": [
-      0.35,
-      0.5
-     ],
-     "26P": [
-      0.25,
-      0.35
-     ]
-    },
-    "close_cost_mid": 2.325,
-    "close_cost_natural": 2.8,
-    "pnl_mid_usd": -17.5,
-    "to_breakevens_pct": [
-     -0.071,
-     0.075
-    ],
-    "decision": "hold (take profit at 1.075, cut at 2.96); the stock is 0.06 from the body strike"
-   },
-   "check_2026-11-16_1147": {
-    "spot": 28.81,
-    "legs": {
-     "29.5C": [
-      0.85,
-      1.15
-     ],
-     "29.5P": [
-      1.7,
-      1.85
-     ],
-     "33C": [
-      0.15,
-      0.6
-     ],
-     "26P": [
-      0.4,
-      0.55
-     ]
-    },
-    "close_cost_mid": 1.925,
-    "close_cost_natural": 2.45,
-    "pnl_mid_usd": 22.5,
-    "pnl_natural_usd": -30.0,
-    "to_breakevens_pct": [
-     -0.051,
-     0.099
-    ],
-    "decision": "hold: no cut rule is met (cut at 2.96, near-breakeven watch at 27.88); the stock fell 2.1% in 32 minutes with the market"
-   },
-   "check_2026-11-16_1216": {
-    "spot": 29.045,
-    "legs": {
-     "29.5C": [
-      1.15,
-      1.25
-     ],
-     "29.5P": [
-      1.65,
-      1.7
-     ],
-     "33C": [
-      0.2,
-      0.4
-     ],
-     "26P": [
-      0.35,
-      0.45
-     ]
-    },
-    "close_cost_mid": 2.175,
-    "close_cost_natural": 2.4,
-    "pnl_mid_usd": -2.5,
-    "pnl_natural_usd": -25.0,
-    "to_breakevens_pct": [
-     -0.058,
-     0.09
-    ],
-    "decision": "hold into the report (take profit at 1.075, cut at 2.96)"
-   },
-   "eod_2026-11-16": {
-    "last_stock": 29.145,
-    "at": "2026-11-16T20:55Z",
-    "day_change_pct": -0.027,
-    "stock_range": [
-     28.75,
-     29.79
-    ],
-    "close_cost_mid": 2.075,
-    "close_cost_natural": 2.6,
-    "close_cost_mid_range": [
-     2.05,
-     2.325
-    ],
-    "close_cost_natural_max": 2.9,
-    "credit": 2.15,
-    "open_pnl_usd": 7.5,
-    "legs_mid": {
-     "29.5C": 1.175,
-     "29.5P": 1.475,
-     "33C": 0.25,
-     "26P": 0.325
-    },
-    "news": "report date unchanged (Tue before the open, call 08:00 ET); no pre-announcement, deal or halt found",
-    "triggers": "none; the afternoon drop from 29.79 to 28.75 was gradual (largest 15-minute move about -1.4%), with DECK -4.3%, ONON -3.5%, XRT -1.8%",
-    "note": "the natural close cost touched 2.90 at 11:35 PT on widened body quotes, close to the 2.96 cut level, while the mid never passed 2.33: a wide quote, not a signal",
-    "source": "monitor hand-back; official closes are confirmed at the 14:12 PT reflection"
-   }
-  },
-  {
-   "symbol": "JD",
-   "trade_id": "JD-20261116-1",
-   "kind": "earnings",
-   "tier": "core",
-   "structure": "iron fly 25/27.5/30",
-   "expiry": "2026-11-20",
-   "quantity": 3,
-   "opened": "2026-11-16T20:37:15Z",
-   "legs": {
-    "short_27.5C": {
-     "option_id": "1afed536-42c2-4a1e-a6de-afda44b5a4b4",
-     "fill": 0.9067,
-     "qty": 3
-    },
-    "short_27.5P": {
-     "option_id": "1c89b042-3a30-4cab-873f-83400fa1fa80",
-     "fill": 0.8033,
-     "qty": 3
-    },
-    "long_30C": {
-     "option_id": "ebaadad1-3091-4fe1-8ef8-77725846ee7f",
-     "fill": 0.1567,
-     "qty": 3
-    },
-    "long_25P": {
-     "option_id": "def2f908-e09e-477d-b7c7-1fd987c212b6",
-     "fill": 0.1433,
-     "qty": 3
-    }
-   },
-   "net_credit": 1.41,
-   "max_loss_usd": 327.0,
-   "max_profit_usd": 423.0,
-   "exit_reserve_usd": 150.0,
-   "breakevens": [
-    26.09,
-    28.91
-   ],
-   "wing_width": 2.5,
-   "report": "2026-11-17 before the open (call 04:00 PT, company release of 2026-11-04)",
-   "owner_override": "Brad, 2026-11-16 12:28 PT: 'Open trades for earnings. Lets utilize all of the funding available.' and 12:37 PT: 'place it'. Waived: the news flag, the macro veto, the same-sector rule. 12:48 PT: 'no i want you to be slightly more aggressive with the trades.' (third contract, after the 12:35 cutoff, inside his window to 12:55).",
-   "plan": {
-    "exit": "Tue 2026-11-17 06:45 PT check-in, first liquid quotes",
-    "close_sequence": "close JD first: the three short calls and three short puts in one message when the buying power covers them (it is about 1,012), then the wings; fall back to one fly at a time if an order is refused for buying power",
-    "max_close_cost": 3.0,
-    "take_profit_close_cost": 0.71,
-    "cut_close_cost": 2.07,
-    "near_breakeven": [
-     26.46,
-     28.54
-    ],
-    "fast_move_pct": 2.0,
-    "never_hold_into": "2026-11-20"
-   },
-   "alerts": [
-    {
-     "alert_id": "bfa72658-59a8-49ed-8e80-69afa9ef5e2c",
-     "condition": "price_below",
-     "threshold": 26.08
-    },
-    {
-     "alert_id": "f1b35ae7-56d2-4ad6-9880-1035475bfa95",
-     "condition": "price_above",
-     "threshold": 28.92
-    }
-   ],
-   "tranches": [
-    {
-     "n": 1,
-     "ts": "2026-11-16T20:37:15Z",
-     "quantity": 2,
-     "strikes": [
-      25,
-      27.5,
-      30
-     ],
-     "net_credit": 1.42,
-     "max_loss_usd": 216.0,
-     "order_ids": [
-      "6afb680e-74fd-4b51-b608-bcdf401a655f",
-      "6afb680f-da68-417e-81d8-8e0d8eaf3a52",
-      "6afb682e-b529-4471-9551-20f739b7c0b4",
-      "6afb697b-caac-4a61-b13f-123fd54cce5e"
-     ]
-    },
-    {
-     "n": 2,
-     "ts": "2026-11-16T20:50:21Z",
-     "quantity": 1,
-     "strikes": [
-      25,
-      27.5,
-      30
-     ],
-     "net_credit": 1.39,
-     "max_loss_usd": 111.0,
-     "order_ids": [
-      "6afb6c65-9424-415f-8378-55f256a76b79",
-      "6afb6c66-37eb-47fa-b4b5-be3ad01d94ea",
-      "6afb6c7b-a43a-460e-afad-208e9cb39e7b",
-      "6afb6c8d-b2fb-48c7-b930-790f12bc5dc2"
-     ]
-    }
-   ],
-   "alerts_note": "alerts sit at 26.08 / 28.92 (set for the first two contracts); the three-contract breakevens are 26.09 / 28.91, one cent inside, so they were left"
-  },
   {
    "symbol": "HD",
    "trade_id": "HD-20261116-1",
@@ -505,7 +102,37 @@
      ]
     }
    ],
-   "alerts_note": "alerts sit at 335.60 / 359.40 (first contract); the two-contract breakevens are 335.58 / 359.43, within three cents, so they were left"
+   "alerts_note": "alerts sit at 335.60 / 359.40 (first contract); the two-contract breakevens are 335.58 / 359.43, within three cents, so they were left",
+   "multi_leg_attempt_2026-11-17": {
+    "review": "passed: no approval step asked for, collateral credit 3500, alert OPTION_WIDE_BID_ASK_SPREAD (0.91)",
+    "placement": "refused: multi-leg option orders are not available through this tool yet; the order was NOT placed; place it in the Robinhood app",
+    "structure": "HD 330/347.5/365 x2 close, net debit 10.30",
+    "at": "2026-11-17T14:38:10Z",
+    "note": "The day's one attempt (P051) went to HD, the fly that cannot be closed by legs. Outcome (a): refused. New since 2026-11-16: the review itself now accepts a 4-leg order."
+   },
+   "close_ticket_2026-11-17": {
+    "sent_utc": [
+     "2026-11-17T14:38:29Z push: net debit 10.30, walk to 10.80",
+     "2026-11-17T14:39:47Z push: mid moved to 10.75, use 10.80, up to 11.10"
+    ],
+    "order": "one 4-leg order, quantity 2: buy to close the 347.5 call and the 347.5 put, sell to close the 365 call and the 330 put, net debit",
+    "status": "waiting for Brad's order; none placed by 14:41 UTC",
+    "agent_cannot_leg": "one 347.5 put costs about 1,100 to buy back; buying power is 922 after the JD and AS exits"
+   },
+   "check_2026-11-17_0636": {
+    "spot": 340.935,
+    "close_cost_mid": 10.17,
+    "close_cost_natural": 10.74,
+    "pnl_mid_usd": 351.0,
+    "pnl_natural_usd": 237.0
+   },
+   "check_2026-11-17_0640": {
+    "spot": 338.4,
+    "close_cost_mid": 10.65,
+    "close_cost_natural": 10.99,
+    "pnl_mid_usd": 255.0,
+    "pnl_natural_usd": 187.0
+   }
   }
  ],
  "blockers": [
@@ -522,25 +149,24 @@
   "Tue 2026-11-17 06:45 PT: close AS-20261116-1 (earnings fly, reports before the open); pause its two alerts after the exit.",
   "By Thu 2026-11-19 (at a reflection): wire Friday earnings entries live at half size (P039) and tell Brad when it is in.",
   "Reflection 2026-11-16: turn Brad's 'slightly more aggressive' (lesson L020) into concrete rule changes and tell him which.",
-  "Tue 2026-11-17 exit: 06:36 PT timer. JD (3) then AS (1) by legs. HD (2): send Brad the 4-leg closing ticket and a push at once; legs only if they fit the buying power. Pause all six alerts after the exits.",
   "Tue 2026-11-17 at the exits: score the four pre-report projections (state/earnings/projections.jsonl, stage pre_report) as state/earnings/projection_calibration.json says, append the scoreboard rows, and apply the update rules at the reflection.",
-  "Tue 2026-11-17: during the exits poll get_option_orders(agent_initiated=false) for Brad's HD close and record it; at the 07:15 PT run start the account-watch daemon (P046, DAEMON.md) for the rest of the session.",
   "Tue 2026-11-17 SAME-DAY PILOT, first probe (rules v1.15, docs/earnings/INTRADAY.md): the morning run starts a timer for 07:27 PT after the exits are placed; then intraday-status, yesterday's same-hours move for IWM, quotes, intraday-gate, and on exit code 0 one IWM same-day iron fly, one contract, by four single-leg orders. JD and AS exits come first; skip the pilot for the day if it is past 07:50 PT. Flat by 11:00 PT (the 10:15 run starts the 10:57 timer). This is also the first same-day round trip at the broker: if a closing order is refused, tell Brad at once with the ticket.",
   "Tue 2026-11-17 reflection: decide P041 (earnings name cap $350 to $400) with 8 live trades closed; the agent decides (delegation of 2026-11-16) and tells Brad. If yes: config name_risk_cap and its hard cap, the tests, RULES_CHANGELOG, brief_vol_analyst.md, and the stored hard limits in the exit+scan and ENTRY task prompts. Evidence added 2026-11-16 (state/earnings/replay/2026-11-11_batch2/fly_table.json, cap sweep on 103 replayed reports): raising the cap from $350 to $400 adds $0.3 a fly after costs (aim 1.5x: +$7.5 to +$7.8) and takes the worst loss from -$244 to -$256; with no cap the fly keeps nothing. PLAN.md section 3A says the cap stays unless the live trades say otherwise.",
   "Tue 2026-11-17, Wed 11-18, Fri 11-20, then Fridays: at about 06:50 PT start the spread scan agent (docs/earnings/prompts/brief_daytrade_scan.md; universe state/earnings/daytrade/universe/universe_2026-11-16.json; at most 40 names). It is paper: it never changes the day's pick by itself.",
   "Sat 2026-11-21 research day (docs/earnings/PLAN.md section 9; the Saturday task trig_01KLhgm9Zmpwv2gFcbHkeFAv, 09:00 PT): the overnight test at about 64 nights each for SPY, QQQ and IWM (pass bar fixed 2026-11-16: +$10 a fly after costs and a per-night t of 2 at the 07:00 PT buy-back, else dropped), the replay of the week's earnings reports, the week's spread scans and probe fills. No orders. Then: the same-day probe's review after 10 trades.",
-  "Every reflection from 2026-11-17: write the day's round_trip_cost values (live-metrics) into the reflection; on Fridays put the averages on the scorecard (P055). Shrink rule: 10 closed earnings flies averaging above 0.09 halve the earnings sizes until fixed (PLAN.md section 3A)."
+  "Every reflection from 2026-11-17: write the day's round_trip_cost values (live-metrics) into the reflection; on Fridays put the averages on the scorecard (P055). Shrink rule: 10 closed earnings flies averaging above 0.09 halve the earnings sizes until fixed (PLAN.md section 3A).",
+  "Tue 2026-11-17: HD x2 is waiting for Brad's 4-leg close. When the watcher reports his order: record the hand exit (journal exit_filled with hand_exit true, live metrics, projections exit read), pause the two HD alerts, move the standby exit switch and the plain alert to Wed 2026-11-18, and if it is before 07:50 PT run the pilot gate again."
  ],
- "buying_power": 456.98,
+ "buying_power": 922.47,
  "risk": {
-  "total_max_loss_usd": 1577.0,
-  "exit_reserves_usd": 300.0,
-  "used_usd": 1877.0,
-  "cap_usd": 1994.98,
-  "free_usd": 117.98,
-  "detail": "AS 135 + 50; JD 327 + 150; HD 1,115 + 100 (two contracts, both hand-entered by Brad; three times the 350 name cap by his own orders)",
+  "total_max_loss_usd": 1115.0,
+  "exit_reserves_usd": 100.0,
+  "used_usd": 1215.0,
+  "cap_usd": 2292.47,
+  "free_usd": 1077.47,
+  "detail": "HD 1,115 + 100 (two contracts, both hand-entered by Brad; waiting for his 4-leg close). JD and AS closed 2026-11-17 06:38 to 06:40 PT.",
   "cap_note": "Rules v1.11: the cap is the account value (Brad, 2026-11-13: 'I want you to be able to use the entire funds in the mcp account'). cap_usd is the account value at the last check; it is not lowered below the risk already open when marks fall (the cap binds at entry).",
-  "exit_buying_power": "457 with everything open. Tuesday: JD (3 flies) first, then AS; that frees about 850. One HD fly's two short legs cost about 900 with the stock unchanged and more after a move, so HD is Brad's to close with 4-leg orders; the agent sends the ticket and tries legs only when they fit."
+  "exit_buying_power": "922 after the JD and AS exits. One HD 347.5 put costs about 1,100 to buy back, so HD cannot be legged; it is Brad's to close in one 4-leg order."
  },
  "eod_note": "2026-11-13 close: PCG x5 open (fly 0.585 at closing mids, +$33.50; about flat on the day, account +$5). No fills today. Account 1,250.91, buying power 1,040.91, risk used 224. Two losses in a row stand (LUNR, NVDA): a third pauses new entries.",
  "watch": [
@@ -1001,7 +627,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-17T02:10:00Z",
+  "last_query_utc": "2026-11-17T14:41:27Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -1050,5 +676,72 @@
   "loop_map_page": "https://claude.ai/artifact/DmYhPS8UVrQM2uNi2ixCdH (built by scripts/earnings/loop_map/build.py)",
   "ninety_day_test": "2026-11-16: 290 clean flies on SPY, QQQ, IWM, NVDA, AAPL, AMZN, META average +$5 before costs and -$6 to -$10 after. No name admitted besides IWM. Plan: docs/earnings/PLAN.md.",
   "saturday_research_task": "trig_01KLhgm9Zmpwv2gFcbHkeFAv fires Sat 2026-11-21 09:00 PT into the head session (P052): overnight test, the week's earnings replay, spread scans. Batch 2 (P047) and the seven-name replay were done on 2026-11-16."
- }
+ },
+ "closed_2026-11-17": [
+  {
+   "symbol": "JD",
+   "trade_id": "JD-20261116-1",
+   "quantity": 3,
+   "credit": 1.41,
+   "close_cost": 1.3967,
+   "pnl_usd": 3.16,
+   "closed_utc": "2026-11-17T14:39:46Z",
+   "realized_move": -0.0481,
+   "leftover_long_wings": [
+    {
+     "leg": "30C",
+     "option_id": "ebaadad1-3091-4fe1-8ef8-77725846ee7f",
+     "quantity": 3,
+     "expiry": "2026-11-20",
+     "offer": 0.01,
+     "order_id": "6afc6715-8e1c-4dad-bd9f-1ac70aab1985",
+     "note": "no bid; day offer at 0.01, otherwise left to expire"
+    }
+   ],
+   "alerts_paused": [
+    "bfa72658-59a8-49ed-8e80-69afa9ef5e2c",
+    "f1b35ae7-56d2-4ad6-9880-1035475bfa95"
+   ]
+  },
+  {
+   "symbol": "AS",
+   "trade_id": "AS-20261116-1",
+   "quantity": 1,
+   "credit": 2.15,
+   "close_cost": 2.15,
+   "pnl_usd": -0.28,
+   "closed_utc": "2026-11-17T14:40:14Z",
+   "realized_move": 0.0754,
+   "leftover_long_wings": [
+    {
+     "leg": "26P",
+     "option_id": "1492889c-b6fa-4401-a15e-b4446310e4bc",
+     "quantity": 1,
+     "expiry": "2026-11-20",
+     "note": "no bid; left to expire"
+    }
+   ],
+   "alerts_paused": [
+    "e9e8fd05-3b31-43dd-a6e4-fcc33aaf12e7",
+    "1fc376aa-3740-4e9e-adc8-54dc14fec43b"
+   ]
+  }
+ ],
+ "leftover_long_wings": [
+  {
+   "symbol": "JD",
+   "leg": "30C",
+   "option_id": "ebaadad1-3091-4fe1-8ef8-77725846ee7f",
+   "quantity": 3,
+   "expiry": "2026-11-20"
+  },
+  {
+   "symbol": "AS",
+   "leg": "26P",
+   "option_id": "1492889c-b6fa-4401-a15e-b4446310e4bc",
+   "quantity": 1,
+   "expiry": "2026-11-20"
+  }
+ ],
+ "morning_note_2026-11-17": "06:36 PT timer run. JD x3 and AS x1 closed by legs between 06:38 and 06:40 PT: JD +$3.16, AS -$0.28. The day's one multi-leg attempt went to HD x2 and was refused at placement (the review passed). HD is Brad's to close: ticket and two pushes sent; a read-only agent watches HD and his orders until 12:57 PT. The switches stay where they are while HD is open. The same-day pilot is blocked while HD is open (exits_pending)."
 }
