@@ -1,6 +1,6 @@
 {
- "as_of": "2026-11-17T16:34:00Z",
- "account_value": 2356.91,
+ "as_of": "2026-11-17T17:16:03Z",
+ "account_value": 2395.91,
  "cap_total_max_loss": 1235.08,
  "execution": {
   "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
@@ -855,7 +855,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-17T16:25:11Z",
+  "last_query_utc": "2026-11-17T17:16:00Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -1070,5 +1070,57 @@
    "status": "brief written (docs/earnings/prompts/brief_staging_desk.md); waiting for a Claude session on his laptop with the Chrome extension connected; not tested; the hub has no Chrome tools and no computer of his is attached",
    "rules": "stage only (never review or submit), the account ending 3413 only, one ticket as given"
   }
+ },
+ "check_2026-11-17_0916": {
+  "run": "hourly monitor 09:15 PT",
+  "lease": "head",
+  "shares": 0,
+  "hand_orders_since_1642Z": 0,
+  "open_orders": [
+   "JD 30C x3 sell to close 0.01 GFD (leftover wings)"
+  ],
+  "marks": {
+   "HD": {
+    "spot": 340.21,
+    "close_cost_mid": 9.975,
+    "close_cost_natural": 10.31,
+    "credit": 11.925,
+    "pnl_mid_usd": 195.0,
+    "pnl_natural_usd": 161.5,
+    "to_breakevens": {
+     "lower_335.58": 4.63,
+     "upper_359.43": 19.22
+    },
+    "status": "owner hold, close before today's bell"
+   },
+   "TGT": {
+    "spot": 158.09,
+    "close_cost_mid": 11.195,
+    "credit": 11.3,
+    "pnl_mid_usd": 10.5,
+    "to_breakevens": {
+     "lower_146.20": 11.89,
+     "upper_168.80": 10.71
+    },
+    "status": "reports Wed before the open"
+   },
+   "IWM": {
+    "spot": 270.75,
+    "close_cost_mid": 1.5,
+    "close_cost_natural": 1.53,
+    "credit": 1.14,
+    "pnl_mid_usd": -36.0,
+    "breakevens": [
+     267.86,
+     270.14
+    ],
+    "status": "0.61 above the upper breakeven; pilot rule: no stop, flat by 11:00 PT (timer running)"
+   }
+  },
+  "account_value": 2395.91,
+  "buying_power": 955.91,
+  "v1_2": "no take profit or cut due: HD is the owner's hold (16% of max profit at the mid), TGT was opened today for tomorrow's report, the pilot fly is only marked",
+  "daemon": "account watch and position monitor running until 12:57 PT; paper desk running",
+  "hub": "Brad asked at about 08:42 PT for a trading hub page; a background build is running (https://claude.ai/artifact/MVp9t1rBTdDwxLtoCxP7ND)"
  }
 }
