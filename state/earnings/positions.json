@@ -162,7 +162,42 @@
     "why": "The plan of 2026-11-16 lets the agent leg one HD fly when its two short legs cost less than the buying power. At 06:49 PT they cost 1,160 against 922. They fit once the front implied volatility (42% now, 29% in the back month) comes down or the stock sits near the body.",
     "trigger": "the watcher reports legs_fit when the 347.5 call ask plus the 347.5 put ask is 9.00 or less",
     "then": "re-read the hand orders first (never race Brad's own closing order); push Brad that the legs are starting; one fly: review and buy back both shorts in one message (the put at parity if its market is wider than 15% of its mid), sell each wing the moment its short is flat; the collateral of that fly (1,750) then covers the second fly the same way",
-    "not_if": "Brad has an order working or has said to hold"
+    "not_if": "Brad has an order working or has said to hold",
+    "status": "suspended 06:56 PT: Brad may let HD ride or close one himself; act only on his word"
+   },
+   "owner_note_2026-11-17_0655": {
+    "brad": "Hows it going? I may let the HD ones ride a little bit since theyre crushing well. Or close one of them",
+    "effect": "The agent does not close HD by legs on its own while this stands: the legs-fit plan waits for his word. He was given the numbers at 06:56 PT and a recommendation (close one, ride one with a take profit, a cut and a time stop before today's close)."
+   },
+   "check_2026-11-17_0656": {
+    "spot": 344.85,
+    "legs": {
+     "347.5C": [
+      4.05,
+      4.35
+     ],
+     "347.5P": [
+      6.6,
+      6.9
+     ],
+     "365C": [
+      0.39,
+      0.46
+     ],
+     "330P": [
+      0.91,
+      1.01
+     ]
+    },
+    "body_iv": [
+     0.412,
+     0.414
+    ],
+    "close_cost_mid": 9.565,
+    "close_cost_natural": 9.95,
+    "pnl_mid_usd": 472.0,
+    "pnl_natural_usd": 395.0,
+    "net_theta_usd_per_day_two_contracts": 175
    }
   }
  ],
