@@ -239,7 +239,7 @@
   "decision": "no entry at 08:10 PT. Next: 09:45 PT re-price of TJX and LOW; a name needs an at-the-money spread of 12% or less to use the 600 cap."
  },
  "recheck_0945": {
-  "as_of": "2026-11-17T17:46Z to 17:52Z (09:46 to 09:52 PT)",
+  "as_of": "2026-11-17T17:46Z to 17:49Z (09:46 to 09:49 PT)",
   "run": "midday scan (trig_018qBZwkxCi6h76t2PQ2ddGZ)",
   "hand_orders_since_0916": 0,
   "macro": {
@@ -301,6 +301,6 @@
   },
   "TGT": "open since 08:24 PT (owner-executed lane); not re-priced as a candidate",
   "NVDA": "owner hold, not priced",
-  "decision": "no entry at 09:52 PT. Final sweep at 11:46 PT."
+  "decision": "no entry at 09:49 PT. Final sweep at 11:46 PT."
  }
 }
