@@ -47,6 +47,9 @@ Every 3rd cycle (every 5th at the tight cadence), or at once if the stock moved
 Every 6th cycle (every 10th at the tight cadence): WebSearch for news on the driver.
 Every 3rd cycle (every 5th at the tight cadence): get_option_positions (nonzero) and
 get_equity_positions.
+Every cycle (account watch, P046): get_option_orders(account, agent_initiated=false,
+created_at_gte={TODAY_00_UTC}) and today's get_equity_orders: the orders Brad created himself.
+Keep the ids you have seen; a new id, or a state change on one, is reported at once.
 
 Report to main at once (one compact JSON line, then keep monitoring; do not repeat the
 same trigger more than once every 30 minutes unless it gets worse):
@@ -57,9 +60,20 @@ same trigger more than once every 30 minutes unless it gets worse):
 - "fast_move": stock moved {FAST_MOVE} or more within 15 minutes, or state not active.
 - "news": the driver resolved or changed (cite the source), or a halt.
 - "position_changed": a leg is missing, a quantity changed, or shares appeared.
+- "hand_order": an order Brad created himself appeared or changed state. Give the order id,
+  symbol, each leg (strike, call or put, buy or sell, open or close), quantity, limit, state
+  and fill prices. Report it even when no position is open.
 At {END_UTC} hand back a final JSON summary: last stock price, last close_cost,
 P/L per contract, triggers sent, errors. Keep outputs short; no other messages.
 ```
+
+## Account watch (P046, Brad 2026-11-16)
+Brad: "You should be able to monitor when we make our own trades too. Like if I manually put
+something in". The daemon runs every trading day from the 07:15 PT check-in until 12:57 PT
+(20:57 UTC), with or without an open position. With nothing open the position lines of the
+brief are left out and it only looks for Brad's own orders and for positions that appear, on
+a 300 second cycle. An order placed by the agent shows `agent_initiated: true` and is ignored.
+What the head does with a `hand_order` report is in `prompts/hourly_monitor.md`, step 3.
 
 ## Default thresholds
 - Take profit: close cost <= 50% of the entry credit.
