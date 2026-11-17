@@ -1,0 +1,295 @@
+<meta name="dash-one-writer">
+<link rel="stylesheet" href="hub.css">
+<div class="vh">
+
+<header class="vh-head" id="top">
+  <div class="vh-head-main">
+    <h1 class="vh-title">Vantage Trading Hub</h1>
+    <p class="vh-lede">
+      <span class="vh-live" hidden>Open flies are at <b data-draw="val" data-source="live" data-field="open_pl" data-row="0" data-fmt="signed" data-tone>—</b> right now.</span>
+      <span class="vh-flat" hidden>Nothing is open right now.</span>
+      Closed results since the first trade add up to <b data-draw="val" data-source="stats" data-field="realized_total" data-row="0" data-fmt="signed" data-tone>—</b>.
+      My own picks: <b data-draw="val" data-source="by_lane" data-field="pnl" data-where="lane=mine" data-fmt="signed" data-tone>—</b>.
+      Trades you called and I placed: <b data-draw="val" data-source="by_lane" data-field="pnl" data-where="lane=your_call" data-fmt="signed" data-tone>—</b>.
+      Your own orders: <b data-draw="val" data-source="by_lane" data-field="pnl" data-where="lane=yours" data-fmt="signed" data-tone>—</b>.
+    </p>
+  </div>
+  <div class="vh-fresh">
+    <div class="vh-market" data-draw="market" data-source="market"></div>
+    <div class="vh-fresh-row">
+      <span class="vh-fresh-line" data-draw="fresh" data-source="market" data-field="at">—</span>
+      <label class="vh-switch" for="vh-auto"><input type="checkbox" id="vh-auto" checked> Refresh every minute</label>
+      <button type="button" class="vh-btn" id="vh-refresh">Refresh now</button>
+    </div>
+  </div>
+</header>
+
+<section class="vh-tiles" id="summary" aria-label="Summary">
+  <div class="vh-tile" id="tile-open">
+    <div class="vh-tile-label">Open P/L now</div>
+    <div class="vh-live" hidden>
+      <div class="vh-tile-value" data-draw="val" data-source="live" data-field="open_pl" data-row="0" data-fmt="signed" data-tone>—</div>
+      <div class="vh-tile-sub">At the mid. <span data-draw="val" data-source="live" data-field="open_pl_at_market" data-row="0" data-fmt="signed">—</span> if I closed everything at market this second.</div>
+    </div>
+    <div class="vh-flat" hidden>
+      <div class="vh-tile-value">Flat</div>
+      <div class="vh-tile-sub">No open positions.</div>
+    </div>
+  </div>
+  <div class="vh-tile" id="tile-today">
+    <div class="vh-tile-label">Today</div>
+    <div class="vh-live" hidden>
+      <div class="vh-tile-value" data-draw="val" data-source="live" data-field="today_with_open" data-row="0" data-fmt="signed" data-tone>—</div>
+      <div class="vh-tile-sub"><span data-draw="val" data-source="stats" data-field="realized_today" data-row="0" data-fmt="signed">—</span> closed today, plus the open flies.</div>
+    </div>
+    <div class="vh-flat" hidden>
+      <div class="vh-tile-value" data-draw="val" data-source="stats" data-field="realized_today" data-row="0" data-fmt="signed" data-tone>—</div>
+      <div class="vh-tile-sub">Closed today. Nothing open.</div>
+    </div>
+  </div>
+  <div class="vh-tile" id="tile-month">
+    <div class="vh-tile-label">This month</div>
+    <div class="vh-tile-value" data-draw="val" data-source="stats" data-field="realized_month" data-row="0" data-fmt="signed" data-tone>—</div>
+    <div class="vh-tile-sub">Closed results. <span class="vh-live" hidden><span data-draw="val" data-source="live" data-field="month_with_open" data-row="0" data-fmt="signed">—</span> with the open flies.</span></div>
+  </div>
+  <div class="vh-tile" id="tile-ytd">
+    <div class="vh-tile-label">Year to date</div>
+    <div class="vh-tile-value" data-draw="val" data-source="stats" data-field="realized_total" data-row="0" data-fmt="signed" data-tone>—</div>
+    <div class="vh-tile-sub">Since the first trade on <span data-draw="val" data-source="stats" data-field="first_trade" data-row="0" data-fmt="day">—</span>. <span class="vh-live" hidden><span data-draw="val" data-source="live" data-field="total_with_open" data-row="0" data-fmt="signed">—</span> with the open flies.</span></div>
+  </div>
+  <div class="vh-tile" id="tile-risk">
+    <div class="vh-tile-label">Risk in use</div>
+    <div class="vh-tile-value" data-draw="val" data-source="stats" data-field="risk_used" data-row="0" data-fmt="money">—</div>
+    <div class="vh-meter" data-draw="risk-bar" role="img" aria-label="Risk in use" data-source="stats" data-field="risk_pct" data-row="0"></div>
+    <div class="vh-tile-sub"><span data-draw="val" data-source="stats" data-field="risk_pct" data-row="0" data-fmt="pct0">—</span> of the <span data-draw="val" data-source="stats" data-field="account_value" data-row="0" data-fmt="money">—</span> account. That is the most the open flies can lose, plus exit reserves.</div>
+  </div>
+  <div class="vh-tile" id="tile-win">
+    <div class="vh-tile-label">Win rate</div>
+    <div class="vh-tile-value" data-draw="val" data-source="stats" data-field="win_rate_pct" data-row="0" data-fmt="pct0">—</div>
+    <div class="vh-tile-sub"><span data-draw="val" data-source="stats" data-field="wins" data-row="0">—</span> wins in <span data-draw="val" data-source="stats" data-field="closed" data-row="0">—</span> closed trades. <span id="vh-small-n" hidden>Too few to mean much yet.</span></div>
+  </div>
+</section>
+
+<section class="vh-sec" id="open">
+  <h2 class="vh-h2">Open positions</h2>
+  <div class="vh-live" hidden>
+    <div class="vh-cards" data-draw="cards" data-source="positions open_pl spot_view"></div>
+    <p class="vh-note">Live P/L is the credit we took in, minus what it costs to buy the fly back at the mid. Closing for real costs a few percent more than the mid. The green band is where the fly makes money at expiry; the marker is the stock now.</p>
+  </div>
+  <p class="vh-flat vh-note" hidden>No open positions right now. New ones show up here as soon as they fill.</p>
+</section>
+
+<section class="vh-sec" id="curve">
+  <div class="vh-sec-head">
+    <h2 class="vh-h2">P/L over time</h2>
+    <div class="vh-tabs" role="tablist" aria-label="Period">
+      <button type="button" class="vh-tab" role="tab" data-tab="hour" aria-selected="false">Hour</button>
+      <button type="button" class="vh-tab" role="tab" data-tab="day" aria-selected="true">Day</button>
+      <button type="button" class="vh-tab" role="tab" data-tab="month" aria-selected="false">Month</button>
+      <button type="button" class="vh-tab" role="tab" data-tab="ytd" aria-selected="false">Year to date</button>
+    </div>
+  </div>
+  <div class="vh-pane" id="vh-pane-intraday">
+    <p class="vh-note" id="vh-cap-hour" hidden>The last hour of the session, one point a minute. Closed results plus what the open flies are worth against their credit.</p>
+    <p class="vh-note" id="vh-cap-day">The whole session, one point every five minutes. Closed results plus what the open flies are worth against their credit. Dots are our trades.</p>
+    <div id="vh-intraday-wrap" hidden>
+      <div class="vh-chart vh-chart-tall" data-draw="intraday" data-source="curve events"></div>
+      <ul class="vh-events" data-draw="events" data-source="events"></ul>
+      <p class="vh-note">The curve uses the last trade in each bar, so it can sit a few dollars off the live mid above, more on contracts that trade rarely.</p>
+    </div>
+    <p class="vh-note" id="vh-intraday-empty" hidden>Nothing has been open in this session, so there is no curve to draw.</p>
+  </div>
+  <div class="vh-pane" id="vh-pane-month" hidden>
+    <p class="vh-note">Closed results by day, after fees. A result counts on the day the trade was closed.</p>
+    <div class="vh-chart" data-draw="month" data-source="daily"></div>
+  </div>
+  <div class="vh-pane" id="vh-pane-ytd" hidden>
+    <p class="vh-note">The running total of closed results since the first trade. Each dot is one result. Deposits are not counted.</p>
+    <div class="vh-chart" data-draw="ytd" data-source="running"></div>
+  </div>
+</section>
+
+<section class="vh-sec" id="trades">
+  <h2 class="vh-h2">Every trade</h2>
+  <div class="vh-stats">
+    <div class="vh-stat"><div class="vh-stat-v" data-draw="val" data-source="stats" data-field="closed" data-row="0">—</div><div class="vh-stat-l">closed trades</div></div>
+    <div class="vh-stat"><div class="vh-stat-v" data-draw="val" data-source="stats" data-field="avg_win" data-row="0" data-fmt="signed" data-tone>—</div><div class="vh-stat-l">average win</div></div>
+    <div class="vh-stat"><div class="vh-stat-v" data-draw="val" data-source="stats" data-field="avg_loss" data-row="0" data-fmt="signed" data-tone>—</div><div class="vh-stat-l">average loss</div></div>
+    <div class="vh-stat"><div class="vh-stat-v" data-draw="val" data-source="stats" data-field="per_trade" data-row="0" data-fmt="signed" data-tone>—</div><div class="vh-stat-l">per closed trade</div></div>
+    <div class="vh-stat"><div class="vh-stat-v" data-draw="val" data-source="stats" data-field="worst" data-row="0" data-fmt="signed" data-tone>—</div><div class="vh-stat-l">worst trade, <span data-draw="val" data-source="stats" data-field="worst_name" data-row="0">—</span></div></div>
+    <div class="vh-stat"><div class="vh-stat-v" data-draw="val" data-source="stats" data-field="other_results" data-row="0" data-fmt="signed" data-tone>—</div><div class="vh-stat-l">partial closes and adjustments</div></div>
+  </div>
+  <div class="vh-split">
+    <div class="vh-card">
+      <h3 class="vh-h3">By line</h3>
+      <table class="vh-table" data-source="by_line" data-row-key="line">
+        <thead><tr><th data-field="line">Line</th><th class="vh-num" data-field="results">Results</th><th class="vh-num" data-field="wins">Wins</th><th class="vh-num" data-field="pnl">P/L</th></tr></thead>
+        <tbody data-draw="by-line"></tbody>
+      </table>
+    </div>
+    <div class="vh-card">
+      <h3 class="vh-h3">By who decided</h3>
+      <table class="vh-table" data-source="by_lane" data-row-key="lane">
+        <thead><tr><th data-field="who">Who</th><th class="vh-num" data-field="results">Results</th><th class="vh-num" data-field="wins">Wins</th><th class="vh-num" data-field="pnl">P/L</th></tr></thead>
+        <tbody data-draw="by-lane"></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="vh-scroll">
+    <table class="vh-table" data-source="trades" data-row-key="id">
+      <thead><tr>
+        <th data-field="date">Closed</th><th data-field="symbol">Name</th><th class="vh-num" data-field="pnl">Result</th><th data-field="who">Who</th><th data-field="line">Line</th><th data-field="type">Type</th><th data-field="strikes">Strikes</th>
+        <th class="vh-num" data-field="qty">Qty</th><th class="vh-num" data-field="credit">Credit</th><th class="vh-num" data-field="close">Close</th>
+        <th class="vh-num" data-field="pct_of_max_loss">Of max loss</th><th class="vh-num" data-field="cost_pct">Cost vs mid</th>
+      </tr></thead>
+      <tbody data-draw="trades-body"></tbody>
+    </table>
+  </div>
+  <p class="vh-note">Result is after fees. Cost vs mid is what crossing the spreads cost on the way in and out, as a share of the credit. A negative cost means the fills beat the mid.</p>
+</section>
+
+<section class="vh-sec" id="model">
+  <h2 class="vh-h2">The model against itself</h2>
+  <div class="vh-three">
+    <div class="vh-card">
+      <h3 class="vh-h3">What I projected, what happened</h3>
+      <div class="vh-scroll">
+        <table class="vh-table" data-source="scores" data-row-key="trade_id">
+          <thead><tr><th data-field="symbol">Trade</th><th class="vh-num" data-field="projected">Projected</th><th data-field="range">Likely range</th><th class="vh-num" data-field="actual">Actual</th><th data-field="verdict">Call</th></tr></thead>
+          <tbody data-draw="scores-body"></tbody>
+        </table>
+      </div>
+      <p class="vh-note">The first three were single numbers made after the report, and too rosy. Since Nov 16 I project before the report and give a range. The likely range should hold the result half the time.</p>
+    </div>
+    <div class="vh-card">
+      <h3 class="vh-h3">What trading costs us</h3>
+      <div class="vh-chart" data-draw="costs" data-source="trades stats"></div>
+      <p class="vh-note">Average so far: <b data-draw="val" data-source="stats" data-field="avg_cost_pct" data-row="0" data-fmt="pct1">—</b> of the credit. The replay says the earnings fly breaks even at 9%, so the whole edge lives in keeping this low. Target is 5% or less.</p>
+    </div>
+    <div class="vh-card">
+      <h3 class="vh-h3">What the replay says the edge is</h3>
+      <div class="vh-chart" data-draw="evidence" data-source="evidence"></div>
+      <p class="vh-note">Average result per earnings fly on <span data-draw="val" data-source="evidence" data-field="events" data-where="cap_usd=600">—</span> past reports, after costs, by the max loss allowed per name. Each bar shows one standard error either way. A bar that crosses zero is an edge that is not proven yet.</p>
+      <p class="vh-note">At the cap in force now: <b data-draw="val" data-source="evidence" data-field="mean" data-where="cap_usd=600" data-fmt="signed1" data-tone>—</b> a fly, give or take <span data-draw="val" data-source="evidence" data-field="se" data-where="cap_usd=600" data-fmt="money1">—</span>. Its worst report: <span data-draw="val" data-source="evidence" data-field="worst" data-where="cap_usd=600" data-fmt="signed0">—</span>. At the old $350 cap: <b data-draw="val" data-source="evidence" data-field="mean" data-where="cap_usd=350" data-fmt="signed1" data-tone>—</b>, worst <span data-draw="val" data-source="evidence" data-field="worst" data-where="cap_usd=350" data-fmt="signed0">—</span>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="vh-sec" id="changes">
+  <h2 class="vh-h2">What I am changing and why</h2>
+  <div class="vh-card vh-fix" data-draw="latest-fix" data-source="proposals"></div>
+  <div class="vh-split">
+    <div class="vh-card">
+      <h3 class="vh-h3">Waiting on you</h3>
+      <div class="vh-list" data-draw="props-wait" data-source="proposals"></div>
+      <p class="vh-note">These touch a hard limit or cost money, so they are yours. Everything else I decide, build and report the same day.</p>
+    </div>
+    <div class="vh-card">
+      <h3 class="vh-h3">Rule versions</h3>
+      <ol class="vh-timeline" data-draw="rules" data-source="rules"></ol>
+    </div>
+  </div>
+  <div class="vh-card">
+    <h3 class="vh-h3">In force and being measured</h3>
+    <p class="vh-note">Every change ships with a test written before the results. <span data-draw="val" data-source="prop_counts" data-field="measuring" data-row="0">—</span> are running, <span data-draw="val" data-source="prop_counts" data-field="worked" data-row="0">—</span> have passed, <span data-draw="val" data-source="prop_counts" data-field="inconclusive" data-row="0">—</span> were inconclusive, <span data-draw="val" data-source="prop_counts" data-field="declined" data-row="0">—</span> were turned down.</p>
+    <div class="vh-scroll">
+      <table class="vh-table" data-source="proposals" data-row-key="id">
+        <thead><tr><th data-field="id">Id</th><th data-field="date">Since</th><th data-field="title">Change</th><th data-field="measure">How it is judged</th><th data-field="review_date">Review by</th></tr></thead>
+        <tbody data-draw="props-live"></tbody>
+      </table>
+    </div>
+    <details class="vh-details">
+      <summary>Older changes still in force</summary>
+      <div class="vh-scroll">
+        <table class="vh-table" data-source="proposals" data-row-key="id">
+          <thead><tr><th data-field="id">Id</th><th data-field="date">Since</th><th data-field="title">Change</th><th data-field="measure">How it is judged</th><th data-field="review_date">Review by</th></tr></thead>
+          <tbody data-draw="props-live-more"></tbody>
+        </table>
+      </div>
+    </details>
+    <details class="vh-details">
+      <summary>Closed changes and their verdicts</summary>
+      <div class="vh-list" data-draw="props-closed" data-source="proposals"></div>
+    </details>
+  </div>
+</section>
+
+<section class="vh-sec" id="learned">
+  <h2 class="vh-h2">What I have learned</h2>
+  <div class="vh-split">
+    <div class="vh-card">
+      <h3 class="vh-h3">Lessons in force</h3>
+      <div class="vh-list" data-draw="lessons-on" data-source="lessons"></div>
+      <details class="vh-details">
+        <summary>The rest of the lessons in force</summary>
+        <div class="vh-list" data-draw="lessons-on-more" data-source="lessons"></div>
+      </details>
+    </div>
+    <div class="vh-card">
+      <h3 class="vh-h3">Ideas still on trial</h3>
+      <div class="vh-list" data-draw="lessons-test" data-source="lessons"></div>
+      <details class="vh-details">
+        <summary>The rest of the ideas on trial</summary>
+        <div class="vh-list" data-draw="lessons-test-more" data-source="lessons"></div>
+      </details>
+      <p class="vh-note">An idea becomes a rule only with at least 8 observations and twice as many for it as against it.</p>
+    </div>
+  </div>
+  <div class="vh-card">
+    <h3 class="vh-h3">What broke, and what changed because of it</h3>
+    <div class="vh-list" data-draw="heals" data-source="proposals"></div>
+    <details class="vh-details">
+      <summary>Earlier breaks and fixes</summary>
+      <div class="vh-list" data-draw="heals-more" data-source="proposals"></div>
+    </details>
+  </div>
+</section>
+
+<section class="vh-sec" id="next">
+  <h2 class="vh-h2">What is next</h2>
+  <div class="vh-three">
+    <div class="vh-card">
+      <div class="vh-chip vh-chip-core">Core line</div>
+      <h3 class="vh-h3">Earnings premium</h3>
+      <p class="vh-p">Sell an iron fly the day before a report, buy it back the next morning. This is where the money is supposed to come from. It gets more size only after it shows at least +$10 a trade after costs over 60 or more trading days.</p>
+      <p class="vh-p vh-strong">So far: <span data-draw="val" data-source="by_line" data-field="results" data-where="line=Earnings">—</span> results, <span data-draw="val" data-source="by_line" data-field="pnl" data-where="line=Earnings" data-fmt="signed" data-tone>—</span>.</p>
+    </div>
+    <div class="vh-card">
+      <div class="vh-chip vh-chip-test">Probe, time-boxed</div>
+      <h3 class="vh-h3">Same-day fly</h3>
+      <p class="vh-p">One IWM fly a morning, one contract, out by 11:00 PT. No name made money in the 90-day replay after costs, so this runs only for real fills and to learn what execution costs. It ends after 20 probes or on Dec 18.</p>
+      <p class="vh-p vh-strong">Probes closed: <span data-draw="val" data-source="pilot" data-field="probes_closed" data-row="0">—</span>. Your override trades: <span data-draw="val" data-source="pilot" data-field="your_override_trades" data-row="0">—</span>. Result: <span data-draw="val" data-source="pilot" data-field="pnl_usd" data-row="0" data-fmt="signed" data-tone>—</span>.</p>
+    </div>
+    <div class="vh-card">
+      <div class="vh-chip vh-chip-idea">Research only</div>
+      <h3 class="vh-h3">Overnight fly</h3>
+      <p class="vh-p">Sell a next-day index fly near the close, buy it back by 07:00 PT. The first replay on SPY found nothing after costs. The bigger test needs at least +$10 a fly after costs, or the idea is dropped.</p>
+      <p class="vh-p vh-strong">No money on it.</p>
+    </div>
+  </div>
+  <p class="vh-note vh-expect">What to expect, straight from the plan: if the replay average is real and 8 to 12 flies a week fit, that is roughly $60 to $90 a week on this account. It may also be zero. One fly swings about $100 either way, so a single week says little.</p>
+  <div class="vh-split">
+    <div class="vh-card">
+      <h3 class="vh-h3">Coming up</h3>
+      <ul class="vh-upcoming" data-draw="upcoming" data-source="upcoming"></ul>
+    </div>
+    <div class="vh-card">
+      <h3 class="vh-h3">Paper desk</h3>
+      <table class="vh-table" data-source="paper" data-row-key="test">
+        <thead><tr><th data-field="test">Test</th><th class="vh-num" data-field="n">Trades</th><th class="vh-num" data-field="scored">Scored</th><th class="vh-num" data-field="pnl_mid">At the mid</th><th class="vh-num" data-field="pnl_after_spreads">After spreads</th></tr></thead>
+        <tbody data-draw="paper-body"></tbody>
+      </table>
+      <p class="vh-note">Paper only, never mixed into the numbers above. The gap between the two columns is the spread. It is why a paper win is not a real one.</p>
+    </div>
+  </div>
+</section>
+
+<details class="vh-details vh-foot" id="how">
+  <summary>How these numbers are worked out</summary>
+  <p class="vh-p">Everything here is the MCP account ending 3413 and nothing else. Results are per trade and after fees, and they count on the day a trade is closed, Pacific time. Deposits and withdrawals are never P/L.</p>
+  <p class="vh-p">Open P/L is the credit taken in minus the cost to buy the fly back at the midpoint of each leg's bid and ask. A real close crosses the spread, so it lands a little lower. The second number on the open tile shows that.</p>
+  <p class="vh-p">Quotes come live from Robinhood each time you open or refresh this page, and once a minute while the market is open and the page is in front of you. Positions, trades and the notes on the model come from my ledgers, which I upload after every trade and after each daily review.</p>
+</details>
+
+</div>
+<script src="hub.js"></script>
