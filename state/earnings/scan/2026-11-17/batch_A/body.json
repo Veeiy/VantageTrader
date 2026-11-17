@@ -1,0 +1,277 @@
+{
+ "SQM": {
+  "symbol": "SQM",
+  "timing": "pm",
+  "spot": 52.8891,
+  "prev_close": 51.13,
+  "intraday_pct": 0.0344,
+  "K": 52.5,
+  "strike_step": 2.5,
+  "call": {
+   "id": "6bf7fc47-4c0d-42b7-a62c-aa04eb430ef5",
+   "bid": 0.3,
+   "ask": 3.5,
+   "oi": 1
+  },
+  "put": {
+   "id": "f71e1e8c-de02-4c3a-93b8-66dc2b0560d3",
+   "bid": 0.8,
+   "ask": 2.05,
+   "oi": 1
+  },
+  "straddle_mid": 3.325,
+  "straddle_pct": 0.06287,
+  "atm_spread_pct": 1.3383,
+  "nobid": false
+ },
+ "ZTO": {
+  "symbol": "ZTO",
+  "timing": "pm",
+  "spot": 20.555,
+  "prev_close": 20.48,
+  "intraday_pct": 0.00366,
+  "K": 21.0,
+  "strike_step": 1.0,
+  "call": {
+   "id": "a5a08494-653f-4d43-a54b-6ff28f9c32a5",
+   "bid": 0.05,
+   "ask": 0.8,
+   "oi": 77
+  },
+  "put": {
+   "id": "9ce736aa-9582-4b92-a2ad-096bf1118af1",
+   "bid": 0.45,
+   "ask": 1.2,
+   "oi": 1
+  },
+  "straddle_mid": 1.25,
+  "straddle_pct": 0.06081,
+  "atm_spread_pct": 1.2,
+  "nobid": false
+ },
+ "NVDA": {
+  "symbol": "NVDA",
+  "timing": "pm",
+  "spot": 155.99,
+  "prev_close": 156.14,
+  "intraday_pct": -0.00096,
+  "K": 155.0,
+  "strike_step": null,
+  "call": {
+   "id": "fc9fa201-a26a-43ec-92f3-1f840844d81b",
+   "bid": 7.55,
+   "ask": 7.6,
+   "oi": 8672
+  },
+  "put": {
+   "id": "d9c5e106-6a25-4a08-9bda-fdc94f96d8f2",
+   "bid": 7.0,
+   "ask": 7.1,
+   "oi": 19954
+  },
+  "straddle_mid": 14.625,
+  "straddle_pct": 0.09376,
+  "atm_spread_pct": 0.0103,
+  "nobid": false
+ },
+ "LOW": {
+  "symbol": "LOW",
+  "timing": "am",
+  "spot": 224.385,
+  "prev_close": 224.93,
+  "intraday_pct": -0.00242,
+  "K": 225.0,
+  "strike_step": 2.5,
+  "call": {
+   "id": "326ce153-9719-4677-b630-1e7f148fa494",
+   "bid": 4.2,
+   "ask": 5.8,
+   "oi": 306
+  },
+  "put": {
+   "id": "0cd65172-1fc4-454e-bdd6-fcef8aa92d69",
+   "bid": 5.2,
+   "ask": 6.9,
+   "oi": 521
+  },
+  "straddle_mid": 11.05,
+  "straddle_pct": 0.04925,
+  "atm_spread_pct": 0.2986,
+  "nobid": false
+ },
+ "TJX": {
+  "symbol": "TJX",
+  "timing": "am",
+  "spot": 132.06,
+  "prev_close": 131.09,
+  "intraday_pct": 0.0074,
+  "K": 132.0,
+  "strike_step": null,
+  "call": {
+   "id": "8ecd882f-6112-47b7-a352-094495d3850a",
+   "bid": 2.8,
+   "ask": 4.3,
+   "oi": 404
+  },
+  "put": {
+   "id": "f52676ba-81e5-4b2e-a0f3-ed310093a73b",
+   "bid": 3.6,
+   "ask": 5.0,
+   "oi": 2318
+  },
+  "straddle_mid": 7.85,
+  "straddle_pct": 0.05944,
+  "atm_spread_pct": 0.3694,
+  "nobid": false
+ },
+ "TGT": {
+  "symbol": "TGT",
+  "timing": "am",
+  "spot": 159.49,
+  "prev_close": 160.32,
+  "intraday_pct": -0.00518,
+  "K": 160.0,
+  "strike_step": null,
+  "call": {
+   "id": "12b2225f-3e11-43f1-9618-e30eb33dc06a",
+   "bid": 6.95,
+   "ask": 7.3,
+   "oi": 2050
+  },
+  "put": {
+   "id": "0e12f25e-961c-4007-8bd3-5b2f037a1091",
+   "bid": 7.25,
+   "ask": 7.5,
+   "oi": 2326
+  },
+  "straddle_mid": 14.5,
+  "straddle_pct": 0.09091,
+  "atm_spread_pct": 0.0414,
+  "nobid": false
+ },
+ "GLNG": {
+  "symbol": "GLNG",
+  "timing": "am",
+  "spot": 41.68,
+  "prev_close": 41.39,
+  "intraday_pct": 0.00701,
+  "K": 42.0,
+  "strike_step": 1.0,
+  "call": {
+   "id": "523a1c68-d66c-4109-83f9-e1cd6f73609a",
+   "bid": 0.85,
+   "ask": 1.5,
+   "oi": 110
+  },
+  "put": {
+   "id": "a4378a6a-91c7-481f-b68f-dd1bbfda715e",
+   "bid": 0.95,
+   "ask": 1.65,
+   "oi": 251
+  },
+  "straddle_mid": 2.475,
+  "straddle_pct": 0.05938,
+  "atm_spread_pct": 0.5455,
+  "nobid": false
+ },
+ "GLBE": {
+  "symbol": "GLBE",
+  "timing": "am",
+  "spot": 40.76,
+  "prev_close": 41.38,
+  "intraday_pct": -0.01498,
+  "K": 40.0,
+  "strike_step": null,
+  "call": {
+   "id": "28c7a6cf-c8dd-4b2f-99e7-806b24636713",
+   "bid": 2.7,
+   "ask": 4.0,
+   "oi": 1203
+  },
+  "put": {
+   "id": "2889ac43-29c8-42a8-b325-20d24faaf0a0",
+   "bid": 2.0,
+   "ask": 2.9,
+   "oi": 1004
+  },
+  "straddle_mid": 5.8,
+  "straddle_pct": 0.1423,
+  "atm_spread_pct": 0.3793,
+  "nobid": false
+ },
+ "ZIM": {
+  "symbol": "ZIM",
+  "timing": "am",
+  "spot": 29.7187,
+  "prev_close": 29.11,
+  "intraday_pct": 0.02091,
+  "K": 29.5,
+  "strike_step": 0.5,
+  "call": {
+   "id": "514b76f0-45cb-41f6-a5de-8c191fdef033",
+   "bid": 0.01,
+   "ask": 1.5,
+   "oi": 193
+  },
+  "put": {
+   "id": "d7da5d29-d125-4644-8828-b295017706e3",
+   "bid": 0.0,
+   "ask": 3.7,
+   "oi": 47
+  },
+  "straddle_mid": 2.605,
+  "straddle_pct": 0.08766,
+  "atm_spread_pct": 1.9923,
+  "nobid": true
+ },
+ "BLSH": {
+  "symbol": "BLSH",
+  "timing": "am",
+  "spot": 19.78,
+  "prev_close": 19.75,
+  "intraday_pct": 0.00152,
+  "K": 20.0,
+  "strike_step": 0.5,
+  "call": {
+   "id": "56f0fa54-47ac-4d21-a047-a2efe610b5e2",
+   "bid": 0.89,
+   "ask": 1.45,
+   "oi": 1175
+  },
+  "put": {
+   "id": "2c786bd1-d0a8-49cf-b208-43386f95a339",
+   "bid": 1.12,
+   "ask": 1.68,
+   "oi": 93
+  },
+  "straddle_mid": 2.57,
+  "straddle_pct": 0.12993,
+  "atm_spread_pct": 0.4358,
+  "nobid": false
+ },
+ "BRBR": {
+  "symbol": "BRBR",
+  "timing": "am",
+  "spot": 10.62,
+  "prev_close": 10.55,
+  "intraday_pct": 0.00664,
+  "K": 10.0,
+  "strike_step": 2.5,
+  "call": {
+   "id": "61147d23-ccef-4dc4-ab37-91dd495df306",
+   "bid": 1.1,
+   "ask": 1.6,
+   "oi": 1185
+  },
+  "put": {
+   "id": "bc71ac06-e8ff-4432-bfcd-c96057ff23c6",
+   "bid": 0.35,
+   "ask": 0.95,
+   "oi": 1975
+  },
+  "straddle_mid": 2.0,
+  "straddle_pct": 0.18832,
+  "atm_spread_pct": 0.55,
+  "nobid": false
+ }
+}
