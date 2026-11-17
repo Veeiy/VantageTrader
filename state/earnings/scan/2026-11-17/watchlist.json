@@ -364,5 +364,71 @@
     "123P": "1c00327a-9127-4870-8980-fb4f13886acb"
    }
   }
+ },
+ "final_sweep_1146": {
+  "as_of": "2026-11-17T19:46Z to 19:48Z (11:46 to 11:48 PT)",
+  "run": "ENTRY, the final sweep (trig_01Qhfn5qNQaxKvQtse2nevgA)",
+  "lessons_applied": [
+   "L010",
+   "L011",
+   "L014",
+   "L015",
+   "L017",
+   "L019",
+   "L020",
+   "L022",
+   "L024",
+   "H009"
+  ],
+  "preflight": {
+   "account_value": 2443.37,
+   "buying_power": 1538.37,
+   "open": [
+    "TGT x1 (owner 4-leg)",
+    "TJX x1 (agent legs)"
+   ],
+   "hand_orders_since_1100": 0,
+   "pilot_fly_open": false
+  },
+  "macro": {
+   "spy_pct": -0.0126,
+   "vix": 26.19,
+   "vix_prev_close": 22.91,
+   "vix_change": 0.143,
+   "hard_veto": false,
+   "soft_band": false,
+   "note": "VIX is 0.16 points under the 15% line of the soft band"
+  },
+  "entered_today": {
+   "TGT": "08:24 PT by Brad (4-leg, 11.30)",
+   "TJX": "11:05 PT by the agent's legs (5.40), the half size for one soft condition waived at Brad's word"
+  },
+  "add_checks": {
+   "TJX": "no add: one contract holds 260 of a 244 target at half size (489 at full size; a second contract would pass both)",
+   "TGT": "no add: 620 held against the 600 cap"
+  },
+  "blocked": {
+   "LOW": {
+    "spot": 221.74,
+    "K": 222.5,
+    "straddle_mid": 10.1,
+    "atm_spread_pct": {
+     "call": 0.125,
+     "put": 0.113,
+     "straddle": 0.119
+    },
+    "edge_ratio_about": 0.64,
+    "fly": "212.5/222.5/232.5",
+    "credit_mid": 7.15,
+    "credit_natural": 6.2,
+    "max_loss_floor_about": 342,
+    "rule": "name cap 175 (350 wide-market cap halved for one soft condition)",
+    "agent": "not waived: third retailer of the same morning, VIX at the edge of the soft band",
+    "paper": "LOW-20261117-U1, scored Wed morning"
+   },
+   "NVDA": "owner hold (no 'NVDA on'); reports tonight after the close; the early-entry paper fly was marked at 11:47 PT",
+   "GLBE, BLSH, GLNG, BRBR, SQM, ZTO": "dropped at 08:00 PT for spreads over 25% or a wing with no bid; not re-priced"
+  },
+  "decision": "no new entry at the final sweep. Two earnings flies are open into Wed 2026-11-18 before the open. The standby entry switch was moved to Wed 2026-11-18 12:05 PT at 11:47 PT."
  }
 }
