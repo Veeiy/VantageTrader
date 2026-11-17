@@ -86,7 +86,12 @@ def pilot_trades(events: list[dict[str, Any]], since_ts: str | None = None) -> l
 
 
 def pilot_state(events: list[dict[str, Any]], cfg: dict[str, Any]) -> dict[str, Any]:
-    """The pilot's breaker. A trade with no known result counts as a loss of its max loss."""
+    """The pilot's breaker. A trade with no known result counts as a loss of its max loss.
+
+    A fly the owner ordered outside the pilot's rules (journal ``outside_test_data``) is real money, so it
+    counts for the loss limit and the streak. It is not a probe: the review and the averages of the
+    test read ``test_trades`` and ``test_pnl_usd`` only.
+    """
     trades = pilot_trades(events, cfg.get("intraday_pilot_reset_ts"))
     total = 0.0
     for t in trades:
@@ -106,9 +111,12 @@ def pilot_state(events: list[dict[str, Any]], cfg: dict[str, Any]) -> dict[str, 
     if streak >= cfg["intraday_max_consecutive_losses"]:
         reasons.append(f"{streak} pilot losses in a row")
     wins = sum(1 for t in trades if not jr.is_loss(t))
+    test = [t for t in trades if not t.get("outside_test_data")]
     return {"trades": len(trades), "wins": wins, "pnl_usd": round(total, 2), "consecutive_losses": streak,
             "paused": bool(reasons), "reasons": reasons,
-            "review_due": len(trades) >= cfg["intraday_review_after_trades"],
+            "test_trades": len(test), "override_trades": len(trades) - len(test),
+            "test_pnl_usd": round(sum(float(t["pnl"]) for t in test if t["pnl"] is not None), 2),
+            "review_due": len(test) >= cfg["intraday_review_after_trades"],
             "since": cfg.get("intraday_pilot_reset_ts")}
 
 

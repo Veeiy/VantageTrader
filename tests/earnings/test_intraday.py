@@ -245,6 +245,22 @@ def test_review_is_due_after_ten_trades():
     assert intraday.pilot_state(events, cfg())["review_due"]
 
 
+def test_an_owner_override_fly_counts_for_the_breaker_and_not_for_the_test():
+    events = []
+    for day in range(1, 10):
+        events += pilot_trade("IWM", 5 if day % 2 else -5, day)
+    owner = pilot_trade("IWM", -40, 10)
+    owner[0]["outside_test_data"] = True            # the entry row carries the flag (2026-11-17, "Probe anyway")
+    st = intraday.pilot_state(events + owner, cfg())
+    assert st["trades"] == 10 and st["test_trades"] == 9 and st["override_trades"] == 1
+    assert not st["review_due"]                      # nine probes: the tenth trade is the owner's
+    assert st["pnl_usd"] == -35.0 and st["test_pnl_usd"] == 5.0 and st["consecutive_losses"] == 1
+    # the money still counts: the loss limit reads every pilot trade
+    big = pilot_trade("IWM", -150, 11, max_loss=150.0)
+    big[0]["outside_test_data"] = True
+    assert intraday.pilot_state(events + owner + big, cfg(intraday_pilot_loss_limit=150.0))["paused"]
+
+
 def test_pilot_losses_do_not_halt_the_main_line():
     events = pilot_trade("IWM", -20, 1) + pilot_trade("IWM", -15, 2) + pilot_trade("IWM", -30, 3) \
         + pilot_trade("IWM", -20, 4)

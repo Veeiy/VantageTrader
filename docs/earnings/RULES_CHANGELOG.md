@@ -954,3 +954,25 @@ before market close but let it ride for now".
   the credit against the agent's legged trades (expect under 3% against about 6%), and every
   exit placed or legged by 07:00 PT. "Legs only" from Brad ends the lane.
 
+## v1.16.2 (2026-11-17 08:39 PT): the same-day fly goes on in one block
+The first live same-day fly (IWM 267/269/271, ordered by Brad outside the pilot's window:
+"Probe anyway") collected 1.14 against a mid of 1.28. Two cents of that were the spread. The
+other twelve were the agent's sequence: the body was sold 237 seconds after the wings (the
+session reloaded its tools between the two steps), each body order carried the bid of 20
+seconds earlier as its limit, the call missed, and IWM fell 0.40 while the fly was one-sided.
+- **Entry is one block of work.** Quotes, gate, the four order reviews and every tool are
+  ready before the first wing order. Nothing else happens until the fly is complete or unwound.
+- **Marketable limits.** Wings at the ask plus 0.02; both body legs together at the bid minus
+  0.03. The floor is checked on the body bids at the read before the body orders, not on the
+  limits.
+- **One-sided for at most 60 seconds.** A missing body leg is cancelled and re-sent at once.
+  The fly is finished if its body strike is still within 0.5 x the straddle of the spot, even
+  under the floor (the slip is sunk and unwinding costs three more spreads); further away it
+  is unwound. The 5 minute timer stays only for an order the session's permission check refuses.
+- **Owner-ordered flies.** A fly Brad orders outside the pilot's rules is journaled with
+  `outside_test_data`: it counts for the pilot's loss limit and streak, not for the 20-probe
+  test or its averages (`intraday.pilot_state`: `test_trades`, `override_trades`).
+- Measure (P058): after 5 pilot entries, average `seconds_one_sided` at or under 20 and average
+  leg slip at or under $3 a fly. Above $5 the pilot stops entering by single legs and waits
+  for multi-leg orders, the owner lane or the staging desk: the replay's edge before costs is
+  about $5 a fly.

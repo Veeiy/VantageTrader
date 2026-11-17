@@ -220,13 +220,31 @@ names: 60 from the scanner, 12 added by hand):
    macro_veto, exits_pending, account_value, open_risk_usd, buying_power from `get_portfolio`,
    open_intraday, entries_today) and run `... intraday-gate --input <file>`. Exit code 3: no trade today;
    write the reason into the day's notes. Exit code 0: enter.
-6. **Enter** (four single-leg limit orders, each reviewed first; if this is the day's first
-   structure, one multi-leg attempt comes first: `prompts/exit_scan.md`, MULTI-LEG FIRST). Buy both wings at the ask in
-   one message. When both are filled, sell the body call and the body put at the bid in one
-   message. These contracts are a penny wide: cross the spread, do not work the order. The net
-   credit may not be under the gate's `limit_floor`; if the market moved, re-quote and run the
-   gate again. A body order that is refused or unfilled after 60 seconds: `prompts/entry.md`,
-   REFUSED MID-STRUCTURE, with a 5 minute unwind.
+6. **Enter** (four single-leg limit orders; if this is the day's first structure, one
+   multi-leg attempt comes first: `prompts/exit_scan.md`, MULTI-LEG FIRST). The entry is ONE
+   BLOCK OF WORK (rules v1.16.2, P058): before the first wing order the four contracts are
+   quoted, the gate has run, all four orders are reviewed, and every tool the entry needs is
+   loaded. From the first wing order until the fly is complete or unwound, nothing else is
+   read, written or answered.
+   a. Buy both wings in one message as marketable limits (the ask plus 0.02).
+   b. The next message reads the two fills and quotes the body.
+   c. The message after that sells the body call and the body put together as marketable
+      limits (each bid minus 0.03; a sell limit fills at the bid that is there). The floor is
+      checked on that read: the two body bids minus the wing fills may not be under the gate's
+      `limit_floor`. A straddle's sum does not move with the spot, so limits a few cents
+      through the bid cost nothing and stop one leg from being missed.
+   d. A body leg still open at the next read: cancel it, confirm zero fills, and sell it at
+      once as a marketable limit. The fly is FINISHED when its body strike is still within
+      0.5 x the straddle of the spot, even if the total credit is then under the floor: the
+      slip between the legs is already lost and unwinding pays the spread on three legs. If
+      the spot is further away than that, UNWIND (buy back the lone short, sell both wings).
+      Either way the fly is one-sided for at most 60 seconds.
+   e. An order the session's own permission check refuses is a different case:
+      `prompts/entry.md`, REFUSED MID-STRUCTURE, with a 5 minute unwind.
+   Why (2026-11-17, IWM): the body went out 237 seconds after the wings and with the bids of
+   20 seconds earlier as limits; the call missed, IWM fell 0.40 in the 187 seconds the fly was
+   one-sided, and the credit came in at 1.14 against a mid of 1.28. That $13.5 is more than
+   the replay's whole average result for a same-day IWM fly.
 7. **Record.** Journal `entry_filled` with `"kind":"intraday_0dte"`, `"tier"`, `price` (net
    credit), `max_loss`, `direction":"credit"`, `expiry`, the legs with order ids. A
    `live_metrics.jsonl` entry record (`trade_id` `IWM-0DTE-<YYYYMMDD>-L1`, kind
@@ -235,6 +253,10 @@ names: 60 from the scanner, 12 added by hand):
    this name at the 11:00 exit from `state/earnings/daytrade/replay/summary.json`).
    `positions.json`: an open entry with `kind`, legs, max loss, `exit_reserve_usd` 50 and the
    plan "flat by 11:00 PT". Add the fly to the monitor's brief. Commit, push, one line to Brad.
+   The execution block also carries `seconds_wings_to_first_short`, `seconds_one_sided` and
+   `leg_slip.usd` (the mid value of the legs already held when the last leg is sold, against
+   their fills). A fly Brad orders outside these rules carries `"outside_test_data": true` on
+   its journal entry: it counts for the pilot's breaker and not for the 20-probe test.
 8. **Hold.** No stop, no take profit, no add, no roll. Check-ins only mark it.
 9. **Exit.** The 10:15 hourly run starts a background timer for 10:57 PT. Then: buy back both
    body legs at the ask in one message; sell each wing at the bid the moment its body leg is

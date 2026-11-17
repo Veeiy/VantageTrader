@@ -153,6 +153,8 @@ def closed_trades(events: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
                 "edge_ratio": _num(entry.get("edge_ratio")) or _num(ev.get("edge_ratio")),
                 "realized_move": _num(ev.get("realized_move")) if _num(ev.get("realized_move")) is not None
                 else _num(entry.get("realized_move")),
+                # A trade the owner ordered outside the rules that are under test (2026-11-17).
+                "outside_test_data": bool(entry.get("outside_test_data") or ev.get("outside_test_data")),
             })
     return trades
 
