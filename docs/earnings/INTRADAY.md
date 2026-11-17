@@ -182,7 +182,8 @@ names: 60 from the scanner, 12 added by hand):
    macro_veto, exits_pending, account_value, open_risk_usd, buying_power from `get_portfolio`,
    open_intraday, entries_today) and run `... intraday-gate --input <file>`. Exit code 3: no trade today;
    write the reason into the day's notes. Exit code 0: enter.
-6. **Enter** (four single-leg limit orders, each reviewed first). Buy both wings at the ask in
+6. **Enter** (four single-leg limit orders, each reviewed first; if this is the day's first
+   structure, one multi-leg attempt comes first: `prompts/exit_scan.md`, MULTI-LEG FIRST). Buy both wings at the ask in
    one message. When both are filled, sell the body call and the body put at the bid in one
    message. These contracts are a penny wide: cross the spread, do not work the order. The net
    credit may not be under the gate's `limit_floor`; if the market moved, re-quote and run the

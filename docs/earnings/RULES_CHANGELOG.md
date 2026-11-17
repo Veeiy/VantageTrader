@@ -115,7 +115,7 @@ Robinhood rejects every agent-placed multi-leg order ("requires the customer to 
 agent-placed trades, and a multi-leg strategy cannot be sent for approval yet"), even with
 `human_must_approve_trades=false`. Single-leg orders are accepted with no approval, so all
 entries and exits are built leg by leg until multi-leg orders work again. Retry one
-multi-leg order once a week (Friday) to see whether the block is gone.
+multi-leg order once a week (Friday) to see whether the block is gone. (Since 2026-11-16, P051: once a day, on the first structure traded.)
 
 ### Entry (iron fly)
 1. Buy both wings first (single-leg limit orders, start at mid, step up a penny at a time).
