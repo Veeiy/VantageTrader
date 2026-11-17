@@ -31,7 +31,7 @@ streaks.
 | 11 | sector | `sector` not in `sectors_entered_today` (checked only when both are given) |
 | 12 | structure | wings given on both sides, 0 < mid credit < width, a fillable limit range, and (v1.13) the narrower wing at least 0.9 x the body straddle from the body (`wings_too_narrow` otherwise) |
 | 13 | add_centered | an add only (`held` given): same body strike as the open tranche, and spot within 0.25 x the body straddle of it. A first entry passes |
-| 14 | name_risk | max loss on the name (held + the contracts entered now, at the credit floor) <= $350, and at least one contract may be entered at this check-in |
+| 14 | name_risk | max loss on the name (held + the contracts entered now, at the credit floor) <= the name cap ($600 since rules v1.16; $350 when the at-the-money spread is above 12%), and at least one contract may be entered at this check-in |
 | 15 | risk_budget | open_risk_usd + max loss at the credit floor + $50 reserve per contract <= the account value (rules v1.11, Brad 2026-11-13: "use the entire funds in the mcp account"; before that min($1,000, 0.93 x account value)) |
 | 16 | exit_feasible | v1.9: one in-the-money short leg with the stock at its wing costs about 1.1 x wing width x 100; that must fit the buying power left after the entry (`buying_power` - contracts x max loss at the floor). Contracts are cut to what fits. No `buying_power` given = blocked |
 | 17 | prudential | v1.14: at most one soft condition. The value lists the ones present: `soft_news` (one or more soft flags) and `soft_macro` (a soft `macro_veto` string). The limit is `max_prudential_conditions` (1). Two at once fail with `two_prudential_conditions` |
@@ -41,8 +41,8 @@ on its entry day): `tight` (edge <= 0.70), `final_sweep` (0.70 to 0.85), `near_m
 0.85, up to 1.10), `no_edge` (above 1.10), `long_straddle_off` (1.25 or more).
 
 Near-miss tier (rules v1.10, 2026-11-13): the band `near_miss` is the one band that changes
-the size. The name's target is 10% of account value instead of 20% and its name cap is $175
-instead of $350 (gate 14 shows the halved cap). The record carries `"tier": "near_miss"`
+the size. The name's target is 10% of account value instead of 20% and its name cap is half
+the normal one ($300 instead of $600 since v1.16; gate 14 shows the halved cap). The record carries `"tier": "near_miss"`
 and the pass reason says "at half size". All other gates are the same. Journal and
 live-metrics records of a tier trade carry `tier: "near_miss"` so the review can split them.
 
@@ -61,8 +61,8 @@ block at gates 8 and 9 like hard ones, as before v1.14. What counts as soft and 
 hard is in RULES_CHANGELOG v1.14.
 
 Contracts (rules v1.7 and v1.8, `sizing.plan`): sized by risk. The name's target is a max loss of
-20% of account value (12% until v1.8), never above $350; new contracts are (target - max loss held) / max
-loss of one contract, rounded to the nearest whole number, and never more than fits $350
+20% of account value (12% until v1.8), never above the name cap ($600 since v1.16); new contracts are (target - max loss held) / max
+loss of one contract, rounded to the nearest whole number, and never more than fits the name cap
 per name, the risk budget and 10 contracts. One contract is always allowed on a name with
 nothing held. Output: `contracts` (enter this many now), `contracts_planned` (what the name
 may still add in all), `contracts_later` (the part that waits for the final window) and

@@ -39,7 +39,8 @@ def test_no_data_phase_since_v17():
 def test_name_target():
     assert sizing.name_target(1327.0, cfg(name_risk_frac=0.12)) == 159.24   # the v1.7 target
     assert sizing.name_target(1327.0, cfg()) == 265.4            # v1.8: 20% of the account
-    assert sizing.name_target(5000.0, cfg()) == 350.0           # never above the $350 name cap
+    assert sizing.name_target(5000.0, cfg()) == 600.0           # never above the name cap ($600 since v1.16)
+    assert sizing.name_target(5000.0, cfg(name_risk_cap=350.0)) == 350.0
     assert sizing.name_target(0.0, cfg()) == 0.0
 
 
@@ -53,7 +54,11 @@ def test_plan_by_risk():
     assert (p["planned"], p["now"]) == (1, 1)
     p = sizing.plan(300.0, 50.0, 1327.0, 0.0, c, phase="early")
     assert p["now"] == 1                                        # one contract may always go early
-    p = sizing.plan(400.0, 50.0, 1327.0, 0.0, c)                # one contract above $350: none
+    p = sizing.plan(400.0, 50.0, 1327.0, 0.0, c)                # v1.16: one contract up to $600 is allowed
+    assert (p["planned"], p["now"]) == (1, 1)
+    p = sizing.plan(650.0, 50.0, 1327.0, 0.0, c)                # one contract above the $600 name cap: none
+    assert p["planned"] == 0 and p["binding"] == "name_risk_cap"
+    p = sizing.plan(400.0, 50.0, 1327.0, 0.0, dict(c, name_risk_cap=350.0))   # the old cap, when configured
     assert p["planned"] == 0 and p["binding"] == "name_risk_cap"
     p = sizing.plan(50.0, 50.0, 1327.0, 950.0, c)               # $50 of budget left
     assert p["planned"] == 0 and p["binding"] == "max_loss_exceeds_cap"

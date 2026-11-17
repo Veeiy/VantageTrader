@@ -900,3 +900,31 @@ into profits". Tested the same evening (`scripts/earnings/intraday_caps.py`, tab
   spread and its own replay earn it (`INTRADAY.md`, "Which names"). IWM is the only live name
   tonight because it is the only one whose replay came out at breakeven.
 - Hard caps in code: probe max loss $150, budget $500, streak 6, 1 contract, 1 entry a day.
+
+## v1.16 (2026-11-17): the earnings name cap is $600 (owner)
+Brad, 2026-11-17 08:05 PT: "Increase the risk cap. Like if tgt meets the criteria we shouldnt
+limit it especially when the cap is close to the cost price". That morning every priced name
+was over $350 at its narrowest allowed fly: TGT $502, TJX $420, LOW $530, GLBE $595.
+- **Max loss per earnings name: $600** at the credit floor (was $350). Hard cap in
+  `config.py`; `name_risk_cap: 600` in `config/earnings.yaml`. The near-miss tier and a name
+  with one soft condition get half: $300 (was $175).
+- **Unchanged:** a name whose at-the-money spread is above 12% stays at $350
+  (`wide_spread_max_loss`): crossing that market costs more than the edge pays. Non-earnings
+  names stay at $400 (his number of 2026-11-13). The total risk cap, the 0.9x wing floor
+  (v1.13) and the exit-by-legs check (v1.9, gate 16) are unchanged.
+- **Why $600 and not more** (replay, 103 reports, `scripts/earnings/earnings_fly_table.py`):
+  caps from $250 to $500 keep $5 to $9 a fly; with no cap the fly keeps nothing. Only two
+  replayed names needed more than $350 at the narrowest fly, and the one that needed more than
+  $500 (FTNT) was the largest loss of the sample: at $600 the average falls from $9 to $3 on
+  that one event. So the evidence supports $500 and says nothing reliable beyond it; $600 is
+  the owner's choice of more risk, 25% of the account on one name.
+- **What it does not change:** on stocks above about $150 the binding limit is the exit by
+  legs, not the cap. TGT on 2026-11-17: the 140/157.5/175 fly risks $657 and needs $1,925 of
+  buying power to exit; the 145/157.5/170 fly fits at $364 and its wings are 0.88x the
+  straddle, under the floor. Such names are the owner's to place and close with 4-leg orders
+  until Robinhood accepts them from the agent (P005, P051).
+- Measure (P056): after 10 trades entered with a max loss above $350, their result per dollar
+  at risk is no worse than that of the trades at or under $350, and no name has cost more than
+  25% of the account. Review at 10 such trades or on 2026-12-18. "Name cap 350" from Brad
+  reverses it.
+- Supersedes P041 ($350 to $400), which was waiting for the 2026-11-17 reflection.

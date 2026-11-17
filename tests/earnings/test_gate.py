@@ -164,11 +164,27 @@ def test_spread_uses_worst_leg():
     assert s["worst"] == s["put"] > s["straddle"]
 
 
-def test_max_loss_above_350_blocks_at_any_spread():
-    # v1.6: max loss at the credit floor <= $350 per name, also under the 12% spread band
-    rec, code = run(cand(WIDE, call={"bid": 4.7, "ask": 5.3}, put={"bid": 4.7, "ask": 5.3}))   # 0.6/5 = 12%
-    assert rec["risk"]["spread_band_cap"] is None and rec["max_loss"]["floor"] > 350.0
+def test_max_loss_above_the_name_cap_blocks_at_any_spread():
+    # v1.6: max loss at the credit floor <= the name cap, also under the 12% spread band.
+    # v1.16 (Brad, 2026-11-17: "Increase the risk cap"): the name cap is $600, was $350.
+    wide_fly = {"call_strike": 117.5, "put_strike": 82.5, "call": {"bid": 0.2, "ask": 0.3}, "put": {"bid": 0.2, "ask": 0.3}}
+    rec, code = run(cand(WIDE, call={"bid": 4.7, "ask": 5.3}, put={"bid": 4.7, "ask": 5.3}, wings=wide_fly))   # 0.6/5 = 12%
+    assert rec["risk"]["spread_band_cap"] is None and rec["max_loss"]["floor"] > 600.0
+    assert code == 3 and rec["reason"] == "name_risk_cap" and g(rec, "name_risk")["limit"] == 600.0
+
+
+def test_one_contract_between_350_and_600_passes_at_a_tight_spread_only():
+    # the TGT case of 2026-11-17: edge and spread pass, one contract risks about $500
+    mid_fly = {"call_strike": 114.0, "put_strike": 86.0, "call": {"bid": 0.2, "ask": 0.3}, "put": {"bid": 0.2, "ask": 0.3}}
+    rec, code = run(cand(WIDE, wings=mid_fly))                      # spread 4%, tight
+    assert 350.0 < rec["max_loss"]["floor"] <= 600.0
+    assert code == 0 and rec["contracts"] == 1 and g(rec, "name_risk")["limit"] == 600.0
+    # the same fly on a name whose at-the-money market is wider than 12% stays under the $350 spread cap
+    rec, code = run(cand(WIDE, call={"bid": 4.6, "ask": 5.4}, put={"bid": 4.6, "ask": 5.4}, wings=mid_fly))
     assert code == 3 and rec["reason"] == "name_risk_cap" and g(rec, "name_risk")["limit"] == 350.0
+    # and the old cap can still be configured
+    rec, code = run(cand(WIDE, wings=mid_fly), name_risk_cap=350.0)
+    assert code == 3 and rec["reason"] == "name_risk_cap"
 
 
 def test_spread_above_12pct_caps_max_loss_at_350():

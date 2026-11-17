@@ -1,7 +1,133 @@
 {
  "batch": "B",
- "as_of_utc": "2026-11-17T16:02:36Z",
+ "as_of_utc": "2026-11-17T16:02:58Z",
  "dropped": [
+  {
+   "symbol": "TJX",
+   "reason": "spread",
+   "spot": 131.41,
+   "intraday_pct": 0.00244,
+   "atm_spread_pct": 0.4,
+   "notes": "K=131. Three pulls 16:00-16:02Z: 0.242 (P 3.50/3.60), 0.301 (P 3.10/3.60), 0.400 (C 3.40/5.20, P 3.20/4.70, straddle_mid 8.25). Last pull governs. Informational (pull 2): avg_hist 0.0280 n=6, edge ~0.55, regime_20d 0.0168; floor fly 139/131/123 max_loss_natural 420 > cap 350 (does not fit).",
+   "info_pull2": {
+    "K": 131,
+    "call": {
+     "id": "77b1ced2-52be-4c2e-9058-2074b0634307",
+     "bid": 3.4,
+     "ask": 5.2,
+     "oi": 38
+    },
+    "put": {
+     "id": "68cb653f-3b20-4826-a491-da8b9fb88bad",
+     "bid": 3.1,
+     "ask": 3.6,
+     "oi": 132
+    },
+    "straddle_mid": 7.65,
+    "straddle_pct": 0.05818,
+    "atm_spread_pct": 0.3007,
+    "hist_moves": [
+     -0.028904,
+     0.027113,
+     0.00158,
+     -0.011671,
+     0.05661,
+     -0.042095
+    ],
+    "avg_hist_move": 0.027996,
+    "median_hist_move": 0.028008,
+    "n_hist": 6,
+    "regime_20d": 0.01684,
+    "edge_ratio": 0.5661,
+    "wings": {
+     "call_strike": 139,
+     "put_strike": 123,
+     "call": {
+      "id": "a4ac6209-e82d-4c53-bfdd-5943dfd69b04",
+      "bid": 1.0,
+      "ask": 1.7
+     },
+     "put": {
+      "id": "1c00327a-9127-4870-8980-fb4f13886acb",
+      "bid": 0.65,
+      "ask": 1.0
+     },
+     "credit_mid": 5.475,
+     "credit_natural": 3.8,
+     "width": 8,
+     "max_loss_mid": 252.5,
+     "max_loss_natural": 420.0,
+     "breakevens": [
+      125.525,
+      136.475
+     ],
+     "tick": 0.05
+    }
+   }
+  },
+  {
+   "symbol": "LOW",
+   "reason": "spread",
+   "spot": 221.93,
+   "intraday_pct": -0.01334,
+   "atm_spread_pct": 0.266,
+   "notes": "K=222.5. Pulls 16:00-16:02Z: 0.205 (C 4.80/5.60, P 4.40/5.70), then 0.266 twice (C 4.40/5.60, P 4.40/5.90, straddle_mid 10.15). Last pull governs. Informational: avg_hist 0.0247 n=6, edge ~0.63, regime_20d 0.0188; floor fly 232.5/222.5/212.5 max_loss_natural 530 > cap 350 (does not fit).",
+   "info_pull2": {
+    "K": 222.5,
+    "call": {
+     "id": "2133f049-506e-464f-acf3-45d2a2a9cc18",
+     "bid": 4.4,
+     "ask": 5.6,
+     "oi": 184
+    },
+    "put": {
+     "id": "ae1c0aef-6170-489c-9234-65bda2edbe5c",
+     "bid": 4.4,
+     "ask": 5.9,
+     "oi": 331
+    },
+    "straddle_mid": 10.15,
+    "straddle_pct": 0.04568,
+    "atm_spread_pct": 0.266,
+    "hist_moves": [
+     -0.016778,
+     0.003043,
+     0.040261,
+     -0.055889,
+     0.012273,
+     0.020219
+    ],
+    "avg_hist_move": 0.024744,
+    "median_hist_move": 0.018499,
+    "n_hist": 6,
+    "regime_20d": 0.01882,
+    "edge_ratio": 0.6373,
+    "wings": {
+     "call_strike": 232.5,
+     "put_strike": 212.5,
+     "call": {
+      "id": "27ee7201-4d22-496c-88f3-e1f82259bdae",
+      "bid": 1.45,
+      "ask": 2.35
+     },
+     "put": {
+      "id": "1b62744e-832e-48e0-beaf-39ce875fd16f",
+      "bid": 1.35,
+      "ask": 1.75
+     },
+     "credit_mid": 6.7,
+     "credit_natural": 4.7,
+     "width": 10.0,
+     "max_loss_mid": 330.0,
+     "max_loss_natural": 530.0,
+     "breakevens": [
+      215.8,
+      229.2
+     ],
+     "tick": 0.05
+    }
+   }
+  },
   {
    "symbol": "BLSH",
    "reason": "spread",
@@ -39,134 +165,6 @@
   }
  ],
  "analyzed": [
-  {
-   "symbol": "TJX",
-   "timing": "am",
-   "spot": 131.495,
-   "prev_close": 131.09,
-   "intraday_pct": 0.00309,
-   "K": 131,
-   "strike_step": 1,
-   "call": {
-    "id": "77b1ced2-52be-4c2e-9058-2074b0634307",
-    "bid": 3.4,
-    "ask": 5.2,
-    "oi": 38
-   },
-   "put": {
-    "id": "68cb653f-3b20-4826-a491-da8b9fb88bad",
-    "bid": 3.1,
-    "ask": 3.6,
-    "oi": 132
-   },
-   "straddle_mid": 7.65,
-   "straddle_pct": 0.05818,
-   "atm_spread_pct": 0.3007,
-   "hist_moves": [
-    -0.028904,
-    0.027113,
-    0.00158,
-    -0.011671,
-    0.05661,
-    -0.042095
-   ],
-   "avg_hist_move": 0.027996,
-   "median_hist_move": 0.028008,
-   "max_hist_move": 0.05661,
-   "n_hist": 6,
-   "regime_20d": 0.01684,
-   "edge_ratio": 0.5661,
-   "wings": {
-    "call_strike": 139,
-    "put_strike": 123,
-    "call": {
-     "id": "a4ac6209-e82d-4c53-bfdd-5943dfd69b04",
-     "bid": 1.0,
-     "ask": 1.7
-    },
-    "put": {
-     "id": "1c00327a-9127-4870-8980-fb4f13886acb",
-     "bid": 0.65,
-     "ask": 1.0
-    },
-    "credit_mid": 5.475,
-    "credit_natural": 3.8,
-    "width": 8,
-    "max_loss_mid": 252.5,
-    "max_loss_natural": 420.0,
-    "breakevens": [
-     125.525,
-     136.475
-    ],
-    "tick": 0.05
-   },
-   "past_moves_beyond_breakevens": "2/6",
-   "notes": "cap 350; initial wings 142/120 max_loss_nat 605.0; stepped in 3x; floor 0.9*sm=6.885; DOES NOT FIT cap at floor (gate blocks); 119P not listed, 120P nearest; body call spread wide (3.40/5.20), atm_spread just under 0.25"
-  },
-  {
-   "symbol": "LOW",
-   "timing": "am",
-   "spot": 222.22,
-   "prev_close": 224.93,
-   "intraday_pct": -0.01205,
-   "K": 222.5,
-   "strike_step": 2.5,
-   "call": {
-    "id": "2133f049-506e-464f-acf3-45d2a2a9cc18",
-    "bid": 4.4,
-    "ask": 5.6,
-    "oi": 184
-   },
-   "put": {
-    "id": "ae1c0aef-6170-489c-9234-65bda2edbe5c",
-    "bid": 4.4,
-    "ask": 5.9,
-    "oi": 331
-   },
-   "straddle_mid": 10.15,
-   "straddle_pct": 0.04568,
-   "atm_spread_pct": 0.266,
-   "hist_moves": [
-    -0.016778,
-    0.003043,
-    0.040261,
-    -0.055889,
-    0.012273,
-    0.020219
-   ],
-   "avg_hist_move": 0.024744,
-   "median_hist_move": 0.018499,
-   "max_hist_move": -0.055889,
-   "n_hist": 6,
-   "regime_20d": 0.01882,
-   "edge_ratio": 0.6373,
-   "wings": {
-    "call_strike": 232.5,
-    "put_strike": 212.5,
-    "call": {
-     "id": "27ee7201-4d22-496c-88f3-e1f82259bdae",
-     "bid": 1.45,
-     "ask": 2.35
-    },
-    "put": {
-     "id": "1b62744e-832e-48e0-beaf-39ce875fd16f",
-     "bid": 1.35,
-     "ask": 1.75
-    },
-    "credit_mid": 6.7,
-    "credit_natural": 4.7,
-    "width": 10.0,
-    "max_loss_mid": 330.0,
-    "max_loss_natural": 530.0,
-    "breakevens": [
-     215.8,
-     229.2
-    ],
-    "tick": 0.05
-   },
-   "past_moves_beyond_breakevens": "2/6",
-   "notes": "cap 350; initial wings 237.5/207.5 max_loss_nat 820.0; stepped in 2x; floor 0.9*sm=9.135; DOES NOT FIT cap at floor (gate blocks)"
-  },
   {
    "symbol": "GLBE",
    "timing": "am",

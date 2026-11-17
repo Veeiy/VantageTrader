@@ -71,7 +71,8 @@ get_option_quotes). credit_mid = straddle_mid - wing call mid - wing put mid;
 credit_natural = call bid + put bid - wing call ask - wing put ask.
 width = the wider of the two wing distances. max_loss_mid = (width - credit_mid) * 100;
 max_loss_natural = (width - credit_natural) * 100. breakevens = K -/+ credit_mid.
-Cap per contract: 350 when edge_ratio <= 0.85, 175 when it is above 0.85 (the half-size tier).
+Cap per contract (rules v1.16): 600 when edge_ratio <= 0.85, 300 when it is above 0.85 (the half-size tier). When
+atm_spread_pct is above 0.12 the cap is 350 (175 in the half-size tier) whatever the edge ratio.
 If max_loss_natural is above the cap, step the wings in one strike at a time until it fits and
 report that fly instead (say so in notes).
 Floor (rules v1.13): never step a wing closer to K than 0.9 x straddle_mid. If the max loss is

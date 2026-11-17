@@ -75,9 +75,11 @@ bar and steps the wings in to the cap the way the rules do; its output is
   1. **Cost.** Measured on every closed trade as a share of its credit (`live-metrics`,
      `round_trip_cost`). Target 5% or less: penny-wide names first, patient limits walked one
      tick at a time, one multi-leg attempt a day until Robinhood allows it.
-  2. **The cap stays.** It is what holds the tail. The replay gives no reason to raise it
-     ($350 to $400 adds $0.3 a fly); P041 is decided at the 2026-11-17 reflection with that
-     in hand. More size comes from more names inside the cap, not from a bigger cap.
+  2. **The cap.** It is what holds the tail. Brad raised it from $350 to $600 on 2026-11-17
+     (rules v1.16): that morning every priced name was over $350 at its narrowest fly. The
+     replay supports caps up to $500 ($9 a fly) and has a single event beyond that, the
+     sample's largest loss. Names with a wide market stay at $350. Reviewed after 10 trades
+     above $350 or on 2026-12-18 (P056).
   3. **Sample.** Replay every week's reports the following Saturday, so the 103 events become
      300 or more by year end and the bands can be judged. Every table says which events each
      row holds.

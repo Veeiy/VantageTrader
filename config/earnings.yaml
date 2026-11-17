@@ -47,7 +47,8 @@ max_loss_bp_frac: 1.0        # HARD CAP <= 1.0: share of account value that may 
 max_quantity: 10             # HARD CAP <= 10. Most contracts one name may hold.
 name_risk_frac: 0.20         # HARD CAP <= 0.27. Max loss one name should carry, as a share of account value
                              # (v1.8, owner 2026-11-11: "start putting the money to work"; was 0.12).
-name_risk_cap: 350.0         # HARD CAP <= 350. Max loss per name at the credit floor (owner limit).
+name_risk_cap: 600.0         # HARD CAP <= 600 (v1.16; Brad, 2026-11-17: "Increase the risk cap"). Max loss per name at the
+                             # credit floor. A name with an ATM spread above wide_spread_pct stays at wide_spread_max_loss.
 early_tranche_frac: 0.5      # share of the name target that may be entered before the final window
 add_center_frac: 0.25        # an add needs spot within this x body straddle of the body strike
 exit_buyback_mult: 1.1       # HARD FLOOR >= 1.0. One in-the-money short leg at the wing (x width x 100) must fit the buying power left after entry (v1.9)

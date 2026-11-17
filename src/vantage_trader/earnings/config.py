@@ -80,7 +80,7 @@ DEFAULTS: dict[str, Any] = {
     "max_loss_bp_frac": 1.0,
     "max_quantity": 10,              # v1.7: most contracts one name may hold (hard cap 10)
     "name_risk_frac": 0.20,          # v1.8: max loss one name should carry, as a share of account value (was 0.12 in v1.7)
-    "name_risk_cap": 350.0,          # max loss per name at the credit floor (owner limit, hard cap $350)
+    "name_risk_cap": 600.0,          # max loss per name at the credit floor (owner limit; $600 since v1.16, was $350)
     "early_tranche_frac": 0.5,       # v1.7: share of the name target that may be entered before the final window
     "add_center_frac": 0.25,         # v1.7: an add needs spot within this x body straddle of the body strike
     "final_window_start": "11:30 America/Los_Angeles",  # v1.7: from here a name may be entered at full size
@@ -164,8 +164,8 @@ HARD_CAPS: dict[str, tuple[str, float]] = {
     "wide_spread_pct": ("max", 0.12),
     "wide_spread_max_loss": ("max", 350.0),
     "max_quantity": ("max", 10),
-    "name_risk_frac": ("max", 0.27),    # the $350 name cap is the binding owner limit
-    "name_risk_cap": ("max", 350.0),
+    "name_risk_frac": ("max", 0.27),    # the name cap ($600 since v1.16) is the binding owner limit
+    "name_risk_cap": ("max", 600.0),    # v1.16 (Brad, 2026-11-17): was 350. A wide-spread name stays at wide_spread_max_loss
     "near_miss_max_ratio": ("max", 1.10),   # v1.10: the reduced-size tier may not reach further
     "near_miss_size_frac": ("max", 0.5),    # ... and may not be sized above half
     "prudential_size_factor": ("max", 0.5),     # v1.14: a name with one soft condition is never sized above half

@@ -96,7 +96,7 @@ def test_missing_config_file():
     {"data_phase_trades": 5},          # removed in v1.7: now an unknown key
     {"max_quantity": 11},
     {"name_risk_frac": 0.3},
-    {"name_risk_cap": 400},
+    {"name_risk_cap": 650},      # above the $600 hard cap (v1.16)
     {"early_tranche_frac": 1.5},
     {"add_center_frac": 0.6},
     {"final_window_start": "13:00 America/Los_Angeles"},
