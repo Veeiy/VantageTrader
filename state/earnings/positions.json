@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-17T17:16:03Z",
+ "as_of": "2026-11-17T18:14:00Z",
  "account_value": 2395.91,
  "cap_total_max_loss": 1235.08,
  "execution": {
@@ -1146,5 +1146,33 @@
   "v1_2": "no take profit or cut due: HD is the owner's hold (16% of max profit at the mid), TGT was opened today for tomorrow's report, the pilot fly is only marked",
   "daemon": "account watch and position monitor running until 12:57 PT; paper desk running",
   "hub": "Brad asked at about 08:42 PT for a trading hub page; a background build is running (https://claude.ai/artifact/MVp9t1rBTdDwxLtoCxP7ND)"
+ },
+ "check_2026-11-17_1015": {
+  "run": "hourly monitor 10:15 PT (duplicate guard: marks from the account watch at 10:14 PT, quotes read by the head at 10:08 PT)",
+  "hand_orders": 0,
+  "marks": {
+   "HD": {
+    "spot": 338.57,
+    "low_so_far": 337.575,
+    "close_cost_mid": 10.38,
+    "close_cost_natural": 10.71,
+    "pnl_mid_usd": 155.0,
+    "status": "owner hold; Brad has the closing ticket (push 09:27 PT) and the agent's advice to close; the agent cannot leg it out (buying power 956, the short put costs about 1,070)"
+   },
+   "TGT": {
+    "spot": 157.59,
+    "close_cost_mid": 11.19,
+    "pnl_mid_usd": 11.0
+   },
+   "IWM": {
+    "spot": 269.89,
+    "close_cost_mid": 1.255,
+    "pnl_mid_usd": -11.5,
+    "status": "back inside the breakevens (267.86 / 270.14); exit timer 10:57 PT running"
+   }
+  },
+  "tjx": "ticket sent 10:11 PT (owner lane, the agent's call: yes at one contract); not placed yet",
+  "pilot_exit_timer": "running since 08:35 PT (returns 10:57 PT)",
+  "hd_ticket_timer": "running (returns 12:28 PT)"
  }
 }
