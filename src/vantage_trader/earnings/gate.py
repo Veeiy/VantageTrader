@@ -281,6 +281,11 @@ def parse_candidate(c: Any) -> dict[str, Any]:
     if ssd is not None and not isinstance(ssd, bool):
         raise EngineInputError("sector_same_direction must be true/false")
     out["sector_same_direction"] = bool(ssd)
+    # rules v1.16.1: the owner places the entry and the exit himself as multi-leg orders
+    oe = c.get("owner_executed", False)
+    if not isinstance(oe, (bool, str)):
+        raise EngineInputError("owner_executed must be true/false or the owner's words")
+    out["owner_executed"] = oe if isinstance(oe, str) and oe.strip() else bool(oe)
     for key in ("macro_veto", "circuit_breaker"):
         out[key] = _set_flag(c.get(key), key)
     if c.get("tick") is not None:
@@ -504,11 +509,12 @@ def evaluate(raw: Any, cfg: dict[str, Any], journal_events: list[dict[str, Any]]
     # With the stock between the body and a wing the in-the-money short costs up to the wing
     # width; that buyback must fit the buying power that is left once this entry is on.
     bp = c["buying_power"]
+    owner_lane = bool(c["owner_executed"])
     exit_need = exit_room = n_exit = None
     if ml_unit is not None and bp is not None:
         exit_need = round(max(cfg["exit_buyback_mult"], 1.0) * f["width"] * 100.0, 2)
         n_exit = int((bp - exit_need) // ml_unit) if bp >= exit_need else 0
-        if qty > n_exit:
+        if qty > n_exit and not owner_lane:
             plan = dict(plan, now=max(n_exit, 0), later=max(plan["planned"] - max(n_exit, 0), 0),
                         limits=dict(plan["limits"], exit_feasible=n_exit),
                         binding="exit_not_feasible" if n_exit < 1 else plan["binding"])
@@ -548,10 +554,15 @@ def evaluate(raw: Any, cfg: dict[str, Any], journal_events: list[dict[str, Any]]
              f"${reserve:.0f} reserve per contract", reason="max_loss_exceeds_cap")
 
     # 16 exit feasible
+    legs_fit = exit_need is not None and n_exit is not None and n_exit >= 1 and exit_need <= exit_room + EPS
     add("exit_feasible",
-        exit_need is not None and n_exit is not None and n_exit >= 1 and exit_need <= exit_room + EPS,
+        legs_fit or (owner_lane and exit_need is not None),
         exit_need, exit_room,
         note=("buying_power not given: take it from get_portfolio" if bp is None else
+              (f"owner-executed (rules v1.16.1): Brad places the entry and the exit as multi-leg orders, so "
+               f"no single-leg buyback has to fit; by legs it would need {exit_need} against {exit_room}"
+               + ("" if legs_fit else ": the agent cannot leg this one out, the exit is his")
+               if owner_lane and exit_need is not None else None) or
               (f"one in-the-money short leg at the wing costs about {exit_need} "
                f"({cfg['exit_buyback_mult']} x width x 100); buying power {bp} less the entry leaves "
                f"{exit_room}; at most {n_exit} contract(s) fit" if exit_need is not None else
@@ -584,6 +595,7 @@ def evaluate(raw: Any, cfg: dict[str, Any], journal_events: list[dict[str, Any]]
         "blocked_by": list(dict.fromkeys(g["reason"] for g in failures)),
         "band": band,
         "tier": "near_miss" if band == "near_miss" else ("core" if band in SELL_BANDS else None),
+        "lane": "owner_executed" if c["owner_executed"] else "agent",   # v1.16.1: who places the orders
         "prudential": prudential,        # v1.14: the soft conditions present ("soft_news", "soft_macro")
         "size_factor": frac,             # share of the name target and of the name cap that was applied
         "metrics": {

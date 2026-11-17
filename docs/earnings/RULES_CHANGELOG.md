@@ -928,3 +928,29 @@ was over $350 at its narrowest allowed fly: TGT $502, TJX $420, LOW $530, GLBE $
   25% of the account. Review at 10 such trades or on 2026-12-18. "Name cap 350" from Brad
   reverses it.
 - Supersedes P041 ($350 to $400), which was waiting for the 2026-11-17 reflection.
+
+## v1.16.1 (2026-11-17 08:20 PT): the owner-executed lane
+Brad, 2026-11-17: "What if you plan them out and I place the multi leg orders?", then
+"Interesting. Ok lets try it. You can handle the daytrades too though. And we can close hd
+before market close but let it ride for now".
+- **Why:** Robinhood refuses the agent's multi-leg orders, so the agent must be able to exit
+  one leg at a time. On a stock above about $150 one short leg at the wing can cost more than
+  the buying power (gate 16), and legging costs 1% to 12% of the credit where his 4-leg close
+  of HD on 2026-11-17 filled at the mid. The replayed fly keeps $7.5 at a 7% cost and $22 at 3%.
+- **What:** a name that passes every entry rule except gate 16 goes to Brad as one ready
+  4-leg ticket (legs, quantity, limit at the mid, walk steps, max loss, breakevens, exit time)
+  with a push. He places the entry and the exit in the app. The agent records, sets alerts,
+  watches, and sends the closing ticket at 06:38 PT the next morning.
+- **Fallback:** no closing order of his by 06:50 PT and the two short legs fit the buying
+  power: the agent tells him and closes it by legs. If they do not fit it stays his.
+- **In code:** the gate takes `"owner_executed": true` (or his words); gate 16 then passes
+  with a note and the record carries `"lane": "owner_executed"`. Every other gate binds.
+- **Unchanged:** the name cap, the total cap, defined risk, the 0.9x wing floor, a 12% spread
+  for anything above $350, the news check, never TSLA. The same-day pilot and every fly the
+  agent can exit by legs stay the agent's own.
+- **HD (his hold):** rides on 2026-11-17 and is closed before that day's close: closing ticket
+  and push at 12:30 PT, by the agent's legs at 12:45 PT if he has not closed it.
+- Measure (P057): after 5 owner-placed round trips, their cost against the mid as a share of
+  the credit against the agent's legged trades (expect under 3% against about 6%), and every
+  exit placed or legged by 07:00 PT. "Legs only" from Brad ends the lane.
+

@@ -100,7 +100,9 @@ execution rules accept; `max_loss.mid` and `max_loss.natural` are reported next 
 Required: `symbol`, `spot`, `prev_close`, `K`, `call`, `put`, `hist_moves` (oldest first),
 `regime_20d`, `account_value`, `open_risk_usd` (max loss PLUS exit reserves of every open
 position, as positions.json records them), `buying_power` (from get_portfolio at that
-moment; gate 16 blocks without it). Optional: `timing`, `wings` (without them the
+moment; gate 16 blocks without it). Optional: `owner_executed` (true or Brad's words, rules v1.16.1: he places the entry and the exit as
+multi-leg orders, so gate 16 passes with a note and the record says `"lane": "owner_executed"`),
+`timing`, `wings` (without them the
 candidate is blocked with `no_wings`), `flags` (list of risk-sentinel flags, or an object
 of booleans), `sector_same_direction` (default false), `macro_veto` and `circuit_breaker`
 (true or a reason string blocks), `sector` + `sectors_entered_today`, `tick` (default

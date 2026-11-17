@@ -790,3 +790,24 @@ def test_v114_cli_prints_the_new_fields(tmp_path, capsys):
     p.write_text(json.dumps(cand(flags=[SOFT_FLAG], macro_veto=SOFT_MACRO, phase="final")))
     code, d = _call(capsys, ["gate", "--input", str(p), "--journal", str(tmp_path / "none.jsonl")])
     assert code == 3 and d["action"] == "no_trade" and d["reason"] == "two_prudential_conditions"
+
+
+# ------------------------------------------------------------ owner-executed lane (rules v1.16.1)
+
+def test_owner_executed_lane_waives_the_exit_by_legs_check_only():
+    # the TGT case of 2026-11-17: a tight market, one contract inside the name cap, but one
+    # short leg at the wing would cost more than the buying power left after the entry
+    fly = {"call_strike": 114.0, "put_strike": 86.0, "call": {"bid": 0.2, "ask": 0.3}, "put": {"bid": 0.2, "ask": 0.3}}
+    c = cand(WIDE, wings=fly, buying_power=1500.0)
+    rec, code = run(c)
+    assert code == 3 and rec["blocked_by"] == ["exit_not_feasible"] and rec["lane"] == "agent"
+    rec, code = run(dict(c, owner_executed="Ok lets try it"))
+    assert code == 0 and rec["contracts"] == 1 and rec["lane"] == "owner_executed"
+    g16 = g(rec, "exit_feasible")
+    assert g16["pass"] is True and "owner-executed" in g16["note"] and "the exit is his" in g16["note"]
+    # every other rule still binds: over the name cap it stays blocked
+    wide_fly = {"call_strike": 117.5, "put_strike": 82.5, "call": {"bid": 0.2, "ask": 0.3}, "put": {"bid": 0.2, "ask": 0.3}}
+    rec, code = run(dict(cand(WIDE, wings=wide_fly, buying_power=1500.0), owner_executed=True))
+    assert code == 3 and "name_risk_cap" in rec["blocked_by"] and "exit_not_feasible" not in rec["blocked_by"]
+    with pytest.raises(EngineInputError):
+        gate.parse_candidate(dict(c, owner_executed=1))

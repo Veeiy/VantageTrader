@@ -217,11 +217,16 @@
     ]
    },
    "rider": {
-    "status": "OWNER HOLD. Brad, 2026-11-17 08:04 PT: 'Nah lets leave hd open. But i want you to continue to execute and plan trades for today'. The agent does not close, trim or manage this contract. It watches it and tells him when a level is hit.",
+    "status": "OWNER HOLD until today's close. Brad, 2026-11-17 08:19 PT: 'we can close hd before market close but let it ride for now'.",
     "tell_brad_when": "HD trades at or under 338.50, or within 1.00 of a breakeven (336.60 / 358.40), or the close cost reaches 11.00 (the profit is gone at 11.93), or at 8.00 or less; and on Friday 2026-11-20 morning, when anything that expires that day has to be flat by 11:00 PT",
     "not_a_pending_exit": "an owner hold recorded with his quote does not block the same-day pilot or the switches (FAILOVER.md, test 3)",
     "counts_toward_risk": "557.5 max loss + 50 reserve stay inside the total risk cap",
-    "watcher": "reports rider_cut, rider_take_profit, near_breakeven, hand_order until 12:57 PT"
+    "watcher": "reports rider_cut, rider_take_profit, near_breakeven, hand_order until 12:57 PT",
+    "close_today": {
+     "ticket_and_push_pt": "12:30",
+     "fallback": "12:45 PT: if he has not closed it, the agent closes it by legs (both shorts in one message, wings after); the legs fit the buying power",
+     "timer": "a background timer returns at 12:28 PT"
+    }
    }
   }
  ],
@@ -244,7 +249,8 @@
   "Tue 2026-11-17, Wed 11-18, Fri 11-20, then Fridays: at about 06:50 PT start the spread scan agent (docs/earnings/prompts/brief_daytrade_scan.md; universe state/earnings/daytrade/universe/universe_2026-11-16.json; at most 40 names). It is paper: it never changes the day's pick by itself.",
   "Sat 2026-11-21 research day (docs/earnings/PLAN.md section 9; the Saturday task trig_01KLhgm9Zmpwv2gFcbHkeFAv, 09:00 PT): the overnight test at about 64 nights each for SPY, QQQ and IWM (pass bar fixed 2026-11-16: +$10 a fly after costs and a per-night t of 2 at the 07:00 PT buy-back, else dropped), the replay of the week's earnings reports, the week's spread scans and probe fills. No orders. Then: the same-day probe's review after 10 trades.",
   "Every reflection from 2026-11-17: write the day's round_trip_cost values (live-metrics) into the reflection; on Fridays put the averages on the scorecard (P055). Shrink rule: 10 closed earnings flies averaging above 0.09 halve the earnings sizes until fixed (PLAN.md section 3A).",
-  "HD x1 is Brad's hold (2026-11-17 08:04 PT: 'lets leave hd open'). Do not close it. Tell him at the levels under open[HD].rider.tell_brad_when. When he closes it: journal exit_filled for the trade with the total of both contracts (hand_exit true), pause the two HD alerts, write the exit read into projections.jsonl. Fri 2026-11-20: it expires that day; remind him before the open."
+  "HD x1 is Brad's hold (2026-11-17 08:04 PT: 'lets leave hd open'). Do not close it. Tell him at the levels under open[HD].rider.tell_brad_when. When he closes it: journal exit_filled for the trade with the total of both contracts (hand_exit true), pause the two HD alerts, write the exit read into projections.jsonl. Fri 2026-11-20: it expires that day; remind him before the open.",
+  "Owner lane (rules v1.16.1): when the account watch shows Brad's TGT order filled, record it (journal entry_filled with hand_entered true and lane owner_executed, live metrics, positions, two breakeven alerts, the pre-report projection). 12:28 PT timer: send him the HD closing ticket and a push at 12:30, leg HD out at 12:45 if he has not closed it."
  ],
  "buying_power": 1662.29,
  "risk": {
@@ -855,5 +861,35 @@
   "plain_alert": "moved by the head at 07:26 PT to Wed 2026-11-18 08:00 PT: the morning exits under the agent's control are done and Brad knows HD is open (his note of 06:55 PT)"
  },
  "owner_instruction_2026-11-17_0804": "Brad: 'Nah lets leave hd open. But i want you to continue to execute and plan trades for today' and 08:00 PT: 'You also still have a lot of buying power available.' The agent keeps scanning and entering under the rules: the 08:00 re-check of eight names, the 09:45 scan, the 11:46 sweep.",
- "owner_instruction_2026-11-17_0805": "Brad: 'Increase the risk cap. Like if tgt meets the criteria we shouldnt limit it especially when the cap is close to the cost price'. Rules v1.16: earnings name cap $600 (P056)."
+ "owner_instruction_2026-11-17_0805": "Brad: 'Increase the risk cap. Like if tgt meets the criteria we shouldnt limit it especially when the cap is close to the cost price'. Rules v1.16: earnings name cap $600 (P056).",
+ "owner_lane": {
+  "rules": "v1.16.1 (P057)",
+  "brad": "2026-11-17 08:19 PT: 'Interesting. Ok lets try it. You can handle the daytrades too though. And we can close hd before market close but let it ride for now'",
+  "tickets": [
+   {
+    "sent_pt": "08:17",
+    "symbol": "TGT",
+    "structure": "iron fly 140/157.5/175 exp 2026-11-20 x1",
+    "limit_credit": 11.3,
+    "walk": [
+     11.2,
+     11.1
+    ],
+    "not_below": 11.0,
+    "max_loss_about": 621,
+    "breakevens": [
+     146.2,
+     168.8
+    ],
+    "ids": {
+     "157.5C": "326af841-61d6-4746-818c-12b1108b533e",
+     "157.5P": "95d91df9-65de-41a6-a3e8-963902c54f01",
+     "175C": "8053fe9f-d1cd-462d-afda-ab2d8c1cce40",
+     "140P": "7ba666a8-ec67-4ff0-ae5c-fa32698b3e43"
+    },
+    "status": "sent; not placed yet",
+    "note": "about $20 over the $600 name cap at the mid; he was told and took the ticket as shown. Exit: his 4-leg close Wed 2026-11-18 about 06:40 PT; fallback legs at 06:50 PT if they fit."
+   }
+  ]
+ }
 }
