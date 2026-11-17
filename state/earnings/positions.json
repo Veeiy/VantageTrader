@@ -724,7 +724,22 @@
   "closed_probes": 0,
   "pnl_usd": 0.0,
   "off_switch": "Brad says \"day trades paper\": intraday_live_enabled false",
-  "log": [],
+  "log": [
+   {
+    "date": "2026-11-17",
+    "at_pt": "07:28",
+    "decision": "no_trade (so far)",
+    "reason": "morning_exit_pending",
+    "blocked_by": [
+     "morning_exit_pending"
+    ],
+    "note": "The only block: HD x2 (the owner's hand-entered fly) is still open and waiting on his decision. Every other gate passed: IWM 271.59 (-0.49%), body 271, wings 269/273, straddle 1.72 (0.63% of spot), spread 1.2%, premium ratio 0.94, off-center 0.34, credit 1.30 at mid and 1.28 at the floor, max loss 72, probe tier. Brad was pushed at 07:29 PT: if HD is closed or he calls it a deliberate hold before 07:50 PT, the gate runs once more with fresh quotes; after 07:50 there is no pilot trade today.",
+    "files": [
+     "state/earnings/daytrade/2026-11-17/pilot_candidate_0728.json",
+     "state/earnings/daytrade/2026-11-17/pilot_gate_0728.json"
+    ]
+   }
+  ],
   "iwm_chain_id": "72362eb7-bc7c-4d10-9be4-48a53fffd101",
   "note": "IWM lists an expiry every trading day (checked 2026-11-16 evening: 2026-11-17 is listed, penny ticks). Robinhood sells out same-day positions 30 minutes before the 13:15 PT expiration.",
   "universe_file": "state/earnings/daytrade/universe/universe_2026-11-16.json",
@@ -809,5 +824,9 @@
    "expiry": "2026-11-20"
   }
  ],
- "morning_note_2026-11-17": "06:36 PT timer run. JD x3 and AS x1 closed by legs between 06:38 and 06:40 PT: JD +$3.16, AS -$0.28. The day's one multi-leg attempt went to HD x2 and was refused at placement (the review passed). HD is Brad's to close: ticket and two pushes sent; a read-only agent watches HD and his orders until 12:57 PT. The switches stay where they are while HD is open. The same-day pilot is blocked while HD is open (exits_pending)."
+ "morning_note_2026-11-17": "06:36 PT timer run. JD x3 and AS x1 closed by legs between 06:38 and 06:40 PT: JD +$3.16, AS -$0.28. The day's one multi-leg attempt went to HD x2 and was refused at placement (the review passed). HD is Brad's to close: ticket and two pushes sent; a read-only agent watches HD and his orders until 12:57 PT. The switches stay where they are while HD is open. The same-day pilot is blocked while HD is open (exits_pending).",
+ "switches_2026-11-17": {
+  "standby_exit_switch": "fired 07:25 PT; the standby stood down (head holds the lease, JD and AS closed, HD held on Brad's own word) and re-armed it for Wed 2026-11-18 07:25 PT",
+  "plain_alert": "moved by the head at 07:26 PT to Wed 2026-11-18 08:00 PT: the morning exits under the agent's control are done and Brad knows HD is open (his note of 06:55 PT)"
+ }
 }

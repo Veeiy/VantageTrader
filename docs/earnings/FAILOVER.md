@@ -88,8 +88,10 @@ The head is working, and the standby stands down, when ANY of these is true:
    running, or `list_events` on it shows an assistant or tool event in the last 5 minutes.
 2. An option order was created in the account in the last 15 minutes.
 3. The work this switch guards is already done (exits: every earnings position due this
-   morning is closed; entry: trades placed today, or a no-trade decision recorded in the
-   day's watchlist file).
+   morning is closed, or the only one still open is held on the owner's own word, with his
+   quote recorded under that position in `state/earnings/positions.json`; entry: trades
+   placed today, or a no-trade decision recorded in the day's watchlist file). An owner hold
+   is his call: neither session closes that position or races his order (2026-11-17, HD).
 
 If the standby stands down because of 1 or 2 while the work is NOT done yet, it moves its
 own switch 15 minutes later (`update_trigger`, schedule only) and looks again then; at most
