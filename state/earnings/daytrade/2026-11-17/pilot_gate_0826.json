@@ -1,0 +1,287 @@
+{
+  "symbol": "IWM",
+  "kind": "intraday_0dte",
+  "action": "no_trade",
+  "tier": null,
+  "reason": "outside_entry_window",
+  "blocked_by": [
+    "outside_entry_window",
+    "pre_entry_move_too_large"
+  ],
+  "metrics": {
+    "spot": 268.85,
+    "prev_close": 272.94,
+    "K": 269.0,
+    "pre_move": -0.014985,
+    "straddle_mid": 1.81,
+    "straddle_pct": 0.006732,
+    "atm_spread_pct": 0.011,
+    "avg_abs_same_hours_move": 0.006704,
+    "n_moves": 10,
+    "premium_ratio": 1.0042,
+    "off_center": 0.0829,
+    "tier_if_passing": "probe"
+  },
+  "gates": [
+    {
+      "n": 1,
+      "gate": "enabled",
+      "pass": true,
+      "value": true,
+      "limit": true,
+      "note": null,
+      "reason": null
+    },
+    {
+      "n": 2,
+      "gate": "universe",
+      "pass": true,
+      "value": "IWM",
+      "limit": [
+        "SPY",
+        "QQQ",
+        "IWM"
+      ],
+      "note": null,
+      "reason": null
+    },
+    {
+      "n": 3,
+      "gate": "same_day_expiry",
+      "pass": true,
+      "value": "2026-11-17",
+      "limit": "2026-11-17",
+      "note": null,
+      "reason": null
+    },
+    {
+      "n": 4,
+      "gate": "window",
+      "pass": false,
+      "value": "08:26",
+      "limit": [
+        "07:25",
+        "07:50"
+      ],
+      "note": "Pacific time",
+      "reason": "outside_entry_window"
+    },
+    {
+      "n": 5,
+      "gate": "history",
+      "pass": true,
+      "value": 10,
+      "limit": 10,
+      "note": null,
+      "reason": null
+    },
+    {
+      "n": 6,
+      "gate": "atm_spread",
+      "pass": true,
+      "value": 0.011,
+      "limit": 0.03,
+      "note": null,
+      "reason": null
+    },
+    {
+      "n": 7,
+      "gate": "pre_move",
+      "pass": false,
+      "value": -0.014985,
+      "limit": 0.01,
+      "note": null,
+      "reason": "pre_entry_move_too_large"
+    },
+    {
+      "n": 8,
+      "gate": "event_ahead",
+      "pass": true,
+      "value": false,
+      "limit": false,
+      "note": null,
+      "reason": null
+    },
+    {
+      "n": 9,
+      "gate": "macro_veto",
+      "pass": true,
+      "value": false,
+      "limit": false,
+      "note": null,
+      "reason": null
+    },
+    {
+      "n": 10,
+      "gate": "circuit_breaker",
+      "pass": true,
+      "value": [],
+      "limit": [],
+      "note": null,
+      "reason": null
+    },
+    {
+      "n": 11,
+      "gate": "pilot_breaker",
+      "pass": true,
+      "value": [],
+      "limit": {
+        "loss_limit": 500.0,
+        "losses_in_a_row": 6
+      },
+      "note": "0 closed pilot trade(s), 0.00 in total",
+      "reason": null
+    },
+    {
+      "n": 12,
+      "gate": "structure",
+      "pass": true,
+      "value": {
+        "credit_mid": 1.28,
+        "width": 2.0,
+        "wing_over_straddle": [
+          1.105,
+          1.105
+        ],
+        "off_center": 0.0829
+      },
+      "limit": {
+        "wing_over_straddle": [
+          0.6,
+          1.6
+        ],
+        "off_center": 0.35
+      },
+      "note": null,
+      "reason": null
+    },
+    {
+      "n": 13,
+      "gate": "tier",
+      "pass": true,
+      "value": {
+        "tier": "probe",
+        "premium_ratio": 1.0042,
+        "max_loss_floor": 74.0
+      },
+      "limit": {
+        "signal_band": null,
+        "signal_max_loss": 200.0,
+        "probe_max_loss": 150.0,
+        "probe_names": [
+          "IWM"
+        ]
+      },
+      "note": null,
+      "reason": null
+    },
+    {
+      "n": 14,
+      "gate": "one_a_day",
+      "pass": true,
+      "value": {
+        "open_intraday": 0,
+        "entries_today": 0
+      },
+      "limit": {
+        "open_intraday": 0,
+        "entries_today_below": 1
+      },
+      "note": null,
+      "reason": null
+    },
+    {
+      "n": 15,
+      "gate": "risk_budget",
+      "pass": true,
+      "value": 124.0,
+      "limit": 1808.79,
+      "note": "cap 2416.29 - open risk 607.5 = 1808.79; needs max loss at the floor + $50 reserve",
+      "reason": null
+    },
+    {
+      "n": 16,
+      "gate": "exit_feasible",
+      "pass": true,
+      "value": 220.0,
+      "limit": 1588.29,
+      "note": "one in-the-money short at the wing costs about 220.0; buying power 1662.29 less the entry leaves 1588.29",
+      "reason": null
+    },
+    {
+      "n": 17,
+      "gate": "morning_exits",
+      "pass": true,
+      "value": false,
+      "limit": false,
+      "note": null,
+      "reason": null
+    }
+  ],
+  "fly": {
+    "strikes": [
+      267.0,
+      269.0,
+      271.0
+    ],
+    "width": 2.0,
+    "width_call": 2.0,
+    "width_put": 2.0,
+    "body_straddle_mid": 1.81,
+    "credit_mid": 1.28,
+    "credit_natural": 1.26,
+    "credit_floor": 1.26,
+    "max_loss_mid": 72.0,
+    "max_loss_floor": 74.0,
+    "max_profit_mid": 128.0,
+    "breakevens_mid": [
+      267.72,
+      270.28
+    ],
+    "wing_over_straddle": [
+      1.105,
+      1.105
+    ],
+    "valid": true
+  },
+  "contracts": 0,
+  "plan": {
+    "take_profit_close_cost": null,
+    "cut_close_cost": null,
+    "time_stop_pt": "11:00",
+    "entry_window_pt": [
+      "07:25",
+      "07:50"
+    ],
+    "limit_start": 1.28,
+    "limit_floor": 1.26,
+    "note": "take profit and cut are measured on the fly's mid; the wings are the only stop when cut is null"
+  },
+  "pilot": {
+    "trades": 0,
+    "wins": 0,
+    "pnl_usd": 0.0,
+    "consecutive_losses": 0,
+    "paused": false,
+    "reasons": [],
+    "review_due": false,
+    "since": null
+  },
+  "risk": {
+    "risk_cap": 2416.29,
+    "open_risk_usd": 607.5,
+    "budget_before": 1808.79,
+    "exit_reserve": 50.0,
+    "this_trade_usd": 0.0,
+    "budget_left": 1808.79
+  },
+  "clock": {
+    "today": "2026-11-17",
+    "now_pt": "08:26",
+    "source": "candidate"
+  },
+  "journal": {
+    "path": "state/earnings/journal.jsonl",
+    "found": true
+  }
+}

@@ -1,6 +1,6 @@
 {
- "as_of": "2026-11-17T16:00:37Z",
- "account_value": 2418.29,
+ "as_of": "2026-11-17T16:34:00Z",
+ "account_value": 2356.91,
  "cap_total_max_loss": 1235.08,
  "execution": {
   "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
@@ -228,6 +228,138 @@
      "timer": "a background timer returns at 12:28 PT"
     }
    }
+  },
+  {
+   "symbol": "TGT",
+   "trade_id": "TGT-20261117-1",
+   "kind": "earnings",
+   "hand_entered": true,
+   "lane": "owner_executed",
+   "structure": "iron fly 140/157.5/175",
+   "expiry": "2026-11-20",
+   "quantity": 1,
+   "opened": "2026-11-17T16:24:46Z",
+   "legs": {
+    "short_157.5C": {
+     "option_id": "326af841-61d6-4746-818c-12b1108b533e",
+     "fill": 7.22,
+     "qty": 1
+    },
+    "short_157.5P": {
+     "option_id": "95d91df9-65de-41a6-a3e8-963902c54f01",
+     "fill": 6.98,
+     "qty": 1
+    },
+    "long_175C": {
+     "option_id": "8053fe9f-d1cd-462d-afda-ab2d8c1cce40",
+     "fill": 1.63,
+     "qty": 1
+    },
+    "long_140P": {
+     "option_id": "7ba666a8-ec67-4ff0-ae5c-fa32698b3e43",
+     "fill": 1.27,
+     "qty": 1
+    }
+   },
+   "net_credit": 11.3,
+   "max_loss_usd": 620.0,
+   "max_profit_usd": 1130.0,
+   "exit_reserve_usd": 50.0,
+   "breakevens": [
+    146.2,
+    168.8
+   ],
+   "wing_width": 17.5,
+   "report": "2026-11-18 before the open",
+   "plan": {
+    "exit": "Wed 2026-11-18 about 06:40 PT",
+    "who": "BRAD, with one 4-leg closing order (owner-executed lane, rules v1.16.1)",
+    "agent_duty": "06:36 to 06:38 PT: quote the four legs, send him the closing ticket (buy to close the 157.5 call and put, sell to close the 175 call and 140 put; net debit limit at the mid, then the walk-up steps) and a push. 06:50 PT: if no closing order of his is in and the two short legs fit the buying power, tell him and leg it out (both shorts in one message, then the wings).",
+    "never_hold_into": "2026-11-20",
+    "close_sequence": "buy back both short legs first, then sell both wings; never sell a wing while its short leg is open"
+   },
+   "alerts": [
+    {
+     "alert_id": "4f54dc85-0eb4-4077-8604-1aa8263ba8d5",
+     "condition": "price_below",
+     "threshold": 146.2
+    },
+    {
+     "alert_id": "e16d70ed-e896-4f0a-9a67-b9e7d481dae8",
+     "condition": "price_above",
+     "threshold": 168.8
+    }
+   ],
+   "tranches": [
+    {
+     "n": 1,
+     "ts": "2026-11-17T16:24:46Z",
+     "quantity": 1,
+     "strikes": [
+      140,
+      157.5,
+      175
+     ],
+     "net_credit": 11.3,
+     "max_loss_usd": 620.0,
+     "order_ids": [
+      "6afc7fcd-43f5-4830-8c2e-aaaf9c0b4d1a"
+     ]
+    }
+   ],
+   "note": "Max loss 620 is 20 over the 600 name cap: Brad saw that on the ticket and placed it himself."
+  },
+  {
+   "symbol": "IWM",
+   "trade_id": "IWM-0DTE-20261117-L1",
+   "kind": "intraday_0dte",
+   "tier": "probe",
+   "owner_override": [
+    "outside_entry_window",
+    "pre_entry_move_too_large"
+   ],
+   "outside_test_data": true,
+   "structure": "iron fly 267/269/271",
+   "expiry": "2026-11-17",
+   "quantity": 1,
+   "opened": "2026-11-17T16:33:04Z",
+   "legs": {
+    "short_269C": {
+     "option_id": "943cf6c5-17fe-4881-9c19-2038a9d1bd52",
+     "fill": 0.72,
+     "qty": 1
+    },
+    "short_269P": {
+     "option_id": "a2cd1c1e-3ca9-42bd-8209-72b5f3ae7db8",
+     "fill": 0.91,
+     "qty": 1
+    },
+    "long_271C": {
+     "option_id": "96e90ddb-da9d-4508-8d83-193b8c5c2e2e",
+     "fill": 0.21,
+     "qty": 1
+    },
+    "long_267P": {
+     "option_id": "13377eb8-731d-4dc5-9b93-8197a94ae743",
+     "fill": 0.28,
+     "qty": 1
+    }
+   },
+   "net_credit": 1.14,
+   "max_loss_usd": 86.0,
+   "max_profit_usd": 114.0,
+   "exit_reserve_usd": 50.0,
+   "breakevens": [
+    267.86,
+    270.14
+   ],
+   "wing_width": 2.0,
+   "plan": {
+    "exit": "flat by 11:00 PT (timer 10:57 PT in the head session)",
+    "rule": "no stop, no take profit, no add, no roll",
+    "close_sequence": "buy back both body legs at the ask in one message; sell each wing at the bid the moment its body leg is flat; a wing with no bid is left to expire only if it is more than 1% out of the money",
+    "broker_sellout": "12:45 PT"
+   }
   }
  ],
  "blockers": [
@@ -245,23 +377,23 @@
   "By Thu 2026-11-19 (at a reflection): wire Friday earnings entries live at half size (P039) and tell Brad when it is in.",
   "Reflection 2026-11-16: turn Brad's 'slightly more aggressive' (lesson L020) into concrete rule changes and tell him which.",
   "Tue 2026-11-17 at the exits: score the four pre-report projections (state/earnings/projections.jsonl, stage pre_report) as state/earnings/projection_calibration.json says, append the scoreboard rows, and apply the update rules at the reflection.",
-  "Tue 2026-11-17 SAME-DAY PILOT, first probe (rules v1.15, docs/earnings/INTRADAY.md): the morning run starts a timer for 07:27 PT after the exits are placed; then intraday-status, yesterday's same-hours move for IWM, quotes, intraday-gate, and on exit code 0 one IWM same-day iron fly, one contract, by four single-leg orders. JD and AS exits come first; skip the pilot for the day if it is past 07:50 PT. Flat by 11:00 PT (the 10:15 run starts the 10:57 timer). This is also the first same-day round trip at the broker: if a closing order is refused, tell Brad at once with the ticket.",
+  "IWM-0DTE-20261117-L1 (owner override, outside the test data) is open: 10:57 PT timer in the head session, flat by 11:00 PT (INTRADAY.md step 9), journal exit_filled with kind intraday_0dte and outside_test_data true. Reflection: P058 (body legs at once as marketable limits; a one-sided fly is finished or unwound inside 60 seconds) and pilot_state: override trades count for the breaker, not for the 20-probe test.",
   "Tue 2026-11-17, Wed 11-18, Fri 11-20, then Fridays: at about 06:50 PT start the spread scan agent (docs/earnings/prompts/brief_daytrade_scan.md; universe state/earnings/daytrade/universe/universe_2026-11-16.json; at most 40 names). It is paper: it never changes the day's pick by itself.",
   "Sat 2026-11-21 research day (docs/earnings/PLAN.md section 9; the Saturday task trig_01KLhgm9Zmpwv2gFcbHkeFAv, 09:00 PT): the overnight test at about 64 nights each for SPY, QQQ and IWM (pass bar fixed 2026-11-16: +$10 a fly after costs and a per-night t of 2 at the 07:00 PT buy-back, else dropped), the replay of the week's earnings reports, the week's spread scans and probe fills. No orders. Then: the same-day probe's review after 10 trades.",
   "Every reflection from 2026-11-17: write the day's round_trip_cost values (live-metrics) into the reflection; on Fridays put the averages on the scorecard (P055). Shrink rule: 10 closed earnings flies averaging above 0.09 halve the earnings sizes until fixed (PLAN.md section 3A).",
   "HD x1 is Brad's hold (2026-11-17 08:04 PT: 'lets leave hd open'). Do not close it. Tell him at the levels under open[HD].rider.tell_brad_when. When he closes it: journal exit_filled for the trade with the total of both contracts (hand_exit true), pause the two HD alerts, write the exit read into projections.jsonl. Fri 2026-11-20: it expires that day; remind him before the open.",
-  "Owner lane (rules v1.16.1): when the account watch shows Brad's TGT order filled, record it (journal entry_filled with hand_entered true and lane owner_executed, live metrics, positions, two breakeven alerts, the pre-report projection). 12:28 PT timer: send him the HD closing ticket and a push at 12:30, leg HD out at 12:45 if he has not closed it."
+  "TGT-20261117-1 (owner lane): Brad's order filled 08:24 PT and is recorded. Still owed today: the exit-time payoff (L015) and the pre-report projection row, at the 12:15 PT run. Wed 2026-11-18: closing ticket and push at 06:38 PT, the agent's legs at 06:50 PT if he has not closed it and they fit. 12:28 PT timer today: HD closing ticket and push at 12:30, leg HD out at 12:45 only if he has not closed it AND the two short legs fit the buying power then (TGT now holds 620 of it)."
  ],
- "buying_power": 1662.29,
+ "buying_power": 955.91,
  "risk": {
-  "total_max_loss_usd": 557.5,
-  "exit_reserves_usd": 50.0,
-  "used_usd": 607.5,
-  "cap_usd": 2418.29,
-  "free_usd": 1810.79,
-  "detail": "HD x1 557.5 + 50 (hand-entered; Brad closed the other contract at 07:59 PT).",
+  "total_max_loss_usd": 1263.5,
+  "exit_reserves_usd": 150.0,
+  "used_usd": 1413.5,
+  "cap_usd": 2356.91,
+  "free_usd": 943.41,
+  "detail": "HD x1 557.5 + 50 (Brad's hold) ; TGT x1 620 + 50 (owner-executed lane, placed by Brad 08:24 PT) ; IWM same-day x1 86 + 50 (owner override, flat by 11:00 PT).",
   "cap_note": "Rules v1.11: the cap is the account value (Brad, 2026-11-13: 'I want you to be able to use the entire funds in the mcp account'). cap_usd is the account value at the last check; it is not lowered below the risk already open when marks fall (the cap binds at entry).",
-  "exit_buying_power": "1,662: the last HD fly's two short legs cost about 1,210, so it can be closed by legs."
+  "exit_buying_power": "955.91 at 08:33 PT. HD by legs needs about 1,250 (the 347.5 put is about 9.2 in the money): it does NOT fit while TGT and IWM are open; it fits again after the IWM fly is closed only if the buying power is back above the two short legs' cost. TGT by legs tomorrow needs about 1,925."
  },
  "eod_note": "2026-11-13 close: PCG x5 open (fly 0.585 at closing mids, +$33.50; about flat on the day, account +$5). No fills today. Account 1,250.91, buying power 1,040.91, risk used 224. Two losses in a row stand (LUNR, NVDA): a third pauses new entries.",
  "watch": [
@@ -722,12 +854,13 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-17T15:59:16Z",
+  "last_query_utc": "2026-11-17T16:25:11Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
    "6afb6d9b-5459-4ce5-bf8b-1c463f58b230",
-   "6afc7963-fd94-44c7-adbb-bc9c76097bc2"
+   "6afc7963-fd94-44c7-adbb-bc9c76097bc2",
+   "6afc7fcd-43f5-4830-8c2e-aaaf9c0b4d1a"
   ],
   "note": "P046. Every check-in queries get_option_orders and get_equity_orders with agent_initiated=false and created_at_gte=last_query_utc, then moves last_query_utc. The three ids are Brad's HD orders of 2026-11-16 (cancelled at 12.00, filled at 11.90 and 11.95)."
  },
@@ -769,6 +902,37 @@
      "state/earnings/daytrade/2026-11-17/pilot_gate_0728.json"
     ],
     "final": "07:50 PT passed with HD still open: no pilot trade on 2026-11-17."
+   },
+   {
+    "date": "2026-11-17",
+    "at_pt": "08:26",
+    "decision": "entered_on_owner_override",
+    "outside_test_data": true,
+    "waived": [
+     "outside_entry_window",
+     "pre_entry_move_too_large"
+    ],
+    "brad": "about 08:23 PT: 'Probe anyway'",
+    "agent_view_before": "would not: past the window, IWM -1.5% on the day; the 90-day replay has gap days at -20 a fly",
+    "fills": {
+     "271C": 0.21,
+     "267P": 0.28,
+     "269P": 0.91,
+     "269C": 0.72
+    },
+    "net_credit": 1.14,
+    "max_loss_usd": 86.0,
+    "breakevens": [
+     267.86,
+     270.14
+    ],
+    "entry_done_pt": "08:33:04",
+    "credit_under_floor_by": 0.12,
+    "why_under_floor": "the fly was one-sided for 187 seconds while IWM fell 0.40; the agent finished it at the market instead of unwinding",
+    "files": [
+     "state/earnings/daytrade/2026-11-17/pilot_candidate_0826.json",
+     "state/earnings/daytrade/2026-11-17/pilot_gate_0826.json"
+    ]
    }
   ],
   "iwm_chain_id": "72362eb7-bc7c-4d10-9be4-48a53fffd101",
@@ -787,7 +951,15 @@
   ],
   "loop_map_page": "https://claude.ai/artifact/DmYhPS8UVrQM2uNi2ixCdH (built by scripts/earnings/loop_map/build.py)",
   "ninety_day_test": "2026-11-16: 290 clean flies on SPY, QQQ, IWM, NVDA, AAPL, AMZN, META average +$5 before costs and -$6 to -$10 after. No name admitted besides IWM. Plan: docs/earnings/PLAN.md.",
-  "saturday_research_task": "trig_01KLhgm9Zmpwv2gFcbHkeFAv fires Sat 2026-11-21 09:00 PT into the head session (P052): overnight test, the week's earnings replay, spread scans. Batch 2 (P047) and the seven-name replay were done on 2026-11-16."
+  "saturday_research_task": "trig_01KLhgm9Zmpwv2gFcbHkeFAv fires Sat 2026-11-21 09:00 PT into the head session (P052): overnight test, the week's earnings replay, spread scans. Batch 2 (P047) and the seven-name replay were done on 2026-11-16.",
+  "override_trades": {
+   "note": "Trades the owner ordered outside the pilot's rules. They count toward the pilot's loss breaker (real money) but not toward the 20-probe test or its averages.",
+   "open": [
+    "IWM-0DTE-20261117-L1"
+   ],
+   "closed": 0,
+   "pnl_usd": 0.0
+  }
  },
  "closed_2026-11-17": [
   {
@@ -887,8 +1059,9 @@
      "175C": "8053fe9f-d1cd-462d-afda-ab2d8c1cce40",
      "140P": "7ba666a8-ec67-4ff0-ae5c-fa32698b3e43"
     },
-    "status": "sent; not placed yet",
-    "note": "about $20 over the $600 name cap at the mid; he was told and took the ticket as shown. Exit: his 4-leg close Wed 2026-11-18 about 06:40 PT; fallback legs at 06:50 PT if they fit."
+    "status": "FILLED by Brad 08:24:46 PT at 11.30 (order 6afc7fcd-43f5-4830-8c2e-aaaf9c0b4d1a): 157.5C 7.22, 157.5P 6.98, 175C 1.63, 140P 1.27. Recorded as TGT-20261117-1.",
+    "note": "about $20 over the $600 name cap at the mid; he was told and took the ticket as shown. Exit: his 4-leg close Wed 2026-11-18 about 06:40 PT; fallback legs at 06:50 PT if they fit.",
+    "max_loss": 620.0
    }
   ],
   "staging_desk": {
