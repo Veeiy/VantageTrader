@@ -225,7 +225,7 @@
     "close_today": {
      "ticket_and_push_pt": "12:30",
      "fallback": "12:45 PT: if he has not closed it, the agent closes it by legs (both shorts in one message, wings after); the legs fit the buying power",
-     "timer": "a background timer returns at 12:28 PT",
+     "timer": "the first timer was stopped by the harness at its two-hour limit (10:18 PT); a backstop timer returns at 12:16 PT, and the 12:15 PT run starts the 12:28 PT one",
      "legs_fit_note": "2026-11-17 08:37 PT: with TGT open the buying power is 956 and HD's two short legs cost about 1,225 (the 347.5 put alone about 990). The agent's legs at 12:45 PT happen only if the buying power then covers the short put first and the short call after it; otherwise the close is Brad's 4-leg order (ticket and push at 12:30 PT) and he is told at once. He was told at 08:37 PT."
     }
    }
@@ -383,7 +383,8 @@
   "Sat 2026-11-21 research day (docs/earnings/PLAN.md section 9; the Saturday task trig_01KLhgm9Zmpwv2gFcbHkeFAv, 09:00 PT): the overnight test at about 64 nights each for SPY, QQQ and IWM (pass bar fixed 2026-11-16: +$10 a fly after costs and a per-night t of 2 at the 07:00 PT buy-back, else dropped), the replay of the week's earnings reports, the week's spread scans and probe fills. No orders. Then: the same-day probe's review after 10 trades.",
   "Every reflection from 2026-11-17: write the day's round_trip_cost values (live-metrics) into the reflection; on Fridays put the averages on the scorecard (P055). Shrink rule: 10 closed earnings flies averaging above 0.09 halve the earnings sizes until fixed (PLAN.md section 3A).",
   "HD x1 is Brad's hold (2026-11-17 08:04 PT: 'lets leave hd open'). Do not close it. Tell him at the levels under open[HD].rider.tell_brad_when. When he closes it: journal exit_filled for the trade with the total of both contracts (hand_exit true), pause the two HD alerts, write the exit read into projections.jsonl. Fri 2026-11-20: it expires that day; remind him before the open.",
-  "TGT-20261117-1 (owner lane): Brad's order filled 08:24 PT and is recorded. Still owed today: the exit-time payoff (L015) and the pre-report projection row, at the 12:15 PT run. Wed 2026-11-18: closing ticket and push at 06:38 PT, the agent's legs at 06:50 PT if he has not closed it and they fit. 12:28 PT timer today: HD closing ticket and push at 12:30, leg HD out at 12:45 only if he has not closed it AND the two short legs fit the buying power then (TGT now holds 620 of it)."
+  "TGT-20261117-1 (owner lane): Brad's order filled 08:24 PT and is recorded. Still owed today: the exit-time payoff (L015) and the pre-report projection row, at the 12:15 PT run. Wed 2026-11-18: closing ticket and push at 06:38 PT, the agent's legs at 06:50 PT if he has not closed it and they fit. 12:28 PT timer today: HD closing ticket and push at 12:30, leg HD out at 12:45 only if he has not closed it AND the two short legs fit the buying power then (TGT now holds 620 of it).",
+  "Reflection 2026-11-17: a background timer lives at most two hours (the harness stopped the 12:28 PT HD timer at 10:18 PT; it had been started at 08:18 PT). Write the rule into the prompts: a timer is started from the last check-in within two hours of its event, never earlier; the head restarted both timers at 10:18 PT (10:57 PT pilot exit, 12:16 PT backstop for the HD ticket)."
  ],
  "buying_power": 955.91,
  "risk": {
