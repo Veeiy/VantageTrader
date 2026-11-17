@@ -118,6 +118,36 @@ DEFAULTS: dict[str, Any] = {
     ],
     "market_early_closes": ["2026-11-27", "2026-12-24", "2027-11-26", "2027-12-24"],
     "max_expiry_days_after_report": 7,
+    # --- same-day pilot (v1.15, proposal P017; the owner on 2026-11-16: "Push the day trading pilot") ---
+    # A same-day iron fly on an index fund: one contract, one fly a day, closed the same day.
+    "intraday_live_enabled": True,            # false ("day trades paper") puts the line back on paper
+    "intraday_live_names": ["SPY", "QQQ", "IWM"],   # penny-wide index funds only; TSLA can never be listed
+    "intraday_probe_names": ["IWM"],          # names a probe (the small tier) may use; a subset of the live names
+    "intraday_entry_start": "07:25 America/Los_Angeles",
+    "intraday_entry_end": "07:50 America/Los_Angeles",
+    "intraday_time_stop": "11:40 America/Los_Angeles",   # flat by this time (hard cap 12:15 PT)
+    "intraday_max_spread_pct": 0.03,          # body straddle (ask-bid)/mid (hard cap 0.05)
+    "intraday_lookback": 10,                  # sessions behind the premium ratio
+    "intraday_signal_enabled": False,         # the signal tier: a premium ratio inside the band below
+    "intraday_signal_min_ratio": None,        # None = no lower bound
+    "intraday_signal_max_ratio": None,        # None = no upper bound
+    "intraday_max_loss": 200.0,               # max loss of a signal-tier fly at the credit floor (hard cap 200)
+    "intraday_probe_enabled": True,           # the probe tier: the smallest fly, traded for execution data
+    "intraday_probe_max_loss": 80.0,          # max loss of a probe at the credit floor (hard cap 80)
+    "intraday_max_quantity": 1,               # hard cap 1
+    "intraday_max_entries_per_day": 1,        # hard cap 1
+    "intraday_pilot_loss_limit": 150.0,       # the pilot pauses at this cumulative realized loss (hard cap 150)
+    "intraday_max_consecutive_losses": 3,     # ... or after this many pilot losses in a row (hard cap 3)
+    "intraday_pilot_reset_ts": None,          # ISO ts; pilot trades closed before it do not count (a ledgered restart)
+    "intraday_review_after_trades": 10,       # the pilot is reviewed after this many closed live trades
+    "intraday_take_profit_frac": None,        # close when the profit reaches this share of the credit; None = off
+                                              # (the replay found no gain from a take profit or a stop)
+    "intraday_cut_frac": None,                # close when the loss reaches this share of the max loss; None = off
+    "intraday_min_wing_over_straddle": 0.6,   # wings are the listed strikes nearest 1x the body straddle
+    "intraday_max_wing_over_straddle": 1.6,
+    "intraday_max_off_center": 0.35,          # |spot - body strike| as a share of the body straddle
+    "intraday_max_pre_move": 0.01,            # |spot / previous close - 1| above this blocks the entry
+    "intraday_cost_usd": 5.0,                 # assumed round-trip cost of one IWM fly (eight single-leg orders)
     # --- paths ---
     "journal_path": "state/earnings/journal.jsonl",
 }
@@ -149,7 +179,19 @@ HARD_CAPS: dict[str, tuple[str, float]] = {
     "max_consecutive_max_loss": ("max", 2),
     "max_consecutive_losses": ("max", 3),
     "cancel_by_latest_minutes": ("max", 12 * 60 + 50),  # virtual key, checked below
+    # v1.15: the same-day pilot stays a pilot. These caps move only by a ledgered decision that cites
+    # a filter which passed its out-of-sample test (docs/earnings/INTRADAY.md).
+    "intraday_max_spread_pct": ("max", 0.05),
+    "intraday_max_loss": ("max", 200.0),
+    "intraday_probe_max_loss": ("max", 80.0),
+    "intraday_max_quantity": ("max", 1),
+    "intraday_max_entries_per_day": ("max", 1),
+    "intraday_pilot_loss_limit": ("max", 150.0),
+    "intraday_max_consecutive_losses": ("max", 3),
+    "intraday_max_pre_move": ("max", 0.03),
+    "intraday_max_off_center": ("max", 0.5),
 }
+INTRADAY_TIME_STOP_LATEST = 12 * 60 + 15   # minutes after midnight, Los Angeles: never held into the last 45 minutes
 ALWAYS_BLOCKED = ("TSLA",)
 
 _NUMERIC = {
@@ -162,12 +204,17 @@ _NUMERIC = {
     "max_loss_bp_frac", "tick", "step_small", "step_large", "step_threshold",
     "credit_floor_mid_frac", "debit_ceiling_mid_frac", "min_account_value",
     "max_loss_tolerance", "straddle_take_profit", "exit_slippage_reserve",
+    "intraday_max_spread_pct", "intraday_max_loss", "intraday_probe_max_loss", "intraday_pilot_loss_limit",
+    "intraday_min_wing_over_straddle", "intraday_max_wing_over_straddle", "intraday_max_off_center",
+    "intraday_max_pre_move", "intraday_cost_usd",
 }
 _INT = {
     "min_history", "history_lookback", "max_quantity", "max_prudential_conditions",
     "max_consecutive_max_loss", "max_consecutive_losses",
     "exit_min_minutes_since_open", "calibrate_min_trades", "calibrate_prior_weight",
     "max_expiry_days_after_report",
+    "intraday_lookback", "intraday_max_quantity", "intraday_max_entries_per_day",
+    "intraday_max_consecutive_losses", "intraday_review_after_trades",
 }
 _POSITIVE = {
     "min_price", "straddle_factor", "sell_max_ratio", "buy_min_ratio",
@@ -180,6 +227,10 @@ _POSITIVE = {
     "prudential_size_factor", "max_prudential_conditions",
     "max_consecutive_losses", "max_spread_pct", "max_intraday_move", "max_loss_tolerance",
     "straddle_take_profit", "calibrate_min_trades", "max_expiry_days_after_report",
+    "intraday_max_spread_pct", "intraday_max_loss", "intraday_probe_max_loss", "intraday_pilot_loss_limit",
+    "intraday_min_wing_over_straddle", "intraday_max_wing_over_straddle", "intraday_max_off_center",
+    "intraday_max_pre_move", "intraday_lookback", "intraday_max_quantity", "intraday_max_entries_per_day",
+    "intraday_max_consecutive_losses", "intraday_review_after_trades",
 }
 
 
@@ -231,6 +282,44 @@ def validate(cfg: dict[str, Any]) -> dict[str, Any]:
     # v1.14: the off switch is a real boolean (a quoted "false" would otherwise read as on)
     if not isinstance(out["prudential_half_enabled"], bool):
         raise ConfigError(f"prudential_half_enabled must be true or false, got {out['prudential_half_enabled']!r}")
+
+    # v1.15: the same-day pilot
+    for k in ("intraday_live_enabled", "intraday_signal_enabled", "intraday_probe_enabled"):
+        if not isinstance(out[k], bool):
+            raise ConfigError(f"{k} must be true or false, got {out[k]!r}")
+    for k in ("intraday_signal_min_ratio", "intraday_signal_max_ratio", "intraday_take_profit_frac",
+              "intraday_cut_frac"):
+        if out[k] is not None:
+            if not _is_number(out[k]) or float(out[k]) <= 0:
+                raise ConfigError(f"{k} must be null or a number > 0, got {out[k]!r}")
+            out[k] = float(out[k])
+    lo, hi = out["intraday_signal_min_ratio"], out["intraday_signal_max_ratio"]
+    if lo is not None and hi is not None and lo >= hi:
+        raise ConfigError("intraday_signal_min_ratio must be < intraday_signal_max_ratio")
+    if out["intraday_signal_enabled"] and lo is None and hi is None:
+        raise ConfigError("intraday_signal_enabled needs intraday_signal_min_ratio or intraday_signal_max_ratio")
+    for k in ("intraday_take_profit_frac", "intraday_cut_frac"):
+        if out[k] is not None and out[k] > 1:
+            raise ConfigError(f"{k} must be <= 1")
+    if out["intraday_cost_usd"] < 0:
+        raise ConfigError("intraday_cost_usd must be >= 0")
+    if out["intraday_min_wing_over_straddle"] > out["intraday_max_wing_over_straddle"]:
+        raise ConfigError("intraday_min_wing_over_straddle must be <= intraday_max_wing_over_straddle")
+    if out["intraday_probe_max_loss"] > out["intraday_max_loss"]:
+        raise ConfigError("intraday_probe_max_loss must be <= intraday_max_loss")
+    for k in ("intraday_live_names", "intraday_probe_names"):
+        names = out[k]
+        if not isinstance(names, list) or not all(isinstance(s, str) for s in names):
+            raise ConfigError(f"{k} must be a list of ticker strings")
+        out[k] = [norm_symbol(s) for s in names]
+        for s in ALWAYS_BLOCKED:
+            if s in out[k]:
+                raise ConfigError(f"{k} may never list {s}")
+    extra = sorted(set(out["intraday_probe_names"]) - set(out["intraday_live_names"]))
+    if extra:
+        raise ConfigError(f"intraday_probe_names must be a subset of intraday_live_names, got {extra}")
+    if out["intraday_pilot_reset_ts"] is not None and not isinstance(out["intraday_pilot_reset_ts"], str):
+        raise ConfigError("intraday_pilot_reset_ts must be null or an ISO timestamp string")
 
     # blocklist
     bl = out["blocklist"]
@@ -307,6 +396,16 @@ def validate(cfg: dict[str, Any]) -> dict[str, Any]:
     _check_tz(parse_cancel_by(out["final_window_start"])[2])
     if cancel_by_la_minutes(out["final_window_start"]) >= cancel_by_la_minutes(out["cancel_by"]):
         raise ConfigError("final_window_start must be earlier than cancel_by")
+    # v1.15: the pilot's clock. Entry window, then the time stop, never later than 12:15 PT.
+    for k in ("intraday_entry_start", "intraday_entry_end", "intraday_time_stop"):
+        if not isinstance(out[k], str):
+            raise ConfigError(f"{k} must be a string like '07:25 America/Los_Angeles'")
+        _check_tz(parse_cancel_by(out[k])[2])
+    if not (cancel_by_la_minutes(out["intraday_entry_start"]) < cancel_by_la_minutes(out["intraday_entry_end"])
+            < cancel_by_la_minutes(out["intraday_time_stop"])):
+        raise ConfigError("intraday_entry_start < intraday_entry_end < intraday_time_stop is required")
+    if cancel_by_la_minutes(out["intraday_time_stop"]) > INTRADAY_TIME_STOP_LATEST:
+        raise ConfigError("intraday_time_stop may not be later than 12:15 America/Los_Angeles")
     for k in ("market_timezone",):
         if not isinstance(out[k], str):
             raise ConfigError(f"{k} must be a string")

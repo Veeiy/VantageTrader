@@ -46,6 +46,9 @@ Additive options beyond the contract (all optional, contract invocations work as
   gate [--input FILE|-] [--config] [--journal] runs ONE candidate through every entry rule
     (v1.1-v1.5) and prints the decision record (docs/earnings/GATE.md). Reads stdin when
     --input is absent or "-". Exit 0 = may be entered, 3 = blocked, 2 = bad input.
+  intraday-gate [--input FILE|-] [--config] [--journal] runs ONE same-day pilot candidate
+    through the pilot's rules (v1.15, docs/earnings/INTRADAY.md). Same exit codes as gate.
+  intraday-status [--config] [--journal] prints the pilot's record and whether it is paused.
 """
 from __future__ import annotations
 
@@ -59,6 +62,7 @@ from typing import Any
 
 from . import calibrate as calib
 from . import gate as gate_mod
+from . import intraday as intraday_mod
 from . import health, history, journal, lease, metrics, projection, proposals, reconcile, reflect, replay, rules, scoring
 from .config import EngineInputError, load_config
 
@@ -213,6 +217,13 @@ def build_parser() -> argparse.ArgumentParser:
     g.add_argument("--input", default="-")
     g.add_argument("--config")
     g.add_argument("--journal")
+    ig = sub.add_parser("intraday-gate")
+    ig.add_argument("--input", default="-")
+    ig.add_argument("--config")
+    ig.add_argument("--journal")
+    ips = sub.add_parser("intraday-status")
+    ips.add_argument("--config")
+    ips.add_argument("--journal")
     sc = sub.add_parser("selfcheck")
     sc.add_argument("--journal")
     sc.add_argument("--metrics", default=DEFAULT_METRICS)
@@ -321,6 +332,29 @@ def run(argv: list[str] | None = None) -> tuple[dict[str, Any], int]:
         out["phase_source"] = phase_source
         out["journal"] = {"path": jpath, "found": Path(jpath).exists()}
         return out, code
+    if args.cmd == "intraday-gate":
+        if args.input == "-":
+            try:
+                cand = json.loads(sys.stdin.read())
+            except json.JSONDecodeError as e:
+                raise EngineInputError(f"candidate on stdin is not valid JSON: {e}")
+        else:
+            cand = _load_json(args.input, "candidate")
+        jpath = args.journal or cfg["journal_path"]
+        out, code = intraday_mod.evaluate(cand, cfg, journal.read_journal(jpath))
+        out["journal"] = {"path": jpath, "found": Path(jpath).exists()}
+        return out, code
+    if args.cmd == "intraday-status":
+        jpath = args.journal or cfg["journal_path"]
+        state = intraday_mod.pilot_state(journal.read_journal(jpath), cfg)
+        return {"pilot": state, "live_enabled": cfg["intraday_live_enabled"],
+                "probe_names": cfg["intraday_probe_names"] if cfg["intraday_probe_enabled"] else [],
+                "signal_tier": cfg["intraday_signal_enabled"],
+                "limits": {"probe_max_loss": cfg["intraday_probe_max_loss"],
+                           "pilot_loss_limit": cfg["intraday_pilot_loss_limit"],
+                           "losses_in_a_row": cfg["intraday_max_consecutive_losses"],
+                           "review_after_trades": cfg["intraday_review_after_trades"]},
+                "journal": {"path": jpath, "found": Path(jpath).exists()}}, 0
     if args.cmd == "score":
         snap = _load_json(args.snapshot, "snapshot")
         jpath = args.journal or cfg["journal_path"]

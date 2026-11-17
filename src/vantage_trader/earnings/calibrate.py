@@ -63,7 +63,7 @@ def _propose(current: float, side: list[dict[str, Any]], bounds: list[float], pr
 
 
 def calibrate(events: list[dict[str, Any]], cfg: dict[str, Any]) -> dict[str, Any]:
-    trades = jr.closed_trades(events)
+    trades = jr.main_trades(jr.closed_trades(events))   # v1.15: the same-day pilot is not an earnings edge sample
     n = len(trades)
     current = {"sell_max_ratio": cfg["sell_max_ratio"], "buy_min_ratio": cfg["buy_min_ratio"]}
     result: dict[str, Any] = {

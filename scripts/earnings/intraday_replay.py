@@ -38,6 +38,8 @@ import sys
 from pathlib import Path
 
 TIMES = ["07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30"]
+PARITY_TOL = {"SPY": 0.30, "QQQ": 0.30, "IWM": 0.12}     # dollars; see build()
+COST = {"SPY": 8.0, "QQQ": 8.0, "IWM": 5.0}             # round trip per fly: eight single-leg orders, penny-wide
 
 
 def load(folder: Path) -> tuple[dict, list[dict]]:
@@ -102,6 +104,17 @@ def build(eq: dict, rows: list[dict], lookback: int = 10) -> list[dict]:
         moves_1230 = [abs(eq[sym][d]["12:30"]["o"] / eq[sym][d]["07:30"]["o"] - 1.0) for d in prior]
         prev_close = eq[sym][days[di - 1]]["12:30"]["c"] if di > 0 else None
         path = [fly_cost(r, i) for i in range(len(TIMES))]
+        # Data quality. A body call minus a body put must equal stock minus strike on expiration
+        # day. Where the bar-start prints disagree with the stock's bar by more than the tolerance
+        # the prints are not from the same moment and that mark is not used.
+        tol = PARITY_TOL.get(sym, 0.30)
+        good = []
+        for i, tm in enumerate(TIMES):
+            c_, p_ = _val(r, "C", i), _val(r, "P", i)
+            if path[i] is None or c_ is None or p_ is None:
+                good.append(False)
+                continue
+            good.append(abs((c_ - p_) - (bars[tm]["o"] - k)) <= tol)
         interp = r.get("interp", {})
         n_interp = sum(len(interp.get(leg, [])) for leg in ("C", "P", "WC", "WP"))
         out.append({
@@ -117,7 +130,7 @@ def build(eq: dict, rows: list[dict], lookback: int = 10) -> list[dict]:
             "drive": spot / bars["06:30"]["o"] - 1.0,
             "range_pre": (max(bars[t]["h"] for t in ("06:30", "07:00")) - min(bars[t]["l"] for t in ("06:30", "07:00"))) / spot,
             "off_center": (spot - k) / straddle if straddle else None,
-            "path": path,
+            "path": path, "good": good, "entry_good": good[0],
             "spots": [implied_spot(r, i) for i in range(len(TIMES))],
             "clipped": sum(1 for i in range(len(TIMES))
                            if fly_cost(r, i) is not None and abs(fly_cost(r, i) - fly_cost(r, i, bounded=False)) > 1e-9),
@@ -126,11 +139,29 @@ def build(eq: dict, rows: list[dict], lookback: int = 10) -> list[dict]:
     return out
 
 
-def pnl_at(f: dict, i: int, cost: float) -> float | None:
-    cc = f["path"][i]
-    if cc is None:
+def cost_of(f: dict, cost: float | None) -> float:
+    return COST.get(f["symbol"], 8.0) if cost is None else cost
+
+
+def usable_mark(f: dict, i: int, strict: bool = False) -> int | None:
+    """Bar i when its prints are usable, else the nearest usable bar (the next one first)."""
+    n = len(f["path"])
+    if f["good"][i]:
+        return i
+    if strict:
         return None
-    return (f["credit"] - cc) * 100.0 - cost
+    for d in (1, -1, 2, -2):
+        j = i + d
+        if 1 <= j < n and f["good"][j]:
+            return j
+    return None
+
+
+def pnl_at(f: dict, i: int, cost: float | None) -> float | None:
+    j = usable_mark(f, i)
+    if j is None:
+        return None
+    return (f["credit"] - f["path"][j]) * 100.0 - cost_of(f, cost)
 
 
 def run_rule(f: dict, cost: float, t_exit: int, tp: float | None = None, stop: float | None = None,
@@ -139,10 +170,11 @@ def run_rule(f: dict, cost: float, t_exit: int, tp: float | None = None, stop: f
     tp x credit. stop: close when the loss before costs is at least stop x max loss.
     stop_slip: extra dollars lost on a stop (it fills past the level). Returns (pnl, why, bar)."""
     credit, ml = f["credit"], f["max_loss_usd"]
+    cost = cost_of(f, cost)
     last = None
     for i in range(1, t_exit + 1):
         cc = f["path"][i]
-        if cc is None:
+        if cc is None or not f["good"][i]:
             continue
         gross = (credit - cc) * 100.0
         last = (gross - cost, "time", i)
@@ -185,12 +217,23 @@ def line(label: str, s: dict) -> str:
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("folder", nargs="?", default="state/earnings/daytrade/replay")
-    ap.add_argument("--cost", type=float, default=12.0)
+    ap.add_argument("--cost", type=float, default=None,
+                    help="round-trip cost per fly; default: SPY 8, QQQ 8, IWM 5")
+    ap.add_argument("--keep-bad-entries", action="store_true",
+                    help="keep sessions whose 07:30 prints fail the parity check")
+    ap.add_argument("--names", default=None, help="comma-separated subset of names")
+    ap.add_argument("--from-date", default=None)
     ap.add_argument("--json", default=None)
     ap.add_argument("--max-loss", type=float, default=None, help="only flies with max loss at or under this")
     a = ap.parse_args(argv)
     eq, rows = load(Path(a.folder))
-    flies = [f for f in build(eq, rows) if f["valid"]]
+    every = [f for f in build(eq, rows) if f["valid"]]
+    flies = every if a.keep_bad_entries else [f for f in every if f["entry_good"]]
+    if a.names:
+        flies = [f for f in flies if f["symbol"] in a.names.split(",")]
+    if a.from_date:
+        flies = [f for f in flies if f["date"] >= a.from_date]
+    dropped = len(every) - len([f for f in every if f["entry_good"]])
     if a.max_loss is not None:
         flies = [f for f in flies if f["max_loss_usd"] <= a.max_loss]
     if not flies:
@@ -199,7 +242,13 @@ def main(argv: list[str] | None = None) -> int:
     cost = a.cost
     out: dict = {"cost_usd": cost, "n_flies": len(flies), "n_days": len({f["date"] for f in flies}),
                  "names": sorted({f["symbol"] for f in flies})}
-    print(f"{len(flies)} flies, {out['n_days']} days, names {out['names']}, round-trip cost ${cost:.0f} a fly")
+    out["entries_failing_parity"] = dropped
+    cost_txt = "SPY 8, QQQ 8, IWM 5" if cost is None else f"{cost:.0f}"
+    marks = sum(len(f["good"]) - 1 for f in flies)
+    bad = sum(1 for f in flies for g in f["good"][1:] if not g)
+    print(f"{len(flies)} flies, {out['n_days']} days, names {out['names']}, round-trip cost ${cost_txt} a fly; "
+          f"{dropped} session(s) fail the parity check at entry ({'kept' if a.keep_bad_entries else 'dropped'}); "
+          f"{bad} of {marks} later marks unusable")
     print(f"credit/width mean {st.mean(f['credit_over_width'] for f in flies):.3f}; "
           f"max loss mean ${st.mean(f['max_loss_usd'] for f in flies):.0f}; "
           f"straddle% mean {100 * st.mean(f['straddle_pct'] for f in flies):.3f}")

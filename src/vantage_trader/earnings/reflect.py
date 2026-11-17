@@ -205,7 +205,8 @@ def day_pack(date: str, journal_events: list[dict[str, Any]], metric_records: li
         "execution": {"entries": exec_stats("entry"), "exits": exec_stats("exit")},
         "open_positions": open_positions,
         "risk": (positions or {}).get("risk"),
-        "streaks": jr.streaks(trades, max_loss_tolerance),
+        "streaks": jr.streaks(jr.main_trades(trades), max_loss_tolerance),   # v1.15: without the same-day pilot
+        "pilot_trades_today": [t for t in closed_today if jr.is_pilot(t)],
         "paper_scored_today": paper,
         "decisions_to_grade": decisions,
         "lessons": lessons_view(lesson_events),

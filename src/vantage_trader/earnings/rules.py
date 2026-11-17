@@ -104,7 +104,9 @@ def parse_date(s: Any, what: str) -> date:
 # ---------------------------------------------------------------- circuit breaker
 
 def circuit_breaker(account: dict[str, Any], events: list[dict[str, Any]], cfg: dict[str, Any]) -> dict[str, Any]:
-    trades = jr.closed_trades(events)
+    # v1.15: the same-day pilot has its own breaker (intraday.pilot_state); a one-contract pilot
+    # must not be able to halt the main line, so its trades are left out of these streaks.
+    trades = jr.main_trades(jr.closed_trades(events))
     st = jr.streaks(trades, cfg["max_loss_tolerance"], cfg.get("circuit_reset_ts"))
     reasons = []
     tv = (account or {}).get("total_value")

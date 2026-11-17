@@ -41,6 +41,10 @@ from .config import EngineInputError, norm_symbol
 EVENTS = {"scan", "entry_submitted", "entry_filled", "entry_cancelled", "exit_submitted",
           "exit_filled", "halt", "heal", "calibrate"}
 CREDIT_STRUCTURES = {"iron_fly", "iron_condor"}
+# Rules v1.15: the same-day pilot (proposal P017). Its entry_filled and exit_filled events carry
+# ``"kind": "intraday_0dte"``. Pilot trades have their own breaker (intraday.pilot_state) and are
+# left out of the account's loss streaks and of the edge calibration.
+PILOT_KIND = "intraday_0dte"
 DEBIT_STRUCTURES = {"long_straddle", "long_strangle"}
 
 
@@ -141,6 +145,7 @@ def closed_trades(events: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
             max_loss = _num(entry.get("max_loss")) or _num(ev.get("max_loss"))
             trades.append({
                 "symbol": sym, "structure": entry.get("structure") or ev.get("structure"), "direction": direction,
+                "kind": entry.get("kind") or ev.get("kind"),
                 "entry_ts": entry.get("ts"), "exit_ts": ev.get("ts"),
                 "entry_price": ep, "exit_price": xp, "quantity": qty, "pnl": pnl,
                 "max_loss": max_loss, "tranches": int(entry.get("tranches") or 1),
@@ -150,6 +155,16 @@ def closed_trades(events: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
                 else _num(entry.get("realized_move")),
             })
     return trades
+
+
+def is_pilot(t: dict[str, Any]) -> bool:
+    """A closed trade (or an event) of the same-day pilot (v1.15)."""
+    return t.get("kind") == PILOT_KIND
+
+
+def main_trades(trades: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Closed trades without the same-day pilot: what the account breaker and the calibration read."""
+    return [t for t in trades if not is_pilot(t)]
 
 
 def is_loss(t: dict[str, Any]) -> bool:

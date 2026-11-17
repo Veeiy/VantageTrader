@@ -111,5 +111,39 @@ market_early_closes:         # 13:00 ET closes; entries never use an expiry on t
   - "2027-12-24"
 max_expiry_days_after_report: 7   # entry expiry must be <= report_date + this many calendar days
 
+# --- same-day pilot (rules v1.15, proposal P017) ---
+# Owner, 2026-11-16: "Push the day trading pilot" and "Dont need a decision on me. Remember, self
+# healing and strengthening the model with your own decision making".
+# A same-day iron fly on an index fund: one contract, one fly a day, closed the same day.
+# Replay of 90 flies over 30 sessions (state/earnings/daytrade/replay): about breakeven before
+# costs, no filter validated. So the line runs as PROBES until a filter passes its test.
+intraday_live_enabled: true         # false ("day trades paper") puts the line back on paper
+intraday_live_names: [SPY, QQQ, IWM]
+intraday_probe_names: [IWM]         # the probe tier trades the smallest fly only
+intraday_entry_start: "07:25 America/Los_Angeles"
+intraday_entry_end: "07:50 America/Los_Angeles"
+intraday_time_stop: "11:40 America/Los_Angeles"   # HARD CAP <= 12:15 PT
+intraday_max_spread_pct: 0.03       # HARD CAP <= 0.05
+intraday_lookback: 10
+intraday_signal_enabled: false      # the signal tier is off: no premium-ratio band has passed a test
+intraday_signal_min_ratio: null
+intraday_signal_max_ratio: null
+intraday_max_loss: 200.0            # HARD CAP <= 200 (signal tier)
+intraday_probe_enabled: true
+intraday_probe_max_loss: 80.0       # HARD CAP <= 80
+intraday_max_quantity: 1            # HARD CAP <= 1
+intraday_max_entries_per_day: 1     # HARD CAP <= 1
+intraday_pilot_loss_limit: 150.0    # HARD CAP <= 150: the pilot pauses at this cumulative loss
+intraday_max_consecutive_losses: 3  # HARD CAP <= 3: ... or after this many pilot losses in a row
+intraday_pilot_reset_ts: null
+intraday_review_after_trades: 10
+intraday_take_profit_frac: null     # off: the replay found no gain from a take profit
+intraday_cut_frac: null             # off: stops made the replay worse; the wings are the stop
+intraday_min_wing_over_straddle: 0.6
+intraday_max_wing_over_straddle: 1.6
+intraday_max_off_center: 0.35       # HARD CAP <= 0.5
+intraday_max_pre_move: 0.01         # HARD CAP <= 0.03: no entry after a 1% move from the prior close
+intraday_cost_usd: 5.0
+
 # --- paths ---
 journal_path: state/earnings/journal.jsonl
