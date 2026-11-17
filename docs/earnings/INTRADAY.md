@@ -144,6 +144,20 @@ just a few tickets. But liquidity and tightish spreads is important not to eat i
   credit that morning, and never the same name more than three days running.
 - The paper desk keeps its ten names every day as the control.
 
+**The universe on 2026-11-16** (`state/earnings/daytrade/universe/universe_2026-11-16.json`, 72
+names: 60 from the scanner, 12 added by hand):
+- **A same-day expiration every day (9):** SPY, QQQ, IWM, IBIT, GLD, and the index options XSP,
+  SPX, NDX, RUT (cash-settled, no early assignment; SPX, NDX and RUT trade in 5 and 10 cent
+  steps and a one-contract fly on them is far above the cap; XSP is SPY-sized).
+- **Mon, Wed, Fri (20 tradable):** NVDA (on hold), TLT, MU, XLF, AAPL, AMD, SLV, AMZN, GOOGL,
+  LQD, META, SMH, MSFT, TQQQ, AVGO, XLE, GDX, IEF, SPCX, DRAM. TSLA is in this class and blocked.
+- **Fridays only (40):** EWZ, HYG, INTC, NFLX, MSTR, SOXL, EEM, ORCL, PLTR, HOOD, COIN and others.
+- Spreads cannot be judged with the market closed. What the paper desk saw at 07:15 PT on
+  2026-11-16, body spread as a share of the straddle: SPY 0.7%, QQQ 0.7%, NVDA 1.0%, IWM 1.1%,
+  META 2.6%, AMZN 2.8%, AAPL 3.8%, IBIT 4.2%, AMD 5.1%, MSFT 5.2%.
+- The Saturday replay (2026-11-21) adds IBIT, GLD and XSP and the three tightest Mon/Wed/Fri
+  names from the week's scans.
+
 ## The day
 1. **Timer.** The morning run (`prompts/exit_scan.md`) starts a background timer for 07:27 PT
    once the morning exits are done. The 07:15 hourly run is the second net.
