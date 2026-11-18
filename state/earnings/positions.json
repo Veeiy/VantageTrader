@@ -189,7 +189,8 @@
   "Wed 2026-11-18 or Thu 2026-11-19, at the reflection: wire Friday earnings entries live at half size (P039, approved 2026-11-16) before Fri 2026-11-20, and tell Brad when it is in.",
   "Wed 2026-11-18 reflection: the hub's 'Today' tile counts a carried-over fly's whole open P/L; change it to the day's change (the prior close of each leg is in the quote payload), in scripts/earnings/hub/page/hub.js and the stored files/hub.js.",
   "From 2026-11-18: every exit records bp_at_exit, dearer_short_ask and the step of EXECUTION.md section 5 that was used (P062); every leg a legs_detail row (P059).",
-  "From Wed 2026-11-18 (P063, rules v1.16.5): the daemon's default wait is 240 s and no agent waits longer than 240 s in one piece; the hourly run replaces a daemon that has run two hours; the reflection fires at 13:12 PT and writes the usage line (python3 scripts/earnings/usage_scan.py --date <today> --append state/earnings/usage.jsonl)."
+  "From Wed 2026-11-18 (P063, rules v1.16.5): the daemon's default wait is 240 s and no agent waits longer than 240 s in one piece; the hourly run replaces a daemon that has run two hours; the reflection fires at 13:12 PT and writes the usage line (python3 scripts/earnings/usage_scan.py --date <today> --append state/earnings/usage.jsonl).",
+  "Wed 2026-11-18, iteration on exit timing (told Brad 2026-11-17 evening): after TGT and TJX are closed at the 06:36 run, keep their eight leg ids and read get_option_quotes for them once at the 07:15 hourly run and once at the 08:15 run; write one live_metrics row per fly and time, record 'shadow_exit' (close cost at mid and at natural, the stock, and the difference from the real exit). Read-only, no extra wake. After 10 flies the reflection compares 06:36 with the two later marks."
  ],
  "buying_power": 1538.37,
  "risk": {
