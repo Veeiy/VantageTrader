@@ -589,8 +589,9 @@ NEAR_MISS = {"hist_moves": _moves_for(0.95), "regime_20d": 0.001}     # edge rat
 
 
 def v114(cfg_over=None, **over):
-    """LUNR in the final window with nothing else open, at the live defaults (target 20% of $1,339)."""
-    return gate.evaluate(cand(**{"open_risk_usd": 0, "phase": "final", **over}), cfg(**(cfg_over or {})), [])
+    """LUNR in the final window with nothing else open (target 20% of $1,339), with soft news halving as in v1.14."""
+    return gate.evaluate(cand(**{"open_risk_usd": 0, "phase": "final", **over}),
+                         cfg(**{"soft_news_sizes_down": True, **(cfg_over or {})}), [])
 
 
 def test_v114_one_soft_flag_trades_at_half_size():
@@ -785,11 +786,12 @@ def test_v114_cli_prints_the_new_fields(tmp_path, capsys):
     p = tmp_path / "c.json"
     p.write_text(json.dumps(cand(flags=[SOFT_FLAG], phase="final")))
     code, d = _call(capsys, ["gate", "--input", str(p), "--journal", str(tmp_path / "none.jsonl")])
-    assert code == 0 and d["action"] == "sell" and d["prudential"] == ["soft_news"] and d["size_factor"] == 0.5
+    # v1.16.6 (the repo config, Brad 2026-11-18): a soft news flag no longer cuts the size
+    assert code == 0 and d["action"] == "sell" and d["prudential"] == [] and d["size_factor"] == 1.0
     assert len(d["gates"]) == 17 and d["gates"][-1]["gate"] == "prudential"
     p.write_text(json.dumps(cand(flags=[SOFT_FLAG], macro_veto=SOFT_MACRO, phase="final")))
     code, d = _call(capsys, ["gate", "--input", str(p), "--journal", str(tmp_path / "none.jsonl")])
-    assert code == 3 and d["action"] == "no_trade" and d["reason"] == "two_prudential_conditions"
+    assert code == 0 and d["prudential"] == ["soft_macro"] and d["size_factor"] == 0.5
 
 
 # ------------------------------------------------------------ owner-executed lane (rules v1.16.1)
@@ -811,3 +813,13 @@ def test_owner_executed_lane_waives_the_exit_by_legs_check_only():
     assert code == 3 and "name_risk_cap" in rec["blocked_by"] and "exit_not_feasible" not in rec["blocked_by"]
     with pytest.raises(EngineInputError):
         gate.parse_candidate(dict(c, owner_executed=1))
+
+
+def test_v1166_soft_news_no_longer_halves_when_switched_off():
+    """Brad, 2026-11-18: "Soft news should stop halving". A soft flag passes at full size; the soft macro band still halves."""
+    full, _ = v114(flags=[])
+    rec, code = v114(flags=[SOFT_FLAG], cfg_over={"soft_news_sizes_down": False})
+    assert code == 0 and rec["prudential"] == [] and rec["size_factor"] == 1.0
+    assert rec["contracts"] == full["contracts"]
+    rec, code = v114(flags=[SOFT_FLAG], macro_veto=SOFT_MACRO, cfg_over={"soft_news_sizes_down": False})
+    assert code == 0 and rec["prudential"] == ["soft_macro"] and rec["size_factor"] == 0.5

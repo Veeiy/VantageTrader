@@ -29,7 +29,7 @@ Rules:
 - **Any hard risk-sentinel flag on a symbol = that symbol is skipped.** The head copies the
   flags into the candidate's `flags` array (the engine skips flagged names) and also
   enforces the skip itself. Since rules v1.14 a flag that starts with `soft:` is a soft
-  flag. Alone it does not skip the symbol: the `gate` command sizes it at half
+  flag. Alone it does not skip the symbol: the `gate` command sizes it at full size since v1.16.6 (Brad, 2026-11-18; it was half)
   (`GATE.md`). The `score` command still skips a symbol on any flag.
 - **Cap: max 8 subagents per run**, replacements and second opinions included. If the
   cap is reached, the head does the remaining read-only work itself.

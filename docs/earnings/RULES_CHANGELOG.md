@@ -1054,3 +1054,14 @@ prices per token; its total for 2026-11-04 to 11-17 matches the session's own me
 - Measure (P063), over the next 5 trading days: no cold wake by a subagent; the daemon and
   the paper desk together under 10% of the day; the day under $150 on a day with two to
   four fills. Lesson L026.
+
+## v1.16.6 (2026-11-18 10:05 PT): soft news no longer halves the size (owner)
+
+Brad, 2026-11-18: "Soft news should stop halving". A risk-sentinel flag written as `soft:...`
+(public, already priced, no date inside the holding window) now passes at full size
+(`config/earnings.yaml` `soft_news_sizes_down: false`; `gate.py` no longer counts it as a
+prudential condition). Unchanged: every hard flag blocks; the soft macro band still halves; the
+near-miss tier (edge ratio 0.85 to 1.10, rules v1.10) still halves, so WMT and PDD of
+2026-11-18 stay at one contract each. `soft_news_sizes_down: true` restores v1.14.
+Measure: over the next 10 earnings trades that carried only soft flags, the result per
+dollar of max loss against the core-tier trades without flags.

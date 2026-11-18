@@ -64,6 +64,7 @@ DEFAULTS: dict[str, Any] = {
     "tight_max_ratio": 0.70,         # v1.5: edge ratio at or under this may be entered early
     "near_miss_max_ratio": 1.10,     # v1.10: edge ratio above sell_max_ratio and up to this is tradable at reduced size
     "near_miss_size_frac": 0.5,      # v1.10: share of the name target and of the name cap a near-miss name may use
+    "soft_news_sizes_down": False,     # v1.16.6 (owner, 2026-11-18): a soft news flag passes at full size; True = v1.14 (half)
     "prudential_half_enabled": True,   # v1.14: one soft condition ("soft:" news flag or macro string) halves the size instead of blocking
     "prudential_size_factor": 0.5,     # v1.14: share of the name target and of the name cap with one soft condition (hard cap 0.5)
     "max_prudential_conditions": 1,    # v1.14: more soft conditions than this at once block the name (hard cap 1)
@@ -286,6 +287,8 @@ def validate(cfg: dict[str, Any]) -> dict[str, Any]:
     # v1.14: the off switch is a real boolean (a quoted "false" would otherwise read as on)
     if not isinstance(out["prudential_half_enabled"], bool):
         raise ConfigError(f"prudential_half_enabled must be true or false, got {out['prudential_half_enabled']!r}")
+    if not isinstance(out["soft_news_sizes_down"], bool):
+        raise ConfigError(f"soft_news_sizes_down must be true or false, got {out['soft_news_sizes_down']!r}")
 
     # v1.15: the same-day pilot
     for k in ("intraday_live_enabled", "intraday_signal_enabled", "intraday_probe_enabled"):

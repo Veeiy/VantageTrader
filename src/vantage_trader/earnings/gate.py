@@ -441,8 +441,9 @@ def evaluate(raw: Any, cfg: dict[str, Any], journal_events: list[dict[str, Any]]
     ignored = sorted(set(c["flags"]) - set(nflags))
     news_notes = ["ignored: " + ",".join(ignored)] if ignored else []
     if soft_flags:
+        cut = f": {half} (v1.14)" if cfg["soft_news_sizes_down"] else ": no size cut (v1.16.6, owner)"
         news_notes.append("soft flag(s) " + ",".join(soft_flags) + (
-            f": {half} (v1.14)" if not hard_flags else ": they do not block by themselves (v1.14)"))
+            cut if not hard_flags else ": they do not block by themselves (v1.14)"))
     add("news", not hard_flags, nflags, [], note="; ".join(news_notes) or None,
         reason="flagged:" + ",".join(hard_flags))
     # 9 macro. v1.14: a reason string that starts with "soft:" is the soft band, it passes and cuts the size
@@ -451,7 +452,10 @@ def evaluate(raw: Any, cfg: dict[str, Any], journal_events: list[dict[str, Any]]
     add("macro_veto", not mv or soft_macro, mreason if soft_macro else mv, False,
         note=f"soft macro condition: {half} (v1.14)" if soft_macro else mreason, reason="macro_veto")
     # the soft conditions present (v1.14); gate 17 counts them, the sizing below uses them
-    prudential = (["soft_news"] if soft_flags else []) + (["soft_macro"] if soft_macro else [])
+    # v1.16.6 (Brad, 2026-11-18: "Soft news should stop halving"): with soft_news_sizes_down false a
+    # soft news flag still passes but is no longer a condition; the soft macro band still halves
+    soft_news = bool(soft_flags) and cfg["soft_news_sizes_down"]
+    prudential = (["soft_news"] if soft_news else []) + (["soft_macro"] if soft_macro else [])
     # 10 circuit breaker
     cb = rules.circuit_breaker({"total_value": c["account_value"]}, events, cfg)
     cbi, cbreason = c["circuit_breaker"]
