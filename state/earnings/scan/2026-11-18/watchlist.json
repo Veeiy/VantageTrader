@@ -105,5 +105,20 @@
   "BABA": "edge 1.177 at 09:46 (straddle cheaper): still above 1.10",
   "WSM": "+4.8% today at 09:46, next to the 5% intraday limit: skipped",
   "PDD": "entered at 09:52"
+ },
+ "final_sweep_1147": {
+  "adds": {
+   "WMT": "no add: name target reached (near-miss half, held 230 against a 194 target; edge 0.92 now)",
+   "PDD": "no add: edge 1.11 now, above 1.10"
+  },
+  "rechecked": {
+   "BABA": "edge 1.16 at the 85 body: above 1.10",
+   "PANW": "+6.2% today (over the 5% intraday limit) and over the 600 cap",
+   "WSM": "+4.2% today, near the limit; spread was 28%"
+  },
+  "new_entries": 0,
+  "risk_used": "534 of 1,937 (WMT 230+50, PDD 204+50)",
+  "owner_question_open": "A (near-miss full size), B (PANW cap), C (keep): no answer by 11:47; rules as they stand",
+  "standby_entry_switch": "moved to Thu 2026-11-19 12:05 PT"
  }
 }
