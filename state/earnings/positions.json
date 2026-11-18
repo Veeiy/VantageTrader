@@ -495,7 +495,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-18T13:54:00Z",
+  "last_query_utc": "2026-11-18T15:15:00Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -1218,5 +1218,6 @@
    "ledger": "get_banking_transactions: ROBINHOOD_TRANSFER +500.00 'From Brokerage' into Robinhood checking, 2026-11-17 23:17 PT, posted"
   }
  ],
- "check_2026-11-18_0700": "The 500 drop in cash is Brad's own withdrawal (confirmed). Entries resume; the total risk cap is the account value, 1,898.01."
+ "check_2026-11-18_0700": "The 500 drop in cash is Brad's own withdrawal (confirmed). Entries resume; the total risk cap is the account value, 1,898.01.",
+ "check_2026-11-18_0715": "07:15 hourly: flat; no hand orders since 13:54Z. Shadow exits at 07:15: TGT +50 at mid (real +100.84 at 06:37), TJX -192.5 (real -125.16 at 06:38): the 06:37 exit was 118 better. Next: IWM pilot 07:27, then WMT 134/118 x1 (half size, soft news)."
 }
