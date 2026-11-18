@@ -1205,5 +1205,17 @@
    "pnl_usd": -125.16
   }
  ],
- "check_2026-11-18_0638": "06:36 PT timer run: TGT opened 166.1 (+4.1%) and ran to 167.4; TJX 139.5 (+7.4%, through the 139 call wing). Multi-leg attempt on TGT refused. Both flies closed by legs 06:36:58 to 06:38:01 PT: TGT +100.84 (close 10.29 vs 11.30), TJX -125.16 (close 6.65 vs 5.40). Day -24.32. Four alerts paused. Leftover wings: JD 30C x3 and AS 26P x1 (bid 0, expire 11-20)."
+ "check_2026-11-18_0638": "06:36 PT timer run: TGT opened 166.1 (+4.1%) and ran to 167.4; TJX 139.5 (+7.4%, through the 139 call wing). Multi-leg attempt on TGT refused. Both flies closed by legs 06:36:58 to 06:38:01 PT: TGT +100.84 (close 10.29 vs 11.30), TJX -125.16 (close 6.65 vs 5.40). Day -24.32. Four alerts paused. Leftover wings: JD 30C x3 and AS 26P x1 (bid 0, expire 11-20).",
+ "cash_flows": [
+  {
+   "date": "2026-11-17",
+   "direction": "out",
+   "usd": 500.0,
+   "by": "Brad",
+   "found": "2026-11-18 05:54 PT: cash 3,588.37 against about 4,088 at 12:57 PT 2026-11-17, with no order in between",
+   "confirmed": "Brad, 2026-11-18 07:00 PT: 'I did move money. I moved 500 out'",
+   "effect": "Account value and the total risk cap fall by 500 (cap now 1,898.01). Not a trading result: realized P/L is unchanged."
+  }
+ ],
+ "check_2026-11-18_0700": "The 500 drop in cash is Brad's own withdrawal (confirmed). Entries resume; the total risk cap is the account value, 1,898.01."
 }
