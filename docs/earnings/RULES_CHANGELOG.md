@@ -1015,3 +1015,42 @@ trade all of it."
   tickets), or each ticket names the step of section 5 that failed. "Tickets on" from Brad
   brings the lane back as a first choice.
 
+
+## v1.16.5 (2026-11-17 20:57 PT): what the system costs to run (P063)
+
+Brad, 2026-11-17 evening: "Should we switch to opus 5.5 with fable as an advisor to help
+mitigate some usage?" The usage was measured before the answer
+(`scripts/earnings/usage_scan.py`: every model call in Claude Code's own transcripts, at list
+prices per token; its total for 2026-11-04 to 11-17 matches the session's own meter within
+0.1%). Nothing is billed per token on a subscription; the dollar figure is the common unit.
+
+- **Six trading days, 2026-11-10 to 11-17: about $190 a day.** The head 61%, its subagents
+  39%. On 2026-11-17: $198, the head $121, subagents $77.
+- **The head's cost is the size of its conversation.** On 2026-11-17: 340 calls with an
+  average conversation of 584k tokens. Reading it back from the cache $39; writing to the
+  cache $57, of which five cold starts $35 (the cache had expired, or the conversation had
+  been compacted); output $25. The same tokens on Opus 5.5 come to about $80 instead of
+  $121: a cached re-read costs the same on both models, so the model is a third of the
+  head's cost and a fifth of the day.
+- **A wait past the cache window is the dearest thing an agent does.** A subagent's cache
+  lives 5 minutes. 262 wakes after waits of 5.5 to 10 minutes on the six days were all cold:
+  $191, 17% of everything. The 10 minute cadence of 2026-11-10 (chosen for cost) and the
+  paper desk's waits of up to 590 seconds were the cause, and `prompts/exit_scan.md` still
+  said "10-minute cadence by default".
+- **A fast poller that runs all day pays for its own history.** The account watch at 150
+  seconds: 304 calls, conversation 82k to 785k tokens, $34 (17% of 2026-11-17). Its token
+  count (808k) was the wrong measure: it hid both of these.
+- Changes, in force from 2026-11-18:
+  - No agent waits longer than 240 seconds in one piece (`DAEMON.md`,
+    `prompts/brief_paper_desk.md`, `prompts/brief_daytrade_scan.md`, `prompts/exit_scan.md`).
+  - The monitor daemon's default cycle is 4 minutes (it was 5), and the hourly check-in
+    replaces a daemon that has run two hours.
+  - The reflection fires at 13:12 PT (it was 14:12), inside the head's one-hour cache.
+  - The reflection writes the day's usage line and a row in `state/earnings/usage.jsonl`.
+- Not changed here: the head's model, its effort setting and the size of its conversation.
+  The first two are the owner's settings (the session runs Fable 5.2 at effort "max"). The
+  third needs the scheduled runs to stop sharing one conversation: a build for the research
+  day, not for the night before two live exits.
+- Measure (P063), over the next 5 trading days: no cold wake by a subagent; the daemon and
+  the paper desk together under 10% of the day; the day under $150 on a day with two to
+  four fills. Lesson L026.

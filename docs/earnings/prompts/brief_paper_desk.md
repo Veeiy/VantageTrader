@@ -19,8 +19,11 @@ TOOLS. Load with ToolSearch:
 Read the schemas first. Send independent calls in parallel (about 8 per message). On a rate
 limit or transient error wait 15 s and retry, at most 3 times. Do the arithmetic with python.
 Clock: `TZ=America/Los_Angeles date +%H:%M` is the Pacific time used below. To wait, run
-python3 -c "import time; time.sleep(N)" with N at most 590 and a 600000 ms timeout, and
-check the clock again.
+python3 -c "import time; time.sleep(N)" with N at most 240, and check the clock again.
+NEVER wait longer than 240 seconds in one call: your prompt cache lives 5 minutes, and a call
+that arrives after it pays for this whole conversation again at 25 times the price. A long
+wait (before step 1, step 1 to step 2, step 2 to step 3) is many waits of 240 seconds, one
+after another.
 
 STEP 0, WAIT. If the Pacific time is before 07:15, wait until 07:15 (the desk always opens 45
 minutes after the market does; P031). If it is later, start at once and say so in the final

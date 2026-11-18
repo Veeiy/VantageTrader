@@ -10,24 +10,36 @@ Brad, 2026-11-10: "If a trade opens we need daemon agents live monitoring."
   (4.45 against an action level of 4.40 on 2026-11-12) wakes the head for nothing.
 - It polls during market hours and reports to the head with `SendMessage(to: "main")`
   when a trigger fires. It keeps running after a report.
-- Cadence: **every 5 minutes by default** (`{WAIT}` = 290) since the account watch (P046,
-  2026-11-16); it was 10 minutes before (2026-11-10, cost). The heavy reads keep their old
-  spacing: legs and positions every 6th cycle (30 minutes), news every 12th (60 minutes).
+- Cadence: **every 4 minutes by default** (`{WAIT}` = 240; P063, 2026-11-17). It was 5
+  minutes (`{WAIT}` = 290) since the account watch (P046, 2026-11-16) and 10 minutes before
+  that (2026-11-10, chosen for cost). The heavy reads keep their spacing: legs and positions
+  every 7th cycle (28 minutes), news every 15th (60 minutes).
   Use the tight cadence of 3 minutes (`{WAIT}` = 170, legs and positions every 5th cycle,
   news every 10th) only when the stock is within 30% of the wing width of a breakeven, on
-  expiration day, or while an exit order is being worked. Three daemons at 3 minutes used
-  about 475k tokens in one afternoon. Write the daemon's token count into the reflection
-  every day (P046 measure: under 400k).
-  An owner hold is not a reason for the tight cadence (P061; on 2026-11-17 one daemon at 150
-  seconds for six hours used 808k tokens): its flag levels go into the brief at the default
-  5 minute cycle, and the level that matters most also goes to Brad's phone as a Robinhood
-  price alert.
+  expiration day, or while an exit order is being worked.
+  An owner hold is not a reason for the tight cadence (P061): its flag levels go into the
+  brief at the default cycle, and the level that matters most also goes to Brad's phone as a
+  Robinhood price alert.
+- **No single wait is longer than 240 seconds (P063, lesson L026).** A subagent's prompt
+  cache lives 5 minutes. A call inside that window reads the conversation back at the cached
+  price; a call after it writes the whole conversation again at 25 times that price.
+  Measured on the six trading days 2026-11-10 to 11-17 (`scripts/earnings/usage_scan.py`):
+  262 wakes after waits of 5.5 to 10 minutes were all cold and cost about $191 at list
+  prices, 17% of everything the system used. The 10 minute cadence of 2026-11-10 was the
+  expensive one. A longer wait is made of waits of 240 seconds, one after another.
+- **A daemon is replaced after two hours (P063).** What a call costs grows with the
+  daemon's conversation: 82k tokens at its start, 785k after six hours on 2026-11-17 (150
+  seconds all day: 304 calls, about $34, 17% of that day). The hourly check-in stops a
+  daemon that has run two hours and starts a fresh one from the template.
+- The reflection writes the day's usage line from `scripts/earnings/usage_scan.py`
+  (measures: no cold wake by a subagent; the daemon and the paper desk together under 10%
+  of the day). A token count is not the measure: it hid both of the above.
 - It never places, reviews, replaces or cancels orders and never edits files. The head
   agent is the only writer of orders, the journal and `positions.json`.
 - It lives only while the session's container is alive. The 07:15 check-in starts it
   every trading day, with or without a position (P046); the 06:45 check-in starts it
   earlier when a position stays open after the exits, and each hourly check-in restarts
-  it when it is missing.
+  it when it is missing and replaces it when it has run two hours (P063).
   The scheduled check-ins are the durable layer; daemons are the fast layer.
 
 ## Head agent duties when a daemon reports
@@ -52,11 +64,11 @@ Breakevens {BE_LOW} / {BE_HIGH}. Driver: {DRIVER and dates}.
 Loop until {END_UTC} (check `date -u` each cycle). To wait between polls run
 `python3 -c "import time; time.sleep({WAIT})"` with a 600000 ms timeout.
 Every cycle: get_equity_quotes([{SYMBOL}]).
-Every 6th cycle (every 5th at the tight cadence), or at once if the stock moved
+Every 7th cycle (every 5th at the tight cadence), or at once if the stock moved
 {FAST_MOVE} since the last leg check:
   get_option_quotes for the legs; close_cost = short mids - long mids.
-Every 12th cycle (every 10th at the tight cadence): WebSearch for news on the driver.
-Every 6th cycle (every 5th at the tight cadence): get_option_positions (nonzero) and
+Every 15th cycle (every 10th at the tight cadence): WebSearch for news on the driver.
+Every 7th cycle (every 5th at the tight cadence): get_option_positions (nonzero) and
 get_equity_positions.
 Every cycle (account watch, P046): get_option_orders(account, agent_initiated=false,
 created_at_gte={WATCH_FROM_UTC}) and get_equity_orders with the same two filters: the orders
@@ -87,7 +99,7 @@ Brad: "You should be able to monitor when we make our own trades too. Like if I 
 something in". The daemon runs every trading day from the 07:15 PT check-in until 12:57 PT
 (20:57 UTC), with or without an open position. With nothing open the position lines of the
 brief are left out and it only looks for Brad's own orders and for positions that appear, on
-the same 5 minute cycle. `{WATCH_FROM_UTC}` is the time of the head's own last hand-order
+the same default cycle. `{WATCH_FROM_UTC}` is the time of the head's own last hand-order
 query and `{KNOWN_HAND_ORDER_IDS}` the ids that query returned (or "none"). An order placed
 by the agent shows `agent_initiated: true` and is ignored. Checked on 2026-11-16 at 18:10 PT:
 the query returned Brad's three HD orders of the day (one cancelled at 12.00, fills at 11.90
@@ -100,7 +112,7 @@ monitor's brief with `SendMessage`, or start the monitor with it: symbol IWM, th
 with ids, the credit, the wing width. It has no take-profit and no cut level: leave those two
 report lines out for it. Add one line instead:
 - "pilot_time_stop": the clock passed {PILOT_STOP_UTC} (10:57 PT) and the IWM fly is still
-  open. Repeat every 5 minutes until it is gone.
+  open. Repeat every cycle until it is gone.
 The monitor still reports `position_changed` and `fast_move` for it. The head's own 10:57 PT
 timer is the first net; this report is the second; the 11:15 hourly run is the third.
 

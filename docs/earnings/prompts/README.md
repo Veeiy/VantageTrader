@@ -13,7 +13,7 @@ the file. One text, under version control, read by the head and by the standby
 | `entry.md` | Earnings daily: ENTRY | `trig_01Qhfn5qNQaxKvQtse2nevgA` | 11:46 Mon-Thu | this file |
 | `entry_backup.md` | Earnings daily: entry backup | `trig_019jPgVcNE935MqnfZedVRLm` | 12:17 Mon-Thu | this file |
 | `hourly_monitor.md` | Positions: hourly monitor | `trig_012TXxzQAdCppBr1AWwNEksg` | minute 15, 07 to 12, Mon-Fri | this file |
-| `daily_reflection.md` | Daily reflection | `trig_01D3GLpqio93gGPGemaPBKhR` | 14:12 Mon-Fri | this file (since 2026-11-16) |
+| `daily_reflection.md` | Daily reflection | `trig_01D3GLpqio93gGPGemaPBKhR` | 13:12 Mon-Fri | this file (since 2026-11-16) |
 | `standby_exit_switch.md` | Standby exit switch | `trig_01NmMk2eNXRyukjX8pxGVcX3` | 07:25, one-shot, moved daily | the task's stored prompt (copy) |
 | `standby_entry_switch.md` | Standby entry switch | `trig_01E1KZZayvkKf2PJJYhRLY8M` | 12:05, one-shot, moved daily | the task's stored prompt (copy) |
 
@@ -40,3 +40,8 @@ with the Chrome extension: it fills in a 4-leg ticket on robinhood.com in the ac
 The trading hub page (live P/L, every trade, what the model is learning) and how it is refreshed: `docs/earnings/HUB.md`.
 
 Timers (P060, 2026-11-17). The harness stops an in-session background timer after two hours: a 12:28 PT timer started at 08:18 PT died at 10:18 PT. A timer is started from the last check-in within two hours of its event (the 05:52 wake for 06:36, the morning run for 07:27, the 10:15 run for 10:57, the 12:15 run for 12:57). An event further away is written into `positions.json` `pending` with its clock time; the hourly run starts its timer.
+
+Usage (P063, 2026-11-17). No agent waits longer than 240 seconds in one piece: a subagent's
+prompt cache lives 5 minutes and a call after it pays for the whole conversation again. The
+reflection runs at 13:12 PT, inside the head's one-hour cache. `scripts/earnings/usage_scan.py`
+prints the day's usage line and keeps one row a day in `state/earnings/usage.jsonl`.

@@ -162,7 +162,7 @@ larger than the account. No money in or out.
   earned its place.
 
 ## 9. The week
-- Mon to Fri: exits 06:36, probe 07:27 to 10:57, scans, entry sweep 11:46, reflection 14:12.
+- Mon to Fri: exits 06:36, probe 07:27 to 10:57, scans, entry sweep 11:46, reflection 13:12.
 - Friday: scorecard, multi-leg check, spread scan of the whole same-day universe.
 - Saturday: replay the week's earnings reports; the next research test in the queue.
 - Research queue: (1) overnight test at 64 nights x 3 names; (2) the week's earnings replay;

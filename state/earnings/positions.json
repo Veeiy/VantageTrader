@@ -188,7 +188,8 @@
   "Wed 2026-11-18, the 06:36 PT run: the agent closes TJX and TGT by legs (docs/earnings/EXECUTION.md ladder; buy back both short legs of a fly together, the wings after); pause the four alerts (TGT 4f54dc85..., e16d70ed...; TJX 1deae373..., 0c890302...); score the pre-report projections of 2026-11-17 12:16 PT and the LOW paper fly; mark the NVDA early-entry paper fly.",
   "Wed 2026-11-18 or Thu 2026-11-19, at the reflection: wire Friday earnings entries live at half size (P039, approved 2026-11-16) before Fri 2026-11-20, and tell Brad when it is in.",
   "Wed 2026-11-18 reflection: the hub's 'Today' tile counts a carried-over fly's whole open P/L; change it to the day's change (the prior close of each leg is in the quote payload), in scripts/earnings/hub/page/hub.js and the stored files/hub.js.",
-  "From 2026-11-18: every exit records bp_at_exit, dearer_short_ask and the step of EXECUTION.md section 5 that was used (P062); every leg a legs_detail row (P059)."
+  "From 2026-11-18: every exit records bp_at_exit, dearer_short_ask and the step of EXECUTION.md section 5 that was used (P062); every leg a legs_detail row (P059).",
+  "From Wed 2026-11-18 (P063, rules v1.16.5): the daemon's default wait is 240 s and no agent waits longer than 240 s in one piece; the hourly run replaces a daemon that has run two hours; the reflection fires at 13:12 PT and writes the usage line (python3 scripts/earnings/usage_scan.py --date <today> --append state/earnings/usage.jsonl)."
  ],
  "buying_power": 1538.37,
  "risk": {

@@ -8,15 +8,19 @@ rules are applied the next day. Lessons about WHAT to trade or how much to risk 
 tested as hypotheses and go to Brad as proposals. The loop never changes a rule itself.
 
 ## When
-- Scheduled task "Daily reflection", 14:12 PT, Monday to Friday (after the close and the
-  first after-hours earnings reactions). Skipped on NYSE holidays.
+- Scheduled task "Daily reflection", 13:12 PT, Monday to Friday (after the close). It ran at
+  14:12 until 2026-11-17: the head's prompt cache lives one hour and the last trading
+  check-in ends by 12:57, so at 14:12 the whole conversation was written to the cache again
+  (about $13 at list prices on 2026-11-17; P063). Skipped on NYSE holidays.
 - The 06:45 and 11:46 check-ins read the lessons first:
   `PYTHONPATH=src python -m vantage_trader.earnings lessons`.
 
 ## Steps
 1. **Facts.** `PYTHONPATH=src python -m vantage_trader.earnings daily-review --date <today>`
    (journal, fills, realized P/L, execution stats, open positions, lessons) and
-   `live-metrics`. Add closing prices and after-hours moves for names that report tonight.
+   `live-metrics`. Add closing prices, and after-hours moves for the names that have reported by then (the
+   next morning's run reads the rest). Add the day's usage line: `python3
+   scripts/earnings/usage_scan.py --date <today> --append state/earnings/usage.jsonl` (P063).
 2. **Score what was not traded.** Rule-blocked and passing-but-untraded names from the
    previous session get priced from option history with the lite method in `REPLAY.md`:
    collect the stock bars and the two body options only (three small calls a name), write
