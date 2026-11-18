@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-18T20:10:30Z",
+ "as_of": "2026-11-18T20:19:00Z",
  "account_value": 1936.05,
  "cap_total_max_loss": 1235.08,
  "execution": {
@@ -1492,5 +1492,54 @@
  "check_2026-11-18_0700": "The 500 drop in cash is Brad's own withdrawal (confirmed). Entries resume; the total risk cap is the account value, 1,898.01.",
  "check_2026-11-18_0715": "07:15 hourly: flat; no hand orders since 13:54Z. Shadow exits at 07:15: TGT +50 at mid (real +100.84 at 06:37), TJX -192.5 (real -125.16 at 06:38): the 06:37 exit was 118 better. Next: IWM pilot 07:27, then WMT 134/118 x1 (half size, soft news).",
  "check_2026-11-18_0816": "08:16 hourly: no hand orders. IWM 269.43, close cost 1.365 at mid (credit 1.35, -1.5); WMT 126.68, close cost 5.665 (credit 5.70, +3.5). Shadow exits at 08:15: TGT +21.5 and TJX -215 at mid; the 06:37 exits were 169 better than 08:15 (118 better than 07:15). The 09:15 run replaces the monitor (started 07:16) and starts the 10:57 IWM timer.",
- "check_2026-11-18_1015": "10:15 hourly: no hand orders. IWM 271.29, close 1.13 at mid (credit 1.35, +22; take profit 0.68 not hit; time stop 10:57 PT). WMT 127.17, close 5.66 (credit 5.70, +4). PDD 77.62, close 3.865 (credit 3.96, +9.5). Paper desk marks at 10:15 written."
+ "check_2026-11-18_1015": "10:15 hourly: no hand orders. IWM 271.29, close 1.13 at mid (credit 1.35, +22; take profit 0.68 not hit; time stop 10:57 PT). WMT 127.17, close 5.66 (credit 5.70, +4). PDD 77.62, close 3.865 (credit 3.96, +9.5). Paper desk marks at 10:15 written.",
+ "check_2026-11-18_1215": {
+  "at_utc": "2026-11-18T20:16:00Z",
+  "lease": "head",
+  "hand_orders_since_20:10Z": "none",
+  "equity_positions": "none",
+  "marks": {
+   "WMT": {
+    "spot": 126.66,
+    "close_cost_mid": 5.6,
+    "credit": 5.7,
+    "pnl_mid_usd": 10.0,
+    "breakevens": [
+     121.3,
+     132.7
+    ]
+   },
+   "PDD": {
+    "spot": 77.365,
+    "close_cost_mid": 3.87,
+    "credit": 3.96,
+    "pnl_mid_usd": 9.0,
+    "breakevens": [
+     74.04,
+     81.96
+    ]
+   },
+   "PANW": {
+    "spot": 332.32,
+    "close_cost_mid": 23.7,
+    "credit": 23.55,
+    "pnl_mid_usd": -15.0,
+    "breakevens": [
+     306.45,
+     353.55
+    ]
+   }
+  },
+  "v1_2": "no action: every driver is still ahead (PANW tonight, WMT and PDD tomorrow before the open)",
+  "exit_order_2026-11-19": [
+   "PDD (collateral 204) by legs",
+   "WMT (230) by legs",
+   "PANW (895): Brad's 4-leg close about 06:45 PT, ticket and push at 06:38 PT; agent legs at 06:50 PT only if it is still open and the legs fit"
+  ],
+  "legs_check": "WMT and PDD can be legged with 586 of buying power (a short leg at the exit costs at most about 880 and 660 on a full-width move; PDD goes first and frees 204 plus its sale proceeds). PANW cannot be legged on a big move: told to Brad at 12:12 PT.",
+  "per_name_ceiling_P044": "PANW max loss 895 = 46% of the 1,936 account value, above the 30% ceiling. Owner-executed; he was told the size at 11:52 and 12:05 PT. Trim to stay under 30% would mean 0 contracts (one contract is the minimum), so no trim offered beyond the plan to close at the open.",
+  "daemon": "the 09:15 PT daemon is still running (3 h; P063 says replace at 2 h). Kept for the last 40 minutes: it took the PANW legs at 12:10 PT and a fresh start costs more than 10 cycles of a warm one. For the reflection: P063 should not replace in the daemon's last hour.",
+  "last_look_timer": "started for 12:57 PT",
+  "projection": "pre-report method A at 12:18 PT: book mean +334, median +432, p_profit 0.79, p05 -619 (state/earnings/scan/2026-11-18/pre_report_projection_1218.json)"
+ }
 }

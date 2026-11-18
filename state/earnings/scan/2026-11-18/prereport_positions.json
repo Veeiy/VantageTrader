@@ -1,0 +1,80 @@
+[
+ {
+  "symbol": "WMT",
+  "quantity": 1,
+  "credit": 5.7,
+  "body": 127.0,
+  "call_wing": 135.0,
+  "put_wing": 119.0,
+  "close": 126.66,
+  "hist_moves": [
+   -0.004957,
+   -0.044945,
+   0.064606,
+   -0.013821,
+   -0.072679,
+   -0.091514
+  ],
+  "straddle_pct": 0.06158,
+  "front_iv": 1.0332,
+  "back_iv": 0.5364,
+  "front_days": 2.0,
+  "back_days": 9.0,
+  "trading_days_between": 3.5,
+  "days_left_at_exit": 1.96,
+  "beta": 0.6,
+  "slippage_usd_per_fly": 12.0
+ },
+ {
+  "symbol": "PDD",
+  "quantity": 1,
+  "credit": 3.96,
+  "body": 78.0,
+  "call_wing": 84.0,
+  "put_wing": 72.0,
+  "close": 77.365,
+  "hist_moves": [
+   -0.13636,
+   0.00865,
+   -0.0733,
+   0.04608,
+   -0.10378,
+   -0.01482
+  ],
+  "straddle_pct": 0.06876,
+  "front_iv": 1.1463,
+  "back_iv": 0.617,
+  "front_days": 2.0,
+  "back_days": 9.0,
+  "trading_days_between": 3.5,
+  "days_left_at_exit": 1.96,
+  "beta": 1.0,
+  "slippage_usd_per_fly": 12.0
+ },
+ {
+  "symbol": "PANW",
+  "quantity": 1,
+  "credit": 23.55,
+  "body": 330.0,
+  "call_wing": 362.5,
+  "put_wing": 297.5,
+  "close": 332.32,
+  "hist_moves": [
+   -0.067976,
+   0.030595,
+   -0.074187,
+   -0.068196,
+   -0.056363,
+   -0.092822
+  ],
+  "straddle_pct": 0.10675,
+  "front_iv": 1.7994,
+  "back_iv": 0.9958,
+  "front_days": 2.0,
+  "back_days": 9.0,
+  "trading_days_between": 3.5,
+  "days_left_at_exit": 1.96,
+  "beta": 1.2,
+  "slippage_usd_per_fly": 15.0
+ }
+]
