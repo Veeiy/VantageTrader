@@ -68,7 +68,7 @@
 .vh-chart { position: relative; min-height: 230px; min-width: 0; }
 .vh-chart-tall { min-height: 300px; }
 .vh-chart.vh-range { min-height: 84px; }
-.vh-chart svg { display: block; overflow: visible; }
+.vh-chart svg { display: block; overflow: visible; touch-action: pan-y pinch-zoom; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent; }
 .vh-chart text { font-family: var(--font-anthropic-sans); font-size: 11px; fill: var(--cds-text-secondary); font-variant-numeric: tabular-nums; }
 .vh-chart text.vh-lab { fill: var(--color-fg); font-size: 12px; }
 .vh-chart text.vh-lab-up { fill: var(--color-ok); font-size: 12px; }

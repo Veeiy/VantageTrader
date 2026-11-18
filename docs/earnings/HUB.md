@@ -54,6 +54,22 @@ Write a changed file with `ArtifactData` set or str_replace, pinned to the versi
 keep the copy in the repo the same. The type's own guide (read it from the artifact before a
 redesign) rules the page: every figure is marked with the dataset it comes from.
 
+## Reading a chart with a finger (2026-11-17)
+
+Brad: "when I scrub with my finger it should follow the accurate tracking and persist when im
+scrubbing with my finger across the graph". Before, a finger that moved more than a few
+pixels was taken by the browser as a scroll and the reading vanished (shown on 1 of 16 moves
+in the test below). Now (`hub.js`: `frame`, `readable`, `lockScrub`; `hub.css`:
+`touch-action: pan-y pinch-zoom` on a chart's drawing):
+- the mark under the pointer answers (`elementFromPoint`), so a finger that slides sideways
+  is followed from point to point, bar to bar and trade to trade;
+- the reading stays after the finger lifts and goes away when something else is touched;
+- a swipe that starts up or down on a chart still scrolls the page; a mouse works as before.
+Every chart takes its readings through `readable(mark, fn)`: a new chart needs nothing else.
+Test with real touch input: build the page into the local stand-in and drive it with
+Playwright and CDP `Input.dispatchTouchEvent` (16 moves across each chart: the day curve
+showed a reading on 16 of 16 with the crosshair within 6 px of the finger).
+
 ## Not checked yet (2026-11-17)
 
 The page was built and checked against a local stand-in of the dashboard. It has not been

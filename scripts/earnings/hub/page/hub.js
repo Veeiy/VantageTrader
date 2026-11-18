@@ -426,7 +426,42 @@ const makeTip = (el) => {
     hide: () => { t.hidden = true; },
   };
 };
-const frame = (el, w, H, label) => d3.create('svg').attr('viewBox', '0 0 ' + w + ' ' + H).attr('width', '100%').attr('role', 'img').attr('aria-label', label);
+/* Reading a chart with a mouse or a finger. The mark under the pointer answers, so a finger
+   that slides across a chart is followed from mark to mark. When it lifts, the reading stays
+   until something else is touched. A mouse that leaves puts it away. */
+const reads = new WeakMap();
+const readable = (sel, fn) => { reads.set(sel.node(), fn); return sel; };
+const clearReading = (host) => {
+  for (const t of host.querySelectorAll('.vh-tip')) t.hidden = true;
+  for (const l of host.querySelectorAll('.vh-cross')) l.style.display = 'none';
+};
+document.addEventListener('pointerdown', (event) => {
+  for (const c of document.querySelectorAll('#dash-root .vh-chart')) if (!c.contains(event.target)) clearReading(c);
+}, true);
+/* a finger that starts sideways is reading the chart: the page stays put under it */
+const lockScrub = (node) => {
+  let x0 = 0, y0 = 0, mode = null;
+  node.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; mode = null; }, {passive: true});
+  node.addEventListener('touchmove', (e) => {
+    if (mode === null) {
+      const dx = Math.abs(e.touches[0].clientX - x0), dy = Math.abs(e.touches[0].clientY - y0);
+      if (dx + dy < 6) return;
+      mode = dx >= dy ? 'scrub' : 'scroll';
+    }
+    if (mode === 'scrub' && e.cancelable) e.preventDefault();
+  }, {passive: false});
+};
+const frame = (el, w, H, label) => {
+  const svg = d3.create('svg').attr('viewBox', '0 0 ' + w + ' ' + H).attr('width', '100%').attr('role', 'img').attr('aria-label', label);
+  const read = (event) => {
+    const hit = svg.node().getRootNode().elementFromPoint(event.clientX, event.clientY), fn = hit && reads.get(hit);
+    if (fn) fn(event);
+    else if (event.pointerType === 'mouse') clearReading(el);
+  };
+  svg.on('pointerdown', read).on('pointermove', read).on('pointerleave', (event) => { if (event.pointerType === 'mouse') clearReading(el); });
+  lockScrub(svg.node());
+  return svg;
+};
 const yAxis = (svg, y, m, w, fmt) => {
   const g = svg.append('g');
   for (const v of y.ticks(5)) {
@@ -464,21 +499,19 @@ dash.draw('intraday', (el) => {
     const r = near(e.T);
     dots.append('circle').attr('cx', x(e.T)).attr('cy', y(r.total)).attr('r', 5).style('fill', e.kind === 'in' ? 'var(--color-panel)' : c0).style('stroke', c0).style('stroke-width', 2);
   }
-  const cross = svg.append('line').attr('y1', m.t).attr('y2', H - m.b).style('stroke', 'var(--cds-chart-axis)').style('display', 'none');
+  const cross = svg.append('line').attr('class', 'vh-cross').attr('y1', m.t).attr('y2', H - m.b).style('stroke', 'var(--cds-chart-axis)').style('display', 'none');
   const legend = h('div', {class: 'vh-legend'},
     h('span', {class: 'vh-key'}, h('span', {class: 'vh-swatch', style: 'border-top-color:' + c0}), 'Closed today plus open flies'),
     h('span', {class: 'vh-key'}, h('span', {class: 'vh-swatch vh-swatch-dash', style: 'border-top-color:var(--cds-chart-muted)'}), 'Closed today only'),
     h('span', {class: 'vh-key'}, h('span', {class: 'vh-swatch vh-swatch-dot', style: 'background:' + c0}), 'A trade'));
   el.replaceChildren(legend, svg.node());
   const tip = makeTip(el);
-  svg.append('rect').attr('x', m.l).attr('y', m.t).attr('width', w - m.l - m.r).attr('height', H - m.t - m.b).style('fill', 'transparent')
-    .on('pointermove', (event) => {
-      const [px] = d3.pointer(event, svg.node()), r = near(x.invert(px));
+  readable(svg.append('rect').attr('x', 0).attr('y', 0).attr('width', w).attr('height', H).style('fill', 'transparent'), (event) => {
+      const px = Math.max(m.l, Math.min(w - m.r, d3.pointer(event, svg.node())[0])), r = near(x.invert(px));
       cross.attr('x1', x(r.T)).attr('x2', x(r.T)).style('display', null);
       const hit = ev.filter((e) => Math.abs(x(e.T) - x(r.T)) < 8).map((e) => e.what + (e.pnl == null ? '' : ' ' + FMT.signed(e.pnl)));
       tip.show([ptClock(r.T) + ' PT', 'Total ' + FMT.signed(r.total), 'Open flies ' + FMT.signed(r.open_pl), 'Closed today ' + FMT.signed(r.closed), ...hit], x(r.T) * el.clientWidth / w, legend.offsetHeight + y(r.total));
-    })
-    .on('pointerleave', () => { cross.style('display', 'none'); tip.hide(); });
+    });
 });
 
 dash.draw('events', (el) => {
@@ -502,11 +535,15 @@ dash.draw('month', (el) => {
   const tip = makeTip(el);
   for (const r of rows) {
     const cx = x(r.date) + x.bandwidth() / 2, top = Math.min(y(0), y(r.pnl)), hgt = Math.max(1, Math.abs(y(r.pnl) - y(0)));
-    svg.append('rect').attr('x', cx - bw / 2).attr('y', top).attr('width', bw).attr('height', hgt).attr('rx', Math.min(4, hgt / 2)).style('fill', r.pnl >= 0 ? 'var(--color-ok)' : 'var(--color-bad)')
-      .on('pointermove', () => tip.show([FMT.day(r.date), FMT.signed(r.pnl), r.results + (r.results === 1 ? ' result' : ' results'), 'Running total ' + FMT.signed(r.running)], cx * el.clientWidth / w, top))
-      .on('pointerleave', tip.hide);
+    svg.append('rect').attr('x', cx - bw / 2).attr('y', top).attr('width', bw).attr('height', hgt).attr('rx', Math.min(4, hgt / 2)).style('fill', r.pnl >= 0 ? 'var(--color-ok)' : 'var(--color-bad)');
     svg.append('text').attr('class', r.pnl >= 0 ? 'vh-lab-up' : 'vh-lab-down').attr('x', cx).attr('y', r.pnl >= 0 ? top - 5 : top + hgt + 14).attr('text-anchor', 'middle').text(FMT.signed0(r.pnl));
     svg.append('text').attr('x', cx).attr('y', H - 8).attr('text-anchor', 'middle').text(FMT.day(r.date));
+  }
+  /* one full-height column a day: a finger anywhere over the day reads it */
+  for (const r of rows) {
+    const cx = x(r.date) + x.bandwidth() / 2, top = Math.min(y(0), y(r.pnl));
+    readable(svg.append('rect').attr('x', cx - x.step() / 2).attr('y', 0).attr('width', x.step()).attr('height', H).style('fill', 'transparent'),
+      () => tip.show([FMT.day(r.date), FMT.signed(r.pnl), r.results + (r.results === 1 ? ' result' : ' results'), 'Running total ' + FMT.signed(r.running)], cx * el.clientWidth / w, top));
   }
 });
 
@@ -525,13 +562,20 @@ dash.draw('ytd', (el) => {
   svg.append('path').attr('d', d3.line().x((r) => x(r.T)).y((r) => y(r.running)).curve(d3.curveStepAfter)(pts)).style('fill', 'none').style('stroke', c0).style('stroke-width', 2);
   el.replaceChildren(svg.node());
   const tip = makeTip(el);
+  const cross = svg.append('line').attr('class', 'vh-cross').attr('y1', m.t).attr('y2', H - m.b).style('stroke', 'var(--cds-chart-axis)').style('display', 'none');
   for (const r of rows) {
-    svg.append('circle').attr('cx', x(r.T)).attr('cy', y(r.running)).attr('r', 5).style('fill', r.pnl >= 0 ? 'var(--color-ok)' : 'var(--color-bad)').style('stroke', 'var(--color-panel)').style('stroke-width', 2)
-      .on('pointermove', () => tip.show([FMT.day(r.date) + ', ' + r.who, r.symbol + ' ' + r.type.toLowerCase() + ' ' + FMT.signed(r.pnl), 'Running total ' + FMT.signed(r.running)], x(r.T) * el.clientWidth / w, y(r.running)))
-      .on('pointerleave', tip.hide);
+    svg.append('circle').attr('cx', x(r.T)).attr('cy', y(r.running)).attr('r', 5).style('fill', r.pnl >= 0 ? 'var(--color-ok)' : 'var(--color-bad)').style('stroke', 'var(--color-panel)').style('stroke-width', 2);
   }
   const last = rows[rows.length - 1];
   svg.append('text').attr('class', last.running < 0 ? 'vh-lab-down' : 'vh-lab-up').attr('x', x(last.T) + 9).attr('y', y(last.running) + 4).text(FMT.signed0(last.running));
+  /* the nearest result answers: a finger sliding along the line steps from trade to trade */
+  readable(svg.append('rect').attr('x', 0).attr('y', 0).attr('width', w).attr('height', H).style('fill', 'transparent'), (event) => {
+    const px = d3.pointer(event, svg.node())[0];
+    const r = rows.reduce((b, q) => (Math.abs(x(q.T) - px) < Math.abs(x(b.T) - px) ? q : b), rows[0]);
+    const same = rows.filter((q) => Math.abs(x(q.T) - x(r.T)) < 4), end = same[same.length - 1];
+    cross.attr('x1', x(r.T)).attr('x2', x(r.T)).style('display', null);
+    tip.show([FMT.day(r.date), ...same.map((q) => q.symbol + ' ' + q.type.toLowerCase() + ' ' + FMT.signed(q.pnl) + ', ' + q.who), 'Running total ' + FMT.signed(end.running)], x(r.T) * el.clientWidth / w, y(end.running));
+  });
 });
 
 dash.draw('costs', (el) => {
@@ -551,10 +595,10 @@ dash.draw('costs', (el) => {
     const yy = m.t + i * rh, x0 = x(0), x1 = x(r.cost_pct);
     svg.append('text').attr('x', m.l - 8).attr('y', yy + 15).attr('text-anchor', 'end').text(r.symbol);
     svg.append('rect').attr('x', Math.min(x0, x1)).attr('y', yy + 4).attr('width', Math.max(1, Math.abs(x1 - x0))).attr('height', rh - 9).attr('rx', 3)
-      .style('fill', r.cost_pct > COST_BREAKEVEN ? 'var(--cds-chart-status-critical)' : dash.colors[0])
-      .on('pointermove', () => tip.show([r.symbol + ', closed ' + FMT.day(r.date), 'Cost ' + FMT.pct1(r.cost_pct) + ' of the credit', 'Result ' + FMT.signed(r.pnl)], x1 * el.clientWidth / w, yy))
-      .on('pointerleave', tip.hide);
+      .style('fill', r.cost_pct > COST_BREAKEVEN ? 'var(--cds-chart-status-critical)' : dash.colors[0]);
     svg.append('text').attr('class', 'vh-lab').attr('x', r.cost_pct >= 0 ? x1 + 5 : x0 + 5).attr('y', yy + 15).text(FMT.pct1(r.cost_pct));
+    readable(svg.append('rect').attr('x', 0).attr('y', yy).attr('width', w).attr('height', rh).style('fill', 'transparent'),
+      () => tip.show([r.symbol + ', closed ' + FMT.day(r.date), 'Cost ' + FMT.pct1(r.cost_pct) + ' of the credit', 'Result ' + FMT.signed(r.pnl)], x1 * el.clientWidth / w, yy));
   });
 });
 
@@ -574,9 +618,9 @@ dash.draw('evidence', (el) => {
     svg.append('circle').attr('cx', cx).attr('cy', y(r.mean)).attr('r', now ? 6 : 4.5).style('fill', col).style('stroke', 'var(--color-panel)').style('stroke-width', 1.5);
     svg.append('text').attr('x', cx).attr('y', H - 10).attr('text-anchor', 'middle').text(r.cap);
     if (now || old) svg.append('text').attr('class', 'vh-lab').attr('x', cx).attr('y', y(r.mean + r.se) - 7).attr('text-anchor', 'middle').text((now ? 'now ' : 'was ') + FMT.signed1(r.mean));
-    svg.append('rect').attr('x', cx - 14).attr('y', m.t).attr('width', 28).attr('height', H - m.t - m.b).style('fill', 'transparent')
-      .on('pointermove', () => tip.show(['Cap ' + r.cap + ', ' + r.n + ' reports', 'Average ' + FMT.signed1(r.mean) + ' a fly', 'Give or take ' + FMT.money1(r.se), 'Worst report ' + FMT.signed0(r.worst)], cx * el.clientWidth / w, y(r.mean + r.se)))
-      .on('pointerleave', tip.hide);
+    const half = Math.max(14, x.step() / 2);
+    readable(svg.append('rect').attr('x', cx - half).attr('y', 0).attr('width', 2 * half).attr('height', H).style('fill', 'transparent'),
+      () => tip.show(['Cap ' + r.cap + ', ' + r.n + ' reports', 'Average ' + FMT.signed1(r.mean) + ' a fly', 'Give or take ' + FMT.money1(r.se), 'Worst report ' + FMT.signed0(r.worst)], cx * el.clientWidth / w, y(r.mean + r.se)));
   }
 });
 
