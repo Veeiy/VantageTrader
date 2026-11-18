@@ -1,0 +1,58 @@
+{
+ "date": "2026-11-18",
+ "as_of_utc": "2026-11-18T14:43:00Z",
+ "macro": {
+  "spy_pct": -0.001,
+  "qqq_pct": 0.0002,
+  "iwm_pct": 0.0012,
+  "vix": 25.02
+ },
+ "scanner_and_calendar": {
+  "today_pm": [
+   "PANW",
+   "WWD",
+   "P",
+   "SBLK"
+  ],
+  "thu_am": [
+   "WMT",
+   "BABA",
+   "PDD",
+   "FUTU",
+   "WSM",
+   "TEN",
+   "WMG",
+   "BBWI"
+  ]
+ },
+ "skipped": {
+  "calendar_not_on_scanner": [
+   "NJR",
+   "JOYY",
+   "UTI",
+   "SNEX",
+   "KLIC",
+   "UGI",
+   "CPA",
+   "HI",
+   "MMS",
+   "YMM",
+   "VVV",
+   "NTES",
+   "DAO",
+   "SUBCY",
+   "MANU",
+   "MSADY",
+   "LQDT",
+   "ROAD",
+   "ATKR"
+  ],
+  "reason": "average options volume under 1,500 or price under 10 (P016)"
+ },
+ "already_reported_today": {
+  "LOW": "am; 218.30 at 06:40 PT (-1.0%; 209.0 pre-market)",
+  "TGT": "traded, closed +100.84",
+  "TJX": "traded, closed -125.16"
+ },
+ "status": "batch A sent to one vol-analyst at 06:43 PT"
+}
