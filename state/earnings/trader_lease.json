@@ -1,7 +1,7 @@
 {
-  "date": "2026-11-17",
+  "date": "2026-11-18",
   "holder": "head",
-  "since": "2026-11-17T13:53:50Z",
+  "since": "2026-11-18T13:53:18Z",
   "session": "session_018FLvMEhsok7fEKo5QjYahD",
   "reason": null,
   "history": [
@@ -30,6 +30,13 @@
       "date": "2026-11-16",
       "holder": "head",
       "since": "2026-11-16T13:55:24Z",
+      "session": "session_018FLvMEhsok7fEKo5QjYahD",
+      "reason": null
+    },
+    {
+      "date": "2026-11-17",
+      "holder": "head",
+      "since": "2026-11-17T13:53:50Z",
       "session": "session_018FLvMEhsok7fEKo5QjYahD",
       "reason": null
     }
