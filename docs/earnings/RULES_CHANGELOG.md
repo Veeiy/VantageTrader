@@ -1078,3 +1078,14 @@ entry switch no longer skips Fridays and its stored prompt carries the current n
 Measure (P039): after 8 live or paper Friday entries, result per fly after costs against the
 Monday-to-Thursday flies; back to paper if the first five closed Friday flies lose more than
 $150 in total. "Fridays paper" from Brad reverses it.
+
+## v1.16.8 (2026-11-18 13:20 PT): owner tickets show the account share; the last-hour daemon (P065, P066)
+
+P065 (process, agent): every owner-executed ticket states, before Brad places it, the max loss as a
+share of the account value against the 30% per-name ceiling (P044), every gate it waives, and who
+can close it at the exit and how. PANW reached him on 2026-11-18 as dollars only ($895, 46% of the
+account). Measure: every later owner ticket carries the three items (checked in each reflection).
+P066 (cost, decided by the agent under the delegation of 2026-11-16): a monitor daemon is replaced
+after two hours except within an hour of its 12:57 PT end, and the usage measure is in dollars: no
+cold wake, the daemons and the paper desk together at $15 a day or less (the 10% share of P063 moved
+with the head's own cost). Measure: the usage line for five trading days. "P066 off" reverses it.

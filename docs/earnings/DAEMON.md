@@ -30,7 +30,11 @@ Brad, 2026-11-10: "If a trade opens we need daemon agents live monitoring."
 - **A daemon is replaced after two hours (P063).** What a call costs grows with the
   daemon's conversation: 82k tokens at its start, 785k after six hours on 2026-11-17 (150
   seconds all day: 304 calls, about $34, 17% of that day). The hourly check-in stops a
-  daemon that has run two hours and starts a fresh one from the template.
+  daemon that has run two hours and starts a fresh one from the template, except in the
+  daemon's last hour of the day (after 11:57 PT), when a fresh start costs more than the calls
+  it saves (P066). On 2026-11-18 the 09:15 PT daemon was not replaced at 11:15 PT and grew from
+  83k to 396k tokens. The measure is in dollars (P066): no cold wake, and the daemons and the
+  paper desk together at $15 a day or less.
 - The reflection writes the day's usage line from `scripts/earnings/usage_scan.py`
   (measures: no cold wake by a subagent; the daemon and the paper desk together under 10%
   of the day). A token count is not the measure: it hid both of the above.
