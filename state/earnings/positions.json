@@ -10,50 +10,6 @@
  },
  "open": [
   {
-   "symbol": "IWM",
-   "trade_id": "IWM-0DTE-20261118-L1",
-   "kind": "intraday_0dte",
-   "tier": "probe",
-   "structure": "iron fly 269/271/273",
-   "expiry": "2026-11-18",
-   "quantity": 1,
-   "opened": "2026-11-18T15:28:00Z",
-   "legs": {
-    "short_271C": {
-     "option_id": "20f72f94-ab08-4795-aa0f-8495511b827e",
-     "fill": 0.9,
-     "qty": 1
-    },
-    "short_271P": {
-     "option_id": "55075955-b2c6-4fed-bb2a-b323e2876ff0",
-     "fill": 1.05,
-     "qty": 1
-    },
-    "long_273C": {
-     "option_id": "7d64067c-4cab-4f15-b00a-142c31943a15",
-     "fill": 0.22,
-     "qty": 1
-    },
-    "long_269P": {
-     "option_id": "3c99130f-3877-4860-b406-26696d73f29e",
-     "fill": 0.38,
-     "qty": 1
-    }
-   },
-   "net_credit": 1.35,
-   "max_loss_usd": 65.0,
-   "exit_reserve_usd": 10.0,
-   "breakevens": [
-    269.65,
-    272.35
-   ],
-   "wing_width": 2.0,
-   "plan": {
-    "exit": "flat by 11:00 PT: a timer at 10:57 PT started from the 09:15 run (P060); take profit at an hourly check when the close cost is 0.68 or less",
-    "close_sequence": "buy back both shorts together, then sell the wings"
-   }
-  },
-  {
    "symbol": "WMT",
    "trade_id": "WMT-20261118-1",
    "kind": "earnings",
@@ -200,12 +156,12 @@
  ],
  "buying_power": 1894.01,
  "risk": {
-  "total_max_loss_usd": 499.0,
-  "exit_reserves_usd": 110.0,
-  "used_usd": 609.0,
+  "total_max_loss_usd": 434.0,
+  "exit_reserves_usd": 100.0,
+  "used_usd": 534.0,
   "cap_usd": 1907.65,
-  "free_usd": 1298.65,
-  "detail": "IWM pilot x1 65 + 10; WMT x1 230 + 50; PDD x1 204 + 50.",
+  "free_usd": 1373.65,
+  "detail": "WMT x1 230 + 50; PDD x1 204 + 50.",
   "cap_note": "Rules v1.11: the cap is the account value (Brad, 2026-11-13: 'I want you to be able to use the entire funds in the mcp account'). cap_usd is the account value at the last check; it is not lowered below the risk already open when marks fall (the cap binds at entry).",
   "exit_buying_power": "1,894.01 at 06:39 PT (cash 1,894.01; account value 1,898.01)."
  },
@@ -1376,6 +1332,53 @@
    "closed_at": "2026-11-18T14:38:01Z",
    "close_cost": 6.65,
    "pnl_usd": -125.16
+  },
+  {
+   "symbol": "IWM",
+   "trade_id": "IWM-0DTE-20261118-L1",
+   "kind": "intraday_0dte",
+   "tier": "probe",
+   "structure": "iron fly 269/271/273",
+   "expiry": "2026-11-18",
+   "quantity": 1,
+   "opened": "2026-11-18T15:28:00Z",
+   "legs": {
+    "short_271C": {
+     "option_id": "20f72f94-ab08-4795-aa0f-8495511b827e",
+     "fill": 0.9,
+     "qty": 1
+    },
+    "short_271P": {
+     "option_id": "55075955-b2c6-4fed-bb2a-b323e2876ff0",
+     "fill": 1.05,
+     "qty": 1
+    },
+    "long_273C": {
+     "option_id": "7d64067c-4cab-4f15-b00a-142c31943a15",
+     "fill": 0.22,
+     "qty": 1
+    },
+    "long_269P": {
+     "option_id": "3c99130f-3877-4860-b406-26696d73f29e",
+     "fill": 0.38,
+     "qty": 1
+    }
+   },
+   "net_credit": 1.35,
+   "max_loss_usd": 65.0,
+   "exit_reserve_usd": 10.0,
+   "breakevens": [
+    269.65,
+    272.35
+   ],
+   "wing_width": 2.0,
+   "plan": {
+    "exit": "flat by 11:00 PT: a timer at 10:57 PT started from the 09:15 run (P060); take profit at an hourly check when the close cost is 0.68 or less",
+    "close_sequence": "buy back both shorts together, then sell the wings"
+   },
+   "closed_at": "2026-11-18T18:58:13Z",
+   "close_cost": 1.13,
+   "pnl_usd": 21.68
   }
  ],
  "check_2026-11-18_0638": "06:36 PT timer run: TGT opened 166.1 (+4.1%) and ran to 167.4; TJX 139.5 (+7.4%, through the 139 call wing). Multi-leg attempt on TGT refused. Both flies closed by legs 06:36:58 to 06:38:01 PT: TGT +100.84 (close 10.29 vs 11.30), TJX -125.16 (close 6.65 vs 5.40). Day -24.32. Four alerts paused. Leftover wings: JD 30C x3 and AS 26P x1 (bid 0, expire 11-20).",
