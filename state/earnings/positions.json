@@ -116,6 +116,70 @@
      "threshold": 132.7
     }
    ]
+  },
+  {
+   "symbol": "PDD",
+   "trade_id": "PDD-20261118-1",
+   "kind": "earnings",
+   "lane": "agent",
+   "tier": "near_miss",
+   "prudential": [
+    "soft_news"
+   ],
+   "structure": "iron fly 72/78/84",
+   "expiry": "2026-11-20",
+   "quantity": 1,
+   "opened": "2026-11-18T17:52:52Z",
+   "legs": {
+    "short_78C": {
+     "option_id": "01b7a7c3-c154-40f1-87bd-d1722fa8015c",
+     "fill": 2.55,
+     "qty": 1
+    },
+    "short_78P": {
+     "option_id": "3edc364d-3a53-4df1-b67e-1499be3a45ba",
+     "fill": 2.92,
+     "qty": 1
+    },
+    "long_84C": {
+     "option_id": "7b8e1196-cb46-4993-9be0-cee6a76c9bb0",
+     "fill": 0.75,
+     "qty": 1
+    },
+    "long_72P": {
+     "option_id": "ff22dd1b-a860-40d2-b061-c0c7618b5959",
+     "fill": 0.76,
+     "qty": 1
+    }
+   },
+   "net_credit": 3.96,
+   "max_loss_usd": 204.0,
+   "max_profit_usd": 396.0,
+   "exit_reserve_usd": 50.0,
+   "breakevens": [
+    74.04,
+    81.96
+   ],
+   "wing_width": 6.0,
+   "report": "2026-11-19 before the US open, call 04:30 PT",
+   "ticks": "0.05 at and above 3.00, 0.01 below",
+   "plan": {
+    "exit": "Thu 2026-11-19, the 06:36 PT timer run, by legs; both shorts first, then the wings",
+    "never_hold_into": "2026-11-20",
+    "close_sequence": "buy back both short legs first, then sell both wings"
+   },
+   "alerts": [
+    {
+     "alert_id": "65b95f27-f133-4b8d-8b89-e961629b8a42",
+     "condition": "price_below",
+     "threshold": 74.04
+    },
+    {
+     "alert_id": "32892f8d-2e93-4c6c-a0cc-fb81ba80b724",
+     "condition": "price_above",
+     "threshold": 81.96
+    }
+   ]
   }
  ],
  "blockers": [
@@ -136,12 +200,12 @@
  ],
  "buying_power": 1894.01,
  "risk": {
-  "total_max_loss_usd": 295.0,
-  "exit_reserves_usd": 60.0,
-  "used_usd": 355.0,
-  "cap_usd": 1898.01,
-  "free_usd": 1543.01,
-  "detail": "IWM pilot x1 65 + 10; WMT x1 230 + 50 (half size: near miss and soft news).",
+  "total_max_loss_usd": 499.0,
+  "exit_reserves_usd": 110.0,
+  "used_usd": 609.0,
+  "cap_usd": 1907.65,
+  "free_usd": 1298.65,
+  "detail": "IWM pilot x1 65 + 10; WMT x1 230 + 50; PDD x1 204 + 50.",
   "cap_note": "Rules v1.11: the cap is the account value (Brad, 2026-11-13: 'I want you to be able to use the entire funds in the mcp account'). cap_usd is the account value at the last check; it is not lowered below the risk already open when marks fall (the cap binds at entry).",
   "exit_buying_power": "1,894.01 at 06:39 PT (cash 1,894.01; account value 1,898.01)."
  },

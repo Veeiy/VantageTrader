@@ -1,0 +1,56 @@
+{
+ "symbol": "PDD",
+ "timing": "am",
+ "spot": 77.56,
+ "prev_close": 77.39,
+ "K": 78.0,
+ "call": {
+  "bid": 2.51,
+  "ask": 2.61
+ },
+ "put": {
+  "bid": 2.88,
+  "ask": 2.99
+ },
+ "hist_moves": [
+  -0.13636,
+  0.00865,
+  -0.0733,
+  0.04608,
+  -0.10378,
+  -0.01482
+ ],
+ "regime_20d": 0.01617,
+ "flags": [
+  "soft:peer_baba_ntes_report_same_morning",
+  "soft:tcehy_reported_11_18_slight_eps_miss",
+  "soft:eu_dsa_fine_decided_may2026",
+  "soft:eu_3eur_parcel_duty_in_effect_q3_first_full_qtr",
+  "soft:eu_parcel_handling_fee_amount_delegated_act_undated",
+  "soft:us_de_minimis_repeal_upheld_aug2026",
+  "soft:us_china_truce_extended_to_2027_01_10",
+  "soft:china_samr_tax_probe_open_no_date",
+  "soft:plaintiff_firm_solicitations_jan2026"
+ ],
+ "account_value": 1907.65,
+ "open_risk_usd": 355.0,
+ "buying_power": 1598.65,
+ "tick": 0.05,
+ "wings": {
+  "call_strike": 86.0,
+  "put_strike": 70.0,
+  "call": {
+   "bid": 0.41,
+   "ask": 0.48
+  },
+  "put": {
+   "bid": 0.42,
+   "ask": 0.47
+  }
+ },
+ "sector": "internet retail (China)",
+ "sectors_entered_today": [
+  "index fund",
+  "discount stores, grocery"
+ ]
+}

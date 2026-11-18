@@ -74,6 +74,17 @@
    "credit": 1.35,
    "max_loss": 65,
    "tier": "probe"
+  },
+  {
+   "symbol": "PDD",
+   "time_pt": "09:52",
+   "fly": "72/78/84",
+   "credit": 3.96,
+   "max_loss": 204,
+   "tier": "near_miss",
+   "prudential": [
+    "soft_news"
+   ]
   }
  ],
  "blocked": {
@@ -82,12 +93,17 @@
   "BABA": "edge 1.119 above 1.10",
   "WWD": "ATM spread 43.6%",
   "SBLK": "ATM spread 72%",
-  "PDD": "ATM spread 27.3%",
+  "PDD": "cleared at the 09:45 re-check (spread 7.7%); entered",
   "FUTU": "ATM spread 71.6%",
   "WSM": "ATM spread 28.1%",
   "TEN": "ATM spread 120%",
   "WMG": "body put no bid",
   "BBWI": "ATM spread 40%",
   "WMT 139/113": "exit check (gate 16): 1,430 needed vs 1,314 left after the entry"
+ },
+ "recheck_0945": {
+  "BABA": "edge 1.177 at 09:46 (straddle cheaper): still above 1.10",
+  "WSM": "+4.8% today at 09:46, next to the 5% intraday limit: skipped",
+  "PDD": "entered at 09:52"
  }
 }
