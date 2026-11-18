@@ -1,6 +1,6 @@
 {
  "date": "2026-11-18",
- "as_of_pt": "06:56",
+ "as_of_pt": "06:55",
  "universe_file": "/home/user/VantageTrader/state/earnings/daytrade/universe/universe_2026-11-16.json",
  "n_names": 31,
  "names": [
@@ -256,16 +256,29 @@
    "straddle_mid": 0.285,
    "straddle_pct": 0.00356,
    "spread_pct": 0.1053,
-   "wings": null,
-   "credit_mid": null,
-   "credit_natural": null,
-   "width": null,
-   "max_loss_usd": null,
-   "cost_round_trip_usd": null,
-   "cost_share": null,
-   "fits_probe_cap": null,
-   "reason": "spread",
-   "notes": "body volume call 1214 put 3765; quotes 06:55 PT, spot then 80.01 (+0.0 steps from K); 06:53 body read: call 0.15/0.16 put 0.13/0.14 spread_pct 0.0690; dropped on the 06:55 re-quote; fly already quoted 80.5/79.5: wing call 0.02/0.03 wing put 0.01/0.02, credit mid 0.245 natural 0.220, width 0.5, max loss 28 usd, round trip 5 usd, cost share 0.204"
+   "wings": {
+    "call_strike": 80.5,
+    "put_strike": 79.5,
+    "call": {
+     "id": "fbe77adc-08b4-48ce-99ab-28895e10ba74",
+     "bid": 0.02,
+     "ask": 0.03
+    },
+    "put": {
+     "id": "4d33493e-04fa-4408-b153-a8adbab67992",
+     "bid": 0.01,
+     "ask": 0.02
+    }
+   },
+   "credit_mid": 0.245,
+   "credit_natural": 0.22,
+   "width": 0.5,
+   "max_loss_usd": 28.0,
+   "cost_round_trip_usd": 5.0,
+   "cost_share": 0.2041,
+   "fits_probe_cap": true,
+   "reason": null,
+   "notes": "body volume call 1214 put 3765; quotes 06:55 PT, spot then 80.01 (+0.0 steps from K); 06:53 body read: call 0.15/0.16 put 0.13/0.14 spread_pct 0.0690; early-drop gate applied to the 06:53 body read (0.0690, passed); on the 06:55 re-quote used for pricing spread_pct is 0.1053, above 0.08"
   },
   {
    "symbol": "IBIT",
@@ -982,7 +995,7 @@
    "cost_share": null,
    "fits_probe_cap": null,
    "reason": "spread",
-   "notes": "body volume call 140 put 68; parity gap +0.415 (call mid - put mid vs spot - K)"
+   "notes": "body volume call 140 put 68; parity gap +0.415 vs the 06:50 spot: stale spot (market rallied before the 06:53 option quotes), not a leg error"
   },
   {
    "symbol": "GDX",
@@ -1015,7 +1028,7 @@
    "cost_share": null,
    "fits_probe_cap": null,
    "reason": "spread",
-   "notes": "body volume call 56 put 1123; parity gap +0.500 (call mid - put mid vs spot - K)"
+   "notes": "body volume call 56 put 1123; parity gap +0.500 vs the 06:50 spot: stale spot (market rallied before the 06:53 option quotes), not a leg error"
   },
   {
    "symbol": "IEF",
@@ -1072,16 +1085,29 @@
    "straddle_mid": 6.18,
    "straddle_pct": 0.00845,
    "spread_pct": 0.0874,
-   "wings": null,
-   "credit_mid": null,
-   "credit_natural": null,
-   "width": null,
-   "max_loss_usd": null,
-   "cost_round_trip_usd": null,
-   "cost_share": null,
-   "fits_probe_cap": null,
-   "reason": "spread",
-   "notes": "index level from get_index_quotes 09:50 ET; no previous close returned, pre_move null; body volume call 136 put 1609; quotes 06:55 PT, spot then 732.68 (+1.7 steps from K); 06:53 body read: call 4.22/4.37 put 2.07/2.13 spread_pct 0.0328; dropped on the 06:55 re-quote; fly already quoted 737/725: wing call 1.2/1.24 wing put 0.8/0.84, credit mid 4.140 natural 3.830, width 6, max loss 217 usd, round trip 62 usd, cost share 0.150"
+   "wings": {
+    "call_strike": 737,
+    "put_strike": 725,
+    "call": {
+     "id": "86981bf2-d6de-4a23-a246-2c54eb85a4ca",
+     "bid": 1.2,
+     "ask": 1.24
+    },
+    "put": {
+     "id": "2dd4dc11-a92b-4c52-972e-35b0f1dbdd53",
+     "bid": 0.8,
+     "ask": 0.84
+    }
+   },
+   "credit_mid": 4.14,
+   "credit_natural": 3.83,
+   "width": 6,
+   "max_loss_usd": 217.0,
+   "cost_round_trip_usd": 62.0,
+   "cost_share": 0.1498,
+   "fits_probe_cap": false,
+   "reason": null,
+   "notes": "index level from get_index_quotes 09:50 ET; no previous close returned, pre_move null; body volume call 136 put 1609; quotes 06:55 PT, spot then 732.68 (+1.7 steps from K); 06:53 body read: call 4.22/4.37 put 2.07/2.13 spread_pct 0.0328; early-drop gate applied to the 06:53 body read (0.0328, passed); on the 06:55 re-quote used for pricing spread_pct is 0.0874, above 0.08"
   },
   {
    "symbol": "SPX",
@@ -1127,7 +1153,7 @@
    "cost_share": 0.0136,
    "fits_probe_cap": false,
    "reason": null,
-   "notes": "same-day chain root SPXW; index level from get_index_quotes 09:50 ET; no previous close returned, pre_move null; wing targets 7377.5/7252.5 sat exactly between 5-pt strikes; took the outer strikes 7380/7250; body volume call 1281 put 6508; quotes 06:55 PT, spot then 7326.83 (+2.4 steps from K); 06:53 body read: call 39.4/39.9 put 22.8/22.9 spread_pct 0.0096"
+   "notes": "same-day chain root SPXW; index level from get_index_quotes 09:50 ET; no previous close returned, pre_move null; wings chosen from the 06:53 straddle_mid 62.50: targets 7377.5/7252.5 sat exactly between 5-pt strikes, took the outer 7380/7250; body volume call 1281 put 6508; quotes 06:55 PT, spot then 7326.83 (+2.4 steps from K); 06:53 body read: call 39.4/39.9 put 22.8/22.9 spread_pct 0.0096; call wing 7380 picked from the 06:53 straddle; with the 06:55 straddle_mid 61.750 the target is 7376.75, nearest listed-grid strike 7375; put wing 7250 picked from the 06:53 straddle; with the 06:55 straddle_mid 61.750 the target is 7253.25, nearest listed-grid strike 7255"
   },
   {
    "symbol": "NDX",
@@ -1229,7 +1255,7 @@
    "cost_share": null,
    "fits_probe_cap": null,
    "reason": "spread",
-   "notes": "body volume call 322 put 140; parity gap +0.455 (call mid - put mid vs spot - K)"
+   "notes": "body volume call 322 put 140; parity gap +0.455 vs the 06:50 spot: stale spot (market rallied before the 06:53 option quotes), not a leg error"
   },
   {
    "symbol": "UNG",
@@ -1282,9 +1308,11 @@
   "AVGO",
   "MSFT",
   "SLV",
+  "XSP",
   "GOOGL",
   "IBIT",
-  "NDX"
+  "NDX",
+  "TLT"
  ],
  "errors": []
 }
