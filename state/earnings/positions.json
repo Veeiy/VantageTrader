@@ -52,6 +52,70 @@
     "exit": "flat by 11:00 PT: a timer at 10:57 PT started from the 09:15 run (P060); take profit at an hourly check when the close cost is 0.68 or less",
     "close_sequence": "buy back both shorts together, then sell the wings"
    }
+  },
+  {
+   "symbol": "WMT",
+   "trade_id": "WMT-20261118-1",
+   "kind": "earnings",
+   "lane": "agent",
+   "tier": "near_miss",
+   "prudential": [
+    "soft_news"
+   ],
+   "structure": "iron fly 119/127/135",
+   "expiry": "2026-11-20",
+   "quantity": 1,
+   "opened": "2026-11-18T15:30:58Z",
+   "legs": {
+    "short_127C": {
+     "option_id": "9feee807-d21e-4bb9-9bb1-a35e3477d9f6",
+     "fill": 4.0,
+     "qty": 1
+    },
+    "short_127P": {
+     "option_id": "74de64e9-65f4-4a3d-acc5-54285470f168",
+     "fill": 4.1,
+     "qty": 1
+    },
+    "long_135C": {
+     "option_id": "49f0274c-c48f-4169-95f3-ef11904ea087",
+     "fill": 1.14,
+     "qty": 1
+    },
+    "long_119P": {
+     "option_id": "01c880e4-5e82-4663-9b01-46ffc10bb834",
+     "fill": 1.26,
+     "qty": 1
+    }
+   },
+   "net_credit": 5.7,
+   "max_loss_usd": 230.0,
+   "max_profit_usd": 570.0,
+   "exit_reserve_usd": 50.0,
+   "breakevens": [
+    121.3,
+    132.7
+   ],
+   "wing_width": 8.0,
+   "report": "2026-11-19 04:00 PT (before the open), call 05:00 PT",
+   "ticks": "0.05 at and above 3.00, 0.01 below",
+   "plan": {
+    "exit": "Thu 2026-11-19, the 06:36 PT timer run, by legs (EXECUTION.md); both shorts first, then the wings",
+    "never_hold_into": "2026-11-20",
+    "close_sequence": "buy back both short legs first, then sell both wings; never sell a wing while its short leg is open"
+   },
+   "alerts": [
+    {
+     "alert_id": "f18708f6-7321-4931-86fe-5e3aba1d858a",
+     "condition": "price_below",
+     "threshold": 121.3
+    },
+    {
+     "alert_id": "d9f25882-bf35-4295-a922-608457f30c55",
+     "condition": "price_above",
+     "threshold": 132.7
+    }
+   ]
   }
  ],
  "blockers": [
@@ -72,12 +136,12 @@
  ],
  "buying_power": 1894.01,
  "risk": {
-  "total_max_loss_usd": 65.0,
-  "exit_reserves_usd": 10.0,
-  "used_usd": 75.0,
+  "total_max_loss_usd": 295.0,
+  "exit_reserves_usd": 60.0,
+  "used_usd": 355.0,
   "cap_usd": 1898.01,
-  "free_usd": 1823.01,
-  "detail": "IWM pilot x1 65 + 10.",
+  "free_usd": 1543.01,
+  "detail": "IWM pilot x1 65 + 10; WMT x1 230 + 50 (half size: near miss and soft news).",
   "cap_note": "Rules v1.11: the cap is the account value (Brad, 2026-11-13: 'I want you to be able to use the entire funds in the mcp account'). cap_usd is the account value at the last check; it is not lowered below the risk already open when marks fall (the cap binds at entry).",
   "exit_buying_power": "1,894.01 at 06:39 PT (cash 1,894.01; account value 1,898.01)."
  },

@@ -1,0 +1,74 @@
+{
+  "projections": [
+    {
+      "symbol": "WMT",
+      "quantity": 1.0,
+      "credit": 5.8,
+      "structure": {
+        "body": 127.0,
+        "call_wing": 135.0,
+        "put_wing": 119.0
+      },
+      "base": {
+        "spot": 126.79,
+        "sigma": 0.0247,
+        "legs": {
+          "body_call": 1.1482,
+          "body_put": 1.3582,
+          "wing_call": 0.0127,
+          "wing_put": 0.0111,
+          "close_cost": 2.4826
+        },
+        "close_cost": 2.4826,
+        "pnl_mid_usd": 331.74,
+        "pnl_after_slippage_usd": 316.74
+      },
+      "grid_pnl_mid_usd": [
+        {
+          "spot": 126.16,
+          "sigma_0.020": 365.54,
+          "sigma_0.025": 324.19,
+          "sigma_0.030": 275.83
+        },
+        {
+          "spot": 121.09,
+          "sigma_0.020": 20.46,
+          "sigma_0.025": 34.18,
+          "sigma_0.030": 47.02
+        },
+        {
+          "spot": 134.98,
+          "sigma_0.020": -99.53,
+          "sigma_0.025": -74.12,
+          "sigma_0.030": -45.59
+        },
+        {
+          "spot": 125.04,
+          "sigma_0.020": 320.74,
+          "sigma_0.025": 288.7,
+          "sigma_0.030": 249.31
+        },
+        {
+          "spot": 117.58,
+          "sigma_0.020": -171.21,
+          "sigma_0.025": -150.62,
+          "sigma_0.030": -124.47
+        },
+        {
+          "spot": 115.19,
+          "sigma_0.020": -211.74,
+          "sigma_0.025": -202.07,
+          "sigma_0.030": -185.81
+        }
+      ],
+      "range_pnl_mid_usd": [
+        -211.74,
+        365.54
+      ],
+      "assumptions": {
+        "wing_sigma_mult": 1.1,
+        "slippage_usd": 15.0
+      }
+    }
+  ]
+}

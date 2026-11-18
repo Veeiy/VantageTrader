@@ -54,5 +54,40 @@
   "TGT": "traded, closed +100.84",
   "TJX": "traded, closed -125.16"
  },
- "status": "batch A sent to one vol-analyst at 06:43 PT"
+ "status": "morning decisions done 07:31 PT; the 11:46 sweep re-checks",
+ "entered": [
+  {
+   "symbol": "WMT",
+   "time_pt": "07:30",
+   "fly": "119/127/135",
+   "credit": 5.7,
+   "max_loss": 230,
+   "tier": "near_miss",
+   "prudential": [
+    "soft_news"
+   ]
+  },
+  {
+   "symbol": "IWM",
+   "time_pt": "07:28",
+   "fly": "269/271/273 same-day",
+   "credit": 1.35,
+   "max_loss": 65,
+   "tier": "probe"
+  }
+ ],
+ "blocked": {
+  "PANW": "max loss 977 mid / 1,350 natural at the floor fly: over the 600 cap",
+  "P": "edge 1.187 above 1.10",
+  "BABA": "edge 1.119 above 1.10",
+  "WWD": "ATM spread 43.6%",
+  "SBLK": "ATM spread 72%",
+  "PDD": "ATM spread 27.3%",
+  "FUTU": "ATM spread 71.6%",
+  "WSM": "ATM spread 28.1%",
+  "TEN": "ATM spread 120%",
+  "WMG": "body put no bid",
+  "BBWI": "ATM spread 40%",
+  "WMT 139/113": "exit check (gate 16): 1,430 needed vs 1,314 left after the entry"
+ }
 }
