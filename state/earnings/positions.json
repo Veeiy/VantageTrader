@@ -662,7 +662,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-17T20:57:00Z",
+  "last_query_utc": "2026-11-18T13:54:00Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -1196,5 +1196,6 @@
   },
   "account_value": 2559.37,
   "note": "the account value is marked at these loose mids"
- }
+ },
+ "check_2026-11-18_0554": "Pre-open 05:54 PT: lease head; exit timer 06:36 PT running. Broker matches positions.json: TGT x1 and TJX x1 flies, JD 30C x3 and AS 26P x1 leftover wings (bid 0, expire 11-20). No hand orders since 2026-11-17 20:57Z, no shares. Pre-market: TGT 159.95 (close 159.53, +0.3%: inside 146.20/168.80, near the body); TJX 137.35 (close 129.85, +5.8%: above the 136.40 breakeven, under the 139 wing, max loss 260); LOW 209.00 (-5.2%: paper fly near max loss); NVDA 160.13 (+3.0%). Buying power 1,038.37. Exit order: TGT both shorts first (about 3.0 + 0.8 = 380 of buying power; 620 of collateral back), then TJX both shorts (131C about 6.6 to 7.0 ITM + 131P about 0.2), then the four wings."
 }
