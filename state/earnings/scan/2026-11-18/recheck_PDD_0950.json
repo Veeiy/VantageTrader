@@ -1,0 +1,34 @@
+{
+ "symbol": "PDD",
+ "timing": "am",
+ "report": "2026-11-19",
+ "hist_moves": [
+  -0.13636,
+  0.00865,
+  -0.0733,
+  0.04608,
+  -0.10378,
+  -0.01482
+ ],
+ "source": "get_equity_historicals day bars around each report: close before the report to close of the report day (am)",
+ "regime_20d": 0.016168,
+ "avg_hist_move": 0.063832,
+ "n_hist": 6,
+ "quotes_0946": {
+  "spot": 77.66,
+  "prev_close": 77.39,
+  "K78": {
+   "call": [
+    2.53,
+    2.72
+   ],
+   "put": [
+    2.81,
+    3.05
+   ]
+  },
+  "straddle_mid": 5.555,
+  "atm_spread_pct": 0.0774
+ },
+ "status": "midday re-check: spread now passes; news check sent 09:50 PT"
+}
