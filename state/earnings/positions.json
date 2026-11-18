@@ -1,6 +1,6 @@
 {
- "as_of": "2026-11-18T14:38:01Z",
- "account_value": 1898.01,
+ "as_of": "2026-11-18T20:10:30Z",
+ "account_value": 1936.05,
  "cap_total_max_loss": 1235.08,
  "execution": {
   "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
@@ -136,6 +136,75 @@
      "threshold": 81.96
     }
    ]
+  },
+  {
+   "symbol": "PANW",
+   "trade_id": "PANW-20261118-1",
+   "kind": "earnings",
+   "lane": "owner_executed",
+   "tier": "core",
+   "prudential": [],
+   "owner_override": [
+    "name_risk_cap",
+    "intraday_move",
+    "exit_not_feasible"
+   ],
+   "structure": "iron fly 297.5/330/362.5",
+   "expiry": "2026-11-20",
+   "quantity": 1,
+   "opened": "2026-11-18T20:09:15Z",
+   "legs": {
+    "short_330C": {
+     "option_id": "c10193d7-9b33-4c82-8c4b-0f9f1017dfe7",
+     "fill": 18.11,
+     "qty": 1
+    },
+    "short_330P": {
+     "option_id": "7d5904db-4db3-482e-9390-63ea374f8be9",
+     "fill": 16.98,
+     "qty": 1
+    },
+    "long_362.5C": {
+     "option_id": "37505bf5-ac65-4016-8bcc-1be0403d3c3f",
+     "fill": 5.82,
+     "qty": 1
+    },
+    "long_297.5P": {
+     "option_id": "ac27af73-5a79-4e82-998e-d78b8eb7327e",
+     "fill": 5.72,
+     "qty": 1
+    }
+   },
+   "order_id": "6afe05ea-87b7-4e3e-95a3-65ec95019a85",
+   "net_credit": 23.55,
+   "max_loss_usd": 895.0,
+   "max_profit_usd": 2355.0,
+   "exit_reserve_usd": 50.0,
+   "breakevens": [
+    306.45,
+    353.55
+   ],
+   "wing_width": 32.5,
+   "report": "2026-11-18 after the close",
+   "ticks": "0.05 at and above 3.00, 0.01 below",
+   "plan": {
+    "exit": "Thu 2026-11-19: WMT and PDD by legs at the 06:36 PT run first; 06:38 PT the 4-leg closing ticket and a push to Brad (he closes about 06:45 PT, his call: 'They should close around 6:45 pt after the report so options can settle abit after open'); 06:50 PT the agent legs it out if it is still open and the legs fit the buying power",
+    "never_hold_into": "2026-11-20",
+    "close_sequence": "buy back both short legs first, then sell both wings; never sell a wing while its short leg is open",
+    "owner_ask": "Brad, 11:52 PT: 'id want you to monitor them and close if you see we need to'"
+   },
+   "alerts": [
+    {
+     "alert_id": "422ef1fb-ccd6-48cc-a0cc-b9309fe2fc59",
+     "condition": "price_below",
+     "threshold": 306.45
+    },
+    {
+     "alert_id": "35a3e417-1489-4db4-9479-478f6bc1b40d",
+     "condition": "price_above",
+     "threshold": 353.55
+    }
+   ]
   }
  ],
  "blockers": [
@@ -154,16 +223,16 @@
   "From Wed 2026-11-18 (P063, rules v1.16.5): the daemon's default wait is 240 s and no agent waits longer than 240 s in one piece; the hourly run replaces a daemon that has run two hours; the reflection fires at 13:12 PT and writes the usage line (python3 scripts/earnings/usage_scan.py --date <today> --append state/earnings/usage.jsonl).",
   "Wed 2026-11-18, iteration on exit timing (told Brad 2026-11-17 evening): after TGT and TJX are closed at the 06:36 run, keep their eight leg ids and read get_option_quotes for them once at the 07:15 hourly run and once at the 08:15 run; write one live_metrics row per fly and time, record 'shadow_exit' (close cost at mid and at natural, the stock, and the difference from the real exit). Read-only, no extra wake. After 10 flies the reflection compares 06:36 with the two later marks."
  ],
- "buying_power": 1894.01,
+ "buying_power": 586.05,
  "risk": {
-  "total_max_loss_usd": 434.0,
-  "exit_reserves_usd": 100.0,
-  "used_usd": 534.0,
-  "cap_usd": 1907.65,
-  "free_usd": 1373.65,
-  "detail": "WMT x1 230 + 50; PDD x1 204 + 50.",
+  "total_max_loss_usd": 1329.0,
+  "exit_reserves_usd": 150.0,
+  "used_usd": 1479.0,
+  "cap_usd": 1936.05,
+  "free_usd": 457.05,
+  "detail": "WMT x1 230 + 50; PDD x1 204 + 50; PANW x1 895 + 50 (owner-executed).",
   "cap_note": "Rules v1.11: the cap is the account value (Brad, 2026-11-13: 'I want you to be able to use the entire funds in the mcp account'). cap_usd is the account value at the last check; it is not lowered below the risk already open when marks fall (the cap binds at entry).",
-  "exit_buying_power": "1,894.01 at 06:39 PT (cash 1,894.01; account value 1,898.01)."
+  "exit_buying_power": "586.05 at 12:10 PT after the PANW fill (cash 5,236.05; account value 1,936.05)."
  },
  "eod_note": "2026-11-13 close: PCG x5 open (fly 0.585 at closing mids, +$33.50; about flat on the day, account +$5). No fills today. Account 1,250.91, buying power 1,040.91, risk used 224. Two losses in a row stand (LUNR, NVDA): a third pauses new entries.",
  "watch": [
@@ -624,13 +693,14 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-18T18:15:00Z",
+  "last_query_utc": "2026-11-18T20:10:00Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
    "6afb6d9b-5459-4ce5-bf8b-1c463f58b230",
    "6afc7963-fd94-44c7-adbb-bc9c76097bc2",
-   "6afc7fcd-43f5-4830-8c2e-aaaf9c0b4d1a"
+   "6afc7fcd-43f5-4830-8c2e-aaaf9c0b4d1a",
+   "6afe05ea-87b7-4e3e-95a3-65ec95019a85"
   ],
   "note": "P046. Every check-in queries get_option_orders and get_equity_orders with agent_initiated=false and created_at_gte=last_query_utc, then moves last_query_utc. The three ids are Brad's HD orders of 2026-11-16 (cancelled at 12.00, filled at 11.90 and 11.95)."
  },
@@ -903,6 +973,31 @@
     },
     "status": "withdrawn 10:20 PT: Brad wants the agent to trade it ('Ideally you will trade all of it'); the agent enters it by legs after the 11:00 PT pilot exit",
     "note": "Brad left the call to the agent ('Use your judgement on tjx'). Decision: yes, one contract, his 4-leg only; paper if he does not place it by 12:35 PT. Reports Wed 2026-11-18 before the open; exit as for TGT."
+   },
+   {
+    "sent_pt": "12:05",
+    "symbol": "PANW",
+    "structure": "iron fly 297.5/330/362.5 exp 2026-11-20 x1",
+    "limit_credit": 23.5,
+    "walk": [
+     23.4,
+     23.3
+    ],
+    "not_below": 21.7,
+    "max_loss_about": 895,
+    "breakevens": [
+     306.5,
+     353.5
+    ],
+    "ids": {
+     "362.5C": "37505bf5-ac65-4016-8bcc-1be0403d3c3f",
+     "297.5P": "ac27af73-5a79-4e82-998e-d78b8eb7327e",
+     "330P": "7d5904db-4db3-482e-9390-63ea374f8be9",
+     "330C": "c10193d7-9b33-4c82-8c4b-0f9f1017dfe7"
+    },
+    "status": "FILLED by Brad 12:09:15 PT at 23.55 (limit 23.50; order 6afe05ea-87b7-4e3e-95a3-65ec95019a85): 330C 18.11, 330P 16.98, 362.5C 5.82, 297.5P 5.72. Recorded as PANW-20261118-1.",
+    "note": "over the 600 name cap (895) and the 5% intraday limit (+6.8%), told to him at 11:52 PT; first ticket draft at 11:52 PT was 23.20 mid, 21.70 floor.",
+    "max_loss": 895.0
    }
   ],
   "staging_desk": {
