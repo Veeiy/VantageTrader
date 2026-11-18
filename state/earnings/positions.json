@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-18T20:19:00Z",
+ "as_of": "2026-11-18T20:57:30Z",
  "account_value": 1936.05,
  "cap_total_max_loss": 1235.08,
  "execution": {
@@ -1541,5 +1541,17 @@
   "daemon": "the 09:15 PT daemon is still running (3 h; P063 says replace at 2 h). Kept for the last 40 minutes: it took the PANW legs at 12:10 PT and a fresh start costs more than 10 cycles of a warm one. For the reflection: P063 should not replace in the daemon's last hour.",
   "last_look_timer": "started for 12:57 PT",
   "projection": "pre-report method A at 12:18 PT: book mean +334, median +432, p_profit 0.79, p05 -619 (state/earnings/scan/2026-11-18/pre_report_projection_1218.json)"
+ },
+ "check_2026-11-18_1257_last_look": {
+  "at_utc": "2026-11-18T20:57:05Z",
+  "hand_orders_since_20:10Z": "none (option and equity)",
+  "positions": "unchanged: WMT, PDD, PANW flies; JD x3 and AS x1 leftover long wings expire Fri",
+  "spots": {
+   "WMT": 127.485,
+   "PDD": 77.47,
+   "PANW": 340.18
+  },
+  "note": "PANW ran from 330.34 at the entry to 340.18 into the close (+10.0% on the day). The fly is now 10 points off its 330 body: the expiry breakeven above is 353.55 (+3.9% from 340.18), below 306.45 (-9.9%). The report move now starts lopsided; an up move of about 5 to 6% puts it near zero at the exit read. Nothing to do: no adds or rolls, owner position, exit plan unchanged.",
+  "owner_ask_1221": "Brad asked about a second WMT fly at 12:21 PT; the agent advised against (edge 0.93 mean, 1.05 median; WMT at the near-miss half cap; book 91% of the account; exit buying power). He did not place it."
  }
 }
