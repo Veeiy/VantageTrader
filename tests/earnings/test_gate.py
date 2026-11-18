@@ -823,3 +823,17 @@ def test_v1166_soft_news_no_longer_halves_when_switched_off():
     assert rec["contracts"] == full["contracts"]
     rec, code = v114(flags=[SOFT_FLAG], macro_veto=SOFT_MACRO, cfg_over={"soft_news_sizes_down": False})
     assert code == 0 and rec["prudential"] == ["soft_macro"] and rec["size_factor"] == 0.5
+
+
+def test_v1167_a_weekend_hold_is_sized_at_half():
+    """P039 (2026-11-16, wired 2026-11-18): a Friday entry held over the weekend gets half the target and the cap."""
+    full, code = v114()
+    rec, code2 = v114(weekend_hold=True)
+    assert code == 0 and code2 == 0 and rec["weekend_hold"] is True and rec["size_factor"] == 0.5
+    assert rec["risk"]["name_risk_cap"] == full["risk"]["name_risk_cap"] / 2
+    assert rec["contracts"] < full["contracts"]
+    # a near-miss name held over a weekend stays at half, not a quarter
+    nm, _ = v114(weekend_hold=True, **NEAR_MISS)
+    assert nm["size_factor"] == 0.5
+    with pytest.raises(Exception):
+        gate.evaluate(cand(weekend_hold="yes"), cfg(), [])

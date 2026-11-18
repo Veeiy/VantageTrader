@@ -64,6 +64,7 @@ DEFAULTS: dict[str, Any] = {
     "tight_max_ratio": 0.70,         # v1.5: edge ratio at or under this may be entered early
     "near_miss_max_ratio": 1.10,     # v1.10: edge ratio above sell_max_ratio and up to this is tradable at reduced size
     "near_miss_size_frac": 0.5,      # v1.10: share of the name target and of the name cap a near-miss name may use
+    "weekend_size_frac": 0.5,          # v1.16.7 (P039): a Friday entry held over the weekend, half target and cap
     "soft_news_sizes_down": False,     # v1.16.6 (owner, 2026-11-18): a soft news flag passes at full size; True = v1.14 (half)
     "prudential_half_enabled": True,   # v1.14: one soft condition ("soft:" news flag or macro string) halves the size instead of blocking
     "prudential_size_factor": 0.5,     # v1.14: share of the name target and of the name cap with one soft condition (hard cap 0.5)
@@ -170,6 +171,7 @@ HARD_CAPS: dict[str, tuple[str, float]] = {
     "near_miss_max_ratio": ("max", 1.10),   # v1.10: the reduced-size tier may not reach further
     "near_miss_size_frac": ("max", 0.5),    # ... and may not be sized above half
     "prudential_size_factor": ("max", 0.5),     # v1.14: a name with one soft condition is never sized above half
+    "weekend_size_frac": ("max", 0.5),          # v1.16.7: a weekend hold is never sized above half
     "max_prudential_conditions": ("max", 1),    # ... and two soft conditions at once always block
     "early_tranche_frac": ("max", 1.0),
     "add_center_frac": ("max", 0.5),
@@ -204,7 +206,7 @@ _NUMERIC = {
     "wide_spread_pct", "wide_spread_max_loss", "max_intraday_move_sector", "regime_mult",
     "tight_max_ratio", "name_risk_frac", "name_risk_cap", "early_tranche_frac", "add_center_frac",
     "exit_buyback_mult", "near_miss_max_ratio", "near_miss_size_frac", "min_wing_over_straddle",
-    "prudential_size_factor",
+    "prudential_size_factor", "weekend_size_frac",
     "sell_max_ratio", "buy_min_ratio", "min_ev_per_dollar_risk",
     "max_loss_bp_frac", "tick", "step_small", "step_large", "step_threshold",
     "credit_floor_mid_frac", "debit_ceiling_mid_frac", "min_account_value",
@@ -229,7 +231,7 @@ _POSITIVE = {
     "max_intraday_move_sector", "regime_mult", "tight_max_ratio",
     "name_risk_frac", "name_risk_cap", "early_tranche_frac", "add_center_frac", "exit_buyback_mult",
     "near_miss_max_ratio", "near_miss_size_frac", "min_wing_over_straddle",
-    "prudential_size_factor", "max_prudential_conditions",
+    "prudential_size_factor", "max_prudential_conditions", "weekend_size_frac",
     "max_consecutive_losses", "max_spread_pct", "max_intraday_move", "max_loss_tolerance",
     "straddle_take_profit", "calibrate_min_trades", "max_expiry_days_after_report",
     "intraday_max_spread_pct", "intraday_max_loss", "intraday_probe_max_loss", "intraday_pilot_loss_limit",

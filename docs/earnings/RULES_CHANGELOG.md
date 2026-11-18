@@ -1065,3 +1065,16 @@ near-miss tier (edge ratio 0.85 to 1.10, rules v1.10) still halves, so WMT and P
 2026-11-18 stay at one contract each. `soft_news_sizes_down: true` restores v1.14.
 Measure: over the next 10 earnings trades that carried only soft flags, the result per
 dollar of max loss against the core-tier trades without flags.
+
+## v1.16.7 (2026-11-18 11:55 PT): Friday earnings entries go live at half size (P039)
+
+Approved 2026-11-16 (Brad: "should be trading all work days of the week"), wired today before
+the first Friday. On Fridays the morning scan, the 09:45 re-check and the 11:46 sweep run for names
+that report Friday after the close or Monday before the open. The gate takes `"weekend_hold": true`
+and sizes such a name at `weekend_size_frac` (0.5) of the name target and cap: the smallest of
+the near-miss, prudential and weekend factors applies, never their product. The Monday 06:36 PT
+run exits them. The ENTRY, midday and entry-backup tasks now fire Monday to Friday; the standby
+entry switch no longer skips Fridays and its stored prompt carries the current name caps.
+Measure (P039): after 8 live or paper Friday entries, result per fly after costs against the
+Monday-to-Thursday flies; back to paper if the first five closed Friday flies lose more than
+$150 in total. "Fridays paper" from Brad reverses it.

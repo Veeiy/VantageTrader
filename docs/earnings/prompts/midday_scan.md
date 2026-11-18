@@ -1,5 +1,5 @@
 Task: Earnings daily: midday scan (`trig_018qBZwkxCi6h76t2PQ2ddGZ`)
-Schedule: `CRON_TZ=America/Los_Angeles 45 9 * * 1-4` (09:45 PT, Mon-Thu)
+Schedule: `CRON_TZ=America/Los_Angeles 45 9 * * 1-5` (09:45 PT, Mon-Fri)
 
 This file IS the task's instruction since 2026-11-11. The stored prompt of the scheduled task
 only points here, so the head and the standby (docs/earnings/FAILOVER.md) read the same text.

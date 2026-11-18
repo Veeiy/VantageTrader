@@ -191,6 +191,13 @@ Brad, 2026-11-13 07:53 PT, in the head session: "I want you to be able to use th
   and the schedules are unchanged (07:25 PT and 12:05 PT on 2026-11-16). Both sessions now
   run the same cap.
 - Exits are never limited by the cap.
-- Per name: $350 on an earnings name ($175 near-miss). A non-earnings name may risk up to $400
-  since rules v1.12 (Brad, 2026-11-13); only the head opens non-earnings trades, so the
-  standby's "max $350 per name" needs no change.
+- Per name (current, 2026-11-18): $600 on an earnings name since rules v1.16 (Brad, 2026-11-17),
+  $350 when its at-the-money spread is above 12%; half of the cap for a near-miss name (v1.10)
+  and for a Friday entry held over the weekend (v1.16.7, P039). A soft news flag no longer cuts
+  the size (v1.16.6). A non-earnings name may risk up to $400 (v1.12); only the head opens
+  non-earnings trades. Fridays are entry days (P039).
+- The stored prompts of the two standby switches still say "max $350 per name" and the entry
+  switch "Fridays (no earnings entries on Fridays)": a routine's prompt can be changed only from
+  the session it posts into (the standby's), so the head cannot edit them (refused 2026-11-18
+  11:49 PT). Both are stricter than the rules and both prompts send the standby to this file,
+  which overrides them. The standby updates its own prompts the next time it runs.

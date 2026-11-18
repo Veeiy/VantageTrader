@@ -1,5 +1,5 @@
 Task: Earnings daily: entry backup (`trig_019jPgVcNE935MqnfZedVRLm`)
-Schedule: `CRON_TZ=America/Los_Angeles 17 12 * * 1-4` (12:17 PT, Mon-Thu)
+Schedule: `CRON_TZ=America/Los_Angeles 17 12 * * 1-5` (12:17 PT, Mon-Fri)
 
 This file IS the task's instruction since 2026-11-11. The stored prompt of the scheduled task
 only points here, so the head and the standby (docs/earnings/FAILOVER.md) read the same text.

@@ -312,6 +312,12 @@ def parse_candidate(c: Any) -> dict[str, Any]:
     if phase is not None and phase not in ("early", "final"):
         raise EngineInputError("phase must be 'early' or 'final'")
     out["phase"] = phase
+    # v1.16.7 (P039): an entry whose hold spans a weekend (a Friday entry for a Friday-after-close or
+    # Monday-before-open report) is sized like the near-miss tier
+    wh = c.get("weekend_hold", False)
+    if not isinstance(wh, bool):
+        raise EngineInputError("weekend_hold must be true or false")
+    out["weekend_hold"] = wh
     out["buying_power"] = (None if c.get("buying_power") is None
                            else _num(c.get("buying_power"), "buying_power", nonneg=True))
     w = c.get("wings")
@@ -502,7 +508,9 @@ def evaluate(raw: Any, cfg: dict[str, Any], journal_events: list[dict[str, Any]]
     # v1.10: a near-miss name (edge above the sell gate) works with half the target and half the cap.
     # v1.14: so does a name with a soft condition. The factors do not multiply: the smaller one applies.
     nm_frac, pr_frac = size_frac(band, cfg), prudential_frac(prudential, cfg)
-    frac = min(nm_frac, pr_frac)
+    # v1.16.7 (P039): a weekend hold uses weekend_size_frac; still the smallest factor, never a product
+    wk_frac = float(cfg["weekend_size_frac"]) if c["weekend_hold"] else 1.0
+    frac = min(nm_frac, pr_frac, wk_frac)
     name_cap = round(name_cap * frac, 2)
     plan = sizing.plan(ml_unit, reserve, c["account_value"], c["open_risk_usd"],
                        dict(cfg, name_risk_cap=name_cap, name_risk_frac=cfg["name_risk_frac"] * frac),
@@ -601,7 +609,8 @@ def evaluate(raw: Any, cfg: dict[str, Any], journal_events: list[dict[str, Any]]
         "tier": "near_miss" if band == "near_miss" else ("core" if band in SELL_BANDS else None),
         "lane": "owner_executed" if c["owner_executed"] else "agent",   # v1.16.1: who places the orders
         "prudential": prudential,        # v1.14: the soft conditions present ("soft_news", "soft_macro")
-        "size_factor": frac,             # share of the name target and of the name cap that was applied
+        "size_factor": frac,
+        "weekend_hold": c["weekend_hold"],  # v1.16.7 (P039): a Friday entry held over the weekend             # share of the name target and of the name cap that was applied
         "metrics": {
             "spot": spot, "prev_close": c["prev_close"], "K": k, "intraday_move": round(intraday, 6),
             "avg_hist_move": avg, "n_hist": len(moves), "implied": im,
