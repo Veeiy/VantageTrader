@@ -263,7 +263,7 @@
     "tick": 0.05
    },
    "past_moves_beyond_breakevens": "1/6",
-   "notes": "No fly fits cap 600 (full tier, atm_spread<=0.12): wings stepped in from 367.5/257.5 (nearest K+/-1.5x straddle) to floor fly 347.5/277.5 (35 pts >= 0.9x straddle 32.60; 345/280 would breach floor); max_loss_natural 1350 > 600, DOES NOT FIT (gate blocks); 277.5 put OI 0.",
+   "notes": "No fly fits cap 600 (full tier, atm_spread<=0.12): wings stepped in from 367.5/257.5 (nearest K+/-1.5x straddle) to floor fly 347.5/277.5 (35 pts >= 0.9x straddle 32.60; 345/280 would breach floor); max_loss_natural 1350 > 600, DOES NOT FIT (gate blocks); 277.5 put OI 0. Strike step 2.5 confirmed (313, 314 not listed).",
    "cap": 600,
    "fits_cap": false
   },
@@ -370,7 +370,7 @@
     "tick": 0.05
    },
    "past_moves_beyond_breakevens": "3/6",
-   "notes": "Initial fly 139/113 fits cap 600 (max_loss_natural 580), no stepping needed; body legs quote in 0.05 (>$3), wing legs in 0.01 (<$3), chain min_ticks 0.01 below $3 / 0.05 above.",
+   "notes": "Initial fly 139/113 fits cap 600 (max_loss_natural 580) with no stepping, but WMT sits on two edges: edge_ratio 0.8345 vs the 0.85 tier line and ML_nat 580 vs 600; if it slips to the half tier (cap 300): 135/117 ML_nat 314 does not fit, 134/118 (credit_natural 5.39, ML_nat 261, 8.0 >= floor 7.785) fits; body quoted 14:42:14Z, wings 14:43:59Z; body legs tick 0.05 (>$3), wing legs 0.01 (<$3).",
    "cap": 600,
    "fits_cap": true
   },

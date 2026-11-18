@@ -1,0 +1,43 @@
+{
+ "symbol": "WMT",
+ "timing": "am",
+ "spot": 125.85,
+ "prev_close": 127.52,
+ "K": 126.0,
+ "call": {
+  "bid": 3.95,
+  "ask": 4.35
+ },
+ "put": {
+  "bid": 4.3,
+  "ask": 4.7
+ },
+ "hist_moves": [
+  -0.004957,
+  -0.044945,
+  0.064606,
+  -0.013821,
+  -0.072679,
+  -0.091514
+ ],
+ "regime_20d": 0.012242,
+ "flags": [],
+ "account_value": 1898.01,
+ "open_risk_usd": 0.0,
+ "buying_power": 1894.01,
+ "tick": 0.05,
+ "wings": {
+  "call_strike": 139.0,
+  "put_strike": 113.0,
+  "call": {
+   "bid": 0.42,
+   "ask": 0.56
+  },
+  "put": {
+   "bid": 0.46,
+   "ask": 0.49
+  }
+ },
+ "sector": "discount stores, grocery",
+ "sectors_entered_today": []
+}
