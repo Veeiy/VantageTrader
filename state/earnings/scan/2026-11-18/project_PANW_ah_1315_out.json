@@ -1,0 +1,62 @@
+{
+  "projections": [
+    {
+      "symbol": "PANW",
+      "quantity": 1.0,
+      "credit": 23.55,
+      "structure": {
+        "body": 330.0,
+        "call_wing": 362.5,
+        "put_wing": 297.5
+      },
+      "base": {
+        "spot": 364.0,
+        "sigma": 0.045,
+        "legs": {
+          "body_call": 34.0808,
+          "body_put": 0.0808,
+          "wing_call": 7.9475,
+          "wing_put": 0.0001,
+          "close_cost": 26.2141
+        },
+        "close_cost": 26.2141,
+        "pnl_mid_usd": -266.41,
+        "pnl_after_slippage_usd": -281.41
+      },
+      "grid_pnl_mid_usd": [
+        {
+          "spot": 350.0,
+          "sigma_0.030": 422.48,
+          "sigma_0.045": 466.31,
+          "sigma_0.060": 449.72
+        },
+        {
+          "spot": 357.0,
+          "sigma_0.030": -99.29,
+          "sigma_0.045": 73.75,
+          "sigma_0.060": 170.97
+        },
+        {
+          "spot": 364.0,
+          "sigma_0.030": -488.36,
+          "sigma_0.045": -266.41,
+          "sigma_0.060": -100.25
+        },
+        {
+          "spot": 371.0,
+          "sigma_0.030": -722.81,
+          "sigma_0.045": -522.46,
+          "sigma_0.060": -335.89
+        }
+      ],
+      "range_pnl_mid_usd": [
+        -722.81,
+        466.31
+      ],
+      "assumptions": {
+        "wing_sigma_mult": 1.1,
+        "slippage_usd": 15.0
+      }
+    }
+  ]
+}

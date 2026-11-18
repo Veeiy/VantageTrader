@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-18T20:57:30Z",
+ "as_of": "2026-11-18T21:17:30Z",
  "account_value": 1936.05,
  "cap_total_max_loss": 1235.08,
  "execution": {
@@ -188,10 +188,11 @@
    "report": "2026-11-18 after the close",
    "ticks": "0.05 at and above 3.00, 0.01 below",
    "plan": {
-    "exit": "Thu 2026-11-19: WMT and PDD by legs at the 06:36 PT run first; 06:38 PT the 4-leg closing ticket and a push to Brad (he closes about 06:45 PT, his call: 'They should close around 6:45 pt after the report so options can settle abit after open'); 06:50 PT the agent legs it out if it is still open and the legs fit the buying power",
+    "exit": "Thu 2026-11-19: close by Brad's 4-leg order about 06:45 PT; the agent sends the ticket (limit at the combo mid) and a push at 06:38 PT. The agent CANNOT leg it out: after the report PANW traded 369.28 after hours (21:15:54Z), so buying back the 330 call alone costs about 3,900 and the buying power will be about 1,000 at best. The once-a-day multi-leg attempt (P051) goes to PANW, not WMT or PDD. Default is to close Thursday; the v1.2.2 hold (close cost >= 29.25, 90% of the 32.5 width) only if he cannot close it, and then Robinhood force-closes at the sellout 2026-11-20 20:30Z (12:30 PT Fri).",
     "never_hold_into": "2026-11-20",
     "close_sequence": "buy back both short legs first, then sell both wings; never sell a wing while its short leg is open",
-    "owner_ask": "Brad, 11:52 PT: 'id want you to monitor them and close if you see we need to'"
+    "owner_ask": "Brad, 11:52 PT: 'id want you to monitor them and close if you see we need to'",
+    "legs_fallback_0650": "dead: does not fit the buying power at this price (2026-11-18 13:16 PT)"
    },
    "alerts": [
     {
@@ -204,7 +205,38 @@
      "condition": "price_above",
      "threshold": 353.55
     }
-   ]
+   ],
+   "after_hours_2026-11-18": {
+    "read_at": "2026-11-18T21:15:54Z",
+    "price": 369.2771,
+    "close": 341.41,
+    "move_from_close": 0.0816,
+    "projection_file": "state/earnings/scan/2026-11-18/project_PANW_ah_1315_out.json",
+    "pnl_mid_grid": {
+     "357": [
+      -99,
+      74,
+      171
+     ],
+     "364": [
+      -488,
+      -266,
+      -100
+     ],
+     "371": [
+      -723,
+      -522,
+      -336
+     ],
+     "sigmas": [
+      0.03,
+      0.045,
+      0.06
+     ]
+    },
+    "told_brad": "13:17 PT in chat (no push: nothing can be done before the open)"
+   },
+   "sellout_utc": "2026-11-20T20:30:00Z"
   }
  ],
  "blockers": [
@@ -1537,7 +1569,7 @@
    "PANW (895): Brad's 4-leg close about 06:45 PT, ticket and push at 06:38 PT; agent legs at 06:50 PT only if it is still open and the legs fit"
   ],
   "legs_check": "WMT and PDD can be legged with 586 of buying power (a short leg at the exit costs at most about 880 and 660 on a full-width move; PDD goes first and frees 204 plus its sale proceeds). PANW cannot be legged on a big move: told to Brad at 12:12 PT.",
-  "per_name_ceiling_P044": "PANW max loss 895 = 46% of the 1,936 account value, above the 30% ceiling. Owner-executed; he was told the size at 11:52 and 12:05 PT. Trim to stay under 30% would mean 0 contracts (one contract is the minimum), so no trim offered beyond the plan to close at the open.",
+  "per_name_ceiling_P044": "CORRECTION 13:17 PT: PANW max loss 895 = 46% of the 1,936 account value, above the 30% ceiling. Brad was told the dollar max loss at 11:52 and 12:05 PT but NOT the share of the account or the 30% ceiling, which hourly_monitor.md step 3 requires. Told him at 13:17 PT.",
   "daemon": "the 09:15 PT daemon is still running (3 h; P063 says replace at 2 h). Kept for the last 40 minutes: it took the PANW legs at 12:10 PT and a fresh start costs more than 10 cycles of a warm one. For the reflection: P063 should not replace in the daemon's last hour.",
   "last_look_timer": "started for 12:57 PT",
   "projection": "pre-report method A at 12:18 PT: book mean +334, median +432, p_profit 0.79, p05 -619 (state/earnings/scan/2026-11-18/pre_report_projection_1218.json)"
