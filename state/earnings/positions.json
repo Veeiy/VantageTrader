@@ -1,6 +1,6 @@
 {
- "as_of": "2026-11-17T20:57:15Z",
- "account_value": 2559.37,
+ "as_of": "2026-11-18T14:38:01Z",
+ "account_value": 1898.01,
  "cap_total_max_loss": 1235.08,
  "execution": {
   "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
@@ -8,174 +8,7 @@
   "approval": "single-leg orders need no customer approval while human_must_approve_trades=false",
   "deep_itm_note": "A short leg that is deep in the money cannot be bought back alone when its price is above the buying power (NVDA 175P on 2026-11-12: $1,545 against $994 at the open). Such a spread is held at its max loss (v1.2.2) until the short leg's ask x 100 is inside the buying power, then closed short leg first, with the wing sold at once as a marketable limit."
  },
- "open": [
-  {
-   "symbol": "TGT",
-   "trade_id": "TGT-20261117-1",
-   "kind": "earnings",
-   "hand_entered": true,
-   "lane": "owner_executed",
-   "structure": "iron fly 140/157.5/175",
-   "expiry": "2026-11-20",
-   "quantity": 1,
-   "opened": "2026-11-17T16:24:46Z",
-   "legs": {
-    "short_157.5C": {
-     "option_id": "326af841-61d6-4746-818c-12b1108b533e",
-     "fill": 7.22,
-     "qty": 1
-    },
-    "short_157.5P": {
-     "option_id": "95d91df9-65de-41a6-a3e8-963902c54f01",
-     "fill": 6.98,
-     "qty": 1
-    },
-    "long_175C": {
-     "option_id": "8053fe9f-d1cd-462d-afda-ab2d8c1cce40",
-     "fill": 1.63,
-     "qty": 1
-    },
-    "long_140P": {
-     "option_id": "7ba666a8-ec67-4ff0-ae5c-fa32698b3e43",
-     "fill": 1.27,
-     "qty": 1
-    }
-   },
-   "net_credit": 11.3,
-   "max_loss_usd": 620.0,
-   "max_profit_usd": 1130.0,
-   "exit_reserve_usd": 50.0,
-   "breakevens": [
-    146.2,
-    168.8
-   ],
-   "wing_width": 17.5,
-   "report": "2026-11-18 before the open",
-   "plan": {
-    "exit": "Wed 2026-11-18 about 06:40 PT",
-    "who": "the agent, by legs, at the 06:36 PT run (Brad, 10:19 PT: 'Ideally you will trade all of it'); a 4-leg ticket to Brad only if the short leg in the money costs more than the buying power",
-    "agent_duty": "06:36 PT: quote the four legs and the buying power; buy back both short legs together on the EXECUTION.md ladder, the cheaper one first if the buying power is tight, then sell the wings; TJX in the same run",
-    "never_hold_into": "2026-11-20",
-    "close_sequence": "buy back both short legs first, then sell both wings; never sell a wing while its short leg is open"
-   },
-   "alerts": [
-    {
-     "alert_id": "4f54dc85-0eb4-4077-8604-1aa8263ba8d5",
-     "condition": "price_below",
-     "threshold": 146.2
-    },
-    {
-     "alert_id": "e16d70ed-e896-4f0a-9a67-b9e7d481dae8",
-     "condition": "price_above",
-     "threshold": 168.8
-    }
-   ],
-   "tranches": [
-    {
-     "n": 1,
-     "ts": "2026-11-17T16:24:46Z",
-     "quantity": 1,
-     "strikes": [
-      140,
-      157.5,
-      175
-     ],
-     "net_credit": 11.3,
-     "max_loss_usd": 620.0,
-     "order_ids": [
-      "6afc7fcd-43f5-4830-8c2e-aaaf9c0b4d1a"
-     ]
-    }
-   ],
-   "note": "Max loss 620 is 20 over the 600 name cap: Brad saw that on the ticket and placed it himself."
-  },
-  {
-   "symbol": "TJX",
-   "trade_id": "TJX-20261117-1",
-   "kind": "earnings",
-   "lane": "agent",
-   "owner_override": [
-    "half size for one soft condition (soft news: market selloff, HD peer report)"
-   ],
-   "structure": "iron fly 123/131/139",
-   "expiry": "2026-11-20",
-   "quantity": 1,
-   "opened": "2026-11-17T19:04:57Z",
-   "legs": {
-    "short_131C": {
-     "option_id": "77b1ced2-52be-4c2e-9058-2074b0634307",
-     "fill": 3.7,
-     "qty": 1
-    },
-    "short_131P": {
-     "option_id": "68cb653f-3b20-4826-a491-da8b9fb88bad",
-     "fill": 3.6,
-     "qty": 1
-    },
-    "long_139C": {
-     "option_id": "a4ac6209-e82d-4c53-bfdd-5943dfd69b04",
-     "fill": 0.95,
-     "qty": 1
-    },
-    "long_123P": {
-     "option_id": "1c00327a-9127-4870-8980-fb4f13886acb",
-     "fill": 0.95,
-     "qty": 1
-    }
-   },
-   "net_credit": 5.4,
-   "max_loss_usd": 260.0,
-   "max_profit_usd": 540.0,
-   "exit_reserve_usd": 50.0,
-   "breakevens": [
-    125.6,
-    136.4
-   ],
-   "wing_width": 8.0,
-   "report": "2026-11-18 before the open (call 11:00 ET)",
-   "ticks": "0.05 under 3.00, 0.10 at and above 3.00",
-   "plan": {
-    "exit": "Wed 2026-11-18, the 06:36 PT run",
-    "who": "the agent, by legs (docs/earnings/EXECUTION.md): both short legs bought back together, then the wings",
-    "max_close_cost": 8.5,
-    "never_hold_into": "2026-11-20",
-    "close_sequence": "buy back both short legs first, then sell both wings; never sell a wing while its short leg is open",
-    "buying_power_needed": "the short leg in the money: about 450 for a 3% move, 700 for 5%; 1,538 is free now"
-   },
-   "alerts": [
-    {
-     "alert_id": "1deae373-f903-4a17-9e7f-90b5cd9bc9e4",
-     "condition": "price_below",
-     "threshold": 125.6
-    },
-    {
-     "alert_id": "0c890302-072b-4754-9370-bbcdca8805fb",
-     "condition": "price_above",
-     "threshold": 136.4
-    }
-   ],
-   "tranches": [
-    {
-     "n": 1,
-     "ts": "2026-11-17T19:04:57Z",
-     "quantity": 1,
-     "strikes": [
-      123,
-      131,
-      139
-     ],
-     "net_credit": 5.4,
-     "max_loss_usd": 260.0,
-     "order_ids": [
-      "6afca4ea-42da-4c9d-aec6-542224edcb2c",
-      "6afca515-ad16-4846-a39d-2bd56f9b60af",
-      "6afca532-8964-4020-86c1-69190f688594",
-      "6afca559-ae18-4c5c-8888-e5844574df2d"
-     ]
-    }
-   ]
-  }
- ],
+ "open": [],
  "blockers": [
   "2026-11-10: Robinhood rejects agent-placed multi-leg orders. Workaround in use: single-leg legging (see execution).",
   "2026-11-12 06:41 PT: retried a multi-leg order (4-leg close of the NVDA fly). Still refused: 'this account requires the customer to approve agent-placed trades, and a multi-leg strategy cannot be sent for approval yet \u2014 the order was NOT placed; place it in the Robinhood app, or place one-leg orders instead'. review_option_order accepts the same order; only placement is blocked.",
@@ -192,16 +25,16 @@
   "From Wed 2026-11-18 (P063, rules v1.16.5): the daemon's default wait is 240 s and no agent waits longer than 240 s in one piece; the hourly run replaces a daemon that has run two hours; the reflection fires at 13:12 PT and writes the usage line (python3 scripts/earnings/usage_scan.py --date <today> --append state/earnings/usage.jsonl).",
   "Wed 2026-11-18, iteration on exit timing (told Brad 2026-11-17 evening): after TGT and TJX are closed at the 06:36 run, keep their eight leg ids and read get_option_quotes for them once at the 07:15 hourly run and once at the 08:15 run; write one live_metrics row per fly and time, record 'shadow_exit' (close cost at mid and at natural, the stock, and the difference from the real exit). Read-only, no extra wake. After 10 flies the reflection compares 06:36 with the two later marks."
  ],
- "buying_power": 1538.37,
+ "buying_power": 1894.01,
  "risk": {
-  "total_max_loss_usd": 880.0,
-  "exit_reserves_usd": 100.0,
-  "used_usd": 980.0,
-  "cap_usd": 2439.37,
-  "free_usd": 1459.37,
-  "detail": "TGT x1 620 + 50 (placed by Brad, 4-leg) ; TJX x1 260.0 + 50 (the agent's legs).",
+  "total_max_loss_usd": 0.0,
+  "exit_reserves_usd": 0.0,
+  "used_usd": 0.0,
+  "cap_usd": 1898.01,
+  "free_usd": 1898.01,
+  "detail": "Flat at 06:38 PT 2026-11-18 (leftover long wings JD 30C x3 and AS 26P x1 carry no risk).",
   "cap_note": "Rules v1.11: the cap is the account value (Brad, 2026-11-13: 'I want you to be able to use the entire funds in the mcp account'). cap_usd is the account value at the last check; it is not lowered below the risk already open when marks fall (the cap binds at entry).",
-  "exit_buying_power": "1,538.37. Tomorrow by legs: TJX needs about 450 to 700 for a 3% to 5% move; TGT about 700 to 1,300 for a 5% to 8% move. Both fit one after the other; the agent closes both (Brad: 'Ideally you will trade all of it')."
+  "exit_buying_power": "1,894.01 at 06:39 PT (cash 1,894.01; account value 1,898.01)."
  },
  "eod_note": "2026-11-13 close: PCG x5 open (fly 0.585 at closing mids, +$33.50; about flat on the day, account +$5). No fills today. Account 1,250.91, buying power 1,040.91, risk used 224. Two losses in a row stand (LUNR, NVDA): a third pauses new entries.",
  "watch": [
@@ -1197,5 +1030,180 @@
   "account_value": 2559.37,
   "note": "the account value is marked at these loose mids"
  },
- "check_2026-11-18_0554": "Pre-open 05:54 PT: lease head; exit timer 06:36 PT running. Broker matches positions.json: TGT x1 and TJX x1 flies, JD 30C x3 and AS 26P x1 leftover wings (bid 0, expire 11-20). No hand orders since 2026-11-17 20:57Z, no shares. Pre-market: TGT 159.95 (close 159.53, +0.3%: inside 146.20/168.80, near the body); TJX 137.35 (close 129.85, +5.8%: above the 136.40 breakeven, under the 139 wing, max loss 260); LOW 209.00 (-5.2%: paper fly near max loss); NVDA 160.13 (+3.0%). Buying power 1,038.37. Exit order: TGT both shorts first (about 3.0 + 0.8 = 380 of buying power; 620 of collateral back), then TJX both shorts (131C about 6.6 to 7.0 ITM + 131P about 0.2), then the four wings."
+ "check_2026-11-18_0554": "Pre-open 05:54 PT: lease head; exit timer 06:36 PT running. Broker matches positions.json: TGT x1 and TJX x1 flies, JD 30C x3 and AS 26P x1 leftover wings (bid 0, expire 11-20). No hand orders since 2026-11-17 20:57Z, no shares. Pre-market: TGT 159.95 (close 159.53, +0.3%: inside 146.20/168.80, near the body); TJX 137.35 (close 129.85, +5.8%: above the 136.40 breakeven, under the 139 wing, max loss 260); LOW 209.00 (-5.2%: paper fly near max loss); NVDA 160.13 (+3.0%). Buying power 1,038.37. Exit order: TGT both shorts first (about 3.0 + 0.8 = 380 of buying power; 620 of collateral back), then TJX both shorts (131C about 6.6 to 7.0 ITM + 131P about 0.2), then the four wings.",
+ "closed_2026-11-18": [
+  {
+   "symbol": "TGT",
+   "trade_id": "TGT-20261117-1",
+   "kind": "earnings",
+   "hand_entered": true,
+   "lane": "owner_executed",
+   "structure": "iron fly 140/157.5/175",
+   "expiry": "2026-11-20",
+   "quantity": 1,
+   "opened": "2026-11-17T16:24:46Z",
+   "legs": {
+    "short_157.5C": {
+     "option_id": "326af841-61d6-4746-818c-12b1108b533e",
+     "fill": 7.22,
+     "qty": 1
+    },
+    "short_157.5P": {
+     "option_id": "95d91df9-65de-41a6-a3e8-963902c54f01",
+     "fill": 6.98,
+     "qty": 1
+    },
+    "long_175C": {
+     "option_id": "8053fe9f-d1cd-462d-afda-ab2d8c1cce40",
+     "fill": 1.63,
+     "qty": 1
+    },
+    "long_140P": {
+     "option_id": "7ba666a8-ec67-4ff0-ae5c-fa32698b3e43",
+     "fill": 1.27,
+     "qty": 1
+    }
+   },
+   "net_credit": 11.3,
+   "max_loss_usd": 620.0,
+   "max_profit_usd": 1130.0,
+   "exit_reserve_usd": 50.0,
+   "breakevens": [
+    146.2,
+    168.8
+   ],
+   "wing_width": 17.5,
+   "report": "2026-11-18 before the open",
+   "plan": {
+    "exit": "Wed 2026-11-18 about 06:40 PT",
+    "who": "the agent, by legs, at the 06:36 PT run (Brad, 10:19 PT: 'Ideally you will trade all of it'); a 4-leg ticket to Brad only if the short leg in the money costs more than the buying power",
+    "agent_duty": "06:36 PT: quote the four legs and the buying power; buy back both short legs together on the EXECUTION.md ladder, the cheaper one first if the buying power is tight, then sell the wings; TJX in the same run",
+    "never_hold_into": "2026-11-20",
+    "close_sequence": "buy back both short legs first, then sell both wings; never sell a wing while its short leg is open"
+   },
+   "alerts": [
+    {
+     "alert_id": "4f54dc85-0eb4-4077-8604-1aa8263ba8d5",
+     "condition": "price_below",
+     "threshold": 146.2
+    },
+    {
+     "alert_id": "e16d70ed-e896-4f0a-9a67-b9e7d481dae8",
+     "condition": "price_above",
+     "threshold": 168.8
+    }
+   ],
+   "tranches": [
+    {
+     "n": 1,
+     "ts": "2026-11-17T16:24:46Z",
+     "quantity": 1,
+     "strikes": [
+      140,
+      157.5,
+      175
+     ],
+     "net_credit": 11.3,
+     "max_loss_usd": 620.0,
+     "order_ids": [
+      "6afc7fcd-43f5-4830-8c2e-aaaf9c0b4d1a"
+     ]
+    }
+   ],
+   "note": "Max loss 620 is 20 over the 600 name cap: Brad saw that on the ticket and placed it himself.",
+   "closed_at": "2026-11-18T14:38:01Z",
+   "close_cost": 10.29,
+   "pnl_usd": 100.84
+  },
+  {
+   "symbol": "TJX",
+   "trade_id": "TJX-20261117-1",
+   "kind": "earnings",
+   "lane": "agent",
+   "owner_override": [
+    "half size for one soft condition (soft news: market selloff, HD peer report)"
+   ],
+   "structure": "iron fly 123/131/139",
+   "expiry": "2026-11-20",
+   "quantity": 1,
+   "opened": "2026-11-17T19:04:57Z",
+   "legs": {
+    "short_131C": {
+     "option_id": "77b1ced2-52be-4c2e-9058-2074b0634307",
+     "fill": 3.7,
+     "qty": 1
+    },
+    "short_131P": {
+     "option_id": "68cb653f-3b20-4826-a491-da8b9fb88bad",
+     "fill": 3.6,
+     "qty": 1
+    },
+    "long_139C": {
+     "option_id": "a4ac6209-e82d-4c53-bfdd-5943dfd69b04",
+     "fill": 0.95,
+     "qty": 1
+    },
+    "long_123P": {
+     "option_id": "1c00327a-9127-4870-8980-fb4f13886acb",
+     "fill": 0.95,
+     "qty": 1
+    }
+   },
+   "net_credit": 5.4,
+   "max_loss_usd": 260.0,
+   "max_profit_usd": 540.0,
+   "exit_reserve_usd": 50.0,
+   "breakevens": [
+    125.6,
+    136.4
+   ],
+   "wing_width": 8.0,
+   "report": "2026-11-18 before the open (call 11:00 ET)",
+   "ticks": "0.05 under 3.00, 0.10 at and above 3.00",
+   "plan": {
+    "exit": "Wed 2026-11-18, the 06:36 PT run",
+    "who": "the agent, by legs (docs/earnings/EXECUTION.md): both short legs bought back together, then the wings",
+    "max_close_cost": 8.5,
+    "never_hold_into": "2026-11-20",
+    "close_sequence": "buy back both short legs first, then sell both wings; never sell a wing while its short leg is open",
+    "buying_power_needed": "the short leg in the money: about 450 for a 3% move, 700 for 5%; 1,538 is free now"
+   },
+   "alerts": [
+    {
+     "alert_id": "1deae373-f903-4a17-9e7f-90b5cd9bc9e4",
+     "condition": "price_below",
+     "threshold": 125.6
+    },
+    {
+     "alert_id": "0c890302-072b-4754-9370-bbcdca8805fb",
+     "condition": "price_above",
+     "threshold": 136.4
+    }
+   ],
+   "tranches": [
+    {
+     "n": 1,
+     "ts": "2026-11-17T19:04:57Z",
+     "quantity": 1,
+     "strikes": [
+      123,
+      131,
+      139
+     ],
+     "net_credit": 5.4,
+     "max_loss_usd": 260.0,
+     "order_ids": [
+      "6afca4ea-42da-4c9d-aec6-542224edcb2c",
+      "6afca515-ad16-4846-a39d-2bd56f9b60af",
+      "6afca532-8964-4020-86c1-69190f688594",
+      "6afca559-ae18-4c5c-8888-e5844574df2d"
+     ]
+    }
+   ],
+   "closed_at": "2026-11-18T14:38:01Z",
+   "close_cost": 6.65,
+   "pnl_usd": -125.16
+  }
+ ],
+ "check_2026-11-18_0638": "06:36 PT timer run: TGT opened 166.1 (+4.1%) and ran to 167.4; TJX 139.5 (+7.4%, through the 139 call wing). Multi-leg attempt on TGT refused. Both flies closed by legs 06:36:58 to 06:38:01 PT: TGT +100.84 (close 10.29 vs 11.30), TJX -125.16 (close 6.65 vs 5.40). Day -24.32. Four alerts paused. Leftover wings: JD 30C x3 and AS 26P x1 (bid 0, expire 11-20)."
 }
