@@ -120,5 +120,10 @@
   "risk_used": "534 of 1,937 (WMT 230+50, PDD 204+50)",
   "owner_question_open": "A (near-miss full size), B (PANW cap), C (keep): no answer by 11:47; rules as they stand",
   "standby_entry_switch": "moved to Thu 2026-11-19 12:05 PT"
+ },
+ "owner_ask_1212": {
+  "brad": "Anything else for us to enter today? We have 586 BP left. I can enter the multi leg too if it helps with the pricing availability",
+  "answer": "no entry. Edge too thin (options too cheap vs past moves): BABA 1.12 to 1.16, P 1.19. Strike step 10 makes the smallest legal fly too big for the 457 of risk left: WSM about 800 max loss (also +4% today), WWD about 1,000 (spread 44%). No real options market: FUTU (call OI 1), TEN, WMG (put no bid), SBLK, BBWI (40% spread). The 586 is tomorrow's exit cushion for WMT and PDD.",
+  "followup": "a combo (owner multi-leg) lane could relax the ATM spread gate for owner-executed tickets; for the 13:12 reflection as a proposal"
  }
 }
