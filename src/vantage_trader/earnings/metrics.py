@@ -18,7 +18,7 @@ from typing import Any
 
 from .config import EngineInputError
 
-RECORDS = {"entry", "adjust", "exit", "paper"}
+RECORDS = {"entry", "adjust", "exit", "paper", "shadow_exit"}  # shadow_exit: a later mark of a closed fly (exit timing, 2026-11-18)
 WIDE_SPREAD = 0.12  # ATM bid-ask / mid above this is the "wide" band (v1.1)
 
 

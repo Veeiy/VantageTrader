@@ -77,3 +77,6 @@ For every earnings fly, the evening after the report:
    - exit slippage versus mid in dollars.
 The daily reflection reports the running median absolute error. The model is revised
 when it stays above $25 a contract after 10 scored projections.
+
+## shadow_exit (2026-11-18)
+A later read of a fly that is already closed, for exit timing: `{"trade_id", "record": "shadow_exit", "ts", "symbol", "mark_pt", "spot", "legs", "close_cost_mid", "close_cost_natural", "pnl_mid_usd", "real_exit": {...}, "diff_vs_real_mid_usd"}`. Written at the 07:15 and 08:15 runs after a morning exit. Nothing that sums trades reads it.
