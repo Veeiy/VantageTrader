@@ -8,7 +8,52 @@
   "approval": "single-leg orders need no customer approval while human_must_approve_trades=false",
   "deep_itm_note": "A short leg that is deep in the money cannot be bought back alone when its price is above the buying power (NVDA 175P on 2026-11-12: $1,545 against $994 at the open). Such a spread is held at its max loss (v1.2.2) until the short leg's ask x 100 is inside the buying power, then closed short leg first, with the wing sold at once as a marketable limit."
  },
- "open": [],
+ "open": [
+  {
+   "symbol": "IWM",
+   "trade_id": "IWM-0DTE-20261118-L1",
+   "kind": "intraday_0dte",
+   "tier": "probe",
+   "structure": "iron fly 269/271/273",
+   "expiry": "2026-11-18",
+   "quantity": 1,
+   "opened": "2026-11-18T15:28:00Z",
+   "legs": {
+    "short_271C": {
+     "option_id": "20f72f94-ab08-4795-aa0f-8495511b827e",
+     "fill": 0.9,
+     "qty": 1
+    },
+    "short_271P": {
+     "option_id": "55075955-b2c6-4fed-bb2a-b323e2876ff0",
+     "fill": 1.05,
+     "qty": 1
+    },
+    "long_273C": {
+     "option_id": "7d64067c-4cab-4f15-b00a-142c31943a15",
+     "fill": 0.22,
+     "qty": 1
+    },
+    "long_269P": {
+     "option_id": "3c99130f-3877-4860-b406-26696d73f29e",
+     "fill": 0.38,
+     "qty": 1
+    }
+   },
+   "net_credit": 1.35,
+   "max_loss_usd": 65.0,
+   "exit_reserve_usd": 10.0,
+   "breakevens": [
+    269.65,
+    272.35
+   ],
+   "wing_width": 2.0,
+   "plan": {
+    "exit": "flat by 11:00 PT: a timer at 10:57 PT started from the 09:15 run (P060); take profit at an hourly check when the close cost is 0.68 or less",
+    "close_sequence": "buy back both shorts together, then sell the wings"
+   }
+  }
+ ],
  "blockers": [
   "2026-11-10: Robinhood rejects agent-placed multi-leg orders. Workaround in use: single-leg legging (see execution).",
   "2026-11-12 06:41 PT: retried a multi-leg order (4-leg close of the NVDA fly). Still refused: 'this account requires the customer to approve agent-placed trades, and a multi-leg strategy cannot be sent for approval yet \u2014 the order was NOT placed; place it in the Robinhood app, or place one-leg orders instead'. review_option_order accepts the same order; only placement is blocked.",
@@ -27,12 +72,12 @@
  ],
  "buying_power": 1894.01,
  "risk": {
-  "total_max_loss_usd": 0.0,
-  "exit_reserves_usd": 0.0,
-  "used_usd": 0.0,
+  "total_max_loss_usd": 65.0,
+  "exit_reserves_usd": 10.0,
+  "used_usd": 75.0,
   "cap_usd": 1898.01,
-  "free_usd": 1898.01,
-  "detail": "Flat at 06:38 PT 2026-11-18 (leftover long wings JD 30C x3 and AS 26P x1 carry no risk).",
+  "free_usd": 1823.01,
+  "detail": "IWM pilot x1 65 + 10.",
   "cap_note": "Rules v1.11: the cap is the account value (Brad, 2026-11-13: 'I want you to be able to use the entire funds in the mcp account'). cap_usd is the account value at the last check; it is not lowered below the risk already open when marks fall (the cap binds at entry).",
   "exit_buying_power": "1,894.01 at 06:39 PT (cash 1,894.01; account value 1,898.01)."
  },
