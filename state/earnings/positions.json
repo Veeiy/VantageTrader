@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-18T21:17:30Z",
+ "as_of": "2026-11-19T13:55:00Z",
  "account_value": 1936.05,
  "cap_total_max_loss": 1235.08,
  "execution": {
@@ -1585,5 +1585,51 @@
   },
   "note": "PANW ran from 330.34 at the entry to 340.18 into the close (+10.0% on the day). The fly is now 10 points off its 330 body: the expiry breakeven above is 353.55 (+3.9% from 340.18), below 306.45 (-9.9%). The report move now starts lopsided; an up move of about 5 to 6% puts it near zero at the exit read. Nothing to do: no adds or rolls, owner position, exit plan unchanged.",
   "owner_ask_1221": "Brad asked about a second WMT fly at 12:21 PT; the agent advised against (edge 0.93 mean, 1.05 median; WMT at the near-miss half cap; book 91% of the account; exit buying power). He did not place it."
+ },
+ "check_2026-11-19_0554_preopen": {
+  "at_utc": "2026-11-19T13:54:00Z",
+  "lease": "head (taken 13:53Z)",
+  "timer": "started for 06:36 PT",
+  "hand_orders_since_20:57Z": "none",
+  "equity_positions": "none",
+  "cash": "5,236.05, unchanged since the PANW fill: no transfer",
+  "premarket": {
+   "PANW": {
+    "price": 368.89,
+    "close": 339.92,
+    "move": 0.0852,
+    "note": "above the 362.5 wing"
+   },
+   "WMT": {
+    "price": 125.5,
+    "bid_ask": [
+     125.77,
+     126.04
+    ],
+    "close": 127.36,
+    "move": -0.0146,
+    "note": "reported 04:00 PT; inside 121.30 / 132.70; 127P in the money"
+   },
+   "PDD": {
+    "price": 81.93,
+    "bid_ask": [
+     81.8,
+     82.0
+    ],
+    "close": 77.45,
+    "move": 0.0578,
+    "note": "at the upper breakeven 81.96; 78C in the money"
+   },
+   "BABA": {
+    "price": 82.8,
+    "move": -0.0186
+   },
+   "SPY": {
+    "price": 737.78,
+    "move": 0.0104
+   }
+  },
+  "buying_power": 586.05,
+  "exit_plan": "06:38 PT first liquid quotes. In-the-money buybacks: WMT 127P (about 2) and PDD 78C (about 4.2) need about 640 against 586: WMT first (smaller), its wings, then PDD; or both at once if the live quotes fit. PANW: the once-a-day multi-leg attempt at the mid; if refused, Brad's 4-leg ticket and a push at 06:38 PT."
  }
 }
