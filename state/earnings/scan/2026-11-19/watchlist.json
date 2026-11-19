@@ -47,7 +47,7 @@
   "WMG",
   "BBWI"
  ],
- "status": "08:33 PT re-check: no entry; FRO at 09:45; final sweep 11:46",
+ "status": "09:47 PT midday: no entry; the 11:46 sweep is the last look",
  "risk_at_scan": "used 1,199 of 1,717.87 (PDD 204+50, PANW 895+50); PANW's 945 frees on his close",
  "entered": [],
  "blocked": {
@@ -73,5 +73,14 @@
   "file": "state/earnings/scan/2026-11-19/batch_A/recheck_0830.json",
   "asked_by": "Brad, 08:2x PT: 'Anything else to trade today?'",
   "note": "INTU is evidence for the median-edge hypothesis (mean 7.4% carries one large move; median 4.5%): scored at Friday's open as paper"
+ },
+ "midday_0946": {
+  "FRO": "ATM spread 42.6% at 09:46 (0.55x1.00 call, 1.30x1.85 put): worse than 08:31; dropped",
+  "INTU": "no change: no fly fits the half cap (08:31)",
+  "ESTC": "no change: no fly fits the 175 cap (08:31)",
+  "ROST": "does not fit at any width",
+  "GAP": "edge 1.25",
+  "new_entries": 0,
+  "risk": "used 1,393.70 of about 2,000 (ANT 1,068.70 owner hand at full value, PDD 204+50, IWM 61+10)"
  }
 }
