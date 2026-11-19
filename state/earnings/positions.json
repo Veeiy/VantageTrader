@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-19T17:15:56Z",
+ "as_of": "2026-11-19T18:15:40Z",
  "account_value": 2023.66,
  "cap_total_max_loss": 1235.08,
  "execution": {
@@ -1810,6 +1810,29 @@
    "PDD": {
     "spot": 86.63,
     "note": "owner hold to Friday; call spread at max loss"
+   }
+  }
+ },
+ "check_2026-11-19_1015": {
+  "at_utc": "2026-11-19T18:15:40Z",
+  "lease": "head",
+  "hand_orders_since_16:58:08Z": "none",
+  "marks": {
+   "IWM": {
+    "spot": 265.54,
+    "close_cost_mid": 1.805,
+    "credit": 1.39,
+    "pnl_mid_usd": -41.5,
+    "note": "marked only; 10:57 timer running"
+   },
+   "ANT": {
+    "spot": 94.59,
+    "pnl_usd": -122.8,
+    "note": "owner hand; pushes 09:06 and 09:18 PT, no reply"
+   },
+   "PDD": {
+    "spot": 85.85,
+    "note": "owner hold to Friday"
    }
   }
  }
