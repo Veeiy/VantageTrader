@@ -1,6 +1,6 @@
 {
- "as_of": "2026-11-19T15:29:19Z",
- "account_value": 1717.87,
+ "as_of": "2026-11-19T15:42:37Z",
+ "account_value": 2081.5,
  "cap_total_max_loss": 1235.08,
  "execution": {
   "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
@@ -83,111 +83,6 @@
    }
   },
   {
-   "symbol": "PANW",
-   "trade_id": "PANW-20261118-1",
-   "kind": "earnings",
-   "lane": "owner_executed",
-   "tier": "core",
-   "prudential": [],
-   "owner_override": [
-    "name_risk_cap",
-    "intraday_move",
-    "exit_not_feasible"
-   ],
-   "structure": "iron fly 297.5/330/362.5",
-   "expiry": "2026-11-20",
-   "quantity": 1,
-   "opened": "2026-11-18T20:09:15Z",
-   "legs": {
-    "short_330C": {
-     "option_id": "c10193d7-9b33-4c82-8c4b-0f9f1017dfe7",
-     "fill": 18.11,
-     "qty": 1
-    },
-    "short_330P": {
-     "option_id": "7d5904db-4db3-482e-9390-63ea374f8be9",
-     "fill": 16.98,
-     "qty": 1
-    },
-    "long_362.5C": {
-     "option_id": "37505bf5-ac65-4016-8bcc-1be0403d3c3f",
-     "fill": 5.82,
-     "qty": 1
-    },
-    "long_297.5P": {
-     "option_id": "ac27af73-5a79-4e82-998e-d78b8eb7327e",
-     "fill": 5.72,
-     "qty": 1
-    }
-   },
-   "order_id": "6afe05ea-87b7-4e3e-95a3-65ec95019a85",
-   "net_credit": 23.55,
-   "max_loss_usd": 895.0,
-   "max_profit_usd": 2355.0,
-   "exit_reserve_usd": 50.0,
-   "breakevens": [
-    306.45,
-    353.55
-   ],
-   "wing_width": 32.5,
-   "report": "2026-11-18 after the close",
-   "ticks": "0.05 at and above 3.00, 0.01 below",
-   "plan": {
-    "exit": "Thu 2026-11-19: close by Brad's 4-leg order about 06:45 PT; the agent sends the ticket (limit at the combo mid) and a push at 06:38 PT. The agent CANNOT leg it out: after the report PANW traded 369.28 after hours (21:15:54Z), so buying back the 330 call alone costs about 3,900 and the buying power will be about 1,000 at best. The once-a-day multi-leg attempt (P051) goes to PANW, not WMT or PDD. Default is to close Thursday; the v1.2.2 hold (close cost >= 29.25, 90% of the 32.5 width) only if he cannot close it, and then Robinhood force-closes at the sellout 2026-11-20 20:30Z (12:30 PT Fri).",
-    "never_hold_into": "2026-11-20",
-    "close_sequence": "buy back both short legs first, then sell both wings; never sell a wing while its short leg is open",
-    "owner_ask": "Brad, 11:52 PT: 'id want you to monitor them and close if you see we need to'",
-    "legs_fallback_0650": "dead: does not fit the buying power at this price (2026-11-18 13:16 PT)"
-   },
-   "alerts": [
-    {
-     "alert_id": "422ef1fb-ccd6-48cc-a0cc-b9309fe2fc59",
-     "condition": "price_below",
-     "threshold": 306.45
-    },
-    {
-     "alert_id": "35a3e417-1489-4db4-9479-478f6bc1b40d",
-     "condition": "price_above",
-     "threshold": 353.55
-    }
-   ],
-   "after_hours_2026-11-18": {
-    "read_at": "2026-11-18T21:15:54Z",
-    "price": 369.2771,
-    "close": 341.41,
-    "move_from_close": 0.0816,
-    "projection_file": "state/earnings/scan/2026-11-18/project_PANW_ah_1315_out.json",
-    "pnl_mid_grid": {
-     "357": [
-      -99,
-      74,
-      171
-     ],
-     "364": [
-      -488,
-      -266,
-      -100
-     ],
-     "371": [
-      -723,
-      -522,
-      -336
-     ],
-     "sigmas": [
-      0.03,
-      0.045,
-      0.06
-     ]
-    },
-    "told_brad": "13:17 PT in chat (no push: nothing can be done before the open)"
-   },
-   "sellout_utc": "2026-11-20T20:30:00Z",
-   "exit_2026-11-19": {
-    "multi_leg_attempt": "refused 06:38:10 PT ('multi-leg option orders are not available through this tool yet')",
-    "ticket_and_push": "06:38 PT: limit debit 26.20 (mid), step 0.10, check above 27.50; 06:39 PT update and push: limit 25.00 (PANW 362.5, mid 24.84)"
-   }
-  },
-  {
    "symbol": "IWM",
    "trade_id": "IWM-0DTE-20261119-L1",
    "kind": "intraday_0dte",
@@ -250,16 +145,16 @@
   "Wed 2026-11-18, iteration on exit timing (told Brad 2026-11-17 evening): after TGT and TJX are closed at the 06:36 run, keep their eight leg ids and read get_option_quotes for them once at the 07:15 hourly run and once at the 08:15 run; write one live_metrics row per fly and time, record 'shadow_exit' (close cost at mid and at natural, the stock, and the difference from the real exit). Read-only, no extra wake. After 10 flies the reflection compares 06:36 with the two later marks.",
   "2026-11-19 IWM pilot exit timer 10:57 PT (18:57Z): start it from the 09:15 PT hourly run (P060: within two hours of the event)."
  ],
- "buying_power": 998.87,
+ "buying_power": 1996.5,
  "risk": {
-  "total_max_loss_usd": 1160.0,
-  "exit_reserves_usd": 110.0,
-  "used_usd": 1270.0,
-  "cap_usd": 1717.87,
-  "free_usd": 447.87,
-  "detail": "PDD x1 204 + 50 (held at max loss, v1.2.2); PANW x1 895 + 50 (owner-executed, his 4-leg close pending). IWM same-day x1 61.0 + 10.",
+  "total_max_loss_usd": 265.0,
+  "exit_reserves_usd": 60.0,
+  "used_usd": 325.0,
+  "cap_usd": 2081.5,
+  "free_usd": 1756.5,
+  "detail": "PDD x1 204 + 50 (held at max loss, v1.2.2); IWM same-day x1 61 + 10.",
   "cap_note": "Rules v1.11: the cap is the account value (Brad, 2026-11-13: 'I want you to be able to use the entire funds in the mcp account'). cap_usd is the account value at the last check; it is not lowered below the risk already open when marks fall (the cap binds at entry).",
-  "exit_buying_power": "998.87 at 06:40 PT after the WMT exit (account value 1,717.87 on marks)."
+  "exit_buying_power": "1,996.50 at 07:42 PT after the PANW close (account value 2,081.50)."
  },
  "eod_note": "2026-11-13 close: PCG x5 open (fly 0.585 at closing mids, +$33.50; about flat on the day, account +$5). No fills today. Account 1,250.91, buying power 1,040.91, risk used 224. Two losses in a row stand (LUNR, NVDA): a third pauses new entries.",
  "watch": [
@@ -720,14 +615,15 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-18T20:10:00Z",
+  "last_query_utc": "2026-11-19T15:42:00Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
    "6afb6d9b-5459-4ce5-bf8b-1c463f58b230",
    "6afc7963-fd94-44c7-adbb-bc9c76097bc2",
    "6afc7fcd-43f5-4830-8c2e-aaaf9c0b4d1a",
-   "6afe05ea-87b7-4e3e-95a3-65ec95019a85"
+   "6afe05ea-87b7-4e3e-95a3-65ec95019a85",
+   "6aff17ba-828a-4984-8f7c-b7dfa2a1d5f1"
   ],
   "note": "P046. Every check-in queries get_option_orders and get_equity_orders with agent_initiated=false and created_at_gte=last_query_utc, then moves last_query_utc. The three ids are Brad's HD orders of 2026-11-16 (cancelled at 12.00, filled at 11.90 and 11.95)."
  },
@@ -1694,6 +1590,115 @@
    "closed": "2026-11-19T14:39:16Z",
    "close_cost": 3.87,
    "pnl_usd": 182.84
+  },
+  {
+   "symbol": "PANW",
+   "trade_id": "PANW-20261118-1",
+   "kind": "earnings",
+   "lane": "owner_executed",
+   "tier": "core",
+   "prudential": [],
+   "owner_override": [
+    "name_risk_cap",
+    "intraday_move",
+    "exit_not_feasible"
+   ],
+   "structure": "iron fly 297.5/330/362.5",
+   "expiry": "2026-11-20",
+   "quantity": 1,
+   "opened": "2026-11-18T20:09:15Z",
+   "legs": {
+    "short_330C": {
+     "option_id": "c10193d7-9b33-4c82-8c4b-0f9f1017dfe7",
+     "fill": 18.11,
+     "qty": 1
+    },
+    "short_330P": {
+     "option_id": "7d5904db-4db3-482e-9390-63ea374f8be9",
+     "fill": 16.98,
+     "qty": 1
+    },
+    "long_362.5C": {
+     "option_id": "37505bf5-ac65-4016-8bcc-1be0403d3c3f",
+     "fill": 5.82,
+     "qty": 1
+    },
+    "long_297.5P": {
+     "option_id": "ac27af73-5a79-4e82-998e-d78b8eb7327e",
+     "fill": 5.72,
+     "qty": 1
+    }
+   },
+   "order_id": "6afe05ea-87b7-4e3e-95a3-65ec95019a85",
+   "net_credit": 23.55,
+   "max_loss_usd": 895.0,
+   "max_profit_usd": 2355.0,
+   "exit_reserve_usd": 50.0,
+   "breakevens": [
+    306.45,
+    353.55
+   ],
+   "wing_width": 32.5,
+   "report": "2026-11-18 after the close",
+   "ticks": "0.05 at and above 3.00, 0.01 below",
+   "plan": {
+    "exit": "Thu 2026-11-19: close by Brad's 4-leg order about 06:45 PT; the agent sends the ticket (limit at the combo mid) and a push at 06:38 PT. The agent CANNOT leg it out: after the report PANW traded 369.28 after hours (21:15:54Z), so buying back the 330 call alone costs about 3,900 and the buying power will be about 1,000 at best. The once-a-day multi-leg attempt (P051) goes to PANW, not WMT or PDD. Default is to close Thursday; the v1.2.2 hold (close cost >= 29.25, 90% of the 32.5 width) only if he cannot close it, and then Robinhood force-closes at the sellout 2026-11-20 20:30Z (12:30 PT Fri).",
+    "never_hold_into": "2026-11-20",
+    "close_sequence": "buy back both short legs first, then sell both wings; never sell a wing while its short leg is open",
+    "owner_ask": "Brad, 11:52 PT: 'id want you to monitor them and close if you see we need to'",
+    "legs_fallback_0650": "dead: does not fit the buying power at this price (2026-11-18 13:16 PT)"
+   },
+   "alerts": [
+    {
+     "alert_id": "422ef1fb-ccd6-48cc-a0cc-b9309fe2fc59",
+     "condition": "price_below",
+     "threshold": 306.45
+    },
+    {
+     "alert_id": "35a3e417-1489-4db4-9479-478f6bc1b40d",
+     "condition": "price_above",
+     "threshold": 353.55
+    }
+   ],
+   "after_hours_2026-11-18": {
+    "read_at": "2026-11-18T21:15:54Z",
+    "price": 369.2771,
+    "close": 341.41,
+    "move_from_close": 0.0816,
+    "projection_file": "state/earnings/scan/2026-11-18/project_PANW_ah_1315_out.json",
+    "pnl_mid_grid": {
+     "357": [
+      -99,
+      74,
+      171
+     ],
+     "364": [
+      -488,
+      -266,
+      -100
+     ],
+     "371": [
+      -723,
+      -522,
+      -336
+     ],
+     "sigmas": [
+      0.03,
+      0.045,
+      0.06
+     ]
+    },
+    "told_brad": "13:17 PT in chat (no push: nothing can be done before the open)"
+   },
+   "sellout_utc": "2026-11-20T20:30:00Z",
+   "exit_2026-11-19": {
+    "multi_leg_attempt": "refused 06:38:10 PT ('multi-leg option orders are not available through this tool yet')",
+    "ticket_and_push": "06:38 PT: limit debit 26.20 (mid), step 0.10, check above 27.50; 06:39 PT update and push: limit 25.00 (PANW 362.5, mid 24.84)"
+   },
+   "closed": "2026-11-19T15:37:30Z",
+   "close_cost": 21.91,
+   "pnl_usd": 163.84,
+   "closed_by": "Brad, 4-leg order"
   }
  ],
  "check_2026-11-19_0717": {
