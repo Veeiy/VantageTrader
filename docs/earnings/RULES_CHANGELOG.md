@@ -1089,3 +1089,13 @@ P066 (cost, decided by the agent under the delegation of 2026-11-16): a monitor 
 after two hours except within an hour of its 12:57 PT end, and the usage measure is in dollars: no
 cold wake, the daemons and the paper desk together at $15 a day or less (the 10% share of P063 moved
 with the head's own cost). Measure: the usage line for five trading days. "P066 off" reverses it.
+
+## v1.16.9 (2026-11-19 reflection): timer timeouts and the daemon's age on record (P068, P069)
+
+P068 (process, agent): a background timer's Bash timeout must be longer than its wait, and the
+10:57 PT pilot timer is started from the 10:15 PT run (a timer started at 09:15 PT with a one-hour
+timeout was stopped at 10:15 PT on 2026-11-19; it was restarted and the exit ran on time).
+P069 (process, agent): the daemon's start time is written to positions.json and every check-in
+replaces a daemon older than two hours. P066's replacement relied on memory and did not happen on
+2026-11-19 (one daemon, 06:41 to 12:57 PT, 84k to 1,097k tokens, about $20 of the day's $64).
+Measures: no timer stopped before its event; daemons and paper desk at $15 a day or less.

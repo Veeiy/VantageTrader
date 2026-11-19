@@ -166,7 +166,9 @@ larger than the account. No money in or out.
 - Friday: scorecard, multi-leg check, spread scan of the whole same-day universe.
 - Saturday: replay the week's earnings reports; the next research test in the queue.
 - Research queue: (1) overnight test at 64 nights x 3 names; (2) the week's earnings replay;
-  (3) the 10-probe review; (4) the data-feed decision.
+  (3) the 10-probe review; (4) the data-feed decision; (5) the exit-priced filter (P070): on the
+  earnings replay, flies whose average payoff at the planned exit, after the legging cost, is at or
+  under zero against the rest (FRO and PDD passed the edge ratio with that average near zero).
 
 ## Sources
 - Muravyev and Ni, "Why do option returns change sign from day to night?", Journal of Financial
