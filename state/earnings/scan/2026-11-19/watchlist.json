@@ -47,7 +47,7 @@
   "WMG",
   "BBWI"
  ],
- "status": "morning decisions done 06:53 PT: no entry; the 09:45 re-check re-prices the spread drops",
+ "status": "08:33 PT re-check: no entry; FRO at 09:45; final sweep 11:46",
  "risk_at_scan": "used 1,199 of 1,717.87 (PDD 204+50, PANW 895+50); PANW's 945 frees on his close",
  "entered": [],
  "blocked": {
@@ -62,5 +62,16 @@
   "BJ": 0.63,
   "FRO": 0.549,
   "note": "quotes 12 minutes after the open; INTU is borderline (25.7% against 25%) and liquid: re-priced at the 09:45 PT midday scan with the others"
+ },
+ "recheck_0831": {
+  "INTU": "spread 11.4% (passes); edge 1.061 mean (near-miss half, cap 300); median 4.53% gives 0.65; floor fly 287.5/312.5/337.5 risks 750 mid / 1,000 natural: does not fit",
+  "ESTC": "spread 15.3% (the 350 tier, half = 175); edge 0.938; floor fly 65/80/95 risks 510 mid / 665 natural: does not fit",
+  "GLOB": "spread 56.4%",
+  "IESC": "spread 46.0%",
+  "BJ": "spread 52.2%",
+  "FRO": "spread 29.7%, closest; re-checked at 09:45",
+  "file": "state/earnings/scan/2026-11-19/batch_A/recheck_0830.json",
+  "asked_by": "Brad, 08:2x PT: 'Anything else to trade today?'",
+  "note": "INTU is evidence for the median-edge hypothesis (mean 7.4% carries one large move; median 4.5%): scored at Friday's open as paper"
  }
 }
