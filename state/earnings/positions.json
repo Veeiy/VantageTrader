@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-19T16:31:19Z",
+ "as_of": "2026-11-19T16:44:42Z",
  "account_value": 2081.5,
  "cap_total_max_loss": 1235.08,
  "execution": {
@@ -26,11 +26,6 @@
     "short_78C": {
      "option_id": "01b7a7c3-c154-40f1-87bd-d1722fa8015c",
      "fill": 2.55,
-     "qty": 1
-    },
-    "short_78P": {
-     "option_id": "3edc364d-3a53-4df1-b67e-1499be3a45ba",
-     "fill": 2.92,
      "qty": 1
     },
     "long_84C": {
@@ -87,7 +82,7 @@
      "created_utc": "2026-11-19T16:22:28Z",
      "leg": "buy to close the 78 put (3edc364d), qty 1",
      "limit": 0.01,
-     "state": "working (0 of 1 at 16:23Z)",
+     "state": "filled 0.01 at 16:42:14Z",
      "effect": "removes the short put side for at most $1; the fly becomes the 78/84 call spread plus the 72 put long (no bid, left to expire). Max loss unchanged at about 204 (205 with the penny)."
     }
    ],
@@ -96,6 +91,14 @@
     "quote": "Brad, 2026-11-19 08:2x PT: 'Ok leave it, hold PDD to Friday'",
     "context": "he bought back the 78 put at 0.01 to free collateral; told that the fly's 600 of collateral is held once for both sides, so it frees nothing; he chose to hold the 78/84 call spread to expiry",
     "friday": "expiry 2026-11-20; sellout 20:30Z (12:30 PT). Above 84 both calls are in the money: loss = max loss 204 (205 with the put buyback). Check get_equity_positions for assigned shares at every check-in."
+   },
+   "legs_closed": {
+    "short_78P": {
+     "option_id": "3edc364d-3a53-4df1-b67e-1499be3a45ba",
+     "closed_at": "2026-11-19T16:42:14Z",
+     "price": 0.01,
+     "by": "owner"
+    }
    }
   },
   {
@@ -631,7 +634,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-19T16:23:00Z",
+  "last_query_utc": "2026-11-19T16:44:00Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
