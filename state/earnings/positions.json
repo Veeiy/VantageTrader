@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-19T19:00:05Z",
+ "as_of": "2026-11-19T19:15:34Z",
  "account_value": 2023.66,
  "cap_total_max_loss": 1235.08,
  "execution": {
@@ -1837,6 +1837,24 @@
    "PDD": {
     "spot": 85.85,
     "note": "owner hold to Friday"
+   }
+  }
+ },
+ "check_2026-11-19_1115": {
+  "at_utc": "2026-11-19T19:15:34Z",
+  "lease": "head",
+  "hand_orders_since_16:58:08Z": "none",
+  "marks": {
+   "ANT": {
+    "spot": 94.94,
+    "pnl_usd": -119.3
+   },
+   "PDD": {
+    "spot": 86.16,
+    "note": "owner hold to Friday"
+   },
+   "IWM_271C": {
+    "note": "leftover long wing, no bid, expires worthless today (1.9% out of the money)"
    }
   }
  }
