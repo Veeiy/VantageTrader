@@ -1,0 +1,52 @@
+{
+ "date": "2026-11-19",
+ "as_of_utc": "2026-11-19T14:42:00Z",
+ "scanner_and_calendar": {
+  "today_pm": [
+   "INTU",
+   "ROST",
+   "ESTC",
+   "GLOB",
+   "GAP"
+  ],
+  "fri_am": [
+   "IESC",
+   "BJ",
+   "FRO"
+  ]
+ },
+ "skipped": {
+  "calendar_not_on_scanner": [
+   "KEYS",
+   "POST",
+   "ESE",
+   "BULL",
+   "BKE",
+   "BSP",
+   "MOG.A",
+   "WRD",
+   "RLX",
+   "TKOMY",
+   "ATKR"
+  ],
+  "reason": "average options volume under 1,500 or price under 10 (P016)",
+  "timing": {
+   "HUBG": "next report 2026-12-01 (scanner date stale)",
+   "DRTS": "next report 2026-12-01",
+   "HP": "reported 2026-11-18 pm",
+   "BMNR": "no earnings data"
+  }
+ },
+ "already_reported_today": [
+  "WMT",
+  "PDD",
+  "BABA",
+  "WSM",
+  "FUTU",
+  "TEN",
+  "WMG",
+  "BBWI"
+ ],
+ "status": "06:47 PT: vol analyst batch A started on 8 names; PANW close pending (owner), PDD held at max loss, WMT closed +182.84",
+ "risk_at_scan": "used 1,199 of 1,717.87 (PDD 204+50, PANW 895+50); PANW's 945 frees on his close"
+}
