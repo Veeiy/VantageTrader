@@ -1,6 +1,6 @@
 {
- "as_of": "2026-11-19T13:55:00Z",
- "account_value": 1936.05,
+ "as_of": "2026-11-19T14:40:25Z",
+ "account_value": 1717.87,
  "cap_total_max_loss": 1235.08,
  "execution": {
   "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
@@ -9,70 +9,6 @@
   "deep_itm_note": "A short leg that is deep in the money cannot be bought back alone when its price is above the buying power (NVDA 175P on 2026-11-12: $1,545 against $994 at the open). Such a spread is held at its max loss (v1.2.2) until the short leg's ask x 100 is inside the buying power, then closed short leg first, with the wing sold at once as a marketable limit."
  },
  "open": [
-  {
-   "symbol": "WMT",
-   "trade_id": "WMT-20261118-1",
-   "kind": "earnings",
-   "lane": "agent",
-   "tier": "near_miss",
-   "prudential": [
-    "soft_news"
-   ],
-   "structure": "iron fly 119/127/135",
-   "expiry": "2026-11-20",
-   "quantity": 1,
-   "opened": "2026-11-18T15:30:58Z",
-   "legs": {
-    "short_127C": {
-     "option_id": "9feee807-d21e-4bb9-9bb1-a35e3477d9f6",
-     "fill": 4.0,
-     "qty": 1
-    },
-    "short_127P": {
-     "option_id": "74de64e9-65f4-4a3d-acc5-54285470f168",
-     "fill": 4.1,
-     "qty": 1
-    },
-    "long_135C": {
-     "option_id": "49f0274c-c48f-4169-95f3-ef11904ea087",
-     "fill": 1.14,
-     "qty": 1
-    },
-    "long_119P": {
-     "option_id": "01c880e4-5e82-4663-9b01-46ffc10bb834",
-     "fill": 1.26,
-     "qty": 1
-    }
-   },
-   "net_credit": 5.7,
-   "max_loss_usd": 230.0,
-   "max_profit_usd": 570.0,
-   "exit_reserve_usd": 50.0,
-   "breakevens": [
-    121.3,
-    132.7
-   ],
-   "wing_width": 8.0,
-   "report": "2026-11-19 04:00 PT (before the open), call 05:00 PT",
-   "ticks": "0.05 at and above 3.00, 0.01 below",
-   "plan": {
-    "exit": "Thu 2026-11-19, the 06:36 PT timer run, by legs (EXECUTION.md); both shorts first, then the wings",
-    "never_hold_into": "2026-11-20",
-    "close_sequence": "buy back both short legs first, then sell both wings; never sell a wing while its short leg is open"
-   },
-   "alerts": [
-    {
-     "alert_id": "f18708f6-7321-4931-86fe-5e3aba1d858a",
-     "condition": "price_below",
-     "threshold": 121.3
-    },
-    {
-     "alert_id": "d9f25882-bf35-4295-a922-608457f30c55",
-     "condition": "price_above",
-     "threshold": 132.7
-    }
-   ]
-  },
   {
    "symbol": "PDD",
    "trade_id": "PDD-20261118-1",
@@ -120,7 +56,7 @@
    "report": "2026-11-19 before the US open, call 04:30 PT",
    "ticks": "0.05 at and above 3.00, 0.01 below",
    "plan": {
-    "exit": "Thu 2026-11-19, the 06:36 PT timer run, by legs; both shorts first, then the wings",
+    "exit": "HELD at max loss (v1.2.2) from 06:39 PT 2026-11-19: Brad's 4-leg close if he wants it, else expiry handling Fri.",
     "never_hold_into": "2026-11-20",
     "close_sequence": "buy back both short legs first, then sell both wings"
    },
@@ -135,7 +71,16 @@
      "condition": "price_above",
      "threshold": 81.96
     }
-   ]
+   ],
+   "at_max_loss_2026-11-19": {
+    "read_at": "2026-11-19T14:39:25Z",
+    "spot": 85.41,
+    "close_cost_mid": 5.615,
+    "width": 6.0,
+    "share_of_width": 0.936,
+    "rule": "v1.2.2: at or above 90% of the width it is held, not legged out; Brad can close it in the app in one 4-leg order (limit debit about 5.60); check assigned shares at every check-in; on expiry morning let it expire if both calls are in the money (loss = max loss 204).",
+    "sellout_utc": "2026-11-20T20:30:00Z"
+   }
   },
   {
    "symbol": "PANW",
@@ -236,7 +181,11 @@
     },
     "told_brad": "13:17 PT in chat (no push: nothing can be done before the open)"
    },
-   "sellout_utc": "2026-11-20T20:30:00Z"
+   "sellout_utc": "2026-11-20T20:30:00Z",
+   "exit_2026-11-19": {
+    "multi_leg_attempt": "refused 06:38:10 PT ('multi-leg option orders are not available through this tool yet')",
+    "ticket_and_push": "06:38 PT: limit debit 26.20 (mid), step 0.10, check above 27.50; 06:39 PT update and push: limit 25.00 (PANW 362.5, mid 24.84)"
+   }
   }
  ],
  "blockers": [
@@ -255,16 +204,16 @@
   "From Wed 2026-11-18 (P063, rules v1.16.5): the daemon's default wait is 240 s and no agent waits longer than 240 s in one piece; the hourly run replaces a daemon that has run two hours; the reflection fires at 13:12 PT and writes the usage line (python3 scripts/earnings/usage_scan.py --date <today> --append state/earnings/usage.jsonl).",
   "Wed 2026-11-18, iteration on exit timing (told Brad 2026-11-17 evening): after TGT and TJX are closed at the 06:36 run, keep their eight leg ids and read get_option_quotes for them once at the 07:15 hourly run and once at the 08:15 run; write one live_metrics row per fly and time, record 'shadow_exit' (close cost at mid and at natural, the stock, and the difference from the real exit). Read-only, no extra wake. After 10 flies the reflection compares 06:36 with the two later marks."
  ],
- "buying_power": 586.05,
+ "buying_power": 998.87,
  "risk": {
-  "total_max_loss_usd": 1329.0,
-  "exit_reserves_usd": 150.0,
-  "used_usd": 1479.0,
-  "cap_usd": 1936.05,
-  "free_usd": 457.05,
-  "detail": "WMT x1 230 + 50; PDD x1 204 + 50; PANW x1 895 + 50 (owner-executed).",
+  "total_max_loss_usd": 1099.0,
+  "exit_reserves_usd": 100.0,
+  "used_usd": 1199.0,
+  "cap_usd": 1717.87,
+  "free_usd": 518.87,
+  "detail": "PDD x1 204 + 50 (held at max loss, v1.2.2); PANW x1 895 + 50 (owner-executed, his 4-leg close pending).",
   "cap_note": "Rules v1.11: the cap is the account value (Brad, 2026-11-13: 'I want you to be able to use the entire funds in the mcp account'). cap_usd is the account value at the last check; it is not lowered below the risk already open when marks fall (the cap binds at entry).",
-  "exit_buying_power": "586.05 at 12:10 PT after the PANW fill (cash 5,236.05; account value 1,936.05)."
+  "exit_buying_power": "998.87 at 06:40 PT after the WMT exit (account value 1,717.87 on marks)."
  },
  "eod_note": "2026-11-13 close: PCG x5 open (fly 0.585 at closing mids, +$33.50; about flat on the day, account +$5). No fills today. Account 1,250.91, buying power 1,040.91, risk used 224. Two losses in a row stand (LUNR, NVDA): a third pauses new entries.",
  "watch": [
@@ -1631,5 +1580,74 @@
   },
   "buying_power": 586.05,
   "exit_plan": "06:38 PT first liquid quotes. In-the-money buybacks: WMT 127P (about 2) and PDD 78C (about 4.2) need about 640 against 586: WMT first (smaller), its wings, then PDD; or both at once if the live quotes fit. PANW: the once-a-day multi-leg attempt at the mid; if refused, Brad's 4-leg ticket and a push at 06:38 PT."
- }
+ },
+ "closed_2026-11-19": [
+  {
+   "symbol": "WMT",
+   "trade_id": "WMT-20261118-1",
+   "kind": "earnings",
+   "lane": "agent",
+   "tier": "near_miss",
+   "prudential": [
+    "soft_news"
+   ],
+   "structure": "iron fly 119/127/135",
+   "expiry": "2026-11-20",
+   "quantity": 1,
+   "opened": "2026-11-18T15:30:58Z",
+   "legs": {
+    "short_127C": {
+     "option_id": "9feee807-d21e-4bb9-9bb1-a35e3477d9f6",
+     "fill": 4.0,
+     "qty": 1
+    },
+    "short_127P": {
+     "option_id": "74de64e9-65f4-4a3d-acc5-54285470f168",
+     "fill": 4.1,
+     "qty": 1
+    },
+    "long_135C": {
+     "option_id": "49f0274c-c48f-4169-95f3-ef11904ea087",
+     "fill": 1.14,
+     "qty": 1
+    },
+    "long_119P": {
+     "option_id": "01c880e4-5e82-4663-9b01-46ffc10bb834",
+     "fill": 1.26,
+     "qty": 1
+    }
+   },
+   "net_credit": 5.7,
+   "max_loss_usd": 230.0,
+   "max_profit_usd": 570.0,
+   "exit_reserve_usd": 50.0,
+   "breakevens": [
+    121.3,
+    132.7
+   ],
+   "wing_width": 8.0,
+   "report": "2026-11-19 04:00 PT (before the open), call 05:00 PT",
+   "ticks": "0.05 at and above 3.00, 0.01 below",
+   "plan": {
+    "exit": "Thu 2026-11-19, the 06:36 PT timer run, by legs (EXECUTION.md); both shorts first, then the wings",
+    "never_hold_into": "2026-11-20",
+    "close_sequence": "buy back both short legs first, then sell both wings; never sell a wing while its short leg is open"
+   },
+   "alerts": [
+    {
+     "alert_id": "f18708f6-7321-4931-86fe-5e3aba1d858a",
+     "condition": "price_below",
+     "threshold": 121.3
+    },
+    {
+     "alert_id": "d9f25882-bf35-4295-a922-608457f30c55",
+     "condition": "price_above",
+     "threshold": 132.7
+    }
+   ],
+   "closed": "2026-11-19T14:39:16Z",
+   "close_cost": 3.87,
+   "pnl_usd": 182.84
+  }
+ ]
 }
