@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-19T19:15:34Z",
+ "as_of": "2026-11-19T20:11:23Z",
  "account_value": 2023.66,
  "cap_total_max_loss": 1235.08,
  "execution": {
@@ -100,27 +100,6 @@
      "by": "owner"
     }
    }
-  },
-  {
-   "symbol": "ANT",
-   "trade_id": "ANT-20261119-H1",
-   "kind": "equity",
-   "lane": "owner_hand",
-   "structure": "long stock",
-   "quantity": 10,
-   "opened": "2026-11-19T16:58:07Z",
-   "avg_price": 106.87,
-   "order_id": "6aff2a9e-c13b-4e64-b513-66f713d46478",
-   "max_loss_usd": 1068.7,
-   "exit_reserve_usd": 0.0,
-   "plan": {
-    "exit": "Brad's call (asked at 09:03 PT): day trade or hold; the agent never trims or closes a hand position unless he says so"
-   },
-   "ceiling_P044": {
-    "share": 0.528,
-    "trim_to_30pct": "sell 5 shares (keep 5, about 516)",
-    "told": "09:03 PT"
-   }
   }
  ],
  "blockers": [
@@ -141,12 +120,12 @@
  ],
  "buying_power": 926.76,
  "risk": {
-  "total_max_loss_usd": 1272.7,
+  "total_max_loss_usd": 204.0,
   "exit_reserves_usd": 50.0,
-  "used_usd": 1322.7,
+  "used_usd": 254.0,
   "cap_usd": 2023.66,
   "free_usd": 700.96,
-  "detail": "PDD call spread x1 204 + 50 (owner hold to Friday); ANT 10 shares 1,068.70 (owner hand, no stop).",
+  "detail": "PDD call spread x1 204 + 50 (owner hold to Friday).",
   "cap_note": "Rules v1.11: the cap is the account value (Brad, 2026-11-13: 'I want you to be able to use the entire funds in the mcp account'). cap_usd is the account value at the last check; it is not lowered below the risk already open when marks fall (the cap binds at entry).",
   "exit_buying_power": "1,996.50 at 07:42 PT after the PANW close (account value 2,081.50)."
  },
@@ -1744,6 +1723,31 @@
    "close_cost": 1.9,
    "pnl_usd": -51.28,
    "leftover": "271C expires worthless 2026-11-19"
+  },
+  {
+   "symbol": "ANT",
+   "trade_id": "ANT-20261119-H1",
+   "kind": "equity",
+   "lane": "owner_hand",
+   "structure": "long stock",
+   "quantity": 10,
+   "opened": "2026-11-19T16:58:07Z",
+   "avg_price": 106.87,
+   "order_id": "6aff2a9e-c13b-4e64-b513-66f713d46478",
+   "max_loss_usd": 1068.7,
+   "exit_reserve_usd": 0.0,
+   "plan": {
+    "exit": "Brad's call (asked at 09:03 PT): day trade or hold; the agent never trims or closes a hand position unless he says so"
+   },
+   "ceiling_P044": {
+    "share": 0.528,
+    "trim_to_30pct": "sell 5 shares (keep 5, about 516)",
+    "told": "09:03 PT"
+   },
+   "closed_at": "2026-11-19T20:10:46Z",
+   "close_price": 95.8,
+   "pnl_usd": -110.72,
+   "closed_by": "agent on Brad's word"
   }
  ],
  "check_2026-11-19_0717": {
