@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-19T16:23:46Z",
+ "as_of": "2026-11-19T16:31:19Z",
  "account_value": 2081.5,
  "cap_total_max_loss": 1235.08,
  "execution": {
@@ -56,7 +56,7 @@
    "report": "2026-11-19 before the US open, call 04:30 PT",
    "ticks": "0.05 at and above 3.00, 0.01 below",
    "plan": {
-    "exit": "HELD at max loss (v1.2.2) from 06:39 PT 2026-11-19: Brad's 4-leg close if he wants it, else expiry handling Fri.",
+    "exit": "OWNER HOLD to Friday expiry (Brad, 2026-11-19); held at max loss under v1.2.2 since 06:39 PT.",
     "never_hold_into": "2026-11-20",
     "close_sequence": "buy back both short legs first, then sell both wings"
    },
@@ -90,7 +90,13 @@
      "state": "working (0 of 1 at 16:23Z)",
      "effect": "removes the short put side for at most $1; the fly becomes the 78/84 call spread plus the 72 put long (no bid, left to expire). Max loss unchanged at about 204 (205 with the penny)."
     }
-   ]
+   ],
+   "owner_hold": {
+    "since_utc": "2026-11-19T16:31:19Z",
+    "quote": "Brad, 2026-11-19 08:2x PT: 'Ok leave it, hold PDD to Friday'",
+    "context": "he bought back the 78 put at 0.01 to free collateral; told that the fly's 600 of collateral is held once for both sides, so it frees nothing; he chose to hold the 78/84 call spread to expiry",
+    "friday": "expiry 2026-11-20; sellout 20:30Z (12:30 PT). Above 84 both calls are in the money: loss = max loss 204 (205 with the put buyback). Check get_equity_positions for assigned shares at every check-in."
+   }
   },
   {
    "symbol": "IWM",
