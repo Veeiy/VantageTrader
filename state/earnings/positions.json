@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-19T14:40:25Z",
+ "as_of": "2026-11-19T15:17:35Z",
  "account_value": 1717.87,
  "cap_total_max_loss": 1235.08,
  "execution": {
@@ -1649,5 +1649,31 @@
    "close_cost": 3.87,
    "pnl_usd": 182.84
   }
- ]
+ ],
+ "check_2026-11-19_0717": {
+  "at_utc": "2026-11-19T15:17:35Z",
+  "lease": "head",
+  "hand_orders_since_14:30Z": "none",
+  "equity_positions": "none",
+  "marks": {
+   "PANW": {
+    "spot": 358.2,
+    "close_cost_mid": 24.085,
+    "credit": 23.55,
+    "pnl_mid_usd": -53.5,
+    "note": "PANW fell from 369 pre-market to 358; push to Brad at 07:17 PT: limit debit 24.20"
+   },
+   "PDD": {
+    "spot": 86.41,
+    "close_cost_mid": 5.815,
+    "credit": 3.96,
+    "width": 6.0,
+    "share_of_width": 0.969,
+    "note": "held at max loss (v1.2.2)"
+   }
+  },
+  "switches": "moved to Fri 2026-11-20 (exit 07:25, plain alert 08:00 PT): the head's exit step is done: WMT closed by legs; PDD held under v1.2.2; PANW is the owner's 4-leg close (the agent cannot leg it: the 330 call alone is about 2,960 against 999 of buying power).",
+  "daemon": "running since 06:43 PT (PANW, PDD, account watch) to 12:57 PT",
+  "paper_desk": "started 06:43 PT"
+ }
 }
