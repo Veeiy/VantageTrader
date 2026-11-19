@@ -1,6 +1,6 @@
 {
- "as_of": "2026-11-19T16:44:42Z",
- "account_value": 2081.5,
+ "as_of": "2026-11-19T17:02:33Z",
+ "account_value": 2023.66,
  "cap_total_max_loss": 1235.08,
  "execution": {
   "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
@@ -145,6 +145,27 @@
     "close_sequence": "buy back both shorts together, then sell the wings"
    },
    "sellout_utc": "2026-11-19T20:45:00Z"
+  },
+  {
+   "symbol": "ANT",
+   "trade_id": "ANT-20261119-H1",
+   "kind": "equity",
+   "lane": "owner_hand",
+   "structure": "long stock",
+   "quantity": 10,
+   "opened": "2026-11-19T16:58:07Z",
+   "avg_price": 106.87,
+   "order_id": "6aff2a9e-c13b-4e64-b513-66f713d46478",
+   "max_loss_usd": 1068.7,
+   "exit_reserve_usd": 0.0,
+   "plan": {
+    "exit": "Brad's call (asked at 09:03 PT): day trade or hold; the agent never trims or closes a hand position unless he says so"
+   },
+   "ceiling_P044": {
+    "share": 0.528,
+    "trim_to_30pct": "sell 5 shares (keep 5, about 516)",
+    "told": "09:03 PT"
+   }
   }
  ],
  "blockers": [
@@ -164,14 +185,14 @@
   "Wed 2026-11-18, iteration on exit timing (told Brad 2026-11-17 evening): after TGT and TJX are closed at the 06:36 run, keep their eight leg ids and read get_option_quotes for them once at the 07:15 hourly run and once at the 08:15 run; write one live_metrics row per fly and time, record 'shadow_exit' (close cost at mid and at natural, the stock, and the difference from the real exit). Read-only, no extra wake. After 10 flies the reflection compares 06:36 with the two later marks.",
   "2026-11-19 IWM pilot exit timer 10:57 PT (18:57Z): start it from the 09:15 PT hourly run (P060: within two hours of the event)."
  ],
- "buying_power": 1996.5,
+ "buying_power": 926.76,
  "risk": {
-  "total_max_loss_usd": 265.0,
+  "total_max_loss_usd": 1333.7,
   "exit_reserves_usd": 60.0,
-  "used_usd": 325.0,
-  "cap_usd": 2081.5,
-  "free_usd": 1756.5,
-  "detail": "PDD x1 204 + 50 (held at max loss, v1.2.2); IWM same-day x1 61 + 10.",
+  "used_usd": 1393.7,
+  "cap_usd": 2023.66,
+  "free_usd": 629.96,
+  "detail": "PDD call spread x1 204 + 50 (owner hold to Friday); IWM same-day x1 61 + 10; ANT 10 shares 1,068.70 (owner hand, no stop).",
   "cap_note": "Rules v1.11: the cap is the account value (Brad, 2026-11-13: 'I want you to be able to use the entire funds in the mcp account'). cap_usd is the account value at the last check; it is not lowered below the risk already open when marks fall (the cap binds at entry).",
   "exit_buying_power": "1,996.50 at 07:42 PT after the PANW close (account value 2,081.50)."
  },
@@ -634,7 +655,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-19T16:44:00Z",
+  "last_query_utc": "2026-11-19T17:01:00Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -643,7 +664,8 @@
    "6afc7fcd-43f5-4830-8c2e-aaaf9c0b4d1a",
    "6afe05ea-87b7-4e3e-95a3-65ec95019a85",
    "6aff17ba-828a-4984-8f7c-b7dfa2a1d5f1",
-   "6aff2243-7a4a-4272-b710-98aa5e4446ff"
+   "6aff2243-7a4a-4272-b710-98aa5e4446ff",
+   "6aff2a9e-c13b-4e64-b513-66f713d46478"
   ],
   "note": "P046. Every check-in queries get_option_orders and get_equity_orders with agent_initiated=false and created_at_gte=last_query_utc, then moves last_query_utc. The three ids are Brad's HD orders of 2026-11-16 (cancelled at 12.00, filled at 11.90 and 11.95)."
  },
