@@ -1,6 +1,6 @@
 {
- "as_of": "2026-11-19T20:11:23Z",
- "account_value": 2023.66,
+ "as_of": "2026-11-19T20:57:35Z",
+ "account_value": 1848.61,
  "cap_total_max_loss": 1235.08,
  "execution": {
   "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
@@ -118,13 +118,13 @@
   "From Wed 2026-11-18 (P063, rules v1.16.5): the daemon's default wait is 240 s and no agent waits longer than 240 s in one piece; the hourly run replaces a daemon that has run two hours; the reflection fires at 13:12 PT and writes the usage line (python3 scripts/earnings/usage_scan.py --date <today> --append state/earnings/usage.jsonl).",
   "Wed 2026-11-18, iteration on exit timing (told Brad 2026-11-17 evening): after TGT and TJX are closed at the 06:36 run, keep their eight leg ids and read get_option_quotes for them once at the 07:15 hourly run and once at the 08:15 run; write one live_metrics row per fly and time, record 'shadow_exit' (close cost at mid and at natural, the stock, and the difference from the real exit). Read-only, no extra wake. After 10 flies the reflection compares 06:36 with the two later marks."
  ],
- "buying_power": 926.76,
+ "buying_power": 1894.61,
  "risk": {
   "total_max_loss_usd": 204.0,
   "exit_reserves_usd": 50.0,
   "used_usd": 254.0,
-  "cap_usd": 2023.66,
-  "free_usd": 700.96,
+  "cap_usd": 1848.61,
+  "free_usd": 1594.61,
   "detail": "PDD call spread x1 204 + 50 (owner hold to Friday).",
   "cap_note": "Rules v1.11: the cap is the account value (Brad, 2026-11-13: 'I want you to be able to use the entire funds in the mcp account'). cap_usd is the account value at the last check; it is not lowered below the risk already open when marks fall (the cap binds at entry).",
   "exit_buying_power": "1,996.50 at 07:42 PT after the PANW close (account value 2,081.50)."
@@ -1861,5 +1861,14 @@
     "note": "leftover long wing, no bid, expires worthless today (1.9% out of the money)"
    }
   }
+ },
+ "check_2026-11-19_1257_last_look": {
+  "at_utc": "2026-11-19T20:57:35Z",
+  "hand_orders_since_16:58:08Z": "none (option and equity)",
+  "equity_positions": "none",
+  "open": "PDD call spread (owner hold to Friday), JD x3 and AS x1 leftover wings (expire Fri), IWM 271C (expires worthless today)",
+  "PDD": 86.04,
+  "account_value": 1848.61,
+  "buying_power": 1894.61
  }
 }
