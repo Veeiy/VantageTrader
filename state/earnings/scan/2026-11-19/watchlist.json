@@ -47,7 +47,7 @@
   "WMG",
   "BBWI"
  ],
- "status": "09:47 PT midday: no entry; the 11:46 sweep is the last look",
+ "status": "11:55 PT final sweep: no entry today",
  "risk_at_scan": "used 1,199 of 1,717.87 (PDD 204+50, PANW 895+50); PANW's 945 frees on his close",
  "entered": [],
  "blocked": {
@@ -82,5 +82,16 @@
   "GAP": "edge 1.25",
   "new_entries": 0,
   "risk": "used 1,393.70 of about 2,000 (ANT 1,068.70 owner hand at full value, PDD 204+50, IWM 61+10)"
+ },
+ "final_sweep_1147": {
+  "FRO": "spread tightened to 17.0%; gate 17/17 pass (edge 0.646, cap 350, 40/45/50 at 2.05 mid, max loss 295 mid / 330 natural) but NOT entered: exit-priced average over its past moves is about zero before costs and negative after legging costs; recorded as paper FRO-20261119-U1",
+  "INTU": "no fly fits the half cap",
+  "ESTC": "no fly fits the 175 cap",
+  "ROST": "does not fit",
+  "GAP": "edge 1.25",
+  "GLOB/IESC/BJ": "spreads 46% to 56%",
+  "new_entries": 0,
+  "standby_entry_switch": "moved to Fri 2026-11-20 12:05 PT",
+  "proposal_for_reflection": "gate on the exit-priced average after costs (L015) as a check next to the edge ratio: FRO and PDD (11/18) both passed the ratio with a near-zero or negative exit-priced average"
  }
 }

@@ -1,0 +1,47 @@
+{
+ "symbol": "FRO",
+ "timing": "am",
+ "spot": 44.22,
+ "prev_close": 44.41,
+ "K": 45.0,
+ "call": {
+  "bid": 0.7,
+  "ask": 0.85
+ },
+ "put": {
+  "bid": 1.45,
+  "ask": 1.7
+ },
+ "hist_moves": [
+  0.06752,
+  0.008687,
+  -0.036293,
+  0.017972,
+  -0.034339,
+  0.010057
+ ],
+ "regime_20d": 0.029126,
+ "flags": [
+  "soft:report_date_confirmed_by_company_release_2026-11-13_no_other_news_checked_in_depth"
+ ],
+ "account_value": 1962.28,
+ "open_risk_usd": 1322.7,
+ "buying_power": 936.63,
+ "tick": 0.05,
+ "wings": {
+  "call_strike": 50.0,
+  "put_strike": 40.0,
+  "call": {
+   "bid": 0.05,
+   "ask": 0.1
+  },
+  "put": {
+   "bid": 0.1,
+   "ask": 0.35
+  }
+ },
+ "sector": "oil tankers (shipping)",
+ "sectors_entered_today": [
+  "index fund"
+ ]
+}

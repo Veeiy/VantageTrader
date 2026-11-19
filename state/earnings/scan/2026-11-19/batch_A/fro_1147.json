@@ -1,0 +1,109 @@
+{
+ "batch": "A",
+ "recheck_of": "FRO after spread fell under 25%",
+ "as_of_utc": "2026-11-19T19:48:48Z",
+ "quotes_window_utc": "spot 44.24 @19:48:08Z; body 19:48:07-19:48:21Z (unchanged from 19:47); 50C 19:48:07Z; 40P 19:47:03Z",
+ "dropped": [],
+ "analyzed": [
+  {
+   "symbol": "FRO",
+   "timing": "am",
+   "spot": 44.24,
+   "prev_close": 44.41,
+   "intraday_pct": -0.003828,
+   "K": 45.0,
+   "strike_step": 5,
+   "call": {
+    "id": "8d2aa926-16f6-4643-92cf-c90559c7129b",
+    "bid": 0.7,
+    "ask": 0.85,
+    "oi": 1194,
+    "updated_at": "2026-11-19T19:48:21Z"
+   },
+   "put": {
+    "id": "61a53bc4-8260-46aa-bc99-9962f838ca66",
+    "bid": 1.45,
+    "ask": 1.7,
+    "oi": 2804,
+    "updated_at": "2026-11-19T19:48:07Z"
+   },
+   "straddle_mid": 2.35,
+   "straddle_pct": 0.053119,
+   "atm_spread_pct": 0.170213,
+   "hist_moves": [
+    0.06752,
+    0.008687,
+    -0.036293,
+    0.017972,
+    -0.034339,
+    0.010057
+   ],
+   "hist_dates": [
+    "2025-05-23",
+    "2025-08-29",
+    "2025-11-21",
+    "2026-02-27",
+    "2026-05-22",
+    "2026-08-28"
+   ],
+   "hist_timings": [
+    "am",
+    "am",
+    "pm",
+    "am",
+    "am",
+    "am"
+   ],
+   "avg_hist_move": 0.029145,
+   "median_hist_move": 0.026155,
+   "max_hist_move": 0.06752,
+   "n_hist": 6,
+   "regime_20d": 0.029126,
+   "edge_ratio": 0.6455,
+   "wings": {
+    "call_strike": 50.0,
+    "put_strike": 40.0,
+    "call": {
+     "id": "ef6b2fbc-0f34-4e19-9933-2c451cce0a8b",
+     "bid": 0.05,
+     "ask": 0.1
+    },
+    "put": {
+     "id": "3b3d87b6-e239-4d71-8fab-e755b271826b",
+     "bid": 0.1,
+     "ask": 0.35
+    },
+    "credit_mid": 2.05,
+    "credit_natural": 1.7,
+    "width": 5.0,
+    "max_loss_mid": 295.0,
+    "max_loss_natural": 330.0,
+    "breakevens": [
+     42.95,
+     47.05
+    ],
+    "tick": 0.05,
+    "tick_detail": "chain min_ticks: 0.05 below $3.00, 0.10 at/above $3.00",
+    "cap": 350,
+    "fits_cap": true,
+    "floor": {
+     "min_wing_distance": 2.115,
+     "call_min": 47.115,
+     "put_max": 42.885
+    },
+    "targets_1p5x": {
+     "call": 48.525,
+     "put": 41.475
+    },
+    "step_in_path": "none needed (fits at start); next strikes in are 45 (=K) on both sides, so no step-in was possible anyway"
+   },
+   "past_moves_beyond_breakevens": "3/6",
+   "notes": "Full tier (edge<=0.85), spread>0.12 so cap 350; 50/40 fly fits (ML nat 330). K=45 sits 0.76 above spot (44, 44.5, 43.5 not listed; strikes in 5s here), so the fly is skewed: lower breakeven 42.95 is only 2.9% below spot, upper 47.05 is 6.4% above. 2025-11-21 report is tagged pm by the tool (others am); used as given."
+  }
+ ],
+ "errors": [],
+ "notes": [
+  "Strike probes: 45, 50, 40 listed; 41, 41.5, 42.5, 43.5, 44, 44.5, 47.5, 48, 48.5, 49 not listed.",
+  "History: 6 past reports via engine history command (bars_fro.json/events_fro.json), no skips. Day bars carry no 'interpolated' field; treated as false."
+ ]
+}

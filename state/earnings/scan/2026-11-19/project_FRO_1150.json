@@ -1,0 +1,2 @@
+{"symbol":"FRO","body":45.0,"call_wing":50.0,"put_wing":40.0,"credit":2.0,"quantity":1,"close":44.22,"spot_base":44.22,"sigma_base":0.04,
+ "spots":[47.21,44.6,42.62,45.01,42.70,44.67],"sigmas":[0.03,0.04,0.05],"slippage_usd":15.0,"wing_sigma_mult":1.1}
