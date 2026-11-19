@@ -1,0 +1,50 @@
+{
+ "symbol": "IWM",
+ "spot": 268.68,
+ "prev_close": 270.12,
+ "K": 269.0,
+ "expiry": "2026-11-19",
+ "call": {
+  "bid": 0.91,
+  "ask": 0.92
+ },
+ "put": {
+  "bid": 1.23,
+  "ask": 1.24
+ },
+ "wings": {
+  "call_strike": 271.0,
+  "put_strike": 267.0,
+  "call": {
+   "bid": 0.25,
+   "ask": 0.26
+  },
+  "put": {
+   "bid": 0.51,
+   "ask": 0.52
+  }
+ },
+ "same_hours_moves": [
+  -0.018077,
+  0.004147,
+  0.013048,
+  0.00277,
+  0.003652,
+  -0.002579,
+  0.007325,
+  -0.00447,
+  -0.009937,
+  -0.003357
+ ],
+ "event_ahead": false,
+ "macro_veto": false,
+ "exits_pending": false,
+ "account_value": 1717.87,
+ "open_risk_usd": 1199.0,
+ "buying_power": 998.87,
+ "open_intraday": 0,
+ "entries_today": 0,
+ "today": "2026-11-19",
+ "now_pt": "07:28",
+ "note": "exits_pending false: the head's exit step is done (WMT closed by legs; PDD held under v1.2.2; PANW is the owner's 4-leg close, the agent cannot leg it). SPY +0.12% at 07:27 PT; no tier-1 release before 11:00 PT."
+}
