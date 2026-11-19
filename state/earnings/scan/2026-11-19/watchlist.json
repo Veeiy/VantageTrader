@@ -47,6 +47,20 @@
   "WMG",
   "BBWI"
  ],
- "status": "06:47 PT: vol analyst batch A started on 8 names; PANW close pending (owner), PDD held at max loss, WMT closed +182.84",
- "risk_at_scan": "used 1,199 of 1,717.87 (PDD 204+50, PANW 895+50); PANW's 945 frees on his close"
+ "status": "morning decisions done 06:53 PT: no entry; the 09:45 re-check re-prices the spread drops",
+ "risk_at_scan": "used 1,199 of 1,717.87 (PDD 204+50, PANW 895+50); PANW's 945 frees on his close",
+ "entered": [],
+ "blocked": {
+  "ROST": "edge 1.027 (near-miss half), ATM spread 17.4% (the $350 tier, half = 175); the floor fly 205/225/242.5 risks 730 mid / 1,020 natural: does not fit at any width",
+  "GAP": "edge 1.25, above 1.10"
+ },
+ "dropped_spread_0944": {
+  "INTU": 0.257,
+  "ESTC": 0.366,
+  "GLOB": 0.732,
+  "IESC": 0.46,
+  "BJ": 0.63,
+  "FRO": 0.549,
+  "note": "quotes 12 minutes after the open; INTU is borderline (25.7% against 25%) and liquid: re-priced at the 09:45 PT midday scan with the others"
+ }
 }
