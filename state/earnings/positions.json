@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-19T16:16:29Z",
+ "as_of": "2026-11-19T16:23:46Z",
  "account_value": 2081.5,
  "cap_total_max_loss": 1235.08,
  "execution": {
@@ -80,7 +80,17 @@
     "share_of_width": 0.936,
     "rule": "v1.2.2: at or above 90% of the width it is held, not legged out; Brad can close it in the app in one 4-leg order (limit debit about 5.60); check assigned shares at every check-in; on expiry morning let it expire if both calls are in the money (loss = max loss 204).",
     "sellout_utc": "2026-11-20T20:30:00Z"
-   }
+   },
+   "hand_orders_2026-11-19": [
+    {
+     "order_id": "6aff2243-7a4a-4272-b710-98aa5e4446ff",
+     "created_utc": "2026-11-19T16:22:28Z",
+     "leg": "buy to close the 78 put (3edc364d), qty 1",
+     "limit": 0.01,
+     "state": "working (0 of 1 at 16:23Z)",
+     "effect": "removes the short put side for at most $1; the fly becomes the 78/84 call spread plus the 72 put long (no bid, left to expire). Max loss unchanged at about 204 (205 with the penny)."
+    }
+   ]
   },
   {
    "symbol": "IWM",
@@ -615,7 +625,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-19T15:42:00Z",
+  "last_query_utc": "2026-11-19T16:23:00Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -623,7 +633,8 @@
    "6afc7963-fd94-44c7-adbb-bc9c76097bc2",
    "6afc7fcd-43f5-4830-8c2e-aaaf9c0b4d1a",
    "6afe05ea-87b7-4e3e-95a3-65ec95019a85",
-   "6aff17ba-828a-4984-8f7c-b7dfa2a1d5f1"
+   "6aff17ba-828a-4984-8f7c-b7dfa2a1d5f1",
+   "6aff2243-7a4a-4272-b710-98aa5e4446ff"
   ],
   "note": "P046. Every check-in queries get_option_orders and get_equity_orders with agent_initiated=false and created_at_gte=last_query_utc, then moves last_query_utc. The three ids are Brad's HD orders of 2026-11-16 (cancelled at 12.00, filled at 11.90 and 11.95)."
  },
