@@ -54,5 +54,9 @@
  "midday_0945": {
   "at_utc": "2026-11-20T17:45:53Z",
   "result": "no entries: no name reports in the Friday window; buying power 94.84; SPY about -2% (soft macro band, half size) at 09:15 PT"
+ },
+ "final_sweep_1146": {
+  "at_utc": "2026-11-20T19:47:01Z",
+  "result": "no entries: no name in the Friday window (Fri pm / Mon am); buying power 102.75; total risk above the account value from the owner's ANT; SPY -2.5% at 11:15 PT (soft macro band)"
  }
 }
