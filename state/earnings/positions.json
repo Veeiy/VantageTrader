@@ -1,6 +1,6 @@
 {
- "as_of": "2026-11-20T16:16:39Z",
- "account_value": 1885.64,
+ "as_of": "2026-11-20T17:16:17Z",
+ "account_value": 1780.04,
  "cap_total_max_loss": 1235.08,
  "execution": {
   "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
@@ -143,8 +143,8 @@
   "total_max_loss_usd": 2003.77,
   "exit_reserves_usd": 50.0,
   "used_usd": 2053.77,
-  "cap_usd": 1885.64,
-  "free_usd": -168.13,
+  "cap_usd": 1780.04,
+  "free_usd": -273.73,
   "detail": "PDD call spread x1 204 + 50 (owner hold, expires today); ANT 20 shares 1,799.77 (owner hand, no stop).",
   "cap_note": "Rules v1.11: the cap is the account value (Brad, 2026-11-13: 'I want you to be able to use the entire funds in the mcp account'). cap_usd is the account value at the last check; it is not lowered below the risk already open when marks fall (the cap binds at entry).",
   "over_cap": "the owner's hand buy puts total risk above the account value (2,053.77 against 1,784.54); the agent opens nothing new while it holds"
@@ -608,7 +608,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-20T16:16:24Z",
+  "last_query_utc": "2026-11-20T17:15:58Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -2043,6 +2043,31 @@
    "unrealized_usd": -38.37
   },
   "account_value": 1885.64,
+  "buying_power": 94.84
+ },
+ "check_2026-11-20_0915_hourly": {
+  "at_utc": "2026-11-20T17:16:17Z",
+  "hand_orders_since_1616Z": "none",
+  "assigned_shares": "none",
+  "PDD": {
+   "spot": 85.06,
+   "78C": [
+    6.65,
+    8.05
+   ],
+   "84C": [
+    0.8,
+    1.61
+   ],
+   "spread_fair_est": 5.88,
+   "pct_of_width": 0.98,
+   "note": "held under v1.2.2. 78C fair about 7.08 is just above the 694.84 the agent can pay (collateral 600 + buying power 94.84). Under 84 the close cost falls under 90% of width and the agent legs: 78C first, then the 84C. SPY -2.0%: closer checks to the sellout"
+  },
+  "ANT": {
+   "spot": 84.7,
+   "unrealized_usd": -105.77
+  },
+  "account_value": 1780.04,
   "buying_power": 94.84
  }
 }
