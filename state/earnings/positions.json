@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-20T15:27:53Z",
+ "as_of": "2026-11-20T15:33:45Z",
  "account_value": 1877.84,
  "cap_total_max_loss": 1235.08,
  "execution": {
@@ -2011,5 +2011,13 @@
    "state/earnings/daytrade/2026-11-20/pilot_candidate_0728.json",
    "state/earnings/daytrade/2026-11-20/pilot_gate_0728.json"
   ]
+ },
+ "owner_msg_2026-11-20_0733": {
+  "at_utc": "2026-11-20T15:33:45Z",
+  "quote": "Brad: 'Run whatever you need to'",
+  "read_as": "carry on with the day; not his word to sell ANT (no name, and nothing today needs the buying power). ANT untouched.",
+  "pdd_rule": "spread mid 5.59 of 6.00 width = 93%: v1.2.2 holds it (no legging) and lets it expire with both calls in the money. The earlier offer to close PDD by legs after an ANT trim was wrong under v1.2.2.",
+  "pdd_fallback": "single-leg review of buy-to-close 78C at 8.00 (review only, 15:33Z): no buying-power alert; collateral back 600. A buyback costs at most collateral 600 + buying power 94.84 when the 78C is at or under about 6.90 (PDD about 84.9 or lower), and once the close cost drops under 90% of width v1.2.2 lets the agent leg. So if PDD slides toward 84, the agent buys back the 78C itself, no ANT sale needed.",
+  "timer": "10:30 PT loud-alert timer started (anything expiring today still open)"
  }
 }
