@@ -1,6 +1,6 @@
 {
- "as_of": "2026-11-20T13:55:33Z",
- "account_value": 1784.54,
+ "as_of": "2026-11-20T14:38:49Z",
+ "account_value": 1927.84,
  "cap_total_max_loss": 1235.08,
  "execution": {
   "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
@@ -143,8 +143,8 @@
   "total_max_loss_usd": 2003.77,
   "exit_reserves_usd": 50.0,
   "used_usd": 2053.77,
-  "cap_usd": 1784.54,
-  "free_usd": -269.23,
+  "cap_usd": 1927.84,
+  "free_usd": -125.93,
   "detail": "PDD call spread x1 204 + 50 (owner hold, expires today); ANT 20 shares 1,799.77 (owner hand, no stop).",
   "cap_note": "Rules v1.11: the cap is the account value (Brad, 2026-11-13: 'I want you to be able to use the entire funds in the mcp account'). cap_usd is the account value at the last check; it is not lowered below the risk already open when marks fall (the cap binds at entry).",
   "over_cap": "the owner's hand buy puts total risk above the account value (2,053.77 against 1,784.54); the agent opens nothing new while it holds"
@@ -608,7 +608,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-20T13:55:00Z",
+  "last_query_utc": "2026-11-20T14:36:50Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -1922,5 +1922,46 @@
    "FRO and INTU paper marks at the first liquid quotes"
   ],
   "pdd_close_plan": "buying back the 78C by legs needs about 650 of buying power against 94.84 after Brad's ANT buy: needs his 2-leg close in the app, or his word to sell ANT shares, or PDD holding at or above about 84.5 into the close (both calls in the money, no assignment)"
+ },
+ "check_2026-11-20_0636_exit": {
+  "at_utc": "2026-11-20T14:38:49Z",
+  "hand_orders_since_1350Z": "none (options and equities)",
+  "PDD": {
+   "spot": 86.76,
+   "78C": [
+    7.3,
+    10.05
+   ],
+   "84C": [
+    2.1,
+    4.0
+   ],
+   "72P": [
+    0.0,
+    0.01
+   ],
+   "spread_mid": 5.5,
+   "spread_fair_est": 5.64,
+   "note": "both calls in the money at 86.8; the short 78C is covered by the 84C unless PDD settles under 84"
+  },
+  "multi_leg_attempt": {
+   "at_utc": "2026-11-20T14:37:30Z",
+   "structure": "PDD 78/84 call spread close, debit 5.50",
+   "review": "passed (alert OPTION_WIDE_BID_ASK_SPREAD 4.65; collateral back 600; no approval needed)",
+   "place": "refused: multi-leg option orders are not available through this tool yet; the order was NOT placed",
+   "outcome": "a (refused): no more multi-leg tries today; the review step now accepts multi-leg, the place step still does not"
+  },
+  "pdd_plan": "owner closes in the app (2-leg, debit at the mid, about 5.50 to 5.70, never above 6.00) before 12:30 PT; if still open at expiry with both calls in the money, exercise and assignment offset at the max loss",
+  "wings": "JD 30C x3, AS 26P x1 and PDD 72P x1: zero bid, left to expire (out of the money, no auto-exercise)",
+  "paper_marks": {
+   "FRO-20261119-U1": {
+    "pnl_mid": 77.5,
+    "pnl_natural": -40.0
+   },
+   "INTU-20261119-U1": {
+    "pnl_mid": 210.0,
+    "pnl_natural": -585.0
+   }
+  }
  }
 }
