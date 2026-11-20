@@ -1,6 +1,6 @@
 {
- "as_of": "2026-11-20T17:56:29Z",
- "account_value": 1780.04,
+ "as_of": "2026-11-20T17:57:37Z",
+ "account_value": 1793.95,
  "cap_total_max_loss": 1235.08,
  "execution": {
   "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
@@ -46,13 +46,13 @@
   "From Wed 2026-11-18 (P063, rules v1.16.5): the daemon's default wait is 240 s and no agent waits longer than 240 s in one piece; the hourly run replaces a daemon that has run two hours; the reflection fires at 13:12 PT and writes the usage line (python3 scripts/earnings/usage_scan.py --date <today> --append state/earnings/usage.jsonl).",
   "Wed 2026-11-18, iteration on exit timing (told Brad 2026-11-17 evening): after TGT and TJX are closed at the 06:36 run, keep their eight leg ids and read get_option_quotes for them once at the 07:15 hourly run and once at the 08:15 run; write one live_metrics row per fly and time, record 'shadow_exit' (close cost at mid and at natural, the stock, and the difference from the real exit). Read-only, no extra wake. After 10 flies the reflection compares 06:36 with the two later marks."
  ],
- "buying_power": 94.84,
+ "buying_power": 102.75,
  "risk": {
   "total_max_loss_usd": 1799.77,
   "exit_reserves_usd": 0.0,
   "used_usd": 1799.77,
-  "cap_usd": 1780.04,
-  "free_usd": -19.73,
+  "cap_usd": 1793.95,
+  "free_usd": -5.82,
   "detail": "ANT 20 shares 1,799.77 (owner hand, no stop). PDD closed 09:55 PT.",
   "cap_note": "Rules v1.11: the cap is the account value (Brad, 2026-11-13: 'I want you to be able to use the entire funds in the mcp account'). cap_usd is the account value at the last check; it is not lowered below the risk already open when marks fall (the cap binds at entry).",
   "over_cap": "the owner's hand buy puts total risk above the account value (2,053.77 against 1,784.54); the agent opens nothing new while it holds"
@@ -1886,7 +1886,12 @@
   "hub": "refreshed 06:40 PT: book v14, model v15 (blobs f8db6c78, 5d673a4b); exporter now lists share positions on the account row. First store write stamped updated.at 14:47Z from an estimate, corrected to 14:40:30Z from the clock (L025 class)"
  },
  "alerts_2026-11-20": {
-  "PDD_below_84_50": "98e51f9d-e290-4da5-a262-b8e22456f961"
+  "PDD_below_84_50": "98e51f9d-e290-4da5-a262-b8e22456f961",
+  "paused_after_pdd_close": [
+   "98e51f9d (PDD < 84.50)",
+   "65b95f27 (PDD < 74.04)",
+   "32892f8d (PDD > 81.96)"
+  ]
  },
  "check_2026-11-20_0716_hourly": {
   "at_utc": "2026-11-20T15:17:03Z",
@@ -2089,7 +2094,8 @@
      "84C stc 6b00897e-2f21-4c93-937a-8f8ff1f6a891"
     ],
     "by": "agent (v1.2.2 exception, P071)"
-   }
+   },
+   "hub": "refreshed 09:57 PT: book v15, model v16 (blobs 7efdd666, 236e4946)"
   }
  ]
 }
