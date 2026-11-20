@@ -2125,5 +2125,21 @@
   "open": "ANT 20 sh (owner) at 86.88; worthless long wings expiring today (PDD 72P, JD 30C x3, AS 26P)",
   "PDD_after_close": "84.01 at 12:15 PT, a penny over the 84 long call 15 minutes before sellout: the 09:54 leg-out took the pin risk off the table (evidence for P071)",
   "SPY": "-3.1% (693.56): hard macro veto level"
+ },
+ "hub": {
+  "refreshed_utc": "2026-11-20T21:25:00Z",
+  "book": {
+   "version": 16,
+   "blob": "8eb5ab73d18ef286ef34eb91d03f6679"
+  },
+  "model": {
+   "version": 17,
+   "blob": "56ba82393b22918a92154bcb5fa2bec7"
+  },
+  "spots": 9,
+  "quotes": 7,
+  "bars_a": 8,
+  "bars_b": 8,
+  "note": "hub.js does not draw share positions yet: the exporter writes ANT to account[0].stock_positions, which the page does not show"
  }
 }
