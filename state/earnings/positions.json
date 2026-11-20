@@ -1965,10 +1965,10 @@
   },
   "switches": "exit switch moved to Mon 2026-11-23 07:25 PT, phone alert to Mon 08:00 PT (owner hold on PDD counts as done; his quote is on the record)",
   "daemon": "not started: nothing in the account is the agent's to act on (buying power 94.84; PDD waits on the owner's in-app close; ANT is his). Robinhood alert PDD under 84.50 plus the hourly monitor cover it; a daemon starts the moment buying power comes back",
-  "spread_scan": "started 06:42 PT (paper, writes state/earnings/daytrade/2026-11-20/scan.json)",
-  "paper_desk": "started 06:44 PT (waits for 07:15 PT itself)",
+  "spread_scan": "started about 06:39 PT (paper, writes state/earnings/daytrade/2026-11-20/scan.json)",
+  "paper_desk": "started about 06:40 PT (waits for 07:15 PT itself)",
   "pilot_timer": "07:27 PT started; the gate will refuse on buying power unless ANT is trimmed",
-  "hub": "refreshed 06:47 PT: book v13, model v14 (blobs f8db6c78, 5d673a4b); exporter now lists share positions on the account row"
+  "hub": "refreshed 06:40 PT: book v14, model v15 (blobs f8db6c78, 5d673a4b); exporter now lists share positions on the account row. First store write stamped updated.at 14:47Z from an estimate, corrected to 14:40:30Z from the clock (L025 class)"
  },
  "alerts_2026-11-20": {
   "PDD_below_84_50": "98e51f9d-e290-4da5-a262-b8e22456f961"
