@@ -1,6 +1,6 @@
 {
- "as_of": "2026-11-19T21:15:52Z",
- "account_value": 1848.61,
+ "as_of": "2026-11-20T13:55:33Z",
+ "account_value": 1784.54,
  "cap_total_max_loss": 1235.08,
  "execution": {
   "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
@@ -100,6 +100,26 @@
      "by": "owner"
     }
    }
+  },
+  {
+   "symbol": "ANT",
+   "trade_id": "ANT-20261120-H2",
+   "kind": "equity",
+   "lane": "owner_hand",
+   "structure": "long stock",
+   "quantity": 20,
+   "opened": "2026-11-20T11:57:07Z",
+   "avg_price": 89.9887,
+   "order_id": "6b003593-77bd-4fda-927d-0fd248fa38dd",
+   "max_loss_usd": 1799.77,
+   "exit_reserve_usd": 0.0,
+   "plan": {
+    "exit": "Brad's call; the agent closes it only on his word"
+   },
+   "ceiling_P044": {
+    "share": 0.962,
+    "trim_to_30pct": "sell 14 shares (keep 6, about 515)"
+   }
   }
  ],
  "blockers": [
@@ -118,16 +138,16 @@
   "From Wed 2026-11-18 (P063, rules v1.16.5): the daemon's default wait is 240 s and no agent waits longer than 240 s in one piece; the hourly run replaces a daemon that has run two hours; the reflection fires at 13:12 PT and writes the usage line (python3 scripts/earnings/usage_scan.py --date <today> --append state/earnings/usage.jsonl).",
   "Wed 2026-11-18, iteration on exit timing (told Brad 2026-11-17 evening): after TGT and TJX are closed at the 06:36 run, keep their eight leg ids and read get_option_quotes for them once at the 07:15 hourly run and once at the 08:15 run; write one live_metrics row per fly and time, record 'shadow_exit' (close cost at mid and at natural, the stock, and the difference from the real exit). Read-only, no extra wake. After 10 flies the reflection compares 06:36 with the two later marks."
  ],
- "buying_power": 1894.61,
+ "buying_power": 94.84,
  "risk": {
-  "total_max_loss_usd": 204.0,
+  "total_max_loss_usd": 2003.77,
   "exit_reserves_usd": 50.0,
-  "used_usd": 254.0,
-  "cap_usd": 1848.61,
-  "free_usd": 1594.61,
-  "detail": "PDD call spread x1 204 + 50 (owner hold to Friday).",
+  "used_usd": 2053.77,
+  "cap_usd": 1784.54,
+  "free_usd": -269.23,
+  "detail": "PDD call spread x1 204 + 50 (owner hold, expires today); ANT 20 shares 1,799.77 (owner hand, no stop).",
   "cap_note": "Rules v1.11: the cap is the account value (Brad, 2026-11-13: 'I want you to be able to use the entire funds in the mcp account'). cap_usd is the account value at the last check; it is not lowered below the risk already open when marks fall (the cap binds at entry).",
-  "exit_buying_power": "1,996.50 at 07:42 PT after the PANW close (account value 2,081.50)."
+  "over_cap": "the owner's hand buy puts total risk above the account value (2,053.77 against 1,784.54); the agent opens nothing new while it holds"
  },
  "eod_note": "2026-11-13 close: PCG x5 open (fly 0.585 at closing mids, +$33.50; about flat on the day, account +$5). No fills today. Account 1,250.91, buying power 1,040.91, risk used 224. Two losses in a row stand (LUNR, NVDA): a third pauses new entries.",
  "watch": [
@@ -588,7 +608,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-19T17:01:00Z",
+  "last_query_utc": "2026-11-20T13:55:00Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -598,7 +618,8 @@
    "6afe05ea-87b7-4e3e-95a3-65ec95019a85",
    "6aff17ba-828a-4984-8f7c-b7dfa2a1d5f1",
    "6aff2243-7a4a-4272-b710-98aa5e4446ff",
-   "6aff2a9e-c13b-4e64-b513-66f713d46478"
+   "6aff2a9e-c13b-4e64-b513-66f713d46478",
+   "6b003593-77bd-4fda-927d-0fd248fa38dd"
   ],
   "note": "P046. Every check-in queries get_option_orders and get_equity_orders with agent_initiated=false and created_at_gte=last_query_utc, then moves last_query_utc. The three ids are Brad's HD orders of 2026-11-16 (cancelled at 12.00, filled at 11.90 and 11.95)."
  },
@@ -1874,5 +1895,32 @@
  "daemon": {
   "started_utc": null,
   "note": "P069: the run that starts a daemon writes its start time here; every check-in replaces one older than two hours"
+ },
+ "check_2026-11-20_0554_preopen": {
+  "at_utc": "2026-11-20T13:55:33Z",
+  "lease": "head (taken 13:54Z)",
+  "timer": "started for 06:36 PT",
+  "premarket": {
+   "PDD": {
+    "bid_ask": [
+     84.08,
+     84.38
+    ],
+    "close": 86.0,
+    "note": "at the 84 long call: if PDD settles between 78 and 84 the short 78C is assigned and the account is short 100 shares"
+   },
+   "ANT": 85.9,
+   "JD": 25.05,
+   "AS": 29.65,
+   "FRO": 44.68,
+   "INTU": 281.0,
+   "SPY": 709.58
+  },
+  "due_today": [
+   "PDD 78/84 call spread + 72P (expiry; assignment risk under 84)",
+   "JD 30C x3 and AS 26P x1 leftover wings: out of the money, no bid, left to expire",
+   "FRO and INTU paper marks at the first liquid quotes"
+  ],
+  "pdd_close_plan": "buying back the 78C by legs needs about 650 of buying power against 94.84 after Brad's ANT buy: needs his 2-leg close in the app, or his word to sell ANT shares, or PDD holding at or above about 84.5 into the close (both calls in the money, no assignment)"
  }
 }
