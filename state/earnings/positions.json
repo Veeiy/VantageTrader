@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-20T17:57:37Z",
+ "as_of": "2026-11-20T18:30:20Z",
  "account_value": 1793.95,
  "cap_total_max_loss": 1235.08,
  "execution": {
@@ -2097,5 +2097,11 @@
    },
    "hub": "refreshed 09:57 PT: book v15, model v16 (blobs 7efdd666, 236e4946)"
   }
- ]
+ ],
+ "check_2026-11-20_1030_expiry": {
+  "at_utc": "2026-11-20T18:30:20Z",
+  "expiring_today": "PDD 72P x1 (PDD 84.77), JD 30C x3 (JD 25.20), AS 26P x1 (AS 28.58): all out of the money, zero bid, left to expire (no auto-exercise)",
+  "loud_alert": "not needed: nothing expiring today carries risk",
+  "ANT": 85.2
+ }
 }
