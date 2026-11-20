@@ -1,0 +1,47 @@
+{
+ "symbol": "IWM",
+ "spot": 271.59,
+ "prev_close": 272.94,
+ "K": 271.0,
+ "expiry": "2026-11-17",
+ "call": {
+  "bid": 1.15,
+  "ask": 1.16
+ },
+ "put": {
+  "bid": 0.56,
+  "ask": 0.57
+ },
+ "wings": {
+  "call_strike": 273.0,
+  "put_strike": 269.0,
+  "call": {
+   "bid": 0.25,
+   "ask": 0.26
+  },
+  "put": {
+   "bid": 0.16,
+   "ask": 0.17
+  }
+ },
+ "same_hours_moves": [
+  -0.004061,
+  0.006913,
+  -0.018077,
+  0.004147,
+  0.013048,
+  0.00277,
+  0.003652,
+  -0.002579,
+  0.007325,
+  -0.00447
+ ],
+ "exits_pending": "HD x2 (the owner's hand-entered earnings fly, due this morning) is still open and waiting on his decision to close or hold",
+ "account_value": 2412.47,
+ "open_risk_usd": 1215.0,
+ "buying_power": 922.47,
+ "open_intraday": 0,
+ "entries_today": 0,
+ "today": "2026-11-17",
+ "now_pt": "07:28"
+}

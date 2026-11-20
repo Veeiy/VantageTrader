@@ -1,0 +1,97 @@
+{
+ "date": "2026-11-19",
+ "as_of_utc": "2026-11-19T14:42:00Z",
+ "scanner_and_calendar": {
+  "today_pm": [
+   "INTU",
+   "ROST",
+   "ESTC",
+   "GLOB",
+   "GAP"
+  ],
+  "fri_am": [
+   "IESC",
+   "BJ",
+   "FRO"
+  ]
+ },
+ "skipped": {
+  "calendar_not_on_scanner": [
+   "KEYS",
+   "POST",
+   "ESE",
+   "BULL",
+   "BKE",
+   "BSP",
+   "MOG.A",
+   "WRD",
+   "RLX",
+   "TKOMY",
+   "ATKR"
+  ],
+  "reason": "average options volume under 1,500 or price under 10 (P016)",
+  "timing": {
+   "HUBG": "next report 2026-12-01 (scanner date stale)",
+   "DRTS": "next report 2026-12-01",
+   "HP": "reported 2026-11-18 pm",
+   "BMNR": "no earnings data"
+  }
+ },
+ "already_reported_today": [
+  "WMT",
+  "PDD",
+  "BABA",
+  "WSM",
+  "FUTU",
+  "TEN",
+  "WMG",
+  "BBWI"
+ ],
+ "status": "11:55 PT final sweep: no entry today",
+ "risk_at_scan": "used 1,199 of 1,717.87 (PDD 204+50, PANW 895+50); PANW's 945 frees on his close",
+ "entered": [],
+ "blocked": {
+  "ROST": "edge 1.027 (near-miss half), ATM spread 17.4% (the $350 tier, half = 175); the floor fly 205/225/242.5 risks 730 mid / 1,020 natural: does not fit at any width",
+  "GAP": "edge 1.25, above 1.10"
+ },
+ "dropped_spread_0944": {
+  "INTU": 0.257,
+  "ESTC": 0.366,
+  "GLOB": 0.732,
+  "IESC": 0.46,
+  "BJ": 0.63,
+  "FRO": 0.549,
+  "note": "quotes 12 minutes after the open; INTU is borderline (25.7% against 25%) and liquid: re-priced at the 09:45 PT midday scan with the others"
+ },
+ "recheck_0831": {
+  "INTU": "spread 11.4% (passes); edge 1.061 mean (near-miss half, cap 300); median 4.53% gives 0.65; floor fly 287.5/312.5/337.5 risks 750 mid / 1,000 natural: does not fit",
+  "ESTC": "spread 15.3% (the 350 tier, half = 175); edge 0.938; floor fly 65/80/95 risks 510 mid / 665 natural: does not fit",
+  "GLOB": "spread 56.4%",
+  "IESC": "spread 46.0%",
+  "BJ": "spread 52.2%",
+  "FRO": "spread 29.7%, closest; re-checked at 09:45",
+  "file": "state/earnings/scan/2026-11-19/batch_A/recheck_0830.json",
+  "asked_by": "Brad, 08:2x PT: 'Anything else to trade today?'",
+  "note": "INTU is evidence for the median-edge hypothesis (mean 7.4% carries one large move; median 4.5%): scored at Friday's open as paper"
+ },
+ "midday_0946": {
+  "FRO": "ATM spread 42.6% at 09:46 (0.55x1.00 call, 1.30x1.85 put): worse than 08:31; dropped",
+  "INTU": "no change: no fly fits the half cap (08:31)",
+  "ESTC": "no change: no fly fits the 175 cap (08:31)",
+  "ROST": "does not fit at any width",
+  "GAP": "edge 1.25",
+  "new_entries": 0,
+  "risk": "used 1,393.70 of about 2,000 (ANT 1,068.70 owner hand at full value, PDD 204+50, IWM 61+10)"
+ },
+ "final_sweep_1147": {
+  "FRO": "spread tightened to 17.0%; gate 17/17 pass (edge 0.646, cap 350, 40/45/50 at 2.05 mid, max loss 295 mid / 330 natural) but NOT entered: exit-priced average over its past moves is about zero before costs and negative after legging costs; recorded as paper FRO-20261119-U1",
+  "INTU": "no fly fits the half cap",
+  "ESTC": "no fly fits the 175 cap",
+  "ROST": "does not fit",
+  "GAP": "edge 1.25",
+  "GLOB/IESC/BJ": "spreads 46% to 56%",
+  "new_entries": 0,
+  "standby_entry_switch": "moved to Fri 2026-11-20 12:05 PT",
+  "proposal_for_reflection": "gate on the exit-priced average after costs (L015) as a check next to the edge ratio: FRO and PDD (11/18) both passed the ratio with a near-zero or negative exit-priced average"
+ }
+}

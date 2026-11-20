@@ -1,0 +1,240 @@
+{
+ "window": [
+  "2026-08-18",
+  "2026-11-16"
+ ],
+ "names": {
+  "AAPL": {
+   "cost": 16.0,
+   "all": {
+    "n": 33,
+    "mean": -6.3,
+    "median": -7.3,
+    "win_rate": 0.485,
+    "sd": 48.8,
+    "se": 8.6,
+    "t": -0.73,
+    "total": -208.0,
+    "worst": -94.0,
+    "best": 137.0
+   },
+   "gated": {
+    "n": 14,
+    "mean": -0.4,
+    "median": 10.0,
+    "win_rate": 0.571,
+    "sd": 36.1,
+    "se": 10.0,
+    "t": -0.04,
+    "total": -6.0,
+    "worst": -94.0,
+    "best": 51.0
+   },
+   "gated_mean_max_loss": 83,
+   "gated_mean_per_100_risk": -0.5
+  },
+  "AMZN": {
+   "cost": 17.0,
+   "all": {
+    "n": 34,
+    "mean": -19.4,
+    "median": -7.7,
+    "win_rate": 0.441,
+    "sd": 53.7,
+    "se": 9.3,
+    "t": -2.08,
+    "total": -661.0,
+    "worst": -118.0,
+    "best": 84.0
+   },
+   "gated": {
+    "n": 10,
+    "mean": -20.2,
+    "median": 0.0,
+    "win_rate": 0.5,
+    "sd": 49.2,
+    "se": 16.4,
+    "t": -1.23,
+    "total": -202.0,
+    "worst": -118.0,
+    "best": 42.0
+   },
+   "gated_mean_max_loss": 99,
+   "gated_mean_per_100_risk": -20.3
+  },
+  "IWM": {
+   "cost": 5.0,
+   "all": {
+    "n": 52,
+    "mean": -3.0,
+    "median": 2.7,
+    "win_rate": 0.558,
+    "sd": 23.2,
+    "se": 3.3,
+    "t": -0.94,
+    "total": -158.0,
+    "worst": -60.0,
+    "best": 49.0
+   },
+   "gated": {
+    "n": 36,
+    "mean": -0.7,
+    "median": 3.8,
+    "win_rate": 0.583,
+    "sd": 20.8,
+    "se": 3.5,
+    "t": -0.2,
+    "total": -25.0,
+    "worst": -60.0,
+    "best": 42.0
+   },
+   "gated_mean_max_loss": 36,
+   "gated_mean_per_100_risk": -1.9
+  },
+  "META": {
+   "cost": 40.0,
+   "all": {
+    "n": 33,
+    "mean": -1.6,
+    "median": 25.7,
+    "win_rate": 0.576,
+    "sd": 123.1,
+    "se": 21.8,
+    "t": -0.07,
+    "total": -53.0,
+    "worst": -262.0,
+    "best": 207.0
+   },
+   "gated": {
+    "n": 3,
+    "mean": -28.7,
+    "median": -5.7,
+    "win_rate": 0.333,
+    "sd": 76.2,
+    "se": 53.9,
+    "t": -0.53,
+    "total": -86.0,
+    "worst": -131.0,
+    "best": 51.0
+   },
+   "gated_mean_max_loss": 133,
+   "gated_mean_per_100_risk": -21.6
+  },
+  "NVDA": {
+   "cost": 8.0,
+   "all": {
+    "n": 26,
+    "mean": -9.3,
+    "median": -12.5,
+    "win_rate": 0.5,
+    "sd": 58.1,
+    "se": 11.6,
+    "t": -0.8,
+    "total": -241.0,
+    "worst": -107.0,
+    "best": 72.0
+   },
+   "gated": {
+    "n": 6,
+    "mean": -7.1,
+    "median": -12.8,
+    "win_rate": 0.5,
+    "sd": 45.2,
+    "se": 20.2,
+    "t": -0.35,
+    "total": -42.0,
+    "worst": -74.0,
+    "best": 57.0
+   },
+   "gated_mean_max_loss": 95,
+   "gated_mean_per_100_risk": -7.4
+  },
+  "QQQ": {
+   "cost": 8.0,
+   "all": {
+    "n": 55,
+    "mean": -13.1,
+    "median": -9.7,
+    "win_rate": 0.436,
+    "sd": 79.7,
+    "se": 10.9,
+    "t": -1.21,
+    "total": -720.0,
+    "worst": -147.0,
+    "best": 219.0
+   },
+   "gated": {
+    "n": 30,
+    "mean": -3.3,
+    "median": 7.7,
+    "win_rate": 0.5,
+    "sd": 65.7,
+    "se": 12.2,
+    "t": -0.27,
+    "total": -98.0,
+    "worst": -143.0,
+    "best": 153.0
+   },
+   "gated_mean_max_loss": 111,
+   "gated_mean_per_100_risk": -2.9
+  },
+  "SPY": {
+   "cost": 8.0,
+   "all": {
+    "n": 57,
+    "mean": -6.6,
+    "median": -4.0,
+    "win_rate": 0.474,
+    "sd": 55.3,
+    "se": 7.4,
+    "t": -0.89,
+    "total": -374.0,
+    "worst": -106.0,
+    "best": 168.0
+   },
+   "gated": {
+    "n": 43,
+    "mean": -8.4,
+    "median": -4.0,
+    "win_rate": 0.488,
+    "sd": 45.9,
+    "se": 7.1,
+    "t": -1.18,
+    "total": -361.0,
+    "worst": -86.0,
+    "best": 86.0
+   },
+   "gated_mean_max_loss": 77,
+   "gated_mean_per_100_risk": -10.8
+  },
+  "ALL": {
+   "cost": null,
+   "all": {
+    "n": 62,
+    "mean": -8.0,
+    "median": 0.9,
+    "win_rate": 0.5,
+    "sd": 42.2,
+    "se": 5.4,
+    "t": -1.48,
+    "total": -496.0,
+    "worst": -101.0,
+    "best": 105.0
+   },
+   "gated": {
+    "n": 56,
+    "mean": -6.2,
+    "median": 2.0,
+    "win_rate": 0.518,
+    "sd": 42.5,
+    "se": 5.7,
+    "t": -1.08,
+    "total": -346.0,
+    "worst": -131.0,
+    "best": 68.0
+   },
+   "gated_mean_max_loss": 78,
+   "gated_mean_per_100_risk": -7.4
+  }
+ }
+}

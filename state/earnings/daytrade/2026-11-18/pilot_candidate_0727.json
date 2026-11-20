@@ -1,0 +1,49 @@
+{
+ "symbol": "IWM",
+ "spot": 270.98,
+ "prev_close": 269.05,
+ "K": 271.0,
+ "expiry": "2026-11-18",
+ "call": {
+  "bid": 1.01,
+  "ask": 1.02
+ },
+ "put": {
+  "bid": 0.96,
+  "ask": 0.97
+ },
+ "wings": {
+  "call_strike": 273.0,
+  "put_strike": 269.0,
+  "call": {
+   "bid": 0.27,
+   "ask": 0.28
+  },
+  "put": {
+   "bid": 0.35,
+   "ask": 0.36
+  }
+ },
+ "same_hours_moves": [
+  0.006913,
+  -0.018077,
+  0.004147,
+  0.013048,
+  0.00277,
+  0.003652,
+  -0.002579,
+  0.007325,
+  -0.00447,
+  -0.009937
+ ],
+ "event_ahead": false,
+ "macro_veto": false,
+ "exits_pending": false,
+ "account_value": 1898.01,
+ "open_risk_usd": 0.0,
+ "buying_power": 1894.01,
+ "open_intraday": 0,
+ "entries_today": 0,
+ "today": "2026-11-18",
+ "now_pt": "07:27"
+}

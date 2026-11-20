@@ -1,0 +1,62 @@
+{
+ "date": "2026-11-20",
+ "made_utc": "2026-11-20T14:40:00Z",
+ "window": "Fri 11/20 after the close and Mon 11/23 before the open (weekend_hold true, v1.16.7)",
+ "calendar_in_window": {
+  "fri_pm": [],
+  "mon_am": [
+   "CDLR (also listed pm; not on scanner)",
+   "CVAC (unverified; not on scanner)"
+  ]
+ },
+ "scanner_hits": [
+  "KEYS",
+  "A",
+  "IESC",
+  "DAC",
+  "BJ",
+  "SMTC",
+  "ZM",
+  "FRO",
+  "HPE",
+  "SYM",
+  "HUBG",
+  "BMNR",
+  "DRTS"
+ ],
+ "analyzed": [],
+ "skipped": {
+  "IESC": "reported Fri am (already out)",
+  "BJ": "reported Fri am",
+  "FRO": "reported Fri am",
+  "HUBG": "scanner date 11/20, no Fri pm listing on the calendar",
+  "BMNR": "scanner date 11/20, no Fri pm listing on the calendar",
+  "DRTS": "scanner date 11/20, no Fri pm listing on the calendar",
+  "A": "Mon pm: outside the Friday window, Monday's run",
+  "DAC": "Mon pm",
+  "SMTC": "Mon pm",
+  "ZM": "Mon pm",
+  "HPE": "Mon pm",
+  "SYM": "Mon pm",
+  "KEYS": "Mon 11/23, timing not on the calendar (usually after the close): Monday's run confirms"
+ },
+ "non_earnings_screen": "not run: buying power 94.84 after the owner's ANT buy, so no entry is possible today; nothing to score",
+ "entries": "none: no name reports in the Friday window, and buying power 94.84 blocks any entry (total risk cap exceeded by the owner's ANT buy)",
+ "monday_preview": [
+  "A",
+  "DAC",
+  "SMTC",
+  "ZM",
+  "HPE",
+  "SYM",
+  "KEYS (timing to confirm)"
+ ],
+ "midday_0945": {
+  "at_utc": "2026-11-20T17:45:53Z",
+  "result": "no entries: no name reports in the Friday window; buying power 94.84; SPY about -2% (soft macro band, half size) at 09:15 PT"
+ },
+ "final_sweep_1146": {
+  "at_utc": "2026-11-20T19:47:01Z",
+  "result": "no entries: no name in the Friday window (Fri pm / Mon am); buying power 102.75; total risk above the account value from the owner's ANT; SPY -2.5% at 11:15 PT (soft macro band)"
+ }
+}

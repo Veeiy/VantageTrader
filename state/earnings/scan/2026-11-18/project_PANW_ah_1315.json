@@ -1,0 +1,2 @@
+{"symbol":"PANW","body":330.0,"call_wing":362.5,"put_wing":297.5,"credit":23.55,"quantity":1,"close":341.41,"spot_base":364.0,"sigma_base":0.045,
+ "spots":[350.0,357.0,364.0,371.0],"sigmas":[0.03,0.045,0.06],"slippage_usd":15.0,"wing_sigma_mult":1.1}

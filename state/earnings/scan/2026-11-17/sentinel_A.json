@@ -1,0 +1,36 @@
+{"as_of_pt":"08:18",
+ "notes":"WebFetch blocked by the session network (businesswire.com, finviz.com did not resolve), so all findings come from WebSearch result summaries; company pages were not opened directly. No hard-flag events found for any name, but the absence-of-news searches were limited (no Nov-2026 news hits at all for TGT/LOW/TJX) and cannot rule out items.",
+ "names":{
+  "TGT":{"report":{"date":"2026-11-18","time_et":"before the open (exact release time not stated in what I could see; call at 08:00 ET implies a pre-market release)","call_et":"08:00 (07:00 CT)","confirmed_by_company":true,"source":"https://stockhouse.com/news/press-releases/2026/11/17/target-corporation-to-webcast-3rd-quarter-earnings-conference-call-on-wednesday","source_note":"Target's own PR Newswire release dated 2026-11-17 (syndicated copy); corporate.target.com/Investors not fetched directly. Earnings Whispers had projected Nov 19 earlier; the company release supersedes it."},
+   "flags":["soft: Home Depot reported 2026-11-17 and fell about 1.8%, weighing on the retail group","soft: broad AI/chip-led selloff ahead of NVIDIA earnings after the close today","soft: options implied about a 9% earnings move; stock up about 65% YTD on the turnaround (TipRanks preview)"],
+   "flag_facts":[
+    {"flag":"soft: peer report","fact":"Home Depot sank 1.8% on 2026-11-17 despite profit edging past estimates.","source":"https://www.bnnbloomberg.ca/markets/dow-jones/2026/11/17/world-markets-mostly-drop-as-ai-stocks-remain-under-pressure/"},
+    {"flag":"soft: market selloff","fact":"S&P 500 down about 0.9-1.1% intraday, led by AI/chip names ahead of NVIDIA results tonight.","source":"https://finance.yahoo.com/markets/live/stock-market-today-tuesday-november-17-dow-sp-500-nasdaq-nvidia-earnings-retail-sales-143848454.html"},
+    {"flag":"soft: positioning","fact":"Options priced about a 9.1% move; TGT up about 65% YTD into the print.","source":"https://www.tipranks.com/news/target-stock-tgt-could-swing-9-on-q3-earnings-options-traders-say"}],
+   "moving_today":"No TGT-specific news found for 2026-11-17. The ~2% drop matches the HD peer reaction (-1.8%) and the broad market selloff (S&P about -1%); I could not confirm any company-specific cause.",
+   "verdict":"soft_only"},
+  "LOW":{"report":{"date":"2026-11-18","time_et":"before the open (exact release time not confirmed; call at 09:00 ET)","call_et":"09:00","confirmed_by_company":true,"source":"https://www.constructionowners.com/news/lowes-to-hold-third-quarter-2026-earnings-conference-call-on-november-18","source_note":"Reprint of Lowe's PR Newswire release dated 2026-11-11 ('Lowe's Companies, Inc. to Host Third Quarter 2026 Earnings Conference Call on Nov. 18'); ir.lowes.com not fetched directly."},
+   "flags":["soft: Home Depot (closest peer) reported today and fell about 1.8%","soft: FBM acquisition closed in Oct 2025 (already done, leverage target 2.75x by mid-2027)","soft: broad market selloff today"],
+   "flag_facts":[
+    {"flag":"soft: peer report","fact":"Home Depot sank 1.8% on 2026-11-17 despite a small profit beat.","source":"https://www.bnnbloomberg.ca/markets/dow-jones/2026/11/17/world-markets-mostly-drop-as-ai-stocks-remain-under-pressure/"},
+    {"flag":"soft: closed deal","fact":"Lowe's completed the ~$8.8B Foundation Building Materials acquisition (8-K Oct 9, 2025).","source":"https://www.boardroomalpha.com/sec/low-8-k-2025-10-09-0000060667-25-000199"}],
+   "moving_today":"Not confirmed. No LOW-specific news found for today; likely moving with HD's post-earnings drop and the market.",
+   "verdict":"soft_only"},
+  "TJX":{"report":{"date":"2026-11-18","time_et":"before 09:30","call_et":"11:00","confirmed_by_company":true,"source":"https://investor.tjx.com/news-releases/news-release-details/tjx-companies-inc-report-q3-fy27-results-november-18-2026","source_note":"TJX Business Wire release dated 2026-11-04. Note: the call (11:00 ET = 08:00 PT) is AFTER the planned 06:40 PT close and after the 07:00 PT window end; management commentary/guidance color lands outside the window."},
+   "flags":["soft: broad market selloff today","soft: HD peer report today (less direct for off-price)"],
+   "flag_facts":[
+    {"flag":"soft: market selloff","fact":"S&P 500 down about 0.9-1.1% intraday, AI/chip-led.","source":"https://finance.yahoo.com/markets/live/stock-market-today-tuesday-november-17-dow-sp-500-nasdaq-nvidia-earnings-retail-sales-143848454.html"}],
+   "moving_today":"Not confirmed; no TJX-specific news found for today.",
+   "verdict":"soft_only"}
+ },
+ "market":{"why_down":"US stocks fell for a second day on 2026-11-17 as AI and chip stocks stayed under pressure in the countdown to NVIDIA's earnings after the close (NVDA -2.9% intraday); Home Depot -1.8% added to retail weakness. A pending Anthropic IPO was also cited in coverage this week.",
+  "source":"https://www.bnnbloomberg.ca/markets/dow-jones/2026/11/17/world-markets-mostly-drop-as-ai-stocks-remain-under-pressure/",
+  "events_in_window":[
+   {"when_pt":"2026-11-17 ~08:25 (11:25 ET, one calendar lists 14:25 local/ET; time not confirmed)","what":"NY Fed President Williams fireside chat (sources disagree on day/time)","tier1":false},
+   {"when_pt":"2026-11-17 ~13:20 (after the close; exact time not confirmed)","what":"NVIDIA Q3 FY27 earnings (market-wide mover; listed for Tue Nov 17 by Newsquawk/AP, NVIDIA's own notice not confirmed)","tier1":false},
+   {"when_pt":"2026-11-18 05:30","what":"October housing starts and building permits (8:30 ET)","tier1":false},
+   {"when_pt":"2026-11-18 (pre-market)","what":"Other big-box/peer earnings same morning (TGT, LOW, TJX themselves); Walmart also reports this week, date not confirmed","tier1":false}],
+  "outside_window_note":"FOMC minutes Wed 2026-11-18 at 14:00 ET (11:00 PT) - after the window. Retail sales and NAHB index on 11/17 were already released before now (08:30/10:00 ET). Anthropic IPO cited for this week; exact pricing date not confirmed.",
+  "event_sources":["https://www.newsquawk.com/headlines/newsquawk-weekly-economic-release-16th---20th-november-2026","https://economics.td.com/domains/economics.td.com/documents/reports/bottom-line/tables/2026-11-13/upcoming.htm","https://stockhub.kr/en/insights/macro-weekly-20261116"],
+  "tier1_in_window":false}
+}

@@ -1,0 +1,293 @@
+{
+  "symbol": "TJX",
+  "timing": "am",
+  "action": "no_trade",
+  "reason": "name_risk_cap",
+  "blocked_by": [
+    "name_risk_cap"
+  ],
+  "band": "tight",
+  "tier": "core",
+  "lane": "owner_executed",
+  "prudential": [
+    "soft_news"
+  ],
+  "size_factor": 0.5,
+  "metrics": {
+    "spot": 130.99,
+    "prev_close": 131.09,
+    "K": 131.0,
+    "intraday_move": -0.000763,
+    "avg_hist_move": 0.027995,
+    "n_hist": 6,
+    "implied": {
+      "straddle_mid": 7.4,
+      "straddle_pct_raw": 0.056493,
+      "body_offset_pct": 7.6e-05,
+      "sigma": 0.070815,
+      "atm_straddle_pct": 0.056491,
+      "implied_move": 0.048017,
+      "implied_move_raw": 0.048019
+    },
+    "implied_move": 0.048017,
+    "edge_ratio": 0.583,
+    "spread_pct": {
+      "call": 0.08,
+      "put": 0.137,
+      "straddle": 0.1081,
+      "worst": 0.137
+    },
+    "regime_20d": 0.01684,
+    "regime_ratio": 0.6015
+  },
+  "gates": [
+    {
+      "n": 1,
+      "gate": "blocklist",
+      "pass": true,
+      "value": "TJX",
+      "limit": [
+        "TSLA"
+      ],
+      "note": null,
+      "reason": null
+    },
+    {
+      "n": 2,
+      "gate": "price",
+      "pass": true,
+      "value": 130.99,
+      "limit": 10.0,
+      "note": null,
+      "reason": null
+    },
+    {
+      "n": 3,
+      "gate": "history",
+      "pass": true,
+      "value": 6,
+      "limit": 4,
+      "note": null,
+      "reason": null
+    },
+    {
+      "n": 4,
+      "gate": "edge_ratio",
+      "pass": true,
+      "value": 0.583,
+      "limit": 0.85,
+      "note": "band tight",
+      "reason": null
+    },
+    {
+      "n": 5,
+      "gate": "atm_spread",
+      "pass": true,
+      "value": 0.137,
+      "limit": 0.25,
+      "note": "straddle 0.1081, call 0.0800, put 0.1370; above 0.12 the $350 max-loss cap applies",
+      "reason": null
+    },
+    {
+      "n": 6,
+      "gate": "regime",
+      "pass": true,
+      "value": 0.01684,
+      "limit": 0.034994,
+      "note": "ratio 0.6015 (must be < 1.25)",
+      "reason": null
+    },
+    {
+      "n": 7,
+      "gate": "intraday",
+      "pass": true,
+      "value": -0.000763,
+      "limit": [
+        0.05,
+        0.07
+      ],
+      "note": "within_base_limit; sector_same_direction=False",
+      "reason": null
+    },
+    {
+      "n": 8,
+      "gate": "news",
+      "pass": true,
+      "value": [
+        "soft: broad market selloff today",
+        "soft: HD peer report today (less direct for off-price)"
+      ],
+      "limit": [],
+      "note": "soft flag(s) soft: broad market selloff today,soft: HD peer report today (less direct for off-price): half size (v1.14)",
+      "reason": null
+    },
+    {
+      "n": 9,
+      "gate": "macro_veto",
+      "pass": true,
+      "value": false,
+      "limit": false,
+      "note": null,
+      "reason": null
+    },
+    {
+      "n": 10,
+      "gate": "circuit_breaker",
+      "pass": true,
+      "value": [],
+      "limit": [],
+      "note": null,
+      "reason": null
+    },
+    {
+      "n": 11,
+      "gate": "sector",
+      "pass": true,
+      "value": "apparel retail, off-price",
+      "limit": [
+        "discount stores",
+        "index fund"
+      ],
+      "note": null,
+      "reason": null
+    },
+    {
+      "n": 12,
+      "gate": "structure",
+      "pass": true,
+      "value": {
+        "credit_mid": 5.45,
+        "width": 8.0,
+        "narrow_width_over_straddle": 1.0811
+      },
+      "limit": {
+        "min_wing_over_straddle": 0.9
+      },
+      "note": null,
+      "reason": null
+    },
+    {
+      "n": 13,
+      "gate": "add_centered",
+      "pass": true,
+      "value": null,
+      "limit": null,
+      "note": "first entry on this name",
+      "reason": null
+    },
+    {
+      "n": 14,
+      "gate": "name_risk",
+      "pass": false,
+      "value": 298.6,
+      "limit": 175.0,
+      "note": "target 175.0 (phase early): planned 0 more, 0 now, 0 later; held 0 with max loss 0.0; spread above 0.12; prudential (soft_news, v1.14): 0.5 of the target and of the cap",
+      "reason": "name_risk_cap"
+    },
+    {
+      "n": 15,
+      "gate": "risk_budget",
+      "pass": true,
+      "value": 348.6,
+      "limit": 962.41,
+      "note": "cap 2375.91 - open risk 1413.5 = 962.41; needs max loss at floor + $50 reserve per contract",
+      "reason": null
+    },
+    {
+      "n": 16,
+      "gate": "exit_feasible",
+      "pass": true,
+      "value": 880.0,
+      "limit": 657.31,
+      "note": "owner-executed (rules v1.16.1): Brad places the entry and the exit as multi-leg orders, so no single-leg buyback has to fit; by legs it would need 880.0 against 657.31: the agent cannot leg this one out, the exit is his",
+      "reason": null
+    },
+    {
+      "n": 17,
+      "gate": "prudential",
+      "pass": true,
+      "value": [
+        "soft_news"
+      ],
+      "limit": 1,
+      "note": "one soft condition (soft_news): 0.5 of the name target and of the name cap",
+      "reason": null
+    }
+  ],
+  "fly": {
+    "body": 131.0,
+    "call_wing": 139.0,
+    "put_wing": 123.0,
+    "width_call": 8.0,
+    "width_put": 8.0,
+    "width": 8.0,
+    "width_over_straddle": 1.0811,
+    "narrow_width_over_straddle": 1.0811,
+    "credit_mid": 5.45,
+    "credit_natural": 4.75,
+    "credit_floor": 5.014,
+    "limit_start": 5.45,
+    "limit_floor": 5.05,
+    "tick": 0.05,
+    "limit_step": 0.1,
+    "max_loss_mid": 255.0,
+    "max_loss_natural": 325.0,
+    "max_loss_floor": 298.6,
+    "max_profit_mid": 545.0,
+    "breakevens_mid": [
+      125.55,
+      136.45
+    ],
+    "valid": true,
+    "fillable": true
+  },
+  "contracts": 0,
+  "contracts_planned": 0,
+  "contracts_later": 0,
+  "sizing": {
+    "target": 175.0,
+    "name_cap": 175.0,
+    "budget": 962.41,
+    "held_qty": 0,
+    "held_max_loss": 0.0,
+    "phase": "early",
+    "planned": 0,
+    "now": 0,
+    "later": 0,
+    "limits": {
+      "name_target_reached": 1,
+      "name_risk_cap": 0,
+      "max_loss_exceeds_cap": 2,
+      "max_quantity": 10
+    },
+    "binding": "name_risk_cap"
+  },
+  "closed_live_trades": 7,
+  "max_loss": {
+    "mid": 255.0,
+    "natural": 325.0,
+    "floor": 298.6,
+    "per_contract_floor": 298.6,
+    "name_total_floor": 298.6
+  },
+  "breakevens": [
+    125.55,
+    136.45
+  ],
+  "risk": {
+    "risk_cap": 2375.91,
+    "open_risk_usd": 1413.5,
+    "budget_before": 962.41,
+    "exit_reserve_per_contract": 50.0,
+    "spread_band_cap": 350.0,
+    "name_risk_cap": 175.0,
+    "name_target": 175.0,
+    "this_trade_usd": 0.0,
+    "budget_left": 962.41
+  },
+  "phase_source": "clock",
+  "journal": {
+    "path": "state/earnings/journal.jsonl",
+    "found": true
+  }
+}

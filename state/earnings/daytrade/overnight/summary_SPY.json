@@ -1,0 +1,140 @@
+{
+ "items": 33,
+ "usable": 29,
+ "exits": {
+  "06:30": {
+   "before_costs": {
+    "n": 4,
+    "mean": -2.3,
+    "median": 0.0,
+    "se": 44.4,
+    "t": -0.05,
+    "win_rate": 0.5,
+    "sd": 76.8,
+    "total": -9,
+    "worst": -84,
+    "best": 75
+   },
+   "after_costs": {
+    "n": 4,
+    "mean": -10.3,
+    "median": -8.0,
+    "se": 44.4,
+    "t": -0.23,
+    "win_rate": 0.5,
+    "sd": 76.8,
+    "total": -41,
+    "worst": -92,
+    "best": 67
+   }
+  },
+  "07:00": {
+   "before_costs": {
+    "n": 25,
+    "mean": 1.9,
+    "median": 19.0,
+    "se": 14.5,
+    "t": 0.13,
+    "win_rate": 0.68,
+    "sd": 71.2,
+    "total": 48,
+    "worst": -221,
+    "best": 111
+   },
+   "after_costs": {
+    "n": 25,
+    "mean": -6.1,
+    "median": 11.0,
+    "se": 14.5,
+    "t": -0.42,
+    "win_rate": 0.6,
+    "sd": 71.2,
+    "total": -152,
+    "worst": -229,
+    "best": 103
+   }
+  },
+  "07:30": {
+   "before_costs": {
+    "n": 26,
+    "mean": -21.2,
+    "median": -14.5,
+    "se": 19.4,
+    "t": -1.09,
+    "win_rate": 0.462,
+    "sd": 97.2,
+    "total": -550,
+    "worst": -210,
+    "best": 133
+   },
+   "after_costs": {
+    "n": 26,
+    "mean": -29.2,
+    "median": -22.5,
+    "se": 19.4,
+    "t": -1.5,
+    "win_rate": 0.462,
+    "sd": 97.2,
+    "total": -758,
+    "worst": -218,
+    "best": 125
+   }
+  },
+  "08:00": {
+   "before_costs": {
+    "n": 23,
+    "mean": -22.2,
+    "median": -29.0,
+    "se": 17.8,
+    "t": -1.25,
+    "win_rate": 0.478,
+    "sd": 83.6,
+    "total": -511,
+    "worst": -202,
+    "best": 111
+   },
+   "after_costs": {
+    "n": 23,
+    "mean": -30.2,
+    "median": -37.0,
+    "se": 17.8,
+    "t": -1.7,
+    "win_rate": 0.478,
+    "sd": 83.6,
+    "total": -695,
+    "worst": -210,
+    "best": 103
+   }
+  }
+ },
+ "straddle_change_to_0700": {
+  "mean": -0.033,
+  "median": 0.129
+ },
+ "by_gap": {
+  "overnight move under 0.5%": {
+   "n": 17,
+   "mean": 28.3,
+   "median": 41.0,
+   "se": 13.0,
+   "t": 2.17,
+   "win_rate": 0.824,
+   "sd": 52.1,
+   "total": 481,
+   "worst": -106,
+   "best": 111
+  },
+  "overnight move 0.5% or more": {
+   "n": 8,
+   "mean": -54.1,
+   "median": -47.5,
+   "se": 28.0,
+   "t": -1.94,
+   "win_rate": 0.375,
+   "sd": 74.0,
+   "total": -433,
+   "worst": -221,
+   "best": 21
+  }
+ }
+}

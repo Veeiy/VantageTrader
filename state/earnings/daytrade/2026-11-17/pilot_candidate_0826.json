@@ -1,0 +1,47 @@
+{
+ "symbol": "IWM",
+ "spot": 268.85,
+ "prev_close": 272.94,
+ "K": 269.0,
+ "expiry": "2026-11-17",
+ "call": {
+  "bid": 0.82,
+  "ask": 0.83
+ },
+ "put": {
+  "bid": 0.98,
+  "ask": 0.99
+ },
+ "wings": {
+  "call_strike": 271.0,
+  "put_strike": 267.0,
+  "call": {
+   "bid": 0.2,
+   "ask": 0.21
+  },
+  "put": {
+   "bid": 0.32,
+   "ask": 0.33
+  }
+ },
+ "same_hours_moves": [
+  -0.004061,
+  0.006913,
+  -0.018077,
+  0.004147,
+  0.013048,
+  0.00277,
+  0.003652,
+  -0.002579,
+  0.007325,
+  -0.00447
+ ],
+ "account_value": 2416.29,
+ "open_risk_usd": 607.5,
+ "buying_power": 1662.29,
+ "open_intraday": 0,
+ "entries_today": 0,
+ "today": "2026-11-17",
+ "now_pt": "08:26",
+ "owner_override": "Brad, 2026-11-17 about 08:23 PT: 'Probe anyway' (the entry window and the 1% pre-move check are waived for this one fly; it is kept out of the pilot's test statistics)"
+}

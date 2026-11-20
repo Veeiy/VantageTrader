@@ -1,0 +1,127 @@
+{
+ "names": {
+  "TGT": {
+   "mean": 157.0,
+   "median": 230.7,
+   "p_profit": 0.797,
+   "band_50": [
+    59.7,
+    324.6
+   ],
+   "band_80": [
+    -214.9,
+    392.8
+   ],
+   "p05": -400.8,
+   "mean_of_worst_5pct": -531.9,
+   "p_loss_over_half_max": 0.071,
+   "max_loss": 620.0,
+   "quantity": 1,
+   "credit": 11.3,
+   "close": 158.88,
+   "expected_abs_move": 0.0506,
+   "from_history": 0.0486,
+   "from_options": 0.0526,
+   "ambient_daily_vol": 0.0304,
+   "sigma_base_at_exit": 0.0648,
+   "slippage_usd_per_fly": 15.0,
+   "pnl_by_move_at_base_sigma": {
+    "-10%": -122.9,
+    "-8%": 33.0,
+    "-6%": 176.7,
+    "-4%": 287.4,
+    "-2%": 349.1,
+    "+0%": 353.9,
+    "+2%": 304.1,
+    "+4%": 210.4,
+    "+6%": 88.4,
+    "+8%": -44.9,
+    "+10%": -175.1
+   },
+   "zero_line_moves": [
+    "-8%",
+    "+6%"
+   ]
+  },
+  "TJX": {
+   "mean": 51.0,
+   "median": 85.7,
+   "p_profit": 0.752,
+   "band_50": [
+    0.9,
+    129.6
+   ],
+   "band_80": [
+    -126.8,
+    160.4
+   ],
+   "p05": -203.9,
+   "mean_of_worst_5pct": -246.9,
+   "p_loss_over_half_max": 0.098,
+   "max_loss": 260.0,
+   "quantity": 1,
+   "credit": 5.4,
+   "close": 130.05,
+   "expected_abs_move": 0.0329,
+   "from_history": 0.028,
+   "from_options": 0.0377,
+   "ambient_daily_vol": 0.0191,
+   "sigma_base_at_exit": 0.0406,
+   "slippage_usd_per_fly": 15.0,
+   "pnl_by_move_at_base_sigma": {
+    "-10%": -239.9,
+    "-8%": -191.0,
+    "-6%": -110.5,
+    "-4%": -8.2,
+    "-2%": 87.7,
+    "+0%": 142.3,
+    "+2%": 134.8,
+    "+4%": 71.6,
+    "+6%": -20.4,
+    "+8%": -111.2,
+    "+10%": -182.2
+   },
+   "zero_line_moves": [
+    "-2%",
+    "+4%"
+   ]
+  }
+ },
+ "calibration_used": {
+  "sigma_multiplier": 1.25,
+  "sigma_uncertainty_log": 0.15,
+  "wing_sigma_mult": 1.1,
+  "realized_over_implied": 0.75,
+  "blend_weight_history": 0.5,
+  "t_dof": 4,
+  "t_abs_mean": 1.0,
+  "market_sigma_close_to_exit": 0.01,
+  "draws": 100000,
+  "slippage_usd_per_fly": {
+   "penny_wide_chain_by_legs": 6.0,
+   "nickel_wide_chain_by_legs": 15.0,
+   "package_order": 15.0,
+   "wide_chain_by_legs": 40.0
+  }
+ },
+ "draws": 100000,
+ "book": {
+  "mean": 208.0,
+  "median": 272.7,
+  "p_profit": 0.809,
+  "band_50": [
+   72.8,
+   402.6
+  ],
+  "band_80": [
+   -183.7,
+   490.0
+  ],
+  "p05": -365.1,
+  "mean_of_worst_5pct": -508.8,
+  "p_loss_over_half_max": 0.034,
+  "max_loss": 880.0,
+  "p_loss_over_500": 0.022,
+  "sum_of_name_means": 208.0
+ }
+}

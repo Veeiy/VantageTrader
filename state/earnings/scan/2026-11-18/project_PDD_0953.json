@@ -1,0 +1,26 @@
+{
+ "symbol": "PDD",
+ "body": 78.0,
+ "call_wing": 84.0,
+ "put_wing": 72.0,
+ "credit": 4.0,
+ "quantity": 1,
+ "close": 77.56,
+ "spot_base": 77.56,
+ "sigma_base": 0.0292,
+ "spots": [
+  66.98,
+  78.23,
+  71.87,
+  81.13,
+  69.51,
+  76.41
+ ],
+ "sigmas": [
+  0.0239,
+  0.0292,
+  0.0359
+ ],
+ "slippage_usd": 15.0,
+ "wing_sigma_mult": 1.1
+}

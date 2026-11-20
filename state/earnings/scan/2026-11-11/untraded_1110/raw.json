@@ -1,0 +1,71 @@
+{
+ "as_of_utc": "2026-11-11T22:14:39Z",
+ "records": [
+  {
+   "symbol": "CRWV",
+   "E": "2026-11-10",
+   "X": "2026-11-11",
+   "expiry": "2026-11-13",
+   "K": 48.5,
+   "strike_step": 0.5,
+   "stock": {
+    "e_prev_close": 49.0001,
+    "entry": 48.73,
+    "x_open": 55.95,
+    "b1": 57.16,
+    "b2": 59.395
+   },
+   "legs": {
+    "kc": {
+     "id": "92130534-9a34-446f-8ecf-8b1cc68b695a",
+     "entry": 4.55,
+     "b1": 8.68,
+     "b2": 10.8,
+     "interp": []
+    },
+    "kp": {
+     "id": "0a25c685-948f-41b4-af01-5bf45f8e4323",
+     "entry": 4.25,
+     "b1": 0.23,
+     "b2": 0.11,
+     "interp": []
+    }
+   },
+   "quality": "K=48.5 (48.75 not listed, 49.0 listed; 48.5 nearer by 0.04); X 09:30-10:00 option bars for both legs are flat (O=H=L=C), not marked interpolated; b1 may be a single/stale print; stock gapped +14.8%",
+   "status": "ok"
+  },
+  {
+   "symbol": "PBR",
+   "E": "2026-11-10",
+   "X": "2026-11-11",
+   "expiry": "2026-11-13",
+   "K": 18.0,
+   "strike_step": 0.5,
+   "stock": {
+    "e_prev_close": 18.35,
+    "entry": 18.245,
+    "x_open": 17.62,
+    "b1": 17.865,
+    "b2": 18.0101
+   },
+   "legs": {
+    "kc": {
+     "id": "38831582-37bb-4e82-9ed6-700b3cedacc4",
+     "entry": 0.57,
+     "b1": 0.16,
+     "b2": 0.44,
+     "interp": []
+    },
+    "kp": {
+     "id": "8f399c75-cdc3-4331-b04d-dc8b6936b8f3",
+     "entry": 0.3,
+     "b1": 0.36,
+     "b2": 0.28,
+     "interp": []
+    }
+   },
+   "quality": "K=18.0 nearly equidistant (0.245 vs 18.5 at 0.255; 18.25 not listed); X 09:30-10:00 option bars for both legs are flat (O=H=L=C), not marked interpolated; b1 may be a single/stale print; thin option prints",
+   "status": "ok"
+  }
+ ]
+}

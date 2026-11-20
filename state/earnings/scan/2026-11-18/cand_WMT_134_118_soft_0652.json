@@ -1,0 +1,49 @@
+{
+ "symbol": "WMT",
+ "timing": "am",
+ "spot": 125.81,
+ "prev_close": 127.52,
+ "K": 126.0,
+ "call": {
+  "bid": 3.95,
+  "ask": 4.4
+ },
+ "put": {
+  "bid": 4.25,
+  "ask": 4.6
+ },
+ "hist_moves": [
+  -0.004957,
+  -0.044945,
+  0.064606,
+  -0.013821,
+  -0.072679,
+  -0.091514
+ ],
+ "regime_20d": 0.012242,
+ "flags": [
+  "soft:peer_retail_earnings_today",
+  "soft:ftc_6b_personalized_pricing_study",
+  "soft:board_appointment_nov13",
+  "soft:symbotic_6b_deal_oct30",
+  "soft:us_coo_change_jul2026"
+ ],
+ "account_value": 1898.01,
+ "open_risk_usd": 0.0,
+ "buying_power": 1894.01,
+ "tick": 0.05,
+ "wings": {
+  "call_strike": 134.0,
+  "put_strike": 118.0,
+  "call": {
+   "bid": 1.21,
+   "ask": 1.34
+  },
+  "put": {
+   "bid": 1.32,
+   "ask": 1.43
+  }
+ },
+ "sector": "discount stores, grocery",
+ "sectors_entered_today": []
+}

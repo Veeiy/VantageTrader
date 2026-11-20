@@ -1,0 +1,2121 @@
+{
+ "as_of": "2026-11-20T19:16:05Z",
+ "account_value": 1847.05,
+ "cap_total_max_loss": 1235.08,
+ "execution": {
+  "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
+  "method": "single-leg limit orders: buy both wings first, then sell the body legs. To close: buy back the shorts first, then sell the wings. Never sell a wing while its short leg is open.",
+  "approval": "single-leg orders need no customer approval while human_must_approve_trades=false",
+  "deep_itm_note": "A short leg that is deep in the money cannot be bought back alone when its price is above the buying power (NVDA 175P on 2026-11-12: $1,545 against $994 at the open). Such a spread is held at its max loss (v1.2.2) until the short leg's ask x 100 is inside the buying power, then closed short leg first, with the wing sold at once as a marketable limit."
+ },
+ "open": [
+  {
+   "symbol": "ANT",
+   "trade_id": "ANT-20261120-H2",
+   "kind": "equity",
+   "lane": "owner_hand",
+   "structure": "long stock",
+   "quantity": 20,
+   "opened": "2026-11-20T11:57:07Z",
+   "avg_price": 89.9887,
+   "order_id": "6b003593-77bd-4fda-927d-0fd248fa38dd",
+   "max_loss_usd": 1799.77,
+   "exit_reserve_usd": 0.0,
+   "plan": {
+    "exit": "Brad's call; the agent closes it only on his word"
+   },
+   "ceiling_P044": {
+    "share": 0.962,
+    "trim_to_30pct": "sell 14 shares (keep 6, about 515)"
+   }
+  }
+ ],
+ "blockers": [
+  "2026-11-10: Robinhood rejects agent-placed multi-leg orders. Workaround in use: single-leg legging (see execution).",
+  "2026-11-12 06:41 PT: retried a multi-leg order (4-leg close of the NVDA fly). Still refused: 'this account requires the customer to approve agent-placed trades, and a multi-leg strategy cannot be sent for approval yet \u2014 the order was NOT placed; place it in the Robinhood app, or place one-leg orders instead'. review_option_order accepts the same order; only placement is blocked.",
+  "2026-11-13 07:48 PT (Friday retry): a 4-leg closing order for PCG x5 at a 0.33 net debit (the take-profit level). review_option_order: no alerts, customer_approval_required false, fees $0.80. place_option_order: refused with the same text as on 11/12 ('a multi-leg strategy cannot be sent for approval yet'). get_trade_approval_setting shows human_must_approve_trades false since 2026-11-10, so this is not a switch Brad can flip in the app: it is a product limit on agent multi-leg orders (P005). Nothing was placed."
+ ],
+ "pending": [
+  "Tue 2026-11-17, Wed 11-18, Fri 11-20, then Fridays: at about 06:50 PT start the spread scan agent (docs/earnings/prompts/brief_daytrade_scan.md; universe state/earnings/daytrade/universe/universe_2026-11-16.json; at most 40 names). It is paper: it never changes the day's pick by itself.",
+  "Sat 2026-11-21 research day (docs/earnings/PLAN.md section 9; the Saturday task trig_01KLhgm9Zmpwv2gFcbHkeFAv, 09:00 PT): the overnight test at about 64 nights each for SPY, QQQ and IWM (pass bar fixed 2026-11-16: +$10 a fly after costs and a per-night t of 2 at the 07:00 PT buy-back, else dropped), the replay of the week's earnings reports, the week's spread scans and probe fills. No orders. Then: the same-day probe's review after 10 trades.",
+  "Every reflection from 2026-11-17: write the day's round_trip_cost values (live-metrics) into the reflection; on Fridays put the averages on the scorecard (P055). Shrink rule: 10 closed earnings flies averaging above 0.09 halve the earnings sizes until fixed (PLAN.md section 3A).",
+  "Wed 2026-11-18, the 06:36 PT run: the agent closes TJX and TGT by legs (docs/earnings/EXECUTION.md ladder; buy back both short legs of a fly together, the wings after); pause the four alerts (TGT 4f54dc85..., e16d70ed...; TJX 1deae373..., 0c890302...); score the pre-report projections of 2026-11-17 12:16 PT and the LOW paper fly; mark the NVDA early-entry paper fly.",
+  "Wed 2026-11-18 or Thu 2026-11-19, at the reflection: wire Friday earnings entries live at half size (P039, approved 2026-11-16) before Fri 2026-11-20, and tell Brad when it is in.",
+  "Wed 2026-11-18 reflection: the hub's 'Today' tile counts a carried-over fly's whole open P/L; change it to the day's change (the prior close of each leg is in the quote payload), in scripts/earnings/hub/page/hub.js and the stored files/hub.js.",
+  "From 2026-11-18: every exit records bp_at_exit, dearer_short_ask and the step of EXECUTION.md section 5 that was used (P062); every leg a legs_detail row (P059).",
+  "From Wed 2026-11-18 (P063, rules v1.16.5): the daemon's default wait is 240 s and no agent waits longer than 240 s in one piece; the hourly run replaces a daemon that has run two hours; the reflection fires at 13:12 PT and writes the usage line (python3 scripts/earnings/usage_scan.py --date <today> --append state/earnings/usage.jsonl).",
+  "Wed 2026-11-18, iteration on exit timing (told Brad 2026-11-17 evening): after TGT and TJX are closed at the 06:36 run, keep their eight leg ids and read get_option_quotes for them once at the 07:15 hourly run and once at the 08:15 run; write one live_metrics row per fly and time, record 'shadow_exit' (close cost at mid and at natural, the stock, and the difference from the real exit). Read-only, no extra wake. After 10 flies the reflection compares 06:36 with the two later marks."
+ ],
+ "buying_power": 102.75,
+ "risk": {
+  "total_max_loss_usd": 1799.77,
+  "exit_reserves_usd": 0.0,
+  "used_usd": 1799.77,
+  "cap_usd": 1847.05,
+  "free_usd": 47.28,
+  "detail": "ANT 20 shares 1,799.77 (owner hand, no stop). PDD closed 09:55 PT.",
+  "cap_note": "Rules v1.11: the cap is the account value (Brad, 2026-11-13: 'I want you to be able to use the entire funds in the mcp account'). cap_usd is the account value at the last check; it is not lowered below the risk already open when marks fall (the cap binds at entry).",
+  "over_cap": "the owner's hand buy puts total risk above the account value (2,053.77 against 1,784.54); the agent opens nothing new while it holds"
+ },
+ "eod_note": "2026-11-13 close: PCG x5 open (fly 0.585 at closing mids, +$33.50; about flat on the day, account +$5). No fills today. Account 1,250.91, buying power 1,040.91, risk used 224. Two losses in a row stand (LUNR, NVDA): a third pauses new entries.",
+ "watch": [
+  {
+   "symbol": "NVDA",
+   "kind": "earnings",
+   "report": "2026-11-17 after close",
+   "owner_decision": "2026-11-10 Brad: 'We can trade nvdia.' The news veto is waived for the board investigation (announced 11/08) and the House briefing request (proposed 11/18). All other gates apply. See RULES_CHANGELOG.",
+   "plan": "Enter Tue 11/17 in the final window (11:30 to 12:35 PT), iron fly at the strike nearest spot. Expiry: Nov 18 is the first after the report (NVDA lists Mon, Wed and Fri); use it unless its at-the-money spread is above 12%, then Nov 20. Wings per v1.6 (nearest 1.5x the entry straddle, stepped in until max loss at the credit floor is $350 or less); contracts per v1.7 (the gate). Exit Wed 11/18 at the 06:45 PT check-in; a Nov 18 fly expires that day, so it must be flat by 11:00 PT. At the entry and again at the exit, mark the paper fly NVDA-EARLY-20261111-P1 (167.5/177.5/187.5, Nov 18) in the same minute.",
+   "snapshot_2026-11-10_close": {
+    "spot": 168.79,
+    "after_hours": 170.44,
+    "nov13_170_straddle": 8.98,
+    "nov13_iv": [
+     0.7,
+     0.8
+    ],
+    "nov20_170_straddle": 18.5,
+    "nov20_iv": [
+     0.81,
+     0.86
+    ],
+    "nov20_fly_160_170_180": {
+     "credit_mid": 8.25,
+     "max_loss_usd": 175,
+     "breakevens": [
+      161.75,
+      178.25
+     ]
+    },
+    "nov20_fly_165_170_175": {
+     "credit_mid": 4.58,
+     "max_loss_usd": 42,
+     "breakevens": [
+      165.42,
+      174.58
+     ]
+    },
+    "implied_earnings_move_est": 0.08,
+    "hist_abs_moves_pct": [
+     3.25,
+     0.79,
+     3.15,
+     5.46,
+     1.77,
+     8.74
+    ],
+    "hist_avg_pct": 3.86
+   },
+   "nov20_option_ids": {
+    "170C": "f5d34fd0-9b1c-48a9-8ccc-acdfe05c3492",
+    "170P": "4a9c9837-6049-4c9a-b49d-b6f43e1e9acb",
+    "160P": "8df7e042-7d0e-4858-bae1-0479c52fe4eb",
+    "165P": "afe70a05-327b-4b6a-8208-19675c1b80e7",
+    "175C": "376aa83a-04a9-4149-9358-04207fa963ed",
+    "180C": "a3445353-ea9b-4d67-850c-704938381d56"
+   },
+   "tick": "0.01 below $3.00, 0.05 above",
+   "snapshot_2026-11-11_1053PT": {
+    "spot": 177.15,
+    "intraday_pct": 0.0489,
+    "iv_rank": 0.739,
+    "front_iv": 0.6315,
+    "hv10": 0.5926,
+    "straddle_177_5": {
+     "nov13": 6.9,
+     "nov16": 8.725,
+     "nov18": 16.375,
+     "nov20": 17.4
+    },
+    "implied_earnings_move_abs": 0.073,
+    "hist_avg_pct": 3.86,
+    "edge_ratio_est": 0.61,
+    "nov18_option_ids": {
+     "177.5C": "c980db41-d14e-4867-a14e-a51d12f516a5",
+     "177.5P": "292ac598-c349-4a94-ba24-7be700d31966",
+     "187.5C": "04390ae4-72bc-482a-a5bd-7c7d3a56899f",
+     "167.5P": "b1366364-9ab1-417a-a2e0-192bbc3cf040"
+    },
+    "owner_request": "Brad 10:46 PT: 'lets enter on some nvdia for the iv crush/theta decay. theres high iv with it rn'. Not entered: the v1.2 screen fails and the earnings premium pays only after the report. Two paper flies recorded (NVDA-PRE-20261111-P1, NVDA-EARLY-20261111-P1). Offered him a one-word override for the Nov 13 fly."
+   },
+   "hold_2026-11-11": "ON HOLD: the reports of 2026-11-11 (the board preparing to remove the CEO) are a new development of a different kind. Per the owner decision of 2026-11-10: tell Brad and do not trade the 11/17 report without his reply."
+  },
+  {
+   "symbol": "Thursday 2026-11-19",
+   "note": "Reporters whose 11/20 expiry is the exit day (hypothesis H010, proposal P038). After the close Thu: ROST, GAP, INTU, KEYS, ESTC, GLOB, POST, HP, BULL, ESE. Before the open Fri: BJ, BKE, FRO, WRD, MOG.A, BSP (RLX is under $10). Likely under $55: GAP, HP, BULL, FRO, WRD, BKE. The Thursday scan confirms prices, weeklies and timing."
+  }
+ ],
+ "alerts_note": "Brad, 2026-11-11: 'alerts on'. Every open position carries two Robinhood price alerts at its breakevens. Create them at entry; when the position closes, pause them with update_alert(enabled=false). Never delete without Brad's yes. docs/earnings/DAEMON.md 'Breakeven alerts'.",
+ "closed_2026-11-11": [
+  {
+   "symbol": "RGTI",
+   "structure": "iron fly 9/12/15",
+   "quantity": 1,
+   "net_credit": 1.28,
+   "edge_ratio": 0.776,
+   "closed": "2026-11-11T14:50:02Z",
+   "close_debit": 0.99,
+   "pnl_usd": 28.76,
+   "exit_spot": 11.68,
+   "realized_move": -0.0387,
+   "implied_move": 0.099,
+   "alerts": [
+    {
+     "alert_id": "23d4d5d5-a8cf-4616-b4c6-6fe032b349db",
+     "condition": "price_below",
+     "threshold": 10.72,
+     "enabled": false,
+     "paused": "2026-11-11T14:51Z"
+    },
+    {
+     "alert_id": "174ad704-bf22-4e90-b608-dce68d6922bf",
+     "condition": "price_above",
+     "threshold": 13.28,
+     "enabled": false,
+     "paused": "2026-11-11T14:51Z"
+    }
+   ]
+  },
+  {
+   "symbol": "FLY",
+   "structure": "iron fly 19/23.5/27 (uneven wings: call 3.5 wide, put 4.5 wide)",
+   "quantity": 1,
+   "net_credit": 2.65,
+   "edge_ratio": 0.605,
+   "closed": "2026-11-11T14:48:43Z",
+   "close_debit": 2.2,
+   "pnl_usd": 44.72,
+   "exit_spot": 25.18,
+   "realized_move": 0.0624,
+   "implied_move": 0.131,
+   "alerts": [
+    {
+     "alert_id": "1309f081-a2fd-4c1c-961e-812e5e936c22",
+     "condition": "price_below",
+     "threshold": 20.85,
+     "enabled": false,
+     "paused": "2026-11-11T14:51Z"
+    },
+    {
+     "alert_id": "9a3e5ae2-5843-48d1-ba66-ebc78e513f87",
+     "condition": "price_above",
+     "threshold": 26.15,
+     "enabled": false,
+     "paused": "2026-11-11T14:51Z"
+    }
+   ]
+  }
+ ],
+ "closed_2026-11-12": [
+  {
+   "symbol": "LUNR",
+   "structure": "iron flies on the 12.5 body: 1 x 11/12.5/14 and 2 x 10/12.5/15",
+   "quantity": 3,
+   "net_credit": 1.2733,
+   "total_credit": 3.82,
+   "edge_ratio": 0.6924,
+   "closed": "2026-11-12T14:44:18Z",
+   "close_debit": 1.36,
+   "close_debit_total": 4.08,
+   "pnl_usd": -26.88,
+   "exit_spot": 13.875,
+   "realized_move": 0.1392,
+   "implied_move": 0.1134,
+   "alerts": [
+    {
+     "alert_id": "138e5a52-10a1-45af-8139-06b9ca54ccd1",
+     "condition": "price_below",
+     "threshold": 11.23,
+     "enabled": false,
+     "paused": "2026-11-12T14:45Z"
+    },
+    {
+     "alert_id": "c2bff4ca-4fd9-4c44-9ab6-89f42eb9abf7",
+     "condition": "price_above",
+     "threshold": 13.77,
+     "enabled": false,
+     "paused": "2026-11-12T14:45Z"
+    }
+   ]
+  },
+  {
+   "symbol": "NVDA",
+   "structure": "iron fly 170/175/180",
+   "quantity": 1,
+   "net_credit": 3.84,
+   "owner_directed": true,
+   "closed": "2026-11-12T16:10:35Z",
+   "close_debit": 4.54,
+   "pnl_usd": -70.32,
+   "exit_spot": 166.55,
+   "realized_move": -0.0413,
+   "exit_reason": "cut, thesis broken (CEO resigned); held at max loss until the 175 put could be bought back",
+   "status_2026-11-12": {
+    "at": "2026-11-12T14:45Z",
+    "spot": 160.0,
+    "spot_open": 150.96,
+    "close_cost_mid": 4.65,
+    "close_cost_natural": 4.86,
+    "mark_pnl_usd": -81,
+    "max_loss_usd": 116,
+    "no_assignment": "06:38 PT: no NVDA shares in the account, all four legs intact.",
+    "why_not_cut": [
+     "Robinhood refused the 4-leg closing order (4.65 debit) at 06:41 PT: 'this account requires the customer to approve agent-placed trades, and a multi-leg strategy cannot be sent for approval yet'.",
+     "Single legs do not work here: buying back the 175 put costs about $1,545 and buying power is $994 (the collateral only comes back once the 175 call is closed too, and that still leaves it about $80 short).",
+     "Even with the buying power, legging out means holding the long 170 put alone (worth about $1,100, $80 per $1 in NVDA) between the two orders, in a stock moving $1 a minute. That adds more risk than the cut removes.",
+     "The position is already near its max loss: a close at the mid saves about $35 against the worst case and gives up the roughly 1 in 8 chance that NVDA is back inside 171.16 to 178.84 on Friday."
+    ],
+    "decision": "HOLD as a max-loss position ($116, defined). Brad was told at 06:50 PT and can close it himself in the app with one 4-leg order (limit about 4.70 debit or better).",
+    "rules_until_expiry": [
+     "Every check-in: get_equity_positions first. If NVDA shares appeared (early assignment of the 175 put): tell Brad at once, then sell the shares with a limit order and sell the 170 put right after (or exercise the 170 put); the loss stays at $116.",
+     "REVISED 07:20 PT (the 06:50 text said 'above 168 and total close cost at or under 4.00'; that held a thesis-broken position longer than rules v1.2 allow). Cut with single legs as soon as BOTH hold: (a) the 175 put's ask x 100 is at or under the buying power, so it can be bought back FIRST with no reliance on collateral coming back (about NVDA 165.5 to 166 with $994), and (b) the close cost at mid is at or under 4.40 (under the 90% line of v1.2.2 with room for the fills). Sequence, every leg reviewed before the first order: buy to close 175P, sell 170P at once, buy to close 175C, sell 180C. Do not buy back the 175 call first: if the put buyback were then refused, the worst case would grow from $116 to about $157.",
+     "Friday 11/13: if NVDA is under 165 at 10:30 PT, leave the fly to expire (both puts in the money: exercise and assignment offset, loss $116). If NVDA is between 165 and 185, close by 11:00 PT with single legs if the buying power allows, else tell Brad to close it in the app before 11:00 PT.",
+     "Do not add, roll or re-center. No new NVDA trade without Brad's reply (owner decision of 2026-11-10)."
+    ],
+    "check_0717": {
+     "at": "2026-11-12T15:17Z",
+     "spot": 163.4,
+     "legs": {
+      "175C": [
+       0.7,
+       0.71
+      ],
+      "175P": [
+       12.2,
+       12.5
+      ],
+      "180C": [
+       0.3,
+       0.31
+      ],
+      "170P": [
+       8.15,
+       8.3
+      ]
+     },
+     "close_cost_mid": 4.525,
+     "close_cost_natural": 4.76,
+     "mark_pnl_usd": -68.5,
+     "pct_of_width": 0.905,
+     "decision": "hold (at or above 90% of the width; the 175 put costs $1,250 against $994 of buying power)",
+     "shares": 0
+    },
+    "check_0731": {
+     "at": "2026-11-12T15:32Z",
+     "daemon_trigger": "nvda_cut_zone at 15:31:14Z (stock 164.535, close cost 4.435)",
+     "requote_153145": {
+      "spot": 164.36,
+      "legs": {
+       "175C": [
+        0.86,
+        0.88
+       ],
+       "175P": [
+        11.2,
+        11.3
+       ],
+       "180C": [
+        0.39,
+        0.4
+       ],
+       "170P": [
+        7.2,
+        7.3
+       ]
+      },
+      "close_cost_mid": 4.475,
+      "close_cost_natural": 4.59
+     },
+     "requote_153201": {
+      "legs": {
+       "175C": [
+        0.72,
+        0.73
+       ],
+       "175P": [
+        11.95,
+        12.15
+       ],
+       "180C": [
+        0.32,
+        0.34
+       ],
+       "170P": [
+        7.85,
+        7.9
+       ]
+      },
+      "close_cost_mid": 4.57
+     },
+     "buying_power": 995.1,
+     "decision": "hold: the close cost was not at or under 4.40 on either re-quote, and the 175 put's ask (11.30, then 12.15) is above the buying power",
+     "reviews": "175P and 175C buybacks reviewed clean. The 170P and 180C sales show collateral alerts while their shorts are open (expected: selling a wing first would leave the short naked).",
+     "note": "When the close cost is at or under 4.40 on my own quote: place the 175P buyback first. If the broker refuses it for buying power, nothing has changed; wait until the 175P ask x 100 is at or under the buying power."
+    }
+   },
+   "alerts": [
+    {
+     "alert_id": "60b2bbcf-c4aa-4575-945d-281d3bad9c7a",
+     "condition": "price_below",
+     "threshold": 171.16,
+     "enabled": false,
+     "paused": "2026-11-12T16:11Z"
+    },
+    {
+     "alert_id": "22b10cec-dc68-4da2-9059-1d0079883b80",
+     "condition": "price_above",
+     "threshold": 178.84,
+     "enabled": false,
+     "paused": "2026-11-12T16:11Z"
+    }
+   ]
+  }
+ ],
+ "morning_note_2026-11-12": "06:41-06:44 PT: LUNR x3 closed for -$26.88. 08:09-08:10 PT: NVDA closed for -$70.32 (cut once the 175 put could be bought back first). Realized today -$97.20; this week -$34.04. Open: PCG x5. Standby exit switch and plain alert moved to Fri 11/13.",
+ "streak_note": "2026-11-16: PCG closed +$19.37, so the run of two losses (LUNR, NVDA) is over. Closed trades: 5 (3 wins, 2 losses) plus one trim.",
+ "morning_note_2026-11-13": "The 06:45 PT task did not fire (still listed as due at 14:45Z when checked at 07:29 and 07:34 PT). The 07:15 hourly check arrived at 07:29 PT and ran the morning routine: head lease taken 07:31 PT, positions checked (PCG x5 and five expiring leftovers, no shares, no orders), nothing was due to close, exit switch and plain alert moved to Mon 2026-11-16 at 07:34 PT (the 07:25 switch had not fired either). One monitor agent for PCG and the leftovers and the paper desk started at 07:38 PT (the desk about 25 minutes late). Heal proposal due in today's reflection.",
+ "cap_total_max_loss_note": "Rules v1.11: the account value. Brad, 2026-11-13 07:53 PT: 'I want you to be able to use the entire funds in the mcp account. I allocated funds specifically for you to trade with.' Before: min($1,000, 0.93 x account value).",
+ "morning_note_2026-11-16": "Pre-open 05:52 PT wake fired at 05:54. Lease: head. Timer armed for 06:36 PT. The five expired wings are gone and no shares appeared: the leftover block is deleted. Open: PCG x5 only. 06:36 PT: the in-session timer fired on the second (P031). 06:38 to 06:40 PT: PCG closed for +$19.37. Switches moved to Tue 07:25 and 08:00 PT. Paper desk and the vol-analyst started. Account flat: $1,235.08.",
+ "closed_2026-11-16": [
+  {
+   "symbol": "PCG",
+   "structure": "iron fly 12/13/14 exp 2026-11-20",
+   "kind": "non_earnings",
+   "quantity": 5,
+   "net_credit": 0.652,
+   "closed": "2026-11-16T14:40:36Z",
+   "close_debit": 0.61,
+   "pnl_usd": 19.37,
+   "exit_spot": 13.5,
+   "realized_move": 0.0204,
+   "reason": "take profit by judgment: off-centre toward the upper breakeven, implied volatility rising, the dated driver passed without the event",
+   "alerts": [
+    {
+     "alert_id": "faf3b899-0570-4af7-b00c-868ee5eaae99",
+     "enabled": false,
+     "paused": "2026-11-16T14:41Z"
+    },
+    {
+     "alert_id": "88d6e15b-601e-4561-be34-6d940fb3b744",
+     "enabled": false,
+     "paused": "2026-11-16T14:41Z"
+    }
+   ],
+   "after_exit": {
+    "at": "2026-11-16T15:20:07Z",
+    "stock": 13.68,
+    "note": "40 minutes after the exit at 13.50 the stock is above the old upper breakeven (13.65)."
+   }
+  }
+ ],
+ "check_2026-11-16_0720": "Flat: no option positions, no shares, no working orders. Paper desk file exists (entries at 07:15 PT).",
+ "check_2026-11-16_0834": {
+  "at": "2026-11-16T16:36:45Z",
+  "account_value": 1222.9,
+  "buying_power": 1099.9,
+  "note": "AS fly opened 08:30 to 08:33 PT. Account value reads 1222.90 because the four legs are marked at wide quotes (options value -227 against 215 collected); nothing has been lost. Alerts set at 27.35 and 31.65."
+ },
+ "manual_tickets_2026-11-16": {
+  "at": "2026-11-16T16:41:13Z",
+  "quotes_as_of_pt": "08:40",
+  "JD": {
+   "structure": "iron fly 25.5/28/30.5 exp 2026-11-20",
+   "spot": 27.77,
+   "credit_mid": 1.45,
+   "credit_natural": 1.38,
+   "limit_floor": 1.37,
+   "max_loss_usd": [
+    105,
+    113
+   ],
+   "exit_time": {
+    "zero_line": [
+     26.57,
+     29.48
+    ],
+    "avg_past_moves_after_slippage_usd": 18.9,
+    "winners": "5/6",
+    "worst_past_usd": -51.4
+   },
+   "note": "blocked for the agent by the news flag (ceconomy_acquisition_closed); the entry is Brad's override if he takes it"
+  },
+  "HD": {
+   "structure": "iron fly 330/347.5/365 exp 2026-11-20",
+   "spot": 347.24,
+   "credit_mid": 11.855,
+   "credit_natural": 10.85,
+   "limit_floor": 10.9,
+   "max_loss_usd": [
+    565,
+    660
+   ],
+   "edge_ratio": 0.53,
+   "exit_time": {
+    "zero_line": [
+     334.94,
+     360.95
+    ],
+    "avg_past_moves_after_slippage_usd": 48.9,
+    "winners": "5/6",
+    "worst_past_usd": -248.5,
+    "sigma_base": 0.0423
+   },
+   "news_quick_check": "report date confirmed (call 09:00 ET on 2026-11-17, company announcement of 2026-11-03); no new guidance or deal found this week; not the full sentinel pass",
+   "note": "over the 350 name cap and not exitable by legs; the agent advised against it"
+  }
+ },
+ "check_2026-11-16_0915": {
+  "at": "2026-11-16T17:16:07Z",
+  "positions": "AS fly only (four legs, quantities as entered); no shares; no open orders; nothing entered by hand",
+  "agents": "position monitor and paper desk both running",
+  "market": {
+   "SPY_pct": -0.0131,
+   "AS_pct": -0.0094,
+   "DECK_pct": -0.0346,
+   "ONON_pct": -0.0269
+  }
+ },
+ "check_2026-11-16_1016": {
+  "at": "2026-11-16T18:16:14Z",
+  "positions": "AS fly only; no shares; no open orders; nothing entered by hand",
+  "SPY_pct": -0.0162,
+  "agents": "position monitor and paper desk both running"
+ },
+ "check_2026-11-16_1115": {
+  "at": "2026-11-16T19:15:45Z",
+  "positions": "AS fly only; no shares; no open orders; nothing entered by hand",
+  "macro": {
+   "SPY_pct": -0.0183,
+   "vix": 23.28,
+   "vix_change": 0.206,
+   "veto": true,
+   "note": "VIX is up more than 15% on the day: the macro veto is on, so no new entries unless it is back under 22.20 at the 11:46 sweep"
+  },
+  "agents": "position monitor and paper desk both running"
+ },
+ "check_2026-11-16_1147": {
+  "at": "2026-11-16T19:48:29Z",
+  "final_sweep": "no new entry (macro veto: SPY -2.14%, VIX 24.48, +26.8% on the day)",
+  "account_value": 1257.9,
+  "buying_power": 1099.9,
+  "standby_entry_switch": "moved to 2026-11-17 12:05 PT"
+ },
+ "check_2026-11-16_1216": {
+  "at": "2026-11-16T20:16:36Z",
+  "positions": "AS fly only; no shares; no open orders; nothing entered by hand",
+  "macro": {
+   "SPY_pct": -0.0208,
+   "vix": 24.08,
+   "vix_change": 0.248
+  },
+  "paper_desk": "day 4 imported: 10 flies, 4 wins, +97 at mid, -116 natural; running 4 sessions, 26 flies, 12 wins, +450 mid, -92 natural"
+ },
+ "check_2026-11-16_1245": {
+  "at": "2026-11-16T20:45:03Z",
+  "account_value": 2029.36,
+  "buying_power": 1123.36,
+  "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
+ },
+ "hand_order_watch": {
+  "last_query_utc": "2026-11-20T19:15:55Z",
+  "known_hand_order_ids": [
+   "6afb68fd-21cf-47fd-a743-31dc2466a80c",
+   "6afb6910-9fcc-44e9-8235-050faabbdeac",
+   "6afb6d9b-5459-4ce5-bf8b-1c463f58b230",
+   "6afc7963-fd94-44c7-adbb-bc9c76097bc2",
+   "6afc7fcd-43f5-4830-8c2e-aaaf9c0b4d1a",
+   "6afe05ea-87b7-4e3e-95a3-65ec95019a85",
+   "6aff17ba-828a-4984-8f7c-b7dfa2a1d5f1",
+   "6aff2243-7a4a-4272-b710-98aa5e4446ff",
+   "6aff2a9e-c13b-4e64-b513-66f713d46478",
+   "6b003593-77bd-4fda-927d-0fd248fa38dd"
+  ],
+  "note": "P046. Every check-in queries get_option_orders and get_equity_orders with agent_initiated=false and created_at_gte=last_query_utc, then moves last_query_utc. The three ids are Brad's HD orders of 2026-11-16 (cancelled at 12.00, filled at 11.90 and 11.95)."
+ },
+ "same_day_pilot": {
+  "rules": "v1.15.1",
+  "status": "live from 2026-11-17 as probes",
+  "tier": "probe",
+  "names": [
+   "IWM"
+  ],
+  "limits": {
+   "contracts": 1,
+   "entries_a_day": 1,
+   "max_loss_usd": 150,
+   "pilot_loss_limit_usd": 500,
+   "losses_in_a_row": 6,
+   "entry_window_pt": [
+    "07:25",
+    "07:50"
+   ],
+   "flat_by_pt": "11:00"
+  },
+  "time_box": "20 probes or 2026-12-18",
+  "closed_probes": 0,
+  "pnl_usd": 0.0,
+  "off_switch": "Brad says \"day trades paper\": intraday_live_enabled false",
+  "log": [
+   {
+    "date": "2026-11-17",
+    "at_pt": "07:28",
+    "decision": "no_trade",
+    "reason": "morning_exit_pending",
+    "blocked_by": [
+     "morning_exit_pending"
+    ],
+    "note": "The only block: HD x2 (the owner's hand-entered fly) is still open and waiting on his decision. Every other gate passed: IWM 271.59 (-0.49%), body 271, wings 269/273, straddle 1.72 (0.63% of spot), spread 1.2%, premium ratio 0.94, off-center 0.34, credit 1.30 at mid and 1.28 at the floor, max loss 72, probe tier. Brad was pushed at 07:29 PT: if HD is closed or he calls it a deliberate hold before 07:50 PT, the gate runs once more with fresh quotes; after 07:50 there is no pilot trade today.",
+    "files": [
+     "state/earnings/daytrade/2026-11-17/pilot_candidate_0728.json",
+     "state/earnings/daytrade/2026-11-17/pilot_gate_0728.json"
+    ],
+    "final": "07:50 PT passed with HD still open: no pilot trade on 2026-11-17."
+   },
+   {
+    "date": "2026-11-17",
+    "at_pt": "08:26",
+    "decision": "entered_on_owner_override",
+    "outside_test_data": true,
+    "waived": [
+     "outside_entry_window",
+     "pre_entry_move_too_large"
+    ],
+    "brad": "about 08:23 PT: 'Probe anyway'",
+    "agent_view_before": "would not: past the window, IWM -1.5% on the day; the 90-day replay has gap days at -20 a fly",
+    "fills": {
+     "271C": 0.21,
+     "267P": 0.28,
+     "269P": 0.91,
+     "269C": 0.72
+    },
+    "net_credit": 1.14,
+    "max_loss_usd": 86.0,
+    "breakevens": [
+     267.86,
+     270.14
+    ],
+    "entry_done_pt": "08:33:04",
+    "credit_under_floor_by": 0.12,
+    "why_under_floor": "the fly was one-sided for 187 seconds while IWM fell 0.40; the agent finished it at the market instead of unwinding",
+    "files": [
+     "state/earnings/daytrade/2026-11-17/pilot_candidate_0826.json",
+     "state/earnings/daytrade/2026-11-17/pilot_gate_0826.json"
+    ]
+   },
+   {
+    "date": "2026-11-17",
+    "at_pt": "10:58",
+    "decision": "exit_time_stop",
+    "outside_test_data": true,
+    "fills": {
+     "269C": 0.97,
+     "269P": 0.28,
+     "271C": 0.1,
+     "267P": 0.03
+    },
+    "close_cost": 1.12,
+    "pnl_usd": 1.68,
+    "note": "first same-day round trip at the broker; no order warning; closing took 34 seconds, the shorts were flat two seconds apart"
+   }
+  ],
+  "iwm_chain_id": "72362eb7-bc7c-4d10-9be4-48a53fffd101",
+  "note": "IWM lists an expiry every trading day (checked 2026-11-16 evening: 2026-11-17 is listed, penny ticks). Robinhood sells out same-day positions 30 minutes before the 13:15 PT expiration.",
+  "universe_file": "state/earnings/daytrade/universe/universe_2026-11-16.json",
+  "daily_names": [
+   "SPY",
+   "QQQ",
+   "IWM",
+   "IBIT",
+   "GLD",
+   "XSP",
+   "SPX",
+   "NDX",
+   "RUT"
+  ],
+  "loop_map_page": "https://claude.ai/artifact/DmYhPS8UVrQM2uNi2ixCdH (built by scripts/earnings/loop_map/build.py)",
+  "ninety_day_test": "2026-11-16: 290 clean flies on SPY, QQQ, IWM, NVDA, AAPL, AMZN, META average +$5 before costs and -$6 to -$10 after. No name admitted besides IWM. Plan: docs/earnings/PLAN.md.",
+  "saturday_research_task": "trig_01KLhgm9Zmpwv2gFcbHkeFAv fires Sat 2026-11-21 09:00 PT into the head session (P052): overnight test, the week's earnings replay, spread scans. Batch 2 (P047) and the seven-name replay were done on 2026-11-16.",
+  "override_trades": {
+   "note": "Trades the owner ordered outside the pilot's rules. They count toward the pilot's loss breaker (real money) but not toward the 20-probe test or its averages.",
+   "open": [],
+   "closed": 1,
+   "pnl_usd": 1.68,
+   "trades": [
+    {
+     "trade_id": "IWM-0DTE-20261117-L1",
+     "pnl_usd": 1.68,
+     "leg_slip_usd": -13.5,
+     "round_trip_cost": 0.1536
+    }
+   ]
+  }
+ },
+ "closed_2026-11-17": [
+  {
+   "symbol": "JD",
+   "trade_id": "JD-20261116-1",
+   "quantity": 3,
+   "credit": 1.41,
+   "close_cost": 1.3967,
+   "pnl_usd": 3.16,
+   "closed_utc": "2026-11-17T14:39:46Z",
+   "realized_move": -0.0481,
+   "leftover_long_wings": [
+    {
+     "leg": "30C",
+     "option_id": "ebaadad1-3091-4fe1-8ef8-77725846ee7f",
+     "quantity": 3,
+     "expiry": "2026-11-20",
+     "offer": 0.01,
+     "order_id": "6afc6715-8e1c-4dad-bd9f-1ac70aab1985",
+     "note": "no bid; day offer at 0.01, otherwise left to expire"
+    }
+   ],
+   "alerts_paused": [
+    "bfa72658-59a8-49ed-8e80-69afa9ef5e2c",
+    "f1b35ae7-56d2-4ad6-9880-1035475bfa95"
+   ]
+  },
+  {
+   "symbol": "AS",
+   "trade_id": "AS-20261116-1",
+   "quantity": 1,
+   "credit": 2.15,
+   "close_cost": 2.15,
+   "pnl_usd": -0.28,
+   "closed_utc": "2026-11-17T14:40:14Z",
+   "realized_move": 0.0754,
+   "leftover_long_wings": [
+    {
+     "leg": "26P",
+     "option_id": "1492889c-b6fa-4401-a15e-b4446310e4bc",
+     "quantity": 1,
+     "expiry": "2026-11-20",
+     "note": "no bid; left to expire"
+    }
+   ],
+   "alerts_paused": [
+    "e9e8fd05-3b31-43dd-a6e4-fcc33aaf12e7",
+    "1fc376aa-3740-4e9e-adc8-54dc14fec43b"
+   ]
+  },
+  {
+   "trade_id": "IWM-0DTE-20261117-L1",
+   "symbol": "IWM",
+   "kind": "intraday_0dte",
+   "outside_test_data": true,
+   "credit": 1.14,
+   "close_cost": 1.12,
+   "pnl_usd": 1.68,
+   "closed_pt": "10:58",
+   "note": "owner override ('Probe anyway'); time stop"
+  },
+  {
+   "trade_id": "HD-20261116-1",
+   "symbol": "HD",
+   "kind": "earnings",
+   "hand_entered": true,
+   "closed_by": "partial close by Brad 07:59 PT (+182.34); the last contract by the agent's legs 11:00 to 11:02 PT",
+   "rider_close_cost": 9.95,
+   "rider_pnl_usd": 197.34,
+   "total_pnl_usd": 379.68,
+   "alerts_paused": [
+    "2d431e39-933c-4855-9313-c9e182b877aa",
+    "9814e875-a61a-492e-9546-00fa485fa834"
+   ]
+  }
+ ],
+ "leftover_long_wings": [
+  {
+   "symbol": "JD",
+   "leg": "30C",
+   "option_id": "ebaadad1-3091-4fe1-8ef8-77725846ee7f",
+   "quantity": 3,
+   "expiry": "2026-11-20"
+  },
+  {
+   "symbol": "AS",
+   "leg": "26P",
+   "option_id": "1492889c-b6fa-4401-a15e-b4446310e4bc",
+   "quantity": 1,
+   "expiry": "2026-11-20"
+  },
+  {
+   "symbol": "PDD",
+   "leg": "72P",
+   "option_id": "ff22dd1b-a860-40d2-b061-c0c7618b5959",
+   "quantity": 1,
+   "expiry": "2026-11-20"
+  }
+ ],
+ "morning_note_2026-11-17": "06:36 PT timer run. JD x3 and AS x1 closed by legs between 06:38 and 06:40 PT: JD +$3.16, AS -$0.28. The day's one multi-leg attempt went to HD x2 and was refused at placement (the review passed). HD is Brad's to close: ticket and two pushes sent; a read-only agent watches HD and his orders until 12:57 PT. The switches stay where they are while HD is open. The same-day pilot is blocked while HD is open (exits_pending).",
+ "switches_2026-11-17": {
+  "standby_exit_switch": "fired 07:25 PT; the standby stood down (head holds the lease, JD and AS closed, HD held on Brad's own word) and re-armed it for Wed 2026-11-18 07:25 PT",
+  "plain_alert": "moved by the head at 07:26 PT to Wed 2026-11-18 08:00 PT: the morning exits under the agent's control are done and Brad knows HD is open (his note of 06:55 PT)",
+  "standby_entry_moved": "11:47 PT to 2026-11-18T12:05 PT"
+ },
+ "owner_instruction_2026-11-17_0804": "Brad: 'Nah lets leave hd open. But i want you to continue to execute and plan trades for today' and 08:00 PT: 'You also still have a lot of buying power available.' The agent keeps scanning and entering under the rules: the 08:00 re-check of eight names, the 09:45 scan, the 11:46 sweep.",
+ "owner_instruction_2026-11-17_0805": "Brad: 'Increase the risk cap. Like if tgt meets the criteria we shouldnt limit it especially when the cap is close to the cost price'. Rules v1.16: earnings name cap $600 (P056).",
+ "owner_lane": {
+  "rules": "v1.16.1 (P057)",
+  "brad": "2026-11-17 08:19 PT: 'Interesting. Ok lets try it. You can handle the daytrades too though. And we can close hd before market close but let it ride for now'",
+  "tickets": [
+   {
+    "sent_pt": "08:17",
+    "symbol": "TGT",
+    "structure": "iron fly 140/157.5/175 exp 2026-11-20 x1",
+    "limit_credit": 11.3,
+    "walk": [
+     11.2,
+     11.1
+    ],
+    "not_below": 11.0,
+    "max_loss_about": 621,
+    "breakevens": [
+     146.2,
+     168.8
+    ],
+    "ids": {
+     "157.5C": "326af841-61d6-4746-818c-12b1108b533e",
+     "157.5P": "95d91df9-65de-41a6-a3e8-963902c54f01",
+     "175C": "8053fe9f-d1cd-462d-afda-ab2d8c1cce40",
+     "140P": "7ba666a8-ec67-4ff0-ae5c-fa32698b3e43"
+    },
+    "status": "FILLED by Brad 08:24:46 PT at 11.30 (order 6afc7fcd-43f5-4830-8c2e-aaaf9c0b4d1a): 157.5C 7.22, 157.5P 6.98, 175C 1.63, 140P 1.27. Recorded as TGT-20261117-1.",
+    "note": "about $20 over the $600 name cap at the mid; he was told and took the ticket as shown. Exit: his 4-leg close Wed 2026-11-18 about 06:40 PT; fallback legs at 06:50 PT if they fit. Exit update 11:05 PT: with HD closed there is enough buying power, so the agent closes TGT by legs at the 06:36 PT run and no ticket is needed.",
+    "max_loss": 620.0
+   },
+   {
+    "sent_pt": "10:11",
+    "symbol": "TJX",
+    "structure": "iron fly 123/131/139 exp 2026-11-20 x1",
+    "limit_credit": 5.45,
+    "walk": [
+     5.3,
+     5.15
+    ],
+    "not_below": 5.05,
+    "max_loss_about": 255,
+    "breakevens": [
+     125.55,
+     136.45
+    ],
+    "ids": {
+     "131C": "77b1ced2-52be-4c2e-9058-2074b0634307",
+     "131P": "68cb653f-3b20-4826-a491-da8b9fb88bad",
+     "139C": "a4ac6209-e82d-4c53-bfdd-5943dfd69b04",
+     "123P": "1c00327a-9127-4870-8980-fb4f13886acb"
+    },
+    "status": "withdrawn 10:20 PT: Brad wants the agent to trade it ('Ideally you will trade all of it'); the agent enters it by legs after the 11:00 PT pilot exit",
+    "note": "Brad left the call to the agent ('Use your judgement on tjx'). Decision: yes, one contract, his 4-leg only; paper if he does not place it by 12:35 PT. Reports Wed 2026-11-18 before the open; exit as for TGT."
+   },
+   {
+    "sent_pt": "12:05",
+    "symbol": "PANW",
+    "structure": "iron fly 297.5/330/362.5 exp 2026-11-20 x1",
+    "limit_credit": 23.5,
+    "walk": [
+     23.4,
+     23.3
+    ],
+    "not_below": 21.7,
+    "max_loss_about": 895,
+    "breakevens": [
+     306.5,
+     353.5
+    ],
+    "ids": {
+     "362.5C": "37505bf5-ac65-4016-8bcc-1be0403d3c3f",
+     "297.5P": "ac27af73-5a79-4e82-998e-d78b8eb7327e",
+     "330P": "7d5904db-4db3-482e-9390-63ea374f8be9",
+     "330C": "c10193d7-9b33-4c82-8c4b-0f9f1017dfe7"
+    },
+    "status": "FILLED by Brad 12:09:15 PT at 23.55 (limit 23.50; order 6afe05ea-87b7-4e3e-95a3-65ec95019a85): 330C 18.11, 330P 16.98, 362.5C 5.82, 297.5P 5.72. Recorded as PANW-20261118-1.",
+    "note": "over the 600 name cap (895) and the 5% intraday limit (+6.8%), told to him at 11:52 PT; first ticket draft at 11:52 PT was 23.20 mid, 21.70 floor.",
+    "max_loss": 895.0
+   }
+  ],
+  "staging_desk": {
+   "asked": "Brad, 2026-11-17 about 08:25 PT: 'Would you be able to stage the orders on robinhood with my chrome access if I have you work on my laptop too?' and 'Id want it setup so that way we could trade faster ya know?'",
+   "status": "brief written (docs/earnings/prompts/brief_staging_desk.md); waiting for a Claude session on his laptop with the Chrome extension connected; not tested; the hub has no Chrome tools and no computer of his is attached",
+   "rules": "stage only (never review or submit), the account ending 3413 only, one ticket as given"
+  }
+ },
+ "check_2026-11-17_0916": {
+  "run": "hourly monitor 09:15 PT",
+  "lease": "head",
+  "shares": 0,
+  "hand_orders_since_1642Z": 0,
+  "open_orders": [
+   "JD 30C x3 sell to close 0.01 GFD (leftover wings)"
+  ],
+  "marks": {
+   "HD": {
+    "spot": 340.21,
+    "close_cost_mid": 9.975,
+    "close_cost_natural": 10.31,
+    "credit": 11.925,
+    "pnl_mid_usd": 195.0,
+    "pnl_natural_usd": 161.5,
+    "to_breakevens": {
+     "lower_335.58": 4.63,
+     "upper_359.43": 19.22
+    },
+    "status": "owner hold, close before today's bell"
+   },
+   "TGT": {
+    "spot": 158.09,
+    "close_cost_mid": 11.195,
+    "credit": 11.3,
+    "pnl_mid_usd": 10.5,
+    "to_breakevens": {
+     "lower_146.20": 11.89,
+     "upper_168.80": 10.71
+    },
+    "status": "reports Wed before the open"
+   },
+   "IWM": {
+    "spot": 270.75,
+    "close_cost_mid": 1.5,
+    "close_cost_natural": 1.53,
+    "credit": 1.14,
+    "pnl_mid_usd": -36.0,
+    "breakevens": [
+     267.86,
+     270.14
+    ],
+    "status": "0.61 above the upper breakeven; pilot rule: no stop, flat by 11:00 PT (timer running)"
+   }
+  },
+  "account_value": 2395.91,
+  "buying_power": 955.91,
+  "v1_2": "no take profit or cut due: HD is the owner's hold (16% of max profit at the mid), TGT was opened today for tomorrow's report, the pilot fly is only marked",
+  "daemon": "account watch and position monitor running until 12:57 PT; paper desk running",
+  "hub": "Brad asked at about 08:42 PT for a trading hub page; a background build is running (https://claude.ai/artifact/MVp9t1rBTdDwxLtoCxP7ND)"
+ },
+ "check_2026-11-17_1015": {
+  "run": "hourly monitor 10:15 PT (duplicate guard: marks from the account watch at 10:14 PT, quotes read by the head at 10:08 PT)",
+  "hand_orders": 0,
+  "marks": {
+   "HD": {
+    "spot": 338.57,
+    "low_so_far": 337.575,
+    "close_cost_mid": 10.38,
+    "close_cost_natural": 10.71,
+    "pnl_mid_usd": 155.0,
+    "status": "owner hold; Brad has the closing ticket (push 09:27 PT) and the agent's advice to close; the agent cannot leg it out (buying power 956, the short put costs about 1,070)"
+   },
+   "TGT": {
+    "spot": 157.59,
+    "close_cost_mid": 11.19,
+    "pnl_mid_usd": 11.0
+   },
+   "IWM": {
+    "spot": 269.89,
+    "close_cost_mid": 1.255,
+    "pnl_mid_usd": -11.5,
+    "status": "back inside the breakevens (267.86 / 270.14); exit timer 10:57 PT running"
+   }
+  },
+  "tjx": "ticket sent 10:11 PT (owner lane, the agent's call: yes at one contract); not placed yet",
+  "pilot_exit_timer": "running since 08:35 PT (returns 10:57 PT)",
+  "hd_ticket_timer": "running (returns 12:28 PT)"
+ },
+ "owner_instruction_2026-11-17_1019": {
+  "brad": "about 10:19 PT, after the agent wrote that TJX was best placed by him as a 4-leg order: 'Ideally you will trade all of it.' Before that, about 10:05 PT: 'Use your judgement on tjx. But i think having more trades under your belt will help us get more data.' and about 10:10 PT: 'you should do middle limit orders instead of market. And use the data from last sales etc for better pricing judgement.'",
+  "reading": "The agent enters and exits every trade itself. A ticket for Brad is the last resort, used only when the broker leaves the agent no way to do it.",
+  "what_changes": [
+   "TJX: the agent enters it by legs with the pricing ladder (docs/earnings/EXECUTION.md), right after the IWM fly is closed at 11:00 PT. The owner ticket of 10:11 PT is withdrawn: Brad was told the agent takes it.",
+   "HD: the agent closes it by legs before the close (12:30 PT), with a bridge leg: buy to open a put one strike under the short put, so the short put is covered by a 2.5-wide spread and the collateral is released; then buy back the short put, the short call, and sell the three long options. Not tested at the broker yet; if the collateral is not released the bridge put is sold back and Brad gets the 4-leg ticket.",
+   "Rules: the exit-by-legs check (gate 16) is to be rewritten around the bridge at the reflection, once it has worked at the broker."
+  ]
+ },
+ "tjx_plan": {
+  "decided_pt": "10:20",
+  "entry": "by the agent's legs at about 11:20 PT, after the IWM fly and HD are closed; one contract, 123/131/139, expiry 2026-11-20; wings first on the ladder, then both body legs together",
+  "ticks": "0.05 under 3.00, 0.10 at and above 3.00 (all four contracts)",
+  "waived": [
+   "the half size for one soft condition (one contract cannot be halved; the fly is under the 350 wide-market cap)"
+  ],
+  "exit_time_payoff": {
+   "file": "state/earnings/scan/2026-11-17/project_TJX_1030_out.json",
+   "credit_assumed": 5.3,
+   "ambient_daily_sigma": 0.0204,
+   "sigma_base": 0.0382,
+   "past_moves_usd_mid": {
+    "-2.9%": 98.7,
+    "+2.7%": 99.35,
+    "+0.2%": 165.98,
+    "-1.2%": 156.4,
+    "+5.7%": -48.65,
+    "-4.2%": 30.69
+   },
+   "average_usd": {
+    "mid": 83.7,
+    "after_slippage_25": 58.7
+   },
+   "winners_after_slippage": "5/6",
+   "worst_case_usd": -270.0,
+   "caveat": "the earlier point estimates of this model were too optimistic three times out of three; the pre-report projection with ranges is written at 12:15 PT"
+  },
+  "status": "done 11:05 PT: TJX-20261117-1, credit 5.40"
+ },
+ "check_2026-11-17_1146": {
+  "run": "final sweep 11:46 PT",
+  "marks": {
+   "TGT": {
+    "spot": 156.9,
+    "close_cost_mid": 10.745,
+    "credit": 11.3,
+    "pnl_mid_usd": 55.5
+   },
+   "TJX": {
+    "spot": 130.99,
+    "close_cost_mid": 5.75,
+    "credit": 5.4,
+    "pnl_mid_usd": -35.0,
+    "note": "its implied volatility rose from 77% to 80% since the entry: the usual climb into the close before a report"
+   }
+  },
+  "switches": {
+   "standby_entry": "moved to Wed 2026-11-18 12:05 PT",
+   "standby_exit": "Wed 2026-11-18 07:25 PT (set by the standby this morning)",
+   "plain_alert": "Wed 2026-11-18 08:00 PT"
+  }
+ },
+ "check_2026-11-17_1215": {
+  "run": "12:15 PT run (the account watch's 12:14 mark, the head's 12:15 quotes)",
+  "hand_orders": 0,
+  "shares": 0,
+  "marks": {
+   "TGT": {
+    "spot": 158.88,
+    "close_cost_mid": 10.755,
+    "pnl_mid_usd": 54.5
+   },
+   "TJX": {
+    "spot": 130.05,
+    "close_cost_mid": 5.875,
+    "pnl_mid_usd": -47.5,
+    "note": "0.95 under the body; the 139 call is quoted 0.40 x 1.00, so the mid is loose"
+   }
+  },
+  "pre_report_projection": {
+   "file": "state/earnings/scan/2026-11-17/pre_report_projection_1216.json",
+   "TGT": {
+    "mean": 157.0,
+    "median": 230.7,
+    "p_profit": 0.797,
+    "band_50": [
+     59.7,
+     324.6
+    ],
+    "band_80": [
+     -214.9,
+     392.8
+    ]
+   },
+   "TJX": {
+    "mean": 51.0,
+    "median": 85.7,
+    "p_profit": 0.752,
+    "band_50": [
+     0.9,
+     129.6
+    ],
+    "band_80": [
+     -126.8,
+     160.4
+    ]
+   },
+   "book": {
+    "mean": 208.0,
+    "median": 272.7,
+    "p_profit": 0.809,
+    "band_50": [
+     72.8,
+     402.6
+    ],
+    "band_80": [
+     -183.7,
+     490.0
+    ],
+    "p_loss_over_500": 0.022
+   }
+  },
+  "paper_desk": {
+   "file": "state/earnings/daytrade/2026-11-17/paper_desk.jsonl",
+   "result_mid_usd": -288.0,
+   "result_natural_usd": -345.0,
+   "flies": {
+    "SPY": -100.5,
+    "QQQ": -87.0,
+    "IWM": -64.5,
+    "IBIT": -36.0
+   },
+   "note": "all four lost; the market fell 1.1% to 1.35% after the 07:15 PT entries; none reached the paper take profit"
+  },
+  "timers": {
+   "hd_ticket_backstop_1216": "fired; nothing to do, HD was closed at 11:02 PT",
+   "last_look_1257": "started"
+  }
+ },
+ "check_2026-11-17_1257": {
+  "run": "last look 12:57 PT (the in-session timer)",
+  "hand_orders_since_1146": 0,
+  "shares": 0,
+  "positions": "TGT x1, TJX x1, leftover long wings JD 30C x3 (GFD offer 0.01, expires unfilled today) and AS 26P x1; unchanged",
+  "closing_marks": {
+   "TGT": {
+    "spot": 159.32,
+    "day_pct": -0.0062,
+    "close_cost_mid": 10.435,
+    "credit": 11.3,
+    "pnl_mid_usd": 86.5,
+    "front_iv": 1.07
+   },
+   "TJX": {
+    "spot": 129.58,
+    "day_pct": -0.0115,
+    "close_cost_mid": 4.9,
+    "credit": 5.4,
+    "pnl_mid_usd": 50.0,
+    "note": "loose: the 131 put was quoted 2.50 x 4.90 and the 139 call 0.25 x 0.95 three minutes before the close; the stock is 1.42 under the body, 3.1% above the lower breakeven"
+   },
+   "SPY_day_pct": -0.0125,
+   "NVDA": 154.43,
+   "LOW": 220.32
+  },
+  "account_value": 2559.37,
+  "note": "the account value is marked at these loose mids"
+ },
+ "check_2026-11-18_0554": "Pre-open 05:54 PT: lease head; exit timer 06:36 PT running. Broker matches positions.json: TGT x1 and TJX x1 flies, JD 30C x3 and AS 26P x1 leftover wings (bid 0, expire 11-20). No hand orders since 2026-11-17 20:57Z, no shares. Pre-market: TGT 159.95 (close 159.53, +0.3%: inside 146.20/168.80, near the body); TJX 137.35 (close 129.85, +5.8%: above the 136.40 breakeven, under the 139 wing, max loss 260); LOW 209.00 (-5.2%: paper fly near max loss); NVDA 160.13 (+3.0%). Buying power 1,038.37. Exit order: TGT both shorts first (about 3.0 + 0.8 = 380 of buying power; 620 of collateral back), then TJX both shorts (131C about 6.6 to 7.0 ITM + 131P about 0.2), then the four wings.",
+ "closed_2026-11-18": [
+  {
+   "symbol": "TGT",
+   "trade_id": "TGT-20261117-1",
+   "kind": "earnings",
+   "hand_entered": true,
+   "lane": "owner_executed",
+   "structure": "iron fly 140/157.5/175",
+   "expiry": "2026-11-20",
+   "quantity": 1,
+   "opened": "2026-11-17T16:24:46Z",
+   "legs": {
+    "short_157.5C": {
+     "option_id": "326af841-61d6-4746-818c-12b1108b533e",
+     "fill": 7.22,
+     "qty": 1
+    },
+    "short_157.5P": {
+     "option_id": "95d91df9-65de-41a6-a3e8-963902c54f01",
+     "fill": 6.98,
+     "qty": 1
+    },
+    "long_175C": {
+     "option_id": "8053fe9f-d1cd-462d-afda-ab2d8c1cce40",
+     "fill": 1.63,
+     "qty": 1
+    },
+    "long_140P": {
+     "option_id": "7ba666a8-ec67-4ff0-ae5c-fa32698b3e43",
+     "fill": 1.27,
+     "qty": 1
+    }
+   },
+   "net_credit": 11.3,
+   "max_loss_usd": 620.0,
+   "max_profit_usd": 1130.0,
+   "exit_reserve_usd": 50.0,
+   "breakevens": [
+    146.2,
+    168.8
+   ],
+   "wing_width": 17.5,
+   "report": "2026-11-18 before the open",
+   "plan": {
+    "exit": "Wed 2026-11-18 about 06:40 PT",
+    "who": "the agent, by legs, at the 06:36 PT run (Brad, 10:19 PT: 'Ideally you will trade all of it'); a 4-leg ticket to Brad only if the short leg in the money costs more than the buying power",
+    "agent_duty": "06:36 PT: quote the four legs and the buying power; buy back both short legs together on the EXECUTION.md ladder, the cheaper one first if the buying power is tight, then sell the wings; TJX in the same run",
+    "never_hold_into": "2026-11-20",
+    "close_sequence": "buy back both short legs first, then sell both wings; never sell a wing while its short leg is open"
+   },
+   "alerts": [
+    {
+     "alert_id": "4f54dc85-0eb4-4077-8604-1aa8263ba8d5",
+     "condition": "price_below",
+     "threshold": 146.2
+    },
+    {
+     "alert_id": "e16d70ed-e896-4f0a-9a67-b9e7d481dae8",
+     "condition": "price_above",
+     "threshold": 168.8
+    }
+   ],
+   "tranches": [
+    {
+     "n": 1,
+     "ts": "2026-11-17T16:24:46Z",
+     "quantity": 1,
+     "strikes": [
+      140,
+      157.5,
+      175
+     ],
+     "net_credit": 11.3,
+     "max_loss_usd": 620.0,
+     "order_ids": [
+      "6afc7fcd-43f5-4830-8c2e-aaaf9c0b4d1a"
+     ]
+    }
+   ],
+   "note": "Max loss 620 is 20 over the 600 name cap: Brad saw that on the ticket and placed it himself.",
+   "closed_at": "2026-11-18T14:38:01Z",
+   "close_cost": 10.29,
+   "pnl_usd": 100.84
+  },
+  {
+   "symbol": "TJX",
+   "trade_id": "TJX-20261117-1",
+   "kind": "earnings",
+   "lane": "agent",
+   "owner_override": [
+    "half size for one soft condition (soft news: market selloff, HD peer report)"
+   ],
+   "structure": "iron fly 123/131/139",
+   "expiry": "2026-11-20",
+   "quantity": 1,
+   "opened": "2026-11-17T19:04:57Z",
+   "legs": {
+    "short_131C": {
+     "option_id": "77b1ced2-52be-4c2e-9058-2074b0634307",
+     "fill": 3.7,
+     "qty": 1
+    },
+    "short_131P": {
+     "option_id": "68cb653f-3b20-4826-a491-da8b9fb88bad",
+     "fill": 3.6,
+     "qty": 1
+    },
+    "long_139C": {
+     "option_id": "a4ac6209-e82d-4c53-bfdd-5943dfd69b04",
+     "fill": 0.95,
+     "qty": 1
+    },
+    "long_123P": {
+     "option_id": "1c00327a-9127-4870-8980-fb4f13886acb",
+     "fill": 0.95,
+     "qty": 1
+    }
+   },
+   "net_credit": 5.4,
+   "max_loss_usd": 260.0,
+   "max_profit_usd": 540.0,
+   "exit_reserve_usd": 50.0,
+   "breakevens": [
+    125.6,
+    136.4
+   ],
+   "wing_width": 8.0,
+   "report": "2026-11-18 before the open (call 11:00 ET)",
+   "ticks": "0.05 under 3.00, 0.10 at and above 3.00",
+   "plan": {
+    "exit": "Wed 2026-11-18, the 06:36 PT run",
+    "who": "the agent, by legs (docs/earnings/EXECUTION.md): both short legs bought back together, then the wings",
+    "max_close_cost": 8.5,
+    "never_hold_into": "2026-11-20",
+    "close_sequence": "buy back both short legs first, then sell both wings; never sell a wing while its short leg is open",
+    "buying_power_needed": "the short leg in the money: about 450 for a 3% move, 700 for 5%; 1,538 is free now"
+   },
+   "alerts": [
+    {
+     "alert_id": "1deae373-f903-4a17-9e7f-90b5cd9bc9e4",
+     "condition": "price_below",
+     "threshold": 125.6
+    },
+    {
+     "alert_id": "0c890302-072b-4754-9370-bbcdca8805fb",
+     "condition": "price_above",
+     "threshold": 136.4
+    }
+   ],
+   "tranches": [
+    {
+     "n": 1,
+     "ts": "2026-11-17T19:04:57Z",
+     "quantity": 1,
+     "strikes": [
+      123,
+      131,
+      139
+     ],
+     "net_credit": 5.4,
+     "max_loss_usd": 260.0,
+     "order_ids": [
+      "6afca4ea-42da-4c9d-aec6-542224edcb2c",
+      "6afca515-ad16-4846-a39d-2bd56f9b60af",
+      "6afca532-8964-4020-86c1-69190f688594",
+      "6afca559-ae18-4c5c-8888-e5844574df2d"
+     ]
+    }
+   ],
+   "closed_at": "2026-11-18T14:38:01Z",
+   "close_cost": 6.65,
+   "pnl_usd": -125.16
+  },
+  {
+   "symbol": "IWM",
+   "trade_id": "IWM-0DTE-20261118-L1",
+   "kind": "intraday_0dte",
+   "tier": "probe",
+   "structure": "iron fly 269/271/273",
+   "expiry": "2026-11-18",
+   "quantity": 1,
+   "opened": "2026-11-18T15:28:00Z",
+   "legs": {
+    "short_271C": {
+     "option_id": "20f72f94-ab08-4795-aa0f-8495511b827e",
+     "fill": 0.9,
+     "qty": 1
+    },
+    "short_271P": {
+     "option_id": "55075955-b2c6-4fed-bb2a-b323e2876ff0",
+     "fill": 1.05,
+     "qty": 1
+    },
+    "long_273C": {
+     "option_id": "7d64067c-4cab-4f15-b00a-142c31943a15",
+     "fill": 0.22,
+     "qty": 1
+    },
+    "long_269P": {
+     "option_id": "3c99130f-3877-4860-b406-26696d73f29e",
+     "fill": 0.38,
+     "qty": 1
+    }
+   },
+   "net_credit": 1.35,
+   "max_loss_usd": 65.0,
+   "exit_reserve_usd": 10.0,
+   "breakevens": [
+    269.65,
+    272.35
+   ],
+   "wing_width": 2.0,
+   "plan": {
+    "exit": "flat by 11:00 PT: a timer at 10:57 PT started from the 09:15 run (P060); take profit at an hourly check when the close cost is 0.68 or less",
+    "close_sequence": "buy back both shorts together, then sell the wings"
+   },
+   "closed_at": "2026-11-18T18:58:13Z",
+   "close_cost": 1.13,
+   "pnl_usd": 21.68
+  }
+ ],
+ "check_2026-11-18_0638": "06:36 PT timer run: TGT opened 166.1 (+4.1%) and ran to 167.4; TJX 139.5 (+7.4%, through the 139 call wing). Multi-leg attempt on TGT refused. Both flies closed by legs 06:36:58 to 06:38:01 PT: TGT +100.84 (close 10.29 vs 11.30), TJX -125.16 (close 6.65 vs 5.40). Day -24.32. Four alerts paused. Leftover wings: JD 30C x3 and AS 26P x1 (bid 0, expire 11-20).",
+ "cash_flows": [
+  {
+   "date": "2026-11-17T23:17-08:00",
+   "direction": "out",
+   "usd": 500.0,
+   "by": "Brad",
+   "found": "2026-11-18 05:54 PT: cash 3,588.37 against about 4,088 at 12:57 PT 2026-11-17, with no order in between",
+   "confirmed": "Brad, 2026-11-18 07:00 PT: 'I did move money. I moved 500 out'",
+   "effect": "Account value and the total risk cap fall by 500 (cap now 1,898.01). Not a trading result: realized P/L is unchanged.",
+   "ledger": "get_banking_transactions: ROBINHOOD_TRANSFER +500.00 'From Brokerage' into Robinhood checking, 2026-11-17 23:17 PT, posted"
+  }
+ ],
+ "check_2026-11-18_0700": "The 500 drop in cash is Brad's own withdrawal (confirmed). Entries resume; the total risk cap is the account value, 1,898.01.",
+ "check_2026-11-18_0715": "07:15 hourly: flat; no hand orders since 13:54Z. Shadow exits at 07:15: TGT +50 at mid (real +100.84 at 06:37), TJX -192.5 (real -125.16 at 06:38): the 06:37 exit was 118 better. Next: IWM pilot 07:27, then WMT 134/118 x1 (half size, soft news).",
+ "check_2026-11-18_0816": "08:16 hourly: no hand orders. IWM 269.43, close cost 1.365 at mid (credit 1.35, -1.5); WMT 126.68, close cost 5.665 (credit 5.70, +3.5). Shadow exits at 08:15: TGT +21.5 and TJX -215 at mid; the 06:37 exits were 169 better than 08:15 (118 better than 07:15). The 09:15 run replaces the monitor (started 07:16) and starts the 10:57 IWM timer.",
+ "check_2026-11-18_1015": "10:15 hourly: no hand orders. IWM 271.29, close 1.13 at mid (credit 1.35, +22; take profit 0.68 not hit; time stop 10:57 PT). WMT 127.17, close 5.66 (credit 5.70, +4). PDD 77.62, close 3.865 (credit 3.96, +9.5). Paper desk marks at 10:15 written.",
+ "check_2026-11-18_1215": {
+  "at_utc": "2026-11-18T20:16:00Z",
+  "lease": "head",
+  "hand_orders_since_20:10Z": "none",
+  "equity_positions": "none",
+  "marks": {
+   "WMT": {
+    "spot": 126.66,
+    "close_cost_mid": 5.6,
+    "credit": 5.7,
+    "pnl_mid_usd": 10.0,
+    "breakevens": [
+     121.3,
+     132.7
+    ]
+   },
+   "PDD": {
+    "spot": 77.365,
+    "close_cost_mid": 3.87,
+    "credit": 3.96,
+    "pnl_mid_usd": 9.0,
+    "breakevens": [
+     74.04,
+     81.96
+    ]
+   },
+   "PANW": {
+    "spot": 332.32,
+    "close_cost_mid": 23.7,
+    "credit": 23.55,
+    "pnl_mid_usd": -15.0,
+    "breakevens": [
+     306.45,
+     353.55
+    ]
+   }
+  },
+  "v1_2": "no action: every driver is still ahead (PANW tonight, WMT and PDD tomorrow before the open)",
+  "exit_order_2026-11-19": [
+   "PDD (collateral 204) by legs",
+   "WMT (230) by legs",
+   "PANW (895): Brad's 4-leg close about 06:45 PT, ticket and push at 06:38 PT; agent legs at 06:50 PT only if it is still open and the legs fit"
+  ],
+  "legs_check": "WMT and PDD can be legged with 586 of buying power (a short leg at the exit costs at most about 880 and 660 on a full-width move; PDD goes first and frees 204 plus its sale proceeds). PANW cannot be legged on a big move: told to Brad at 12:12 PT.",
+  "per_name_ceiling_P044": "CORRECTION 13:17 PT: PANW max loss 895 = 46% of the 1,936 account value, above the 30% ceiling. Brad was told the dollar max loss at 11:52 and 12:05 PT but NOT the share of the account or the 30% ceiling, which hourly_monitor.md step 3 requires. Told him at 13:17 PT.",
+  "daemon": "the 09:15 PT daemon is still running (3 h; P063 says replace at 2 h). Kept for the last 40 minutes: it took the PANW legs at 12:10 PT and a fresh start costs more than 10 cycles of a warm one. For the reflection: P063 should not replace in the daemon's last hour.",
+  "last_look_timer": "started for 12:57 PT",
+  "projection": "pre-report method A at 12:18 PT: book mean +334, median +432, p_profit 0.79, p05 -619 (state/earnings/scan/2026-11-18/pre_report_projection_1218.json)"
+ },
+ "check_2026-11-18_1257_last_look": {
+  "at_utc": "2026-11-18T20:57:05Z",
+  "hand_orders_since_20:10Z": "none (option and equity)",
+  "positions": "unchanged: WMT, PDD, PANW flies; JD x3 and AS x1 leftover long wings expire Fri",
+  "spots": {
+   "WMT": 127.485,
+   "PDD": 77.47,
+   "PANW": 340.18
+  },
+  "note": "PANW ran from 330.34 at the entry to 340.18 into the close (+10.0% on the day). The fly is now 10 points off its 330 body: the expiry breakeven above is 353.55 (+3.9% from 340.18), below 306.45 (-9.9%). The report move now starts lopsided; an up move of about 5 to 6% puts it near zero at the exit read. Nothing to do: no adds or rolls, owner position, exit plan unchanged.",
+  "owner_ask_1221": "Brad asked about a second WMT fly at 12:21 PT; the agent advised against (edge 0.93 mean, 1.05 median; WMT at the near-miss half cap; book 91% of the account; exit buying power). He did not place it."
+ },
+ "check_2026-11-19_0554_preopen": {
+  "at_utc": "2026-11-19T13:54:00Z",
+  "lease": "head (taken 13:53Z)",
+  "timer": "started for 06:36 PT",
+  "hand_orders_since_20:57Z": "none",
+  "equity_positions": "none",
+  "cash": "5,236.05, unchanged since the PANW fill: no transfer",
+  "premarket": {
+   "PANW": {
+    "price": 368.89,
+    "close": 339.92,
+    "move": 0.0852,
+    "note": "above the 362.5 wing"
+   },
+   "WMT": {
+    "price": 125.5,
+    "bid_ask": [
+     125.77,
+     126.04
+    ],
+    "close": 127.36,
+    "move": -0.0146,
+    "note": "reported 04:00 PT; inside 121.30 / 132.70; 127P in the money"
+   },
+   "PDD": {
+    "price": 81.93,
+    "bid_ask": [
+     81.8,
+     82.0
+    ],
+    "close": 77.45,
+    "move": 0.0578,
+    "note": "at the upper breakeven 81.96; 78C in the money"
+   },
+   "BABA": {
+    "price": 82.8,
+    "move": -0.0186
+   },
+   "SPY": {
+    "price": 737.78,
+    "move": 0.0104
+   }
+  },
+  "buying_power": 586.05,
+  "exit_plan": "06:38 PT first liquid quotes. In-the-money buybacks: WMT 127P (about 2) and PDD 78C (about 4.2) need about 640 against 586: WMT first (smaller), its wings, then PDD; or both at once if the live quotes fit. PANW: the once-a-day multi-leg attempt at the mid; if refused, Brad's 4-leg ticket and a push at 06:38 PT."
+ },
+ "closed_2026-11-19": [
+  {
+   "symbol": "WMT",
+   "trade_id": "WMT-20261118-1",
+   "kind": "earnings",
+   "lane": "agent",
+   "tier": "near_miss",
+   "prudential": [
+    "soft_news"
+   ],
+   "structure": "iron fly 119/127/135",
+   "expiry": "2026-11-20",
+   "quantity": 1,
+   "opened": "2026-11-18T15:30:58Z",
+   "legs": {
+    "short_127C": {
+     "option_id": "9feee807-d21e-4bb9-9bb1-a35e3477d9f6",
+     "fill": 4.0,
+     "qty": 1
+    },
+    "short_127P": {
+     "option_id": "74de64e9-65f4-4a3d-acc5-54285470f168",
+     "fill": 4.1,
+     "qty": 1
+    },
+    "long_135C": {
+     "option_id": "49f0274c-c48f-4169-95f3-ef11904ea087",
+     "fill": 1.14,
+     "qty": 1
+    },
+    "long_119P": {
+     "option_id": "01c880e4-5e82-4663-9b01-46ffc10bb834",
+     "fill": 1.26,
+     "qty": 1
+    }
+   },
+   "net_credit": 5.7,
+   "max_loss_usd": 230.0,
+   "max_profit_usd": 570.0,
+   "exit_reserve_usd": 50.0,
+   "breakevens": [
+    121.3,
+    132.7
+   ],
+   "wing_width": 8.0,
+   "report": "2026-11-19 04:00 PT (before the open), call 05:00 PT",
+   "ticks": "0.05 at and above 3.00, 0.01 below",
+   "plan": {
+    "exit": "Thu 2026-11-19, the 06:36 PT timer run, by legs (EXECUTION.md); both shorts first, then the wings",
+    "never_hold_into": "2026-11-20",
+    "close_sequence": "buy back both short legs first, then sell both wings; never sell a wing while its short leg is open"
+   },
+   "alerts": [
+    {
+     "alert_id": "f18708f6-7321-4931-86fe-5e3aba1d858a",
+     "condition": "price_below",
+     "threshold": 121.3
+    },
+    {
+     "alert_id": "d9f25882-bf35-4295-a922-608457f30c55",
+     "condition": "price_above",
+     "threshold": 132.7
+    }
+   ],
+   "closed": "2026-11-19T14:39:16Z",
+   "close_cost": 3.87,
+   "pnl_usd": 182.84
+  },
+  {
+   "symbol": "PANW",
+   "trade_id": "PANW-20261118-1",
+   "kind": "earnings",
+   "lane": "owner_executed",
+   "tier": "core",
+   "prudential": [],
+   "owner_override": [
+    "name_risk_cap",
+    "intraday_move",
+    "exit_not_feasible"
+   ],
+   "structure": "iron fly 297.5/330/362.5",
+   "expiry": "2026-11-20",
+   "quantity": 1,
+   "opened": "2026-11-18T20:09:15Z",
+   "legs": {
+    "short_330C": {
+     "option_id": "c10193d7-9b33-4c82-8c4b-0f9f1017dfe7",
+     "fill": 18.11,
+     "qty": 1
+    },
+    "short_330P": {
+     "option_id": "7d5904db-4db3-482e-9390-63ea374f8be9",
+     "fill": 16.98,
+     "qty": 1
+    },
+    "long_362.5C": {
+     "option_id": "37505bf5-ac65-4016-8bcc-1be0403d3c3f",
+     "fill": 5.82,
+     "qty": 1
+    },
+    "long_297.5P": {
+     "option_id": "ac27af73-5a79-4e82-998e-d78b8eb7327e",
+     "fill": 5.72,
+     "qty": 1
+    }
+   },
+   "order_id": "6afe05ea-87b7-4e3e-95a3-65ec95019a85",
+   "net_credit": 23.55,
+   "max_loss_usd": 895.0,
+   "max_profit_usd": 2355.0,
+   "exit_reserve_usd": 50.0,
+   "breakevens": [
+    306.45,
+    353.55
+   ],
+   "wing_width": 32.5,
+   "report": "2026-11-18 after the close",
+   "ticks": "0.05 at and above 3.00, 0.01 below",
+   "plan": {
+    "exit": "Thu 2026-11-19: close by Brad's 4-leg order about 06:45 PT; the agent sends the ticket (limit at the combo mid) and a push at 06:38 PT. The agent CANNOT leg it out: after the report PANW traded 369.28 after hours (21:15:54Z), so buying back the 330 call alone costs about 3,900 and the buying power will be about 1,000 at best. The once-a-day multi-leg attempt (P051) goes to PANW, not WMT or PDD. Default is to close Thursday; the v1.2.2 hold (close cost >= 29.25, 90% of the 32.5 width) only if he cannot close it, and then Robinhood force-closes at the sellout 2026-11-20 20:30Z (12:30 PT Fri).",
+    "never_hold_into": "2026-11-20",
+    "close_sequence": "buy back both short legs first, then sell both wings; never sell a wing while its short leg is open",
+    "owner_ask": "Brad, 11:52 PT: 'id want you to monitor them and close if you see we need to'",
+    "legs_fallback_0650": "dead: does not fit the buying power at this price (2026-11-18 13:16 PT)"
+   },
+   "alerts": [
+    {
+     "alert_id": "422ef1fb-ccd6-48cc-a0cc-b9309fe2fc59",
+     "condition": "price_below",
+     "threshold": 306.45
+    },
+    {
+     "alert_id": "35a3e417-1489-4db4-9479-478f6bc1b40d",
+     "condition": "price_above",
+     "threshold": 353.55
+    }
+   ],
+   "after_hours_2026-11-18": {
+    "read_at": "2026-11-18T21:15:54Z",
+    "price": 369.2771,
+    "close": 341.41,
+    "move_from_close": 0.0816,
+    "projection_file": "state/earnings/scan/2026-11-18/project_PANW_ah_1315_out.json",
+    "pnl_mid_grid": {
+     "357": [
+      -99,
+      74,
+      171
+     ],
+     "364": [
+      -488,
+      -266,
+      -100
+     ],
+     "371": [
+      -723,
+      -522,
+      -336
+     ],
+     "sigmas": [
+      0.03,
+      0.045,
+      0.06
+     ]
+    },
+    "told_brad": "13:17 PT in chat (no push: nothing can be done before the open)"
+   },
+   "sellout_utc": "2026-11-20T20:30:00Z",
+   "exit_2026-11-19": {
+    "multi_leg_attempt": "refused 06:38:10 PT ('multi-leg option orders are not available through this tool yet')",
+    "ticket_and_push": "06:38 PT: limit debit 26.20 (mid), step 0.10, check above 27.50; 06:39 PT update and push: limit 25.00 (PANW 362.5, mid 24.84)"
+   },
+   "closed": "2026-11-19T15:37:30Z",
+   "close_cost": 21.91,
+   "pnl_usd": 163.84,
+   "closed_by": "Brad, 4-leg order"
+  },
+  {
+   "symbol": "IWM",
+   "trade_id": "IWM-0DTE-20261119-L1",
+   "kind": "intraday_0dte",
+   "tier": "probe",
+   "structure": "iron fly 267/269/271",
+   "expiry": "2026-11-19",
+   "quantity": 1,
+   "opened": "2026-11-19T15:28:41Z",
+   "legs": {
+    "short_269C": {
+     "option_id": "3f6a026c-79e1-498f-9be2-f9692a817c9e",
+     "fill": 0.95,
+     "qty": 1
+    },
+    "short_269P": {
+     "option_id": "77ffcc23-01a7-43f9-b85e-b2758fd32f14",
+     "fill": 1.19,
+     "qty": 1
+    },
+    "long_271C": {
+     "option_id": "2347aba5-cef6-4e41-ac20-f2ff43466a59",
+     "fill": 0.26,
+     "qty": 1
+    },
+    "long_267P": {
+     "option_id": "f9de2580-481b-444f-8609-3aeec0b9b599",
+     "fill": 0.49,
+     "qty": 1
+    }
+   },
+   "net_credit": 1.39,
+   "max_loss_usd": 61.0,
+   "exit_reserve_usd": 10.0,
+   "breakevens": [
+    267.61,
+    270.39
+   ],
+   "wing_width": 2.0,
+   "plan": {
+    "exit": "flat by 11:00 PT: a timer at 10:57 PT started from the 09:15 run (P060). No take profit and no cut (v1.15: the hourly checks only mark it).",
+    "close_sequence": "buy back both shorts together, then sell the wings"
+   },
+   "sellout_utc": "2026-11-19T20:45:00Z",
+   "closed_at": "2026-11-19T18:59:42Z",
+   "close_cost": 1.9,
+   "pnl_usd": -51.28,
+   "leftover": "271C expires worthless 2026-11-19"
+  },
+  {
+   "symbol": "ANT",
+   "trade_id": "ANT-20261119-H1",
+   "kind": "equity",
+   "lane": "owner_hand",
+   "structure": "long stock",
+   "quantity": 10,
+   "opened": "2026-11-19T16:58:07Z",
+   "avg_price": 106.87,
+   "order_id": "6aff2a9e-c13b-4e64-b513-66f713d46478",
+   "max_loss_usd": 1068.7,
+   "exit_reserve_usd": 0.0,
+   "plan": {
+    "exit": "Brad's call (asked at 09:03 PT): day trade or hold; the agent never trims or closes a hand position unless he says so"
+   },
+   "ceiling_P044": {
+    "share": 0.528,
+    "trim_to_30pct": "sell 5 shares (keep 5, about 516)",
+    "told": "09:03 PT"
+   },
+   "closed_at": "2026-11-19T20:10:46Z",
+   "close_price": 95.8,
+   "pnl_usd": -110.72,
+   "closed_by": "agent on Brad's word"
+  }
+ ],
+ "check_2026-11-19_0717": {
+  "at_utc": "2026-11-19T15:17:35Z",
+  "lease": "head",
+  "hand_orders_since_14:30Z": "none",
+  "equity_positions": "none",
+  "marks": {
+   "PANW": {
+    "spot": 358.2,
+    "close_cost_mid": 24.085,
+    "credit": 23.55,
+    "pnl_mid_usd": -53.5,
+    "note": "PANW fell from 369 pre-market to 358; push to Brad at 07:17 PT: limit debit 24.20"
+   },
+   "PDD": {
+    "spot": 86.41,
+    "close_cost_mid": 5.815,
+    "credit": 3.96,
+    "width": 6.0,
+    "share_of_width": 0.969,
+    "note": "held at max loss (v1.2.2)"
+   }
+  },
+  "switches": "moved to Fri 2026-11-20 (exit 07:25, plain alert 08:00 PT): the head's exit step is done: WMT closed by legs; PDD held under v1.2.2; PANW is the owner's 4-leg close (the agent cannot leg it: the 330 call alone is about 2,960 against 999 of buying power).",
+  "daemon": "running since 06:43 PT (PANW, PDD, account watch) to 12:57 PT",
+  "paper_desk": "started 06:43 PT"
+ },
+ "check_2026-11-19_0816": {
+  "at_utc": "2026-11-19T16:16:29Z",
+  "lease": "head",
+  "hand_orders_since_15:37:31Z": "none",
+  "equity_positions": "none",
+  "marks": {
+   "PDD": {
+    "spot": 86.35,
+    "close_cost_mid": 5.825,
+    "credit": 3.96,
+    "pnl_mid_usd": -186.5,
+    "share_of_width": 0.971,
+    "note": "held at max loss (v1.2.2)"
+   },
+   "IWM": {
+    "spot": 268.1,
+    "close_cost_mid": 1.35,
+    "credit": 1.39,
+    "pnl_mid_usd": 4.0,
+    "note": "pilot: marked only"
+   }
+  }
+ },
+ "check_2026-11-19_0915": {
+  "at_utc": "2026-11-19T17:15:56Z",
+  "lease": "head",
+  "hand_orders_since_16:58:08Z": "none (option and equity)",
+  "timer": "IWM pilot exit timer started for 10:57 PT (18:57Z)",
+  "marks": {
+   "ANT": {
+    "spot": 99.19,
+    "avg": 106.87,
+    "pnl_usd": -76.8,
+    "note": "owner hand position; push sent 09:06 PT; no reply"
+   },
+   "IWM": {
+    "spot": 264.91,
+    "note": "below the 267 put wing: at or near max loss 61; marked only (v1.15)"
+   },
+   "PDD": {
+    "spot": 86.63,
+    "note": "owner hold to Friday; call spread at max loss"
+   }
+  }
+ },
+ "check_2026-11-19_1015": {
+  "at_utc": "2026-11-19T18:15:40Z",
+  "lease": "head",
+  "hand_orders_since_16:58:08Z": "none",
+  "marks": {
+   "IWM": {
+    "spot": 265.54,
+    "close_cost_mid": 1.805,
+    "credit": 1.39,
+    "pnl_mid_usd": -41.5,
+    "note": "marked only; 10:57 timer running"
+   },
+   "ANT": {
+    "spot": 94.59,
+    "pnl_usd": -122.8,
+    "note": "owner hand; pushes 09:06 and 09:18 PT, no reply"
+   },
+   "PDD": {
+    "spot": 85.85,
+    "note": "owner hold to Friday"
+   }
+  }
+ },
+ "check_2026-11-19_1115": {
+  "at_utc": "2026-11-19T19:15:34Z",
+  "lease": "head",
+  "hand_orders_since_16:58:08Z": "none",
+  "marks": {
+   "ANT": {
+    "spot": 94.94,
+    "pnl_usd": -119.3
+   },
+   "PDD": {
+    "spot": 86.16,
+    "note": "owner hold to Friday"
+   },
+   "IWM_271C": {
+    "note": "leftover long wing, no bid, expires worthless today (1.9% out of the money)"
+   }
+  }
+ },
+ "check_2026-11-19_1257_last_look": {
+  "at_utc": "2026-11-19T20:57:35Z",
+  "hand_orders_since_16:58:08Z": "none (option and equity)",
+  "equity_positions": "none",
+  "open": "PDD call spread (owner hold to Friday), JD x3 and AS x1 leftover wings (expire Fri), IWM 271C (expires worthless today)",
+  "PDD": 86.04,
+  "account_value": 1848.61,
+  "buying_power": 1894.61
+ },
+ "daemon": {
+  "started_utc": null,
+  "note": "P069: the run that starts a daemon writes its start time here; every check-in replaces one older than two hours"
+ },
+ "check_2026-11-20_0554_preopen": {
+  "at_utc": "2026-11-20T13:55:33Z",
+  "lease": "head (taken 13:54Z)",
+  "timer": "started for 06:36 PT",
+  "premarket": {
+   "PDD": {
+    "bid_ask": [
+     84.08,
+     84.38
+    ],
+    "close": 86.0,
+    "note": "at the 84 long call: if PDD settles between 78 and 84 the short 78C is assigned and the account is short 100 shares"
+   },
+   "ANT": 85.9,
+   "JD": 25.05,
+   "AS": 29.65,
+   "FRO": 44.68,
+   "INTU": 281.0,
+   "SPY": 709.58
+  },
+  "due_today": [
+   "PDD 78/84 call spread + 72P (expiry; assignment risk under 84)",
+   "JD 30C x3 and AS 26P x1 leftover wings: out of the money, no bid, left to expire",
+   "FRO and INTU paper marks at the first liquid quotes"
+  ],
+  "pdd_close_plan": "buying back the 78C by legs needs about 650 of buying power against 94.84 after Brad's ANT buy: needs his 2-leg close in the app, or his word to sell ANT shares, or PDD holding at or above about 84.5 into the close (both calls in the money, no assignment)"
+ },
+ "check_2026-11-20_0636_exit": {
+  "at_utc": "2026-11-20T14:38:49Z",
+  "hand_orders_since_1350Z": "none (options and equities)",
+  "PDD": {
+   "spot": 86.76,
+   "78C": [
+    7.3,
+    10.05
+   ],
+   "84C": [
+    2.1,
+    4.0
+   ],
+   "72P": [
+    0.0,
+    0.01
+   ],
+   "spread_mid": 5.5,
+   "spread_fair_est": 5.64,
+   "note": "both calls in the money at 86.8; the short 78C is covered by the 84C unless PDD settles under 84"
+  },
+  "multi_leg_attempt": {
+   "at_utc": "2026-11-20T14:37:30Z",
+   "structure": "PDD 78/84 call spread close, debit 5.50",
+   "review": "passed (alert OPTION_WIDE_BID_ASK_SPREAD 4.65; collateral back 600; no approval needed)",
+   "place": "refused: multi-leg option orders are not available through this tool yet; the order was NOT placed",
+   "outcome": "a (refused): no more multi-leg tries today; the review step now accepts multi-leg, the place step still does not"
+  },
+  "pdd_plan": "owner closes in the app (2-leg, debit at the mid, about 5.50 to 5.70, never above 6.00) before 12:30 PT; if still open at expiry with both calls in the money, exercise and assignment offset at the max loss",
+  "wings": "JD 30C x3, AS 26P x1 and PDD 72P x1: zero bid, left to expire (out of the money, no auto-exercise)",
+  "paper_marks": {
+   "FRO-20261119-U1": {
+    "pnl_mid": 77.5,
+    "pnl_natural": -40.0
+   },
+   "INTU-20261119-U1": {
+    "pnl_mid": 210.0,
+    "pnl_natural": -585.0
+   }
+  },
+  "switches": "exit switch moved to Mon 2026-11-23 07:25 PT, phone alert to Mon 08:00 PT (owner hold on PDD counts as done; his quote is on the record)",
+  "daemon": "not started: nothing in the account is the agent's to act on (buying power 94.84; PDD waits on the owner's in-app close; ANT is his). Robinhood alert PDD under 84.50 plus the hourly monitor cover it; a daemon starts the moment buying power comes back",
+  "spread_scan": "started about 06:39 PT (paper, writes state/earnings/daytrade/2026-11-20/scan.json)",
+  "paper_desk": "started about 06:40 PT (waits for 07:15 PT itself)",
+  "pilot_timer": "07:27 PT started; the gate will refuse on buying power unless ANT is trimmed",
+  "hub": "refreshed 06:40 PT: book v14, model v15 (blobs f8db6c78, 5d673a4b); exporter now lists share positions on the account row. First store write stamped updated.at 14:47Z from an estimate, corrected to 14:40:30Z from the clock (L025 class)"
+ },
+ "alerts_2026-11-20": {
+  "PDD_below_84_50": "98e51f9d-e290-4da5-a262-b8e22456f961",
+  "paused_after_pdd_close": [
+   "98e51f9d (PDD < 84.50)",
+   "65b95f27 (PDD < 74.04)",
+   "32892f8d (PDD > 81.96)"
+  ]
+ },
+ "check_2026-11-20_0716_hourly": {
+  "at_utc": "2026-11-20T15:17:03Z",
+  "hand_orders_since_1436Z": "none",
+  "assigned_shares": "none (no pending assignment or exercise on PDD legs)",
+  "PDD": {
+   "spot": 86.27,
+   "78C": [
+    7.15,
+    8.8
+   ],
+   "84C": [
+    1.9,
+    2.87
+   ],
+   "spread_mid": 5.59,
+   "note": "both calls in the money; owner close ticket out (5.60, walk to 5.80, never above 6.00)"
+  },
+  "ANT": {
+   "spot": 86.81,
+   "unrealized_usd": -63.57
+  },
+  "account_value": 1877.84,
+  "buying_power": 94.84
+ },
+ "pilot_2026-11-20": {
+  "at_utc": "2026-11-20T15:27:53Z",
+  "gate": "exit 3, no_trade",
+  "blocked_by": [
+   "body_off_center (scan body 265 vs spot 262.36; not re-centred)",
+   "max_loss_exceeds_cap (total risk over the account value after the owner's ANT buy)",
+   "exit_not_feasible (buying power 94.84)",
+   "morning_exit_pending (PDD waits on the owner's close)"
+  ],
+  "note": "A re-centred 262 fly would still fail the other three gates, so it was not quoted. No pilot trade today; no second try (the exits_pending exception needs it to be the only block).",
+  "files": [
+   "state/earnings/daytrade/2026-11-20/pilot_candidate_0728.json",
+   "state/earnings/daytrade/2026-11-20/pilot_gate_0728.json"
+  ]
+ },
+ "owner_msg_2026-11-20_0733": {
+  "at_utc": "2026-11-20T15:33:45Z",
+  "quote": "Brad: 'Run whatever you need to'",
+  "read_as": "carry on with the day; not his word to sell ANT (no name, and nothing today needs the buying power). ANT untouched.",
+  "pdd_rule": "spread mid 5.59 of 6.00 width = 93%: v1.2.2 holds it (no legging) and lets it expire with both calls in the money. The earlier offer to close PDD by legs after an ANT trim was wrong under v1.2.2.",
+  "pdd_fallback": "single-leg review of buy-to-close 78C at 8.00 (review only, 15:33Z): no buying-power alert; collateral back 600. A buyback costs at most collateral 600 + buying power 94.84 when the 78C is at or under about 6.90 (PDD about 84.9 or lower), and once the close cost drops under 90% of width v1.2.2 lets the agent leg. So if PDD slides toward 84, the agent buys back the 78C itself, no ANT sale needed.",
+  "timer": "10:30 PT loud-alert timer started (anything expiring today still open)"
+ },
+ "check_2026-11-20_0816_hourly": {
+  "at_utc": "2026-11-20T16:16:39Z",
+  "hand_orders_since_1516Z": "none",
+  "assigned_shares": "none (no pending assignment or exercise)",
+  "PDD": {
+   "spot": 85.44,
+   "78C": [
+    7.3,
+    8.05
+   ],
+   "84C": [
+    1.39,
+    2.44
+   ],
+   "spread_mid": 5.76,
+   "pct_of_width": 0.96,
+   "note": "held under v1.2.2; self-close of the 78C becomes possible near 78C 6.90 (PDD about 84.9); SPY -1.15%"
+  },
+  "ANT": {
+   "spot": 88.07,
+   "unrealized_usd": -38.37
+  },
+  "account_value": 1885.64,
+  "buying_power": 94.84
+ },
+ "check_2026-11-20_0915_hourly": {
+  "at_utc": "2026-11-20T17:16:17Z",
+  "hand_orders_since_1616Z": "none",
+  "assigned_shares": "none",
+  "PDD": {
+   "spot": 85.06,
+   "78C": [
+    6.65,
+    8.05
+   ],
+   "84C": [
+    0.8,
+    1.61
+   ],
+   "spread_fair_est": 5.88,
+   "pct_of_width": 0.98,
+   "note": "held under v1.2.2. 78C fair about 7.08 is just above the 694.84 the agent can pay (collateral 600 + buying power 94.84). Under 84 the close cost falls under 90% of width and the agent legs: 78C first, then the 84C. SPY -2.0%: closer checks to the sellout"
+  },
+  "ANT": {
+   "spot": 84.7,
+   "unrealized_usd": -105.77
+  },
+  "account_value": 1780.04,
+  "buying_power": 94.84
+ },
+ "reflection_notes_2026-11-20": [
+  "10:30 PT expiry timer started at 07:33 PT with a 2 h timeout (the maximum) was killed at 09:33 before it fired: P068 class again (a wait longer than the largest allowed timeout). Restarted at 09:33 with a 75 min timeout. Fix to propose: any timer more than 115 minutes out is started by a nearer timer, never directly.",
+  "The head did not move the standby entry switch after the 11:46 PT decision (FAILOVER.md step 4). It fired at 12:06 PT; the standby saw no Friday entries, placed nothing, took no lease and re-armed it for Mon 11/23 12:05 PT. Harmless, but the entry prompt's last step should name the switch move so it is not missed."
+ ],
+ "closed_2026-11-20": [
+  {
+   "symbol": "PDD",
+   "trade_id": "PDD-20261118-1",
+   "kind": "earnings",
+   "lane": "agent",
+   "tier": "near_miss",
+   "prudential": [
+    "soft_news"
+   ],
+   "structure": "iron fly 72/78/84",
+   "expiry": "2026-11-20",
+   "quantity": 1,
+   "opened": "2026-11-18T17:52:52Z",
+   "legs": {
+    "short_78C": {
+     "option_id": "01b7a7c3-c154-40f1-87bd-d1722fa8015c",
+     "fill": 2.55,
+     "qty": 1
+    },
+    "long_84C": {
+     "option_id": "7b8e1196-cb46-4993-9be0-cee6a76c9bb0",
+     "fill": 0.75,
+     "qty": 1
+    },
+    "long_72P": {
+     "option_id": "ff22dd1b-a860-40d2-b061-c0c7618b5959",
+     "fill": 0.76,
+     "qty": 1
+    }
+   },
+   "net_credit": 3.96,
+   "max_loss_usd": 204.0,
+   "max_profit_usd": 396.0,
+   "exit_reserve_usd": 50.0,
+   "breakevens": [
+    74.04,
+    81.96
+   ],
+   "wing_width": 6.0,
+   "report": "2026-11-19 before the US open, call 04:30 PT",
+   "ticks": "0.05 at and above 3.00, 0.01 below",
+   "plan": {
+    "exit": "OWNER HOLD to Friday expiry (Brad, 2026-11-19); held at max loss under v1.2.2 since 06:39 PT.",
+    "never_hold_into": "2026-11-20",
+    "close_sequence": "buy back both short legs first, then sell both wings"
+   },
+   "alerts": [
+    {
+     "alert_id": "65b95f27-f133-4b8d-8b89-e961629b8a42",
+     "condition": "price_below",
+     "threshold": 74.04
+    },
+    {
+     "alert_id": "32892f8d-2e93-4c6c-a0cc-fb81ba80b724",
+     "condition": "price_above",
+     "threshold": 81.96
+    }
+   ],
+   "at_max_loss_2026-11-19": {
+    "read_at": "2026-11-19T14:39:25Z",
+    "spot": 85.41,
+    "close_cost_mid": 5.615,
+    "width": 6.0,
+    "share_of_width": 0.936,
+    "rule": "v1.2.2: at or above 90% of the width it is held, not legged out; Brad can close it in the app in one 4-leg order (limit debit about 5.60); check assigned shares at every check-in; on expiry morning let it expire if both calls are in the money (loss = max loss 204).",
+    "sellout_utc": "2026-11-20T20:30:00Z"
+   },
+   "hand_orders_2026-11-19": [
+    {
+     "order_id": "6aff2243-7a4a-4272-b710-98aa5e4446ff",
+     "created_utc": "2026-11-19T16:22:28Z",
+     "leg": "buy to close the 78 put (3edc364d), qty 1",
+     "limit": 0.01,
+     "state": "filled 0.01 at 16:42:14Z",
+     "effect": "removes the short put side for at most $1; the fly becomes the 78/84 call spread plus the 72 put long (no bid, left to expire). Max loss unchanged at about 204 (205 with the penny)."
+    }
+   ],
+   "owner_hold": {
+    "since_utc": "2026-11-19T16:31:19Z",
+    "quote": "Brad, 2026-11-19 08:2x PT: 'Ok leave it, hold PDD to Friday'",
+    "context": "he bought back the 78 put at 0.01 to free collateral; told that the fly's 600 of collateral is held once for both sides, so it frees nothing; he chose to hold the 78/84 call spread to expiry",
+    "friday": "expiry 2026-11-20; sellout 20:30Z (12:30 PT). Above 84 both calls are in the money: loss = max loss 204 (205 with the put buyback). Check get_equity_positions for assigned shares at every check-in."
+   },
+   "legs_closed": {
+    "short_78P": {
+     "option_id": "3edc364d-3a53-4df1-b67e-1499be3a45ba",
+     "closed_at": "2026-11-19T16:42:14Z",
+     "price": 0.01,
+     "by": "owner"
+    }
+   },
+   "closed": {
+    "at_utc": "2026-11-20T17:55:11Z",
+    "close_cost": 5.92,
+    "pnl_trade_total_usd": -197.28,
+    "orders": [
+     "78C btc 6b00894d-6ae2-4da9-a207-59438543c1af",
+     "84C stc 6b00897e-2f21-4c93-937a-8f8ff1f6a891"
+    ],
+    "by": "agent (v1.2.2 exception, P071)"
+   },
+   "hub": "refreshed 09:57 PT: book v15, model v16 (blobs 7efdd666, 236e4946)"
+  }
+ ],
+ "check_2026-11-20_1030_expiry": {
+  "at_utc": "2026-11-20T18:30:20Z",
+  "expiring_today": "PDD 72P x1 (PDD 84.77), JD 30C x3 (JD 25.20), AS 26P x1 (AS 28.58): all out of the money, zero bid, left to expire (no auto-exercise)",
+  "loud_alert": "not needed: nothing expiring today carries risk",
+  "ANT": 85.2
+ },
+ "check_2026-11-20_1115_hourly": {
+  "at_utc": "2026-11-20T19:16:05Z",
+  "hand_orders": "none",
+  "open": "ANT 20 sh (owner) at 86.97, unrealized -60.47; worthless long wings expiring today",
+  "account_value": 1847.05,
+  "buying_power": 102.75,
+  "SPY": "-2.5%"
+ },
+ "calendar_next_week": {
+  "2026-11-26": "NYSE holiday (Thanksgiving): skip every run; move switches past it",
+  "2026-11-27": "NYSE early close (13:00 ET / 10:00 PT): the entry task skips early-close days; exits must finish well before 10:00 PT",
+  "source": "standby session message 2026-11-20 12:06 PT"
+ }
+}

@@ -1,0 +1,20 @@
+COMMON RULES (all analysts, Wed 2026-11-11)
+You are a read-only research agent. NEVER call review_option_order, place_option_order,
+cancel_option_order or any other order, alert, watchlist, scan-saving or settings tool
+(preview_scan is allowed: it saves nothing). Never TSLA. Do not edit any file under
+/home/user/VantageTrader. Write only inside your own folder under
+/tmp/claude-0/-home-user/0404299d-9c05-5c73-b871-6f9ce33809a2/scratchpad/daytrade_2026-11-11/ .
+Never guess a price or a date. Never ask questions. Hand back partial results rather than run
+over your time budget.
+Load tools with ToolSearch using "select:<comma separated names>" and read each schema first.
+Robinhood tool names start with mcp__Robinhood__ (get_equity_quotes, get_equity_historicals,
+get_option_instruments, get_option_quotes, get_option_historicals, get_earnings_results,
+preview_scan). Send independent calls in parallel (about 8 per message). Big outputs are saved
+to files: parse them with python, never print them whole. On a rate limit or transient error
+wait 15 s (python3 -c "import time; time.sleep(15)") and retry, at most 3 times.
+Option contract lookups: get_option_instruments(chain_symbol=SYM, expiration_dates="YYYY-MM-DD",
+strike_price="123.0000") with an EXACT strike returns the call and the put. NEVER query an
+expiry without a strike (it is huge). Strike steps: usually 0.5 or 1 under $50, 1 or 2.5 up to
+$200, 5 above (index ETFs: 1). Probe neighbours until you have the listed strike nearest spot.
+Time: US daylight time ended 2026-11-01. Regular sessions are 13:30-20:00 UTC up to 10/30 and
+14:30-21:00 UTC from 11/02 on. All percentages as fractions (0.0036, not 0.36).

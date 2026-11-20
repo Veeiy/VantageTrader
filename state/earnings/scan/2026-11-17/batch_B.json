@@ -1,0 +1,235 @@
+{
+ "batch": "B",
+ "as_of_utc": "2026-11-17T16:02:58Z",
+ "dropped": [
+  {
+   "symbol": "TJX",
+   "reason": "spread",
+   "spot": 131.41,
+   "intraday_pct": 0.00244,
+   "atm_spread_pct": 0.4,
+   "notes": "K=131. Three pulls 16:00-16:02Z: 0.242 (P 3.50/3.60), 0.301 (P 3.10/3.60), 0.400 (C 3.40/5.20, P 3.20/4.70, straddle_mid 8.25). Last pull governs. Informational (pull 2): avg_hist 0.0280 n=6, edge ~0.55, regime_20d 0.0168; floor fly 139/131/123 max_loss_natural 420 > cap 350 (does not fit).",
+   "info_pull2": {
+    "K": 131,
+    "call": {
+     "id": "77b1ced2-52be-4c2e-9058-2074b0634307",
+     "bid": 3.4,
+     "ask": 5.2,
+     "oi": 38
+    },
+    "put": {
+     "id": "68cb653f-3b20-4826-a491-da8b9fb88bad",
+     "bid": 3.1,
+     "ask": 3.6,
+     "oi": 132
+    },
+    "straddle_mid": 7.65,
+    "straddle_pct": 0.05818,
+    "atm_spread_pct": 0.3007,
+    "hist_moves": [
+     -0.028904,
+     0.027113,
+     0.00158,
+     -0.011671,
+     0.05661,
+     -0.042095
+    ],
+    "avg_hist_move": 0.027996,
+    "median_hist_move": 0.028008,
+    "n_hist": 6,
+    "regime_20d": 0.01684,
+    "edge_ratio": 0.5661,
+    "wings": {
+     "call_strike": 139,
+     "put_strike": 123,
+     "call": {
+      "id": "a4ac6209-e82d-4c53-bfdd-5943dfd69b04",
+      "bid": 1.0,
+      "ask": 1.7
+     },
+     "put": {
+      "id": "1c00327a-9127-4870-8980-fb4f13886acb",
+      "bid": 0.65,
+      "ask": 1.0
+     },
+     "credit_mid": 5.475,
+     "credit_natural": 3.8,
+     "width": 8,
+     "max_loss_mid": 252.5,
+     "max_loss_natural": 420.0,
+     "breakevens": [
+      125.525,
+      136.475
+     ],
+     "tick": 0.05
+    }
+   }
+  },
+  {
+   "symbol": "LOW",
+   "reason": "spread",
+   "spot": 221.93,
+   "intraday_pct": -0.01334,
+   "atm_spread_pct": 0.266,
+   "notes": "K=222.5. Pulls 16:00-16:02Z: 0.205 (C 4.80/5.60, P 4.40/5.70), then 0.266 twice (C 4.40/5.60, P 4.40/5.90, straddle_mid 10.15). Last pull governs. Informational: avg_hist 0.0247 n=6, edge ~0.63, regime_20d 0.0188; floor fly 232.5/222.5/212.5 max_loss_natural 530 > cap 350 (does not fit).",
+   "info_pull2": {
+    "K": 222.5,
+    "call": {
+     "id": "2133f049-506e-464f-acf3-45d2a2a9cc18",
+     "bid": 4.4,
+     "ask": 5.6,
+     "oi": 184
+    },
+    "put": {
+     "id": "ae1c0aef-6170-489c-9234-65bda2edbe5c",
+     "bid": 4.4,
+     "ask": 5.9,
+     "oi": 331
+    },
+    "straddle_mid": 10.15,
+    "straddle_pct": 0.04568,
+    "atm_spread_pct": 0.266,
+    "hist_moves": [
+     -0.016778,
+     0.003043,
+     0.040261,
+     -0.055889,
+     0.012273,
+     0.020219
+    ],
+    "avg_hist_move": 0.024744,
+    "median_hist_move": 0.018499,
+    "n_hist": 6,
+    "regime_20d": 0.01882,
+    "edge_ratio": 0.6373,
+    "wings": {
+     "call_strike": 232.5,
+     "put_strike": 212.5,
+     "call": {
+      "id": "27ee7201-4d22-496c-88f3-e1f82259bdae",
+      "bid": 1.45,
+      "ask": 2.35
+     },
+     "put": {
+      "id": "1b62744e-832e-48e0-beaf-39ce875fd16f",
+      "bid": 1.35,
+      "ask": 1.75
+     },
+     "credit_mid": 6.7,
+     "credit_natural": 4.7,
+     "width": 10.0,
+     "max_loss_mid": 330.0,
+     "max_loss_natural": 530.0,
+     "breakevens": [
+      215.8,
+      229.2
+     ],
+     "tick": 0.05
+    }
+   }
+  },
+  {
+   "symbol": "BLSH",
+   "reason": "spread",
+   "spot": 19.13,
+   "intraday_pct": -0.03139,
+   "atm_spread_pct": 0.7399
+  },
+  {
+   "symbol": "GLNG",
+   "reason": "spread",
+   "spot": 41.25,
+   "intraday_pct": -0.00338,
+   "atm_spread_pct": 0.4082
+  },
+  {
+   "symbol": "BRBR",
+   "reason": "spread",
+   "spot": 10.635,
+   "intraday_pct": 0.00806,
+   "atm_spread_pct": 0.359
+  },
+  {
+   "symbol": "SQM",
+   "reason": "spread",
+   "spot": 51.905,
+   "intraday_pct": 0.01516,
+   "atm_spread_pct": 1.3178
+  },
+  {
+   "symbol": "ZTO",
+   "reason": "spread",
+   "spot": 20.595,
+   "intraday_pct": 0.00562,
+   "atm_spread_pct": 1.2
+  }
+ ],
+ "analyzed": [
+  {
+   "symbol": "GLBE",
+   "timing": "am",
+   "spot": 39.505,
+   "prev_close": 41.38,
+   "intraday_pct": -0.04531,
+   "K": 40,
+   "strike_step": null,
+   "call": {
+    "id": "28c7a6cf-c8dd-4b2f-99e7-806b24636713",
+    "bid": 2.5,
+    "ask": 2.95,
+    "oi": 1203
+   },
+   "put": {
+    "id": "2889ac43-29c8-42a8-b325-20d24faaf0a0",
+    "bid": 2.75,
+    "ask": 3.4,
+    "oi": 1004
+   },
+   "straddle_mid": 5.8,
+   "straddle_pct": 0.14682,
+   "atm_spread_pct": 0.1897,
+   "hist_moves": [
+    -0.191319,
+    -0.085664,
+    -0.043772,
+    0.172054,
+    -0.088984,
+    -0.007587
+   ],
+   "avg_hist_move": 0.09823,
+   "median_hist_move": 0.087324,
+   "max_hist_move": -0.191319,
+   "n_hist": 6,
+   "regime_20d": 0.02198,
+   "edge_ratio": 0.7871,
+   "wings": {
+    "call_strike": 50,
+    "put_strike": 30,
+    "call": {
+     "id": "6e42bc25-a4a8-4dfc-a214-4f607ac1e195",
+     "bid": 0.1,
+     "ask": 1.0
+    },
+    "put": {
+     "id": "cca0d880-5970-4044-b2b0-b9624c6360f7",
+     "bid": 0.0,
+     "ask": 0.2
+    },
+    "credit_mid": 5.15,
+    "credit_natural": 4.05,
+    "width": 10,
+    "max_loss_mid": 485.0,
+    "max_loss_natural": 595.0,
+    "breakevens": [
+     34.85,
+     45.15
+    ],
+    "tick": 0.05
+   },
+   "past_moves_beyond_breakevens": "2/6",
+   "notes": "cap 350; initial wings 50/30 max_loss_nat 595.0; stepped in 0x; floor 0.9*sm=5.220; DOES NOT FIT cap at floor (gate blocks); strikes 31,32.5,39.5,47.5,49 not listed (step >=2.5, wider out 5?); 45C/35P would be inside floor anyway; 30P bid 0 (ask 0.20)"
+  }
+ ],
+ "errors": [],
+ "notes": "Re-check of 06:47 PT spread drops. Body K: BLSH 19, GLNG 41, BRBR 10 (10.5/11 not listed), SQM 52.5 (step 2.5; 51/52 not listed), ZTO 21 (20.5 not listed). TJX/LOW/GLBE body quotes from 16:01-16:02Z re-pull."
+}

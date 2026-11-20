@@ -1,0 +1,444 @@
+{
+ "date": "2026-11-11",
+ "as_of": "2026-11-11T15:05Z (07:05 PT)",
+ "expiry": "2026-11-13",
+ "exit": "Thu 2026-11-12 06:45 PT check-in",
+ "universe": {
+  "calendar_names": 56,
+  "price_ge_10": 45,
+  "with_nov13_expiry": 6,
+  "note": "Reports 11/11 after the close and 11/12 before the open (high-market-cap calendar). 39 of 45 have no 2026-11-13 expiry at Robinhood."
+ },
+ "account_vetoes": [],
+ "macro": {
+  "veto_all": false,
+  "spy_pct": 0.009,
+  "vix": 18.27,
+  "note": "No tier-1 release before Thu 06:45 PT. Thu 05:30 PT: weekly jobless claims only. October CPI was Tue 11/10; PPI is Fri 11/13 05:30 PT. Veterans Day: stocks open, bonds closed."
+ },
+ "candidates": [
+  {
+   "rank": 1,
+   "symbol": "LUNR",
+   "timing": "am",
+   "report_date": "2026-11-12",
+   "spot": 12.23,
+   "intraday_pct": 0.0356,
+   "K": 12.0,
+   "straddle_mid": 1.635,
+   "straddle_pct": 0.1337,
+   "atm_equivalent_straddle_pct": 0.1341,
+   "edge_ratio": 0.691,
+   "edge_ratio_atm_equivalent": 0.689,
+   "atm_spread_pct": 0.214,
+   "regime_20d": 0.0615,
+   "avg_abs_move": 0.0785,
+   "median_abs_move": 0.0435,
+   "n_hist": 6,
+   "hist_moves": [
+    0.224211,
+    -0.042857,
+    0.100462,
+    0.044174,
+    0.023543,
+    0.035988
+   ],
+   "structure": "iron fly 12: -12C/-12P, +13.5C/+10.5P (wings 1.5)",
+   "credit_mid": 1.12,
+   "credit_natural": 0.87,
+   "max_loss_mid": 38,
+   "max_loss_natural": 63,
+   "breakevens": [
+    10.88,
+    13.12
+   ],
+   "hist_beyond_be": "2/6",
+   "tick": 0.01,
+   "option_ids": {
+    "12C": "cfe5baed-2978-4bd9-9285-7763cb611b86",
+    "12P": "6be84369-f2de-481b-b737-baa2d6e329ff",
+    "13.5C": "b1be9be7-d457-4b03-9ead-c988149ed3af",
+    "10.5P": "88d7665d-d70a-44cd-b999-c9af6219593e"
+   },
+   "gates": {
+    "edge": "pass (0.69, tight band)",
+    "spread": "pass, 12-25% band: $350 max-loss cap applies",
+    "regime": "pass (6.2% < 9.8%)",
+    "intraday": "pass (+3.6%)",
+    "price": "pass",
+    "n_hist": "pass (6)",
+    "macro": "pass",
+    "news": "pass (07:06 PT): no stock-specific news; today's move is the space sector after FLY's report (RKLB +6%, FLY +8%, RDW +5%)"
+   },
+   "watch": "The 22% move on 2025-05-13 carries the average (median 4.4%). Body 12 sits 1.9% under spot: upside breakeven +7.3%, downside -11.0%. Space names are up today after FLY's report (RKLB +6%, FLY +9%).",
+   "sentinel": "Report confirmed by the company: Thu 2026-11-12 before the open, call 08:30 ET (one outlet says after the close; the company release and the broker calendar say before). NASA picked LUNR as one of 8 CLPS 2 awardees on 11/09 (stock +15% that day after a 16% drop days earlier), so recent daily moves are large. No offering, halt, ruling, merger or pre-announcement in the last 7 days. Lanteris deal closed earlier ($350M in stock, possible overhang). IM-3 slipped to early 2027. Recent target cuts (B. Riley 34, KeyBanc 30), ratings kept.",
+   "requote_0705": {
+    "as_of": "2026-11-11T15:05:25Z",
+    "spot": 12.17,
+    "intraday_pct": 0.0305,
+    "call": [
+     0.84,
+     0.97
+    ],
+    "put": [
+     0.63,
+     0.75
+    ],
+    "wing_call": [
+     0.32,
+     0.36
+    ],
+    "wing_put": [
+     0.12,
+     0.23
+    ],
+    "straddle_mid": 1.595,
+    "straddle_pct": 0.1311,
+    "atm_spread_pct": 0.1567,
+    "credit_mid": 1.08,
+    "credit_natural": 0.88,
+    "edge_ratio": 0.7047,
+    "edge_ratio_atm_equivalent": 0.7023
+   },
+   "decision_0706": "NOT entered early. The edge ratio read 0.691 at 07:02 and 0.705 at 07:05: it sits on the 0.70 early-entry line, inside the noise of a one-cent change in the quotes. Under v1.5 timing a name must be at or under 0.70 to go early; a 0.70 to 0.85 name is entered at the 11:46 sweep. Re-check at 09:45 PT (enter then if 0.70 or under), otherwise 11:46 PT.",
+   "entered": {
+    "ts": "2026-11-11T15:57:27Z",
+    "structure": "iron fly 11/12.5/14 (body moved to 12.5 with the stock)",
+    "credit": 1.06,
+    "max_loss_usd": 44,
+    "breakevens": [
+     11.44,
+     13.56
+    ],
+    "gate_0752": {
+     "spot": 12.525,
+     "intraday_pct": 0.0605,
+     "edge_ratio": 0.6924,
+     "atm_spread_worst_leg": 0.1576,
+     "code_gate": "sell, all 14 gates pass"
+    }
+   },
+   "decision_0752": "Entered early under v1.5 once P020 dropped the 0.70 timing layer (replay batch 2: nothing special at 0.70)."
+  }
+ ],
+ "blocked": {
+  "NBIS": {
+   "rule": "intraday move over 7% (+14.0%); edge ratio also fails",
+   "spot": 152.81,
+   "intraday_pct": 0.1404,
+   "K": 152.5,
+   "straddle_mid": 21.3,
+   "straddle_pct": 0.1394,
+   "atm_spread_pct": 0.0141,
+   "avg_abs_move": 0.1349,
+   "median_abs_move": 0.1138,
+   "n_hist": 6,
+   "regime_20d": 0.0658,
+   "edge_ratio": 1.1382,
+   "wings": {
+    "call_strike": 175.0,
+    "put_strike": 130.0,
+    "call": {
+     "id": "47d3cb9b-1575-4923-bc58-fd0b7b050fe8",
+     "bid": 3.4,
+     "ask": 3.5
+    },
+    "put": {
+     "id": "e11b5c97-86d8-452a-8cc4-01b90d71280e",
+     "bid": 2.38,
+     "ask": 2.51
+    },
+    "credit_mid": 15.405,
+    "credit_natural": 15.14,
+    "width": 22.5,
+    "max_loss_mid": 709.5,
+    "max_loss_natural": 736.0,
+    "breakevens": [
+     137.095,
+     167.905
+    ],
+    "tick": "0.05 above $3, 0.01 below (130P at 2.45 is on 0.01)",
+    "narrower_alternative": {
+     "call_strike": 172.5,
+     "put_strike": 135.0,
+     "call": {
+      "id": "f3b5ea00-dcbf-4c98-a64a-6646a6dedda0",
+      "bid": 3.9,
+      "ask": 4.05
+     },
+     "put": {
+      "id": "5fc16c84-7fc0-434c-b973-6458ee7031ab",
+      "bid": 3.6,
+      "ask": 3.7
+     },
+     "credit_mid": 13.675,
+     "credit_natural": 13.4,
+     "width": 20.0,
+     "max_loss_mid": 632.5,
+     "max_loss_natural": 660.0,
+     "breakevens": [
+      138.825,
+      166.175
+     ],
+     "tick": "0.05",
+     "past_moves_beyond_breakevens": "3/6"
+    }
+   },
+   "timing": "am",
+   "report_date": "2026-11-12"
+  },
+  "FIGR": {
+   "rule": "ATM spread 38% (limit 25%); edge ratio 1.10 also fails",
+   "spot": 23.875,
+   "intraday_pct": 0.0229,
+   "K": 24,
+   "straddle_mid": 3.025,
+   "straddle_pct": 0.1267,
+   "atm_spread_pct": 0.3802,
+   "hist_moves": [
+    0.1633,
+    -0.2573,
+    0.0136,
+    0.0391
+   ],
+   "avg_abs_move": 0.1183,
+   "median_abs_move": 0.1012,
+   "n_hist": 4,
+   "edge_ratio": 1.1,
+   "timing": "am",
+   "report_date": "2026-11-12",
+   "note": "history computed by the head from daily closes (4 reports since the 2025 listing)"
+  },
+  "FPS": {
+   "rule": "intraday move over 7% (+8.75%); ATM spread 42%",
+   "spot": 23.3599,
+   "intraday_pct": 0.0875,
+   "K": 23.5,
+   "straddle_mid": 4.05,
+   "straddle_pct": 0.1734,
+   "atm_spread_pct": 0.4198,
+   "timing": "am",
+   "report_date": "2026-11-12"
+  },
+  "XE": {
+   "rule": "ATM spread 60% (limit 25%)",
+   "spot": 11.12,
+   "intraday_pct": 0.0137,
+   "atm_spread_pct": 0.6047,
+   "timing": "am",
+   "report_date": "2026-11-12",
+   "recheck_0948": "still blocked: 2 past reports (needs 4); spread 30% at the 11.5 strike nearest spot"
+  }
+ },
+ "skipped": {
+  "no_nov13_weekly": [
+   "ABSI",
+   "ARX",
+   "ASND",
+   "AVAH",
+   "AVEX",
+   "BLTE",
+   "BN",
+   "BNT",
+   "CAE",
+   "CEPU",
+   "CLBT",
+   "CTVA",
+   "DGII",
+   "DPC",
+   "ECO",
+   "ENS",
+   "EPC",
+   "EYE",
+   "EZPW",
+   "FNV",
+   "HBM",
+   "LGN",
+   "LKFT",
+   "MBGL",
+   "MWH",
+   "NIQ",
+   "OCTV",
+   "OR",
+   "SPB",
+   "SPH",
+   "STDN",
+   "TK",
+   "TNK",
+   "TTEK",
+   "TWST",
+   "VYLR",
+   "WWW",
+   "YETI"
+  ],
+  "no_options": [
+   "PLGO",
+   "YSWY"
+  ],
+  "price_lt_10": [
+   "AGRO",
+   "UGP",
+   "ALVO",
+   "ARCO",
+   "TSHA",
+   "EROC",
+   "ONDS"
+  ],
+  "not_quoted_or_unverified": [
+   "ELP",
+   "MTSR",
+   "PCSC",
+   "BITF"
+  ],
+  "scanner_only_not_on_calendar": [
+   "ORKA",
+   "ERAS",
+   "PERI",
+   "ODD",
+   "INMD"
+  ]
+ },
+ "non_earnings_screen": {
+  "as_of": "2026-11-11T15:00Z",
+  "hits": [
+   "PCG"
+  ],
+  "note": "Only PCG passes (IV rank 0.91, front IV 66% vs 10-day realized 18%); already held x4. No new non-earnings trade."
+ },
+ "account": {
+  "as_of": "2026-11-11T14:54Z",
+  "account_value": 1339.41,
+  "buying_power": 1180.41,
+  "risk_cap": 1000,
+  "risk_used": 172
+ },
+ "entry_plan": "Done for 2026-11-11: LUNR 3 contracts (1 at 07:57 PT, 2 added at 11:49 PT), PCG 5 contracts (1 added at 11:15 PT), NVDA 1 contract (owner-directed, 11:12 PT).",
+ "recheck_0947": {
+  "as_of": "2026-11-11T17:47Z",
+  "macro": {
+   "spy_pct": 0.015,
+   "note": "SPY +1.5% (761.14 vs 749.92). The macro veto is at 2%: re-read before any entry."
+  },
+  "LUNR": {
+   "status": "held x1 (11/12.5/14)",
+   "spot": 12.375,
+   "intraday_pct": 0.0478,
+   "K": 12.5,
+   "call": {
+    "bid": 0.71,
+    "ask": 0.83
+   },
+   "put": {
+    "bid": 0.81,
+    "ask": 0.92
+   },
+   "straddle_mid": 1.635,
+   "edge_ratio": 0.7042,
+   "atm_spread_worst": 0.1558,
+   "add_check_v17": {
+    "wings": "10P (4a6c4516-dafb-4914-bad3-8850e907df48) 0.07 x 0.09, 15C (369dfe6f-f257-4e80-b9a7-d1b6313d8ebd) 0.13 x 0.14",
+    "fly": "10/12.5/15, credit mid 1.42, natural 1.29, floor 1.31, max loss at floor 119.36, width 1.53x the straddle",
+    "gate": "no_trade: early_tranche_full. Target 159.29, held 44, planned 1 more contract in the final window (from 11:30 PT). Every other gate passes; spot is 0.125 from the body (room 0.41).",
+    "watch": "intraday move 4.78% is close to the 5% gate"
+   }
+  },
+  "FIGR": {
+   "spot": 24.32,
+   "intraday_pct": 0.042,
+   "K": 24,
+   "call": {
+    "bid": 1.45,
+    "ask": 1.7
+   },
+   "put": {
+    "bid": 1.25,
+    "ask": 1.7
+   },
+   "straddle_mid": 3.05,
+   "straddle_pct": 0.1254,
+   "atm_spread_worst": 0.305,
+   "edge_ratio": 1.11,
+   "verdict": "blocked: put spread 30% (limit 25%) and edge ratio 1.11"
+  },
+  "XE": {
+   "spot": 11.235,
+   "intraday_pct": 0.0242,
+   "K": 11,
+   "call": {
+    "id": "ee6e3571-3ca8-4023-99d3-451c3898e36c",
+    "bid": 0.55,
+    "ask": 0.65
+   },
+   "put": {
+    "id": "8e8ced0a-0b57-4388-96b6-2ec43873bbcb",
+    "bid": 0.35,
+    "ask": 0.4
+   },
+   "straddle_mid": 0.975,
+   "straddle_pct": 0.0868,
+   "atm_spread_worst": 0.1667,
+   "verdict": "blocked: only 2 past earnings reports (2026-06-04, 2026-08-13; the rule needs 4). Also, at the 09:48 PT read spot 11.255 made 11.5 the nearest strike, where the spread is 30% (limit 25%). Analyst file: batch_X.json.",
+   "n_past_reports": 2
+  },
+  "NBIS": {
+   "spot": 158.96,
+   "intraday_pct": 0.1863,
+   "verdict": "blocked: intraday move above 7%; edge ratio 1.14 at the morning read"
+  },
+  "FPS": {
+   "spot": 24.35,
+   "intraday_pct": 0.1336,
+   "verdict": "blocked: intraday move above 7%"
+  }
+ },
+ "final_sweep_1147": {
+  "as_of": "2026-11-11T19:47Z",
+  "macro": {
+   "spy_pct": 0.0142,
+   "vix": 17.49,
+   "veto": false
+  },
+  "LUNR": {
+   "decision": "add 2 contracts of 10/12.5/15 (v1.7 scale in, v1.8 target)",
+   "gate": "exit 0, edge 0.696, 15 of 15 gates pass, contracts 2",
+   "fill_credit": 1.38,
+   "position": "3 contracts, max loss 268"
+  },
+  "FIGR": {
+   "spot": 23.455,
+   "intraday_pct": 0.0049,
+   "K": 24,
+   "call": [
+    1.1,
+    1.4
+   ],
+   "put": [
+    1.5,
+    1.85
+   ],
+   "straddle_mid": 2.925,
+   "edge_ratio_est": 1.14,
+   "decision": "blocked: no edge (above 0.85); spread 24%"
+  },
+  "XE": {
+   "spot": 11.035,
+   "decision": "blocked: 2 past reports (needs 4)"
+  },
+  "NBIS": {
+   "spot": 156.42,
+   "intraday_pct": 0.1673,
+   "decision": "blocked: intraday move above 7%"
+  },
+  "FPS": {
+   "spot": 24.32,
+   "intraday_pct": 0.1322,
+   "decision": "blocked: intraday move above 7%"
+  },
+  "non_earnings": {
+   "PCG": "screen passes (IV rank 0.93, IV30 2.57x HV10): 1 contract added at 11:15 PT",
+   "CAPR": "passes the screen numbers but is a biotech up 19% today with no checked driver: not traded",
+   "NVDA": "screen fails (IV rank 0.74, front IV 1.07x HV10): owner-directed fly opened at 11:12 PT"
+  },
+  "entry_decision": "made at 11:50 PT. Standby entry switch already armed for 2026-11-12 12:05 PT."
+ }
+}

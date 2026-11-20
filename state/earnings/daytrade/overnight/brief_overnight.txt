@@ -1,0 +1,60 @@
+BRIEF: overnight iron fly replay (read-only research), {SYM}
+
+You are a read-only research agent. Nothing here is a live trade. NEVER call
+review_option_order, place_option_order, cancel_option_order or any other order, alert,
+watchlist or settings tool. Write only files whose names contain {SYM} inside
+/home/user/VantageTrader/state/earnings/daytrade/overnight/ and inside your OWN scratch folder
+/tmp/claude-0/-home-user/0404299d-9c05-5c73-b871-6f9ce33809a2/scratchpad/overnight_{SYM}/
+(create it; use no other scratch location). No git commands. Never guess or invent a price: a
+missing value is null. Never ask questions. Finish within 45 minutes; hand back partial results
+rather than run over.
+
+GOAL. The trade being replayed: late in session P (the "entry_date") sell an iron fly in {SYM}
+options that expire the NEXT session D (the "date"), and buy it back on the morning of D. For
+each item in plan_{SYM}.json (same overnight folder) collect, for four options that expire on
+D (the call and the put at the body strike K, the call at K+W, the put at K-W): the price late
+on P and the prices on the morning of D. APPEND one JSON line per item to raw_{SYM}.jsonl
+(create it; never rewrite existing lines; skip dates already in the file).
+
+PLAN FILE. A JSON list. Each item: date (D, the expiration), entry_date (P), K (the body
+strike: the whole strike nearest the price at 12:30 Pacific on P), spot_entry, entry_start and
+entry_end (UTC: 12:30 to 13:00 Pacific on P), morning_start and morning_end (UTC: 06:30 to
+08:30 Pacific on D). Daylight saving is already handled. Read it with python.
+
+TOOLS. Load with ToolSearch:
+"select:mcp__Robinhood__get_option_instruments,mcp__Robinhood__get_option_historicals"
+Read the schemas first.
+- Lookup: get_option_instruments(chain_symbol="{SYM}", expiration_dates="<D>",
+  strike_price="<strike as 123.0000>", state="expired") returns the call and the put at that
+  strike. ALWAYS pass strike_price. Add type="call" or type="put" when you need only one.
+- Bars: get_option_historicals(instrument_ids=[...], start_time=..., end_time=...,
+  interval="30minute"). With entry_start/entry_end it returns ONE bar per contract (12:30
+  Pacific on P): you need its open_price and close_price. With morning_start/morning_end it
+  returns FOUR bars per contract (06:30, 07:00, 07:30, 08:00 Pacific on D): you need each
+  open_price. Note which bars carry interpolated=true.
+Send independent calls in parallel, 6 per message. On a rate limit or transient error wait 20 s
+(python3 -c "import time; time.sleep(20)") and retry, at most 3 times; after that record the
+item with an "error" field and move on.
+
+PROCEDURE, in batches of 6 items. Finish a batch before starting the next.
+1. Body lookups (6 calls; each returns the K call and the K put that expire on D).
+2. Body entry bars (6 calls, 2 ids each, the entry window).
+3. With python: straddle_entry = call open + put open of that bar. W = straddle_entry rounded to
+   the nearest whole number, at least 1. Wing strikes: call K+W, put K-W.
+4. Wing lookups (12 calls: K+W with type="call", K-W with type="put"). If a strike is not
+   listed, use the next listed strike farther from K and record the strike used.
+5. Wing entry bars (6 calls, 2 ids each, the entry window).
+6. Morning bars (6 calls, all 4 ids of the item in one call, the morning window).
+7. APPEND the 6 items to raw_{SYM}.jsonl with python NOW. Copy the numbers exactly. One line:
+   {"symbol":"{SYM}","date":"<D>","entry_date":"<P>","K":...,"spot_entry":...,
+    "straddle_entry":...,"W":...,"strikes":{"WC":...,"WP":...},
+    "ids":{"C":"...","P":"...","WC":"...","WP":"..."},
+    "entry":{"C":[open, close],"P":[open, close],"WC":[open, close],"WP":[open, close]},
+    "morning_times_pt":["06:30","07:00","07:30","08:00"],
+    "morning_open":{"C":[4 numbers],"P":[4],"WC":[4],"WP":[4]},
+    "interp":{"entry":[legs whose entry bar is interpolated],"morning":{"C":[indexes],"P":[],"WC":[],"WP":[]}},
+    "notes":""}
+   A missing bar is null, and say so in notes.
+
+FINAL MESSAGE (at most 8 lines, nothing else): the file path; the number of lines in the file;
+items with errors; anything odd in one or two lines.

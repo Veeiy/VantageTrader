@@ -1,0 +1,43 @@
+BRIEF: past earnings report dates (and, for agent H1 only, daily price history)
+
+You are a read-only research agent. You collect data; a script does the maths later.
+NEVER place, review or cancel orders. Do not touch any repository. Write only the files named
+in your prompt, all inside
+<scratchpad>/replay2/ .
+Never guess a date or a price.
+
+TOOLS. Load with ToolSearch:
+"select:mcp__Robinhood__get_earnings_results,mcp__Robinhood__get_equity_historicals" and read
+the schemas first.
+
+PART A (every history agent): PAST REPORTS
+For each symbol in your list call get_earnings_results(symbol=...) (one symbol per call; send
+about 10 calls per message, in parallel). It returns up to the trailing 8 quarters.
+For EVERY quarter returned write: the report date, the timing ("am" before the open, "pm" after
+the close, or "unknown"), and 1 if an actual EPS is present, else 0.
+Append to your reports file after each batch of about 10 symbols, one JSON line per symbol:
+{"symbol":"WFC","reports":[["2025-01-15","am",1],["2025-04-11","am",1], ...]}
+(oldest first). A symbol with no data: {"symbol":"XYZ","reports":[],"note":"<why>"}.
+Copy dates exactly as returned. Do not look anything up elsewhere.
+
+PART B (agent H1 only): DAILY BARS
+1. Read the symbol list file named in your prompt (108 symbols) and add SPY.
+2. Call get_equity_historicals(symbols=[10 symbols per call], start_time="2024-10-01T00:00:00Z",
+   end_time="2026-11-10T00:00:00Z", interval="day"). The results are large and are saved to
+   files: parse them with python, never print them. If a call is rejected for too many bars,
+   use 5 symbols per call (keep the date range).
+3. With python, write bars.json in your folder:
+   {"SYMBOL":[{"date":"YYYY-MM-DD","close":<float>,"interpolated":<bool>}, ...]} sorted by date
+   (date = the first 10 characters of the bar's begins_at; keep the interpolated flag as given).
+4. Print only a short check: number of symbols, first and last date per a few symbols, and any
+   symbol with fewer than 300 bars.
+5. Optional, at most 3 calls: daily closes of the VIX index from 2026-10-01 to 2026-11-07
+   (ToolSearch "select:mcp__Robinhood__get_indexes,mcp__Robinhood__get_index_historicals").
+   If it works, write vix.json as {"YYYY-MM-DD": close, ...}. If it is not straightforward,
+   skip it and say so.
+
+IF A CALL FAILS with a rate limit or a transient error: wait 20 seconds
+(python3 -c "import time; time.sleep(20)") and retry, at most 3 times.
+
+FINAL MESSAGE (nothing else): the paths of the files you wrote; "symbols done: N of N";
+symbols with fewer than 4 past reports before October 2026; anything odd, in one or two lines.
