@@ -1,6 +1,6 @@
 {
- "as_of": "2026-11-20T18:30:20Z",
- "account_value": 1793.95,
+ "as_of": "2026-11-20T19:16:05Z",
+ "account_value": 1847.05,
  "cap_total_max_loss": 1235.08,
  "execution": {
   "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
@@ -51,8 +51,8 @@
   "total_max_loss_usd": 1799.77,
   "exit_reserves_usd": 0.0,
   "used_usd": 1799.77,
-  "cap_usd": 1793.95,
-  "free_usd": -5.82,
+  "cap_usd": 1847.05,
+  "free_usd": 47.28,
   "detail": "ANT 20 shares 1,799.77 (owner hand, no stop). PDD closed 09:55 PT.",
   "cap_note": "Rules v1.11: the cap is the account value (Brad, 2026-11-13: 'I want you to be able to use the entire funds in the mcp account'). cap_usd is the account value at the last check; it is not lowered below the risk already open when marks fall (the cap binds at entry).",
   "over_cap": "the owner's hand buy puts total risk above the account value (2,053.77 against 1,784.54); the agent opens nothing new while it holds"
@@ -516,7 +516,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-20T17:15:58Z",
+  "last_query_utc": "2026-11-20T19:15:55Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -2103,5 +2103,13 @@
   "expiring_today": "PDD 72P x1 (PDD 84.77), JD 30C x3 (JD 25.20), AS 26P x1 (AS 28.58): all out of the money, zero bid, left to expire (no auto-exercise)",
   "loud_alert": "not needed: nothing expiring today carries risk",
   "ANT": 85.2
+ },
+ "check_2026-11-20_1115_hourly": {
+  "at_utc": "2026-11-20T19:16:05Z",
+  "hand_orders": "none",
+  "open": "ANT 20 sh (owner) at 86.97, unrealized -60.47; worthless long wings expiring today",
+  "account_value": 1847.05,
+  "buying_power": 102.75,
+  "SPY": "-2.5%"
  }
 }
