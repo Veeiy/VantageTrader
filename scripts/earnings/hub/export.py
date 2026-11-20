@@ -187,8 +187,13 @@ def build_book(repo, today):
     trades.sort(key=lambda t: t["exit_ts"])
 
     # -- open positions and their legs
-    positions, legs = [], []
+    positions, legs, stock = [], [], []
     for p in pos.get("open", []):
+        if p.get("kind") == "equity":
+            # Shares (e.g. the owner's hand buy of ANT on 2026-11-20) have no fly to draw: list them on the account row.
+            who = "yours" if p.get("hand_entered") or p.get("lane") == "owner_hand" else "agent"
+            stock.append(f"{p['symbol']} {int(p['quantity'])} sh at {float(p['avg_price']):.2f} ({who})")
+            continue
         lo, body, hi = strikes_of(p.get("structure"))
         if p.get("lane") == "owner_executed":
             lane, lane_label = "brad_lane", "You, 4-leg ticket"
@@ -242,6 +247,7 @@ def build_book(repo, today):
         "exit_reserves": risk.get("exit_reserves_usd"), "risk_used": risk.get("used_usd"),
         "risk_cap": risk.get("cap_usd"), "risk_free": risk.get("free_usd"), "open_positions": len(positions),
         "first_trade": trades[0]["date"] if trades else None, "trading_date": today,
+        "stock_positions": "; ".join(stock) or None,
     }]
     check = {"closed_trades": sum(1 for t in trades if t["row_type"] == "Closed"),
              "closed_pnl": round(sum(t["pnl"] for t in trades if t["row_type"] == "Closed"), 2),
