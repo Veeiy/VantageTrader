@@ -2069,5 +2069,8 @@
   },
   "account_value": 1780.04,
   "buying_power": 94.84
- }
+ },
+ "reflection_notes_2026-11-20": [
+  "10:30 PT expiry timer started at 07:33 PT with a 2 h timeout (the maximum) was killed at 09:33 before it fired: P068 class again (a wait longer than the largest allowed timeout). Restarted at 09:33 with a 75 min timeout. Fix to propose: any timer more than 115 minutes out is started by a nearer timer, never directly."
+ ]
 }
