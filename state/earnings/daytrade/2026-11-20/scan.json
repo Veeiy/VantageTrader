@@ -1,0 +1,1658 @@
+{
+ "date": "2026-11-20",
+ "as_of_pt": "07:11",
+ "universe_file": "/home/user/VantageTrader/state/earnings/daytrade/universe/universe_2026-11-16.json",
+ "n_names": 40,
+ "names": [
+  {
+   "symbol": "SPY",
+   "spot": 716.09,
+   "prev_close": 715.87,
+   "pre_move": 0.00031,
+   "K": 716.0,
+   "strike_step": 1,
+   "call": {
+    "id": "10f5d2cf-cdd1-4fe3-9590-44c730d78c1d",
+    "bid": 3.71,
+    "ask": 3.73,
+    "oi": 3939.0
+   },
+   "put": {
+    "id": "1d629240-f587-4a9c-8bbc-d46b39bd92e2",
+    "bid": 3.44,
+    "ask": 3.46,
+    "oi": 18509.0
+   },
+   "straddle_mid": 7.17,
+   "straddle_pct": 0.01001,
+   "spread_pct": 0.0056,
+   "wings": {
+    "call_strike": 723.0,
+    "put_strike": 709.0,
+    "call": {
+     "id": "11d809ef-7c1f-4d70-9174-b34eee6cc4c7",
+     "bid": 1.19,
+     "ask": 1.21
+    },
+    "put": {
+     "id": "f6286aca-2330-4187-842c-4193c73cab86",
+     "bid": 1.19,
+     "ask": 1.21
+    }
+   },
+   "credit_mid": 4.77,
+   "credit_natural": 4.73,
+   "width": 7.0,
+   "max_loss_usd": 227.0,
+   "cost_round_trip_usd": 8.0,
+   "cost_share": 0.0168,
+   "fits_probe_cap": false,
+   "reason": null,
+   "notes": "spot and all four legs quoted together at ~07:04 PT (spot 716.09); K picked against an earlier spot during a fast open; parity gap 0.180"
+  },
+  {
+   "symbol": "NVDA",
+   "spot": 141.43,
+   "prev_close": 145.98,
+   "pre_move": -0.03117,
+   "K": 141.0,
+   "strike_step": 1,
+   "call": {
+    "id": "3146563c-2d63-4074-9751-71567df4ef64",
+    "bid": 1.82,
+    "ask": 1.84,
+    "oi": 249.0
+   },
+   "put": {
+    "id": "bca9ea5c-3399-4af5-ab43-35669ebeb72b",
+    "bid": 1.4,
+    "ask": 1.41,
+    "oi": 9880.0
+   },
+   "straddle_mid": 3.235,
+   "straddle_pct": 0.02287,
+   "spread_pct": 0.0093,
+   "wings": {
+    "call_strike": 144.0,
+    "put_strike": 138.0,
+    "call": {
+     "id": "bb86e904-4c4d-444f-ac2c-81db83803cc4",
+     "bid": 0.62,
+     "ask": 0.63
+    },
+    "put": {
+     "id": "aa3dfba1-b6bc-43c4-b8d6-2d1c2bb0f506",
+     "bid": 0.47,
+     "ask": 0.48
+    }
+   },
+   "credit_mid": 2.135,
+   "credit_natural": 2.11,
+   "width": 3.0,
+   "max_loss_usd": 89.0,
+   "cost_round_trip_usd": 5.0,
+   "cost_share": 0.0234,
+   "fits_probe_cap": true,
+   "reason": null,
+   "notes": "1-pt strikes listed today (141 listed; 142.5 not listed); spot and all four legs quoted together at ~07:06 PT (spot 141.43); K picked against an earlier spot during a fast open; parity gap -0.005; wings re-picked after the 07:06 re-quote (were 145/137 off the 07:01 straddle)"
+  },
+  {
+   "symbol": "QQQ",
+   "spot": 642.6399,
+   "prev_close": 645.04,
+   "pre_move": -0.00372,
+   "K": null,
+   "strike_step": 1,
+   "call": null,
+   "put": null,
+   "straddle_mid": null,
+   "straddle_pct": null,
+   "spread_pct": null,
+   "wings": null,
+   "credit_mid": null,
+   "credit_natural": null,
+   "width": null,
+   "max_loss_usd": null,
+   "cost_round_trip_usd": null,
+   "cost_share": null,
+   "fits_probe_cap": null,
+   "reason": "error",
+   "notes": "06:57 quotes: 636P and 637P came back crossed (bid above ask); 07:00 quotes for K=641: both legs crossed (call bid 5.31 / ask 3.93, put bid 4.86 / ask 3.77): no usable two-sided market, treated as error; K=641 legs quoted 07:00 were crossed (bid > ask on both), metrics left null"
+  },
+  {
+   "symbol": "IWM",
+   "spot": 264.67,
+   "prev_close": 264.22,
+   "pre_move": 0.0017,
+   "K": 265.0,
+   "strike_step": 1,
+   "call": {
+    "id": "b9a2fb98-8951-4e94-a5b6-d0bbe7dec37e",
+    "bid": 1.11,
+    "ask": 1.13,
+    "oi": 3825.0
+   },
+   "put": {
+    "id": "d3704193-1a08-483f-ad59-fc74c0d5e336",
+    "bid": 1.48,
+    "ask": 1.5,
+    "oi": 112792.0
+   },
+   "straddle_mid": 2.61,
+   "straddle_pct": 0.00986,
+   "spread_pct": 0.0153,
+   "wings": {
+    "call_strike": 268.0,
+    "put_strike": 262.0,
+    "call": {
+     "id": "afaadaa5-8c26-4e2a-bcb3-bf313b92d94c",
+     "bid": 0.24,
+     "ask": 0.25
+    },
+    "put": {
+     "id": "934ff760-2b23-4136-b15c-bed3a7c88ea5",
+     "bid": 0.42,
+     "ask": 0.43
+    }
+   },
+   "credit_mid": 1.94,
+   "credit_natural": 1.91,
+   "width": 3.0,
+   "max_loss_usd": 109.0,
+   "cost_round_trip_usd": 6.0,
+   "cost_share": 0.0309,
+   "fits_probe_cap": true,
+   "reason": null,
+   "notes": "spot and all four legs quoted together at ~07:04 PT (spot 264.67); K picked against an earlier spot during a fast open; parity gap -0.040"
+  },
+  {
+   "symbol": "SPCX",
+   "spot": 132.635,
+   "prev_close": 138.43,
+   "pre_move": -0.04186,
+   "K": 133.0,
+   "strike_step": 1,
+   "call": {
+    "id": "e4862566-6708-4a1c-9f31-6f00f8b4adf6",
+    "bid": 1.31,
+    "ask": 1.38,
+    "oi": 410.0
+   },
+   "put": {
+    "id": "6c63af39-b45d-49d3-81b9-91db620b64ad",
+    "bid": 1.72,
+    "ask": 1.77,
+    "oi": 6208.0
+   },
+   "straddle_mid": 3.09,
+   "straddle_pct": 0.0233,
+   "spread_pct": 0.0388,
+   "wings": {
+    "call_strike": 136.0,
+    "put_strike": 130.0,
+    "call": {
+     "id": "a253210d-68b2-467a-a8ce-9685bc7fa1bf",
+     "bid": 0.35,
+     "ask": 0.4
+    },
+    "put": {
+     "id": "e843b249-3c13-4635-8ed0-6e37f696b43d",
+     "bid": 0.58,
+     "ask": 0.63
+    }
+   },
+   "credit_mid": 2.11,
+   "credit_natural": 2.0,
+   "width": 3.0,
+   "max_loss_usd": 100.0,
+   "cost_round_trip_usd": 22.0,
+   "cost_share": 0.1043,
+   "fits_probe_cap": true,
+   "reason": null,
+   "notes": "spot and all four legs quoted together at ~07:04 PT (spot 132.635); K picked against an earlier spot during a fast open; parity gap -0.035"
+  },
+  {
+   "symbol": "TLT",
+   "spot": 80.755,
+   "prev_close": 80.35,
+   "pre_move": 0.00504,
+   "K": 80.5,
+   "strike_step": 0.5,
+   "call": {
+    "id": "c237f71f-f415-4e20-a688-962dc43db3a5",
+    "bid": 0.28,
+    "ask": 0.32,
+    "oi": 19626.0
+   },
+   "put": {
+    "id": "e187b02a-862f-4743-9e6a-8e6970a2dc5f",
+    "bid": 0.06,
+    "ask": 0.07,
+    "oi": 9243.0
+   },
+   "straddle_mid": 0.365,
+   "straddle_pct": 0.00452,
+   "spread_pct": 0.137,
+   "wings": null,
+   "credit_mid": null,
+   "credit_natural": null,
+   "width": null,
+   "max_loss_usd": null,
+   "cost_round_trip_usd": null,
+   "cost_share": null,
+   "fits_probe_cap": null,
+   "reason": "spread",
+   "notes": "body quoted ~07:00-07:01 PT with spot 80.755; early drop, no wings"
+  },
+  {
+   "symbol": "IBIT",
+   "spot": 34.8115,
+   "prev_close": 35.08,
+   "pre_move": -0.00765,
+   "K": 35.0,
+   "strike_step": 0.5,
+   "call": {
+    "id": "e0d60e58-47e6-404f-87c7-8135c2cfad7a",
+    "bid": 0.18,
+    "ask": 0.19,
+    "oi": 2382.0
+   },
+   "put": {
+    "id": "cd6cddce-535a-445e-b479-2b8904fdbfd8",
+    "bid": 0.37,
+    "ask": 0.38,
+    "oi": 41893.0
+   },
+   "straddle_mid": 0.56,
+   "straddle_pct": 0.01609,
+   "spread_pct": 0.0357,
+   "wings": {
+    "call_strike": 35.5,
+    "put_strike": 34.5,
+    "call": {
+     "id": "b1bc0ad0-9b25-4566-99ce-f21b1e8a7ef5",
+     "bid": 0.04,
+     "ask": 0.05
+    },
+    "put": {
+     "id": "6dd18a9c-d627-430f-928d-15d8984f685c",
+     "bid": 0.16,
+     "ask": 0.18
+    }
+   },
+   "credit_mid": 0.345,
+   "credit_natural": 0.32,
+   "width": 0.5,
+   "max_loss_usd": 18.0,
+   "cost_round_trip_usd": 5.0,
+   "cost_share": 0.1449,
+   "fits_probe_cap": true,
+   "reason": null,
+   "notes": "spot and all four legs quoted together at ~07:04 PT (spot 34.8115); K picked against an earlier spot during a fast open; parity gap -0.002"
+  },
+  {
+   "symbol": "MU",
+   "spot": 651.83,
+   "prev_close": 690.44,
+   "pre_move": -0.05592,
+   "K": 655.0,
+   "strike_step": 5,
+   "call": {
+    "id": "05240dc3-2875-4413-aec9-3c0a39ccc3c2",
+    "bid": 9.65,
+    "ask": 10.0,
+    "oi": 105.0
+   },
+   "put": {
+    "id": "38e0fd5e-b31e-4584-9870-39fabfd2dbfc",
+    "bid": 13.1,
+    "ask": 13.6,
+    "oi": 829.0
+   },
+   "straddle_mid": 23.175,
+   "straddle_pct": 0.03555,
+   "spread_pct": 0.0367,
+   "wings": {
+    "call_strike": 680.0,
+    "put_strike": 630.0,
+    "call": {
+     "id": "5272ba00-18af-40d7-8bd7-c5d6ba8f2b32",
+     "bid": 2.3,
+     "ask": 2.46
+    },
+    "put": {
+     "id": "e7ec5329-f054-464d-adf8-b485cf1ae0be",
+     "bid": 3.9,
+     "ask": 4.2
+    }
+   },
+   "credit_mid": 16.745,
+   "credit_natural": 16.09,
+   "width": 25.0,
+   "max_loss_usd": 891.0,
+   "cost_round_trip_usd": 131.0,
+   "cost_share": 0.0782,
+   "fits_probe_cap": false,
+   "reason": null,
+   "notes": "spot and all four legs quoted together at ~07:04 PT (spot 651.83); K picked against an earlier spot during a fast open; K is -3.17 from this spot (more than half a strike step): body not exactly at the money; parity gap -0.355; MU 0DTE strikes on a 5-pt grid near the money (642.5 and 643 not listed)"
+  },
+  {
+   "symbol": "XLF",
+   "spot": 55.955,
+   "prev_close": 55.58,
+   "pre_move": 0.00675,
+   "K": 56.0,
+   "strike_step": 0.5,
+   "call": {
+    "id": "4d6d191c-e95f-47cf-b7e3-f6fdd55efce7",
+    "bid": 0.16,
+    "ask": 0.18,
+    "oi": 89927.0
+   },
+   "put": {
+    "id": "a0fa5e44-ea3c-4831-81ff-9f22102a5461",
+    "bid": 0.23,
+    "ask": 0.25,
+    "oi": 83819.0
+   },
+   "straddle_mid": 0.41,
+   "straddle_pct": 0.00733,
+   "spread_pct": 0.0976,
+   "wings": null,
+   "credit_mid": null,
+   "credit_natural": null,
+   "width": null,
+   "max_loss_usd": null,
+   "cost_round_trip_usd": null,
+   "cost_share": null,
+   "fits_probe_cap": null,
+   "reason": "spread",
+   "notes": "body quoted ~07:00-07:01 PT with spot 55.955; early drop, no wings"
+  },
+  {
+   "symbol": "AAPL",
+   "spot": 350.0675,
+   "prev_close": 349.21,
+   "pre_move": 0.00246,
+   "K": 350.0,
+   "strike_step": 2.5,
+   "call": {
+    "id": "1e3d5233-2bdd-4ec8-87b3-f0e12880bce3",
+    "bid": 1.75,
+    "ask": 1.85,
+    "oi": 18960.0
+   },
+   "put": {
+    "id": "5be41cee-d0ec-499d-b00b-4c4a924cde1b",
+    "bid": 1.71,
+    "ask": 1.81,
+    "oi": 16110.0
+   },
+   "straddle_mid": 3.56,
+   "straddle_pct": 0.01017,
+   "spread_pct": 0.0562,
+   "wings": {
+    "call_strike": 352.5,
+    "put_strike": 347.5,
+    "call": {
+     "id": "5aea8899-0149-4968-9dc4-a5b55df43790",
+     "bid": 0.69,
+     "ask": 0.74
+    },
+    "put": {
+     "id": "3dc468d4-7c73-4d07-817e-93f41139d186",
+     "bid": 0.9,
+     "ask": 0.94
+    }
+   },
+   "credit_mid": 1.925,
+   "credit_natural": 1.78,
+   "width": 2.5,
+   "max_loss_usd": 72.0,
+   "cost_round_trip_usd": 29.0,
+   "cost_share": 0.1506,
+   "fits_probe_cap": true,
+   "reason": null,
+   "notes": "spot and all four legs quoted together at ~07:06 PT (spot 350.0675); K picked against an earlier spot during a fast open; parity gap -0.027; wings re-picked after the 07:06 re-quote (were 355/345)"
+  },
+  {
+   "symbol": "AMD",
+   "spot": 468.36,
+   "prev_close": 489.19,
+   "pre_move": -0.04258,
+   "K": 470.0,
+   "strike_step": 2.5,
+   "call": {
+    "id": "1ec87b9b-c844-4eb9-b76c-3878b1d0ace7",
+    "bid": 8.1,
+    "ask": 8.5,
+    "oi": 942.0
+   },
+   "put": {
+    "id": "d5093896-6dfe-492e-b225-974717a11c5b",
+    "bid": 9.65,
+    "ask": 10.05,
+    "oi": 5206.0
+   },
+   "straddle_mid": 18.15,
+   "straddle_pct": 0.03875,
+   "spread_pct": 0.0441,
+   "wings": {
+    "call_strike": 487.5,
+    "put_strike": 452.5,
+    "call": {
+     "id": "504e4d58-9bfb-41cb-b74b-fea679d17d1f",
+     "bid": 2.27,
+     "ask": 2.4
+    },
+    "put": {
+     "id": "d971ddc8-10c7-4e4f-abba-00dfc28d2191",
+     "bid": 3.45,
+     "ask": 3.7
+    }
+   },
+   "credit_mid": 12.24,
+   "credit_natural": 11.65,
+   "width": 17.5,
+   "max_loss_usd": 585.0,
+   "cost_round_trip_usd": 118.0,
+   "cost_share": 0.0964,
+   "fits_probe_cap": false,
+   "reason": null,
+   "notes": "spot and all four legs quoted together at ~07:04 PT (spot 468.36); K picked against an earlier spot during a fast open; K is -1.64 from this spot (more than half a strike step): body not exactly at the money; parity gap 0.090"
+  },
+  {
+   "symbol": "SLV",
+   "spot": 38.4299,
+   "prev_close": 39.64,
+   "pre_move": -0.03053,
+   "K": 38.0,
+   "strike_step": 0.5,
+   "call": {
+    "id": "5bb4f795-c8d5-4cf2-be49-c79a08f66748",
+    "bid": 0.53,
+    "ask": 0.58,
+    "oi": 91.0
+   },
+   "put": {
+    "id": "07e601c7-0a31-47ab-92e0-a5a4151d729b",
+    "bid": 0.14,
+    "ask": 0.16,
+    "oi": 3899.0
+   },
+   "straddle_mid": 0.705,
+   "straddle_pct": 0.01835,
+   "spread_pct": 0.0993,
+   "wings": null,
+   "credit_mid": null,
+   "credit_natural": null,
+   "width": null,
+   "max_loss_usd": null,
+   "cost_round_trip_usd": null,
+   "cost_share": null,
+   "fits_probe_cap": null,
+   "reason": "spread",
+   "notes": "body quoted ~07:00-07:01 PT with spot 38.4299; early drop, no wings"
+  },
+  {
+   "symbol": "AMZN",
+   "spot": 258.7,
+   "prev_close": 257.37,
+   "pre_move": 0.00517,
+   "K": 257.5,
+   "strike_step": 2.5,
+   "call": {
+    "id": "e590fdc1-65ec-43ac-a074-00e8f9524444",
+    "bid": 2.7,
+    "ask": 2.8,
+    "oi": 4554.0
+   },
+   "put": {
+    "id": "2b101c55-fa1a-4dcb-910b-3220cdaefac3",
+    "bid": 1.71,
+    "ask": 1.79,
+    "oi": 3878.0
+   },
+   "straddle_mid": 4.5,
+   "straddle_pct": 0.01739,
+   "spread_pct": 0.04,
+   "wings": {
+    "call_strike": 262.5,
+    "put_strike": 252.5,
+    "call": {
+     "id": "200dbf49-98ea-4ba5-8116-222e6a9f17c9",
+     "bid": 0.69,
+     "ask": 0.73
+    },
+    "put": {
+     "id": "0e85edd8-d159-4a04-9040-ca5965f012a5",
+     "bid": 0.44,
+     "ask": 0.5
+    }
+   },
+   "credit_mid": 3.32,
+   "credit_natural": 3.18,
+   "width": 5.0,
+   "max_loss_usd": 182.0,
+   "cost_round_trip_usd": 28.0,
+   "cost_share": 0.0843,
+   "fits_probe_cap": false,
+   "reason": null,
+   "notes": "spot and all four legs quoted together at ~07:04 PT (spot 258.7); K picked against an earlier spot during a fast open; parity gap -0.200"
+  },
+  {
+   "symbol": "GOOGL",
+   "spot": 280.92,
+   "prev_close": 272.66,
+   "pre_move": 0.03029,
+   "K": 282.5,
+   "strike_step": 2.5,
+   "call": {
+    "id": "21eed418-dc0c-4e31-9e91-2891d41bcde0",
+    "bid": 1.54,
+    "ask": 1.62,
+    "oi": 3427.0
+   },
+   "put": {
+    "id": "7a2a8d06-f1f5-4997-a251-948b6113b04f",
+    "bid": 3.35,
+    "ask": 3.6,
+    "oi": 3461.0
+   },
+   "straddle_mid": 5.055,
+   "straddle_pct": 0.01799,
+   "spread_pct": 0.0653,
+   "wings": {
+    "call_strike": 287.5,
+    "put_strike": 277.5,
+    "call": {
+     "id": "9250f815-bc31-4652-9711-9f0258a8b96c",
+     "bid": 0.4,
+     "ask": 0.44
+    },
+    "put": {
+     "id": "a6613d5e-8f0f-4cb8-8084-21cdcb27cf88",
+     "bid": 1.2,
+     "ask": 1.27
+    }
+   },
+   "credit_mid": 3.4,
+   "credit_natural": 3.18,
+   "width": 5.0,
+   "max_loss_usd": 182.0,
+   "cost_round_trip_usd": 44.0,
+   "cost_share": 0.1294,
+   "fits_probe_cap": false,
+   "reason": null,
+   "notes": "spot and all four legs quoted together at ~07:04 PT (spot 280.92); K picked against an earlier spot during a fast open; K is -1.58 from this spot (more than half a strike step): body not exactly at the money; parity gap -0.315"
+  },
+  {
+   "symbol": "GLD",
+   "spot": 327.61,
+   "prev_close": 335.18,
+   "pre_move": -0.02258,
+   "K": 328.0,
+   "strike_step": 1,
+   "call": {
+    "id": "a8fe127c-4101-4448-9ba8-86b220bb00cc",
+    "bid": 1.13,
+    "ask": 1.2,
+    "oi": 28.0
+   },
+   "put": {
+    "id": "ac551132-5380-4458-95b1-50cd2deee391",
+    "bid": 1.63,
+    "ask": 1.74,
+    "oi": 736.0
+   },
+   "straddle_mid": 2.85,
+   "straddle_pct": 0.0087,
+   "spread_pct": 0.0632,
+   "wings": {
+    "call_strike": 331.0,
+    "put_strike": 325.0,
+    "call": {
+     "id": "005fdf00-b630-46ea-81b8-0734d938a7de",
+     "bid": 0.27,
+     "ask": 0.32
+    },
+    "put": {
+     "id": "b70fb10b-40a3-4f66-9c8c-6fc40d76505b",
+     "bid": 0.56,
+     "ask": 0.62
+    }
+   },
+   "credit_mid": 1.965,
+   "credit_natural": 1.82,
+   "width": 3.0,
+   "max_loss_usd": 118.0,
+   "cost_round_trip_usd": 29.0,
+   "cost_share": 0.1476,
+   "fits_probe_cap": true,
+   "reason": null,
+   "notes": "spot and all four legs quoted together at ~07:04 PT (spot 327.61); K picked against an earlier spot during a fast open; parity gap -0.130"
+  },
+  {
+   "symbol": "LQD",
+   "spot": 103.42,
+   "prev_close": 103.08,
+   "pre_move": 0.0033,
+   "K": 103.5,
+   "strike_step": 0.5,
+   "call": {
+    "id": "a305d6e3-d91e-4c3f-b70a-0a9df840a26a",
+    "bid": 0.03,
+    "ask": 0.08,
+    "oi": 2393.0
+   },
+   "put": {
+    "id": "a1c9cdd9-6032-433b-9eb8-27e2ee7ddc77",
+    "bid": 0.09,
+    "ask": 0.17,
+    "oi": 2440.0
+   },
+   "straddle_mid": 0.185,
+   "straddle_pct": 0.00179,
+   "spread_pct": 0.7027,
+   "wings": null,
+   "credit_mid": null,
+   "credit_natural": null,
+   "width": null,
+   "max_loss_usd": null,
+   "cost_round_trip_usd": null,
+   "cost_share": null,
+   "fits_probe_cap": null,
+   "reason": "spread",
+   "notes": "0.5-pt strikes listed today (103.5 listed); body quoted ~07:00-07:01 PT with spot 103.42; early drop, no wings"
+  },
+  {
+   "symbol": "META",
+   "spot": 586.16,
+   "prev_close": 596.22,
+   "pre_move": -0.01687,
+   "K": 585.0,
+   "strike_step": 2.5,
+   "call": {
+    "id": "4e15fd62-3887-4aba-94de-a31d084bede0",
+    "bid": 6.0,
+    "ask": 6.25,
+    "oi": 6672.0
+   },
+   "put": {
+    "id": "36a66429-f125-4931-896b-4b90f2fde800",
+    "bid": 4.95,
+    "ask": 5.2,
+    "oi": 8695.0
+   },
+   "straddle_mid": 11.2,
+   "straddle_pct": 0.01911,
+   "spread_pct": 0.0446,
+   "wings": {
+    "call_strike": 595.0,
+    "put_strike": 575.0,
+    "call": {
+     "id": "d7bd319b-2c78-4ef3-90b9-45e3fd30893e",
+     "bid": 2.06,
+     "ask": 2.21
+    },
+    "put": {
+     "id": "5b5a4890-958c-491e-829b-a6a347cbb3f4",
+     "bid": 1.83,
+     "ask": 1.94
+    }
+   },
+   "credit_mid": 7.18,
+   "credit_natural": 6.8,
+   "width": 10.0,
+   "max_loss_usd": 320.0,
+   "cost_round_trip_usd": 76.0,
+   "cost_share": 0.1058,
+   "fits_probe_cap": false,
+   "reason": null,
+   "notes": "spot and all four legs quoted together at ~07:06 PT (spot 586.16); K picked against an earlier spot during a fast open; parity gap -0.110; wings re-picked after the 07:06 re-quote (were 597.5/572.5); 07:04 quotes showed a 1.8 parity gap vs spot, 07:06 gap small"
+  },
+  {
+   "symbol": "DRAM",
+   "spot": 36.77,
+   "prev_close": 38.43,
+   "pre_move": -0.0432,
+   "K": 37.0,
+   "strike_step": 0.5,
+   "call": {
+    "id": "ab98e400-98fd-4ee0-be51-68c87b80ea69",
+    "bid": 0.45,
+    "ask": 0.46,
+    "oi": 1123.0
+   },
+   "put": {
+    "id": "06f23917-568f-48ea-971e-5f6af27c2ef7",
+    "bid": 0.74,
+    "ask": 0.76,
+    "oi": 1610.0
+   },
+   "straddle_mid": 1.205,
+   "straddle_pct": 0.03277,
+   "spread_pct": 0.0249,
+   "wings": {
+    "call_strike": 38.0,
+    "put_strike": 36.0,
+    "call": {
+     "id": "462ac3a5-3f36-412d-8053-84b84bbcd6b6",
+     "bid": 0.15,
+     "ask": 0.16
+    },
+    "put": {
+     "id": "1ba458bd-9a3a-45c0-b099-eb09ce4fea53",
+     "bid": 0.31,
+     "ask": 0.32
+    }
+   },
+   "credit_mid": 0.735,
+   "credit_natural": 0.71,
+   "width": 1.0,
+   "max_loss_usd": 29.0,
+   "cost_round_trip_usd": 5.0,
+   "cost_share": 0.068,
+   "fits_probe_cap": true,
+   "reason": null,
+   "notes": "spot and all four legs quoted together at ~07:04 PT (spot 36.77); K picked against an earlier spot during a fast open; parity gap -0.065"
+  },
+  {
+   "symbol": "SMH",
+   "spot": 436.95,
+   "prev_close": 447.48,
+   "pre_move": -0.02353,
+   "K": 435.0,
+   "strike_step": 2.5,
+   "call": {
+    "id": "88c9e1d8-9a4e-4ec6-819d-8d92827cdc3b",
+    "bid": 6.05,
+    "ask": 6.9,
+    "oi": 68.0
+   },
+   "put": {
+    "id": "2b0d8fdd-1155-454b-87b2-e7dbda3e6d1b",
+    "bid": 4.1,
+    "ask": 5.0,
+    "oi": 2212.0
+   },
+   "straddle_mid": 11.025,
+   "straddle_pct": 0.02523,
+   "spread_pct": 0.1587,
+   "wings": null,
+   "credit_mid": null,
+   "credit_natural": null,
+   "width": null,
+   "max_loss_usd": null,
+   "cost_round_trip_usd": null,
+   "cost_share": null,
+   "fits_probe_cap": null,
+   "reason": "spread",
+   "notes": "body quoted ~07:00-07:01 PT with spot 436.95; early drop, no wings"
+  },
+  {
+   "symbol": "MSFT",
+   "spot": 502.945,
+   "prev_close": 498.3,
+   "pre_move": 0.00932,
+   "K": 502.5,
+   "strike_step": 2.5,
+   "call": {
+    "id": "a6ab951d-6d84-4d0f-aaf9-134adbc54843",
+    "bid": 3.5,
+    "ask": 3.8,
+    "oi": 478.0
+   },
+   "put": {
+    "id": "553c5a91-03b9-4fdb-bdc5-ee1635536462",
+    "bid": 3.1,
+    "ask": 3.4,
+    "oi": 607.0
+   },
+   "straddle_mid": 6.9,
+   "straddle_pct": 0.01372,
+   "spread_pct": 0.087,
+   "wings": null,
+   "credit_mid": null,
+   "credit_natural": null,
+   "width": null,
+   "max_loss_usd": null,
+   "cost_round_trip_usd": null,
+   "cost_share": null,
+   "fits_probe_cap": null,
+   "reason": "spread",
+   "notes": "body quoted ~07:00-07:01 PT with spot 502.945; early drop, no wings"
+  },
+  {
+   "symbol": "TQQQ",
+   "spot": 47.83,
+   "prev_close": 49.01,
+   "pre_move": -0.02408,
+   "K": 48.0,
+   "strike_step": 0.5,
+   "call": {
+    "id": "b0471949-f956-4225-b9fd-dfdecbd2c2e1",
+    "bid": 0.86,
+    "ask": 0.91,
+    "oi": 234.0
+   },
+   "put": {
+    "id": "92194f8a-bf09-4898-a93c-01780a2d4203",
+    "bid": 1.1,
+    "ask": 1.17,
+    "oi": 5018.0
+   },
+   "straddle_mid": 2.02,
+   "straddle_pct": 0.04223,
+   "spread_pct": 0.0594,
+   "wings": {
+    "call_strike": 50.0,
+    "put_strike": 46.0,
+    "call": {
+     "id": "eabcd5b5-932e-4d5c-878e-2c6d799d3853",
+     "bid": 0.24,
+     "ask": 0.27
+    },
+    "put": {
+     "id": "027d3806-1baf-443c-bdf8-806c5bed2f5b",
+     "bid": 0.38,
+     "ask": 0.42
+    }
+   },
+   "credit_mid": 1.365,
+   "credit_natural": 1.27,
+   "width": 2.0,
+   "max_loss_usd": 73.0,
+   "cost_round_trip_usd": 19.0,
+   "cost_share": 0.1392,
+   "fits_probe_cap": true,
+   "reason": null,
+   "notes": "0.5-pt strikes listed today (47.5 listed); spot and all four legs quoted together at ~07:04 PT (spot 47.83); K picked against an earlier spot during a fast open; parity gap -0.080"
+  },
+  {
+   "symbol": "AVGO",
+   "spot": 331.7377,
+   "prev_close": 346.65,
+   "pre_move": -0.04302,
+   "K": 335.0,
+   "strike_step": 2.5,
+   "call": {
+    "id": "02e5221d-bd83-4722-8346-13c2c6e57993",
+    "bid": 2.73,
+    "ask": 2.94,
+    "oi": 2473.0
+   },
+   "put": {
+    "id": "a9dae356-eefa-423a-bd11-f7d288964216",
+    "bid": 6.4,
+    "ask": 6.6,
+    "oi": 2673.0
+   },
+   "straddle_mid": 9.335,
+   "straddle_pct": 0.02814,
+   "spread_pct": 0.0439,
+   "wings": {
+    "call_strike": 345.0,
+    "put_strike": 325.0,
+    "call": {
+     "id": "700bda0c-2f07-4fcf-b418-7608c6b4e604",
+     "bid": 0.56,
+     "ask": 0.6
+    },
+    "put": {
+     "id": "8464d8b0-9156-408b-a3ed-f0f197b99222",
+     "bid": 2.36,
+     "ask": 2.51
+    }
+   },
+   "credit_mid": 6.32,
+   "credit_natural": 6.02,
+   "width": 10.0,
+   "max_loss_usd": 398.0,
+   "cost_round_trip_usd": 60.0,
+   "cost_share": 0.0949,
+   "fits_probe_cap": false,
+   "reason": null,
+   "notes": "spot and all four legs quoted together at ~07:04 PT (spot 331.7377); K picked against an earlier spot during a fast open; K is -3.26 from this spot (more than half a strike step): body not exactly at the money; parity gap -0.403"
+  },
+  {
+   "symbol": "XLE",
+   "spot": 61.3688,
+   "prev_close": 60.89,
+   "pre_move": 0.00786,
+   "K": 61.0,
+   "strike_step": 0.5,
+   "call": {
+    "id": "c327a298-b227-4f8c-b1a4-254e6dfed552",
+    "bid": 0.49,
+    "ask": 0.63,
+    "oi": 591.0
+   },
+   "put": {
+    "id": "2c2d67ee-6580-4e85-b883-89fce77c944d",
+    "bid": 0.17,
+    "ask": 0.23,
+    "oi": 7597.0
+   },
+   "straddle_mid": 0.76,
+   "straddle_pct": 0.01238,
+   "spread_pct": 0.2632,
+   "wings": null,
+   "credit_mid": null,
+   "credit_natural": null,
+   "width": null,
+   "max_loss_usd": null,
+   "cost_round_trip_usd": null,
+   "cost_share": null,
+   "fits_probe_cap": null,
+   "reason": "spread",
+   "notes": "0.5-pt strikes listed today (60.5 listed); body quoted ~07:00-07:01 PT with spot 61.3688; early drop, no wings"
+  },
+  {
+   "symbol": "GDX",
+   "spot": 71.71,
+   "prev_close": 72.0,
+   "pre_move": -0.00403,
+   "K": 71.0,
+   "strike_step": 1,
+   "call": {
+    "id": "35328cf0-84a5-4950-b4e2-3ba4a93f5176",
+    "bid": 0.94,
+    "ask": 1.09,
+    "oi": 47.0
+   },
+   "put": {
+    "id": "a9d02337-9642-4387-9105-8c45bb8c6799",
+    "bid": 0.3,
+    "ask": 0.4,
+    "oi": 3220.0
+   },
+   "straddle_mid": 1.365,
+   "straddle_pct": 0.01904,
+   "spread_pct": 0.1832,
+   "wings": null,
+   "credit_mid": null,
+   "credit_natural": null,
+   "width": null,
+   "max_loss_usd": null,
+   "cost_round_trip_usd": null,
+   "cost_share": null,
+   "fits_probe_cap": null,
+   "reason": "spread",
+   "notes": "body quoted ~07:00-07:01 PT with spot 71.71; early drop, no wings"
+  },
+  {
+   "symbol": "IEF",
+   "spot": 91.18,
+   "prev_close": 90.82,
+   "pre_move": 0.00396,
+   "K": 91.0,
+   "strike_step": 0.5,
+   "call": {
+    "id": "f164a0cb-d4d2-4ea4-9e2f-bbff87d59bc6",
+    "bid": 0.2,
+    "ask": 0.24,
+    "oi": 13720.0
+   },
+   "put": {
+    "id": "dfa8aeb4-1ba6-4fa7-9f42-e972d40e35f5",
+    "bid": 0.01,
+    "ask": 0.04,
+    "oi": 923.0
+   },
+   "straddle_mid": 0.245,
+   "straddle_pct": 0.00269,
+   "spread_pct": 0.2857,
+   "wings": null,
+   "credit_mid": null,
+   "credit_natural": null,
+   "width": null,
+   "max_loss_usd": null,
+   "cost_round_trip_usd": null,
+   "cost_share": null,
+   "fits_probe_cap": null,
+   "reason": "spread",
+   "notes": "0.5-pt strikes listed today (91.5 listed); body quoted ~07:00-07:01 PT with spot 91.18; early drop, no wings"
+  },
+  {
+   "symbol": "XSP",
+   "spot": 719.26,
+   "prev_close": null,
+   "pre_move": null,
+   "K": 718.0,
+   "strike_step": 1,
+   "call": {
+    "id": "065ea68d-cb72-418c-b7ca-12b29efc4d29",
+    "bid": 4.12,
+    "ask": 4.45,
+    "oi": 189.0
+   },
+   "put": {
+    "id": "50e3b6a9-f059-400f-8e8c-196c6e036b82",
+    "bid": 2.75,
+    "ask": 3.01,
+    "oi": 591.0
+   },
+   "straddle_mid": 7.165,
+   "straddle_pct": 0.00996,
+   "spread_pct": 0.0823,
+   "wings": null,
+   "credit_mid": null,
+   "credit_natural": null,
+   "width": null,
+   "max_loss_usd": null,
+   "cost_round_trip_usd": null,
+   "cost_share": null,
+   "fits_probe_cap": null,
+   "reason": "spread",
+   "notes": "index level from get_index_quotes (re-pulled with each quote batch); no previous close returned, pre_move null; body quoted ~07:00-07:01 PT with spot 719.26; early drop, no wings"
+  },
+  {
+   "symbol": "SPX",
+   "spot": 7173.86,
+   "prev_close": null,
+   "pre_move": null,
+   "K": 7180.0,
+   "strike_step": 5,
+   "call": {
+    "id": "91d8ec15-6d47-4f7b-9d13-1d1c2dc0c130",
+    "bid": 33.0,
+    "ask": 33.3,
+    "oi": 467.0
+   },
+   "put": {
+    "id": "41197a83-32f4-45dc-9ed0-60617aff5e78",
+    "bid": 37.4,
+    "ask": 37.6,
+    "oi": 1248.0
+   },
+   "straddle_mid": 70.65,
+   "straddle_pct": 0.00985,
+   "spread_pct": 0.0071,
+   "wings": {
+    "call_strike": 7250.0,
+    "put_strike": 7110.0,
+    "call": {
+     "id": "f8345523-e3f5-47f7-ac3b-40a561a8758b",
+     "bid": 10.1,
+     "ask": 10.2
+    },
+    "put": {
+     "id": "59b56629-8739-43ca-96e7-b434e810680d",
+     "bid": 13.0,
+     "ask": 13.2
+    }
+   },
+   "credit_mid": 47.4,
+   "credit_natural": 47.0,
+   "width": 70.0,
+   "max_loss_usd": 2300.0,
+   "cost_round_trip_usd": 80.0,
+   "cost_share": 0.0169,
+   "fits_probe_cap": false,
+   "reason": null,
+   "notes": "index level from get_index_quotes (re-pulled with each quote batch); no previous close returned, pre_move null; same-day chain root SPXW (PM-settled); spot and all four legs quoted together at ~07:06 PT (spot 7173.86); K picked against an earlier spot during a fast open; K is -6.14 from this spot (more than half a strike step): body not exactly at the money; parity gap 1.790; wings re-picked after the 07:06 re-quote (were 7255/7105)"
+  },
+  {
+   "symbol": "NDX",
+   "spot": 26267.3103,
+   "prev_close": null,
+   "pre_move": null,
+   "K": 26340.0,
+   "strike_step": 10,
+   "call": {
+    "id": "3b8ee1b1-fc8a-4e58-ab45-e3e3ed5beeb8",
+    "bid": 145.0,
+    "ask": 152.2,
+    "oi": 0.0
+   },
+   "put": {
+    "id": "70da2b56-0a86-4c2f-865b-f09e430cf41f",
+    "bid": 210.1,
+    "ask": 221.1,
+    "oi": 17.0
+   },
+   "straddle_mid": 364.2,
+   "straddle_pct": 0.01387,
+   "spread_pct": 0.05,
+   "wings": {
+    "call_strike": 26700.0,
+    "put_strike": 25980.0,
+    "call": {
+     "id": "983c8bd4-cb18-4e8c-8021-bba7fd638dbd",
+     "bid": 40.0,
+     "ask": 44.4
+    },
+    "put": {
+     "id": "e6fa95ff-a2e6-408e-aba7-3b2beb1e7a38",
+     "bid": 73.1,
+     "ask": 83.1
+    }
+   },
+   "credit_mid": 243.9,
+   "credit_natural": 227.6,
+   "width": 360.0,
+   "max_loss_usd": 13240.0,
+   "cost_round_trip_usd": 3260.0,
+   "cost_share": 0.1337,
+   "fits_probe_cap": false,
+   "reason": null,
+   "notes": "index level from get_index_quotes (re-pulled with each quote batch); no previous close returned, pre_move null; same-day chain root NDXP (PM-settled); spot and all four legs quoted together at ~07:07 PT (spot 26267.3103); K picked against an earlier spot during a fast open; K is -72.69 from this spot (more than half a strike step): body not exactly at the money; parity gap 5.690; wings re-checked at 07:07: 26700/25980 nearest K +/- straddle; NDXP legs thin (OI 0-26)"
+  },
+  {
+   "symbol": "RUT",
+   "spot": null,
+   "prev_close": null,
+   "pre_move": null,
+   "K": null,
+   "strike_step": null,
+   "call": null,
+   "put": null,
+   "straddle_mid": null,
+   "straddle_pct": null,
+   "spread_pct": null,
+   "wings": null,
+   "credit_mid": null,
+   "credit_natural": null,
+   "width": null,
+   "max_loss_usd": null,
+   "cost_round_trip_usd": null,
+   "cost_share": null,
+   "fits_probe_cap": null,
+   "reason": "no_spot",
+   "notes": "get_index_quotes: \"Quotes for RUT aren't available through the MCP\" ; same-day PM chain would be RUTW; skipped"
+  },
+  {
+   "symbol": "EWZ",
+   "spot": 29.5885,
+   "prev_close": 29.51,
+   "pre_move": 0.00266,
+   "K": 29.5,
+   "strike_step": 0.5,
+   "call": {
+    "id": "75a0f239-9928-4442-9f2d-b4647438752a",
+    "bid": 0.12,
+    "ask": 0.33,
+    "oi": 51.0
+   },
+   "put": {
+    "id": "9675436f-2a02-42bd-a2c6-2ecff82cc158",
+    "bid": 0.07,
+    "ask": 0.31,
+    "oi": 4144.0
+   },
+   "straddle_mid": 0.415,
+   "straddle_pct": 0.01403,
+   "spread_pct": 1.0843,
+   "wings": null,
+   "credit_mid": null,
+   "credit_natural": null,
+   "width": null,
+   "max_loss_usd": null,
+   "cost_round_trip_usd": null,
+   "cost_share": null,
+   "fits_probe_cap": null,
+   "reason": "spread",
+   "notes": "body quoted ~07:00-07:01 PT with spot 29.5885; early drop, no wings"
+  },
+  {
+   "symbol": "HYG",
+   "spot": 76.55,
+   "prev_close": 76.53,
+   "pre_move": 0.00026,
+   "K": 76.5,
+   "strike_step": 0.5,
+   "call": {
+    "id": "4c80eb80-77a0-4017-97a2-8442a12a3690",
+    "bid": 0.05,
+    "ask": 0.16,
+    "oi": 1327.0
+   },
+   "put": {
+    "id": "96a37687-3939-41c7-be24-9ef8ecaa6c24",
+    "bid": 0.03,
+    "ask": 0.1,
+    "oi": 78061.0
+   },
+   "straddle_mid": 0.17,
+   "straddle_pct": 0.00222,
+   "spread_pct": 1.0588,
+   "wings": null,
+   "credit_mid": null,
+   "credit_natural": null,
+   "width": null,
+   "max_loss_usd": null,
+   "cost_round_trip_usd": null,
+   "cost_share": null,
+   "fits_probe_cap": null,
+   "reason": "spread",
+   "notes": "body quoted ~07:00-07:01 PT with spot 76.55; early drop, no wings"
+  },
+  {
+   "symbol": "INTC",
+   "spot": 56.08,
+   "prev_close": 55.72,
+   "pre_move": 0.00646,
+   "K": 56.0,
+   "strike_step": 1,
+   "call": {
+    "id": "f87d84e9-0eae-4e90-8fe1-e51de44c0740",
+    "bid": 0.85,
+    "ask": 0.91,
+    "oi": 10625.0
+   },
+   "put": {
+    "id": "f6050bb1-bbcc-4cbc-81d8-e4cf6c6ab58e",
+    "bid": 0.86,
+    "ask": 0.9,
+    "oi": 6047.0
+   },
+   "straddle_mid": 1.76,
+   "straddle_pct": 0.03138,
+   "spread_pct": 0.0568,
+   "wings": {
+    "call_strike": 58.0,
+    "put_strike": 54.0,
+    "call": {
+     "id": "5cee1210-67e7-47af-85f3-3b3955cbc7bb",
+     "bid": 0.2,
+     "ask": 0.23
+    },
+    "put": {
+     "id": "8a651257-6e67-4624-9ded-c2657c2d893b",
+     "bid": 0.24,
+     "ask": 0.26
+    }
+   },
+   "credit_mid": 1.295,
+   "credit_natural": 1.22,
+   "width": 2.0,
+   "max_loss_usd": 78.0,
+   "cost_round_trip_usd": 15.0,
+   "cost_share": 0.1158,
+   "fits_probe_cap": true,
+   "reason": null,
+   "notes": "spot and all four legs quoted together at ~07:04 PT (spot 56.08); K picked against an earlier spot during a fast open; parity gap -0.080"
+  },
+  {
+   "symbol": "IREN",
+   "spot": 13.4595,
+   "prev_close": 14.41,
+   "pre_move": -0.06596,
+   "K": 14.0,
+   "strike_step": 1,
+   "call": {
+    "id": "e6b3ca66-6ec2-4e46-8261-8aea40098879",
+    "bid": 0.13,
+    "ask": 0.14,
+    "oi": 1077.0
+   },
+   "put": {
+    "id": "da49295b-e3bd-4fb3-8220-b255bcc7ee25",
+    "bid": 0.66,
+    "ask": 0.71,
+    "oi": 9112.0
+   },
+   "straddle_mid": 0.82,
+   "straddle_pct": 0.06092,
+   "spread_pct": 0.0732,
+   "wings": {
+    "call_strike": 15.0,
+    "put_strike": 13.0,
+    "call": {
+     "id": "74ad8afd-ba8f-4e13-8c63-b3dfc1fb02db",
+     "bid": 0.01,
+     "ask": 0.02
+    },
+    "put": {
+     "id": "c4b36cfe-7b2c-40e2-8a8a-9bfb212e7352",
+     "bid": 0.16,
+     "ask": 0.18
+    }
+   },
+   "credit_mid": 0.635,
+   "credit_natural": 0.59,
+   "width": 1.0,
+   "max_loss_usd": 41.0,
+   "cost_round_trip_usd": 9.0,
+   "cost_share": 0.1417,
+   "fits_probe_cap": true,
+   "reason": null,
+   "notes": "spot and all four legs quoted together at ~07:04 PT (spot 13.4595); K picked against an earlier spot during a fast open; K is -0.54 from this spot (more than half a strike step): body not exactly at the money; parity gap -0.010"
+  },
+  {
+   "symbol": "CRWV",
+   "spot": 42.47,
+   "prev_close": 44.91,
+   "pre_move": -0.05433,
+   "K": 43.0,
+   "strike_step": 0.5,
+   "call": {
+    "id": "1911a8bf-8e9f-460b-8620-6e38193dd531",
+    "bid": 0.64,
+    "ask": 0.7,
+    "oi": 79.0
+   },
+   "put": {
+    "id": "532322e3-eca2-498c-ac8b-c103ac0ca7d4",
+    "bid": 1.11,
+    "ask": 1.18,
+    "oi": 2232.0
+   },
+   "straddle_mid": 1.815,
+   "straddle_pct": 0.04274,
+   "spread_pct": 0.0716,
+   "wings": {
+    "call_strike": 45.0,
+    "put_strike": 41.0,
+    "call": {
+     "id": "a232f053-3fc0-4e54-a1b7-09e526a3260f",
+     "bid": 0.15,
+     "ask": 0.18
+    },
+    "put": {
+     "id": "bedabfea-5c91-4dae-9640-b28d04298ef4",
+     "bid": 0.3,
+     "ask": 0.34
+    }
+   },
+   "credit_mid": 1.33,
+   "credit_natural": 1.23,
+   "width": 2.0,
+   "max_loss_usd": 77.0,
+   "cost_round_trip_usd": 20.0,
+   "cost_share": 0.1504,
+   "fits_probe_cap": true,
+   "reason": null,
+   "notes": "spot and all four legs quoted together at ~07:04 PT (spot 42.47); K picked against an earlier spot during a fast open; K is -0.53 from this spot (more than half a strike step): body not exactly at the money; parity gap 0.055"
+  },
+  {
+   "symbol": "NFLX",
+   "spot": 59.05,
+   "prev_close": 58.46,
+   "pre_move": 0.01009,
+   "K": 59.0,
+   "strike_step": 1,
+   "call": {
+    "id": "80a17a68-be08-4e73-bf2e-1553f64b1cac",
+    "bid": 0.37,
+    "ask": 0.4,
+    "oi": 3258.0
+   },
+   "put": {
+    "id": "e4fcbfe7-3fc3-43c7-9f75-9372e7d156c3",
+    "bid": 0.33,
+    "ask": 0.38,
+    "oi": 17054.0
+   },
+   "straddle_mid": 0.74,
+   "straddle_pct": 0.01253,
+   "spread_pct": 0.1081,
+   "wings": null,
+   "credit_mid": null,
+   "credit_natural": null,
+   "width": null,
+   "max_loss_usd": null,
+   "cost_round_trip_usd": null,
+   "cost_share": null,
+   "fits_probe_cap": null,
+   "reason": "spread",
+   "notes": "body quoted ~07:00-07:01 PT with spot 59.05; early drop, no wings"
+  },
+  {
+   "symbol": "SOXX",
+   "spot": 134.7613,
+   "prev_close": 137.95,
+   "pre_move": -0.02311,
+   "K": 135.0,
+   "strike_step": 5,
+   "call": {
+    "id": "63de5bdc-f819-40b9-ae97-7c1dbd39332b",
+    "bid": 1.5,
+    "ask": 1.95,
+    "oi": 202.0
+   },
+   "put": {
+    "id": "b8db884c-3712-4b61-876c-fcae4f0ee5a5",
+    "bid": 1.65,
+    "ask": 2.8,
+    "oi": 8697.0
+   },
+   "straddle_mid": 3.95,
+   "straddle_pct": 0.02931,
+   "spread_pct": 0.4051,
+   "wings": null,
+   "credit_mid": null,
+   "credit_natural": null,
+   "width": null,
+   "max_loss_usd": null,
+   "cost_round_trip_usd": null,
+   "cost_share": null,
+   "fits_probe_cap": null,
+   "reason": "spread",
+   "notes": "5-pt strikes near the money (132, 132.5, 133 not listed); body quoted ~07:00-07:01 PT with spot 134.7613; early drop, no wings"
+  },
+  {
+   "symbol": "MSTR",
+   "spot": 84.945,
+   "prev_close": 86.13,
+   "pre_move": -0.01376,
+   "K": 86.0,
+   "strike_step": 1,
+   "call": {
+    "id": "c1180086-41cc-4f2d-98e0-13b08ebd34f3",
+    "bid": 0.99,
+    "ask": 1.04,
+    "oi": 545.0
+   },
+   "put": {
+    "id": "30acee24-91e4-412e-80d2-100b4f330d00",
+    "bid": 1.98,
+    "ask": 2.07,
+    "oi": 449.0
+   },
+   "straddle_mid": 3.04,
+   "straddle_pct": 0.03579,
+   "spread_pct": 0.0461,
+   "wings": {
+    "call_strike": 89.0,
+    "put_strike": 83.0,
+    "call": {
+     "id": "44668164-f5b1-46d7-b7bb-7ec2c7b140e4",
+     "bid": 0.25,
+     "ask": 0.28
+    },
+    "put": {
+     "id": "3449a1fb-0c46-45da-b65d-56cc5e1e0d81",
+     "bid": 0.66,
+     "ask": 0.72
+    }
+   },
+   "credit_mid": 2.085,
+   "credit_natural": 1.97,
+   "width": 3.0,
+   "max_loss_usd": 103.0,
+   "cost_round_trip_usd": 23.0,
+   "cost_share": 0.1103,
+   "fits_probe_cap": true,
+   "reason": null,
+   "notes": "spot and all four legs quoted together at ~07:04 PT (spot 84.945); K picked against an earlier spot during a fast open; K is -1.06 from this spot (more than half a strike step): body not exactly at the money; parity gap 0.045"
+  },
+  {
+   "symbol": "SOXL",
+   "spot": 40.98,
+   "prev_close": 45.3,
+   "pre_move": -0.09536,
+   "K": 42.0,
+   "strike_step": 1,
+   "call": {
+    "id": "a386cc26-31a2-4a57-baf4-0805a2c53f50",
+    "bid": 1.33,
+    "ask": 1.38,
+    "oi": 331.0
+   },
+   "put": {
+    "id": "9cb67c8a-af12-458a-90a0-58d32ae4a108",
+    "bid": 2.21,
+    "ask": 2.26,
+    "oi": 2618.0
+   },
+   "straddle_mid": 3.59,
+   "straddle_pct": 0.0876,
+   "spread_pct": 0.0279,
+   "wings": {
+    "call_strike": 46.0,
+    "put_strike": 38.0,
+    "call": {
+     "id": "4c652ed2-6200-4886-ad46-a836aa839884",
+     "bid": 0.33,
+     "ask": 0.35
+    },
+    "put": {
+     "id": "b8d66dcf-b575-493e-a5df-f52e76ccf863",
+     "bid": 0.58,
+     "ask": 0.61
+    }
+   },
+   "credit_mid": 2.655,
+   "credit_natural": 2.58,
+   "width": 4.0,
+   "max_loss_usd": 142.0,
+   "cost_round_trip_usd": 15.0,
+   "cost_share": 0.0565,
+   "fits_probe_cap": true,
+   "reason": null,
+   "notes": "spot and all four legs quoted together at ~07:04 PT (spot 40.98); K picked against an earlier spot during a fast open; K is -1.02 from this spot (more than half a strike step): body not exactly at the money; parity gap 0.140"
+  },
+  {
+   "symbol": "EEM",
+   "spot": 56.025,
+   "prev_close": 56.75,
+   "pre_move": -0.01278,
+   "K": 56.0,
+   "strike_step": 0.5,
+   "call": {
+    "id": "85ed69d9-ad5c-4883-80b2-e3f4364f191f",
+    "bid": 0.11,
+    "ask": 0.87,
+    "oi": 25.0
+   },
+   "put": {
+    "id": "02555613-e7de-4bd8-b7c2-9ec38195b1bc",
+    "bid": 0.3,
+    "ask": 0.4,
+    "oi": 8867.0
+   },
+   "straddle_mid": 0.84,
+   "straddle_pct": 0.01499,
+   "spread_pct": 1.0238,
+   "wings": null,
+   "credit_mid": null,
+   "credit_natural": null,
+   "width": null,
+   "max_loss_usd": null,
+   "cost_round_trip_usd": null,
+   "cost_share": null,
+   "fits_probe_cap": null,
+   "reason": "spread",
+   "notes": "body quoted ~07:00-07:01 PT with spot 56.025; early drop, no wings"
+  },
+  {
+   "symbol": "ORCL",
+   "spot": 108.905,
+   "prev_close": 110.57,
+   "pre_move": -0.01506,
+   "K": 109.0,
+   "strike_step": 1,
+   "call": {
+    "id": "cb3811a2-5c15-463e-a22e-bf2e42610be6",
+    "bid": 1.13,
+    "ask": 1.23,
+    "oi": 66.0
+   },
+   "put": {
+    "id": "8029c25a-0315-4825-89e1-1b0f46aa6a59",
+    "bid": 1.42,
+    "ask": 1.58,
+    "oi": 1306.0
+   },
+   "straddle_mid": 2.68,
+   "straddle_pct": 0.02461,
+   "spread_pct": 0.097,
+   "wings": null,
+   "credit_mid": null,
+   "credit_natural": null,
+   "width": null,
+   "max_loss_usd": null,
+   "cost_round_trip_usd": null,
+   "cost_share": null,
+   "fits_probe_cap": null,
+   "reason": "spread",
+   "notes": "body quoted ~07:00-07:01 PT with spot 108.905; early drop, no wings"
+  }
+ ],
+ "ranking_by_cost_share": [
+  "SPY",
+  "SPX",
+  "NVDA",
+  "IWM",
+  "SOXL",
+  "DRAM",
+  "MU",
+  "AMZN",
+  "AVGO",
+  "AMD",
+  "SPCX",
+  "META",
+  "MSTR",
+  "INTC",
+  "GOOGL",
+  "NDX",
+  "TQQQ",
+  "IREN",
+  "IBIT",
+  "GLD",
+  "CRWV",
+  "AAPL"
+ ],
+ "errors": [
+  "RUT: get_index_quotes restricted (Quotes for RUT aren't available through the MCP) -> no_spot",
+  "QQQ: K=641 body quotes crossed on both legs at 07:00 (and 636/637 puts crossed at 06:57); spread not computable"
+ ],
+ "left_out_by_40_cap": [
+  "FXI",
+  "XLP",
+  "NBIS",
+  "HOOD",
+  "PLTR",
+  "EFA",
+  "RIOT",
+  "GOOG",
+  "USO",
+  "MRVL",
+  "SNDK",
+  "SMCI",
+  "XLU",
+  "KRE",
+  "TSM",
+  "EWY",
+  "BAC",
+  "KWEB",
+  "NOW",
+  "PBR",
+  "BA",
+  "GME",
+  "UAL",
+  "DIA",
+  "ETHA",
+  "UNG",
+  "ARKK",
+  "COIN",
+  "BABA",
+  "UBER",
+  "SOFI"
+ ],
+ "excluded": {
+  "TSLA": "never include TSLA (also blocked by owner)"
+ }
+}
