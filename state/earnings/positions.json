@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-20T19:16:05Z",
+ "as_of": "2026-11-20T20:15:59Z",
  "account_value": 1847.05,
  "cap_total_max_loss": 1235.08,
  "execution": {
@@ -516,7 +516,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-20T19:15:55Z",
+  "last_query_utc": "2026-11-20T20:15:42Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -2117,5 +2117,12 @@
   "2026-11-26": "NYSE holiday (Thanksgiving): skip every run; move switches past it",
   "2026-11-27": "NYSE early close (13:00 ET / 10:00 PT): the entry task skips early-close days; exits must finish well before 10:00 PT",
   "source": "standby session message 2026-11-20 12:06 PT"
+ },
+ "check_2026-11-20_1215_hourly": {
+  "at_utc": "2026-11-20T20:15:59Z",
+  "hand_orders": "none",
+  "open": "ANT 20 sh (owner) at 86.88; worthless long wings expiring today (PDD 72P, JD 30C x3, AS 26P)",
+  "PDD_after_close": "84.01 at 12:15 PT, a penny over the 84 long call 15 minutes before sellout: the 09:54 leg-out took the pin risk off the table (evidence for P071)",
+  "SPY": "-3.1% (693.56): hard macro veto level"
  }
 }
