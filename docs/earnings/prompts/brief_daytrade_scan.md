@@ -28,9 +28,9 @@ transient error wait 15 s and retry, at most 3 times. Do the arithmetic with pyt
 
 STEP 0. If the Pacific time is before 06:50, wait until 06:50 (python3 -c "import time;
 time.sleep(N)" with N at most 240, repeated as needed). Read the universe file with python and list the names whose
-expiries["{TODAY}"] is true and blocked is false. Never include TSLA. AT MOST 40 NAMES: every
+expiries["{TODAY}"] is true and blocked is false. Never include TSLA. AT MOST 25 NAMES (P074, 2026-11-20: the 40-name scan cost $9 in 57 calls; target $4 or less, at most 120 tool calls in all): every
 name of class "daily" and "mon_wed_fri" first, then "other" and "weekly" names by
-avg_options_volume (highest first) until the list holds 40. Say in the output which names were
+avg_options_volume (highest first) until the list holds 25. Say in the output which names were
 left out.
 
 STEP 1, SPOT. get_equity_quotes for the stock and fund names (batches of 20): spot =

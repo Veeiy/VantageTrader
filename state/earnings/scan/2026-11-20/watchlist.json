@@ -57,6 +57,7 @@
  },
  "final_sweep_1146": {
   "at_utc": "2026-11-20T19:47:01Z",
-  "result": "no entries: no name in the Friday window (Fri pm / Mon am); buying power 102.75; total risk above the account value from the owner's ANT; SPY -2.5% at 11:15 PT (soft macro band)"
+  "result": "no entries: no name in the Friday window (Fri pm / Mon am); buying power 102.75; total risk above the account value from the owner's ANT; SPY -2.5% at 11:15 PT (soft macro band)",
+  "correction": "2026-11-20T21:21Z: 'total risk above the account value' was stale. From 11:15 PT ANT's 1,799.77 sat under the account value (1,847.05 then, 1,874.15 at the close) because the mark moved, not because ANT changed. Still true: about 74 of free risk, 102.75 buying power, ANT about 94% of the account against the 30% per-name ceiling (selfcheck does not test the ceiling)."
  }
 }

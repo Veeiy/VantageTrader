@@ -1099,3 +1099,11 @@ P069 (process, agent): the daemon's start time is written to positions.json and 
 replaces a daemon older than two hours. P066's replacement relied on memory and did not happen on
 2026-11-19 (one daemon, 06:41 to 12:57 PT, 84k to 1,097k tokens, about $20 of the day's $64).
 Measures: no timer stopped before its event; daemons and paper desk at $15 a day or less.
+
+
+## v1.16.10 (2026-11-20, reflection)
+P071 (execution, agent): expiry-day carve-out to v1.2.2. A max-loss spread is closed by legs before 11:00 PT when the in-the-money short's buyback is accepted by the broker (debit at or under released collateral plus buying power) and the stock is within 1% of the long strike, or at 10:45 PT; the let-it-expire branch stays only for a deep in-the-money long leg with no possible buyback. An owner hold ends at the 11:00 be-flat rule. Evidence: PDD 2026-11-20 closed 83.655, under its 84 long call; held, the short 78C would have been assigned into a weekend with about 100 of buying power. Measure: over the next 5 max-loss spreads on expiry day, no assignment and close cost within 0.30 of the spread's value at the close. Review 2026-12-18.
+P072 (tooling, agent): scripts/earnings/timer.sh refuses a wait over 115 minutes; the 09:15 run starts the 10:30 timer. Replaces P060 and P068 (both did_not_work: the 10:30 timer died at its 2 h limit on 2026-11-20). Measure: no timer stopped before its event in 10 trading days.
+P073 (process, agent): the standby entry switch moves on every entry decision, trade or no-trade, to the next entry day Mon to Fri (Fridays are entry days since v1.16.7). Measure: the entry switch does not fire on a day the head ran its sweep, over 10 trading days.
+P074 (cost, agent under the 2026-11-16 delegation): the Friday spread scan holds 25 names and 120 tool calls at most. Measure: scan agent at $4 or less. Brad: 'scan 40' reverses it.
+P076 (process, agent): no buying-power claim or ticket without the review result of that order.

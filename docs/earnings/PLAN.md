@@ -8,10 +8,12 @@ at what size, what is only tested, and what has to be true before anything grows
 by ledgered decisions (`state/earnings/proposals.jsonl`), not by mood.
 
 ## 1. Where things stand
-- Live record: 5 closed trades, 3 wins, about -$15. Too few to mean anything either way.
-- Account about $1,995. Three earnings flies open into the 2026-11-17 reports.
-- There is no proven edge yet. One line has good evidence behind it. Two were tested hard on
-  2026-11-16 and came up empty.
+- Live record (2026-11-20): 17 closed trades, 10 wins, +$354 since the start (+$388 this week).
+  Earnings flies carry it: +$508 this week on 8 trades. The same-day pilot is -$28 on 3 trades.
+- Account $1,874 at the 2026-11-20 close, about 94% of it in Brad's own ANT shares; buying
+  power $103. The agent opens nothing new while that holds.
+- Still no proven edge: 17 trades is too few. Fills, not signals, decide the small trades (paper:
+  +$3,344 at the mid, -$1,258 at the natural over 70 scored).
 
 ## 2. What the evidence says
 
@@ -169,6 +171,8 @@ larger than the account. No money in or out.
   (3) the 10-probe review; (4) the data-feed decision; (5) the exit-priced filter (P070): on the
   earnings replay, flies whose average payoff at the planned exit, after the legging cost, is at or
   under zero against the rest (FRO and PDD passed the edge ratio with that average near zero).
+  (6) the pilot trend-day filter (P075, H016): same-hours flies on days with VIX up 8% or more at
+  07:25 PT against the rest (2026-11-20: 9 of 9 paper flies near max on a -2.8% SPY day).
 
 ## Sources
 - Muravyev and Ni, "Why do option returns change sign from day to night?", Journal of Financial

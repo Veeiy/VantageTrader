@@ -55,7 +55,7 @@ and no prompt argument.
 |---|---|---|---|---|---|
 | Standby exit | `trig_01NmMk2eNXRyukjX8pxGVcX3` | 07:25 PT | standby session | head, after the morning exits (or when none was due) | next trading day 07:25 PT |
 | Plain alert | `trig_017icjQMENwSGysKQAuAHttx` | 08:00 PT | a fresh session, no broker | head with the exit switch; or the standby after its exit takeover | next trading day 08:00 PT |
-| Standby entry | `trig_01E1KZZayvkKf2PJJYhRLY8M` | 12:05 PT | standby session | head, after the day's entry decision (trades placed or a no-trade recorded) | next entry day (Mon to Thu) 12:05 PT |
+| Standby entry | `trig_01E1KZZayvkKf2PJJYhRLY8M` | 12:05 PT | standby session | head, after the day's entry decision (trades placed or a no-trade recorded) | next entry day (Mon to Fri, Fridays since rules v1.16.7, P073) 12:05 PT |
 
 Order of the nets on a morning with an exit due: the head's in-session timer at 06:36 PT
 (started by the pre-open wake at 05:52 PT, `docs/earnings/prompts/preopen.md`, P031), the
@@ -147,7 +147,7 @@ Fires at 12:05 PT when the head did not move the entry switch.
    nothing after 12:50 PT; cancel anything unfilled by then.
 7. Journal, append the entry records, update `positions.json`, create the two breakeven
    alerts per position and record their ids, start a monitor daemon (`DAEMON.md`).
-8. Move this switch to 12:05 PT on the next entry day (Mon to Thu). Run `selfcheck`, commit and
+8. Move this switch to 12:05 PT on the next entry day (Mon to Fri, Fridays since rules v1.16.7, P073). Run `selfcheck`, commit and
    push. Tell Brad (below).
 
 The standby keeps the day. The head's hourly monitor fires into the head session, so on a

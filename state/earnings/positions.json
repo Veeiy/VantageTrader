@@ -1,6 +1,6 @@
 {
  "as_of": "2026-11-20T20:15:59Z",
- "account_value": 1847.05,
+ "account_value": 1874.15,
  "cap_total_max_loss": 1235.08,
  "execution": {
   "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
@@ -51,8 +51,8 @@
   "total_max_loss_usd": 1799.77,
   "exit_reserves_usd": 0.0,
   "used_usd": 1799.77,
-  "cap_usd": 1847.05,
-  "free_usd": 47.28,
+  "cap_usd": 1874.15,
+  "free_usd": 74.38,
   "detail": "ANT 20 shares 1,799.77 (owner hand, no stop). PDD closed 09:55 PT.",
   "cap_note": "Rules v1.11: the cap is the account value (Brad, 2026-11-13: 'I want you to be able to use the entire funds in the mcp account'). cap_usd is the account value at the last check; it is not lowered below the risk already open when marks fall (the cap binds at entry).",
   "over_cap": "the owner's hand buy puts total risk above the account value (2,053.77 against 1,784.54); the agent opens nothing new while it holds"
@@ -2089,14 +2089,15 @@
    "closed": {
     "at_utc": "2026-11-20T17:55:11Z",
     "close_cost": 5.92,
-    "pnl_trade_total_usd": -197.28,
+    "pnl_trade_total_usd": -197.29,
     "orders": [
      "78C btc 6b00894d-6ae2-4da9-a207-59438543c1af",
      "84C stc 6b00897e-2f21-4c93-937a-8f8ff1f6a891"
     ],
     "by": "agent (v1.2.2 exception, P071)"
    },
-   "hub": "refreshed 09:57 PT: book v15, model v16 (blobs 7efdd666, 236e4946)"
+   "hub": "refreshed 09:57 PT: book v15, model v16 (blobs 7efdd666, 236e4946)",
+   "expiry_close": 83.655
   }
  ],
  "check_2026-11-20_1030_expiry": {
