@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-20T15:17:03Z",
+ "as_of": "2026-11-20T15:27:53Z",
  "account_value": 1877.84,
  "cap_total_max_loss": 1235.08,
  "execution": {
@@ -1996,5 +1996,20 @@
   },
   "account_value": 1877.84,
   "buying_power": 94.84
+ },
+ "pilot_2026-11-20": {
+  "at_utc": "2026-11-20T15:27:53Z",
+  "gate": "exit 3, no_trade",
+  "blocked_by": [
+   "body_off_center (scan body 265 vs spot 262.36; not re-centred)",
+   "max_loss_exceeds_cap (total risk over the account value after the owner's ANT buy)",
+   "exit_not_feasible (buying power 94.84)",
+   "morning_exit_pending (PDD waits on the owner's close)"
+  ],
+  "note": "A re-centred 262 fly would still fail the other three gates, so it was not quoted. No pilot trade today; no second try (the exits_pending exception needs it to be the only block).",
+  "files": [
+   "state/earnings/daytrade/2026-11-20/pilot_candidate_0728.json",
+   "state/earnings/daytrade/2026-11-20/pilot_gate_0728.json"
+  ]
  }
 }
