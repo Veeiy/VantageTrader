@@ -52,6 +52,8 @@ def build(folder: Path, eq: dict) -> list[dict]:
             r = json.loads(line)
             if r.get("error") or "entry" not in r or r.get("W") is None:
                 continue  # unpriced night (no entry prints, e.g. older than about three months)
+            if {"C", "P"} & set((r.get("interp") or {}).get("entry") or []):
+                continue  # body entry bar is gap-fill (stale carried value), not a print
             sym, d, pday, k, w = r["symbol"], r["date"], r["entry_date"], float(r["K"]), float(r["W"])
             e = r["entry"]
             try:
