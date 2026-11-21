@@ -79,10 +79,12 @@ from vantage_trader.earnings import metrics as live_metrics  # noqa: E402
 
 adm = json.loads((REPO / "state/earnings/daytrade/replay/admission_90d.json").read_text())["names"]
 # the earnings fly on every clean replayed report (scripts/earnings/earnings_fly_table.py)
-FLY = json.loads((REPO / "state/earnings/replay/2026-11-11_batch2/fly_table.json").read_text())
+FLY = json.loads((REPO / "state/earnings/replay/2026-11-21_week/fly_table.json").read_text())  # 183 reports, $600 cap (rules v1.16)
 FLY_CAP, FLY_RAW = FLY["capped"]["1.5"], FLY["widths"]["1.5"]
 LIVE_COST = live_metrics.summarize(live_metrics.read_metrics(REPO / "state/earnings/live_metrics.jsonl"))["round_trip_cost"]["all"]
-ovn = json.loads((REPO / "state/earnings/daytrade/overnight/summary_SPY.json").read_text())
+ovn = json.loads((REPO / "state/earnings/daytrade/overnight/summary_pooled_1121.json").read_text())  # SPY, QQQ, IWM; dropped 2026-11-21
+OVN = ovn["clustered_by_night_0700_after_costs"]
+FLY_SS = FLY["short_straddle"]
 NAMES90 = sorted((n for n in adm if n != "ALL"), key=lambda n: -adm[n]["all"]["mean"])
 
 def money1(v):
@@ -96,10 +98,10 @@ def money(v, plus=False):
 
 # ---------------- chart P: result per trade after costs, by line (the plan)
 # Earnings: every clean replayed report at its first exit bar (fly_table.json). Same-day: 290
-# flies, 11:00 PT exit. Overnight: state/earnings/daytrade/overnight/summary_SPY.json, 07:00 PT.
-PLAN_ROWS = [("Earnings fly, as the rules trade it", f'{FLY_CAP["first"]["after_costs"]["n"]} reports, $350 cap', FLY_CAP["first"]["after_costs"]["mean"], True),
+# flies, 11:00 PT exit. Overnight: summary_pooled_1121.json, 07:00 PT, clustered by night.
+PLAN_ROWS = [("Earnings fly, as the rules trade it", f'{FLY_CAP["first"]["after_costs"]["n"]} reports, ${FLY["cap_usd"]:.0f} cap', FLY_CAP["first"]["after_costs"]["mean"], True),
              ("Earnings fly, no cap on the loss", f'{FLY_RAW["first"]["after_costs"]["n"]} reports', FLY_RAW["first"]["after_costs"]["mean"], False),
-             ("Overnight fly, SPY", f'{ovn["exits"]["07:00"]["after_costs"]["n"]} nights', ovn["exits"]["07:00"]["after_costs"]["mean"], False),
+             ("Overnight fly, 3 funds (dropped)", f'{OVN["n"]} nights', OVN["mean"], False),
              ("Same-day fly, out by 11:00", "290 flies, 7 names", -9.7, False)]
 
 def chart_p():
@@ -330,7 +332,7 @@ BODY = f"""
   <div class="lines three">
     <div class="card"><div class="top"><h3><span class="k">A</span>Earnings premium</h3><span class="pill live">Core, live</span></div>
       <ul><li>Sell an iron fly the day before the report, buy it back at the open.</li>
-      <li>Replay, 103 reports: the short straddle won <b>72</b> and made 12.7% of the premium. The fly as traded keeps about <b>$7.50</b> of it after costs.</li>
+      <li>Replay, {FLY["clean_events"]} reports: the short straddle won <b>124</b> and made 10% of the premium. The fly as traded keeps about <b>{money(FLY_CAP["first"]["after_costs"]["mean"], True)}</b> at a 7% cost, about <b>$15</b> at the 4% we pay live. Too noisy to call.</li>
       <li><b>Hardening, in order:</b> cost, keep the cap, more replayed reports, width.</li>
       <li><b>Grows</b> after 30 live flies averaging +$8, or 300 replayed reports above +$10 a fly.</li>
       <li><b>Shrinks</b> if costs average over 9% of the credit across 10 flies.</li></ul></div>
@@ -338,10 +340,10 @@ BODY = f"""
       <ul><li>One IWM fly a day, one contract, 7:30 to 11:00.</li>
       <li>90 days, 7 names, 290 flies: <b>no name makes money after costs.</b></li>
       <li>Kept only for real fills, at an expected cost of $1 to $3 a trade. Not widened. Ends after 20 probes.</li></ul></div>
-    <div class="card"><div class="top"><h3><span class="k">C</span>Overnight fly</h3><span class="pill batch">Research only</span></div>
+    <div class="card"><div class="top"><h3><span class="k">C</span>Overnight fly</h3><span class="pill batch">Dropped Nov 21</span></div>
       <ul><li>Sell near the close, buy back by 7:00 AM. The research says this is when sellers get paid.</li>
-      <li>First test, 25 SPY nights: <b>about zero.</b> Quiet nights +$28, gap nights -$54.</li>
-      <li>Next: 64 nights each on SPY, QQQ and IWM. Paper only if it clears <b>+$10 a fly</b> after costs.</li></ul></div>
+      <li>Tested on {OVN["n"]} nights, SPY, QQQ and IWM: <b>{money1(OVN["mean"])} a fly</b> after costs (t {OVN["t"]}). The bar was +$10.</li>
+      <li>Quiet nights pay, gap nights take it back, and the gap is not known when you sell. <b>Dropped.</b></li></ul></div>
   </div>
   <div class="thin"><b>What the research says</b>
     <ul><li>Option sellers are paid <b>overnight</b>, not during the day. <a href="https://econpapers.repec.org/RePEc:eee:jfinec:v:136:y:2020:i:1:p:219-238">Muravyev and Ni, 2020</a></li>
@@ -359,8 +361,8 @@ BODY = f"""
   </ol>
   <div class="callout">
     <p class="big">What to expect</p>
-    <p>If the replay average is the truth and 8 to 12 flies a week fit, that is <b>roughly $60 to $90 a week</b> on this account. It may also be zero: the average is uncertain by $10 a fly. A ten-fly week swings about $300 either way, so most single weeks say nothing about the edge.</p>
-    <p><b>Cost is the lever in reach.</b> At a 5% cost the same flies keep $15 instead of $7.50.</p>
+    <p>On {FLY["clean_events"]} replayed reports the fly as traded keeps about $2 at a 7% cost and about $15 at the 4% we pay live. If that is the truth and 8 to 12 flies a week fit, it is <b>roughly $120 to $180 a week</b>. It may also be zero: the average is uncertain by $10 a fly, and the newest week of reports pulled it down. A ten-fly week swings about $300 either way.</p>
+    <p><b>Cost is the lever in reach.</b> At 9% the same flies lose $6; at 5% they keep $11; at 3%, $19.</p>
     <p><b>The biggest accelerator is deeper price history.</b> Every test here covers 6 to 13 weeks of one falling market. A paid options data feed (about $30 to $100 a month) would let the earnings line be checked on thousands of reports in an evening. Your call.</p>
   </div>
 </section>
@@ -385,7 +387,7 @@ BODY = f"""
     <li class="sepli"><span class="sep">Off the daily clock</span></li>
     <li class="off"><span class="t">Evening</span><div class="d"><b>P/L projection</b> <span>with ranges for the next morning's reports. Scored against the real exit.</span></div></li>
     <li class="off"><span class="t">Friday</span><div class="d"><b>Weekly scorecard</b> <span>and one retry of a multi-leg order.</span></div></li>
-    <li class="off"><span class="t">Saturday</span><div class="d"><b>Research day.</b> <span>Nov 21: the overnight test on 64 nights each for SPY, QQQ and IWM, and a replay of the week's earnings reports.</span></div></li>
+    <li class="off"><span class="t">Saturday</span><div class="d"><b>Research day.</b> <span>Nov 28: the exit-priced filter test, pass bar written first, and the week's earnings replay.</span></div></li>
   </ol>
 </section>
 
@@ -406,7 +408,7 @@ BODY = f"""
     <div class="card"><div class="top"><h3><span class="k">6</span>Proposals</h3><span class="pill live">Live</span></div>
       <p>55 numbered fixes so far, <b>each with a measure</b>. The agent decides and reports.</p></div>
     <div class="card"><div class="top"><h3><span class="k">7</span>Replay</h3><span class="pill batch">3 datasets</span></div>
-      <p><b>103 earnings reports</b>, <b>344 same-day sessions</b> on 7 names and <b>33 overnight nights</b>, priced from real option history.</p></div>
+      <p><b>{FLY["clean_events"]} earnings reports</b>, <b>344 same-day sessions</b> on 7 names and <b>{ovn["items"]} overnight nights</b>, priced from real option history.</p></div>
     <div class="card"><div class="top"><h3><span class="k">8</span>Paper desk</h3><span class="pill live">Live</span></div>
       <p>Ten names traded on paper every day, plus the morning spread scan across the market.</p></div>
     <div class="card"><div class="top"><h3><span class="k">9</span>Weekly</h3><span class="pill live">Live</span></div>
@@ -442,7 +444,8 @@ BODY = f"""
     <li><div class="b"><p><span class="q">"How about we run simulations on the last 90 days for this"</span> Other stocks too, if they meet the criteria. <b>Run the same evening:</b> 344 sessions on 7 names, Aug 18 to Nov 16. Before costs +$5 a fly. <b>After costs every exit loses and no new name gets in</b> (section 07). On sessions the filters were not found in, the gap filter kept its direction and the quiet-open filter failed.</p></div></li>
     <li><div class="b"><p><span class="q">"Research it, boss.."</span> <b>Read the published research</b> and ran a first overnight test on SPY. Sellers are paid overnight and around earnings, not intraday. That became the plan in section 01: earnings is the core, same-day stays a probe, overnight gets a real test.</p></div></li>
     <li><div class="b"><p><b>The loop caught the agent too.</b> Checking the plan's earnings numbers against the records showed the best-looking rows had left out the worst report of the hundred. Recomputed on every report: <b>+$7.50 a fly as traded</b>, not +$9 to +$17, and nothing without the cap. Corrected in the plan, the rule notes and a new lesson before it reached you.</p></div></li>
-    <li><div class="b"><p><b>Next:</b> spread scan Tue, Wed, Fri. Review after 10 probes. Sat Nov 21: the overnight test at 64 nights for three index funds, with the pass bar written before the data.</p></div></li>
+    <li><div class="b"><p><b>Nov 21, research day:</b> the overnight test, 189 nights on SPY, QQQ and IWM, <b>failed the bar written before the data</b> ({money1(OVN["mean"])} a fly after costs). Dropped as written. The earnings replay grew to {FLY["clean_events"]} reports: the premium holds (short straddle +10%, 3.5 standard errors), the capped fly is near zero at a 7% cost.</p></div></li>
+    <li><div class="b"><p><b>Next:</b> the exit-priced filter test on Sat Nov 28, its pass bar already in the plan. Review after 10 probes.</p></div></li>
   </ol>
 </section>
 

@@ -14,18 +14,22 @@ by ledgered decisions (`state/earnings/proposals.jsonl`), not by mood.
   power $103. The agent opens nothing new while that holds.
 - Still no proven edge: 17 trades is too few. Fills, not signals, decide the small trades (paper:
   +$3,344 at the mid, -$1,258 at the natural over 70 scored).
+- Research 2026-11-21: the overnight line failed its test (60 nights, 3 funds, -$12 a fly after
+  costs) and is dropped. The earnings replay grew to 183 events: the premium holds (short straddle
+  +10%, t 3.5), the capped fly is near zero at a 7% cost (+$2.3, se $10) and about +$15 at the
+  3.9% we pay live.
 
 ## 2. What the evidence says
 
 ### Ours
 | Test | Size | Result |
 |---|---|---|
-| Earnings, short straddle held over the report | 103 replayed events | Won 72 of 103 at the first exit bar and made 12.7% of the straddle on average, 3.8 standard errors. The premium is real. |
+| Earnings, short straddle held over the report | 183 replayed events (2026-11-21) | Won 124 of 183 at the first exit bar and made 10.0% of the straddle on average (se 2.9%, t 3.5); worst SNEX 11-18 at -1.52x the straddle. The premium is real; the week of 11/16 (68 events, +6.7%) pulled it down from 12.7%. |
 | Earnings, iron fly with no cap on its max loss | 103 events | After a 7% cost: -$8 a fly with wings at 1x the straddle, -$2 at 1.5x, +$3 at 2x. One report in the hundred (FTNT, 2026-10-28: -$1,199 at 1.5x) takes the whole edge. |
-| Earnings, iron fly as the rules trade it: aimed at 1.5x, stepped in to a $350 max loss | 101 events that fit | +$7.5 a fly after a 7% cost, standard error $10, worst -$244. Aimed at 2x inside the same cap: +$10. Not distinguishable from zero yet. |
-| Earnings, the per-name cap | 103 events | Caps from $250 to $500 all keep $5 to $9 a fly (aim 1.5x). No cap keeps nothing. Raising $350 to $400 adds $0.3 a fly. |
+| Earnings, iron fly as the rules trade it: aimed at 1.5x, stepped in to the name cap | 179 events at the $600 cap, 171 at $350 (2026-11-21) | $600 cap: +$2.3 a fly after a 7% cost (se $10.2), worst -$649, breakeven cost 7.6%. $350 cap: -$0.4 (se $8.3), worst NTES 11-19 -$330. Aimed at 2x: +$4.0 and +$1.2. On 101 events it was +$7.5; the new week's 58 fit events averaged -$10.9 at the first bar. Not distinguishable from zero. `state/earnings/replay/2026-11-21_week/fly_table.json`. |
+| Earnings, the per-name cap | 183 events | Aim 1.5x, first exit: $250 -$2.8, $300 -$4.0, $350 -$0.4, $400 +$1.6, $500 +$3.3, $600 +$2.3 (worst -$649), no cap +$5.9 (worst FTNT -$1,199). No row is 0.75 se from zero; the cap holds the tail, not the mean. |
 | Earnings, what the trade costs | 101 events, 16 live round trips | The capped fly makes $33 before costs on a credit of about $364: it breaks even at a cost of 9% of the credit. At 7% it keeps $7.5, at 5% $15, at 3% $22. Live (`live-metrics`, `round_trip_cost`, 2026-11-21): 3.9% on 11 closed earnings trades (worst 13.3%, TGT), 3.7% on the 8 of the week of 11/16, 3.5% on the last 10; 5.7% on all 16 closed trades. The three IWM probes paid 10.1% (worst 15.4%). Under the 7% assumed and the 9% breakeven. Five of the week's exits had no cost number until the metric learned to read the recorded mid (2026-11-21). |
-| Earnings, exit time | 100 events with both prints | 10:00 ET against 10:30 ET on the same events: $3 a fly for the earlier exit, standard error $3.5. No real difference. |
+| Earnings, exit time | 177 events with both prints ($600 cap) | 10:00 ET minus 10:30 ET on the same events: -$6.4 a fly (se $3.7); the week of 11/16 alone -$19.5 (se $7.0, mostly single 10:00 prints). Leaning toward the later exit; not yet 2 se on the whole sample. |
 | Earnings, the 0.85 edge gate | 103 events | Throttles more than it selects. No filter holds in both batches. |
 | Same-day fly, sold 07:30 PT | 290 flies, 7 names, 90 days | +$5 before costs (se $4), -$6 to -$10 after. No name passes. More names, bigger caps and wider wings do not change it. |
 | Overnight fly, sold 12:30 PT, bought back 07:00 PT | 60 nights, SPY, QQQ, IWM (137 flies), 2026-11-21 | -$12 a fly after costs, clustered by night (se $8.5, t -1.4); SPY +$2.5, QQQ -$30.5, IWM -$1.6. Quiet nights +$21, gap nights -$60, worst night -$172. Fails its bar (+$10, t 2): dropped. |
@@ -62,9 +66,9 @@ bar and steps the wings in to the cap the way the rules do; its output is
 4. The per-name cap is part of the edge, not only a risk rule. A fly with no cap keeps
    nothing, because one bad report in a hundred takes it all. With the cap the same trades
    keep $5 to $9.
-5. On the earnings line the whole margin is a gross edge of about 9% of the credit against a
-   cost of 6 to 7%. One point of cost is about $4 a fly. Execution is worth as much as any
-   selection rule found so far.
+5. On the earnings line the whole margin is a gross edge of about 7.6% of the credit (183
+   replayed events, $600 cap) against a live cost of 3.9% (11 trades). One point of cost is about
+   $4 a fly. Execution is worth as much as any selection rule found so far.
 
 ## 3. The lines
 
@@ -81,9 +85,9 @@ bar and steps the wings in to the cap the way the rules do; its output is
      replay supports caps up to $500 ($9 a fly) and has a single event beyond that, the
      sample's largest loss. Names with a wide market stay at $350. Reviewed after 10 trades
      above $350 or on 2026-12-18 (P056).
-  3. **Sample.** Replay every week's reports the following Saturday, so the 103 events become
-     300 or more by year end and the bands can be judged. Every table says which events each
-     row holds.
+  3. **Sample.** Replay every week's reports the following Saturday: 183 clean events on
+     2026-11-21 (103 fall, 12 summer, 68 from the week of 11/16), 300 or more by year end. Every
+     table says which events each row holds.
   4. **Width.** Inside the $350 cap, aiming the wings at 2x the straddle kept $10 a fly
      against $7.5 for 1.5x. The rule today aims at 1.5x (v1.13); whether to aim wider where
      the cap and the single-leg exit check allow is decided at its review (by 2026-11-27).

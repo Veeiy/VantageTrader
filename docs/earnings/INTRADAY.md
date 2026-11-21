@@ -304,11 +304,11 @@ PYTHONPATH=src python3 scripts/earnings/intraday_replay.py [--names IWM] [--keep
 Spread scans (`state/earnings/daytrade/<date>/scan.json`), at-the-money spread as a share of mid
 and the round trip as a share of the fly's credit:
 
-| Scan | Names | Median spread | Median cost share | IWM spread | IWM cost share |
-|---|---|---|---|---|---|
-| 2026-11-17 | 9 | 2.7% | 2.6% | 1.0% | 2.9% |
-| 2026-11-18 | 31 | 5.8% | 8.1% | 0.8% | 2.7% |
-| 2026-11-20 | 40 | 6.4% | 10.5% | 1.5% | 3.1% |
+| Scan | Names | Median spread | Widest spread | Median cost share | Worst cost share (with wings) | IWM spread | IWM cost share |
+|---|---|---|---|---|---|---|---|
+| 2026-11-17 | 9 | 2.7% | GLD 11.1% | 2.6% | IBIT 13.3% | 1.0% | 2.9% |
+| 2026-11-18 | 31 | 5.8% | LQD 43.9% | 8.1% | TLT 20.4% | 0.8% | 2.7% |
+| 2026-11-20 | 40 | 6.4% | EWZ 108.4% | 10.5% | AAPL 15.1% | 1.5% | 3.1% |
 
 The wider the scan, the worse the median: the names past the index funds and mega caps cost
 more than the 9% breakeven. SPY (1.7%), NVDA (2.3%) and IWM (3.1%) led on 2026-11-20.
