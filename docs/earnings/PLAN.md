@@ -28,7 +28,7 @@ by ledgered decisions (`state/earnings/proposals.jsonl`), not by mood.
 | Earnings, exit time | 100 events with both prints | 10:00 ET against 10:30 ET on the same events: $3 a fly for the earlier exit, standard error $3.5. No real difference. |
 | Earnings, the 0.85 edge gate | 103 events | Throttles more than it selects. No filter holds in both batches. |
 | Same-day fly, sold 07:30 PT | 290 flies, 7 names, 90 days | +$5 before costs (se $4), -$6 to -$10 after. No name passes. More names, bigger caps and wider wings do not change it. |
-| Overnight fly, sold 12:30 PT, bought back 07:00 PT | 25 nights, SPY | +$2 before costs (se $15), -$6 after. Wins 68% of nights and gives it back on gap nights. Too few nights to call. |
+| Overnight fly, sold 12:30 PT, bought back 07:00 PT | 60 nights, SPY, QQQ, IWM (137 flies), 2026-11-21 | -$12 a fly after costs, clustered by night (se $8.5, t -1.4); SPY +$2.5, QQQ -$30.5, IWM -$1.6. Quiet nights +$21, gap nights -$60, worst night -$172. Fails its bar (+$10, t 2): dropped. |
 
 Corrected 2026-11-16: the table of 2026-11-11 (+$9 a fly at 1.5x, +$17 at 2x, "the early exit
 saves $6 to $16") compared the 10:00 ET exit with the 10:30 ET exit on different events. The
@@ -58,8 +58,7 @@ bar and steps the wings in to the cap the way the rules do; its output is
 1. The earnings line sits where both our replay and the research find a premium. It is the core.
 2. The same-day line has no edge on our data and none in the research. It stays a time-boxed
    probe and is not widened.
-3. The overnight line is the right idea on paper and unproven on 25 nights. It needs a bigger
-   test before a dollar goes on it.
+3. The overnight line failed its test on 60 nights and three funds (2026-11-21) and is dropped.
 4. The per-name cap is part of the edge, not only a risk rule. A fly with no cap keeps
    nothing, because one bad report in a hundred takes it all. With the cap the same trades
    keep $5 to $9.
@@ -110,9 +109,12 @@ bar and steps the wings in to the cap the way the rules do; its output is
 - Hypothesis: a next-day-expiry fly sold near the close and bought back by 07:00 PT earns the
   overnight premium the research describes.
 - First read (SPY, 25 nights): nothing after costs. Quiet nights paid +$28, gap nights cost $54.
-- Next test, written before the data: 64 nights each for SPY, QQQ and IWM, buy-back at 07:00
-  PT. It goes to paper only with a mean of at least +$10 a fly after costs and a per-night t of
-  2. Otherwise it is dropped.
+- Test, written before the data (2026-11-16): 64 nights each for SPY, QQQ and IWM, buy-back at
+  07:00 PT; paper only with a mean of at least +$10 a fly after costs and a per-night t of 2.
+- **Result 2026-11-21: dropped.** 60 nights, 137 flies: -$12 a fly after costs, t -1.4 (QQQ
+  -$30.5, IWM -$1.6, SPY +$2.5). Quiet nights pay, gap nights take it back, and the gap is not
+  known at 12:30 PT. `state/earnings/daytrade/overnight/FINDINGS_1121.md`. Not retested without
+  a new reason written first (for example a filter known at 12:30 PT, tested on new nights).
 
 ### D. Not started
 - Monthly index premium (put spreads or condors, 30 to 45 days). The research supports it. It
@@ -167,12 +169,20 @@ larger than the account. No money in or out.
 - Mon to Fri: exits 06:36, probe 07:27 to 10:57, scans, entry sweep 11:46, reflection 13:12.
 - Friday: scorecard, multi-leg check, spread scan of the whole same-day universe.
 - Saturday: replay the week's earnings reports; the next research test in the queue.
-- Research queue: (1) overnight test at 64 nights x 3 names; (2) the week's earnings replay;
-  (3) the 10-probe review; (4) the data-feed decision; (5) the exit-priced filter (P070): on the
-  earnings replay, flies whose average payoff at the planned exit, after the legging cost, is at or
-  under zero against the rest (FRO and PDD passed the edge ratio with that average near zero).
-  (6) the pilot trend-day filter (P075, H016): same-hours flies on days with VIX up 8% or more at
-  07:25 PT against the rest (2026-11-20: 9 of 9 paper flies near max on a -2.8% SPY day).
+- Research queue (2026-11-21): (1) DONE 2026-11-21: the overnight test failed its bar and the
+  line is dropped (line C). (2) Every Saturday: the week's earnings replay. (3) The 10-probe
+  review (3 probes so far). (4) The data-feed decision (Brad, P053). (5) NEXT TEST, 2026-11-28:
+  the exit-priced filter (P070, H015). Pass bar, written 2026-11-21 before any data: on every
+  clean replay event (150 or more) at its first exit bar, price the fly at the planned exit with
+  the name's own past moves applied to the entry price (the `project` method), and split the
+  events by the sign of that average after a 7% cost. It passes, and goes to paper as a gate
+  input, only if the events it would block average at least $10 a fly worse than the events it
+  keeps with a t of 2 or more clustered by report date, AND the kept events average more than the
+  whole sample. Otherwise it is parked. Every row states its count and worst event.
+  (6) The pilot trend-day filter (P075, H016). Pass bar, written 2026-11-21: on the same-hours
+  replay (60 or more sessions a fund, SPY, QQQ, IWM), flies on days with VIX up 8% or more at
+  07:25 PT against the rest; it passes only if the kept days average +$10 a fly after costs with
+  a per-day t of 2 on sessions it was not found in (line B's restart rule). Otherwise parked.
 
 ## Sources
 - Muravyev and Ni, "Why do option returns change sign from day to night?", Journal of Financial

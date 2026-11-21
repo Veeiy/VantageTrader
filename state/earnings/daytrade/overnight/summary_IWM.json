@@ -1,0 +1,270 @@
+{
+ "items": 63,
+ "usable": 58,
+ "exits": {
+  "06:30": {
+   "before_costs": {
+    "n": 8,
+    "mean": 11.6,
+    "median": 9.5,
+    "se": 16.2,
+    "t": 0.72,
+    "win_rate": 0.625,
+    "sd": 42.8,
+    "total": 93,
+    "worst": -43,
+    "best": 98
+   },
+   "after_costs": {
+    "n": 8,
+    "mean": 6.6,
+    "median": 4.5,
+    "se": 16.2,
+    "t": 0.41,
+    "win_rate": 0.625,
+    "sd": 42.8,
+    "total": 53,
+    "worst": -48,
+    "best": 93
+   }
+  },
+  "07:00": {
+   "before_costs": {
+    "n": 48,
+    "mean": 3.4,
+    "median": 9.5,
+    "se": 6.3,
+    "t": 0.54,
+    "win_rate": 0.583,
+    "sd": 42.9,
+    "total": 163,
+    "worst": -102,
+    "best": 94
+   },
+   "after_costs": {
+    "n": 48,
+    "mean": -1.6,
+    "median": 4.5,
+    "se": 6.3,
+    "t": -0.26,
+    "win_rate": 0.542,
+    "sd": 42.9,
+    "total": -77,
+    "worst": -107,
+    "best": 89
+   }
+  },
+  "07:30": {
+   "before_costs": {
+    "n": 47,
+    "mean": -6.9,
+    "median": 2.0,
+    "se": 6.6,
+    "t": -1.05,
+    "win_rate": 0.511,
+    "sd": 44.6,
+    "total": -323,
+    "worst": -120,
+    "best": 61
+   },
+   "after_costs": {
+    "n": 47,
+    "mean": -11.9,
+    "median": -3.0,
+    "se": 6.6,
+    "t": -1.81,
+    "win_rate": 0.447,
+    "sd": 44.6,
+    "total": -558,
+    "worst": -125,
+    "best": 56
+   }
+  },
+  "08:00": {
+   "before_costs": {
+    "n": 46,
+    "mean": 0.5,
+    "median": 8.5,
+    "se": 7.6,
+    "t": 0.06,
+    "win_rate": 0.543,
+    "sd": 50.8,
+    "total": 21,
+    "worst": -139,
+    "best": 105
+   },
+   "after_costs": {
+    "n": 46,
+    "mean": -4.5,
+    "median": 3.5,
+    "se": 7.6,
+    "t": -0.6,
+    "win_rate": 0.5,
+    "sd": 50.8,
+    "total": -209,
+    "worst": -144,
+    "best": 100
+   }
+  }
+ },
+ "straddle_change_to_0700": {
+  "mean": 0.072,
+  "median": 0.185
+ },
+ "by_gap": {
+  "overnight move under 0.5%": {
+   "n": 29,
+   "mean": 19.6,
+   "median": 21.0,
+   "se": 7.1,
+   "t": 2.76,
+   "win_rate": 0.759,
+   "sd": 37.7,
+   "total": 569,
+   "worst": -72,
+   "best": 94
+  },
+  "overnight move 0.5% or more": {
+   "n": 19,
+   "mean": -21.4,
+   "median": -27.0,
+   "se": 9.1,
+   "t": -2.36,
+   "win_rate": 0.316,
+   "sd": 38.4,
+   "total": -406,
+   "worst": -102,
+   "best": 45
+  }
+ },
+ "clustered_by_night_0700_after_costs": {
+  "n": 48,
+  "mean": -1.6,
+  "median": 4.5,
+  "se": 6.3,
+  "t": -0.26,
+  "win_rate": 0.542,
+  "sd": 42.9,
+  "total": -77,
+  "worst": -107,
+  "best": 89,
+  "worst_night": "2026-11-09",
+  "flies": 48
+ },
+ "same_flies_by_time_after_costs": {
+  "all": {
+   "07:00": {
+    "n": 33,
+    "mean": -6.9,
+    "median": 3.0,
+    "se": 7.5,
+    "t": -0.93,
+    "win_rate": 0.515,
+    "sd": 42.2,
+    "total": -229,
+    "worst": -107,
+    "best": 87
+   },
+   "07:30": {
+    "n": 33,
+    "mean": -11.1,
+    "median": -3.0,
+    "se": 8.1,
+    "t": -1.37,
+    "win_rate": 0.455,
+    "sd": 45.7,
+    "total": -366,
+    "worst": -125,
+    "best": 56
+   },
+   "08:00": {
+    "n": 33,
+    "mean": -12.0,
+    "median": -2.0,
+    "se": 8.7,
+    "t": -1.38,
+    "win_rate": 0.455,
+    "sd": 49.1,
+    "total": -395,
+    "worst": -144,
+    "best": 77
+   }
+  },
+  "quiet (<0.5%)": {
+   "07:00": {
+    "n": 16,
+    "mean": 17.7,
+    "median": 20.0,
+    "se": 8.3,
+    "t": 2.13,
+    "win_rate": 0.812,
+    "sd": 32.1,
+    "total": 283,
+    "worst": -47,
+    "best": 87
+   },
+   "07:30": {
+    "n": 16,
+    "mean": 14.2,
+    "median": 19.5,
+    "se": 7.9,
+    "t": 1.8,
+    "win_rate": 0.75,
+    "sd": 30.6,
+    "total": 227,
+    "worst": -57,
+    "best": 56
+   },
+   "08:00": {
+    "n": 16,
+    "mean": 11.1,
+    "median": 23.5,
+    "se": 9.2,
+    "t": 1.21,
+    "win_rate": 0.688,
+    "sd": 35.5,
+    "total": 177,
+    "worst": -62,
+    "best": 77
+   }
+  },
+  "gap (>=0.5%)": {
+   "07:00": {
+    "n": 17,
+    "mean": -30.1,
+    "median": -34.0,
+    "se": 9.3,
+    "t": -3.25,
+    "win_rate": 0.235,
+    "sd": 37.1,
+    "total": -512,
+    "worst": -107,
+    "best": 32
+   },
+   "07:30": {
+    "n": 17,
+    "mean": -34.9,
+    "median": -33.0,
+    "se": 11.2,
+    "t": -3.12,
+    "win_rate": 0.176,
+    "sd": 44.8,
+    "total": -593,
+    "worst": -125,
+    "best": 44
+   },
+   "08:00": {
+    "n": 17,
+    "mean": -33.6,
+    "median": -40.0,
+    "se": 12.5,
+    "t": -2.68,
+    "win_rate": 0.235,
+    "sd": 50.2,
+    "total": -572,
+    "worst": -144,
+    "best": 56
+   }
+  }
+ }
+}
