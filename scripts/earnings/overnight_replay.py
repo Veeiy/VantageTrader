@@ -50,8 +50,8 @@ def build(folder: Path, eq: dict) -> list[dict]:
             if not line.strip():
                 continue
             r = json.loads(line)
-            if r.get("error") or "entry" not in r:
-                continue
+            if r.get("error") or "entry" not in r or r.get("W") is None:
+                continue  # unpriced night (no entry prints, e.g. older than about three months)
             sym, d, pday, k, w = r["symbol"], r["date"], r["entry_date"], float(r["K"]), float(r["W"])
             e = r["entry"]
             try:
@@ -90,9 +90,12 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--equity", default="state/earnings/daytrade/replay/equity_30min.json")
     ap.add_argument("--cost", type=float, default=None)
     ap.add_argument("--json", default=None)
+    ap.add_argument("--symbol", default=None, help="score one name only (default: every raw_*.jsonl, pooled)")
     a = ap.parse_args(argv)
     eq = json.loads(Path(a.equity).read_text())
     every = build(Path(a.folder), eq)
+    if a.symbol:
+        every = [f for f in every if f["symbol"] == a.symbol]
     flies = [f for f in every if f["valid"] and f["entry_ok"]]
     if not flies:
         print("no usable items", file=sys.stderr)
@@ -124,6 +127,34 @@ def main(argv: list[str] | None = None) -> int:
         out.setdefault("by_gap", {})[label] = s
         if s["n"]:
             print(f"  {label}: n={s['n']} before costs mean {s['mean']} win {s['win_rate']*100:.0f}% worst {s['worst']}")
+    # The pass bar (PLAN.md line C, fixed 2026-11-16): buy back at 07:00 PT, after costs, names pooled
+    # and clustered by night: one number per night (the mean of that night's flies), t over nights.
+    cost_of = lambda f: COST.get(f["symbol"], 8.0) if a.cost is None else a.cost
+    nights: dict = {}
+    for f in flies:
+        if f["good"][1]:
+            nights.setdefault(f["date"], []).append((f["credit"] - f["marks"][1]) * 100.0 - cost_of(f))
+    per_night = [st.mean(v) for _, v in sorted(nights.items())]
+    sn = stats(per_night)
+    worst_night = min(nights.items(), key=lambda kv: st.mean(kv[1]))[0] if nights else None
+    out["clustered_by_night_0700_after_costs"] = {**sn, "worst_night": worst_night,
+                                                  "flies": sum(len(v) for v in nights.values())}
+    if sn["n"]:
+        print(f"PASS-BAR VIEW (07:00 PT, after costs, clustered by night): nights={sn['n']} flies={out['clustered_by_night_0700_after_costs']['flies']}"
+              f" mean {sn['mean']} se {sn['se']} t {sn['t']} worst night {sn['worst']} ({worst_night})")
+    # Buy-back times 07:00, 07:30 and 08:00 on the SAME flies (clean marks at all three), split quiet/gap.
+    # 06:30 is left out: its bar is usually one print and fails the parity check on most nights.
+    same = [f for f in flies if all(f["good"][1:]) and f["gap"] is not None]
+    for label, cond in (("all", lambda g: True), ("quiet (<0.5%)", lambda g: abs(g) < 0.005), ("gap (>=0.5%)", lambda g: abs(g) >= 0.005)):
+        sub = [f for f in same if cond(f["gap"])]
+        row = {}
+        for i, t in enumerate(MORNING):
+            if i == 0:
+                continue
+            row[t] = stats([(f["credit"] - f["marks"][i]) * 100.0 - cost_of(f) for f in sub])
+        out.setdefault("same_flies_by_time_after_costs", {})[label] = row
+        if sub:
+            print(f"  same {len(sub)} flies, {label}: " + "; ".join(f"{t} mean {row[t]['mean']} worst {row[t]['worst']}" for t in MORNING[1:]))
     if a.json:
         Path(a.json).write_text(json.dumps(out, indent=1))
     return 0
