@@ -75,6 +75,10 @@ def round_trip_cost(entry: dict[str, Any] | None, exit_: dict[str, Any] | None) 
     e, x = _block(entry or {}, "execution"), _block(exit_ or {}, "execution")
     credit, fe = _num(e.get("fill_credit")), _num(e.get("fill_vs_mid"))
     debit, fx = _num(x.get("fill_debit")), _num(x.get("fill_vs_mid"))
+    if fx is None and debit:
+        # Exits recorded since 2026-11-17 carry the mid at the read, not the ratio (P055 heal).
+        mid = _num(x.get("close_cost_mid_at_read"))
+        fx = mid / debit if mid is not None else None
     if credit is None or fe is None or debit is None or fx is None or credit <= 0 or fe <= 0:
         return None
     return round((credit * (1.0 / fe - 1.0) + debit * (1.0 - fx)) / credit, 4)

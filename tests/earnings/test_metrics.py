@@ -164,3 +164,13 @@ def test_round_trip_cost_is_a_share_of_the_entry_credit(tmp_path):
     assert s["round_trip_cost"]["all"]["avg_share_of_credit"] == pytest.approx((0.0817 + 0.05) / 2, abs=1e-4)
     by_id = {t["trade_id"]: t for t in s["trades"]}
     assert by_id["A-1"]["round_trip_cost"] == 0.0817
+
+
+def test_round_trip_cost_falls_back_to_the_mid_at_the_read():
+    # Exits recorded since 2026-11-17 store the close mid, not the ratio (P055 heal, 2026-11-21).
+    from vantage_trader.earnings.metrics import round_trip_cost
+    entry = {"execution": {"fill_credit": 4.0, "fill_vs_mid": 1.0}}
+    exit_ = {"execution": {"fill_debit": 2.0, "close_cost_mid_at_read": 1.9}}
+    # credit given up 0, debit overpaid 2.0 * (1 - 1.9 / 2.0) = 0.10, over a 4.0 credit = 0.025
+    assert round_trip_cost(entry, exit_) == 0.025
+    assert round_trip_cost(entry, {"execution": {"fill_debit": 2.0}}) is None

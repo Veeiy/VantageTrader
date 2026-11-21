@@ -299,3 +299,23 @@ PYTHONPATH=src python3 -m vantage_trader.earnings intraday-status
 python3 scripts/earnings/intraday_moves.py show --symbol IWM
 PYTHONPATH=src python3 scripts/earnings/intraday_replay.py [--names IWM] [--keep-bad-entries]
 ```
+
+## Week of 2026-11-16: spreads and what the probes paid (Saturday 2026-11-21)
+Spread scans (`state/earnings/daytrade/<date>/scan.json`), at-the-money spread as a share of mid
+and the round trip as a share of the fly's credit:
+
+| Scan | Names | Median spread | Median cost share | IWM spread | IWM cost share |
+|---|---|---|---|---|---|
+| 2026-11-17 | 9 | 2.7% | 2.6% | 1.0% | 2.9% |
+| 2026-11-18 | 31 | 5.8% | 8.1% | 0.8% | 2.7% |
+| 2026-11-20 | 40 | 6.4% | 10.5% | 1.5% | 3.1% |
+
+The wider the scan, the worse the median: the names past the index funds and mega caps cost
+more than the 9% breakeven. SPY (1.7%), NVDA (2.3%) and IWM (3.1%) led on 2026-11-20.
+
+What the three IWM probes actually paid against mid, round trip as a share of the credit
+(`live-metrics` round_trip_cost, P055): 15.4% (11/17), 2.2% (11/18), 12.6% (11/19). Mean
+10.1%, worst 15.4%, n = 3. The scan's quoted 3% is the spread; the probes paid about three
+times that, mostly on the exit legs bought back into a moving market. The 10-probe review
+(PLAN.md line B) uses the fill cost, not the quoted spread. No new same-day name is replayed or
+admitted before that review.
