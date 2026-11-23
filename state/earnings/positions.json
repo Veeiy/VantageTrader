@@ -1,6 +1,6 @@
 {
- "as_of": "2026-11-20T20:15:59Z",
- "account_value": 1874.15,
+ "as_of": "2026-11-23T13:54:54Z",
+ "account_value": 1909.87,
  "cap_total_max_loss": 1235.08,
  "execution": {
   "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
@@ -15,19 +15,28 @@
    "kind": "equity",
    "lane": "owner_hand",
    "structure": "long stock",
-   "quantity": 20,
+   "quantity": 5,
    "opened": "2026-11-20T11:57:07Z",
    "avg_price": 89.9887,
    "order_id": "6b003593-77bd-4fda-927d-0fd248fa38dd",
-   "max_loss_usd": 1799.77,
+   "max_loss_usd": 449.94,
    "exit_reserve_usd": 0.0,
    "plan": {
     "exit": "Brad's call; the agent closes it only on his word"
    },
    "ceiling_P044": {
-    "share": 0.962,
-    "trim_to_30pct": "sell 14 shares (keep 6, about 515)"
-   }
+    "share": 0.231,
+    "note": "under the 30% ceiling since Brad's Sunday sale"
+   },
+   "hand_orders": [
+    {
+     "order_id": "6b0396fd-07ab-4d0f-b63c-045db846cb3d",
+     "side": "sell",
+     "quantity": 15,
+     "price": 91.1,
+     "filled_utc": "2026-11-23T01:29:33Z"
+    }
+   ]
   }
  ],
  "blockers": [
@@ -46,16 +55,15 @@
   "From Wed 2026-11-18 (P063, rules v1.16.5): the daemon's default wait is 240 s and no agent waits longer than 240 s in one piece; the hourly run replaces a daemon that has run two hours; the reflection fires at 13:12 PT and writes the usage line (python3 scripts/earnings/usage_scan.py --date <today> --append state/earnings/usage.jsonl).",
   "Wed 2026-11-18, iteration on exit timing (told Brad 2026-11-17 evening): after TGT and TJX are closed at the 06:36 run, keep their eight leg ids and read get_option_quotes for them once at the 07:15 hourly run and once at the 08:15 run; write one live_metrics row per fly and time, record 'shadow_exit' (close cost at mid and at natural, the stock, and the difference from the real exit). Read-only, no extra wake. After 10 flies the reflection compares 06:36 with the two later marks."
  ],
- "buying_power": 102.75,
+ "buying_power": 1469.22,
  "risk": {
-  "total_max_loss_usd": 1799.77,
+  "total_max_loss_usd": 449.94,
   "exit_reserves_usd": 0.0,
-  "used_usd": 1799.77,
-  "cap_usd": 1874.15,
-  "free_usd": 74.38,
-  "detail": "ANT 20 shares 1,799.77 (owner hand, no stop). PDD closed 09:55 PT.",
-  "cap_note": "Rules v1.11: the cap is the account value (Brad, 2026-11-13: 'I want you to be able to use the entire funds in the mcp account'). cap_usd is the account value at the last check; it is not lowered below the risk already open when marks fall (the cap binds at entry).",
-  "over_cap": "the owner's hand buy puts total risk above the account value (2,053.77 against 1,784.54); the agent opens nothing new while it holds"
+  "used_usd": 449.94,
+  "cap_usd": 1909.87,
+  "free_usd": 1459.93,
+  "detail": "ANT 5 shares 449.94 (owner hand, no stop).",
+  "cap_note": "Rules v1.11: the cap is the account value (Brad, 2026-11-13: 'I want you to be able to use the entire funds in the mcp account'). cap_usd is the account value at the last check; it is not lowered below the risk already open when marks fall (the cap binds at entry)."
  },
  "eod_note": "2026-11-13 close: PCG x5 open (fly 0.585 at closing mids, +$33.50; about flat on the day, account +$5). No fills today. Account 1,250.91, buying power 1,040.91, risk used 224. Two losses in a row stand (LUNR, NVDA): a third pauses new entries.",
  "watch": [
@@ -516,7 +524,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-20T20:15:42Z",
+  "last_query_utc": "2026-11-23T13:54:30Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -527,7 +535,8 @@
    "6aff17ba-828a-4984-8f7c-b7dfa2a1d5f1",
    "6aff2243-7a4a-4272-b710-98aa5e4446ff",
    "6aff2a9e-c13b-4e64-b513-66f713d46478",
-   "6b003593-77bd-4fda-927d-0fd248fa38dd"
+   "6b003593-77bd-4fda-927d-0fd248fa38dd",
+   "6b0396fd-07ab-4d0f-b63c-045db846cb3d"
   ],
   "note": "P046. Every check-in queries get_option_orders and get_equity_orders with agent_initiated=false and created_at_gte=last_query_utc, then moves last_query_utc. The three ids are Brad's HD orders of 2026-11-16 (cancelled at 12.00, filled at 11.90 and 11.95)."
  },
@@ -724,29 +733,7 @@
    ]
   }
  ],
- "leftover_long_wings": [
-  {
-   "symbol": "JD",
-   "leg": "30C",
-   "option_id": "ebaadad1-3091-4fe1-8ef8-77725846ee7f",
-   "quantity": 3,
-   "expiry": "2026-11-20"
-  },
-  {
-   "symbol": "AS",
-   "leg": "26P",
-   "option_id": "1492889c-b6fa-4401-a15e-b4446310e4bc",
-   "quantity": 1,
-   "expiry": "2026-11-20"
-  },
-  {
-   "symbol": "PDD",
-   "leg": "72P",
-   "option_id": "ff22dd1b-a860-40d2-b061-c0c7618b5959",
-   "quantity": 1,
-   "expiry": "2026-11-20"
-  }
- ],
+ "leftover_long_wings": [],
  "morning_note_2026-11-17": "06:36 PT timer run. JD x3 and AS x1 closed by legs between 06:38 and 06:40 PT: JD +$3.16, AS -$0.28. The day's one multi-leg attempt went to HD x2 and was refused at placement (the review passed). HD is Brad's to close: ticket and two pushes sent; a read-only agent watches HD and his orders until 12:57 PT. The switches stay where they are while HD is open. The same-day pilot is blocked while HD is open (exits_pending).",
  "switches_2026-11-17": {
   "standby_exit_switch": "fired 07:25 PT; the standby stood down (head holds the lease, JD and AS closed, HD held on Brad's own word) and re-armed it for Wed 2026-11-18 07:25 PT",
@@ -2142,5 +2129,20 @@
   "bars_b": 8,
   "note": "hub.js does not draw share positions yet: the exporter writes ANT to account[0].stock_positions, which the page does not show"
  },
- "standby_note_2026-11-20": "Standby (21:25Z): keeps its stored entry-switch prompt skipping Fridays until it has seen Brad's own words on Friday entries in the head transcript or he tells it; stricter than the rules, so no Friday backup entry meanwhile. Switch armed for Mon 11/23 12:05 PT."
+ "standby_note_2026-11-20": "Standby (21:25Z): keeps its stored entry-switch prompt skipping Fridays until it has seen Brad's own words on Friday entries in the head transcript or he tells it; stricter than the rules, so no Friday backup entry meanwhile. Switch armed for Mon 11/23 12:05 PT.",
+ "expired_2026-11-20": "JD 30C x3, AS 26P x1, PDD 72P x1 expired worthless (out of the money, no bid); removed from leftover_long_wings.",
+ "check_2026-11-23_0554_preopen": {
+  "at_utc": "2026-11-23T13:54:54Z",
+  "lease": "head",
+  "timer": "06:36 PT via scripts/earnings/timer.sh",
+  "due_today": "nothing: no option positions; the three leftover wings expired Friday",
+  "cash_check": "cash 102.75 (Fri) -> 1,469.22: the ANT sale (15 x 91.10 - 0.03 = 1,366.47); no transfer",
+  "premarket": {
+   "SPY": 705.43,
+   "QQQ": 627.8,
+   "IWM": 262.08,
+   "ANT": 88.15,
+   "note": "SPY +2.3% and QQQ +3.2% before the open after Friday's -3.6% / -5.7% drop"
+  }
+ }
 }
