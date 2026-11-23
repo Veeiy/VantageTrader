@@ -1,0 +1,74 @@
+{
+ "batch": "D",
+ "as_of_utc": "2026-11-23T19:49:30Z",
+ "macro_veto": false,
+ "macro_veto_note": "owner waiver 2026-11-23",
+ "dropped": [],
+ "analyzed": [
+  {
+   "symbol": "DLTR",
+   "timing": "am",
+   "spot": 137.825,
+   "prev_close": 137.96,
+   "intraday_pct": -0.00098,
+   "K": 138,
+   "strike_step": 1.0,
+   "call": {
+    "id": "dbb614b7-9c7f-4dea-9cfc-17009ddd2c03",
+    "bid": 5.25,
+    "ask": 6.6,
+    "oi": 3
+   },
+   "put": {
+    "id": "a2e0aa58-dce1-4659-8690-41c61c088fd5",
+    "bid": 5.9,
+    "ask": 6.75,
+    "oi": 60
+   },
+   "straddle_mid": 12.25,
+   "straddle_pct": 0.08888,
+   "atm_spread_pct": 0.1796,
+   "hist_moves": [
+    -0.083747,
+    -0.0837,
+    0.036058,
+    0.06421,
+    0.178679,
+    -0.039189
+   ],
+   "avg_hist_move": 0.08093,
+   "median_hist_move": 0.07395,
+   "max_hist_move": 0.178679,
+   "n_hist": 6,
+   "regime_20d": 0.02768,
+   "edge_ratio": 1.0712,
+   "wings": {
+    "call_strike": 150.0,
+    "put_strike": 126.0,
+    "call": {
+     "id": "48d8b3e6-bae9-4d6a-8370-c37fa22f1373",
+     "bid": 1.51,
+     "ask": 2.12
+    },
+    "put": {
+     "id": "19bef8d6-a70f-470b-b6bc-1a154ef64d16",
+     "bid": 1.56,
+     "ask": 2.31
+    },
+    "credit_mid": 8.5,
+    "credit_natural": 6.72,
+    "width": 12,
+    "max_loss_mid": 350.0,
+    "max_loss_natural": 528.0,
+    "breakevens": [
+     129.5,
+     146.5
+    ],
+    "tick": 0.05
+   },
+   "past_moves_beyond_breakevens": "4/6",
+   "notes": "Half-size tier (edge 0.85-1.10) with atm_spread>0.12 -> cap 175. 1.5x target 156.375/119.625 (156 not listed; 155C e2b648e8-1fd6-4a7a-bc7f-11b4331bf751 0.69/1.23, 120P 3df115c7-104d-49cc-ab3d-709b4825177d 0.85/1.05 -> 155/120 ML natural ~913). Stepped in to floor 0.9x straddle=11.025 (149C/127P are 11.0 from K, inside floor) -> 150/126 floor fly ML natural 528 > cap 175: DOES NOT FIT (gate blocks). Body OI thin (call 3). 137.5 not listed. Strike step 1 near money, 155 listed/156 not above 150."
+  }
+ ],
+ "errors": []
+}

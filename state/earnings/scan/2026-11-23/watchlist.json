@@ -288,6 +288,29 @@
   "ANF": "no: edge 1.40",
   "BURL": "no: floor fly max loss 640 to 1,070, does not fit",
   "DKS_add": "no: gate 3 (atm_spread, name_risk); the name is already above its 350 cap by the owner's waiver",
-  "DLTR": "spread 18% at K 138 at 11:47 PT: sent to pricing (batch_D)"
+  "DLTR": {
+   "edge": 1.071,
+   "tier": "near_miss",
+   "spread": 0.1796,
+   "straddle_pct": 0.0889,
+   "hist_moves": [
+    -0.0837,
+    -0.0837,
+    0.0361,
+    0.0642,
+    0.1787,
+    -0.0392
+   ],
+   "floor_fly": "126/138/150 credit 8.50 mid / 6.72 natural, max loss 350 mid / 528 natural",
+   "past_moves_beyond_breakevens": "4 of 6",
+   "result": "no: near-miss half cap is 175 (spread above 12%); the floor fly does not fit",
+   "file": "batch_D/batch_D.json"
+  },
+  "new_entries": 0,
+  "decided_utc": "2026-11-23T19:49:50Z",
+  "standby_entry_switch": "moved to Tue 2026-11-24 12:05 PT at 11:48 PT",
+  "day_entries": [
+   "DKS (owner-executed lane, 10:10 PT)"
+  ]
  }
 }
