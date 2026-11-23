@@ -121,5 +121,31 @@
    "DKS",
    "DLTR"
   ]
+ },
+ "gate_0825": {
+  "at_utc": "2026-11-23T16:10:56Z",
+  "ZM": {
+   "edge": 1.0925,
+   "tier": "near_miss",
+   "spread": 0.09,
+   "intraday": 0.0503,
+   "fly": "78/85/92 credit 5.00 mid, max loss 200 mid / 267 natural",
+   "past_moves_beyond_breakevens": "5 of 6",
+   "gate_rules": "no: intraday (5.03%, stock-specific soft news), macro",
+   "gate_waiver": "no: intraday"
+  },
+  "DKS": {
+   "edge": 0.7234,
+   "tier": "core",
+   "spread": 0.196,
+   "intraday": 0.0238,
+   "fly": "120/135/150 credit 11.20 mid, max loss 380 mid / 600 natural against the 350 wide-spread cap",
+   "gate_rules": "no: macro, name cap, exit by legs",
+   "gate_waiver": "no: name cap 350, exit by legs"
+  },
+  "BURL": "spread 26.8% at K 240",
+  "ANF": "spread 26.9% at K 143",
+  "DLTR": "spread 25.2% at K 137 (marginal)",
+  "result": "no entry after the owner's macro waiver: every name fails a rule he did not waive; re-check BURL, ANF, DLTR spreads at 09:45 PT"
  }
 }

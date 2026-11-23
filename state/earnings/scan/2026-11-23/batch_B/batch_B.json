@@ -1,0 +1,254 @@
+{
+ "batch": "B",
+ "as_of_utc": "2026-11-23T16:06:51Z",
+ "dropped": [
+  {
+   "symbol": "BURL",
+   "reason": "spread",
+   "spot": 239.59,
+   "intraday_pct": -0.023437,
+   "atm_spread_pct": 0.267658,
+   "K": 240.0,
+   "straddle_mid": 26.9,
+   "call": {
+    "id": "830f1aa0-6a0a-44b5-9c4c-25daa011aff8",
+    "bid": 11.7,
+    "ask": 14.5,
+    "oi": 2
+   },
+   "put": {
+    "id": "774be297-3513-4a31-911b-114416c461bb",
+    "bid": 11.6,
+    "ask": 16.0,
+    "oi": 70
+   },
+   "as_of_utc": "2026-11-23T16:04:43Z"
+  },
+  {
+   "symbol": "ANF",
+   "reason": "spread",
+   "spot": 142.615,
+   "intraday_pct": 0.034041,
+   "atm_spread_pct": 0.268657,
+   "K": 143.0,
+   "straddle_mid": 20.1,
+   "call": {
+    "id": "4ef70a41-13b3-4b99-ae0d-783d7c6789ff",
+    "bid": 8.0,
+    "ask": 10.7,
+    "oi": 2
+   },
+   "put": {
+    "id": "bec06ee2-c94a-4911-a11c-8fe4fc0ac11a",
+    "bid": 9.4,
+    "ask": 12.1,
+    "oi": 2
+   },
+   "as_of_utc": "2026-11-23T16:04:39Z"
+  },
+  {
+   "symbol": "DLTR",
+   "reason": "spread",
+   "spot": 136.995,
+   "intraday_pct": -0.006995,
+   "atm_spread_pct": 0.251969,
+   "K": 137.0,
+   "straddle_mid": 12.7,
+   "call": {
+    "id": "e2c674c1-21f4-46c4-acc7-ac960e5063e7",
+    "bid": 5.5,
+    "ask": 7.15,
+    "oi": 12
+   },
+   "put": {
+    "id": "0fca9298-b55f-4149-aca9-f8d37baad9e3",
+    "bid": 5.6,
+    "ask": 7.15,
+    "oi": 59
+   },
+   "as_of_utc": "2026-11-23T16:04:25Z",
+   "note": "marginal: 0.252 vs 0.25 limit"
+  }
+ ],
+ "analyzed": [
+  {
+   "symbol": "ZM",
+   "timing": "pm",
+   "spot": 85.35,
+   "prev_close": 81.26,
+   "intraday_pct": 0.050332,
+   "K": 85.0,
+   "strike_step": 1.0,
+   "call": {
+    "id": "a531d9e4-35ee-44fc-9352-22c15c15f14e",
+    "bid": 3.9,
+    "ask": 4.2,
+    "oi": 123
+   },
+   "put": {
+    "id": "bd148f95-1afe-4ac0-b465-d628f0416379",
+    "bid": 3.5,
+    "ask": 3.9,
+    "oi": 125
+   },
+   "straddle_mid": 7.75,
+   "straddle_pct": 0.090803,
+   "atm_spread_pct": 0.090323,
+   "hist_moves": [
+    -0.002431,
+    0.127101,
+    0.098473,
+    -0.115767,
+    0.091886,
+    -0.070254
+   ],
+   "hist_dates": [
+    "2025-05-21",
+    "2025-08-21",
+    "2025-11-24",
+    "2026-02-25",
+    "2026-05-21",
+    "2026-08-25"
+   ],
+   "avg_hist_move": 0.084319,
+   "median_hist_move": 0.09518,
+   "max_hist_move": 0.127101,
+   "n_hist": 6,
+   "regime_20d": 0.027385,
+   "edge_ratio": 1.0925,
+   "tier": "half",
+   "cap_per_contract": 300,
+   "wings_fit_cap": true,
+   "wings_initial": {
+    "call_strike": 97,
+    "put_strike": 73,
+    "credit_mid": 6.67,
+    "credit_natural": 6.17,
+    "width": 12.0,
+    "max_loss_mid": 533.0,
+    "max_loss_natural": 583.0
+   },
+   "wings": {
+    "call_strike": 92,
+    "put_strike": 78,
+    "call": {
+     "id": "bd23e9b2-a799-47d4-a9f2-012049acb843",
+     "bid": 1.34,
+     "ask": 1.5
+    },
+    "put": {
+     "id": "e43ebd67-bd4f-4cc0-8c07-7d3b60fedca8",
+     "bid": 1.09,
+     "ask": 1.57
+    },
+    "credit_mid": 5.0,
+    "credit_natural": 4.33,
+    "width": 7.0,
+    "max_loss_mid": 200.0,
+    "max_loss_natural": 267.0,
+    "breakevens": [
+     80.0,
+     90.0
+    ],
+    "tick": 0.01
+   },
+   "past_moves_beyond_breakevens": "5/6",
+   "macro_veto": false,
+   "notes": "FRAGILE: fit is knife-edge on the floor; 92/78 sits 7.00 from K vs floor 0.9x7.75=6.975, but the 16:05:53Z body quote (call 3.90/4.20, put 3.60/3.90, straddle 7.80, floor 7.02) puts 92/78 inside the floor and the next fly out 93/77 has ML nat 313 > 300, so on that snapshot it does not fit; edge 1.0925 is also close to the 1.10 cutoff; BRIEF CONFLICT: brief says ZM body spread 23% at 08:03 PT, live reads 08:04-08:06 PT were 7.1%/7.7%/9.0% (a spread above 0.12 would make the cap 175 and the fly would not fit); edge 0.85-1.10 half-size tier (cap 300); wings stepped in from 97C/73P (ML nat 583) one strike per side to 92C/78P, which sits at the 0.9x floor (91.975/78.025) and fits (ML nat 267); body re-quoted 16:06:45Z (first read 16:04: call 3.90/4.15, put 3.60/3.90, edge 1.087); intraday +5.0% into the print; past_moves_beyond_breakevens applies moves to current spot; tick 0.01 under $3, 0.05 above; macro_veto false per brief: 'owner waiver 2026-11-23' (stated in brief, not verified by this agent; SPY +5.0% at 16:06Z)"
+  },
+  {
+   "symbol": "DKS",
+   "timing": "am",
+   "spot": 135.4,
+   "prev_close": 132.25,
+   "intraday_pct": 0.023819,
+   "K": 135.0,
+   "strike_step": 1.0,
+   "call": {
+    "id": "80e6aeaa-d5c5-4cd8-bf72-b796e4634dea",
+    "bid": 7.5,
+    "ask": 8.8,
+    "oi": 13
+   },
+   "put": {
+    "id": "a48d672a-7b6b-4ee8-93f3-3b690df3d88f",
+    "bid": 7.2,
+    "ask": 9.1,
+    "oi": 52
+   },
+   "straddle_mid": 16.3,
+   "straddle_pct": 0.120384,
+   "atm_spread_pct": 0.196319,
+   "hist_moves": [
+    0.016646,
+    -0.048361,
+    0.002036,
+    0.010587,
+    -0.059709,
+    -0.306809
+   ],
+   "hist_dates": [
+    "2025-05-28",
+    "2025-08-28",
+    "2025-11-25",
+    "2026-03-12",
+    "2026-05-27",
+    "2026-08-25"
+   ],
+   "avg_hist_move": 0.074025,
+   "median_hist_move": 0.032504,
+   "max_hist_move": -0.306809,
+   "n_hist": 6,
+   "regime_20d": 0.029096,
+   "edge_ratio": 0.7234,
+   "tier": "full",
+   "cap_per_contract": 350,
+   "wings_fit_cap": false,
+   "wings_initial": {
+    "call_strike": 160,
+    "put_strike": 111,
+    "credit_mid": 14.225,
+    "credit_natural": 11.65,
+    "width": 25.0,
+    "max_loss_mid": 1077.5,
+    "max_loss_natural": 1335.0
+   },
+   "wings": {
+    "call_strike": 150,
+    "put_strike": 120,
+    "call": {
+     "id": "b8820cb1-e90d-47a6-a229-60273073cd03",
+     "bid": 2.3,
+     "ask": 3.0
+    },
+    "put": {
+     "id": "67cbe4c8-8309-4eb7-8b3b-31850219d649",
+     "bid": 2.2,
+     "ask": 2.7
+    },
+    "credit_mid": 11.2,
+    "credit_natural": 9.0,
+    "width": 15.0,
+    "max_loss_mid": 380.0,
+    "max_loss_natural": 600.0,
+    "breakevens": [
+     123.8,
+     146.2
+    ],
+    "tick": 0.05
+   },
+   "past_moves_beyond_breakevens": "1/6",
+   "macro_veto": false,
+   "notes": "avg dominated by one -30.7% move (2026-08-25; median 3.25%); spread 0.196>0.12 so cap 350 (full tier); initial 160C/111P ML nat 1335; at the 0.9x floor 150C/120P ML nat 600 > 350: DOES NOT FIT, gate blocks, not narrowed further (intermediate strikes not quoted since floor fly is the narrowest allowed); 111P had OI 0; body put quote stale (updated 16:01:32Z); tick 0.05 under $3, 0.10 above; macro_veto false per brief: 'owner waiver 2026-11-23' (stated in brief, not verified by this agent; SPY +5.0% at 16:06Z)"
+  }
+ ],
+ "errors": [],
+ "context": {
+  "SPY_spot": 724.36,
+  "SPY_prev_close": 689.81,
+  "SPY_intraday_pct": 0.050086,
+  "expiry": "2026-11-27",
+  "option_sellout_utc": "2026-11-27T17:30:00Z",
+  "history_cmd": "PYTHONPATH=src python3 -m vantage_trader.earnings history --bars batch_B/bars.json --events batch_B/events.json (no skips)"
+ }
+}
