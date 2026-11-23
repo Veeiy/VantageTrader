@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-23T16:30:45Z",
+ "as_of": "2026-11-23T17:16:19Z",
  "account_value": 1909.87,
  "cap_total_max_loss": 1235.08,
  "execution": {
@@ -524,7 +524,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-23T16:30:30Z",
+  "last_query_utc": "2026-11-23T17:16:07Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -2196,5 +2196,12 @@
   "mid_at_1630Z": 11.03,
   "natural_at_1630Z": 9.15,
   "walk": "the agent cannot reprice it (multi-leg place refused for the agent; no multi-leg replace): Brad edits the limit in the app, 0.10 steps, never under 9.90"
+ },
+ "check_2026-11-23_0916_hourly": {
+  "at_utc": "2026-11-23T17:16:19Z",
+  "hand_orders": "DKS owner 4-leg 6b0469bb still working at 10.75, unfilled, unedited since 08:28 PT (pushed once at 08:37 PT)",
+  "DKS": 134.25,
+  "ANT": 87.55,
+  "SPY": "+5.0%"
  }
 }
