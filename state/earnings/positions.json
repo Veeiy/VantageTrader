@@ -1895,7 +1895,13 @@
     143.5
    ],
    "fast_move": "2% in 15 minutes"
-  }
+  },
+  "ended_utc": "2026-11-23T21:00:00Z",
+  "cycles": 39,
+  "triggers_sent": 0,
+  "last_stock": 132.78,
+  "last_close_cost_mark": 11.45,
+  "note": "the closing mark is on wide closing quotes (135C 6.00/8.70, 150C 1.20/2.15): -70 at marks, not a tradable price. No hand orders, no news change: report still Tue before the open (call 8:00 ET)."
  },
  "check_2026-11-20_0554_preopen": {
   "at_utc": "2026-11-20T13:55:33Z",
