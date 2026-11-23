@@ -1,0 +1,45 @@
+{
+  "checked_at_utc": "2026-11-23T16:07:43Z",
+  "names": {
+    "ZM": {
+      "report_confirmed": true,
+      "report": "2026-11-23 pm",
+      "source": "https://stockhouse.com/news/press-releases/2026/10/29/zoom-to-release-financial-results-for-the-third-quarter-of-fiscal-year-2027",
+      "flags": ["soft:analyst_pt_cuts_nov19", "soft:pre_earnings_selloff", "soft:ai_launchpad_nov10", "soft:market_rally"],
+      "hard": false,
+      "notes": "Company release (Oct 29) says Q3 FY27 after close Mon Nov 23, webinar 2pm PT; Robinhood verified pm. BTIG PT cut 125->115 Nov 19 (stock -7%, ~-15% on week); one GuruFocus item says Nov 22, contradicts company release. No mgmt change, deal, offering or in-window event found."
+    },
+    "BURL": {
+      "report_confirmed": true,
+      "report": "2026-11-24 am",
+      "source": "https://www.stocktitan.net/news/BURL/burlington-stores-inc-announces-third-quarter-fiscal-year-2026-7yc80gxwdd9p.html",
+      "flags": ["soft:analyst_downgrade_nov13", "soft:analyst_pt_cuts", "soft:chro_change_effective_oct2026", "soft:market_rally"],
+      "hard": false,
+      "notes": "Nov 10 GlobeNewswire release: Q3 FY26 before open Nov 24, call 8:30am ET; Robinhood verified am. Gordon Haskett cut to Reduce Nov 13, MS/WFC PT cuts; CHRO change filed in 8-K Aug 4 (effective Oct), outside 10-day window."
+    },
+    "ANF": {
+      "report_confirmed": true,
+      "report": "2026-11-24 am",
+      "source": "https://finviz.com/news/412527/abercrombie-fitch-co-to-report-third-quarter-2026-results-on-november-24-2026",
+      "flags": ["soft:pre_earnings_pullback_from_2yr_high", "soft:hollister_uk_expansion", "soft:market_rally"],
+      "hard": false,
+      "notes": "Company release: Q3 FY26 release ~7:30am ET Nov 24, call 8:30am ET; Robinhood verified am. Stock -6.4% Nov 19, ~-15% over a month off Nov 5 two-year high; no guidance change, mgmt change or in-window event found."
+    },
+    "DKS": {
+      "report_confirmed": true,
+      "report": "2026-11-24 am",
+      "source": "https://s205.q4cdn.com/510074553/files/doc_news/DICKS-Sporting-Goods-Inc--Third-Quarter-Results-Call-Scheduled-for-November-24th-2026.pdf",
+      "flags": ["soft:analyst_downgrade_williams_sell_nov19", "soft:foot_locker_integration_closed_deal", "soft:securities_class_action_no_dated_ruling", "soft:jordan_allocation_sector_story", "soft:market_rally"],
+      "hard": false,
+      "notes": "Nov 2 company release: Q3 before open Nov 24, call 8:00am ET; Robinhood verified am. Williams Trading cut to Sell (PT 120) Nov 19 on Foot Locker/Jordan allocation cuts, stock ~-5%; class action lead-plaintiff deadline Nov 3 already passed, no dated ruling in window."
+    },
+    "DLTR": {
+      "report_confirmed": true,
+      "report": "2026-11-24 am",
+      "source": "https://www.sec.gov/Archives/edgar/data/0000935703/000093570326000128/ex991q3-26earningscallanno.htm",
+      "flags": ["soft:tariff_refund_margin_context", "soft:analyst_rating_changes", "soft:pre_earnings_drawdown", "soft:market_rally"],
+      "hard": false,
+      "notes": "8-K exhibit: Q3 FY26 before open Nov 24, call 8am ET; Robinhood verified am, Q3 actual null. No pre-announcement found; a GuruFocus 'tops earnings, $1.56 EPS' headline (~Nov 20) matches the stale Q1 estimate, and price quotes disagree (Schaeffer's 163.50 vs Morningstar 137.96) - recheck quote before entry."
+    }
+  }
+}
