@@ -281,5 +281,13 @@
    "new_entries": 0,
    "file": "batch_C.json"
   }
+ },
+ "final_sweep_1147": {
+  "at_utc": "2026-11-23T19:48:09Z",
+  "ZM": "no: spot 86.55, +6.5% on the day (intraday) and edge about 1.15 at the fresh strike (above 1.10; not waived)",
+  "ANF": "no: edge 1.40",
+  "BURL": "no: floor fly max loss 640 to 1,070, does not fit",
+  "DKS_add": "no: gate 3 (atm_spread, name_risk); the name is already above its 350 cap by the owner's waiver",
+  "DLTR": "spread 18% at K 138 at 11:47 PT: sent to pricing (batch_D)"
  }
 }
