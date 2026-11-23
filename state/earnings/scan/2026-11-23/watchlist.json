@@ -78,5 +78,25 @@
   "value": 1909.87,
   "buying_power": 1469.22,
   "open_risk": 449.94
- }
+ },
+ "dropped_spread_0637": {
+  "ZM": 0.549,
+  "BURL": 0.293,
+  "ANF": 0.312,
+  "DLTR": 0.356,
+  "DKS": 0.369,
+  "MDT": 0.834,
+  "KSS": 0.933,
+  "note": "quotes 7 to 8 minutes after the open, 13 of 14 legs with no volume yet: re-priced at the 09:45 PT midday scan (as on 2026-11-19)"
+ },
+ "dropped_no_expiry": {
+  "A": "first expiry 12-18",
+  "AMTM": "12-18",
+  "DY": "12-18",
+  "SJM": "12-18",
+  "CMBT": "12-18",
+  "BILI": "12-18",
+  "SHOE": "12-18 (reports 11-24 am, verified)"
+ },
+ "entered": []
 }
