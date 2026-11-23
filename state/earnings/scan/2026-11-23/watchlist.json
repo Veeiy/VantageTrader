@@ -1,0 +1,82 @@
+{
+ "date": "2026-11-23",
+ "made_utc": "2026-11-23T14:36:59Z",
+ "window": "Mon 11/23 after the close and Tue 11/24 before the open",
+ "scanner_and_calendar": {
+  "pm_today": [
+   "A",
+   "SMTC",
+   "SYM",
+   "HPE",
+   "ZM",
+   "AMTM"
+  ],
+  "am_tomorrow": [
+   "ADI",
+   "BURL",
+   "DY",
+   "ANF",
+   "DLTR",
+   "DKS",
+   "SJM",
+   "MDT",
+   "KSS",
+   "CMBT",
+   "BILI"
+  ],
+  "timing_unknown": [
+   "SHOE"
+  ]
+ },
+ "blocked_intraday_move": {
+  "SMTC": "+16.1% pre-market (over 7%)",
+  "SYM": "+17.4%",
+  "HPE": "+12.4%",
+  "ADI": "+7.5%"
+ },
+ "outside_window": [
+  "DELL",
+  "ADSK",
+  "WDAY",
+  "NTNX",
+  "AMBA",
+  "HPQ (Tue pm: Tuesday's run)"
+ ],
+ "calendar_not_on_scanner": [
+  "J",
+  "FSCO",
+  "CENT",
+  "CENTA",
+  "CDLR",
+  "CVAC",
+  "BWLP",
+  "KC",
+  "VIPS",
+  "MMED",
+  "BBY",
+  "WNGRF",
+  "GGAL"
+ ],
+ "sent_to_vol_analyst": [
+  "A",
+  "ZM",
+  "AMTM",
+  "BURL",
+  "DY",
+  "ANF",
+  "DLTR",
+  "DKS",
+  "SJM",
+  "MDT",
+  "KSS",
+  "CMBT",
+  "BILI",
+  "SHOE"
+ ],
+ "macro": "SPY about +2.3% pre-market (soft band if it holds 2% to 3% at entry); no tier-1 release before Tuesday's exit",
+ "account": {
+  "value": 1909.87,
+  "buying_power": 1469.22,
+  "open_risk": 449.94
+ }
+}

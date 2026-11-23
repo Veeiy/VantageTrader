@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-23T13:54:54Z",
+ "as_of": "2026-11-23T14:36:59Z",
  "account_value": 1909.87,
  "cap_total_max_loss": 1235.08,
  "execution": {
@@ -2144,5 +2144,14 @@
    "ANT": 88.15,
    "note": "SPY +2.3% and QQQ +3.2% before the open after Friday's -3.6% / -5.7% drop"
   }
+ },
+ "check_2026-11-23_0636_exit": {
+  "at_utc": "2026-11-23T14:36:59Z",
+  "due": "none",
+  "hand_orders_since_1354Z": "none",
+  "switches": "exit switch Tue 11/24 07:25 PT, phone alert 08:00 PT",
+  "pilot_timer": "07:27 PT",
+  "paper_desk": "started",
+  "vol_analyst": "started, 14 names"
  }
 }
