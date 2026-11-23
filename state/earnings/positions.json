@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-23T20:16:05Z",
+ "as_of": "2026-11-23T20:57:19Z",
  "account_value": 1900.75,
  "cap_total_max_loss": 1235.08,
  "execution": {
@@ -610,7 +610,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-23T20:15:40Z",
+  "last_query_utc": "2026-11-23T20:57:07Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -2344,5 +2344,16 @@
     475.5
    ]
   }
+ },
+ "check_2026-11-23_1257_last_look": {
+  "at_utc": "2026-11-23T20:57:19Z",
+  "hand_orders": "none new",
+  "positions": "DKS fly 4 legs intact (1 each); ANT 5 sh",
+  "DKS": 132.785,
+  "ANT": 87.685,
+  "SPY": 722.5,
+  "QQQ": 650.82,
+  "IWM": 265.63,
+  "ZM": 86.69
  }
 }
