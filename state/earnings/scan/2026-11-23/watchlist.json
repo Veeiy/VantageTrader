@@ -99,5 +99,27 @@
   "SHOE": "12-18 (reports 11-24 am, verified)"
  },
  "entered": [],
- "macro_0717": "HARD veto: SPY 723.32, +4.9% on the day (3% or more): no new earnings entries while it holds"
+ "macro_0717": "HARD veto: SPY 723.32, +4.9% on the day (3% or more): no new earnings entries while it holds",
+ "owner_override_0800": {
+  "quote": "Brad: 'Ignore that. We can trade today.'",
+  "read_as": "waives the two blocks named to him: the hard macro veto (SPY +4.9%) and the pilot's 1% gap limit. Nothing else: spread, intraday move per name, expiry, news, caps, the 07:50 pilot window and the circuit breaker stand.",
+  "circuit_breaker": "clear: 2 losses in a row (ANT, PDD; pilot excluded), limit 3",
+  "pilot": "no trade: the message was acted on at 08:03 PT, past the pilot's 07:50 window (not waived)",
+  "requote_0803": {
+   "ZM": 0.231,
+   "BURL": 0.201,
+   "ANF": 0.243,
+   "DKS": 0.196,
+   "DLTR": 0.252,
+   "MDT": 0.328,
+   "KSS": 0.797
+  },
+  "sent_to_vol_analyst_B": [
+   "ZM",
+   "BURL",
+   "ANF",
+   "DKS",
+   "DLTR"
+  ]
+ }
 }
