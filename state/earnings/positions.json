@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-23T15:17:36Z",
+ "as_of": "2026-11-23T16:16:34Z",
  "account_value": 1909.87,
  "cap_total_max_loss": 1235.08,
  "execution": {
@@ -524,7 +524,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-23T15:17:26Z",
+  "last_query_utc": "2026-11-23T16:16:25Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -2172,5 +2172,11 @@
    "macro_veto"
   ],
   "note": "IWM +3.4% overnight gap; no pilot trade today, no second try"
+ },
+ "check_2026-11-23_0816_hourly": {
+  "at_utc": "2026-11-23T16:16:34Z",
+  "hand_orders": "none",
+  "ANT": 87.635,
+  "SPY": "+4.8%"
  }
 }
