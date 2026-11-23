@@ -1,0 +1,26 @@
+{
+ "symbol": "ZM",
+ "body": 85.0,
+ "call_wing": 92.0,
+ "put_wing": 78.0,
+ "credit": 4.9,
+ "quantity": 1,
+ "close": 85.05,
+ "spot_base": 85.05,
+ "sigma_base": 0.0556,
+ "spots": [
+  84.84,
+  95.86,
+  93.43,
+  75.2,
+  92.86,
+  79.07
+ ],
+ "sigmas": [
+  0.0456,
+  0.0556,
+  0.0684
+ ],
+ "slippage_usd": 15.0,
+ "wing_sigma_mult": 1.1
+}

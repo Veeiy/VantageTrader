@@ -1,0 +1,51 @@
+{
+ "symbol": "DKS",
+ "timing": "am",
+ "spot": 135.42,
+ "prev_close": 132.25,
+ "K": 135.0,
+ "call": {
+  "bid": 7.4,
+  "ask": 8.8
+ },
+ "put": {
+  "bid": 7.1,
+  "ask": 8.8
+ },
+ "hist_moves": [
+  0.016646,
+  -0.048361,
+  0.002036,
+  0.010587,
+  -0.059709,
+  -0.306809
+ ],
+ "regime_20d": 0.029096,
+ "flags": [
+  "soft:analyst_downgrade_williams_sell_nov19",
+  "soft:foot_locker_integration_closed_deal",
+  "soft:securities_class_action_no_dated_ruling",
+  "soft:jordan_allocation_sector_story",
+  "soft:market_rally"
+ ],
+ "account_value": 1909.87,
+ "open_risk_usd": 449.94,
+ "buying_power": 1469.22,
+ "tick": 0.05,
+ "wings": {
+  "call_strike": 150,
+  "put_strike": 120,
+  "call": {
+   "bid": 2.5,
+   "ask": 3.0
+  },
+  "put": {
+   "bid": 2.2,
+   "ask": 2.6
+  }
+ },
+ "sector": "sporting goods retail",
+ "sectors_entered_today": [],
+ "sector_same_direction": true,
+ "macro_veto": false
+}
