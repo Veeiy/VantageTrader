@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-23T14:36:59Z",
+ "as_of": "2026-11-23T15:17:36Z",
  "account_value": 1909.87,
  "cap_total_max_loss": 1235.08,
  "execution": {
@@ -524,7 +524,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-23T13:54:30Z",
+  "last_query_utc": "2026-11-23T15:17:26Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -2153,5 +2153,15 @@
   "pilot_timer": "07:27 PT",
   "paper_desk": "started",
   "vol_analyst": "started, 14 names"
+ },
+ "check_2026-11-23_0717_hourly": {
+  "at_utc": "2026-11-23T15:17:36Z",
+  "hand_orders": "none",
+  "ANT": 88.84,
+  "SPY": {
+   "last": 723.32,
+   "change": 0.0486,
+   "note": "SPY +4.9%: HARD macro veto (3% or more), no new earnings entries today while it holds"
+  }
  }
 }
