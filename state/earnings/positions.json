@@ -2213,20 +2213,20 @@
   "SPY": "-3.1% (693.56): hard macro veto level"
  },
  "hub": {
-  "refreshed_utc": "2026-11-20T21:25:00Z",
+  "refreshed_utc": "2026-11-23T18:17:22Z",
   "book": {
-   "version": 16,
-   "blob": "8eb5ab73d18ef286ef34eb91d03f6679"
+   "version": 17,
+   "blob": "cea2201ac2e6b79d48d997c8654b94ca"
   },
   "model": {
-   "version": 17,
-   "blob": "56ba82393b22918a92154bcb5fa2bec7"
+   "version": 18,
+   "blob": "baeaeee93e15ff5fa4363bdc2c976e31"
   },
-  "spots": 9,
-  "quotes": 7,
-  "bars_a": 8,
-  "bars_b": 8,
-  "note": "hub.js does not draw share positions yet: the exporter writes ANT to account[0].stock_positions, which the page does not show"
+  "spots": 10,
+  "quotes": 8,
+  "bars_a": 9,
+  "bars_b": 9,
+  "note": "hub.js does not draw share positions yet (ANT is in account[0].stock_positions)"
  },
  "standby_note_2026-11-20": "Standby (21:25Z): keeps its stored entry-switch prompt skipping Fridays until it has seen Brad's own words on Friday entries in the head transcript or he tells it; stricter than the rules, so no Friday backup entry meanwhile. Switch armed for Mon 11/23 12:05 PT.",
  "expired_2026-11-20": "JD 30C x3, AS 26P x1, PDD 72P x1 expired worthless (out of the money, no bid); removed from leftover_long_wings.",
