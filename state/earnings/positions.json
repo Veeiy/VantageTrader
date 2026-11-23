@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-23T16:16:34Z",
+ "as_of": "2026-11-23T16:23:57Z",
  "account_value": 1909.87,
  "cap_total_max_loss": 1235.08,
  "execution": {
@@ -2178,5 +2178,16 @@
   "hand_orders": "none",
   "ANT": 87.635,
   "SPY": "+4.8%"
+ },
+ "owner_lane_pending": {
+  "symbol": "DKS",
+  "ticket_sent_utc": "2026-11-23T16:23:57Z",
+  "fly": "120/135/150 exp 2026-11-27 x1",
+  "limit": [
+   10.75,
+   9.9
+  ],
+  "watch": "poll his option orders; record the fill as hand_entered, lane owner_executed",
+  "close": "Tue 2026-11-24 06:38 PT closing ticket; the agent legs it at 06:50 PT if a review shows the buybacks fit (P076)"
  }
 }

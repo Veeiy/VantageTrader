@@ -147,5 +147,69 @@
   "ANF": "spread 26.9% at K 143",
   "DLTR": "spread 25.2% at K 137 (marginal)",
   "result": "no entry after the owner's macro waiver: every name fails a rule he did not waive; re-check BURL, ANF, DLTR spreads at 09:45 PT"
+ },
+ "owner_ok_0817": {
+  "quote": "Brad, 2026-11-23 08:17 PT: 'Id say those top two are ok to trade.' (the table's top two: ZM and DKS)",
+  "second_quote": "Brad, 08:10 PT: 'I want you to trade today too because the volatility means options are juiced.'"
+ },
+ "entry_attempt_0823": {
+  "at_utc": "2026-11-23T16:23:57Z",
+  "ZM": {
+   "result": "NOT placed",
+   "why": "at the moment of entry the gate failed on edge_ratio 1.1012 against the 1.10 cutoff (straddle 7.65 on spot 84.82); he waived the macro veto, not the edge cutoff. 08:18 run: edge 1.0954, passed with the macro waiver only (intraday 4.66%).",
+   "exit_time": {
+    "best_case_usd": 141,
+    "avg_over_past_moves_after_slippage_usd": -52,
+    "zero_line": "about -7% / +6%",
+    "sigma_base": 0.0556,
+    "file": "batch_B/project_ZM_0822_out.json"
+   },
+   "files": [
+    "batch_B/gate_ZM_rules_0823.json",
+    "batch_B/gate_ZM_waiver_0823.json"
+   ],
+   "recheck": "09:45 PT midday scan and the 11:46 sweep, as any name"
+  },
+  "DKS": {
+   "result": "owner ticket sent 08:25 PT",
+   "fly": "120/135/150 exp 2026-11-27 x1",
+   "limit_start": 10.75,
+   "limit_floor": 9.9,
+   "step": 0.1,
+   "max_loss_at_start": 425,
+   "max_loss_at_floor": 510,
+   "share_of_account": [
+    0.222,
+    0.267
+   ],
+   "breakevens_at_start": [
+    124.25,
+    145.75
+   ],
+   "edge": 0.7286,
+   "atm_spread": 0.2138,
+   "waived": [
+    "macro_veto",
+    "name cap 350 (spread above 12%)",
+    "owner lane 12% spread limit",
+    "exit by legs (gate 16)"
+   ],
+   "exit_time": {
+    "best_case_usd": 478,
+    "avg_over_past_moves_after_slippage_usd": 242,
+    "worst_past_move": "-30.7% (2025-08): max loss",
+    "slippage_assumed_usd": 30,
+    "file": "batch_B/project_DKS_0825_out.json"
+   },
+   "leg_ids": {
+    "135C": "80e6aeaa-d5c5-4cd8-bf72-b796e4634dea",
+    "135P": "a48d672a-7b6b-4ee8-93f3-3b690df3d88f",
+    "150C": "b8820cb1-e90d-47a6-a229-60273073cd03",
+    "120P": "67cbe4c8-8309-4eb7-8b3b-31850219d649"
+   },
+   "files": [
+    "batch_B/gate_DKS_owner_0823.json"
+   ]
+  }
  }
 }

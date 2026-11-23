@@ -1,0 +1,53 @@
+{
+ "symbol": "ZM",
+ "timing": "pm",
+ "spot": 84.815,
+ "prev_close": 81.26,
+ "K": 85.0,
+ "call": {
+  "bid": 3.6,
+  "ask": 4.05
+ },
+ "put": {
+  "bid": 3.6,
+  "ask": 4.05
+ },
+ "hist_moves": [
+  -0.002431,
+  0.127101,
+  0.098473,
+  -0.115767,
+  0.091886,
+  -0.070254
+ ],
+ "regime_20d": 0.027385,
+ "flags": [
+  "soft:analyst_pt_cuts_nov19",
+  "soft:pre_earnings_selloff",
+  "soft:ai_launchpad_nov10",
+  "soft:market_rally"
+ ],
+ "account_value": 1910.35,
+ "open_risk_usd": 449.94,
+ "buying_power": 1469.22,
+ "tick": 0.05,
+ "wings": {
+  "call_strike": 92,
+  "put_strike": 78,
+  "call": {
+   "bid": 1.25,
+   "ask": 1.5
+  },
+  "put": {
+   "bid": 1.12,
+   "ask": 1.56
+  }
+ },
+ "sector": "software, communications",
+ "sectors_entered_today": [],
+ "sector_same_direction": true,
+ "macro_veto": false,
+ "owner_waivers": [
+  "macro_veto (Brad 2026-11-23 08:0x PT: 'Ignore that. We can trade today.' and 08:17 PT: 'Id say those top two are ok to trade.')"
+ ]
+}
