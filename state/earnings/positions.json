@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-23T18:17:14Z",
+ "as_of": "2026-11-23T19:15:49Z",
  "account_value": 1900.75,
  "cap_total_max_loss": 1235.08,
  "execution": {
@@ -610,7 +610,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-23T18:15:36Z",
+  "last_query_utc": "2026-11-23T19:15:40Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -2293,5 +2293,32 @@
   "SPY": "+4.8%",
   "account_value": 1900.75,
   "buying_power": 1044.02
+ },
+ "check_2026-11-23_1115_hourly": {
+  "at_utc": "2026-11-23T19:15:49Z",
+  "hand_orders_since_1816Z": "none",
+  "DKS": {
+   "spot": 134.27,
+   "close_cost_mid": 10.55,
+   "pl_mid_usd": 20.0,
+   "135C": [
+    7.0,
+    7.9
+   ],
+   "135P": [
+    7.3,
+    8.7
+   ],
+   "150C": [
+    2.3,
+    2.75
+   ],
+   "120P": [
+    2.25,
+    2.5
+   ]
+  },
+  "ANT": 87.835,
+  "SPY": "+4.9%"
  }
 }
