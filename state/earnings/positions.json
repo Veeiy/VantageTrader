@@ -2163,5 +2163,14 @@
    "change": 0.0486,
    "note": "SPY +4.9%: HARD macro veto (3% or more), no new earnings entries today while it holds"
   }
+ },
+ "pilot_2026-11-23": {
+  "at_utc": "2026-11-23T15:27:22Z",
+  "gate": "exit 3, no_trade",
+  "blocked_by": [
+   "pre_entry_move_too_large",
+   "macro_veto"
+  ],
+  "note": "IWM +3.4% overnight gap; no pilot trade today, no second try"
  }
 }
