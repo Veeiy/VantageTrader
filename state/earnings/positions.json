@@ -1,6 +1,6 @@
 {
- "as_of": "2026-11-23T20:57:19Z",
- "account_value": 1900.75,
+ "as_of": "2026-11-23T21:20:15Z",
+ "account_value": 1836.97,
  "cap_total_max_loss": 1235.08,
  "execution": {
   "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
@@ -89,9 +89,10 @@
    "report": "2026-11-24 before the US open",
    "ticks": "0.05 under 3.00, 0.10 at and above (chain min_ticks)",
    "plan": {
-    "exit": "Tue 2026-11-24 06:38 PT: closing ticket and push to Brad (one 4-leg order, debit at the mid); at 06:50 PT, if he has not closed it and a review shows the short buybacks fit, the agent closes it by legs and tells him (P076, v1.16.4)",
+    "exit": "Tue 2026-11-24. 06:38 PT: closing ticket and push to Brad (one 4-leg order, debit at the mid, walk up 0.10; he is on shift). 06:50 PT: if he has not closed it, the agent closes it by legs (EXECUTION.md section 5): review both buybacks; both asks inside the buying power (1,044): buy both together, then the wings; otherwise step 3b: the cheaper short first, then the dearer one once its review shows the 1,500 collateral credit, then the wings, in-the-money side first.",
+    "at_max_loss": "close cost at or above 13.50 (90% of 15): v1.2.2 holds it, not legged; it stays Brad's ticket. Expiry Fri 2026-11-27 is an early close: sellout 09:30 PT, so flat by 08:00 PT that day (P083, P071).",
+    "reviews_2026-11-23": "buy to close 135P at 8.50 and 135C at 7.50 (after the close, review only): no buying-power alert; collateral 0.00 on each (either buyback alone releases nothing)",
     "never_hold_into": "2026-11-27",
-    "close_sequence": "buy back both short legs first, then sell both wings",
     "collateral_usd": 1500
    },
    "order_id": "6b0469bb-1e7a-4ce5-bf40-7d70ad35e3d0",
@@ -2361,5 +2362,18 @@
   "QQQ": 650.82,
   "IWM": 265.63,
   "ZM": 86.69
+ },
+ "tomorrow_2026-11-24": {
+  "breaker": "ANT -110.72 and PDD -197.29 are two losses in a row: a DKS loss is the third and halts new entries (the second max loss if near max). No Tuesday entry before DKS is closed and journaled.",
+  "score_untraded": [
+   "ZM",
+   "DLTR",
+   "BURL",
+   "ANF",
+   "SMTC",
+   "ADI"
+  ],
+  "score_dropped": "SYM and HPE (limit of six; both intraday-move blocks like SMTC and ADI)",
+  "calendar": "Wed 11/25: switches skip Thu 11/26 (NYSE closed) to Fri 11/27, an early close at 10:00 PT (entry tasks skip it)"
  }
 }

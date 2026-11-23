@@ -1107,3 +1107,14 @@ P072 (tooling, agent): scripts/earnings/timer.sh refuses a wait over 115 minutes
 P073 (process, agent): the standby entry switch moves on every entry decision, trade or no-trade, to the next entry day Mon to Fri (Fridays are entry days since v1.16.7). Measure: the entry switch does not fire on a day the head ran its sweep, over 10 trading days.
 P074 (cost, agent under the 2026-11-16 delegation): the Friday spread scan holds 25 names and 120 tool calls at most. Measure: scan agent at $4 or less. Brad: 'scan 40' reverses it.
 P076 (process, agent): no buying-power claim or ticket without the review result of that order.
+
+
+## v1.16.11 (2026-11-23, reflection)
+P078 (process, agent): the account-watch daemon starts with an owner ticket; the head does not poll. Measure: head calls between ticket and fill at 2 or fewer.
+P079 (process, agent): no recommendation to Brad before the exit-time payoff is run. Measure: every recommendation cites the average over past moves.
+P080 (data, agent): the 07:27 pilot run records VIX; the reflection logs the closing VIX (state/earnings/daytrade/vix_log.json). Data for H016 and P075.
+P081 (execution, agent): owner opening tickets rest 20 minutes at the first limit before the first step. One fill behind it (DKS, 102 minutes at 10.75). Measure: on the next 5 owner tickets, the fill against the price a minute-5 walk would have taken. Review 2026-12-18.
+P082 (execution, agent): EXECUTION.md section 5, step 3b: when the dearer short does not fit alone, the cheaper short goes first and the dearer one is paid from buying power plus the collateral it releases. Evidence: PDD 2026-11-20 fill; DKS reviews 2026-11-23 (either buyback alone releases 0). Measure: the next exit that needs it is accepted by the broker.
+P083 (execution, agent): expiry-day clock times are set against the contract's sellout_datetime (09:30 PT on Fri 2026-11-27). Amends P071's 10:45 and 11:00 PT.
+P084 (rule, deferred): gate 16 assumes an in-the-money short must be bought back from buying power alone; with step 3b the reach is buying power plus the wing width, which would let the agent trade flies like DKS itself. Deferred until 8 live exits have used step 3b or its review.
+timer.sh takes relative waits (+9m); L028 stays active (four raw sleeps on the first day of P072).

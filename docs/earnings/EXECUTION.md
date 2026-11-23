@@ -73,6 +73,14 @@ back only when the last short leg of its wider side is gone. Work down this list
    buy back the other short leg (the collateral comes back with it), sell the last wing.
    HD on 2026-11-17: 1,043 of buying power; put 925, its wing +150, call 233, last wing +13.
    The three risk legs took 35 seconds.
+3b. The dearer one does not fit alone (P082, 2026-11-23): buy back the CHEAPER short leg first
+   (it takes its price in buying power and releases nothing: a review of either buyback on an
+   open DKS fly showed collateral 0). The dearer leg is then the last short, and its buyback
+   releases the fly's collateral, which counts toward that same order: PDD on 2026-11-20, a 670
+   buyback with 94.84 of buying power and 600 of collateral coming back, accepted and filled.
+   Review the dearer buyback after the cheaper one is flat and place it only when the review
+   shows the collateral credit and no buying-power alert (P076). Then sell both wings, the
+   in-the-money side first. It reaches as far as buying power plus the wing width.
 4. The dearer one does not fit: free buying power first (close a position that is due, sell
    leftover long wings). Never sell a wing while its short leg is open.
 5. Still short: a bridge. Buy back the cheaper short leg. Buy to open the same type one or
