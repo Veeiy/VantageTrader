@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-23T16:23:57Z",
+ "as_of": "2026-11-23T16:30:45Z",
  "account_value": 1909.87,
  "cap_total_max_loss": 1235.08,
  "execution": {
@@ -524,7 +524,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-23T16:16:25Z",
+  "last_query_utc": "2026-11-23T16:30:30Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -536,7 +536,8 @@
    "6aff2243-7a4a-4272-b710-98aa5e4446ff",
    "6aff2a9e-c13b-4e64-b513-66f713d46478",
    "6b003593-77bd-4fda-927d-0fd248fa38dd",
-   "6b0396fd-07ab-4d0f-b63c-045db846cb3d"
+   "6b0396fd-07ab-4d0f-b63c-045db846cb3d",
+   "6b0469bb-1e7a-4ce5-bf40-7d70ad35e3d0"
   ],
   "note": "P046. Every check-in queries get_option_orders and get_equity_orders with agent_initiated=false and created_at_gte=last_query_utc, then moves last_query_utc. The three ids are Brad's HD orders of 2026-11-16 (cancelled at 12.00, filled at 11.90 and 11.95)."
  },
@@ -2188,6 +2189,12 @@
    9.9
   ],
   "watch": "poll his option orders; record the fill as hand_entered, lane owner_executed",
-  "close": "Tue 2026-11-24 06:38 PT closing ticket; the agent legs it at 06:50 PT if a review shows the buybacks fit (P076)"
+  "close": "Tue 2026-11-24 06:38 PT closing ticket; the agent legs it at 06:50 PT if a review shows the buybacks fit (P076)",
+  "order_id": "6b0469bb-1e7a-4ce5-bf40-7d70ad35e3d0",
+  "placed_utc": "2026-11-23T16:28:43Z",
+  "limit_working": 10.75,
+  "mid_at_1630Z": 11.03,
+  "natural_at_1630Z": 9.15,
+  "walk": "the agent cannot reprice it (multi-leg place refused for the agent; no multi-leg replace): Brad edits the limit in the app, 0.10 steps, never under 9.90"
  }
 }
