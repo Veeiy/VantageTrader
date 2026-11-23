@@ -98,7 +98,23 @@
   "BILI": "12-18",
   "SHOE": "12-18 (reports 11-24 am, verified)"
  },
- "entered": [],
+ "entered": [
+  {
+   "symbol": "DKS",
+   "time_pt": "10:10",
+   "fly": "120/135/150",
+   "credit": 10.75,
+   "max_loss": 425,
+   "tier": "core",
+   "lane": "owner_executed",
+   "owner_override": [
+    "macro_veto",
+    "name cap 350",
+    "owner lane 12% spread",
+    "gate 16"
+   ]
+  }
+ ],
  "macro_0717": "HARD veto: SPY 723.32, +4.9% on the day (3% or more): no new earnings entries while it holds",
  "owner_override_0800": {
   "quote": "Brad: 'Ignore that. We can trade today.'",

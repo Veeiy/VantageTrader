@@ -1,6 +1,6 @@
 {
- "as_of": "2026-11-23T17:16:19Z",
- "account_value": 1909.87,
+ "as_of": "2026-11-23T18:17:14Z",
+ "account_value": 1900.75,
  "cap_total_max_loss": 1235.08,
  "execution": {
   "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
@@ -37,6 +37,92 @@
      "filled_utc": "2026-11-23T01:29:33Z"
     }
    ]
+  },
+  {
+   "symbol": "DKS",
+   "trade_id": "DKS-20261123-1",
+   "kind": "earnings",
+   "lane": "owner_executed",
+   "hand_entered": true,
+   "tier": "core",
+   "owner_override": [
+    "macro_veto (hard: SPY about +5% on the day)",
+    "name_risk_cap (max loss 425 against the 350 cap for an ATM spread above 12%)",
+    "owner lane's 12% ATM spread limit (spread 20 to 21%)",
+    "exit_not_feasible (gate 16; waived by the owner lane)"
+   ],
+   "structure": "iron fly 120/135/150",
+   "expiry": "2026-11-27",
+   "quantity": 1,
+   "opened": "2026-11-23T18:10:52Z",
+   "legs": {
+    "short_135C": {
+     "option_id": "80e6aeaa-d5c5-4cd8-bf72-b796e4634dea",
+     "fill": 7.8,
+     "qty": 1
+    },
+    "short_135P": {
+     "option_id": "a48d672a-7b6b-4ee8-93f3-3b690df3d88f",
+     "fill": 8.01,
+     "qty": 1
+    },
+    "long_150C": {
+     "option_id": "b8820cb1-e90d-47a6-a229-60273073cd03",
+     "fill": 2.67,
+     "qty": 1
+    },
+    "long_120P": {
+     "option_id": "67cbe4c8-8309-4eb7-8b3b-31850219d649",
+     "fill": 2.39,
+     "qty": 1
+    }
+   },
+   "net_credit": 10.75,
+   "max_loss_usd": 425.0,
+   "max_profit_usd": 1075.0,
+   "exit_reserve_usd": 50.0,
+   "breakevens": [
+    124.25,
+    145.75
+   ],
+   "wing_width": 15.0,
+   "report": "2026-11-24 before the US open",
+   "ticks": "0.05 under 3.00, 0.10 at and above (chain min_ticks)",
+   "plan": {
+    "exit": "Tue 2026-11-24 06:38 PT: closing ticket and push to Brad (one 4-leg order, debit at the mid); at 06:50 PT, if he has not closed it and a review shows the short buybacks fit, the agent closes it by legs and tells him (P076, v1.16.4)",
+    "never_hold_into": "2026-11-27",
+    "close_sequence": "buy back both short legs first, then sell both wings",
+    "collateral_usd": 1500
+   },
+   "order_id": "6b0469bb-1e7a-4ce5-bf40-7d70ad35e3d0",
+   "tranches": [
+    {
+     "time": "2026-11-23T18:10:52Z",
+     "quantity": 1,
+     "strikes": [
+      120,
+      135,
+      150
+     ],
+     "credit": 10.75,
+     "max_loss": 425.0,
+     "order_ids": [
+      "6b0469bb-1e7a-4ce5-bf40-7d70ad35e3d0"
+     ]
+    }
+   ],
+   "alerts": [
+    {
+     "alert_id": "650a2cf2-8c17-4705-b2c7-1065d193a9d9",
+     "condition": "price_below",
+     "threshold": 124.25
+    },
+    {
+     "alert_id": "83436b78-5c58-45a8-98ff-493140fc390b",
+     "condition": "price_above",
+     "threshold": 145.75
+    }
+   ]
   }
  ],
  "blockers": [
@@ -55,14 +141,14 @@
   "From Wed 2026-11-18 (P063, rules v1.16.5): the daemon's default wait is 240 s and no agent waits longer than 240 s in one piece; the hourly run replaces a daemon that has run two hours; the reflection fires at 13:12 PT and writes the usage line (python3 scripts/earnings/usage_scan.py --date <today> --append state/earnings/usage.jsonl).",
   "Wed 2026-11-18, iteration on exit timing (told Brad 2026-11-17 evening): after TGT and TJX are closed at the 06:36 run, keep their eight leg ids and read get_option_quotes for them once at the 07:15 hourly run and once at the 08:15 run; write one live_metrics row per fly and time, record 'shadow_exit' (close cost at mid and at natural, the stock, and the difference from the real exit). Read-only, no extra wake. After 10 flies the reflection compares 06:36 with the two later marks."
  ],
- "buying_power": 1469.22,
+ "buying_power": 1044.02,
  "risk": {
-  "total_max_loss_usd": 449.94,
-  "exit_reserves_usd": 0.0,
-  "used_usd": 449.94,
-  "cap_usd": 1909.87,
-  "free_usd": 1459.93,
-  "detail": "ANT 5 shares 449.94 (owner hand, no stop).",
+  "total_max_loss_usd": 874.94,
+  "exit_reserves_usd": 50.0,
+  "used_usd": 924.94,
+  "cap_usd": 1900.75,
+  "free_usd": 975.81,
+  "detail": "ANT 5 shares 449.94 (owner hand); DKS fly 425 + 50 reserve (owner-executed lane).",
   "cap_note": "Rules v1.11: the cap is the account value (Brad, 2026-11-13: 'I want you to be able to use the entire funds in the mcp account'). cap_usd is the account value at the last check; it is not lowered below the risk already open when marks fall (the cap binds at entry)."
  },
  "eod_note": "2026-11-13 close: PCG x5 open (fly 0.585 at closing mids, +$33.50; about flat on the day, account +$5). No fills today. Account 1,250.91, buying power 1,040.91, risk used 224. Two losses in a row stand (LUNR, NVDA): a third pauses new entries.",
@@ -524,7 +610,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-23T17:16:07Z",
+  "last_query_utc": "2026-11-23T18:15:36Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -1796,8 +1882,20 @@
   "buying_power": 1894.61
  },
  "daemon": {
-  "started_utc": null,
-  "note": "P069: the run that starts a daemon writes its start time here; every check-in replaces one older than two hours"
+  "started_utc": "2026-11-23T18:17:14Z",
+  "watching": "DKS-20261123-1 and the account (hand orders)",
+  "cycle_seconds": 240,
+  "ends_utc": "2026-11-23T21:00:00Z",
+  "replace": "not replaced: its two-hour mark (12:17 PT) falls in the session's last hour (P066)",
+  "report_levels": {
+   "take_profit_close_cost": 5.4,
+   "cut_close_cost": 13.5,
+   "near_breakeven": [
+    126.5,
+    143.5
+   ],
+   "fast_move": "2% in 15 minutes"
+  }
  },
  "check_2026-11-20_0554_preopen": {
   "at_utc": "2026-11-20T13:55:33Z",
@@ -2180,28 +2278,20 @@
   "ANT": 87.635,
   "SPY": "+4.8%"
  },
- "owner_lane_pending": {
-  "symbol": "DKS",
-  "ticket_sent_utc": "2026-11-23T16:23:57Z",
-  "fly": "120/135/150 exp 2026-11-27 x1",
-  "limit": [
-   10.75,
-   9.9
-  ],
-  "watch": "poll his option orders; record the fill as hand_entered, lane owner_executed",
-  "close": "Tue 2026-11-24 06:38 PT closing ticket; the agent legs it at 06:50 PT if a review shows the buybacks fit (P076)",
-  "order_id": "6b0469bb-1e7a-4ce5-bf40-7d70ad35e3d0",
-  "placed_utc": "2026-11-23T16:28:43Z",
-  "limit_working": 10.75,
-  "mid_at_1630Z": 11.03,
-  "natural_at_1630Z": 9.15,
-  "walk": "the agent cannot reprice it (multi-leg place refused for the agent; no multi-leg replace): Brad edits the limit in the app, 0.10 steps, never under 9.90"
- },
  "check_2026-11-23_0916_hourly": {
   "at_utc": "2026-11-23T17:16:19Z",
   "hand_orders": "DKS owner 4-leg 6b0469bb still working at 10.75, unfilled, unedited since 08:28 PT (pushed once at 08:37 PT)",
   "DKS": 134.25,
   "ANT": 87.55,
   "SPY": "+5.0%"
+ },
+ "check_2026-11-23_1015_hourly": {
+  "at_utc": "2026-11-23T18:17:14Z",
+  "DKS_fill": "owner 4-leg filled 10:10:52 PT at 10.75; recorded 10:16 PT (5 minutes after the fill; P046 measure 10)",
+  "DKS": 134.88,
+  "ANT": 89.645,
+  "SPY": "+4.8%",
+  "account_value": 1900.75,
+  "buying_power": 1044.02
  }
 }
