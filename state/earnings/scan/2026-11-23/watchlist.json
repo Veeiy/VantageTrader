@@ -240,6 +240,30 @@
    "ANF",
    "BURL"
   ],
-  "DKS_owner_order": "still working at 10.75, unfilled (DKS 135.0)"
+  "DKS_owner_order": "still working at 10.75, unfilled (DKS 135.0)",
+  "batch_C": {
+   "at_utc": "2026-11-23T17:48:16Z",
+   "ANF": {
+    "edge": 1.396,
+    "straddle_pct": 0.143,
+    "spread": 0.197,
+    "result": "blocked: edge above 1.10 (above 1.25: paper only)",
+    "K": 142
+   },
+   "BURL": {
+    "edge": 0.813,
+    "straddle_pct": 0.1074,
+    "spread": 0.196,
+    "floor_fly": "212.5/237.5/262.5 credit 18.63 mid / 14.30 natural, max loss 637.5 mid / 1,070 natural",
+    "result": "does not fit the 350 cap; at the natural it is 56% of the account, above the 30% ceiling: no ticket offered"
+   },
+   "DLTR": {
+    "spread": 0.342,
+    "K": 138,
+    "result": "dropped: ATM spread 34% at the fresh strike (137.5 not listed)"
+   },
+   "new_entries": 0,
+   "file": "batch_C.json"
+  }
  }
 }

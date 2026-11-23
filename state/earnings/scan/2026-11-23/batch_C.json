@@ -1,0 +1,162 @@
+{
+ "batch": "C",
+ "as_of_utc": "2026-11-23T17:47:25Z",
+ "macro_veto": false,
+ "macro_veto_note": "owner waiver 2026-11-23",
+ "dropped": [
+  {
+   "symbol": "DLTR",
+   "reason": "spread",
+   "spot": 137.61,
+   "intraday_pct": -0.002537,
+   "atm_spread_pct": 0.342052,
+   "K": 138.0,
+   "call": {
+    "id": "dbb614b7-9c7f-4dea-9cfc-17009ddd2c03",
+    "bid": 5.0,
+    "ask": 6.65,
+    "oi": 3
+   },
+   "put": {
+    "id": "a2e0aa58-dce1-4659-8690-41c61c088fd5",
+    "bid": 5.3,
+    "ask": 7.9,
+    "oi": 60
+   },
+   "straddle_mid": 12.425,
+   "straddle_pct": 0.090291,
+   "notes": "fresh K 138 (137.5 not listed; spot 137.61); spread 34.2% vs 16.7% at 09:45 PT re-quote"
+  }
+ ],
+ "analyzed": [
+  {
+   "symbol": "ANF",
+   "timing": "am",
+   "spot": 141.98,
+   "prev_close": 137.92,
+   "intraday_pct": 0.029437,
+   "K": 142.0,
+   "strike_step": null,
+   "call": {
+    "id": "97016793-2e6b-4a76-9e2e-62f0118a92f2",
+    "bid": 9.1,
+    "ask": 11.1,
+    "oi": 1
+   },
+   "put": {
+    "id": "473cc085-4682-443a-995e-b5e514603aba",
+    "bid": 9.2,
+    "ask": 11.2,
+    "oi": 18
+   },
+   "straddle_mid": 20.3,
+   "straddle_pct": 0.142978,
+   "atm_spread_pct": 0.197044,
+   "hist_moves": [
+    0.146727,
+    -0.014265,
+    0.3754,
+    -0.035981,
+    0.088794,
+    0.356749
+   ],
+   "avg_hist_move": 0.169653,
+   "median_hist_move": 0.11776,
+   "max_hist_move": 0.3754,
+   "n_hist": 6,
+   "regime_20d": 0.028968,
+   "edge_ratio": 1.396,
+   "wings": null,
+   "past_moves_beyond_breakevens": null,
+   "notes": "edge_ratio above 1.10, no wings quoted (no trade); strike step not probed (142 is 0.02 from spot); body OI tiny (call 1, put 18); macro_veto false: owner waiver 2026-11-23",
+   "macro_veto": false
+  },
+  {
+   "symbol": "BURL",
+   "timing": "am",
+   "spot": 237.45,
+   "prev_close": 245.34,
+   "intraday_pct": -0.032159,
+   "K": 237.5,
+   "strike_step": 2.5,
+   "call": {
+    "id": "39ecd2c0-2ce4-4278-ba6c-701c01baf2fc",
+    "bid": 11.7,
+    "ask": 14.5,
+    "oi": 3
+   },
+   "put": {
+    "id": "91c45e34-2ce2-4ffd-9f95-166d1dd2b7a7",
+    "bid": 11.3,
+    "ask": 13.5,
+    "oi": 0
+   },
+   "straddle_mid": 25.5,
+   "straddle_pct": 0.107391,
+   "atm_spread_pct": 0.196078,
+   "hist_moves": [
+    -0.045224,
+    0.053443,
+    -0.122403,
+    0.068894,
+    -0.078809,
+    -0.076404
+   ],
+   "avg_hist_move": 0.074196,
+   "median_hist_move": 0.072649,
+   "max_hist_move": -0.122403,
+   "n_hist": 6,
+   "regime_20d": 0.023072,
+   "edge_ratio": 0.8128,
+   "wings": {
+    "call_strike": 262.5,
+    "put_strike": 212.5,
+    "call": {
+     "id": "4ff23f9a-f3ab-4eae-b4bb-f3ea33ebb5b7",
+     "bid": 3.4,
+     "ask": 5.4
+    },
+    "put": {
+     "id": "6c7d18f3-ff0b-4175-aa97-e0936127c575",
+     "bid": 1.65,
+     "ask": 3.3
+    },
+    "credit_mid": 18.625,
+    "credit_natural": 14.3,
+    "width": 25.0,
+    "max_loss_mid": 637.5,
+    "max_loss_natural": 1070.0,
+    "breakevens": [
+     218.875,
+     256.125
+    ],
+    "tick": 0.1,
+    "cap": 350,
+    "fits_cap": false
+   },
+   "past_moves_beyond_breakevens": "2/6",
+   "initial_wings_v1_6": {
+    "call_strike": 275.0,
+    "put_strike": 200.0,
+    "call": {
+     "id": "3d6308e0-6d33-4432-97a5-28c4f8d22a0d",
+     "bid": 1.4,
+     "ask": 2.9
+    },
+    "put": {
+     "id": "0100112e-ca64-4e0d-beeb-2fb0f8d354a1",
+     "bid": 1.0,
+     "ask": 1.35
+    },
+    "credit_mid": 22.175,
+    "credit_natural": 18.75,
+    "width": 37.5,
+    "max_loss_mid": 1532.5,
+    "max_loss_natural": 1875.0
+   },
+   "macro_veto": false,
+   "notes": "v1.6 wings 275/200 max_loss_natural 1875 > cap 350 (atm_spread>0.12, full tier); stepped in to floor (0.9x straddle_mid=22.95 -> 262.5C/212.5P), still max_loss_natural 1070 > 350: DOES NOT FIT, gate blocks; intermediate strikes not quoted since floor fly already fails; tick 0.05 below $3 / 0.10 above; body put OI 0; macro_veto false: owner waiver 2026-11-23"
+  }
+ ],
+ "errors": []
+}
