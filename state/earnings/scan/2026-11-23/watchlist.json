@@ -211,5 +211,35 @@
     "batch_B/gate_DKS_owner_0823.json"
    ]
   }
+ },
+ "midday_0946": {
+  "at_utc": "2026-11-23T17:46:19Z",
+  "requote": {
+   "ZM": {
+    "spot": 85.23,
+    "straddle": 7.5,
+    "spread": 0.067,
+    "edge": 1.127,
+    "result": "blocked: edge above 1.10 (the implied move keeps shrinking: 7.75 -> 7.50)"
+   },
+   "DLTR": {
+    "spot": 137.6,
+    "spread": 0.167
+   },
+   "ANF": {
+    "spot": 141.9,
+    "spread": 0.21
+   },
+   "BURL": {
+    "spot": 237.6,
+    "spread": 0.206
+   }
+  },
+  "sent_to_vol_analyst_C": [
+   "DLTR",
+   "ANF",
+   "BURL"
+  ],
+  "DKS_owner_order": "still working at 10.75, unfilled (DKS 135.0)"
  }
 }
