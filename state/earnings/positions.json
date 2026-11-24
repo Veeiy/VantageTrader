@@ -1,7 +1,7 @@
 {
- "as_of": "2026-11-24T20:16:47Z",
- "account_value": 1404.19,
- "cap_total_max_loss": 1404.19,
+ "as_of": "2026-11-24T20:57:13Z",
+ "account_value": 1409.47,
+ "cap_total_max_loss": 1409.47,
  "execution": {
   "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
   "method": "single-leg limit orders: buy both wings first, then sell the body legs. To close: buy back the shorts first, then sell the wings. Never sell a wing while its short leg is open.",
@@ -60,8 +60,8 @@
   "total_max_loss_usd": 449.94,
   "exit_reserves_usd": 0.0,
   "used_usd": 449.94,
-  "cap_usd": 1404.19,
-  "free_usd": 954.25,
+  "cap_usd": 1409.47,
+  "free_usd": 959.53,
   "detail": "ANT 5 shares 449.94 at cost (owner hand). DKS closed 2026-11-24.",
   "cap_note": "Rules v1.11: the cap is the account value (Brad, 2026-11-13: 'I want you to be able to use the entire funds in the mcp account'). cap_usd is the account value at the last check; it is not lowered below the risk already open when marks fall (the cap binds at entry)."
  },
@@ -524,7 +524,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-24T20:16:38Z",
+  "last_query_utc": "2026-11-24T20:57:13Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -2638,5 +2638,19 @@
   "note": "No reset from Brad by the 12:35 PT cutoff window: no entry today. ANT -8.5% on the day. SPY -0.7%, QQQ -2.2%.",
   "breaker": "halted",
   "last_look_timer": "12:57 PT"
+ },
+ "check_2026-11-24_1257_last_look": {
+  "at_utc": "2026-11-24T20:57:13Z",
+  "positions": "match: DKS 120P x1 (leftover wing), ANT 5 shares (owner hand)",
+  "hand_orders": "none since 20:16Z (options and equity); none all day",
+  "account": {
+   "total_value": 1409.47,
+   "cash": 993.89,
+   "buying_power": 993.89,
+   "equity_value": 414.58,
+   "options_value": 1.0
+  },
+  "breaker": "halted",
+  "entries_today": "none"
  }
 }
