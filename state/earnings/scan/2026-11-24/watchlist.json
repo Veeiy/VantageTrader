@@ -146,28 +146,174 @@
  },
  "names": [
   {
-   "symbol": "batch"
+   "symbol": "DELL",
+   "timing": "pm",
+   "spot": 299.46,
+   "prev_close": 334.91,
+   "intraday_pct": -0.105849,
+   "K": 300.0,
+   "strike_step": null,
+   "straddle_mid": 39.25,
+   "straddle_pct": 0.131069,
+   "atm_spread_pct": 0.020382,
+   "hist_moves": [
+    -0.020769,
+    -0.088773,
+    0.058291,
+    0.219267,
+    0.327582,
+    0.158118
+   ],
+   "avg_hist_move": 0.145467,
+   "median_hist_move": 0.123446,
+   "max_hist_move": 0.327582,
+   "n_hist": 6,
+   "regime_20d": 0.06658,
+   "edge_ratio": 1.3057,
+   "wings": null,
+   "past_moves_beyond_breakevens": null,
+   "blocked": "intraday_move_gt_7pct",
+   "notes": "BLOCKED: intraday -10.6% (beyond 7%); also edge_ratio above 1.10 so no wings quoted; prior session was also about -11% (377 open to 334.91 close); regime_20d 6.7%; step not probed (300 is 0.54 from spot)",
+   "status": "analyzed"
   },
   {
-   "symbol": "as_of_utc"
+   "symbol": "NTNX",
+   "timing": "pm",
+   "reason": "no_expiry",
+   "spot": 57.455,
+   "prev_close": 57.56,
+   "intraday_pct": -0.001824,
+   "chain_id": "71393c7d-949f-416c-9240-bd00f75cb9c6",
+   "note": "no 2026-11-27 expiry; nearest listed expiry 2026-12-18",
+   "status": "dropped"
   },
   {
-   "symbol": "expiry"
+   "symbol": "GDS",
+   "timing": "am",
+   "reason": "no_expiry",
+   "spot": 14.16,
+   "prev_close": 15.12,
+   "intraday_pct": -0.063492,
+   "chain_id": "88e16112-a7be-4b58-902f-4dce4092b2cd",
+   "note": "no 2026-11-27 expiry; nearest listed expiry 2026-12-18",
+   "status": "dropped"
   },
   {
-   "symbol": "quotes_as_of_utc"
+   "symbol": "BZ",
+   "timing": "am",
+   "reason": "no_expiry",
+   "spot": 12.965,
+   "prev_close": 12.98,
+   "intraday_pct": -0.001156,
+   "chain_id": "058a2ac4-08ca-4a6a-b448-f3dc66bef0c4",
+   "note": "no 2026-11-27 expiry; nearest listed expiry 2026-12-18",
+   "status": "dropped"
   },
   {
-   "symbol": "dropped"
+   "symbol": "ADSK",
+   "timing": "pm",
+   "reason": "spread",
+   "spot": 260.545,
+   "prev_close": 255.33,
+   "intraday_pct": 0.020425,
+   "atm_spread_pct": 0.357895,
+   "K": 260.0,
+   "strike_step": 2.5,
+   "straddle_mid": 23.75,
+   "straddle_pct": 0.091155,
+   "notes": "261 not listed; tick 0.05/0.10",
+   "status": "dropped"
   },
   {
-   "symbol": "analyzed"
+   "symbol": "WDAY",
+   "timing": "pm",
+   "reason": "spread",
+   "spot": 182.69,
+   "prev_close": 176.08,
+   "intraday_pct": 0.03754,
+   "atm_spread_pct": 0.345238,
+   "K": 182.5,
+   "strike_step": 2.5,
+   "straddle_mid": 16.8,
+   "straddle_pct": 0.091959,
+   "notes": "183 not listed; tick 0.05/0.10",
+   "status": "dropped"
   },
   {
-   "symbol": "errors"
+   "symbol": "URBN",
+   "timing": "pm",
+   "reason": "spread",
+   "spot": 87.21,
+   "prev_close": 85.29,
+   "intraday_pct": 0.022511,
+   "atm_spread_pct": 0.464865,
+   "K": 87.0,
+   "strike_step": 1.0,
+   "straddle_mid": 9.25,
+   "straddle_pct": 0.106066,
+   "notes": "87.5 not listed; tick 0.05/0.10",
+   "status": "dropped"
   },
   {
-   "symbol": "notes"
+   "symbol": "AMBA",
+   "timing": "pm",
+   "reason": "spread",
+   "spot": 49.94,
+   "prev_close": 55.56,
+   "intraday_pct": -0.101152,
+   "atm_spread_pct": 0.710526,
+   "K": 50.0,
+   "strike_step": null,
+   "straddle_mid": 7.6,
+   "straddle_pct": 0.152183,
+   "notes": "also blocked: intraday move beyond 7% (-10.1%); step not probed (50 is 0.06 from spot)",
+   "also_blocked": "intraday_move_gt_7pct",
+   "status": "dropped"
+  },
+  {
+   "symbol": "HPQ",
+   "timing": "pm",
+   "reason": "spread",
+   "spot": 28.54,
+   "prev_close": 28.9,
+   "intraday_pct": -0.012457,
+   "atm_spread_pct": 0.272553,
+   "K": 28.5,
+   "strike_step": null,
+   "straddle_mid": 2.605,
+   "straddle_pct": 0.091275,
+   "notes": "re-quoted 14:55:49Z, same 27.3% (just over 0.25); tick 0.01/0.05",
+   "status": "dropped"
+  },
+  {
+   "symbol": "DE",
+   "timing": "am",
+   "reason": "spread",
+   "spot": 633.42,
+   "prev_close": 633.03,
+   "intraday_pct": 0.000616,
+   "atm_spread_pct": 0.272494,
+   "K": 632.5,
+   "strike_step": 2.5,
+   "straddle_mid": 38.9,
+   "straddle_pct": 0.061413,
+   "notes": "635 also checked: spread 31.7% (mid 38.85); tick 0.05/0.10",
+   "status": "dropped"
+  },
+  {
+   "symbol": "LI",
+   "timing": "am",
+   "reason": "spread",
+   "spot": 10.72,
+   "prev_close": 10.7,
+   "intraday_pct": 0.001869,
+   "atm_spread_pct": 0.411765,
+   "K": 10.5,
+   "strike_step": 0.5,
+   "straddle_mid": 0.68,
+   "straddle_pct": 0.063433,
+   "notes": "11 listed (0.28 away); tick 0.01/0.05",
+   "status": "dropped"
   }
  ],
  "analyst": {
