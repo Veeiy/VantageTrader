@@ -1,7 +1,7 @@
 {
- "as_of": "2026-11-23T21:20:15Z",
- "account_value": 1836.97,
- "cap_total_max_loss": 1235.08,
+ "as_of": "2026-11-24T13:57:06Z",
+ "account_value": 1616.12,
+ "cap_total_max_loss": 1616.12,
  "execution": {
   "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
   "method": "single-leg limit orders: buy both wings first, then sell the body legs. To close: buy back the shorts first, then sell the wings. Never sell a wing while its short leg is open.",
@@ -89,11 +89,12 @@
    "report": "2026-11-24 before the US open",
    "ticks": "0.05 under 3.00, 0.10 at and above (chain min_ticks)",
    "plan": {
-    "exit": "Tue 2026-11-24. 06:38 PT: closing ticket and push to Brad (one 4-leg order, debit at the mid, walk up 0.10; he is on shift). 06:50 PT: if he has not closed it, the agent closes it by legs (EXECUTION.md section 5): review both buybacks; both asks inside the buying power (1,044): buy both together, then the wings; otherwise step 3b: the cheaper short first, then the dearer one once its review shows the 1,500 collateral credit, then the wings, in-the-money side first.",
+    "exit": "Tue 2026-11-24. DKS 150.50 before the open (+12.6%), at the 150 wing: the max-loss test comes first. 06:38 PT: read the four legs. Close cost (mid) at or above 13.50: v1.2.2 holds, see at_max_loss. Under 13.50: closing ticket and push to Brad (one 4-leg order, debit at the mid, walk up 0.10; he is on shift). 06:50 PT: if he has not closed it, the agent closes it by legs (EXECUTION.md section 5 step 3b, because the 135 call buyback, about 1,560, is over the buying power of 844 after Brad's 200 transfer out): buy the 135 put first (cheap), then review the 135 call buyback and place it only if the review shows the 1,500 collateral credit and no buying-power alert, then sell the 150 call, then the 120 put if it has a bid.",
     "at_max_loss": "close cost at or above 13.50 (90% of 15): v1.2.2 holds it, not legged; it stays Brad's ticket. Expiry Fri 2026-11-27 is an early close: sellout 09:30 PT, so flat by 08:00 PT that day (P083, P071).",
     "reviews_2026-11-23": "buy to close 135P at 8.50 and 135C at 7.50 (after the close, review only): no buying-power alert; collateral 0.00 on each (either buyback alone releases nothing)",
     "never_hold_into": "2026-11-27",
-    "collateral_usd": 1500
+    "collateral_usd": 1500,
+    "buying_power_2026-11-24": 844.02
    },
    "order_id": "6b0469bb-1e7a-4ce5-bf40-7d70ad35e3d0",
    "tranches": [
@@ -142,13 +143,13 @@
   "From Wed 2026-11-18 (P063, rules v1.16.5): the daemon's default wait is 240 s and no agent waits longer than 240 s in one piece; the hourly run replaces a daemon that has run two hours; the reflection fires at 13:12 PT and writes the usage line (python3 scripts/earnings/usage_scan.py --date <today> --append state/earnings/usage.jsonl).",
   "Wed 2026-11-18, iteration on exit timing (told Brad 2026-11-17 evening): after TGT and TJX are closed at the 06:36 run, keep their eight leg ids and read get_option_quotes for them once at the 07:15 hourly run and once at the 08:15 run; write one live_metrics row per fly and time, record 'shadow_exit' (close cost at mid and at natural, the stock, and the difference from the real exit). Read-only, no extra wake. After 10 flies the reflection compares 06:36 with the two later marks."
  ],
- "buying_power": 1044.02,
+ "buying_power": 844.02,
  "risk": {
   "total_max_loss_usd": 874.94,
   "exit_reserves_usd": 50.0,
   "used_usd": 924.94,
-  "cap_usd": 1900.75,
-  "free_usd": 975.81,
+  "cap_usd": 1616.12,
+  "free_usd": 691.18,
   "detail": "ANT 5 shares 449.94 (owner hand); DKS fly 425 + 50 reserve (owner-executed lane).",
   "cap_note": "Rules v1.11: the cap is the account value (Brad, 2026-11-13: 'I want you to be able to use the entire funds in the mcp account'). cap_usd is the account value at the last check; it is not lowered below the risk already open when marks fall (the cap binds at entry)."
  },
@@ -611,7 +612,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-23T20:57:07Z",
+  "last_query_utc": "2026-11-24T13:54:00Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -1396,6 +1397,15 @@
    "confirmed": "Brad, 2026-11-18 07:00 PT: 'I did move money. I moved 500 out'",
    "effect": "Account value and the total risk cap fall by 500 (cap now 1,898.01). Not a trading result: realized P/L is unchanged.",
    "ledger": "get_banking_transactions: ROBINHOOD_TRANSFER +500.00 'From Brokerage' into Robinhood checking, 2026-11-17 23:17 PT, posted"
+  },
+  {
+   "date": "2026-11-23T22:26-08:00",
+   "direction": "out",
+   "usd": 200.0,
+   "by": "Brad",
+   "found": "2026-11-24 05:54 PT: cash 2,344.02 against 2,544.02 at 12:57 PT 2026-11-23, with no order in between",
+   "effect": "Buying power 1,044.02 -> 844.02; account value and the total risk cap fall by 200. Not a trading result: realized P/L is unchanged.",
+   "ledger": "get_banking_transactions: ROBINHOOD_TRANSFER +200.00 'From Brokerage' into Robinhood checking, 2026-11-23 22:26 PT, posted"
   }
  ],
  "check_2026-11-18_0700": "The 500 drop in cash is Brad's own withdrawal (confirmed). Entries resume; the total risk cap is the account value, 1,898.01.",
@@ -2375,5 +2385,29 @@
   ],
   "score_dropped": "SYM and HPE (limit of six; both intraday-move blocks like SMTC and ADI)",
   "calendar": "Wed 11/25: switches skip Thu 11/26 (NYSE closed) to Fri 11/27, an early close at 10:00 PT (entry tasks skip it)"
+ },
+ "check_2026-11-24_0554_preopen": {
+  "at_utc": "2026-11-24T13:57:06Z",
+  "lease": "head",
+  "timer": "06:36 PT via scripts/earnings/timer.sh",
+  "due_today": "DKS-20261123-1 (reported before the open): exit at the first liquid quotes, max-loss test first",
+  "hand_orders": "none since 2026-11-23T20:57Z (options and equity)",
+  "positions": "match: DKS 4 legs x1, ANT 5 shares; no assignment, no pending quantities",
+  "cash_check": "cash 2,544.02 -> 2,344.02 with no order: Brad moved 200 out at 22:26 PT Mon (ledger confirmed). BP 844.02, account value 1,616.12 (option marks stale).",
+  "premarket": {
+   "DKS": 150.5,
+   "DKS_bid_ask": [
+    150.04,
+    151.44
+   ],
+   "DKS_prev_close": 133.67,
+   "ANT": 83.42,
+   "SPY": 713.78,
+   "QQQ": 637.32,
+   "IWM": 263.64,
+   "ZM": 84.52,
+   "note": "DKS +12.6% on earnings, past the 145.75 breakeven and at the 150 wing. SPY -1.2%, QQQ -2.1%, IWM -0.8% before the open."
+  },
+  "exit_ticket": "DKS: close cost est. 13.3 to 14.5 against the 13.50 hold line. Dearer short = 135 call (about 15.5 in the money); cheaper short = 135 put. Step 3b order if closing by legs."
  }
 }
