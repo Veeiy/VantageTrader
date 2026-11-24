@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-24T19:15:38Z",
+ "as_of": "2026-11-24T19:47:20Z",
  "account_value": 1404.19,
  "cap_total_max_loss": 1404.19,
  "execution": {
@@ -2548,5 +2548,11 @@
   },
   "note": "ANT -8.2% on the day. DKS 157.14. SPY -0.6%, QQQ -2.0%, IWM +0.8%.",
   "breaker": "halted"
+ },
+ "check_2026-11-24_1146_entry": {
+  "at_utc": "2026-11-24T19:47:20Z",
+  "decision": "no entries: the account breaker is halted (three losses in a row) and Brad has not reset it",
+  "entry_switch": "standby entry switch moved to Wed 2026-11-25 12:05 PT (19:47Z, P073)",
+  "paper": "one re-quote of DELL, ADSK, WDAY, URBN, AMBA, HPQ, DE, LI started 11:47 PT (batch_B): entry-time numbers with wings for the reflection's scoring"
  }
 }
