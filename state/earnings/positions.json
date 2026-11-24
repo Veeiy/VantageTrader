@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-24T19:53:11Z",
+ "as_of": "2026-11-24T20:15:50Z",
  "account_value": 1404.19,
  "cap_total_max_loss": 1404.19,
  "execution": {
@@ -2568,5 +2568,59 @@
   ],
   "score_dropped": "URBN and DE (limit of six; both over the 25% ATM spread)",
   "calendar": "Wed 11/25 is a full session. After Wednesday's exits move the switches past Thu 11/26 (NYSE closed) to Fri 11/27 (early close 10:00 PT; entry tasks skip it; the DKS 120P leftover expires, sellout 09:30 PT)."
+ },
+ "paper_desk_2026-11-24": {
+  "at_utc": "2026-11-24T20:15:50Z",
+  "flies": 4,
+  "pnl_mid_usd": 443.0,
+  "pnl_natural_usd": 413.0,
+  "detail": {
+   "SPY": {
+    "strikes": [
+     713,
+     719,
+     725
+    ],
+    "credit": 4.17,
+    "max_loss": 183,
+    "mid": 181,
+    "natural": 175
+   },
+   "QQQ": {
+    "strikes": [
+     632,
+     640,
+     648
+    ],
+    "credit": 5.39,
+    "max_loss": 261,
+    "mid": 188,
+    "natural": 174
+   },
+   "IWM": {
+    "strikes": [
+     265,
+     267,
+     269
+    ],
+    "credit": 1.37,
+    "max_loss": 63,
+    "mid": 64,
+    "natural": 59
+   },
+   "IBIT": {
+    "strikes": [
+     33.5,
+     34,
+     34.5
+    ],
+    "credit": 0.355,
+    "max_loss": 14.5,
+    "mid": 10,
+    "natural": 5
+   }
+  },
+  "note": "all four closed at the 12:15 PT mark, none hit the 10:15 take profit; premium ratio SPY 0.92, QQQ 0.92, IWM 0.83; six single names skipped (no same-day expiry). The IWM fly is the one the pilot would have traded (blocked by the account breaker): +64 mid / +59 natural on paper.",
+  "file": "state/earnings/daytrade/2026-11-24/paper_desk.jsonl"
  }
 }
