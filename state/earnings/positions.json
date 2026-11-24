@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-24T18:16:16Z",
+ "as_of": "2026-11-24T19:15:38Z",
  "account_value": 1404.19,
  "cap_total_max_loss": 1404.19,
  "execution": {
@@ -524,7 +524,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-24T18:16:08Z",
+  "last_query_utc": "2026-11-24T19:15:30Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -2533,6 +2533,20 @@
    "IWM": 267.78
   },
   "note": "ANT -7.4% on the day. DKS 157.40 (+17.8%). SPY -0.5%, QQQ -1.9%, IWM +0.8%.",
+  "breaker": "halted"
+ },
+ "check_2026-11-24_1115_hourly": {
+  "at_utc": "2026-11-24T19:15:38Z",
+  "positions": "match: DKS 120P x1 (leftover wing), ANT 5 shares (owner hand)",
+  "hand_orders": "none since 18:16Z (options and equity)",
+  "spots": {
+   "ANT": 80.5,
+   "DKS": 157.14,
+   "SPY": 717.98,
+   "QQQ": 638.0,
+   "IWM": 267.88
+  },
+  "note": "ANT -8.2% on the day. DKS 157.14. SPY -0.6%, QQQ -2.0%, IWM +0.8%.",
   "breaker": "halted"
  }
 }
