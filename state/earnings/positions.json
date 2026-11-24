@@ -2152,19 +2152,19 @@
   "SPY": "-3.1% (693.56): hard macro veto level"
  },
  "hub": {
-  "refreshed_utc": "2026-11-23T21:20:50Z",
+  "refreshed_utc": "2026-11-24T14:55:13Z",
   "book": {
-   "version": 18,
-   "blob": "d9dff4001e90a66f83b447ef89033bb6"
+   "version": 19,
+   "blob": "fcad934d0d562a898e706b5acdf38148"
   },
   "model": {
-   "version": 19,
-   "blob": "25f43a5bf1abceb86875db16627f3e21"
+   "version": 20,
+   "blob": "cf4fa2acc9f2c840fb8fae46b24606e3"
   },
-  "spots": 10,
+  "spots": 11,
   "quotes": 8,
-  "bars_a": 9,
-  "bars_b": 9,
+  "bars_a": 10,
+  "bars_b": 10,
   "note": "hub.js does not draw share positions yet (ANT is in account[0].stock_positions)"
  },
  "standby_note_2026-11-20": "Standby (21:25Z): keeps its stored entry-switch prompt skipping Fridays until it has seen Brad's own words on Friday entries in the head transcript or he tells it; stricter than the rules, so no Friday backup entry meanwhile. Switch armed for Mon 11/23 12:05 PT.",
@@ -2444,6 +2444,9 @@
   "switches": "exit switch Wed 11/25 07:25 PT, phone alert 08:00 PT",
   "alerts": "both DKS alerts paused",
   "pilot_timer": "07:27 PT (will record the VIX read; the account breaker blocks an entry)",
-  "breaker": "halted"
+  "breaker": "halted",
+  "paper_desk": "started 06:54 PT",
+  "vol_analyst": "started 06:55 PT, 11 names (pm: DELL, ADSK, WDAY, URBN, NTNX, AMBA, HPQ; am: DE, GDS, BZ, LI); paper only while the breaker is halted, no news check unless Brad resets it",
+  "hub": "refreshed 14:55Z"
  }
 }

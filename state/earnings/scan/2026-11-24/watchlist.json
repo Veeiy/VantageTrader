@@ -1,0 +1,148 @@
+{
+ "date": "2026-11-24",
+ "window": "Tue 11/24 after the close and Wed 11/25 before the open",
+ "expiry": "2026-11-27",
+ "breaker": "halted since 14:51:55Z (three losses in a row): every name below is paper unless Brad says 'reset breaker'",
+ "calendar_pm": [
+  "NTNX",
+  "WDAY",
+  "AMBA",
+  "ADSK",
+  "HPQ",
+  "DELL",
+  "CLSK",
+  "BBAR",
+  "URBN"
+ ],
+ "calendar_am_next": [
+  "BZ",
+  "GDS",
+  "DE",
+  "LI"
+ ],
+ "scanner_total": 26,
+ "to_analyst": [
+  "DELL",
+  "ADSK",
+  "WDAY",
+  "URBN",
+  "NTNX",
+  "AMBA",
+  "HPQ",
+  "DE",
+  "GDS",
+  "BZ",
+  "LI"
+ ],
+ "skipped": [
+  {
+   "symbol": "CLSK",
+   "why": "calendar says today pm, not on the scanner list (earnings date filter)"
+  },
+  {
+   "symbol": "BBAR",
+   "why": "not on the scanner list"
+  },
+  {
+   "symbol": "BMA",
+   "why": "reports Wed after the close: tomorrow's window"
+  },
+  {
+   "symbol": "GGAL",
+   "why": "scanner date 11/25 but the calendar row has no timing and a stale fiscal period: date unconfirmed"
+  }
+ ],
+ "scanner_rows": {
+  "DE": {
+   "last": 633.41,
+   "chg": 0.0006,
+   "ivRank": 0.752,
+   "frontIV": 0.4581,
+   "backIV": 0.4097
+  },
+  "DELL": {
+   "last": 299.84,
+   "chg": -0.1047,
+   "ivRank": 0.878,
+   "frontIV": 1.097,
+   "backIV": 1.016
+  },
+  "ADSK": {
+   "last": 260.23,
+   "chg": 0.0192,
+   "ivRank": 0.794,
+   "frontIV": 0.6079,
+   "backIV": 0.5644
+  },
+  "WDAY": {
+   "last": 182.35,
+   "chg": 0.0356,
+   "ivRank": 0.646,
+   "frontIV": 0.7456,
+   "backIV": 0.6084
+  },
+  "URBN": {
+   "last": 87.12,
+   "chg": 0.0215,
+   "ivRank": 0.69,
+   "frontIV": 0.6337,
+   "backIV": 0.5879
+  },
+  "NTNX": {
+   "last": 57.31,
+   "chg": -0.0043,
+   "ivRank": 0.766,
+   "frontIV": 0.6977,
+   "backIV": 0.5954
+  },
+  "AMBA": {
+   "last": 51.52,
+   "chg": -0.0727,
+   "ivRank": 0.789,
+   "frontIV": 1.0567,
+   "backIV": 0.9794
+  },
+  "HPQ": {
+   "last": 28.53,
+   "chg": -0.013,
+   "ivRank": 0.912,
+   "frontIV": 0.6578,
+   "backIV": 0.6209
+  },
+  "GDS": {
+   "last": 14.27,
+   "chg": -0.0562,
+   "ivRank": 0.797,
+   "frontIV": 1.0411,
+   "backIV": 1.066
+  },
+  "BZ": {
+   "last": 12.99,
+   "chg": 0.0008,
+   "ivRank": 0.305,
+   "frontIV": 0.623,
+   "backIV": 0.4725
+  },
+  "LI": {
+   "last": 10.73,
+   "chg": 0.0028,
+   "ivRank": 0.939,
+   "frontIV": 0.6559,
+   "backIV": 0.5869
+  }
+ },
+ "reported_this_morning_scanner_chg": {
+  "ADI": -0.1449,
+  "ANF": 0.2168,
+  "DLTR": 0.1052,
+  "BURL": 0.0795,
+  "DKS": 0.1379,
+  "KSS": 0.1245,
+  "DY": -0.1101,
+  "BBY": -0.0024,
+  "SJM": -0.0178,
+  "MDT": 0.0015,
+  "note": "moves at about 06:55 PT, for the reflection's scoring of yesterday's untraded names (ADI, ANF, DLTR, BURL)"
+ },
+ "names": []
+}
