@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-24T20:15:50Z",
+ "as_of": "2026-11-24T20:16:47Z",
  "account_value": 1404.19,
  "cap_total_max_loss": 1404.19,
  "execution": {
@@ -524,7 +524,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-24T19:15:30Z",
+  "last_query_utc": "2026-11-24T20:16:38Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -2622,5 +2622,21 @@
   },
   "note": "all four closed at the 12:15 PT mark, none hit the 10:15 take profit; premium ratio SPY 0.92, QQQ 0.92, IWM 0.83; six single names skipped (no same-day expiry). The IWM fly is the one the pilot would have traded (blocked by the account breaker): +64 mid / +59 natural on paper.",
   "file": "state/earnings/daytrade/2026-11-24/paper_desk.jsonl"
+ },
+ "check_2026-11-24_1216_hourly": {
+  "at_utc": "2026-11-24T20:16:47Z",
+  "positions": "match: DKS 120P x1 (leftover wing), ANT 5 shares (owner hand)",
+  "hand_orders": "none since 19:15Z (options and equity)",
+  "spots": {
+   "ANT": 80.17,
+   "DKS": 156.03,
+   "SPY": 717.24,
+   "QQQ": 636.76,
+   "IWM": 267.28,
+   "HPQ": 28.41
+  },
+  "note": "No reset from Brad by the 12:35 PT cutoff window: no entry today. ANT -8.5% on the day. SPY -0.7%, QQQ -2.2%.",
+  "breaker": "halted",
+  "last_look_timer": "12:57 PT"
  }
 }
