@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-24T17:16:15Z",
+ "as_of": "2026-11-24T17:45:53Z",
  "account_value": 1404.19,
  "cap_total_max_loss": 1404.19,
  "execution": {
@@ -524,7 +524,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-24T17:16:07Z",
+  "last_query_utc": "2026-11-24T17:45:40Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -2514,5 +2514,11 @@
   },
   "note": "ANT -10.4% on the day. DKS 155.57 (+16.4%). SPY -0.6%, QQQ -2.0%, IWM +0.5%.",
   "breaker": "halted"
+ },
+ "check_2026-11-24_0945_midday": {
+  "at_utc": "2026-11-24T17:45:53Z",
+  "hand_orders": "none since 17:16Z",
+  "entries": "none: the breaker is halted and no name passed the 06:55 scan",
+  "requote": "not run now: one re-quote of the seven spread-dropped names (ADSK, WDAY, URBN, AMBA, HPQ, DE, LI) is left to the 11:46 sweep, the entry-time read the reflection scores; a second run at 09:45 would price the same paper names twice"
  }
 }
