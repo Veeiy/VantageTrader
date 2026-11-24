@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-24T21:24:54Z",
+ "as_of": "2026-11-24T21:28:33Z",
  "account_value": 1409.47,
  "cap_total_max_loss": 1409.47,
  "execution": {
@@ -2442,7 +2442,7 @@
   "state": "halted",
   "since": "2026-11-24T14:51:55Z",
   "reason": "three losses in a row: ANT -110.72 (11/20), PDD -197.29 (11/20), DKS -275.33 (11/24)",
-  "lifted_by": "Brad saying 'reset breaker' (a ledgered decision that says what changed, INTRADAY.md 'A pause')",
+  "lifted_by": "Brad saying 'reset breaker' (sets circuit_reset_ts, the config's human resume), or 'yes P092' (the ANT stock trade leaves the count: streak 2)",
   "stops": "new earnings and non-earnings entries, and the same-day pilot ('The account breaker still stops the pilot')"
  },
  "check_2026-11-24_0636_exit": {
@@ -2630,7 +2630,7 @@
     "natural": 5
    }
   },
-  "note": "all four closed at the 12:15 PT mark, none hit the 10:15 take profit; premium ratio SPY 0.92, QQQ 0.92, IWM 0.83; six single names skipped (no same-day expiry). The IWM fly is the one the pilot would have traded (blocked by the account breaker): +64 mid / +59 natural on paper.",
+  "note": "all four closed at the 12:15 PT mark, none hit the 10:15 take profit; premium ratio SPY 0.92, QQQ 0.92, IWM 0.83; six single names skipped (no same-day expiry). The desk's IWM fly ran to the 12:15 PT mark (+64 mid / +59 natural); it was +19.5 at the 10:15 mark. Neither is a pilot result: the pilot's gate never ran and the pilot is flat by 11:00 PT. (Corrected at the reflection: the 12:16 PT message called +59 to +64 the halt's cost on the pilot line.)",
   "file": "state/earnings/daytrade/2026-11-24/paper_desk.jsonl"
  },
  "check_2026-11-24_1216_hourly": {
