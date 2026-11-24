@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-24T19:47:20Z",
+ "as_of": "2026-11-24T19:53:11Z",
  "account_value": 1404.19,
  "cap_total_max_loss": 1404.19,
  "execution": {
@@ -2553,6 +2553,20 @@
   "at_utc": "2026-11-24T19:47:20Z",
   "decision": "no entries: the account breaker is halted (three losses in a row) and Brad has not reset it",
   "entry_switch": "standby entry switch moved to Wed 2026-11-25 12:05 PT (19:47Z, P073)",
-  "paper": "one re-quote of DELL, ADSK, WDAY, URBN, AMBA, HPQ, DE, LI started 11:47 PT (batch_B): entry-time numbers with wings for the reflection's scoring"
+  "paper": "batch_B re-quote done 19:50Z: HPQ and LI pass every gate but the breaker (paper flies booked, marked Wed 06:38 PT); exit-priced HPQ about +90 a contract on its six past moves, LI about +3"
+ },
+ "tomorrow_2026-11-25": {
+  "paper_marks": "06:38 PT: mark the HPQ (2 x 24.5/28.5/32.5 at 2.30) and LI (6 x 9.5/10.5/11.5 at 0.55) paper flies, leg ids in live_metrics.jsonl (HPQ-20261124-U1, LI-20261124-U1)",
+  "breaker": "halted until Brad says 'reset breaker'; no entry and no pilot before that",
+  "score_untraded": [
+   "HPQ",
+   "LI",
+   "ADSK",
+   "WDAY",
+   "DELL",
+   "AMBA"
+  ],
+  "score_dropped": "URBN and DE (limit of six; both over the 25% ATM spread)",
+  "calendar": "Wed 11/25 is a full session. After Wednesday's exits move the switches past Thu 11/26 (NYSE closed) to Fri 11/27 (early close 10:00 PT; entry tasks skip it; the DKS 120P leftover expires, sellout 09:30 PT)."
  }
 }

@@ -1,0 +1,45 @@
+{
+ "symbol": "HPQ",
+ "timing": "pm",
+ "spot": 28.535,
+ "prev_close": 28.9,
+ "K": 28.5,
+ "call": {
+  "bid": 1.33,
+  "ask": 1.45
+ },
+ "put": {
+  "bid": 1.3,
+  "ask": 1.4
+ },
+ "hist_moves": [
+  -0.082721,
+  0.04574,
+  -0.01398,
+  0.000549,
+  -0.018831,
+  -0.029161
+ ],
+ "regime_20d": 0.022323,
+ "flags": [],
+ "account_value": 1404.19,
+ "open_risk_usd": 449.94,
+ "buying_power": 993.89,
+ "tick": 0.05,
+ "wings": {
+  "call_strike": 32.5,
+  "put_strike": 24.5,
+  "call": {
+   "bid": 0.19,
+   "ask": 0.27
+  },
+  "put": {
+   "bid": 0.16,
+   "ask": 0.22
+  }
+ },
+ "sector": "hardware, PCs",
+ "sectors_entered_today": [],
+ "sector_same_direction": false,
+ "macro_veto": null
+}
