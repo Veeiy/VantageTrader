@@ -625,6 +625,17 @@
     "close_cost": 1.12,
     "pnl_usd": 1.68,
     "note": "first same-day round trip at the broker; no order warning; closing took 34 seconds, the shorts were flat two seconds apart"
+   },
+   {
+    "date": "2026-11-24",
+    "at_pt": "07:27",
+    "decision": "no_trade",
+    "reason": "account_breaker",
+    "blocked_by": [
+     "account_breaker"
+    ],
+    "vix_0725": 28.46,
+    "note": "three losses in a row on the main line (ANT, PDD, DKS); the pilot's own count is unchanged (3 trades, -27.92)"
    }
   ],
   "iwm_chain_id": "72362eb7-bc7c-4d10-9be4-48a53fffd101",
@@ -2463,5 +2474,17 @@
   "note": "DKS 153.81, above the 152.10 exit spot. ANT -7.9% on the day. SPY -0.4%, QQQ -1.7%, IWM +0.4%.",
   "breaker": "halted",
   "daemon": "none: no agent position open"
+ },
+ "pilot_2026-11-24": {
+  "at_utc": "2026-11-24T15:27:19Z",
+  "gate": "not run",
+  "decision": "no_trade",
+  "blocked_by": [
+   "account_breaker"
+  ],
+  "vix_0725": 28.46,
+  "vix_prev_close": 26.57,
+  "IWM": 265.29,
+  "note": "no pilot trade today: the account breaker stops the pilot until Brad says 'reset breaker'"
  }
 }

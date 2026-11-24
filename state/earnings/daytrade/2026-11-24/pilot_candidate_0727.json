@@ -1,0 +1,18 @@
+{
+ "date": "2026-11-24",
+ "at_utc": "2026-11-24T15:27:05Z",
+ "symbol": "IWM",
+ "spot": 265.29,
+ "prev_close": 265.74,
+ "pre_entry_move": -0.0017,
+ "SPY": 715.99,
+ "SPY_move": -0.0087,
+ "vix_0725": 28.46,
+ "vix_prev_close": 26.57,
+ "vix_change": 0.0711,
+ "decision": "no_trade",
+ "blocked_by": [
+  "account_breaker"
+ ],
+ "note": "The account breaker (three losses in a row, since 14:51:55Z) stops the pilot (INTRADAY.md). No option quotes taken and no gate run: the paper desk prices IWM today. VIX recorded for H016 / P075 (P080)."
+}
