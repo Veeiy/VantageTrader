@@ -91,6 +91,24 @@ def test_selfcheck_catches_drift(tmp_path):
     assert [c["check"] for c in exited["checks"] if not c["ok"]] == ["metrics_match_positions"]
 
 
+def test_selfcheck_flags_an_exit_ratio_written_as_a_difference(tmp_path):
+    # P085: DKS 2026-11-24, fill 13.50 against a 12.875 mid, recorded as 0.625 instead of 0.9537.
+    f = _files(tmp_path)
+    rows = [json.loads(line) for line in open(f["metrics"])]
+    exit_row = {"trade_id": "BBB-1", "record": "exit", "ts": "2026-11-24T14:51:55Z", "symbol": "BBB", "live": True,
+                "execution": {"fill_debit": 13.5, "close_cost_mid_at_read": 12.875, "fill_vs_mid": 0.625}}
+    rows += [{"trade_id": "BBB-1", "record": "entry", "ts": "2026-11-23T18:10:52Z", "symbol": "BBB", "live": True}, exit_row]
+    _write(tmp_path, "metrics.jsonl", rows)
+    out = health.selfcheck(**f)
+    assert [c["check"] for c in out["checks"] if not c["ok"]] == ["exit_ratio_matches_mid"]
+    exit_row["execution"]["fill_vs_mid"] = 0.9537
+    _write(tmp_path, "metrics.jsonl", rows)
+    assert health.selfcheck(**f)["ok"] is True
+    del exit_row["execution"]["close_cost_mid_at_read"]          # nothing to compare with: not a failure
+    _write(tmp_path, "metrics.jsonl", rows)
+    assert health.selfcheck(**f)["ok"] is True
+
+
 def test_selfcheck_reports_a_broken_ledger_and_exit_code(tmp_path):
     f = _files(tmp_path)
     (tmp_path / "bad.jsonl").write_text("{nope}\n")

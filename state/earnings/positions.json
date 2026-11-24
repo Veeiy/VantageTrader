@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-24T20:57:13Z",
+ "as_of": "2026-11-24T21:24:54Z",
  "account_value": 1409.47,
  "cap_total_max_loss": 1409.47,
  "execution": {
@@ -2567,7 +2567,17 @@
    "AMBA"
   ],
   "score_dropped": "URBN and DE (limit of six; both over the 25% ATM spread)",
-  "calendar": "Wed 11/25 is a full session. After Wednesday's exits move the switches past Thu 11/26 (NYSE closed) to Fri 11/27 (early close 10:00 PT; entry tasks skip it; the DKS 120P leftover expires, sellout 09:30 PT)."
+  "calendar": "Wed 11/25 is a full session. After Wednesday's exits move the switches past Thu 11/26 (NYSE closed) to Fri 11/27 (early close 10:00 PT; entry tasks skip it; the DKS 120P leftover expires, sellout 09:30 PT).",
+  "daemon": "start the account-watch daemon at the 07:15 PT run (P090); record daemon.started_utc",
+  "dks_hold_vs_close": "read the DKS 135C/150C at Friday's expiry for P088 (paid 13.50)",
+  "after_hours_1314": {
+   "URBN": -0.103,
+   "NTNX": -0.099,
+   "WDAY": -0.053,
+   "ADSK": -0.05,
+   "DELL": -0.021,
+   "HPQ": 0.008
+  }
  },
  "paper_desk_2026-11-24": {
   "at_utc": "2026-11-24T20:15:50Z",
@@ -2652,5 +2662,25 @@
   },
   "breaker": "halted",
   "entries_today": "none"
+ },
+ "reflection_notes_2026-11-24": {
+  "at_utc": "2026-11-24T21:24:54Z",
+  "realized_today": -275.33,
+  "cumulative": 95.63,
+  "file": "state/earnings/reflections/2026-11-24.md",
+  "hard_limit_waiting": [
+   "P092 (breaker counts option structures only)",
+   "P053",
+   "P050"
+  ],
+  "agent_decisions": [
+   "P085",
+   "P086",
+   "P087",
+   "P089",
+   "P090 implemented",
+   "P088 and P091 deferred",
+   "H006 and H012 retired"
+  ]
  }
 }

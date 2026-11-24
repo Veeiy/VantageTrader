@@ -126,7 +126,28 @@ def selfcheck(journal: str, metrics: str, positions: str, lessons: str, proposal
             raise ValueError(f"{len(late)} record(s) dated ahead of the clock ({clock:%Y-%m-%dT%H:%MZ}): " + "; ".join(late[:5]))
         return "no record is dated ahead of the clock"
 
+    def exit_ratio_matches_mid() -> str:
+        # P085 (2026-11-24): the DKS exit carried fill_vs_mid 0.625, the difference fill - mid;
+        # round_trip_cost reads it as the ratio mid / fill and showed 0.49 instead of 0.07.
+        bad: list[str] = []
+        seen = 0
+        for r in loaded["metrics"]:
+            if r.get("record") != "exit":
+                continue
+            x = r.get("execution") or {}
+            fvm, mid, debit = x.get("fill_vs_mid"), x.get("close_cost_mid_at_read"), x.get("fill_debit")
+            if not all(isinstance(v, (int, float)) and not isinstance(v, bool) for v in (fvm, mid, debit)) or not debit:
+                continue
+            seen += 1
+            if abs(float(fvm) - float(mid) / float(debit)) > 0.01:
+                bad.append(f"{r.get('trade_id')}: fill_vs_mid {fvm}, mid / fill is {float(mid) / float(debit):.4f}")
+        if bad:
+            raise ValueError("exit fill_vs_mid is the ratio close_cost_mid_at_read / fill_debit: " + "; ".join(bad[:5]))
+        return f"{seen} exit record(s) carry a matching ratio"
+
     run("no_future_timestamps", no_future_timestamps)
+    if "metrics" in loaded:
+        run("exit_ratio_matches_mid", exit_ratio_matches_mid)
     if all(k in loaded for k in ("journal", "positions")):
         run("positions_match_journal", positions_match_journal)
     if all(k in loaded for k in ("metrics", "positions")):

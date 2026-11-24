@@ -1,6 +1,10 @@
 {
  "note": "closing VIX per session, written by the daily reflection (P080); vix_0725 is written into the pilot candidate file",
  "close": {
-  "2026-11-23": 26.57
+  "2026-11-23": 26.57,
+  "2026-11-24": 26.41
+ },
+ "at_0725": {
+  "2026-11-24": 28.46
  }
 }

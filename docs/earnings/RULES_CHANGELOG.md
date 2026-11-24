@@ -1118,3 +1118,14 @@ P082 (execution, agent): EXECUTION.md section 5, step 3b: when the dearer short 
 P083 (execution, agent): expiry-day clock times are set against the contract's sellout_datetime (09:30 PT on Fri 2026-11-27). Amends P071's 10:45 and 11:00 PT.
 P084 (rule, deferred): gate 16 assumes an in-the-money short must be bought back from buying power alone; with step 3b the reach is buying power plus the wing width, which would let the agent trade flies like DKS itself. Deferred until 8 live exits have used step 3b or its review.
 timer.sh takes relative waits (+9m); L028 stays active (four raw sleeps on the first day of P072).
+
+## v1.16.12 (2026-11-24, reflection)
+P085 (tooling, agent): selfcheck fails an exit record whose fill_vs_mid is not the ratio mid / fill (the DKS exit carried the difference and showed a 49% cost instead of 7.4%).
+P086 (process, agent): the pre-open wake pushes Brad when a position due that morning is priced before the open beyond a breakeven. Measure: on the next 3 such mornings, whether his order or a reply arrives before the agent's first leg.
+P087 (execution, agent): the marketable wing sale (two ticks under the bid) is for a wing whose time value is under a quarter of its price; a wing near the money goes on the v1.16.3 ladder from its high-fill hint, repriced every 10 to 15 seconds. One observation: the DKS 150 call sold at 4.60 against a 4.40 bid.
+P088 (rule, deferred): v1.2.2 does not say whether the 90% test reads the mid or the natural. Written down as applied: the mid of the four legs at the read. On DKS the mid was 12.88, the natural 15.00 and the legs filled at 13.50, exactly the line. Decided at 8 exits in that zone or at the first where the two tests differ by more than $100. Brad's words that change it now: "v1.2.2 on the natural".
+P089 (process, agent): with the breaker halted the 11:46 sweep runs on paper (re-quote, gate, a paper fly for each name blocked by the breaker alone) and no reset is offered with a deadline.
+P090 (process, agent): the account-watch daemon starts at the 07:15 PT run on flat days too, as hourly_monitor.md already says; the reflection now checks for its start time.
+P091 (rule, deferred): owner-lane exits wait until 06:50 PT for Brad's order (v1.16.1) while v1.16.4 says the agent exits his flies by legs when it can. Decided at 5 owner-lane exits. His words that settle it now: "leg my flies at 06:40" or "keep the 06:50 wait".
+P092 (risk, HARD LIMIT, waiting on Brad): the account breaker's streak counts a hand stock trade. It halted on 2026-11-24 at ANT (his stock trade), PDD, DKS; without ANT the streak is 2. Proposed: option structures only, as the pilot is already left out. "yes P092" or "no P092"; "reset breaker" is the other way out and needs a written "what changed".
+Retired: H006 (the macro veto is not shown to be useless: +2 / -3) and H012 (gap size does not sort same-day flies: +2 / -4).
