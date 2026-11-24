@@ -144,5 +144,36 @@
   "MDT": 0.0015,
   "note": "moves at about 06:55 PT, for the reflection's scoring of yesterday's untraded names (ADI, ANF, DLTR, BURL)"
  },
- "names": []
+ "names": [
+  {
+   "symbol": "batch"
+  },
+  {
+   "symbol": "as_of_utc"
+  },
+  {
+   "symbol": "expiry"
+  },
+  {
+   "symbol": "quotes_as_of_utc"
+  },
+  {
+   "symbol": "dropped"
+  },
+  {
+   "symbol": "analyzed"
+  },
+  {
+   "symbol": "errors"
+  },
+  {
+   "symbol": "notes"
+  }
+ ],
+ "analyst": {
+  "quotes_at_utc": "2026-11-24T14:55Z",
+  "result": "none of the 11 passes: DELL blocked by the 7% intraday rule (and edge 1.306, above 1.10); ADSK, WDAY, URBN, AMBA, HPQ, DE, LI dropped at the 25% ATM spread check; NTNX, GDS, BZ have no 2026-11-27 expiry",
+  "caveat": "quotes taken 25 minutes after the open: the spread-dropped names are re-priced at the 11:46 sweep for the paper record",
+  "file": "state/earnings/scan/2026-11-24/batch_A/batch_A.json"
+ }
 }
