@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-24T14:53:37Z",
+ "as_of": "2026-11-24T15:16:09Z",
  "account_value": 1404.19,
  "cap_total_max_loss": 1404.19,
  "execution": {
@@ -524,7 +524,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-24T13:54:00Z",
+  "last_query_utc": "2026-11-24T15:15:59Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -2448,5 +2448,20 @@
   "paper_desk": "started 06:54 PT",
   "vol_analyst": "started 06:55 PT, 11 names (pm: DELL, ADSK, WDAY, URBN, NTNX, AMBA, HPQ; am: DE, GDS, BZ, LI); paper only while the breaker is halted, no news check unless Brad resets it",
   "hub": "refreshed 14:55Z"
+ },
+ "check_2026-11-24_0716_hourly": {
+  "at_utc": "2026-11-24T15:16:09Z",
+  "positions": "match: DKS 120P x1 (leftover wing, no action), ANT 5 shares (owner hand)",
+  "hand_orders": "none since 13:54Z (options and equity)",
+  "spots": {
+   "ANT": 80.7,
+   "DKS": 153.81,
+   "SPY": 719.29,
+   "QQQ": 640.07,
+   "IWM": 266.71
+  },
+  "note": "DKS 153.81, above the 152.10 exit spot. ANT -7.9% on the day. SPY -0.4%, QQQ -1.7%, IWM +0.4%.",
+  "breaker": "halted",
+  "daemon": "none: no agent position open"
  }
 }
