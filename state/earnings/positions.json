@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-25T15:27:16Z",
+ "as_of": "2026-11-25T16:16:42Z",
  "account_value": 1383.09,
  "cap_total_max_loss": 1383.09,
  "execution": {
@@ -524,7 +524,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-25T15:16:37Z",
+  "last_query_utc": "2026-11-25T16:16:35Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -2775,5 +2775,20 @@
   "veto": "hard",
   "why": "VIX 34.08 at 07:27 PT: at or above 30 and up 29% from the 26.41 close; SPY -2.8%",
   "effect": "no new entry today whatever the breaker's state"
+ },
+ "check_2026-11-25_0816_hourly": {
+  "at_utc": "2026-11-25T16:16:42Z",
+  "positions": "match: DKS 120P x1 (leftover wing), ANT 5 shares (owner hand)",
+  "hand_orders": "none since 15:16Z (options and equity); the daemon has reported nothing",
+  "spots": {
+   "ANT": 79.33,
+   "DKS": 158.98,
+   "SPY": 698.09,
+   "QQQ": 609.45,
+   "IWM": 262.28
+  },
+  "note": "SPY -2.9%, QQQ -4.5%, IWM -1.8%. ANT -3.1% on the day. DKS 158.98.",
+  "breaker": "halted",
+  "macro": "hard veto day"
  }
 }
