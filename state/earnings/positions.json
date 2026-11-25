@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-25T13:54:42Z",
+ "as_of": "2026-11-25T14:39:29Z",
  "account_value": 1383.09,
  "cap_total_max_loss": 1383.09,
  "execution": {
@@ -524,7 +524,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-25T13:54:20Z",
+  "last_query_utc": "2026-11-25T14:38:15Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -2709,5 +2709,36 @@
    "note": "SPY -2.1%, QQQ -3.2%, IWM -1.4% before the open. HPQ +3.0% (0.28 over its 28.5 body); LI +6.1% (past the paper fly's 11.055 breakeven); ADSK -5.3%, WDAY -4.9%, DELL -7.1%, AMBA -31.2%. ANT -5.2%."
   },
   "breaker": "halted; no reset and no answer on P092 from Brad"
+ },
+ "check_2026-11-25_0636_exit": {
+  "at_utc": "2026-11-25T14:39:29Z",
+  "due": "none live",
+  "hand_orders_since_1354Z": "none",
+  "paper_marks_0638": {
+   "HPQ": {
+    "spot": 31.04,
+    "move": "+11.1% from the close",
+    "pnl_mid_usd": -38.0,
+    "pnl_natural_usd": -146.0
+   },
+   "LI": {
+    "spot": 11.06,
+    "move": "+3.4%",
+    "pnl_mid_usd": -54.0,
+    "pnl_natural_usd": -180.0
+   },
+   "total": "-92 at the mid, -326 at the natural: the breaker's first test case went its way"
+  },
+  "switches": "exit switch Fri 11/27 07:25 PT, phone alert Fri 08:00 PT (Thu closed)",
+  "pilot_timer": "07:27 PT (VIX read; the account breaker blocks an entry)",
+  "paper_desk": "started 06:39 PT",
+  "scan": "window Wed pm / Fri am: BMA and HUBG, neither has an 11/27 expiry; nothing to price",
+  "non_earnings_screen": "run: 10 hits recorded, not priced (breaker)",
+  "spots": {
+   "SPY": 699.81,
+   "QQQ": 612.63,
+   "IWM": 262.17,
+   "ANT": 75.55
+  }
  }
 }
