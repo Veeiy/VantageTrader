@@ -84,7 +84,9 @@ FLOOR (P094): a fly cannot lose more than its width less its credit, but deep in
 legs quote wide at 12:15 and the sum can read worse. Floor pnl_mid_usd at -max_loss_usd and
 pnl_natural_usd at -(width - credit_natural)*100; when a figure was floored, write the
 unfloored one as "pnl_mid_usd_quoted" / "pnl_natural_usd_quoted" and list the floored fields
-in "capped_at_max_loss". The totals in your final message use the floored figures.
+in "capped_at_max_loss". The floored natural is what the fly loses at most if it is held to
+the bell; the quoted natural is what crossing every quote at 12:15 costs. Your final message
+gives the mid total floored and the natural total both ways.
 "realized_move_from_entry": spot / entry_spot - 1.
 
 FINAL MESSAGE (at most 15 lines, nothing else): the file path; one line per name with
