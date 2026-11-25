@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-25T20:16:26Z",
+ "as_of": "2026-11-25T20:57:18Z",
  "account_value": 1419.69,
  "cap_total_max_loss": 1383.09,
  "execution": {
@@ -524,7 +524,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-25T20:16:14Z",
+  "last_query_utc": "2026-11-25T20:57:05Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -2888,5 +2888,38 @@
   "last_look": "timer started for 12:57 PT (timer.sh)",
   "breaker": "halted",
   "paper_desk": "imported at 12:17 PT: 10 results, -1,449 at the mid and -2,205 at the natural (9 of 10 lost; MSFT +26 mid). IWM, the pilot's name: -52 at the 10:15 mark, -52.5 mid / -93 natural at 12:15. To check at the reflection: SPY's body is 702 against an entry spot of 699.77, and AMD's loss at the mid is 115% of its max loss (wide closing quotes)."
+ },
+ "check_2026-11-25_1257_last_look": {
+  "at_utc": "2026-11-25T20:57:06Z",
+  "orders_today": "none at all (options and equity, agent or owner) since 00:00 PT",
+  "positions": "match: DKS 120P x1 (leftover wing, no pending quantities), ANT 5 shares (owner hand)",
+  "spots_1257": {
+   "ANT": 82.58,
+   "DKS": 159.715,
+   "SPY": 717.62,
+   "QQQ": 633.72,
+   "IWM": 269.22,
+   "VIX": 27.71,
+   "HPQ": 31.355,
+   "LI": 11.86,
+   "ADSK": 246.45,
+   "WDAY": 181.37,
+   "DELL": 296.67,
+   "AMBA": 35.92
+  },
+  "prev_close": {
+   "ANT": 81.905,
+   "DKS": 153.17,
+   "SPY": 718.78,
+   "QQQ": 638.1,
+   "IWM": 267.14,
+   "HPQ": 27.94,
+   "LI": 10.7,
+   "ADSK": 255.7,
+   "WDAY": 179.23,
+   "DELL": 295.28,
+   "AMBA": 44.47
+  },
+  "note": "Nothing new before the close. Reported names against the prior close at 12:57: HPQ +12.2%, LI +10.8%, ADSK -3.6%, WDAY +1.2%, DELL +0.5%, AMBA -19.2%. The reflection scores them on the official closes."
  }
 }
