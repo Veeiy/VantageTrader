@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-25T14:39:29Z",
+ "as_of": "2026-11-25T15:17:08Z",
  "account_value": 1383.09,
  "cap_total_max_loss": 1383.09,
  "execution": {
@@ -524,7 +524,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-25T14:38:15Z",
+  "last_query_utc": "2026-11-25T15:16:37Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -1826,26 +1826,13 @@
   "buying_power": 1894.61
  },
  "daemon": {
-  "started_utc": "2026-11-23T18:17:14Z",
-  "watching": "DKS-20261123-1 and the account (hand orders)",
+  "started_utc": "2026-11-25T15:17:08Z",
+  "watching": "the account only (hand orders, positions that appear): nothing of the agent's is open",
   "cycle_seconds": 240,
-  "ends_utc": "2026-11-23T21:00:00Z",
-  "replace": "not replaced: its two-hour mark (12:17 PT) falls in the session's last hour (P066)",
-  "report_levels": {
-   "take_profit_close_cost": 5.4,
-   "cut_close_cost": 13.5,
-   "near_breakeven": [
-    126.5,
-    143.5
-   ],
-   "fast_move": "2% in 15 minutes"
-  },
-  "ended_utc": "2026-11-23T21:00:00Z",
-  "cycles": 39,
-  "triggers_sent": 0,
-  "last_stock": 132.78,
-  "last_close_cost_mark": 11.45,
-  "note": "the closing mark is on wide closing quotes (135C 6.00/8.70, 150C 1.20/2.15): -70 at marks, not a tradable price. No hand orders, no news change: report still Tue before the open (call 8:00 ET)."
+  "ends_utc": "2026-11-25T17:17:00Z",
+  "replace": "at the 09:16 PT check-in (two-hour age, P066), again at 11:15 PT, to 12:57 PT",
+  "watch_from_utc": "2026-11-25T15:16:37Z",
+  "known_hand_order_ids": "none today"
  },
  "check_2026-11-20_0554_preopen": {
   "at_utc": "2026-11-20T13:55:33Z",
@@ -2740,5 +2727,20 @@
    "IWM": 262.17,
    "ANT": 75.55
   }
+ },
+ "check_2026-11-25_0716_hourly": {
+  "at_utc": "2026-11-25T15:17:08Z",
+  "positions": "match: DKS 120P x1 (leftover wing), ANT 5 shares (owner hand)",
+  "hand_orders": "none since 14:38Z (options and equity)",
+  "spots": {
+   "ANT": 77.61,
+   "DKS": 156.69,
+   "SPY": 700.1,
+   "QQQ": 612.63,
+   "IWM": 261.89
+  },
+  "note": "SPY -2.6%, QQQ -4.0%, IWM -2.0%. ANT -5.3% on the day.",
+  "daemon": "account watch started (P090)",
+  "breaker": "halted"
  }
 }
