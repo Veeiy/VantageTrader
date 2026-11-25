@@ -1,0 +1,22 @@
+{
+ "date": "2026-11-25",
+ "at_utc": "2026-11-25T15:27:02Z",
+ "symbol": "IWM",
+ "spot": 262.03,
+ "prev_close": 267.14,
+ "pre_entry_move": -0.0191,
+ "SPY": 698.36,
+ "SPY_move": -0.0284,
+ "vix_0725": 34.08,
+ "vix_prev_close": 26.41,
+ "vix_change": 0.2904,
+ "decision": "no_trade",
+ "blocked_by": [
+  "account_breaker"
+ ],
+ "would_also_block": [
+  "macro_veto (hard: VIX 34.08, at or above 30 and up 29% on the day)",
+  "pre_entry_move_too_large (IWM -1.9% against the 1% limit)"
+ ],
+ "note": "No option quotes taken and no gate run: the account breaker stops the pilot, and two of the pilot's own blocks would apply. VIX recorded for H016 / P075 (P080): a day the 8% VIX line flags."
+}
