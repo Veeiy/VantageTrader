@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-25T19:47:59Z",
+ "as_of": "2026-11-25T20:16:26Z",
  "account_value": 1419.69,
  "cap_total_max_loss": 1383.09,
  "execution": {
@@ -524,7 +524,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-25T19:47:05Z",
+  "last_query_utc": "2026-11-25T20:16:14Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -2871,5 +2871,21 @@
  "reflection_notes_2026-11-25": [
   "Standby entry switch's stored prompt still says 'max $350 per name' and 'skip Fridays': FAILOVER.md overrides it and both are the stricter reading, but the text is stale against v1.16 ($600) and v1.16.7 (Friday entries). Health item for the reflection.",
   "Macro: hard veto at 07:27 (VIX 34.08, +29%), no veto at 11:47 (VIX 28.28, +7%; SPY -0.4%). The 07:27 record's 'no new entry today whatever the breaker's state' overreached: the veto is read at each entry time."
- ]
+ ],
+ "check_2026-11-25_1216_hourly": {
+  "at_utc": "2026-11-25T20:16:20Z",
+  "positions": "match: DKS 120P x1 (leftover wing, no pending quantities), ANT 5 shares (owner hand)",
+  "hand_orders": "none since 19:47Z (options and equity); the daemon has reported nothing",
+  "spots": {
+   "ANT": 83.9,
+   "DKS": 159.97,
+   "SPY": 716.21,
+   "QQQ": 632.31,
+   "IWM": 269.04
+  },
+  "note": "SPY -0.4%, QQQ -0.9%, IWM +0.7%. ANT +2.4% on the day (83.90; it was 85.75 an hour ago). DKS 159.97.",
+  "last_look": "timer started for 12:57 PT (timer.sh)",
+  "breaker": "halted",
+  "paper_desk": "imported at 12:17 PT: 10 results, -1,449 at the mid and -2,205 at the natural (9 of 10 lost; MSFT +26 mid). IWM, the pilot's name: -52 at the 10:15 mark, -52.5 mid / -93 natural at 12:15. To check at the reflection: SPY's body is 702 against an entry spot of 699.77, and AMD's loss at the mid is 115% of its max loss (wide closing quotes)."
+ }
 }
