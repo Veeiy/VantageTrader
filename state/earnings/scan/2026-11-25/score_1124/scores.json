@@ -1,0 +1,809 @@
+[
+ {
+  "symbol": "DELL",
+  "report_timing": "11/24 after the close",
+  "expiry": "2026-11-27",
+  "close_1124": 295.2525,
+  "close_source": "get_equity_historicals 30minute regular, close of bar 2026-11-24T20:30:00Z",
+  "body_strike": 295,
+  "body_note": "Same as entry-day body 295.",
+  "entry_straddle": 39.48,
+  "wing_targets_1x": [
+   255.52,
+   334.48
+  ],
+  "wing_targets_2x": [
+   216.04,
+   373.96
+  ],
+  "stock_at_exit_bar_open": 279.81,
+  "stock_at_exit_bar_close": 271.75,
+  "realized_move": -0.0523,
+  "implied_move": 0.11366,
+  "realized_over_implied": 0.46,
+  "edge_ratio": 1.334,
+  "blocking_rule_1124": "intraday move >7% (-11.6%) and edge ratio >1.10",
+  "entry_bar_utc": "2026-11-24T20:30:00Z",
+  "exit_bar_utc": "2026-11-25T15:00:00Z",
+  "exit_price_used": "exit bar open (close also recorded)",
+  "missing_legs": [],
+  "fallback_legs": [],
+  "fly_1x": {
+   "strikes": "255/295/335",
+   "put_wing_width": 40,
+   "call_wing_width": 40,
+   "width_used_for_cap_and_max_loss": 40,
+   "legs": {
+    "BC": {
+     "strike": 295,
+     "type": "call",
+     "id": "ed1910f6-e5ce-4998-ae15-40ab749f2a0f",
+     "entry_close": 19.85,
+     "exit_open": 4.05,
+     "exit_close": 2.15
+    },
+    "BP": {
+     "strike": 295,
+     "type": "put",
+     "id": "87fa4038-55b6-40d0-8b69-e6c27aeb582f",
+     "entry_close": 19.63,
+     "exit_open": 19.28,
+     "exit_close": 25.35
+    },
+    "WC": {
+     "strike": 335,
+     "type": "call",
+     "id": "6ce7dc68-d410-42a5-a5e0-360f038d4191",
+     "entry_close": 6.6,
+     "exit_open": 0.32,
+     "exit_close": 0.15
+    },
+    "WP": {
+     "strike": 255,
+     "type": "put",
+     "id": "b2e4ecec-1271-4e45-8b7f-c4b0770e5e76",
+     "entry_close": 5.1,
+     "exit_open": 2.15,
+     "exit_close": 3.45
+    }
+   },
+   "unbalanced_wings": false,
+   "entry_credit": 27.78,
+   "close_cost_raw_exit_open": 20.86,
+   "close_cost": 20.86,
+   "pl_before_cost": 692.0,
+   "round_trip_cost": 194.46,
+   "pl_after_cost": 497.54,
+   "close_cost_at_exit_bar_close": 23.9,
+   "pl_after_cost_at_exit_bar_close": 193.54,
+   "max_loss": 1222.0
+  },
+  "fly_2x": {
+   "strikes": "215/295/375",
+   "put_wing_width": 80,
+   "call_wing_width": 80,
+   "width_used_for_cap_and_max_loss": 80,
+   "legs": {
+    "BC": {
+     "strike": 295,
+     "type": "call",
+     "id": "ed1910f6-e5ce-4998-ae15-40ab749f2a0f",
+     "entry_close": 19.85,
+     "exit_open": 4.05,
+     "exit_close": 2.15
+    },
+    "BP": {
+     "strike": 295,
+     "type": "put",
+     "id": "87fa4038-55b6-40d0-8b69-e6c27aeb582f",
+     "entry_close": 19.63,
+     "exit_open": 19.28,
+     "exit_close": 25.35
+    },
+    "WC": {
+     "strike": 375,
+     "type": "call",
+     "id": "51c8737e-05b0-4f33-94c7-44b12970e84a",
+     "entry_close": 1.77,
+     "exit_open": 0.04,
+     "exit_close": 0.03
+    },
+    "WP": {
+     "strike": 215,
+     "type": "put",
+     "id": "7c01a509-d8f2-4f8b-81ab-274e26b2fd40",
+     "entry_close": 0.64,
+     "exit_open": 0.13,
+     "exit_close": 0.14
+    }
+   },
+   "unbalanced_wings": false,
+   "entry_credit": 37.07,
+   "close_cost_raw_exit_open": 23.16,
+   "close_cost": 23.16,
+   "pl_before_cost": 1391.0,
+   "round_trip_cost": 259.49,
+   "pl_after_cost": 1131.51,
+   "close_cost_at_exit_bar_close": 27.33,
+   "pl_after_cost_at_exit_bar_close": 714.51,
+   "max_loss": 4293.0
+  },
+  "flags": [
+   "Body call exit-bar open 4.05 is the same price as the lone print in the 14:30Z bar and the call traded down to 1.96-2.15 within that bar with the stock near 271-280; the exit-open close cost is probably flattered by this stale print. At exit-bar close the 1x and 2x results are much lower (see pl_after_cost_at_exit_bar_close).",
+   "Body put exit-bar open 19.28 is below its 14:30Z print 23.80 and close 25.35 in the same bar; legs did not trade at the same instant."
+  ]
+ },
+ {
+  "symbol": "ADSK",
+  "report_timing": "11/24 after the close",
+  "expiry": "2026-11-27",
+  "close_1124": 255.71,
+  "close_source": "get_equity_historicals 30minute regular, close of bar 2026-11-24T20:30:00Z",
+  "body_strike": 255,
+  "body_note": "Same as entry-day body 255.",
+  "entry_straddle": 18.75,
+  "wing_targets_1x": [
+   236.25,
+   273.75
+  ],
+  "wing_targets_2x": [
+   217.5,
+   292.5
+  ],
+  "stock_at_exit_bar_open": 240.84,
+  "stock_at_exit_bar_close": 242.35,
+  "realized_move": -0.05815,
+  "implied_move": 0.06233,
+  "realized_over_implied": 0.933,
+  "edge_ratio": 0.597,
+  "blocking_rule_1124": "max loss above $600 cap at narrowest allowed wings",
+  "entry_bar_utc": "2026-11-24T20:30:00Z",
+  "exit_bar_utc": "2026-11-25T15:00:00Z",
+  "exit_price_used": "exit bar open (close also recorded)",
+  "missing_legs": [],
+  "fallback_legs": [],
+  "fly_1x": {
+   "strikes": "235/255/275",
+   "put_wing_width": 20,
+   "call_wing_width": 20,
+   "width_used_for_cap_and_max_loss": 20,
+   "legs": {
+    "BC": {
+     "strike": 255,
+     "type": "call",
+     "id": "cd146396-3ed6-4598-bd13-78120d84cf84",
+     "entry_close": 9.7,
+     "exit_open": 0.33,
+     "exit_close": 0.85
+    },
+    "BP": {
+     "strike": 255,
+     "type": "put",
+     "id": "a89da54d-5ad3-482b-a4de-71c1b253cec4",
+     "entry_close": 9.05,
+     "exit_open": 15.4,
+     "exit_close": 12.65
+    },
+    "WC": {
+     "strike": 275,
+     "type": "call",
+     "id": "da53bad5-6227-4b3a-b597-6a5de18e9cee",
+     "entry_close": 3.2,
+     "exit_open": 0.01,
+     "exit_close": 0.01
+    },
+    "WP": {
+     "strike": 235,
+     "type": "put",
+     "id": "261e8498-af0f-4432-82dc-96a500995b27",
+     "entry_close": 2.43,
+     "exit_open": 2.18,
+     "exit_close": 1.48
+    }
+   },
+   "unbalanced_wings": false,
+   "entry_credit": 13.12,
+   "close_cost_raw_exit_open": 13.54,
+   "close_cost": 13.54,
+   "pl_before_cost": -42.0,
+   "round_trip_cost": 91.84,
+   "pl_after_cost": -133.84,
+   "close_cost_at_exit_bar_close": 12.01,
+   "pl_after_cost_at_exit_bar_close": 19.16,
+   "max_loss": 688.0
+  },
+  "fly_2x": {
+   "strikes": "215/255/295",
+   "put_wing_width": 40,
+   "call_wing_width": 40,
+   "width_used_for_cap_and_max_loss": 40,
+   "legs": {
+    "BC": {
+     "strike": 255,
+     "type": "call",
+     "id": "cd146396-3ed6-4598-bd13-78120d84cf84",
+     "entry_close": 9.7,
+     "exit_open": 0.33,
+     "exit_close": 0.85
+    },
+    "BP": {
+     "strike": 255,
+     "type": "put",
+     "id": "a89da54d-5ad3-482b-a4de-71c1b253cec4",
+     "entry_close": 9.05,
+     "exit_open": 15.4,
+     "exit_close": 12.65
+    },
+    "WC": {
+     "strike": 295,
+     "type": "call",
+     "id": "ea502203-589f-421e-9d81-9b8c3228d906",
+     "entry_close": 0.78,
+     "exit_open": 0.01,
+     "exit_close": 0.01
+    },
+    "WP": {
+     "strike": 215,
+     "type": "put",
+     "id": "b1d06fa3-043f-4951-8ca5-01e19f5682d4",
+     "entry_close": 0.45,
+     "exit_open": 0.01,
+     "exit_close": 0.08
+    }
+   },
+   "unbalanced_wings": false,
+   "entry_credit": 17.52,
+   "close_cost_raw_exit_open": 15.71,
+   "close_cost": 15.71,
+   "pl_before_cost": 181.0,
+   "round_trip_cost": 122.64,
+   "pl_after_cost": 58.36,
+   "close_cost_at_exit_bar_close": 13.41,
+   "pl_after_cost_at_exit_bar_close": 288.36,
+   "max_loss": 2248.0
+  },
+  "flags": [
+   "Wing targets fell exactly midway between listed strikes on both sides at both widths (1x: 236.25 between 235/237.5 and 273.75 between 272.5/275; 2x: 217.5 between 215/220 and 292.5 between 290/295; 217.5 and 292.5 are not listed). Ties broken outward (wider wing, keeps wings symmetric).",
+   "Call wings at 275 and 295 printed 0.01 on 11/25 (minimum tick, effectively worthless); the 295 call also had a 0.01 low inside the entry bar but closed 0.78.",
+   "Sensitivity, inward tie choice (not used in the numbers): 1x 237.5/255/272.5 (width 17.5) entry credit 8.07, close cost 12.62 at exit-bar open, pl_after_cost -511.49, max_loss 943; 2x 220/255/290 (width 35) entry credit 17.25, close cost 15.39, pl_after_cost 65.25, max_loss 1775. The 272.5 call last print 6.50 at entry is above the 255-275 range implied by neighbours (275 call 3.20), another non-simultaneous print."
+  ]
+ },
+ {
+  "symbol": "WDAY",
+  "report_timing": "11/24 after the close",
+  "expiry": "2026-11-27",
+  "close_1124": 179.19,
+  "close_source": "get_equity_historicals 30minute regular, close of bar 2026-11-24T20:30:00Z",
+  "body_strike": 180,
+  "body_note": "Same as entry-day body 180.",
+  "entry_straddle": 17.3,
+  "wing_targets_1x": [
+   162.7,
+   197.3
+  ],
+  "wing_targets_2x": [
+   145.4,
+   214.6
+  ],
+  "stock_at_exit_bar_open": 179.1,
+  "stock_at_exit_bar_close": 182.36,
+  "realized_move": -0.0005,
+  "implied_move": 0.08206,
+  "realized_over_implied": 0.006,
+  "edge_ratio": 0.744,
+  "blocking_rule_1124": "max loss above $350 cap (ATM spread 14.6%) at narrowest allowed wings",
+  "entry_bar_utc": "2026-11-24T20:30:00Z",
+  "exit_bar_utc": "2026-11-25T15:00:00Z",
+  "exit_price_used": "exit bar open (close also recorded)",
+  "missing_legs": [],
+  "fallback_legs": [],
+  "fly_1x": {
+   "strikes": "162.5/180/197.5",
+   "put_wing_width": 17.5,
+   "call_wing_width": 17.5,
+   "width_used_for_cap_and_max_loss": 17.5,
+   "legs": {
+    "BC": {
+     "strike": 180,
+     "type": "call",
+     "id": "035ae218-9c93-4af5-9d61-445b3e2cdbc6",
+     "entry_close": 8.05,
+     "exit_open": 3.3,
+     "exit_close": 5.85
+    },
+    "BP": {
+     "strike": 180,
+     "type": "put",
+     "id": "9a028611-72f1-400b-809a-c32f4d057047",
+     "entry_close": 9.25,
+     "exit_open": 5.4,
+     "exit_close": 2.78
+    },
+    "WC": {
+     "strike": 197.5,
+     "type": "call",
+     "id": "51d71361-7785-4a3b-95f1-2b7d28dc6d67",
+     "entry_close": 2.45,
+     "exit_open": 0.01,
+     "exit_close": 0.3
+    },
+    "WP": {
+     "strike": 162.5,
+     "type": "put",
+     "id": "e9857aed-f4a8-4667-b9c3-48ea3285b546",
+     "entry_close": 2.7,
+     "exit_open": 0.45,
+     "exit_close": 0.33
+    }
+   },
+   "unbalanced_wings": false,
+   "entry_credit": 12.15,
+   "close_cost_raw_exit_open": 8.24,
+   "close_cost": 8.24,
+   "pl_before_cost": 391.0,
+   "round_trip_cost": 85.05,
+   "pl_after_cost": 305.95,
+   "close_cost_at_exit_bar_close": 8.0,
+   "pl_after_cost_at_exit_bar_close": 329.95,
+   "max_loss": 535.0
+  },
+  "fly_2x": {
+   "strikes": "145/180/215",
+   "put_wing_width": 35,
+   "call_wing_width": 35,
+   "width_used_for_cap_and_max_loss": 35,
+   "legs": {
+    "BC": {
+     "strike": 180,
+     "type": "call",
+     "id": "035ae218-9c93-4af5-9d61-445b3e2cdbc6",
+     "entry_close": 8.05,
+     "exit_open": 3.3,
+     "exit_close": 5.85
+    },
+    "BP": {
+     "strike": 180,
+     "type": "put",
+     "id": "9a028611-72f1-400b-809a-c32f4d057047",
+     "entry_close": 9.25,
+     "exit_open": 5.4,
+     "exit_close": 2.78
+    },
+    "WC": {
+     "strike": 215,
+     "type": "call",
+     "id": "9b218f1b-fca7-4973-8324-e5a9e923f4e6",
+     "entry_close": 0.48,
+     "exit_open": 0.01,
+     "exit_close": 0.01
+    },
+    "WP": {
+     "strike": 145,
+     "type": "put",
+     "id": "40c4bb9c-a6e6-4b03-ba92-af627bee1534",
+     "entry_close": 0.35,
+     "exit_open": 0.01,
+     "exit_close": 0.01
+    }
+   },
+   "unbalanced_wings": false,
+   "entry_credit": 16.47,
+   "close_cost_raw_exit_open": 8.68,
+   "close_cost": 8.68,
+   "pl_before_cost": 779.0,
+   "round_trip_cost": 115.29,
+   "pl_after_cost": 663.71,
+   "close_cost_at_exit_bar_close": 8.61,
+   "pl_after_cost_at_exit_bar_close": 670.71,
+   "max_loss": 1853.0
+  },
+  "flags": [
+   "Body call exit-bar open 3.30 repeats the lone 14:30Z print while the stock was about 179 (same bar closed 5.85), and the 197.5 call wing opened at 0.01 (closed 0.30). The stale call open is offset by the put side, so exit-open and exit-close P/L end up close (306 vs 330 at 1x)."
+  ]
+ },
+ {
+  "symbol": "AMBA",
+  "report_timing": "11/24 after the close",
+  "expiry": "2026-11-27",
+  "close_1124": 44.47,
+  "close_source": "get_equity_historicals 30minute regular, close of bar 2026-11-24T20:30:00Z",
+  "body_strike": 44.5,
+  "body_note": "Body 44.5 used (listed strike nearest close_1124 44.47); differs from entry-day body 50.",
+  "entry_straddle": 7.8,
+  "wing_targets_1x": [
+   36.7,
+   52.3
+  ],
+  "wing_targets_2x": [
+   28.9,
+   60.1
+  ],
+  "stock_at_exit_bar_open": 35.255,
+  "stock_at_exit_bar_close": 35.09,
+  "realized_move": -0.20722,
+  "implied_move": 0.14909,
+  "realized_over_implied": 1.39,
+  "edge_ratio": null,
+  "blocking_rule_1124": "dropped at morning scan: ATM spread 71% of mid (limit 25%)",
+  "entry_bar_utc": "2026-11-24T20:30:00Z",
+  "exit_bar_utc": "2026-11-25T15:00:00Z",
+  "exit_price_used": "exit bar open (close also recorded)",
+  "missing_legs": [
+   "1x WP 37P (no real 11/24 print; all 11/24 bars interpolated)",
+   "2x WP 29P (no real 11/24 print; all 11/24 bars interpolated)"
+  ],
+  "fallback_legs": [],
+  "fly_1x": {
+   "strikes": "37/44.5/52",
+   "put_wing_width": 7.5,
+   "call_wing_width": 7.5,
+   "width_used_for_cap_and_max_loss": 7.5,
+   "legs": {
+    "BC": {
+     "strike": 44.5,
+     "type": "call",
+     "id": "1d81f298-bb2c-4cff-9583-52c454212bb2",
+     "entry_close": 4.1,
+     "exit_open": 0.01,
+     "exit_close": 0.01
+    },
+    "BP": {
+     "strike": 44.5,
+     "type": "put",
+     "id": "2ac3024e-4f29-4fb5-bd85-4df5e126bc0b",
+     "entry_close": 3.7,
+     "exit_open": 9.55,
+     "exit_close": 9.6
+    },
+    "WC": {
+     "strike": 52,
+     "type": "call",
+     "id": "52e69318-0821-46fb-a6e4-9b45172c3b6a",
+     "entry_close": 1.05,
+     "exit_open": 0.01,
+     "exit_close": 0.01
+    },
+    "WP": {
+     "strike": 37,
+     "type": "put",
+     "id": "feb74bef-2d70-47c7-8cbf-a48d15408138",
+     "entry_close": null,
+     "exit_open": 3.2,
+     "exit_close": 2.95
+    }
+   },
+   "unbalanced_wings": false,
+   "entry_credit": null,
+   "close_cost_raw_exit_open": null,
+   "close_cost": null,
+   "pl_before_cost": null,
+   "round_trip_cost": null,
+   "pl_after_cost": null,
+   "close_cost_at_exit_bar_close": null,
+   "pl_after_cost_at_exit_bar_close": null,
+   "max_loss": null
+  },
+  "fly_2x": {
+   "strikes": "29/44.5/60",
+   "put_wing_width": 15.5,
+   "call_wing_width": 15.5,
+   "width_used_for_cap_and_max_loss": 15.5,
+   "legs": {
+    "BC": {
+     "strike": 44.5,
+     "type": "call",
+     "id": "1d81f298-bb2c-4cff-9583-52c454212bb2",
+     "entry_close": 4.1,
+     "exit_open": 0.01,
+     "exit_close": 0.01
+    },
+    "BP": {
+     "strike": 44.5,
+     "type": "put",
+     "id": "2ac3024e-4f29-4fb5-bd85-4df5e126bc0b",
+     "entry_close": 3.7,
+     "exit_open": 9.55,
+     "exit_close": 9.6
+    },
+    "WC": {
+     "strike": 60,
+     "type": "call",
+     "id": "6a3cb49c-12ff-4319-ac33-c9530f596830",
+     "entry_close": 0.43,
+     "exit_open": 0.01,
+     "exit_close": 0.01
+    },
+    "WP": {
+     "strike": 29,
+     "type": "put",
+     "id": "523c64f0-f6e8-4558-8aac-23ebb94968cd",
+     "entry_close": null,
+     "exit_open": 0.15,
+     "exit_close": 0.15
+    }
+   },
+   "unbalanced_wings": false,
+   "entry_credit": null,
+   "close_cost_raw_exit_open": null,
+   "close_cost": null,
+   "pl_before_cost": null,
+   "round_trip_cost": null,
+   "pl_after_cost": null,
+   "close_cost_at_exit_bar_close": null,
+   "pl_after_cost_at_exit_bar_close": null,
+   "max_loss": null
+  },
+  "flags": [
+   "Strikes near 36.7 and 52.3 are on a $1 grid (36.5 and 52.5 not listed), so 37 and 52 used.",
+   "Both put wings (37 and 29) had no real trade on 11/24: every 11/24 bar is interpolated (gap-fill 0.01), so entry credit cannot be priced and both flies are null.",
+   "Body call 44.5 printed 0.01 all morning on 11/25 with the stock near 35 (expected near zero, consistent).",
+   "Realized move -20.7% vs implied 14.9%. P/L not computable because the put-wing entry prints are missing. For reference, exit-side close cost from the recorded prints: 1x 6.35 at exit-bar open (6.65 at close) against width 7.5; 2x 9.40 at open (9.45 at close) against width 15.5."
+  ]
+ },
+ {
+  "symbol": "HPQ",
+  "report_timing": "11/24 after the close",
+  "expiry": "2026-11-27",
+  "close_1124": 27.93,
+  "close_source": "get_equity_historicals 30minute regular, close of bar 2026-11-24T20:30:00Z",
+  "body_strike": 28,
+  "body_note": "Body 28 used (listed strike nearest close_1124 27.93); differs from entry-day body 28.5.",
+  "entry_straddle": 3.06,
+  "wing_targets_1x": [
+   24.94,
+   31.06
+  ],
+  "wing_targets_2x": [
+   21.88,
+   34.12
+  ],
+  "stock_at_exit_bar_open": 31.11,
+  "stock_at_exit_bar_close": 31.055,
+  "realized_move": 0.11386,
+  "implied_move": 0.09313,
+  "realized_over_implied": 1.223,
+  "edge_ratio": 0.39,
+  "blocking_rule_1124": "all entry rules passed; blocked only by account circuit breaker",
+  "entry_bar_utc": "2026-11-24T20:30:00Z",
+  "exit_bar_utc": "2026-11-25T15:00:00Z",
+  "exit_price_used": "exit bar open (close also recorded)",
+  "missing_legs": [],
+  "fallback_legs": [],
+  "fly_1x": {
+   "strikes": "25/28/31",
+   "put_wing_width": 3,
+   "call_wing_width": 3,
+   "width_used_for_cap_and_max_loss": 3,
+   "legs": {
+    "BC": {
+     "strike": 28,
+     "type": "call",
+     "id": "65aad74e-dacc-496c-9483-aeb8aa56e0d2",
+     "entry_close": 1.5,
+     "exit_open": 3.25,
+     "exit_close": 2.93
+    },
+    "BP": {
+     "strike": 28,
+     "type": "put",
+     "id": "7cc81893-53dd-409c-938a-ed51ec0237a5",
+     "entry_close": 1.56,
+     "exit_open": 0.08,
+     "exit_close": 0.1
+    },
+    "WC": {
+     "strike": 31,
+     "type": "call",
+     "id": "e8ecbdc3-5c2c-4082-883d-f5800a59b56a",
+     "entry_close": 0.43,
+     "exit_open": 0.77,
+     "exit_close": 0.72
+    },
+    "WP": {
+     "strike": 25,
+     "type": "put",
+     "id": "8e90db39-983c-408b-a1f4-1b736b0e170d",
+     "entry_close": 0.45,
+     "exit_open": 0.04,
+     "exit_close": 0.03
+    }
+   },
+   "unbalanced_wings": false,
+   "entry_credit": 2.18,
+   "close_cost_raw_exit_open": 2.52,
+   "close_cost": 2.52,
+   "pl_before_cost": -34.0,
+   "round_trip_cost": 15.26,
+   "pl_after_cost": -49.26,
+   "close_cost_at_exit_bar_close": 2.28,
+   "pl_after_cost_at_exit_bar_close": -25.26,
+   "max_loss": 82.0
+  },
+  "fly_2x": {
+   "strikes": "22/28/34",
+   "put_wing_width": 6,
+   "call_wing_width": 6,
+   "width_used_for_cap_and_max_loss": 6,
+   "legs": {
+    "BC": {
+     "strike": 28,
+     "type": "call",
+     "id": "65aad74e-dacc-496c-9483-aeb8aa56e0d2",
+     "entry_close": 1.5,
+     "exit_open": 3.25,
+     "exit_close": 2.93
+    },
+    "BP": {
+     "strike": 28,
+     "type": "put",
+     "id": "7cc81893-53dd-409c-938a-ed51ec0237a5",
+     "entry_close": 1.56,
+     "exit_open": 0.08,
+     "exit_close": 0.1
+    },
+    "WC": {
+     "strike": 34,
+     "type": "call",
+     "id": "0b47c74e-5a6e-4d67-8a0d-d323a267ff04",
+     "entry_close": 0.08,
+     "exit_open": 0.07,
+     "exit_close": 0.04
+    },
+    "WP": {
+     "strike": 22,
+     "type": "put",
+     "id": "0e66d420-c27d-4ec2-a049-64385c418b59",
+     "entry_close": 0.07,
+     "exit_open": 0.01,
+     "exit_close": 0.01
+    }
+   },
+   "unbalanced_wings": false,
+   "entry_credit": 2.91,
+   "close_cost_raw_exit_open": 3.25,
+   "close_cost": 3.25,
+   "pl_before_cost": -34.0,
+   "round_trip_cost": 20.37,
+   "pl_after_cost": -54.37,
+   "close_cost_at_exit_bar_close": 2.98,
+   "pl_after_cost_at_exit_bar_close": -27.37,
+   "max_loss": 309.0
+  },
+  "flags": [
+   "Call wing 31 exit-bar open 0.77 and close 0.72 with the stock at 31.06-31.11; the move went past the 1x call wing, so close cost is near the 3.00 width (raw 2.52 at open)."
+  ]
+ },
+ {
+  "symbol": "LI",
+  "report_timing": "11/25 before the open",
+  "expiry": "2026-11-27",
+  "close_1124": 10.705,
+  "close_source": "get_equity_historicals 30minute regular, close of bar 2026-11-24T20:30:00Z",
+  "body_strike": 10.5,
+  "body_note": "Same as entry-day body 10.5.",
+  "entry_straddle": 0.68,
+  "wing_targets_1x": [
+   9.82,
+   11.18
+  ],
+  "wing_targets_2x": [
+   9.14,
+   11.86
+  ],
+  "stock_at_exit_bar_open": 10.92,
+  "stock_at_exit_bar_close": 11.06,
+  "realized_move": 0.02008,
+  "implied_move": 0.05399,
+  "realized_over_implied": 0.372,
+  "edge_ratio": 0.331,
+  "blocking_rule_1124": "all entry rules passed; blocked only by account circuit breaker",
+  "entry_bar_utc": "2026-11-24T20:30:00Z",
+  "exit_bar_utc": "2026-11-25T15:00:00Z",
+  "exit_price_used": "exit bar open (close also recorded)",
+  "missing_legs": [],
+  "fallback_legs": [],
+  "fly_1x": {
+   "strikes": "10/10.5/11",
+   "put_wing_width": 0.5,
+   "call_wing_width": 0.5,
+   "width_used_for_cap_and_max_loss": 0.5,
+   "legs": {
+    "BC": {
+     "strike": 10.5,
+     "type": "call",
+     "id": "780b015e-0a9c-419d-9b87-9471d9b81601",
+     "entry_close": 0.44,
+     "exit_open": 0.53,
+     "exit_close": 0.64
+    },
+    "BP": {
+     "strike": 10.5,
+     "type": "put",
+     "id": "ab28446a-786f-48e4-9a4b-bda45792cfc8",
+     "entry_close": 0.24,
+     "exit_open": 0.09,
+     "exit_close": 0.08
+    },
+    "WC": {
+     "strike": 11,
+     "type": "call",
+     "id": "81ff0731-cbea-4da8-b992-fc0e070a048e",
+     "entry_close": 0.24,
+     "exit_open": 0.22,
+     "exit_close": 0.27
+    },
+    "WP": {
+     "strike": 10,
+     "type": "put",
+     "id": "a2b67a47-b1dc-43ac-8284-0cc97d3435ad",
+     "entry_close": 0.16,
+     "exit_open": 0.01,
+     "exit_close": 0.01
+    }
+   },
+   "unbalanced_wings": false,
+   "entry_credit": 0.28,
+   "close_cost_raw_exit_open": 0.39,
+   "close_cost": 0.39,
+   "pl_before_cost": -11.0,
+   "round_trip_cost": 1.96,
+   "pl_after_cost": -12.96,
+   "close_cost_at_exit_bar_close": 0.44,
+   "pl_after_cost_at_exit_bar_close": -17.96,
+   "max_loss": 22.0
+  },
+  "fly_2x": {
+   "strikes": "9/10.5/12",
+   "put_wing_width": 1.5,
+   "call_wing_width": 1.5,
+   "width_used_for_cap_and_max_loss": 1.5,
+   "legs": {
+    "BC": {
+     "strike": 10.5,
+     "type": "call",
+     "id": "780b015e-0a9c-419d-9b87-9471d9b81601",
+     "entry_close": 0.44,
+     "exit_open": 0.53,
+     "exit_close": 0.64
+    },
+    "BP": {
+     "strike": 10.5,
+     "type": "put",
+     "id": "ab28446a-786f-48e4-9a4b-bda45792cfc8",
+     "entry_close": 0.24,
+     "exit_open": 0.09,
+     "exit_close": 0.08
+    },
+    "WC": {
+     "strike": 12,
+     "type": "call",
+     "id": "362c6e24-75b7-438e-adf9-a047b4648a4a",
+     "entry_close": 0.04,
+     "exit_open": 0.01,
+     "exit_close": 0.01
+    },
+    "WP": {
+     "strike": 9,
+     "type": "put",
+     "id": "9b2ad469-fa14-4252-8410-2af023b9bce3",
+     "entry_close": 0.01,
+     "exit_open": 0.01,
+     "exit_close": 0.01
+    }
+   },
+   "unbalanced_wings": false,
+   "entry_credit": 0.63,
+   "close_cost_raw_exit_open": 0.6,
+   "close_cost": 0.6,
+   "pl_before_cost": 3.0,
+   "round_trip_cost": 4.41,
+   "pl_after_cost": -1.41,
+   "close_cost_at_exit_bar_close": 0.7,
+   "pl_after_cost_at_exit_bar_close": -11.41,
+   "max_loss": 87.0
+  },
+  "flags": [
+   "Put wing 9 printed 0.01 at both entry and exit (minimum tick). Strikes are $0.50 apart; the 1x fly is 50-cent wide, so prints at the 0.01 tick are a large share of the figures."
+  ]
+ }
+]

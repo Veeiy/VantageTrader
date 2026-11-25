@@ -55,7 +55,8 @@ def _ts(value: Any) -> datetime | None:
 
 
 def selfcheck(journal: str, metrics: str, positions: str, lessons: str, proposals: str,
-              lease: str | None = None, now: datetime | None = None) -> dict[str, Any]:
+              lease: str | None = None, now: datetime | None = None,
+              daytrade: str | None = None) -> dict[str, Any]:
     checks: list[dict[str, Any]] = []
     loaded: dict[str, Any] = {}
 
@@ -145,9 +146,65 @@ def selfcheck(journal: str, metrics: str, positions: str, lessons: str, proposal
             raise ValueError("exit fill_vs_mid is the ratio close_cost_mid_at_read / fill_debit: " + "; ".join(bad[:5]))
         return f"{seen} exit record(s) carry a matching ratio"
 
+    def paper_results_within_max_loss() -> str:
+        # P094 (2026-11-25): 25 paper desk results read worse than their fly could lose, because
+        # deep in-the-money legs were priced from wide quotes; the desk's natural total for the
+        # day was -2,205 against -1,575 at the floors.
+        openings = {r.get("trade_id"): r for r in loaded["metrics"] if mt._is_paper_opening(r)}
+        bad: list[str] = []
+        seen = 0
+        for r in loaded["metrics"]:
+            if r.get("record") != "paper" or not r.get("result"):
+                continue
+            floors = mt.paper_floors(openings.get(r.get("trade_id")) or r)
+            if floors is None:
+                continue
+            seen += 1
+            for field, floor in zip(mt.PAPER_PNL_FIELDS, floors):
+                v = r.get(field)
+                if isinstance(v, (int, float)) and not isinstance(v, bool) and v < floor - 0.01:
+                    bad.append(f"{r.get('trade_id')}: {field} {v} under {round(floor, 2)}")
+        if bad:
+            raise ValueError("a paper result is worse than its structure's max loss (cap it, keep the "
+                             "quoted figure): " + "; ".join(bad[:5]))
+        return f"{seen} paper result(s) inside their max loss"
+
+    def paper_desk_imported() -> str:
+        # P095 (2026-11-25): the desk files of 11/20, 11/23 and 11/24 (69 lines, 23 results) were
+        # never imported; the reflections quoted their totals from the hand-back message.
+        root = Path(daytrade) if daytrade else Path(metrics).parent / "daytrade"
+        if not root.is_dir():
+            return "no desk directory"
+        today = ls.pacific_today(now)
+        have = {mt._paper_key(r) for r in loaded["metrics"] if r.get("record") == "paper"}
+        missing: list[str] = []
+        files = 0
+        for f in sorted(root.glob("*/paper_desk.jsonl")):
+            if f.parent.name >= today:      # today's file is imported at the 12:15 PT run
+                continue
+            files += 1
+            n = 0
+            for line in f.read_text().splitlines():
+                if not line.strip():
+                    continue
+                try:
+                    rec = json.loads(line)
+                except json.JSONDecodeError:
+                    continue
+                if mt._paper_reject_reason(rec) is None and mt._paper_key(rec) not in have:
+                    n += 1
+            if n:
+                missing.append(f"{f.parent.name}: {n} line(s)")
+        if missing:
+            raise ValueError("paper desk file(s) of an earlier day are not fully imported (run paper-import): "
+                             + "; ".join(missing[:5]))
+        return f"{files} earlier desk file(s) fully imported"
+
     run("no_future_timestamps", no_future_timestamps)
     if "metrics" in loaded:
         run("exit_ratio_matches_mid", exit_ratio_matches_mid)
+        run("paper_results_within_max_loss", paper_results_within_max_loss)
+        run("paper_desk_imported", paper_desk_imported)
     if all(k in loaded for k in ("journal", "positions")):
         run("positions_match_journal", positions_match_journal)
     if all(k in loaded for k in ("metrics", "positions")):

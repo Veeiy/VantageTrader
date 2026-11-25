@@ -128,6 +128,31 @@ def test_paper_import_appends_once_and_rejects_bad_lines(tmp_path):
         metrics.import_paper(tmp_path / "missing.jsonl", mp)
 
 
+def test_paper_import_floors_a_result_at_the_max_loss(tmp_path):
+    # P094: AMD 2026-11-25, -428.50 at the mid and -640 at the natural against a max loss of 373.50.
+    mp = tmp_path / "live_metrics.jsonl"
+    desk = tmp_path / "paper_desk.jsonl"
+    opening = {"trade_id": "AMD-0DTE-20261125-P1", "record": "paper", "live": False, "symbol": "AMD", "ts": "2026-11-25T15:17:00Z",
+               "kind": "intraday_0dte", "credit_mid": 6.265, "credit_natural": 6.0, "max_loss_usd": 373.5}
+    result = dict(opening, ts="2026-11-25T20:15:10Z", result=True, pnl_mid_usd=-428.5, pnl_natural_usd=-640.0,
+                  pnl_pct_of_max_loss=-1.1473)
+    inside = {"trade_id": "MSFT-0DTE-20261125-P1", "record": "paper", "live": False, "symbol": "MSFT", "ts": "2026-11-25T15:17:00Z",
+              "kind": "intraday_0dte", "credit_mid": 2.4, "credit_natural": 2.2, "max_loss_usd": 260.5}
+    inside_result = dict(inside, ts="2026-11-25T20:15:10Z", result=True, pnl_mid_usd=26.0, pnl_natural_usd=-37.0)
+    desk.write_text("\n".join(json.dumps(r) for r in (opening, result, inside, inside_result)) + "\n")
+    out = metrics.import_paper(desk, mp)
+    assert out["results_added"] == 2 and out["results_capped_at_max_loss"] == 1
+    assert out["pnl_mid_usd"] == -347.5 and out["pnl_natural_usd"] == -437.0      # -373.5 + 26 and -400 - 37
+    amd = [r for r in metrics.read_metrics(mp) if r.get("result") and r["symbol"] == "AMD"][0]
+    assert amd["pnl_mid_usd"] == -373.5 and amd["pnl_mid_usd_quoted"] == -428.5
+    assert amd["pnl_natural_usd"] == -400.0 and amd["pnl_natural_usd_quoted"] == -640.0
+    assert amd["capped_at_max_loss"] == ["pnl_mid_usd", "pnl_natural_usd"] and amd["pnl_pct_of_max_loss"] == -1.0
+    msft = [r for r in metrics.read_metrics(mp) if r.get("result") and r["symbol"] == "MSFT"][0]
+    assert "capped_at_max_loss" not in msft and msft["pnl_natural_usd"] == -37.0
+    assert metrics.paper_floors({"max_loss_usd": 340.0, "max_loss_natural_usd": 372.0}) == (-340.0, -372.0)
+    assert metrics.paper_floors({"credit_mid": 1.0}) is None
+
+
 def test_cli_paper_import(tmp_path, capsys):
     mp = tmp_path / "live_metrics.jsonl"
     desk = tmp_path / "desk.jsonl"

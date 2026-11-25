@@ -1,4 +1,5 @@
 import json
+from datetime import datetime, timezone
 
 import pytest
 
@@ -107,6 +108,40 @@ def test_selfcheck_flags_an_exit_ratio_written_as_a_difference(tmp_path):
     del exit_row["execution"]["close_cost_mid_at_read"]          # nothing to compare with: not a failure
     _write(tmp_path, "metrics.jsonl", rows)
     assert health.selfcheck(**f)["ok"] is True
+
+
+def test_selfcheck_flags_a_paper_result_under_its_max_loss(tmp_path):
+    # P094: a desk result priced from wide quotes read worse than the fly could lose.
+    f = _files(tmp_path)
+    rows = [json.loads(line) for line in open(f["metrics"])]
+    opening = {"trade_id": "IWM-0DTE-20261125-P1", "record": "paper", "live": False, "symbol": "IWM", "ts": "2026-11-25T15:17:00Z",
+               "kind": "intraday_0dte", "credit_mid": 1.45, "credit_natural": 1.43, "max_loss_usd": 55.0}
+    result = dict(opening, ts="2026-11-25T20:15:10Z", result=True, pnl_mid_usd=-52.5, pnl_natural_usd=-93.0)
+    _write(tmp_path, "metrics.jsonl", rows + [opening, result])
+    out = health.selfcheck(**f)
+    assert [c["check"] for c in out["checks"] if not c["ok"]] == ["paper_results_within_max_loss"]
+    result["pnl_natural_usd"] = -57.0                              # max loss at the natural credit
+    _write(tmp_path, "metrics.jsonl", rows + [opening, result])
+    assert health.selfcheck(**f)["ok"] is True
+
+
+def test_selfcheck_flags_an_earlier_desk_file_that_was_not_imported(tmp_path):
+    # P095: the desk files of 2026-11-20, 11-23 and 11-24 sat unimported until 11-25.
+    f = _files(tmp_path)
+    rows = [json.loads(line) for line in open(f["metrics"])]
+    line = {"trade_id": "SPY-0DTE-20261124-P1", "record": "paper", "live": False, "symbol": "SPY", "ts": "2026-11-24T15:17:00Z",
+            "kind": "intraday_0dte", "credit_mid": 2.0, "max_loss_usd": 100.0}
+    for day in ("2026-11-24", "2026-11-25"):
+        d = tmp_path / "daytrade" / day
+        d.mkdir(parents=True)
+        (d / "paper_desk.jsonl").write_text(json.dumps(dict(line, trade_id=f"SPY-0DTE-{day}-P1")) + "\nnot json\n"
+                                            + json.dumps(dict(line, symbol="TSLA", trade_id="TSLA-P1")) + "\n")
+    now = datetime(2026, 11, 25, 21, 30, tzinfo=timezone.utc)      # 13:30 PT on 11/25: only 11/24 is an earlier day
+    out = health.selfcheck(**f, now=now, daytrade=str(tmp_path / "daytrade"))
+    bad = [c for c in out["checks"] if not c["ok"]]
+    assert [c["check"] for c in bad] == ["paper_desk_imported"] and "2026-11-24: 1 line(s)" in bad[0]["detail"]
+    _write(tmp_path, "metrics.jsonl", rows + [dict(line, trade_id="SPY-0DTE-2026-11-24-P1")])
+    assert health.selfcheck(**f, now=now, daytrade=str(tmp_path / "daytrade"))["ok"] is True
 
 
 def test_selfcheck_reports_a_broken_ledger_and_exit_code(tmp_path):

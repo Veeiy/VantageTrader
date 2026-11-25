@@ -188,17 +188,92 @@ def _paper_key(rec: dict[str, Any]) -> tuple[Any, ...]:
     return (rec.get("trade_id"), rec.get("ts"), "mark" in rec, bool(rec.get("result")))
 
 
+def _paper_reject_reason(rec: Any) -> str | None:
+    """Why a desk line is not taken into the dataset; None when it is good."""
+    if not isinstance(rec, dict):
+        return "not an object"
+    if rec.get("record") != "paper":
+        return "record is not 'paper'"
+    if rec.get("live") is not False:
+        return "live must be false"
+    if not isinstance(rec.get("trade_id"), str) or not rec["trade_id"].strip():
+        return "trade_id missing"
+    if not isinstance(rec.get("symbol"), str) or not rec["symbol"].strip():
+        return "symbol missing"
+    if rec["symbol"].strip().upper() in PAPER_NEVER:
+        return "symbol is never traded, on paper either"
+    if not isinstance(rec.get("ts"), str) or not rec["ts"].strip():
+        return "ts missing"
+    if any(k in rec and _num(rec[k]) is None for k in ("pnl_mid_usd", "pnl_natural_usd")):
+        return "pnl fields must be numbers"
+    return None
+
+
+def _is_paper_opening(rec: dict[str, Any]) -> bool:
+    return (rec.get("record") == "paper" and not rec.get("result") and "mark" not in rec
+            and _num(rec.get("max_loss_usd")) is not None)
+
+
+def paper_floors(opening: dict[str, Any] | None) -> tuple[float, float] | None:
+    """The worst a paper structure can do in dollars, at the mid and at the natural.
+
+    ``max_loss_usd`` is the width less the mid credit. The natural credit is smaller, so the
+    natural floor is lower by the difference (``max_loss_natural_usd`` when the record has it).
+    """
+    ml = _num((opening or {}).get("max_loss_usd"))
+    if ml is None or ml <= 0:
+        return None
+    nat = _num(opening.get("max_loss_natural_usd"))
+    if nat is None:
+        cm, cn = _num(opening.get("credit_mid")), _num(opening.get("credit_natural"))
+        qty = _num(opening.get("quantity")) or 1.0
+        nat = ml + (cm - cn) * 100 * qty if cm is not None and cn is not None and cm >= cn else ml
+    return -ml, -max(nat, ml)
+
+
+PAPER_PNL_FIELDS = ("pnl_mid_usd", "pnl_natural_usd")
+
+
+def cap_paper_result(rec: dict[str, Any], opening: dict[str, Any] | None) -> list[str]:
+    """Floor a paper result at its structure's max loss (P094, 2026-11-25).
+
+    Deep in-the-money legs quote wide at the mark, and a result priced from those quotes can
+    read worse than the fly can lose (AMD 2026-11-25: -428.50 against a max loss of 373.50).
+    The quoted figure is kept under ``<field>_quoted``; the names of the capped fields are
+    returned and written to ``capped_at_max_loss``.
+    """
+    floors = paper_floors(opening if opening is not None else rec)
+    if floors is None:
+        return []
+    capped: list[str] = []
+    for field, floor in zip(PAPER_PNL_FIELDS, floors):
+        v = _num(rec.get(field))
+        if v is not None and v < floor - 0.005:
+            rec[field + "_quoted"] = v
+            rec[field] = round(floor, 2)
+            capped.append(field)
+    if capped:
+        rec["capped_at_max_loss"] = capped
+        if "pnl_mid_usd" in capped and "pnl_pct_of_max_loss" in rec:
+            rec["pnl_pct_of_max_loss"] = -1.0
+    return capped
+
+
 def import_paper(desk_path: str | Path, metrics_path: str | Path) -> dict[str, Any]:
     """Append the records a read-only paper-desk agent wrote to the live metrics dataset.
 
     The desk writes one JSON object per line. Only ``paper`` records with ``live`` false are
     taken. A line already in the dataset (same trade_id, ts and stage) is skipped, so the
-    import can be run again. Bad lines are reported, never appended.
+    import can be run again. Bad lines are reported, never appended. A result worse than its
+    structure's max loss is floored there (``cap_paper_result``).
     """
     dp = Path(desk_path)
     if not dp.exists():
         raise EngineInputError(f"paper desk file not found: {desk_path}")
-    have = {_paper_key(r) for r in read_metrics(metrics_path) if r.get("record") == "paper"}
+    existing = read_metrics(metrics_path)
+    have = {_paper_key(r) for r in existing if r.get("record") == "paper"}
+    openings = {r.get("trade_id"): r for r in existing if _is_paper_opening(r)}
+    capped = 0
     added: list[dict[str, Any]] = []
     rejected: list[dict[str, Any]] = []
     skipped = 0
@@ -210,23 +285,7 @@ def import_paper(desk_path: str | Path, metrics_path: str | Path) -> dict[str, A
         except json.JSONDecodeError as e:
             rejected.append({"line": n, "reason": f"not valid JSON: {e}"})
             continue
-        why = None
-        if not isinstance(rec, dict):
-            why = "not an object"
-        elif rec.get("record") != "paper":
-            why = "record is not 'paper'"
-        elif rec.get("live") is not False:
-            why = "live must be false"
-        elif not isinstance(rec.get("trade_id"), str) or not rec["trade_id"].strip():
-            why = "trade_id missing"
-        elif not isinstance(rec.get("symbol"), str) or not rec["symbol"].strip():
-            why = "symbol missing"
-        elif rec["symbol"].strip().upper() in PAPER_NEVER:
-            why = "symbol is never traded, on paper either"
-        elif not isinstance(rec.get("ts"), str) or not rec["ts"].strip():
-            why = "ts missing"
-        elif any(k in rec and _num(rec[k]) is None for k in ("pnl_mid_usd", "pnl_natural_usd")):
-            why = "pnl fields must be numbers"
+        why = _paper_reject_reason(rec)
         if why:
             rejected.append({"line": n, "reason": why})
             continue
@@ -235,6 +294,10 @@ def import_paper(desk_path: str | Path, metrics_path: str | Path) -> dict[str, A
             skipped += 1
             continue
         have.add(key)
+        if _is_paper_opening(rec):
+            openings[rec["trade_id"]] = rec
+        elif rec.get("result") and cap_paper_result(rec, openings.get(rec["trade_id"])):
+            capped += 1
         added.append(rec)
     if added:
         mp = Path(metrics_path)
@@ -244,7 +307,7 @@ def import_paper(desk_path: str | Path, metrics_path: str | Path) -> dict[str, A
                 f.write(json.dumps(rec) + "\n")
     results = [r for r in added if r.get("result")]
     return {"file": str(desk_path), "added": len(added), "skipped_duplicates": skipped, "rejected": rejected,
-            "results_added": len(results),
+            "results_added": len(results), "results_capped_at_max_loss": capped,
             "pnl_mid_usd": round(sum(_num(r.get("pnl_mid_usd")) or 0.0 for r in results), 2),
             "pnl_natural_usd": round(sum(_num(r.get("pnl_natural_usd")) or 0.0 for r in results), 2)}
 

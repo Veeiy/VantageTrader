@@ -1,6 +1,6 @@
 {
- "as_of": "2026-11-25T20:57:18Z",
- "account_value": 1419.69,
+ "as_of": "2026-11-25T21:27:35Z",
+ "account_value": 1407.58,
  "cap_total_max_loss": 1383.09,
  "execution": {
   "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
@@ -2440,7 +2440,7 @@
  "breaker": {
   "state": "halted",
   "since": "2026-11-24T14:51:55Z",
-  "reason": "three losses in a row: ANT -110.72 (11/20), PDD -197.29 (11/20), DKS -275.33 (11/24)",
+  "reason": "three losses in a row: ANT -110.72 (11/19, the journal's date), PDD -197.29 (11/20), DKS -275.33 (11/24)",
   "lifted_by": "Brad saying 'reset breaker' (sets circuit_reset_ts, the config's human resume), or 'yes P092' (the ANT stock trade leaves the count: streak 2)",
   "stops": "new earnings and non-earnings entries, and the same-day pilot ('The account breaker still stops the pilot')"
  },
@@ -2782,6 +2782,18 @@
    "VIX_change": 0.071,
    "SPY": -0.0043,
    "reading": "no veto at the 11:47 PT reading; the hard veto of 07:27 applied to the pilot's entry window. 'No new entry today whatever the breaker's state' was true at 07:27 and at the 09:45 re-check (VIX 34 then), not at the sweep: here the breaker and the empty watchlist are what block."
+  },
+  "vix_path": {
+   "open": 32.12,
+   "high": 34.95,
+   "at_0727": 34.08,
+   "bar_0930_pt": [
+    29.15,
+    31.44
+   ],
+   "at_1147": 28.28,
+   "close": 28.29,
+   "prev_close": 26.41
   }
  },
  "check_2026-11-25_0816_hourly": {
@@ -2819,7 +2831,8 @@
   "at_utc": "2026-11-25T17:46:34Z",
   "entries": "none: the watchlist is empty (BMA and HUBG have no 11/27 expiry), the breaker is halted and VIX 34 made it a hard macro veto day",
   "requote": "nothing to re-quote",
-  "first_daemon": "07:17 to 09:18 PT: 30 cycles, no hand orders, no position changes, no errors"
+  "first_daemon": "07:17 to 09:18 PT: 30 cycles, no hand orders, no position changes, no errors",
+  "corrected_2026-11-25": "'VIX 34' was the 07:27 reading; no VIX was read at 09:45. The 09:30 PT bar ran 29.15 to 31.44 (about 30, +14% to +19%): at the line between the hard veto and the soft band."
  },
  "check_2026-11-25_1016_hourly": {
   "at_utc": "2026-11-25T18:16:13Z",
@@ -2869,7 +2882,7 @@
   "entry_switch": "moved at 19:48:05Z to Mon 2026-11-30 12:05 PT (next_run_at 2026-11-30T20:05:00Z, enabled); Thu 11/26 is closed and Fri 11/27 closes at 10:00 PT"
  },
  "reflection_notes_2026-11-25": [
-  "Standby entry switch's stored prompt still says 'max $350 per name' and 'skip Fridays': FAILOVER.md overrides it and both are the stricter reading, but the text is stale against v1.16 ($600) and v1.16.7 (Friday entries). Health item for the reflection.",
+  "Standby switch prompts ('max $350 per name', 'skip Fridays'): already on record in FAILOVER.md (the head cannot edit them; the file overrides them). Not a new health item.",
   "Macro: hard veto at 07:27 (VIX 34.08, +29%), no veto at 11:47 (VIX 28.28, +7%; SPY -0.4%). The 07:27 record's 'no new entry today whatever the breaker's state' overreached: the veto is read at each entry time.",
   "Paper desk hand-back (12:18 PT): both odd records are explained. SPY's 702 body was picked at 07:15 and priced at 07:17, when spot had fallen 2 points (strike picked and priced two minutes apart on a fast open). AMD's -428.5 against a 373.5 max loss and META's natural past its max are deep in-the-money legs with wide 12:15 quotes, recorded as quoted and not capped. For the reflection: cap a paper result at the fly's max loss, and pick the strike from the same read that prices it."
  ],
@@ -2921,5 +2934,50 @@
    "AMBA": 44.47
   },
   "note": "Nothing new before the close. Reported names against the prior close at 12:57: HPQ +12.2%, LI +10.8%, ADSK -3.6%, WDAY +1.2%, DELL +0.5%, AMBA -19.2%. The reflection scores them on the official closes."
+ },
+ "closes_2026-11-25": {
+  "ANT": 82.85,
+  "DKS": 158.715,
+  "SPY": 716.75,
+  "QQQ": 633.95,
+  "IWM": 268.83,
+  "VIX": 28.29,
+  "account_value": 1407.58,
+  "buying_power": 993.89
+ },
+ "paper_desk_dataset_2026-11-25": {
+  "results": 78,
+  "pnl_mid_usd": -1021.0,
+  "pnl_natural_usd": -2941.0,
+  "quoted_before_floor": {
+   "mid": -1081.0,
+   "natural": -3801.0
+  },
+  "today": {
+   "mid": -1394.0,
+   "natural": -1697.0,
+   "quoted": {
+    "mid": -1449.0,
+    "natural": -2205.0
+   }
+  },
+  "imported_late": [
+   "2026-11-20",
+   "2026-11-23",
+   "2026-11-24"
+  ],
+  "ref": "P094, P095"
+ },
+ "tomorrow_2026-11-27": {
+  "calendar": "Thu 11/26 NYSE closed (the tasks fire and skip). Fri 11/27 closes at 10:00 PT.",
+  "live": "nothing due. DKS 120P leftover: sell if a 0.01 bid shows, else it expires (sellout 09:30 PT).",
+  "p088": "read the DKS 135C and 150C near the close: the fly's value at expiry against the 13.50 paid",
+  "daemon": "account watch from the 07:15 PT run to 09:57 PT, one daemon, no replacement; record daemon.started_utc (P090 day 2)",
+  "last_look": "09:57 PT (timer from the 09:15 run); the 10:15, 11:15 and 12:15 runs find the market closed and say so in one line",
+  "entries": "none: early-close day, and the breaker is halted",
+  "pilot": "none: the breaker, and its 10:57 PT exit is after the close",
+  "paper_desk": "not started: its 10:15 and 12:15 PT marks do not exist on a 10:00 close, and a half day does not compare with the same-hours record",
+  "reflection": "13:12 PT with the weekly scorecard: H008 at +14 / -9 (P093), P092, and the measures due by 11/27 (P036, P037, P083)",
+  "switches": "exit switch Fri 07:25 PT and phone alert Fri 08:00 PT are set; entry switch Mon 11/30 12:05 PT"
  }
 }

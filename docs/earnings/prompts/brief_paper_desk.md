@@ -38,6 +38,10 @@ c) Body strike K = the listed {TODAY} strike nearest spot. Find it with
    "172.5000"); a query without a type returns the call and the put. NEVER query an expiry
    without a strike. Probe neighbours until you know the strike step.
 d) get_option_quotes for the K call and the K put. straddle_mid = call mid + put mid.
+   SAME READ (P094, 2026-11-25): read spot again in the same message as these quotes. If the
+   listed strike nearest that spot is not K any more, move K to it and quote again; entry_spot
+   is the spot of the read that priced the fly. (SPY's body was picked at 07:15 PT and priced
+   at 07:17 PT, 2 points away from spot.)
 d2) PREMIUM CHECK for SPY, QQQ and IWM only (the live trigger of proposal P017): one call
    get_equity_historicals(symbols=["SPY","QQQ","IWM"], start_time = 16 calendar days ago,
    interval "hour"). For each of the last 10 completed sessions take the open of the hour bar
@@ -76,6 +80,11 @@ the same ids, "result":true, "mark":{... "time_pt":"12:15" ...},
 "pnl_mid_usd":(credit_mid - close_cost_mid)*100,
 "pnl_natural_usd":(credit_natural - close_cost_natural)*100,
 "pnl_pct_of_max_loss": pnl_mid_usd / max_loss_usd, "exit_rule":"12:15 PT mark",
+FLOOR (P094): a fly cannot lose more than its width less its credit, but deep in-the-money
+legs quote wide at 12:15 and the sum can read worse. Floor pnl_mid_usd at -max_loss_usd and
+pnl_natural_usd at -(width - credit_natural)*100; when a figure was floored, write the
+unfloored one as "pnl_mid_usd_quoted" / "pnl_natural_usd_quoted" and list the floored fields
+in "capped_at_max_loss". The totals in your final message use the floored figures.
 "realized_move_from_entry": spot / entry_spot - 1.
 
 FINAL MESSAGE (at most 15 lines, nothing else): the file path; one line per name with

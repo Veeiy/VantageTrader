@@ -187,6 +187,12 @@ larger than the account. No money in or out.
   replay (60 or more sessions a fund, SPY, QQQ, IWM), flies on days with VIX up 8% or more at
   07:25 PT against the rest; it passes only if the kept days average +$10 a fly after costs with
   a per-day t of 2 on sessions it was not found in (line B's restart rule). Otherwise parked.
+  (7) The non-earnings screen (P098, 2026-11-25): it runs every morning, has two live trades
+  (NVDA -70.32, PCG +19.37) and no line in section 3. By 2026-12-12 it either gets a written
+  recipe (structure, entry rule, exit) and starts section 5 at step 1, or the screen is dropped.
+  (8) The macro veto on a morning spike that fades (P096): earnings flies entered on days when
+  VIX traded at 30 or 25% up before 09:00 PT and was under both lines at 11:46 PT, against the
+  rest; decided at 8 such days.
 
 ## Sources
 - Muravyev and Ni, "Why do option returns change sign from day to night?", Journal of Financial
