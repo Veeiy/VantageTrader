@@ -2866,6 +2866,10 @@
    "DKS": 158.72,
    "VIX": 28.28
   },
-  "entry_switch": "to be moved to Mon 2026-11-30 12:05 PT (Thu 11/26 closed, Fri 11/27 closes 10:00 PT)"
- }
+  "entry_switch": "moved at 19:48:05Z to Mon 2026-11-30 12:05 PT (next_run_at 2026-11-30T20:05:00Z, enabled); Thu 11/26 is closed and Fri 11/27 closes at 10:00 PT"
+ },
+ "reflection_notes_2026-11-25": [
+  "Standby entry switch's stored prompt still says 'max $350 per name' and 'skip Fridays': FAILOVER.md overrides it and both are the stricter reading, but the text is stale against v1.16 ($600) and v1.16.7 (Friday entries). Health item for the reflection.",
+  "Macro: hard veto at 07:27 (VIX 34.08, +29%), no veto at 11:47 (VIX 28.28, +7%; SPY -0.4%). The 07:27 record's 'no new entry today whatever the breaker's state' overreached: the veto is read at each entry time."
+ ]
 }
