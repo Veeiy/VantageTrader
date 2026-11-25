@@ -83,5 +83,32 @@
   "QQQ": -0.0399,
   "IWM": -0.0186,
   "note": "SPY in the soft band (2% to under 3%)"
+ },
+ "sweep_1146": {
+  "at_utc": "2026-11-25T19:47:59Z",
+  "decision": "no_trade",
+  "placed": "nothing",
+  "reasons": [
+   "account breaker halted (gate 10): paper only, P089",
+   "no name to price: BMA (11/25 pm) and HUBG (11/27) have no 2026-11-27 expiry, first listed 2026-12-18"
+  ],
+  "macro_at_sweep": {
+   "SPY": -0.0043,
+   "QQQ": -0.01,
+   "IWM": 0.0059,
+   "VIX": 28.28,
+   "VIX_prev_close": 26.41,
+   "VIX_change": 0.071,
+   "reading": "neither the hard veto nor the soft band applies at 11:47 PT (VIX under 30 and up 7%, SPY -0.4%); the 07:27 reading was hard (VIX 34.08, +29%)"
+  },
+  "paper_records": "none: no name's only failed gate was the breaker, so the halt cost nothing and saved nothing on the earnings line today",
+  "non_earnings": "the 10 screen hits were not news-checked or priced; what the halt cost on that line today is not measured (the paper sweep of P089 covers the earnings gate only)",
+  "preflight": {
+   "account_value": 1419.69,
+   "buying_power": 993.89,
+   "cash": 993.89,
+   "positions": "DKS 120P x1 leftover, ANT 5 shares (owner hand)",
+   "hand_orders": "none since 19:16Z"
+  }
  }
 }
