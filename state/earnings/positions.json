@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-25T17:16:21Z",
+ "as_of": "2026-11-25T17:46:34Z",
  "account_value": 1383.09,
  "cap_total_max_loss": 1383.09,
  "execution": {
@@ -2807,5 +2807,11 @@
   "daemon": "replaced at its two-hour mark",
   "breaker": "halted",
   "macro": "hard veto day"
+ },
+ "check_2026-11-25_0945_midday": {
+  "at_utc": "2026-11-25T17:46:34Z",
+  "entries": "none: the watchlist is empty (BMA and HUBG have no 11/27 expiry), the breaker is halted and VIX 34 made it a hard macro veto day",
+  "requote": "nothing to re-quote",
+  "first_daemon": "07:17 to 09:18 PT: 30 cycles, no hand orders, no position changes, no errors"
  }
 }
