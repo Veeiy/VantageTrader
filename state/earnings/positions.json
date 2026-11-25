@@ -2870,7 +2870,8 @@
  },
  "reflection_notes_2026-11-25": [
   "Standby entry switch's stored prompt still says 'max $350 per name' and 'skip Fridays': FAILOVER.md overrides it and both are the stricter reading, but the text is stale against v1.16 ($600) and v1.16.7 (Friday entries). Health item for the reflection.",
-  "Macro: hard veto at 07:27 (VIX 34.08, +29%), no veto at 11:47 (VIX 28.28, +7%; SPY -0.4%). The 07:27 record's 'no new entry today whatever the breaker's state' overreached: the veto is read at each entry time."
+  "Macro: hard veto at 07:27 (VIX 34.08, +29%), no veto at 11:47 (VIX 28.28, +7%; SPY -0.4%). The 07:27 record's 'no new entry today whatever the breaker's state' overreached: the veto is read at each entry time.",
+  "Paper desk hand-back (12:18 PT): both odd records are explained. SPY's 702 body was picked at 07:15 and priced at 07:17, when spot had fallen 2 points (strike picked and priced two minutes apart on a fast open). AMD's -428.5 against a 373.5 max loss and META's natural past its max are deep in-the-money legs with wide 12:15 quotes, recorded as quoted and not capped. For the reflection: cap a paper result at the fly's max loss, and pick the strike from the same read that prices it."
  ],
  "check_2026-11-25_1216_hourly": {
   "at_utc": "2026-11-25T20:16:20Z",
