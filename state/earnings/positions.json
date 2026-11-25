@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-25T16:16:42Z",
+ "as_of": "2026-11-25T17:16:21Z",
  "account_value": 1383.09,
  "cap_total_max_loss": 1383.09,
  "execution": {
@@ -524,7 +524,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-25T16:16:35Z",
+  "last_query_utc": "2026-11-25T17:16:12Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -1840,10 +1840,11 @@
   "started_utc": "2026-11-25T15:17:08Z",
   "watching": "the account only (hand orders, positions that appear): nothing of the agent's is open",
   "cycle_seconds": 240,
-  "ends_utc": "2026-11-25T17:17:00Z",
-  "replace": "at the 09:16 PT check-in (two-hour age, P066), again at 11:15 PT, to 12:57 PT",
-  "watch_from_utc": "2026-11-25T15:16:37Z",
-  "known_hand_order_ids": "none today"
+  "ends_utc": "2026-11-25T19:17:00Z",
+  "replace": "second daemon of the day (the first ended at its two-hour mark, 17:17Z); a third from the 11:15 PT check-in to 12:57 PT",
+  "watch_from_utc": "2026-11-25T17:15:00Z",
+  "known_hand_order_ids": "none today",
+  "replaced_utc": "2026-11-25T17:16:21Z"
  },
  "check_2026-11-20_0554_preopen": {
   "at_utc": "2026-11-20T13:55:33Z",
@@ -2788,6 +2789,22 @@
    "IWM": 262.28
   },
   "note": "SPY -2.9%, QQQ -4.5%, IWM -1.8%. ANT -3.1% on the day. DKS 158.98.",
+  "breaker": "halted",
+  "macro": "hard veto day"
+ },
+ "check_2026-11-25_0916_hourly": {
+  "at_utc": "2026-11-25T17:16:21Z",
+  "positions": "match: DKS 120P x1 (leftover wing), ANT 5 shares (owner hand)",
+  "hand_orders": "none since 16:16Z (options and equity); the daemon has reported nothing",
+  "spots": {
+   "ANT": 81.3,
+   "DKS": 160.47,
+   "SPY": 708.04,
+   "QQQ": 621.0,
+   "IWM": 266.29
+  },
+  "note": "A bounce: SPY -1.5%, QQQ -2.7%, IWM -0.3% (from -2.9%, -4.5%, -1.8% an hour ago). ANT -0.7% on the day. DKS 160.47.",
+  "daemon": "replaced at its two-hour mark",
   "breaker": "halted",
   "macro": "hard veto day"
  }
