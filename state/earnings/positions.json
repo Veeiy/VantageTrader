@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-25T17:46:34Z",
+ "as_of": "2026-11-25T18:16:13Z",
  "account_value": 1383.09,
  "cap_total_max_loss": 1383.09,
  "execution": {
@@ -524,7 +524,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-25T17:16:12Z",
+  "last_query_utc": "2026-11-25T18:16:05Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -2813,5 +2813,20 @@
   "entries": "none: the watchlist is empty (BMA and HUBG have no 11/27 expiry), the breaker is halted and VIX 34 made it a hard macro veto day",
   "requote": "nothing to re-quote",
   "first_daemon": "07:17 to 09:18 PT: 30 cycles, no hand orders, no position changes, no errors"
+ },
+ "check_2026-11-25_1016_hourly": {
+  "at_utc": "2026-11-25T18:16:13Z",
+  "positions": "match: DKS 120P x1 (leftover wing), ANT 5 shares (owner hand)",
+  "hand_orders": "none since 17:46Z (options and equity); the daemon has reported nothing",
+  "spots": {
+   "ANT": 84.84,
+   "DKS": 160.24,
+   "SPY": 712.67,
+   "QQQ": 626.19,
+   "IWM": 267.8
+  },
+  "note": "The bounce continued: SPY -0.9%, QQQ -1.9%, IWM +0.2%. ANT +3.6% on the day (it was -7.8% at the open). DKS 160.24.",
+  "breaker": "halted",
+  "macro": "hard veto day (VIX 34 at 07:27)"
  }
 }
