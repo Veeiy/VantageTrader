@@ -1,7 +1,7 @@
 {
- "as_of": "2026-11-24T21:28:33Z",
- "account_value": 1409.47,
- "cap_total_max_loss": 1409.47,
+ "as_of": "2026-11-25T13:54:42Z",
+ "account_value": 1383.09,
+ "cap_total_max_loss": 1383.09,
  "execution": {
   "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
   "method": "single-leg limit orders: buy both wings first, then sell the body legs. To close: buy back the shorts first, then sell the wings. Never sell a wing while its short leg is open.",
@@ -60,8 +60,8 @@
   "total_max_loss_usd": 449.94,
   "exit_reserves_usd": 0.0,
   "used_usd": 449.94,
-  "cap_usd": 1409.47,
-  "free_usd": 959.53,
+  "cap_usd": 1383.09,
+  "free_usd": 933.15,
   "detail": "ANT 5 shares 449.94 at cost (owner hand). DKS closed 2026-11-24.",
   "cap_note": "Rules v1.11: the cap is the account value (Brad, 2026-11-13: 'I want you to be able to use the entire funds in the mcp account'). cap_usd is the account value at the last check; it is not lowered below the risk already open when marks fall (the cap binds at entry)."
  },
@@ -524,7 +524,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-24T20:57:13Z",
+  "last_query_utc": "2026-11-25T13:54:20Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -2682,5 +2682,32 @@
    "P088 and P091 deferred",
    "H006 and H012 retired"
   ]
+ },
+ "check_2026-11-25_0554_preopen": {
+  "at_utc": "2026-11-25T13:54:42Z",
+  "lease": "head",
+  "timer": "06:36 PT via scripts/earnings/timer.sh",
+  "due_today": "nothing live: no option position but the DKS 120P leftover (expires Fri). Paper marks at 06:38 PT: HPQ and LI.",
+  "hand_orders": "none since 2026-11-24T20:57Z (options and equity)",
+  "positions": "match: DKS 120P x1, ANT 5 shares; no assignment",
+  "cash_check": "cash 993.89, unchanged: no transfer",
+  "account": {
+   "total_value": 1383.09,
+   "buying_power": 993.89
+  },
+  "premarket": {
+   "SPY": 703.98,
+   "QQQ": 618.0,
+   "IWM": 263.42,
+   "ANT": 77.64,
+   "HPQ": 28.78,
+   "LI": 11.35,
+   "ADSK": 242.2,
+   "WDAY": 170.5,
+   "DELL": 274.25,
+   "AMBA": 30.6,
+   "note": "SPY -2.1%, QQQ -3.2%, IWM -1.4% before the open. HPQ +3.0% (0.28 over its 28.5 body); LI +6.1% (past the paper fly's 11.055 breakeven); ADSK -5.3%, WDAY -4.9%, DELL -7.1%, AMBA -31.2%. ANT -5.2%."
+  },
+  "breaker": "halted; no reset and no answer on P092 from Brad"
  }
 }
