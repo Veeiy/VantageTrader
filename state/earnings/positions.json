@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-25T18:16:13Z",
+ "as_of": "2026-11-25T19:17:34Z",
  "account_value": 1383.09,
  "cap_total_max_loss": 1383.09,
  "execution": {
@@ -524,7 +524,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-25T18:16:05Z",
+  "last_query_utc": "2026-11-25T19:16:40Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -1837,14 +1837,14 @@
   "buying_power": 1894.61
  },
  "daemon": {
-  "started_utc": "2026-11-25T15:17:08Z",
+  "started_utc": "2026-11-25T19:18:00Z",
   "watching": "the account only (hand orders, positions that appear): nothing of the agent's is open",
   "cycle_seconds": 240,
-  "ends_utc": "2026-11-25T19:17:00Z",
-  "replace": "second daemon of the day (the first ended at its two-hour mark, 17:17Z); a third from the 11:15 PT check-in to 12:57 PT",
-  "watch_from_utc": "2026-11-25T17:15:00Z",
+  "ends_utc": "2026-11-25T20:57:00Z",
+  "replace": "third and last daemon of the day (the second ended at its two-hour mark, 19:17Z); under two hours to 12:57 PT, so it is not replaced (P066)",
+  "watch_from_utc": "2026-11-25T19:16:40Z",
   "known_hand_order_ids": "none today",
-  "replaced_utc": "2026-11-25T17:16:21Z"
+  "replaced_utc": "2026-11-25T19:18:00Z"
  },
  "check_2026-11-20_0554_preopen": {
   "at_utc": "2026-11-20T13:55:33Z",
@@ -2828,5 +2828,22 @@
   "note": "The bounce continued: SPY -0.9%, QQQ -1.9%, IWM +0.2%. ANT +3.6% on the day (it was -7.8% at the open). DKS 160.24.",
   "breaker": "halted",
   "macro": "hard veto day (VIX 34 at 07:27)"
+ },
+ "check_2026-11-25_1116_hourly": {
+  "at_utc": "2026-11-25T19:16:47Z",
+  "positions": "match: DKS 120P x1 (leftover wing, no pending quantities), ANT 5 shares (owner hand)",
+  "hand_orders": "none since 18:16Z (options and equity); the second daemon reported nothing before its 19:17Z end",
+  "spots": {
+   "ANT": 85.75,
+   "DKS": 160.905,
+   "SPY": 717.21,
+   "QQQ": 633.46,
+   "IWM": 269.39,
+   "VIX": 27.91
+  },
+  "note": "Most of the morning's drop is gone: SPY -0.2%, QQQ -0.7%, IWM +0.8%, VIX 27.91 (+5.7% from 26.41; it was 34.08 at 07:27). ANT +4.7% on the day, 4.24 a share under the owner's 89.99 average. DKS +5.1% at 160.9.",
+  "daemon": "third account-watch daemon started 19:18Z, ends 20:57Z (P090: flat days too)",
+  "breaker": "halted",
+  "macro": "hard veto at the 07:27 reading; the 11:46 sweep re-reads it (at 19:16Z nothing hard or soft applies: SPY -0.2%, VIX +5.7% and under 30)"
  }
 }
