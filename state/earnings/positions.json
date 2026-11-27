@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-27T13:54:02Z",
+ "as_of": "2026-11-27T14:38:35Z",
  "account_value": 1422.39,
  "cap_total_max_loss": 1383.09,
  "execution": {
@@ -524,7 +524,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-27T13:53:40Z",
+  "last_query_utc": "2026-11-27T14:36:40Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -3012,5 +3012,27 @@
    "note": "the reflection of 11/25 recorded last trades (158.715, 82.85, 716.75, 633.95, 268.83); these are the official closes"
   },
   "breaker": "halted; no reset and no answer on P092 from Brad"
+ },
+ "check_2026-11-27_0636_exit": {
+  "at_utc": "2026-11-27T14:38:10Z",
+  "due": "none live",
+  "hand_orders_since_1353Z": "none",
+  "positions": "match: DKS 120P x1 (no pending quantities), ANT 5 shares",
+  "dks_120p": "bid 0.00 / ask 0.05 at 14:30Z: no bid, left to expire today (sellout 09:30 PT); re-read at the 07:15 run",
+  "switches": "exit switch Mon 11/30 07:25 PT and phone alert Mon 11/30 08:00 PT (moved 14:37Z)",
+  "pilot": "none: early-close day (P099) and the account breaker",
+  "paper_desk": "not started: early-close day (P099)",
+  "spread_scan": "Friday spread scan agent started 06:40 PT (25 names at most; writes daytrade/2026-11-27/scan.json by 07:22 PT; half day noted in the file)",
+  "scan": "window Fri pm / Mon am: CHA (scanner dropped), HUBG and BMA (monthly expiries only); nothing to price, no analyst",
+  "non_earnings_screen": "run: 2 hits (SHY, LBTYA), listed without a news check (P098)",
+  "spots": {
+   "SPY": 722.76,
+   "QQQ": 640.56,
+   "IWM": 271.76,
+   "VIX": 26.81,
+   "ANT": 87.095,
+   "DKS": 158.54
+  },
+  "note": "SPY +0.8%, QQQ +1.0%, IWM +1.1%, VIX 26.81 (-5%). ANT +5.2% at 87.10, 2.90 under the owner's 89.99."
  }
 }
