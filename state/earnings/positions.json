@@ -1,6 +1,6 @@
 {
- "as_of": "2026-11-25T21:32:34Z",
- "account_value": 1407.58,
+ "as_of": "2026-11-27T13:54:02Z",
+ "account_value": 1422.39,
  "cap_total_max_loss": 1383.09,
  "execution": {
   "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
@@ -524,7 +524,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-25T20:57:05Z",
+  "last_query_utc": "2026-11-27T13:53:40Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -2981,5 +2981,36 @@
   "reflection": "13:12 PT with the weekly scorecard: H008 at +14 / -9 (P093), P092, and the measures due by 11/27 (P036, P037, P083)",
   "switches": "exit switch Fri 07:25 PT and phone alert Fri 08:00 PT are set; entry switch Mon 11/30 12:05 PT",
   "text": "the early-close times are in hourly_monitor.md (EARLY-CLOSE DAYS, P099) and exit_scan.md part A2"
+ },
+ "check_2026-11-27_0553_preopen": {
+  "at_utc": "2026-11-27T13:53:45Z",
+  "lease": "head",
+  "timer": "06:36 PT via scripts/earnings/timer.sh",
+  "calendar": "early-close day: NYSE closes 10:00 PT (hourly_monitor.md EARLY-CLOSE DAYS, P099)",
+  "due_today": "nothing live. DKS 120P leftover expires today (sellout 09:30 PT): at 06:38 sell 1 to close at the bid if it shows 0.01 or more (option id 67cbe4c8-8309-4eb7-8b3b-31850219d649), else leave it to expire; DKS is 39 points above the strike.",
+  "hand_orders": "none since 2026-11-25T20:57Z (options and equity)",
+  "positions": "match: DKS 120P x1 (no pending quantities), ANT 5 shares; no assignment",
+  "cash_check": "cash 993.89, unchanged: no transfer",
+  "account": {
+   "total_value": 1422.39,
+   "buying_power": 993.89
+  },
+  "premarket": {
+   "SPY": 728.18,
+   "QQQ": 648.62,
+   "IWM": 272.46,
+   "ANT": 85.5,
+   "DKS": 159.05,
+   "note": "SPY +1.6%, QQQ +2.3%, IWM +1.3% before the open. ANT +3.3% (85.50). DKS +0.3%."
+  },
+  "official_closes_2026-11-25": {
+   "DKS": 158.59,
+   "ANT": 82.79,
+   "SPY": 716.7,
+   "QQQ": 633.93,
+   "IWM": 268.87,
+   "note": "the reflection of 11/25 recorded last trades (158.715, 82.85, 716.75, 633.95, 268.83); these are the official closes"
+  },
+  "breaker": "halted; no reset and no answer on P092 from Brad"
  }
 }
