@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-27T14:38:35Z",
+ "as_of": "2026-11-27T15:17:15Z",
  "account_value": 1422.39,
  "cap_total_max_loss": 1383.09,
  "execution": {
@@ -524,7 +524,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-27T14:36:40Z",
+  "last_query_utc": "2026-11-27T15:16:49Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -1837,14 +1837,13 @@
   "buying_power": 1894.61
  },
  "daemon": {
-  "started_utc": "2026-11-25T19:18:00Z",
+  "started_utc": "2026-11-27T15:17:15Z",
   "watching": "the account only (hand orders, positions that appear): nothing of the agent's is open",
   "cycle_seconds": 240,
-  "ends_utc": "2026-11-25T20:57:00Z",
-  "replace": "third and last daemon of the day (the second ended at its two-hour mark, 19:17Z); under two hours to 12:57 PT, so it is not replaced (P066)",
-  "watch_from_utc": "2026-11-25T19:16:40Z",
-  "known_hand_order_ids": "none today",
-  "replaced_utc": "2026-11-25T19:18:00Z"
+  "ends_utc": "2026-11-27T17:57:00Z",
+  "replace": "the only daemon of the day: early close at 10:00 PT, so it ends 09:57 PT and is not replaced (hourly_monitor.md EARLY-CLOSE DAYS, P099)",
+  "watch_from_utc": "2026-11-27T15:16:49Z",
+  "known_hand_order_ids": "none today"
  },
  "check_2026-11-20_0554_preopen": {
   "at_utc": "2026-11-20T13:55:33Z",
@@ -3037,5 +3036,22 @@
  },
  "reflection_notes_2026-11-27": [
   "Spread scan: the universe file (universe_2026-11-16.json) carries no expiry dated 2026-11-27, so the scan agent picked names by class (daily and Mon/Wed/Fri) and left out all 40 weekly names. The file needs a refresh before the next Friday scan, or the brief should pick by class when the date is missing. Cost of the scan agent to check against P074's $4."
- ]
+ ],
+ "check_2026-11-27_0716_hourly": {
+  "at_utc": "2026-11-27T15:16:52Z",
+  "positions": "match: DKS 120P x1 (leftover wing, no pending quantities), ANT 5 shares (owner hand)",
+  "hand_orders": "none since 14:36Z (options and equity)",
+  "dks_120p": "bid 0.00 / ask 0.05: no bid; a long wing with nothing short against it, so the 08:00 PT flat rule has nothing to close",
+  "spots": {
+   "ANT": 88.2,
+   "DKS": 163.27,
+   "SPY": 722.205,
+   "QQQ": 640.63,
+   "IWM": 271.46
+  },
+  "note": "SPY +0.8%, QQQ +1.1%, IWM +1.0%. ANT +6.5% on the day at 88.20, 1.79 under the owner's 89.99. DKS +3.0% at 163.27.",
+  "daemon": "account watch started (P090 day 2; ends 09:57 PT)",
+  "paper_desk": "not started (early-close day, P099)",
+  "breaker": "halted"
+ }
 }
