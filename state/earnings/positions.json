@@ -3022,7 +3022,7 @@
   "switches": "exit switch Mon 11/30 07:25 PT and phone alert Mon 11/30 08:00 PT (moved 14:37Z)",
   "pilot": "none: early-close day (P099) and the account breaker",
   "paper_desk": "not started: early-close day (P099)",
-  "spread_scan": "Friday spread scan agent started 06:40 PT (25 names at most; writes daytrade/2026-11-27/scan.json by 07:22 PT; half day noted in the file)",
+  "spread_scan": "done 06:58 PT: 25 names, 97 tool calls, no errors (daytrade/2026-11-27/scan.json, half day). Lowest cost share: QQQ 1.5%, SPY 2.4%, SPX 2.9%, NVDA 3.2%, XSP 4.9%, SPCX 6.1%, IWM 6.4% (the probe name; max loss 59).",
   "scan": "window Fri pm / Mon am: CHA (scanner dropped), HUBG and BMA (monthly expiries only); nothing to price, no analyst",
   "non_earnings_screen": "run: 2 hits (SHY, LBTYA), listed without a news check (P098)",
   "spots": {
@@ -3034,5 +3034,8 @@
    "DKS": 158.54
   },
   "note": "SPY +0.8%, QQQ +1.0%, IWM +1.1%, VIX 26.81 (-5%). ANT +5.2% at 87.10, 2.90 under the owner's 89.99."
- }
+ },
+ "reflection_notes_2026-11-27": [
+  "Spread scan: the universe file (universe_2026-11-16.json) carries no expiry dated 2026-11-27, so the scan agent picked names by class (daily and Mon/Wed/Fri) and left out all 40 weekly names. The file needs a refresh before the next Friday scan, or the brief should pick by class when the date is missing. Cost of the scan agent to check against P074's $4."
+ ]
 }
