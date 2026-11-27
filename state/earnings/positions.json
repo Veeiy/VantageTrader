@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-27T16:16:27Z",
+ "as_of": "2026-11-27T17:16:23Z",
  "account_value": 1422.39,
  "cap_total_max_loss": 1383.09,
  "execution": {
@@ -524,7 +524,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-27T16:16:15Z",
+  "last_query_utc": "2026-11-27T17:16:07Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -3068,6 +3068,44 @@
   },
   "note": "SPY +1.1%, QQQ +1.6%, IWM +1.3%. ANT +8.4% on the day at 89.78, 0.21 under the owner's 89.99 average. DKS +2.5% at 162.60.",
   "next": "the 09:15 PT run starts the 09:57 PT last-look timer and reads the DKS 135C and 150C for P088",
+  "breaker": "halted"
+ },
+ "check_2026-11-27_0916_hourly": {
+  "at_utc": "2026-11-27T17:16:10Z",
+  "positions": "match: DKS 120P x1 (leftover wing, no pending quantities), ANT 5 shares (owner hand)",
+  "hand_orders": "none since 16:16Z (options and equity); the daemon has reported nothing",
+  "spots": {
+   "ANT": 91.87,
+   "DKS": 163.35,
+   "SPY": 726.44,
+   "QQQ": 646.74,
+   "IWM": 273.115
+  },
+  "note": "SPY +1.4%, QQQ +2.0%, IWM +1.6%. ANT +11.0% on the day at 91.87: 1.88 above the owner's 89.99 average for the first time since he bought (+9.40 on 5 shares).",
+  "last_look": "timer started for 09:57 PT (timer.sh)",
+  "p088_dks_read_0916": {
+   "DKS": 163.35,
+   "135C": [
+    26.9,
+    29.2
+   ],
+   "150C": [
+    12.8,
+    14.2
+   ],
+   "135P": [
+    0.0,
+    2.15
+   ],
+   "120P": [
+    0.0,
+    0.05
+   ],
+   "close_cost_mid": 14.55,
+   "close_cost_natural": 18.55,
+   "value_at_expiry_if_above_150": 15.0,
+   "note": "The fly closed Tuesday at 13.50 (-275.33) would be worth its full 15.00 width at this price: holding costs 425 before fees, so closing saved about 150. The natural reads 18.55, above the width: wide quotes on the in-the-money call and a 2.15 ask on a worthless put. Final read at 09:57."
+  },
   "breaker": "halted"
  }
 }
