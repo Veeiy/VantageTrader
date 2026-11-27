@@ -41,11 +41,12 @@
     "told": "2026-11-27, in the reflection message (about 13:45 PT)",
     "share_at_cost": 0.3096,
     "account_value": 1453.19,
-    "over_since": "the 2026-11-24 close: 32.0% (account about 1,407 after the DKS loss and his 200 out), 32.0% on 11/25, 31.0% on 11/27; 23% on 11/23",
+    "over_since": "the 2026-11-24 close: 31.9% (449.94 of 1,409.47, after the DKS loss and his 200 out), 32.0% on 11/25 (1,407.58), 31.0% on 11/27 (1,453.19 at 13:13 PT); 23.1% on 11/23. Corrects the 32.0% written for 11/24 in the P103 ledger line.",
     "trim": "1 share: 4 shares at cost are 359.95, 24.8% of the account",
     "his_words": "'trim ANT' (the agent sells 1 share with a limit order), 'no ceiling' (the 30% line is set aside, P044), or nothing (his position stays as it is)",
     "answer": null,
-    "ref": "P103"
+    "ref": "P103",
+    "on_record_before_today": "nothing in the reflections of 11/24 and 11/25 or in positions.json"
    }
   }
  ],
