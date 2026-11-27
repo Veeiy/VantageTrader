@@ -113,6 +113,7 @@ from .projection import implied_sigma, straddle
 NEWS_EXEMPT_FLAGS = {"big_intraday_move"}
 SOFT_PREFIX = "soft:"     # v1.14: a flag or a macro_veto string that starts with this is a soft condition
 EPS = 1e-9
+NAME_CEILING_FRAC = 0.30   # P044: the owner's per-name ceiling, a share of the account value ("no ceiling" sets it aside)
 
 
 # ---------------------------------------------------------------- shared helpers
@@ -512,6 +513,14 @@ def evaluate(raw: Any, cfg: dict[str, Any], journal_events: list[dict[str, Any]]
     wk_frac = float(cfg["weekend_size_frac"]) if c["weekend_hold"] else 1.0
     frac = min(nm_frac, pr_frac, wk_frac)
     name_cap = round(name_cap * frac, 2)
+    # P044 (2026-11-16) / P103 (2026-11-27): no name carries more than 30% of the account value in
+    # max loss. The dollar caps sat under that line while the account was above $2,000; on a smaller
+    # account the ceiling is the tighter limit and takes the cap's place. The size factors above do
+    # not shrink it: it is a ceiling on the name, not a size.
+    name_ceiling = round(NAME_CEILING_FRAC * c["account_value"], 2)
+    ceiling_binds = name_ceiling < name_cap
+    if ceiling_binds:
+        name_cap = name_ceiling
     plan = sizing.plan(ml_unit, reserve, c["account_value"], c["open_risk_usd"],
                        dict(cfg, name_risk_cap=name_cap, name_risk_frac=cfg["name_risk_frac"] * frac),
                        held_qty=held_qty, held_max_loss=held_ml, phase=phase)
@@ -556,7 +565,9 @@ def evaluate(raw: Any, cfg: dict[str, Any], journal_events: list[dict[str, Any]]
               + (f"; prudential ({', '.join(prudential)}, v1.14): {pr_frac} of the target and of the cap"
                  if prudential else "")
               + (f"; the smaller factor applies, not the product: {frac}"
-                 if band == "near_miss" and prudential else "")),
+                 if band == "near_miss" and prudential else "")
+              + (f"; the 30% per-name ceiling (P044) is the limit here: {name_ceiling} of an account of "
+                 f"{c['account_value']}" if ceiling_binds else "")),
         reason=("name_risk_cap" if name_ml is not None and name_ml > name_cap + EPS
                 else (plan["binding"] or "name_risk_cap")))
     # 15 risk budget
@@ -635,7 +646,7 @@ def evaluate(raw: Any, cfg: dict[str, Any], journal_events: list[dict[str, Any]]
             "risk_cap": cap, "open_risk_usd": c["open_risk_usd"], "budget_before": budget,
             "exit_reserve_per_contract": reserve,
             "spread_band_cap": cfg["wide_spread_max_loss"] if wide else None,
-            "name_risk_cap": name_cap, "name_target": plan["target"],
+            "name_risk_cap": name_cap, "name_ceiling_usd": name_ceiling, "name_target": plan["target"],
             "this_trade_usd": need if action == "sell" else 0.0,
             "budget_left": round(budget - (need if action == "sell" else 0.0), 2),
         },

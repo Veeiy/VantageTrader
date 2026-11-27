@@ -187,6 +187,23 @@ def test_one_contract_between_350_and_600_passes_at_a_tight_spread_only():
     assert code == 3 and rec["reason"] == "name_risk_cap"
 
 
+def test_the_30pct_ceiling_takes_the_place_of_the_name_cap_on_a_small_account():
+    # P044 / P103 (2026-11-27): at $1,450 of account the $600 name cap is 41% of it; the owner's
+    # per-name ceiling is 30%. The fly that passes at $2,000 (about $500 of max loss) is blocked.
+    mid_fly = {"call_strike": 114.0, "put_strike": 86.0, "call": {"bid": 0.2, "ask": 0.3}, "put": {"bid": 0.2, "ask": 0.3}}
+    rec, code = run(cand(WIDE, wings=mid_fly, account_value=1450))
+    assert 435.0 < rec["max_loss"]["floor"] <= 600.0
+    assert code == 3 and rec["reason"] == "name_risk_cap" and rec["contracts"] == 0
+    assert g(rec, "name_risk")["limit"] == pytest.approx(435.0) and rec["risk"]["name_ceiling_usd"] == pytest.approx(435.0)
+    assert "30% per-name ceiling" in g(rec, "name_risk")["note"]
+    # at $2,000 the ceiling ($600) equals the cap and changes nothing
+    rec, code = run(cand(WIDE, wings=mid_fly))
+    assert code == 0 and g(rec, "name_risk")["limit"] == 600.0 and "ceiling" not in g(rec, "name_risk")["note"]
+    # a half-size tier stays at half the cap when that is under the ceiling
+    rec, _ = run(cand(WIDE, wings=mid_fly, account_value=1450, weekend_hold=True))
+    assert g(rec, "name_risk")["limit"] == pytest.approx(300.0)
+
+
 def test_spread_above_12pct_caps_max_loss_at_350():
     rec, code = run(cand(WIDE, call={"bid": 4.6, "ask": 5.4}, put={"bid": 4.6, "ask": 5.4}))   # 16%
     assert code == 3 and g(rec, "name_risk")["pass"] is False

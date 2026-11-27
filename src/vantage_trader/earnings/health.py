@@ -41,6 +41,7 @@ def _lease(path: str | None) -> str:
 
 
 FUTURE_TOLERANCE = timedelta(minutes=2)
+NAME_CEILING_FRAC = 0.30   # P044: the same line the gate applies to the agent's own entries
 
 
 def _ts(value: Any) -> datetime | None:
@@ -110,6 +111,31 @@ def selfcheck(journal: str, metrics: str, positions: str, lessons: str, proposal
         if total > float(risk["cap_usd"]) + 1e-9:
             raise ValueError(f"max loss plus reserves {total} is above the cap {risk['cap_usd']}")
         return f"{total:.0f} of {float(risk['cap_usd']):.0f}"
+
+    def name_within_ceiling() -> str:
+        # P044 / P103 (2026-11-27): no name carries more than 30% of the account value in max loss.
+        # ANT (Brad's 5 shares, 449.94 at cost) went from 23% to 32% of the account on 2026-11-24
+        # when the account shrank (a loss and a withdrawal), and three closes passed without a
+        # word to him. A name above the line is allowed only with a ``ceiling_notice`` on the
+        # position: the day he was told, with the share and the trim.
+        value = loaded["positions"].get("account_value")
+        opens = loaded["positions"].get("open", []) or []
+        if not opens:
+            return "flat"
+        if not isinstance(value, (int, float)) or value <= 0:
+            return "no account value on file: not checked"
+        over, noted = [], []
+        for o in opens:
+            ml = float(o.get("max_loss_usd") or 0)
+            if ml > NAME_CEILING_FRAC * float(value) + 0.005:
+                label = f"{str(o.get('symbol')).upper()} {ml:.2f} = {ml / float(value):.1%} of {float(value):.2f}"
+                (noted if o.get("ceiling_notice") else over).append(label)
+        if over:
+            raise ValueError("above the 30% per-name ceiling (P044) with no ceiling_notice on the position: "
+                             + "; ".join(over) + ". Tell Brad the share and the trim, then record it")
+        if noted:
+            return "above the ceiling, owner told: " + "; ".join(noted)
+        return f"{len(opens)} name(s) at or under 30% of {float(value):.2f}"
 
     def no_future_timestamps() -> str:
         # Twice on 2026-11-13 the head wrote ledger times ahead of the clock (P037).
@@ -211,4 +237,5 @@ def selfcheck(journal: str, metrics: str, positions: str, lessons: str, proposal
         run("metrics_match_positions", metrics_match_positions)
     if "positions" in loaded:
         run("risk_within_cap", risk_within_cap)
+        run("name_within_ceiling", name_within_ceiling)
     return {"ok": all(c["ok"] for c in checks), "checks": checks}

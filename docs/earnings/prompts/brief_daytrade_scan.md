@@ -28,9 +28,16 @@ transient error wait 15 s and retry, at most 3 times. Do the arithmetic with pyt
 
 STEP 0. If the Pacific time is before 06:50, wait until 06:50 (python3 -c "import time;
 time.sleep(N)" with N at most 240, repeated as needed). Read the universe file with python and list the names whose
-expiries["{TODAY}"] is true and blocked is false. Never include TSLA. AT MOST 25 NAMES (P074, 2026-11-20: the 40-name scan cost $9 in 57 calls; target $4 or less, at most 120 tool calls in all): every
-name of class "daily" and "mon_wed_fri" first, then "other" and "weekly" names by
-avg_options_volume (highest first) until the list holds 25. Say in the output which names were
+expiries["{TODAY}"] is true and blocked is false. IF THE FILE HAS NO "{TODAY}" KEY FOR ANY NAME
+(P100, 2026-11-27: the file of 2026-11-16 maps expiries only to 11/24) select by class instead:
+"daily" names every day, "mon_wed_fri" names on Monday, Wednesday and Friday, "weekly" names on
+Friday (on Thursday when Friday is a market holiday), "other" names never; STEP 2's instrument
+query then confirms each expiry (no rows = reason "no_expiry", skip the name). Write
+"selection":{"by":"class","reason":"no date key"} in the output so the head refreshes the file. Never include TSLA. AT MOST 25 NAMES (P074, 2026-11-20: the 40-name scan cost $9 in 57 calls; target $4 or less, at most 120 tool calls in all): every
+name of class "daily" first, then "mon_wed_fri" names by avg_options_volume (highest first),
+then "other" and "weekly" names by avg_options_volume, until the list holds 25. On a Friday
+the daily and mon_wed_fri names alone number 29, so the four mon_wed_fri names with the lowest
+volume and every weekly name are left out by the cap (P074), not by the file. Say in the output which names were
 left out.
 
 STEP 1, SPOT. get_equity_quotes for the stock and fund names (batches of 20): spot =

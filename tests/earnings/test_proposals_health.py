@@ -110,6 +110,25 @@ def test_selfcheck_flags_an_exit_ratio_written_as_a_difference(tmp_path):
     assert health.selfcheck(**f)["ok"] is True
 
 
+def test_selfcheck_flags_a_name_above_the_30pct_ceiling_until_the_owner_is_told(tmp_path):
+    # P103: Brad's ANT shares (449.94 at cost) were 32% of a shrunken account for three closes, unsaid.
+    f = _files(tmp_path)
+    pos = json.loads(open(f["positions"]).read())
+    assert "name_within_ceiling" in {c["check"] for c in health.selfcheck(**f)["checks"]}     # no account value: skipped, ok
+    pos["account_value"] = 500.0                                   # 172 of 500 = 34%
+    open(f["positions"], "w").write(json.dumps(pos))
+    out = health.selfcheck(**f)
+    assert [c["check"] for c in out["checks"] if not c["ok"]] == ["name_within_ceiling"]
+    pos["open"][0]["ceiling_notice"] = {"told": "2026-11-27", "share": 0.34, "trim": "1 contract"}
+    open(f["positions"], "w").write(json.dumps(pos))
+    out = health.selfcheck(**f)
+    assert out["ok"] is True and "owner told" in next(c["detail"] for c in out["checks"] if c["check"] == "name_within_ceiling")
+    pos["account_value"] = 1000.0                                  # 17%: under the line
+    del pos["open"][0]["ceiling_notice"]
+    open(f["positions"], "w").write(json.dumps(pos))
+    assert health.selfcheck(**f)["ok"] is True
+
+
 def test_selfcheck_flags_a_paper_result_under_its_max_loss(tmp_path):
     # P094: a desk result priced from wide quotes read worse than the fly could lose.
     f = _files(tmp_path)

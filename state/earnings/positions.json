@@ -1,7 +1,7 @@
 {
- "as_of": "2026-11-27T17:57:26Z",
- "account_value": 1422.39,
- "cap_total_max_loss": 1383.09,
+ "as_of": "2026-11-27T21:30:40Z",
+ "account_value": 1453.19,
+ "cap_total_max_loss": 1453.19,
  "execution": {
   "multi_leg_orders": "blocked by Robinhood for agent-placed orders (2026-11-10)",
   "method": "single-leg limit orders: buy both wings first, then sell the body legs. To close: buy back the shorts first, then sell the wings. Never sell a wing while its short leg is open.",
@@ -25,8 +25,8 @@
     "exit": "Brad's call; the agent closes it only on his word"
    },
    "ceiling_P044": {
-    "share": 0.231,
-    "note": "under the 30% ceiling since Brad's Sunday sale"
+    "share": 0.3096,
+    "note": "31.0% of the account at cost on 2026-11-27 (1,453.19); it was 23.1% after Brad's Sunday sale and went over 30% at the 2026-11-24 close when the account shrank. See ceiling_notice."
    },
    "hand_orders": [
     {
@@ -36,7 +36,17 @@
      "price": 91.1,
      "filled_utc": "2026-11-23T01:29:33Z"
     }
-   ]
+   ],
+   "ceiling_notice": {
+    "told": "2026-11-27, in the reflection message (about 13:45 PT)",
+    "share_at_cost": 0.3096,
+    "account_value": 1453.19,
+    "over_since": "the 2026-11-24 close: 32.0% (account about 1,407 after the DKS loss and his 200 out), 32.0% on 11/25, 31.0% on 11/27; 23% on 11/23",
+    "trim": "1 share: 4 shares at cost are 359.95, 24.8% of the account",
+    "his_words": "'trim ANT' (the agent sells 1 share with a limit order), 'no ceiling' (the 30% line is set aside, P044), or nothing (his position stays as it is)",
+    "answer": null,
+    "ref": "P103"
+   }
   }
  ],
  "blockers": [
@@ -60,9 +70,9 @@
   "total_max_loss_usd": 449.94,
   "exit_reserves_usd": 0.0,
   "used_usd": 449.94,
-  "cap_usd": 1383.09,
-  "free_usd": 933.15,
-  "detail": "ANT 5 shares 449.94 at cost (owner hand). DKS closed 2026-11-24.",
+  "cap_usd": 1453.19,
+  "free_usd": 1003.25,
+  "detail": "ANT 5 shares 449.94 at cost (owner hand), 31.0% of the account value of 1,453.19 read at 13:13 PT 2026-11-27 (ANT at 91.66 after hours).",
   "cap_note": "Rules v1.11: the cap is the account value (Brad, 2026-11-13: 'I want you to be able to use the entire funds in the mcp account'). cap_usd is the account value at the last check; it is not lowered below the risk already open when marks fall (the cap binds at entry)."
  },
  "eod_note": "2026-11-13 close: PCG x5 open (fly 0.585 at closing mids, +$33.50; about flat on the day, account +$5). No fills today. Account 1,250.91, buying power 1,040.91, risk used 224. Two losses in a row stand (LUNR, NVDA): a third pauses new entries.",
@@ -524,7 +534,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-27T17:57:05Z",
+  "last_query_utc": "2026-11-27T21:13:40Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -764,7 +774,7 @@
    "option_id": "67cbe4c8-8309-4eb7-8b3b-31850219d649",
    "quantity": 1,
    "expiry": "2026-11-27",
-   "plan": "no bid (0.00 / 0.05). Sold if it shows a bid of 0.01 or more; otherwise it expires Fri 2026-11-27 (early close: sellout 09:30 PT). 31 points out of the money: no exercise risk."
+   "plan": "PENDING EXPIRATION: no bid all session on 2026-11-27; get_option_positions at 13:13 PT shows pending_expiration_quantity 1 (DKS 164.60 at the last regular trade, 44 points above the strike). Confirm it gone at the Mon 2026-11-30 pre-open, then remove this entry."
   }
  ],
  "morning_note_2026-11-17": "06:36 PT timer run. JD x3 and AS x1 closed by legs between 06:38 and 06:40 PT: JD +$3.16, AS -$0.28. The day's one multi-leg attempt went to HD x2 and was refused at placement (the review passed). HD is Brad's to close: ticket and two pushes sent; a read-only agent watches HD and his orders until 12:57 PT. The switches stay where they are while HD is open. The same-day pilot is blocked while HD is open (exits_pending).",
@@ -3161,5 +3171,65 @@
    "closing_saved_usd": 149.67,
    "note": "DKS finishes 14 points above the 150 wing: the fly is worth its full 15.00 width. On 11/24 the mid test (12.88, under 13.50) said leg out and the natural test (15.00) would have said hold: they disagree by about 150, above P088's 100 line, and the mid test was the right one here."
   }
+ },
+ "reflection_2026-11-27": {
+  "at_utc": "2026-11-27T21:30:40Z",
+  "file": "state/earnings/reflections/2026-11-27.md",
+  "scorecard": "state/earnings/reflections/scorecard_2026-11-27.md",
+  "orders_whole_day": "none: get_option_orders and get_equity_orders since 00:00Z, agent or owner",
+  "positions": "ANT 5 sh (owner hand); DKS 120P x1 pending expiration",
+  "last_regular_trades_0959_59_pt": {
+   "ANT": 91.74,
+   "DKS": 164.6,
+   "SPY": 728.73,
+   "QQQ": 650.76,
+   "IWM": 273.79
+  },
+  "after_hours_1313_pt": {
+   "ANT": 91.66
+  },
+  "vix_settle_1015_pt": 23.81,
+  "official_closes": "not yet in the quote close field at 13:13 PT (it still shows 2026-11-25): read them at the Monday pre-open",
+  "portfolio_1313_pt": {
+   "total_value": 1453.19,
+   "equity_value": 458.3,
+   "options_value": 1.0,
+   "cash": 993.89,
+   "buying_power": 993.89
+  },
+  "week_realized_usd": -258.69,
+  "since_start_usd": 95.63,
+  "same_hours_row": "not added: half session (P101)",
+  "decided": {
+   "P088": "the mid stays the v1.2.2 test (approved, reviewed at 8 exits)",
+   "P093": "declined; H008 and H001 back to hypothesis",
+   "P100": "scan brief by class",
+   "P101": "reflection text on an early-close day",
+   "P102": "57 open loops, 20 a Saturday",
+   "P103": "30% ceiling in the gate and in selfcheck"
+  },
+  "verified": {
+   "P036": "worked",
+   "P037": "worked",
+   "P099": "worked",
+   "P083": "inconclusive"
+  },
+  "gate_name_cap_now": "min(600, 0.30 x 1453.19) = 435.96 for a core earnings fly; 350 wide-spread, 300 half-size and 400 non-earnings are under it"
+ },
+ "next_2026-11-28_research": {
+  "when": "Sat 2026-11-28 09:00 PT (trig_01KLhgm9Zmpwv2gFcbHkeFAv)",
+  "items": [
+   "P070: the exit-priced filter against its pass bar of 2026-11-21 (PLAN.md section 9 item 5)",
+   "the week's earnings replay (item 2)",
+   "P102: verify or re-date the first 20 implemented proposals with no verified event, oldest first",
+   "if time: rebuild the same-day universe file (P100; due before 2026-12-17)"
+  ]
+ },
+ "monday_2026-11-30": {
+  "preopen_0552": "confirm the DKS 120P gone and remove it from leftover_long_wings; read the official 2026-11-27 closes (ANT, DKS, SPY, QQQ, IWM) into the record; cash check against 993.89; update account_value so name_within_ceiling reads the day",
+  "exit_0636": "nothing due",
+  "scan": "RBRK reports after the close: Monday's entry window. Breaker halted unless Brad speaks: the sweep prices it on paper when the breaker is its only failed gate (P089, first test). CHA reports before the open (dropped by the scanner on 11/27).",
+  "gate": "the name cap is min(dollar cap, 30% of the account value) since 2026-11-27 (P103)",
+  "switches": "standby exit Mon 07:25 PT, plain alert Mon 08:00 PT, standby entry Mon 12:05 PT (already set)"
  }
 }

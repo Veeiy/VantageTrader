@@ -8,12 +8,19 @@ at what size, what is only tested, and what has to be true before anything grows
 by ledgered decisions (`state/earnings/proposals.jsonl`), not by mood.
 
 ## 1. Where things stand
-- Live record (2026-11-20): 17 closed trades, 10 wins, +$354 since the start (+$388 this week).
-  Earnings flies carry it: +$508 this week on 8 trades. The same-day pilot is -$28 on 3 trades.
-- Account $1,874 at the 2026-11-20 close, about 94% of it in Brad's own ANT shares; buying
-  power $103. The agent opens nothing new while that holds.
-- Still no proven edge: 17 trades is too few. Fills, not signals, decide the small trades (paper:
-  +$3,344 at the mid, -$1,258 at the natural over 70 scored).
+- Live record (2026-11-27): 18 closed trades, 10 wins, +$96 since the start (-$259 this week).
+  The week's one live trade was DKS, an owner-lane fly through four waived gates: -$275. The
+  agent's own gates opened nothing. The same-day pilot stays at -$28 on 3 trades.
+- The account breaker has been halted since 2026-11-24 (three losses in a row, one of them
+  Brad's ANT stock trade). It lifts on his words only: "reset breaker", or "yes P092" to count
+  option structures only.
+- Account $1,453 on 2026-11-27; buying power $994. Brad's 5 ANT shares are 31% of it at cost,
+  just over his 30% per-name ceiling, which the gate now applies to every entry (P103): at this
+  size no name may risk more than $436.
+- Still no proven edge: 18 trades is too few. Fills, not signals, decide the small trades. Paper,
+  kept apart since 2026-11-25: the same-day desk is -$1,021 at the mid over 78 flies (-$2,941 to
+  -$3,801 at the natural); this week's nine skipped earnings names sum to -$1,126 at 1x after
+  cost, so the gates earned their keep.
 - Research 2026-11-21: the overnight line failed its test (60 nights, 3 funds, -$12 a fly after
   costs) and is dropped. The earnings replay grew to 183 events: the premium holds (short straddle
   +10%, t 3.5), the capped fly is near zero at a 7% cost (+$2.3, se $10) and about +$15 at the
