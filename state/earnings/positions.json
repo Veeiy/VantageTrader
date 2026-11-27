@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-27T17:16:23Z",
+ "as_of": "2026-11-27T17:57:26Z",
  "account_value": 1422.39,
  "cap_total_max_loss": 1383.09,
  "execution": {
@@ -524,7 +524,7 @@
   "note": "Brad added 800. No new trade: the entry window closed at 12:35 PT and nothing else on the list has edge. The money is the exit cushion."
  },
  "hand_order_watch": {
-  "last_query_utc": "2026-11-27T17:16:07Z",
+  "last_query_utc": "2026-11-27T17:57:05Z",
   "known_hand_order_ids": [
    "6afb68fd-21cf-47fd-a743-31dc2466a80c",
    "6afb6910-9fcc-44e9-8235-050faabbdeac",
@@ -3107,5 +3107,59 @@
    "note": "The fly closed Tuesday at 13.50 (-275.33) would be worth its full 15.00 width at this price: holding costs 425 before fees, so closing saved about 150. The natural reads 18.55, above the width: wide quotes on the in-the-money call and a 2.15 ask on a worthless put. Final read at 09:57."
   },
   "breaker": "halted"
+ },
+ "check_2026-11-27_0957_last_look": {
+  "at_utc": "2026-11-27T17:57:08Z",
+  "orders_today": "none at all (options and equity, agent or owner) since 00:00 PT",
+  "positions": "match: DKS 120P x1 (no pending quantities; it expires worthless at the close), ANT 5 shares (owner hand)",
+  "spots_0957": {
+   "ANT": 92.41,
+   "DKS": 164.43,
+   "SPY": 726.97,
+   "QQQ": 648.26,
+   "IWM": 273.21,
+   "VIX": 24.42,
+   "CHA": 10.71,
+   "HUBG": 22.91,
+   "BMA": 52.33
+  },
+  "prev_close": {
+   "ANT": 82.79,
+   "DKS": 158.59,
+   "SPY": 716.7,
+   "QQQ": 633.93,
+   "IWM": 268.87,
+   "VIX": 28.29,
+   "CHA": 10.77,
+   "HUBG": 23.28,
+   "BMA": 50.35
+  },
+  "note": "Three minutes before the 10:00 PT close: SPY +1.4%, QQQ +2.3%, IWM +1.6%, VIX 24.42 (-14%). ANT +11.6% at 92.41, 2.42 above the owner's 89.99 (+12.10 on 5 shares).",
+  "p088_dks_read_0957": {
+   "DKS": 164.43,
+   "135C": [
+    27.8,
+    30.2
+   ],
+   "150C": [
+    13.5,
+    15.2
+   ],
+   "135P": [
+    0.0,
+    2.15
+   ],
+   "120P": [
+    0.0,
+    0.05
+   ],
+   "close_cost_mid": 14.65,
+   "close_cost_natural": 18.85,
+   "value_at_expiry": 15.0,
+   "hold_result_usd": -425.0,
+   "closed_result_usd": -275.33,
+   "closing_saved_usd": 149.67,
+   "note": "DKS finishes 14 points above the 150 wing: the fly is worth its full 15.00 width. On 11/24 the mid test (12.88, under 13.50) said leg out and the natural test (15.00) would have said hold: they disagree by about 150, above P088's 100 line, and the mid test was the right one here."
+  }
  }
 }
