@@ -2171,14 +2171,14 @@
   "SPY": "-3.1% (693.56): hard macro veto level"
  },
  "hub": {
-  "refreshed_utc": "2026-11-25T21:32:30Z",
+  "refreshed_utc": "2026-11-27T21:32:00Z",
   "book": {
-   "version": 21,
-   "blob": "8cf83ccf6d9b8ec75c25f54d29926dce"
+   "version": 22,
+   "blob": "1d6f533336f1d8b6cadfbb72c2183cb3"
   },
   "model": {
-   "version": 22,
-   "blob": "882f698f6e0a3f03926920aa27d399b8"
+   "version": 23,
+   "blob": "e1221d24a59625df65b6ff8f3871120d"
   },
   "spots": 12,
   "quotes": 8,
