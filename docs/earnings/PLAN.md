@@ -190,7 +190,7 @@ larger than the account. No money in or out.
   input, only if the events it would block average at least $10 a fly worse than the events it
   keeps with a t of 2 or more clustered by report date, AND the kept events average more than the
   whole sample. Otherwise it is parked. Every row states its count and worst event.
-  METHOD NOTE, written 2026-11-28 09:35 PT before the first run on real records (the bar above is
+  METHOD NOTE, written 2026-11-28 09:05 PT before the first run on real records (the bar above is
   not touched; these are the choices it left open): (a) THE FLY is the one the fly table calls
   "as traded": wings aimed at 1.5x the entry straddle, stepped in until the max loss fits $600,
   never under 0.9x (`earnings_fly_table.capped`); the projection and the result are the same fly
