@@ -79,7 +79,8 @@ def project(r: dict, f: dict, sigma_exit: float, cost: float) -> float | None:
     return total / len(moves) - cost * credit * 100.0
 
 
-def build(rows: list[dict], cap: float | None, scale: float, cost: float, oracle: bool = False) -> tuple[list[dict], dict]:
+def build(rows: list[dict], cap: float | None, scale: float, cost: float, oracle: bool = False,
+          late_bar: bool = False) -> tuple[list[dict], dict]:
     """One record per usable event, and the count dropped for each reason."""
     drop = {"clean": 0, "no_fly_under_cap": 0, "no_exit_price": 0, "under_4_past_moves": 0, "no_regime20": 0,
             "no_post_stdev": 0}
@@ -92,7 +93,7 @@ def build(rows: list[dict], cap: float | None, scale: float, cost: float, oracle
         if f is None:
             drop["no_fly_under_cap"] += 1
             continue
-        bar = first_bar(f)
+        bar = ("b2" if "b2" in f else None) if late_bar else first_bar(f)
         if bar is None:
             drop["no_exit_price"] += 1
             continue
@@ -242,8 +243,10 @@ def main() -> None:
     print("\nDescription only (not a second try):")
     for label, kw in (("scale 1.05", {"scale": 1.05}), ("scale 1.43", {"scale": 1.43}),
                       ("cap $436", {"cap": 436.0}), ("no cap", {"cap": None}),
+                      ("result at the 10:30 ET bar, not the first", {"late_bar": True}),
                       ("stdev as the market showed it after the report", {"oracle": True})):
-        e2, d2 = build(rows, kw.get("cap", a.cap), kw.get("scale", a.scale), a.cost, kw.get("oracle", False))
+        e2, d2 = build(rows, kw.get("cap", a.cap), kw.get("scale", a.scale), a.cost, kw.get("oracle", False),
+                       kw.get("late_bar", False))
         v2 = verdict(e2)
         out["description"][label] = {"counts": d2, **v2, "spearman": spearman(e2)}
         print("  " + line(label, v2))

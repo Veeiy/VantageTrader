@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-27T21:30:40Z",
+ "as_of": "2026-11-28T17:19:21Z",
  "account_value": 1453.19,
  "cap_total_max_loss": 1453.19,
  "execution": {
@@ -3224,7 +3224,8 @@
    "the week's earnings replay (item 2)",
    "P102: verify or re-date the first 20 implemented proposals with no verified event, oldest first",
    "if time: rebuild the same-day universe file (P100; due before 2026-12-17)"
-  ]
+  ],
+  "done": "see research_2026-11-28; the universe file was not rebuilt (due before 2026-12-17)"
  },
  "monday_2026-11-30": {
   "preopen_0552": "confirm the DKS 120P gone and remove it from leftover_long_wings; read the official 2026-11-27 closes (ANT, DKS, SPY, QQQ, IWM) into the record; cash check against 993.89; update account_value so name_within_ceiling reads the day",
@@ -3232,5 +3233,22 @@
   "scan": "RBRK reports after the close: Monday's entry window. Breaker halted unless Brad speaks: the sweep prices it on paper when the breaker is its only failed gate (P089, first test). CHA reports before the open (dropped by the scanner on 11/27).",
   "gate": "the name cap is min(dollar cap, 30% of the account value) since 2026-11-27 (P103)",
   "switches": "standby exit Mon 07:25 PT, plain alert Mon 08:00 PT, standby entry Mon 12:05 PT (already set)"
+ },
+ "research_2026-11-28": {
+  "at_utc": "2026-11-28T17:19:21Z",
+  "rearmed": "trig_01KLhgm9Zmpwv2gFcbHkeFAv to Sat 2026-12-05 09:00 PT",
+  "test": "P070 exit-priced filter: PARKED. 193 flies, kept +6.8 (n 82), blocked -19.1 (n 111), kept minus blocked +25.9, clustered t 1.78 on 36 report dates (bar: 10 and t 2)",
+  "replay": "206 clean events (23 new of 50 drawn). Short straddle +7.0% (se 2.9%, t 2.4). Fly as traded, $600 cap: +23.8 before costs, -7.7 after 7% (se 10.5), breakeven cost 5.3%. $436 cap: -2.9 (se 8.9), breakeven 6.3%.",
+  "live_cost": "earnings 4.2% on 12 (last ten 3.8%, DKS 7.4%); all 17 closed trades 5.8%; probes 10.1% on 3",
+  "ledger": "P070 declined (parked), P019 verified inconclusive, P104 logged and deferred, 20 old proposals verified (P102): 38 implemented proposals still without a verified event, P102 itself among them",
+  "files": [
+   "state/earnings/replay/2026-11-28_week/FINDINGS.md",
+   "state/earnings/replay/2026-11-28_week/exit_priced_test.json",
+   "scripts/earnings/exit_priced_test.py",
+   "docs/earnings/PLAN.md sections 1, 2, 3A, 8, 9",
+   "docs/earnings/INTRADAY.md (week of 2026-11-23)"
+  ],
+  "next": "Sat 2026-12-05: the pilot trend-day filter (P075, H016; bar of 2026-11-21, method note before the run), the week's replay, the next 20 of P102, the universe file (P100, before 12/17)",
+  "scan_note_for_monday": "CRWD and ZS (Monday-before-open reporters of 11/23) were on no watchlist of Fri 11/20; the Friday window is Friday after the close AND Monday before the open. From Monday every scanner row is saved with front and back IV (exit_scan.md part B)."
  }
 }

@@ -1148,3 +1148,13 @@ P100 (process, agent): the Friday spread scan picks its names by class when the 
 P101 (process, agent): the reflection on an early-close day adds no same-hours row, takes the 10:15 PT VIX settle as the close, and writes an expired contract as pending until the next pre-open.
 P102 (process, agent): 57 implemented proposals have no verified event. The Saturday run closes 20 a week, oldest first; the Friday scorecard prints the count.
 Verified: P036 (wing floor: nine flies at 0.92x to 1.48x, one structure blocked) and P037 (no ledger row dated ahead of its commit) worked; P099 (early-close texts) worked; P083 inconclusive.
+
+## v1.16.15 (2026-11-28, Saturday research day)
+No rule changed. What was decided:
+P070 (rule, declined: parked). The exit-priced filter does not become gate 18. Bar of 2026-11-21, method note and script pushed before the first run. 206 clean replay events, 193 usable: flies projected at or under zero -$19.1 (n 111), the rest +$6.8 (n 82); kept minus blocked +$25.9, clustered t 1.78 on 36 report dates, under the 2 asked. Same sign in all four batches. It stays a number read before sizing and before a recommendation (L015, P079). It reopens only on 60 or more later reports with a point-in-time read of the volatility left after the report, written first. His words that make it a gate anyway: "gate the exit-priced check".
+Width (PLAN.md 3A item 4, due 2026-11-27): the wings stay aimed at 1.5x the straddle. On 206 events 2x is within $1.40 a fly of 1.5x at every cap.
+P104 (risk, deferred): a half-size restart of the earnings line after the breaker halt, as PLAN.md 3A's shrink line reads. Not stacked on P103's cut of the name cap (600 to 436) the day before; decided at the reset or on 2026-12-18. His words: "half size restart".
+Scan (process): the watchlist file keeps every scanner row with its front and back IV, every day.
+P102: 20 of the 57 implemented proposals without a verified event were checked against their own measures (P008 to P035): 7 worked, 1 did not (P017: the same-day line's own paper measure is negative; it runs only as the v1.15 pilot), 12 inconclusive.
+The replay itself (2026-11-28, 206 events): short straddle +7.0% of the straddle (t 2.4); the fly as traded +$23.8 before costs and -$7.7 after a 7% cost at the $600 cap (se $10.5), breakeven cost 5.3% against 4.2% paid live on 12 trades.
+

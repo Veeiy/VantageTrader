@@ -79,9 +79,10 @@ from vantage_trader.earnings import metrics as live_metrics  # noqa: E402
 
 adm = json.loads((REPO / "state/earnings/daytrade/replay/admission_90d.json").read_text())["names"]
 # the earnings fly on every clean replayed report (scripts/earnings/earnings_fly_table.py)
-FLY = json.loads((REPO / "state/earnings/replay/2026-11-21_week/fly_table.json").read_text())  # 183 reports, $600 cap (rules v1.16)
+FLY = json.loads((REPO / "state/earnings/replay/2026-11-28_week/fly_table.json").read_text())  # 206 reports, $600 cap (rules v1.16)
 FLY_CAP, FLY_RAW = FLY["capped"]["1.5"], FLY["widths"]["1.5"]
-LIVE_COST = live_metrics.summarize(live_metrics.read_metrics(REPO / "state/earnings/live_metrics.jsonl"))["round_trip_cost"]["all"]
+_RTC = live_metrics.summarize(live_metrics.read_metrics(REPO / "state/earnings/live_metrics.jsonl"))["round_trip_cost"]
+LIVE_COST, LIVE_COST_E = _RTC["all"], _RTC["earnings"]
 ovn = json.loads((REPO / "state/earnings/daytrade/overnight/summary_pooled_1121.json").read_text())  # SPY, QQQ, IWM; dropped 2026-11-21
 OVN = ovn["clustered_by_night_0700_after_costs"]
 FLY_SS = FLY["short_straddle"]
@@ -105,8 +106,8 @@ PLAN_ROWS = [("Earnings fly, as the rules trade it", f'{FLY_CAP["first"]["after_
              ("Same-day fly, out by 11:00", "290 flies, 7 names", -9.7, False)]
 
 def chart_p():
-    xl, k, rh = 30, 9.375, 40                        # k px per dollar; plot spans -$12 to +$20
-    xz = xl + 12 * k
+    xl, k, rh = 30, 9.375, 40                        # k px per dollar; plot spans -$18 to +$14
+    xz = xl + 18 * k                                 # 2026-11-28: every line is under zero; room for the labels on the left
     out = ['<svg viewBox="0 0 360 180" role="img" aria-label="Average result per trade after costs, one contract, in dollars. ' + ". ".join(f"{lab}: {money1(v)}" for lab, _, v, _ in PLAN_ROWS).replace("-$", "minus ").replace("+$", "plus ") + '.">']
     y = 6
     for label, sample, v, key in PLAN_ROWS:
@@ -300,16 +301,16 @@ BODY = f"""
 <div class="wrap">
 <header>
   <h1>Trading Loop Map</h1>
-  <p class="sub">How the system trades, checks itself and learns. As of <b>Mon Nov 16, 2026</b>, evening.</p>
+  <p class="sub">How the system trades, checks itself and learns. As of <b>Sat Nov 28, 2026</b>.</p>
 </header>
 
 <div class="strip" aria-label="Where things stand">
-  <span>Account <b>$1,995</b></span>
-  <span>Closed trades <b>5</b>, <b>3</b> wins</span>
-  <span>Realized <b>-$15</b></span>
-  <span>Open <b>3</b> flies into Tuesday's reports</span>
-  <span>Same-day pilot <b>starts Tue</b></span>
-  <span>Plan <b>v1</b>, Nov 16</span>
+  <span>Account <b>$1,453</b></span>
+  <span>Closed trades <b>18</b>, <b>10</b> wins</span>
+  <span>Realized <b>+$96</b></span>
+  <span>Breaker <b>halted</b> since Nov 24, your word lifts it</span>
+  <span>Same-day pilot <b>3</b> probes, <b>-$28</b></span>
+  <span>Plan <b>v1</b>, numbers of Nov 28</span>
 </div>
 
 <nav aria-label="Sections">
@@ -321,21 +322,21 @@ BODY = f"""
   <p class="hint"><span class="q">"Research it, boss.. I want to harden out such a solid trading plan and algo that we can continue to iterate and generate money."</span> Nov 16. Written the same evening from 90 days of replays and the published research.</p>
   <figure class="chart"><h3>Result per trade after costs, by line</h3>
     {chart_p()}
-    <figcaption>One contract, costs in. <b>Only the earnings fly is above zero, and only with the per-name cap.</b> Without it one bad report in a hundred takes the whole edge. Not proven yet: the standard error is $10 a fly.</figcaption></figure>
+    <figcaption>One contract, a 7% cost in. <b>No line is above zero at that cost.</b> The earnings fly is the closest, the only one with a premium before costs, and about +$5 at the 4% we pay live. With no cap two bad reports in two hundred take more than the rest make. Not proven either way: the standard error is $10 a fly.</figcaption></figure>
   <div class="strip" aria-label="The cost margin of the earnings fly">
     <span>Edge before costs <b>{FLY_CAP["breakeven_cost_share"] * 100:.0f}%</b> of the credit</span>
     <span>Cost assumed in the replay <b>7%</b></span>
-    <span>Live cost so far <b>{LIVE_COST["avg_share_of_credit"] * 100:.1f}%</b>, {LIVE_COST["n"]} trades</span>
+    <span>Live cost, earnings flies <b>{LIVE_COST_E["avg_share_of_credit"] * 100:.1f}%</b>, {LIVE_COST_E["n"]} trades (all {LIVE_COST["n"]} trades {LIVE_COST["avg_share_of_credit"] * 100:.1f}%)</span>
     <span>One point of cost <b>${FLY_CAP["avg_credit_usd"] / 100:.0f}</b> a fly</span>
   </div>
-  <p class="hint">The earnings line lives in the gap between the first number and the other two. Fills matter as much as picks, so the cost of every round trip is now measured.</p>
+  <p class="hint">The earnings line lives between the first number and what we really pay. At the assumed 7% nothing is left; at our live cost about one point is. Fills matter as much as picks, so the cost of every round trip is measured.</p>
   <div class="lines three">
     <div class="card"><div class="top"><h3><span class="k">A</span>Earnings premium</h3><span class="pill live">Core, live</span></div>
       <ul><li>Sell an iron fly the day before the report, buy it back at the open.</li>
-      <li>Replay, {FLY["clean_events"]} reports: the short straddle won <b>124</b> and made 10% of the premium. The fly as traded keeps about <b>{money(FLY_CAP["first"]["after_costs"]["mean"], True)}</b> at a 7% cost, about <b>$15</b> at the 4% we pay live. Too noisy to call.</li>
+      <li>Replay, {FLY["clean_events"]} reports: the short straddle won <b>{FLY_SS["first_share_of_straddle"]["wins"]}</b> and made 7% of the premium. After a 7% cost the fly as traded lands at about <b>{money(FLY_CAP["first"]["after_costs"]["mean"], True)}</b>; at the 4% we pay live, about <b>+$5</b>. Too noisy to call, and the week of Nov 23 was the worst yet.</li>
       <li><b>Hardening, in order:</b> cost, keep the cap, more replayed reports, width.</li>
       <li><b>Grows</b> after 30 live flies averaging +$8, or 300 replayed reports above +$10 a fly.</li>
-      <li><b>Shrinks</b> if costs average over 9% of the credit across 10 flies.</li></ul></div>
+      <li><b>Shrinks</b> if costs average over 9% of the credit across 10 flies, or when the breaker fires. It fired Nov 24: halted until your word, and the name cap is now at most 30% of the account.</li></ul></div>
     <div class="card"><div class="top"><h3><span class="k">B</span>Same-day fly</h3><span class="pill new">Probe, ends Dec 18</span></div>
       <ul><li>One IWM fly a day, one contract, 7:30 to 11:00.</li>
       <li>90 days, 7 names, 290 flies: <b>no name makes money after costs.</b></li>
@@ -361,8 +362,8 @@ BODY = f"""
   </ol>
   <div class="callout">
     <p class="big">What to expect</p>
-    <p>On {FLY["clean_events"]} replayed reports the fly as traded keeps about $2 at a 7% cost and about $15 at the 4% we pay live. If that is the truth and 8 to 12 flies a week fit, it is <b>roughly $120 to $180 a week</b>. It may also be zero: the average is uncertain by $10 a fly, and the newest week of reports pulled it down. A ten-fly week swings about $300 either way.</p>
-    <p><b>Cost is the lever in reach.</b> At 9% the same flies lose $6; at 5% they keep $11; at 3%, $19.</p>
+    <p>On {FLY["clean_events"]} replayed reports the fly as traded loses about $8 at a 7% cost and keeps about $5 at the 4% we pay live. If +$5 is the truth and 8 to 12 flies a week fit, it is <b>roughly $40 to $60 a week</b>. It may also be zero or less: the average is uncertain by $10 a fly, and each of the last two weeks of reports pulled it down. A ten-fly week swings about $300 either way.</p>
+    <p><b>Cost is the lever in reach.</b> At 9% the same flies lose $17; at 5% they keep $1; at 3%, $10.</p>
     <p><b>The biggest accelerator is deeper price history.</b> Every test here covers 6 to 13 weeks of one falling market. A paid options data feed (about $30 to $100 a month) would let the earnings line be checked on thousands of reports in an evening. Your call.</p>
   </div>
 </section>
@@ -387,7 +388,7 @@ BODY = f"""
     <li class="sepli"><span class="sep">Off the daily clock</span></li>
     <li class="off"><span class="t">Evening</span><div class="d"><b>P/L projection</b> <span>with ranges for the next morning's reports. Scored against the real exit.</span></div></li>
     <li class="off"><span class="t">Friday</span><div class="d"><b>Weekly scorecard</b> <span>and one retry of a multi-leg order.</span></div></li>
-    <li class="off"><span class="t">Saturday</span><div class="d"><b>Research day.</b> <span>Nov 28: the exit-priced filter test, pass bar written first, and the week's earnings replay.</span></div></li>
+    <li class="off"><span class="t">Saturday</span><div class="d"><b>Research day.</b> <span>Dec 5: the pilot's trend-day filter test, pass bar written first, and the week's earnings replay.</span></div></li>
   </ol>
 </section>
 
@@ -444,8 +445,10 @@ BODY = f"""
     <li><div class="b"><p><span class="q">"How about we run simulations on the last 90 days for this"</span> Other stocks too, if they meet the criteria. <b>Run the same evening:</b> 344 sessions on 7 names, Aug 18 to Nov 16. Before costs +$5 a fly. <b>After costs every exit loses and no new name gets in</b> (section 07). On sessions the filters were not found in, the gap filter kept its direction and the quiet-open filter failed.</p></div></li>
     <li><div class="b"><p><span class="q">"Research it, boss.."</span> <b>Read the published research</b> and ran a first overnight test on SPY. Sellers are paid overnight and around earnings, not intraday. That became the plan in section 01: earnings is the core, same-day stays a probe, overnight gets a real test.</p></div></li>
     <li><div class="b"><p><b>The loop caught the agent too.</b> Checking the plan's earnings numbers against the records showed the best-looking rows had left out the worst report of the hundred. Recomputed on every report: <b>+$7.50 a fly as traded</b>, not +$9 to +$17, and nothing without the cap. Corrected in the plan, the rule notes and a new lesson before it reached you.</p></div></li>
-    <li><div class="b"><p><b>Nov 21, research day:</b> the overnight test, 189 nights on SPY, QQQ and IWM, <b>failed the bar written before the data</b> ({money1(OVN["mean"])} a fly after costs). Dropped as written. The earnings replay grew to {FLY["clean_events"]} reports: the premium holds (short straddle +10%, 3.5 standard errors), the capped fly is near zero at a 7% cost.</p></div></li>
-    <li><div class="b"><p><b>Next:</b> the exit-priced filter test on Sat Nov 28, its pass bar already in the plan. Review after 10 probes.</p></div></li>
+    <li><div class="b"><p><b>Nov 21, research day:</b> the overnight test, 189 nights on SPY, QQQ and IWM, <b>failed the bar written before the data</b> ({money1(OVN["mean"])} a fly after costs). Dropped as written. The earnings replay grew to 183 reports: the premium held (short straddle +10%, 3.5 standard errors), the capped fly was near zero at a 7% cost.</p></div></li>
+    <li><div class="b"><p><b>Nov 28, research day:</b> the exit-priced filter, method and bar pushed before the first run. On 193 replayed flies the ones it would block made -$19 and the ones it keeps +$7: the right direction in all four batches, <b>1.78 standard errors where the bar asked for 2. Parked as written.</b> The 0.85 edge ratio does not sort the same flies at all. The replay grew to {FLY["clean_events"]} reports and the week of Nov 23 was its worst: the short straddle is down to +7%, the capped fly to {money(FLY_CAP["first"]["after_costs"]["mean"], True)} at a 7% cost.</p></div></li>
+    <li><div class="b"><p><b>Also Nov 27 to 28:</b> your own 30% per-name ceiling is now in the gate (it had rested on the dollar cap being lower, which stopped being true under $2,000 of account), and 20 old changes were checked against their own measures: 7 worked, 1 did not, 12 could not be told.</p></div></li>
+    <li><div class="b"><p><b>Next:</b> the pilot's trend-day filter test on Sat Dec 5, its pass bar already in the plan. Review after 10 probes.</p></div></li>
   </ol>
 </section>
 
@@ -502,13 +505,14 @@ BODY = f"""
   <h2><span class="n">08</span>Being tested now</h2>
   <p class="hint">Green = for, red = against. Bars share one scale. The dashed line is 8 observations.</p>
   <div class="score">
-    {row("Names at edge ratio 0.70 or under win two times in three", 11, 6, "Testing")}
-    {row("The intraday-move gate does not help", 11, 7, "Under review", "v-keep")}
-    {row("Wide-spread names are worth a one-contract test", 4, 1, "Testing")}
-    {row("The crush pays most when the expiry is the exit day", 2, 0, "Testing")}
+    {row("Names at edge ratio 0.70 or under win two times in three", 14, 9, "Testing: under its 2 to 1 bar")}
+    {row("The intraday-move gate does not help", 13, 9, "Testing", "v-keep")}
+    {row("The exit-priced average sorts flies better than the edge ratio", 3, 0, "Parked Nov 28: 1.78 se")}
+    {row("Wide-spread names are worth a one-contract test", 6, 1, "Testing")}
+    {row("The crush pays most when the expiry is the exit day", 4, 0, "Testing")}
     {row("The macro veto blocks days that are no worse", 2, 2, "Testing")}
     {row("Losing days come in clusters", 1, 2, "Testing")}
-    {row("Long straddles lose", 15, 12, "Adopted Nov 11: off", "v-adopt")}
+    {row("Long straddles lose", 15, 14, "Adopted Nov 11: off", "v-adopt")}
     <div class="thin"><b>Added Nov 16, one replay batch each</b>
       <ul><li>A same-day index fly has no edge without a filter. <b>1 for.</b></li>
       <li>A same-day fly does better after an overnight gap under 1%. <b>1 for</b>, as a risk filter only.</li>
