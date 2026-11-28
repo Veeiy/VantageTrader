@@ -1,0 +1,129 @@
+{
+ "date": "2026-11-18",
+ "as_of_utc": "2026-11-18T14:43:00Z",
+ "macro": {
+  "spy_pct": -0.001,
+  "qqq_pct": 0.0002,
+  "iwm_pct": 0.0012,
+  "vix": 25.02
+ },
+ "scanner_and_calendar": {
+  "today_pm": [
+   "PANW",
+   "WWD",
+   "P",
+   "SBLK"
+  ],
+  "thu_am": [
+   "WMT",
+   "BABA",
+   "PDD",
+   "FUTU",
+   "WSM",
+   "TEN",
+   "WMG",
+   "BBWI"
+  ]
+ },
+ "skipped": {
+  "calendar_not_on_scanner": [
+   "NJR",
+   "JOYY",
+   "UTI",
+   "SNEX",
+   "KLIC",
+   "UGI",
+   "CPA",
+   "HI",
+   "MMS",
+   "YMM",
+   "VVV",
+   "NTES",
+   "DAO",
+   "SUBCY",
+   "MANU",
+   "MSADY",
+   "LQDT",
+   "ROAD",
+   "ATKR"
+  ],
+  "reason": "average options volume under 1,500 or price under 10 (P016)"
+ },
+ "already_reported_today": {
+  "LOW": "am; 218.30 at 06:40 PT (-1.0%; 209.0 pre-market)",
+  "TGT": "traded, closed +100.84",
+  "TJX": "traded, closed -125.16"
+ },
+ "status": "morning decisions done 07:31 PT; the 11:46 sweep re-checks",
+ "entered": [
+  {
+   "symbol": "WMT",
+   "time_pt": "07:30",
+   "fly": "119/127/135",
+   "credit": 5.7,
+   "max_loss": 230,
+   "tier": "near_miss",
+   "prudential": [
+    "soft_news"
+   ]
+  },
+  {
+   "symbol": "IWM",
+   "time_pt": "07:28",
+   "fly": "269/271/273 same-day",
+   "credit": 1.35,
+   "max_loss": 65,
+   "tier": "probe"
+  },
+  {
+   "symbol": "PDD",
+   "time_pt": "09:52",
+   "fly": "72/78/84",
+   "credit": 3.96,
+   "max_loss": 204,
+   "tier": "near_miss",
+   "prudential": [
+    "soft_news"
+   ]
+  }
+ ],
+ "blocked": {
+  "PANW": "max loss 977 mid / 1,350 natural at the floor fly: over the 600 cap",
+  "P": "edge 1.187 above 1.10",
+  "BABA": "edge 1.119 above 1.10",
+  "WWD": "ATM spread 43.6%",
+  "SBLK": "ATM spread 72%",
+  "PDD": "cleared at the 09:45 re-check (spread 7.7%); entered",
+  "FUTU": "ATM spread 71.6%",
+  "WSM": "ATM spread 28.1%",
+  "TEN": "ATM spread 120%",
+  "WMG": "body put no bid",
+  "BBWI": "ATM spread 40%",
+  "WMT 139/113": "exit check (gate 16): 1,430 needed vs 1,314 left after the entry"
+ },
+ "recheck_0945": {
+  "BABA": "edge 1.177 at 09:46 (straddle cheaper): still above 1.10",
+  "WSM": "+4.8% today at 09:46, next to the 5% intraday limit: skipped",
+  "PDD": "entered at 09:52"
+ },
+ "final_sweep_1147": {
+  "adds": {
+   "WMT": "no add: name target reached (near-miss half, held 230 against a 194 target; edge 0.92 now)",
+   "PDD": "no add: edge 1.11 now, above 1.10"
+  },
+  "rechecked": {
+   "BABA": "edge 1.16 at the 85 body: above 1.10",
+   "PANW": "+6.2% today (over the 5% intraday limit) and over the 600 cap",
+   "WSM": "+4.2% today, near the limit; spread was 28%"
+  },
+  "new_entries": 0,
+  "risk_used": "534 of 1,937 (WMT 230+50, PDD 204+50)",
+  "owner_question_open": "A (near-miss full size), B (PANW cap), C (keep): no answer by 11:47; rules as they stand",
+  "standby_entry_switch": "moved to Thu 2026-11-19 12:05 PT"
+ },
+ "owner_ask_1212": {
+  "brad": "Anything else for us to enter today? We have 586 BP left. I can enter the multi leg too if it helps with the pricing availability",
+  "answer": "no entry. Edge too thin (options too cheap vs past moves): BABA 1.12 to 1.16, P 1.19. Strike step 10 makes the smallest legal fly too big for the 457 of risk left: WSM about 800 max loss (also +4% today), WWD about 1,000 (spread 44%). No real options market: FUTU (call OI 1), TEN, WMG (put no bid), SBLK, BBWI (40% spread). The 586 is tomorrow's exit cushion for WMT and PDD.",
+  "followup": "a combo (owner multi-leg) lane could relax the ATM spread gate for owner-executed tickets; for the 13:12 reflection as a proposal"
+ }
+}

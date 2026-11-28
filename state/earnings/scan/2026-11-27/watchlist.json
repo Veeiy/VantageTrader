@@ -1,0 +1,100 @@
+{
+ "date": "2026-11-27",
+ "window": "Fri 11/27 after the close and Mon 11/30 before the open (weekend hold, rules v1.16.7)",
+ "expiry": "2026-12-04",
+ "breaker": "halted: paper only",
+ "early_close": "NYSE closes 10:00 PT: the 09:45 and 11:46 entry tasks skip the day by their own text, so nothing can be entered today whatever the breaker's state",
+ "calendar_pm": [],
+ "calendar_am_next": [
+  "CHA"
+ ],
+ "calendar_other": {
+  "RBRK": "reports Mon 11/30 after the close: Monday's window, not this one"
+ },
+ "scanner_total": 3,
+ "scanner_rows": {
+  "RBRK": {
+   "earnings_date": "2026-11-30",
+   "last": 108.95,
+   "avg_options_volume": 9014,
+   "ivRank": 0.738,
+   "frontIV": 1.2938,
+   "backIV": 0.7848
+  },
+  "BMA": {
+   "earnings_date": "2026-11-30 (scanner; the calendar had it on 11/25 pm)",
+   "last": 53.0,
+   "avg_options_volume": 6842,
+   "ivRank": 0.768,
+   "frontIV": 0.9165,
+   "backIV": 0.6865
+  },
+  "HUBG": {
+   "earnings_date": "2026-11-27",
+   "last": 23.81,
+   "avg_options_volume": 5358,
+   "ivRank": 0.797,
+   "frontIV": 0.7659,
+   "backIV": 0.8752
+  }
+ },
+ "in_window": [
+  {
+   "symbol": "CHA",
+   "why": "calendar: reports Mon 11/30 before the open; not on the scanner list (average options volume under 1,500 a day)",
+   "status": "skipped: scanner_dropped",
+   "spot_0638": 10.93
+  },
+  {
+   "symbol": "HUBG",
+   "why": "scanner date 11/27, not on the high-cap calendar, timing unknown; monthly expiries only (first listed 2026-12-18 at the 11/25 check)",
+   "status": "dropped: no_expiry",
+   "spot_0638": 23.79
+  },
+  {
+   "symbol": "BMA",
+   "why": "scanner date 11/30 against a calendar date of 11/25 pm on Wednesday: the date is not confirmed; monthly expiries only (first listed 2026-12-18)",
+   "status": "dropped: no_expiry, earnings_date_unconfirmed",
+   "spot_0638": 53.18
+  }
+ ],
+ "skipped": [
+  "CHA"
+ ],
+ "to_analyst": [],
+ "names": [],
+ "analyst": "not dispatched: no name is on both lists with a weekly expiry",
+ "non_earnings_screen": {
+  "at_utc": "2026-11-27T14:38Z",
+  "filters": "avg options volume >= 15000, last >= 10, ivRank >= 0.8, atmIv30Day / statVol10Day > 1.15",
+  "hits": {
+   "SHY": [
+    0.817,
+    2.0
+   ],
+   "LBTYA": [
+    0.806,
+    2.02
+   ]
+  },
+  "note": "[ivRank, IV30 over HV10]. Not news-checked (P098: the breaker is halted, no entry is possible)."
+ },
+ "macro_0638": {
+  "SPY": 0.0085,
+  "QQQ": 0.0105,
+  "IWM": 0.0107,
+  "VIX": 26.81,
+  "VIX_prev_close": 28.29,
+  "VIX_change": -0.052,
+  "note": "no veto at 06:38 PT"
+ },
+ "decision_0640": {
+  "at_utc": "2026-11-27T14:38:35Z",
+  "decision": "no_trade",
+  "reasons": [
+   "early-close day",
+   "account breaker halted",
+   "no name to price"
+  ]
+ }
+}

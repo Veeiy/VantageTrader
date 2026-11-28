@@ -1,0 +1,283 @@
+{
+  "symbol": "TGT",
+  "timing": "am",
+  "action": "no_trade",
+  "reason": "name_risk_cap",
+  "blocked_by": [
+    "name_risk_cap"
+  ],
+  "band": "tight",
+  "tier": "core",
+  "lane": "owner_executed",
+  "prudential": [],
+  "size_factor": 1.0,
+  "metrics": {
+    "spot": 157.13,
+    "prev_close": 160.32,
+    "K": 157.5,
+    "intraday_move": -0.019898,
+    "avg_hist_move": 0.048638,
+    "n_hist": 6,
+    "implied": {
+      "straddle_mid": 14.175,
+      "straddle_pct_raw": 0.090212,
+      "body_offset_pct": 0.002355,
+      "sigma": 0.112967,
+      "atm_straddle_pct": 0.090086,
+      "implied_move": 0.076573,
+      "implied_move_raw": 0.07668
+    },
+    "implied_move": 0.076573,
+    "edge_ratio": 0.6352,
+    "spread_pct": {
+      "call": 0.0217,
+      "put": 0.0276,
+      "straddle": 0.0247,
+      "worst": 0.0276
+    },
+    "regime_20d": 0.02007,
+    "regime_ratio": 0.4126
+  },
+  "gates": [
+    {
+      "n": 1,
+      "gate": "blocklist",
+      "pass": true,
+      "value": "TGT",
+      "limit": [
+        "TSLA"
+      ],
+      "note": null,
+      "reason": null
+    },
+    {
+      "n": 2,
+      "gate": "price",
+      "pass": true,
+      "value": 157.13,
+      "limit": 10.0,
+      "note": null,
+      "reason": null
+    },
+    {
+      "n": 3,
+      "gate": "history",
+      "pass": true,
+      "value": 6,
+      "limit": 4,
+      "note": null,
+      "reason": null
+    },
+    {
+      "n": 4,
+      "gate": "edge_ratio",
+      "pass": true,
+      "value": 0.6352,
+      "limit": 0.85,
+      "note": "band tight",
+      "reason": null
+    },
+    {
+      "n": 5,
+      "gate": "atm_spread",
+      "pass": true,
+      "value": 0.0276,
+      "limit": 0.25,
+      "note": "straddle 0.0247, call 0.0217, put 0.0276; above 0.12 the $350 max-loss cap applies",
+      "reason": null
+    },
+    {
+      "n": 6,
+      "gate": "regime",
+      "pass": true,
+      "value": 0.02007,
+      "limit": 0.060798,
+      "note": "ratio 0.4126 (must be < 1.25)",
+      "reason": null
+    },
+    {
+      "n": 7,
+      "gate": "intraday",
+      "pass": true,
+      "value": -0.019898,
+      "limit": [
+        0.05,
+        0.07
+      ],
+      "note": "within_base_limit; sector_same_direction=False",
+      "reason": null
+    },
+    {
+      "n": 8,
+      "gate": "news",
+      "pass": true,
+      "value": [],
+      "limit": [],
+      "note": null,
+      "reason": null
+    },
+    {
+      "n": 9,
+      "gate": "macro_veto",
+      "pass": true,
+      "value": false,
+      "limit": false,
+      "note": null,
+      "reason": null
+    },
+    {
+      "n": 10,
+      "gate": "circuit_breaker",
+      "pass": true,
+      "value": [],
+      "limit": [],
+      "note": null,
+      "reason": null
+    },
+    {
+      "n": 11,
+      "gate": "sector",
+      "pass": true,
+      "value": null,
+      "limit": null,
+      "note": "not checked: give sector and sectors_entered_today",
+      "reason": null
+    },
+    {
+      "n": 12,
+      "gate": "structure",
+      "pass": true,
+      "value": {
+        "credit_mid": 11.27,
+        "width": 17.5,
+        "narrow_width_over_straddle": 1.2346
+      },
+      "limit": {
+        "min_wing_over_straddle": 0.9
+      },
+      "note": null,
+      "reason": null
+    },
+    {
+      "n": 13,
+      "gate": "add_centered",
+      "pass": true,
+      "value": null,
+      "limit": null,
+      "note": "first entry on this name",
+      "reason": null
+    },
+    {
+      "n": 14,
+      "gate": "name_risk",
+      "pass": false,
+      "value": 657.0,
+      "limit": 600.0,
+      "note": "target 478.86 (phase early): planned 0 more, 0 now, 0 later; held 0 with max loss 0.0",
+      "reason": "name_risk_cap"
+    },
+    {
+      "n": 15,
+      "gate": "risk_budget",
+      "pass": true,
+      "value": 707.0,
+      "limit": 1786.79,
+      "note": "cap 2394.29 - open risk 607.5 = 1786.79; needs max loss at floor + $50 reserve per contract",
+      "reason": null
+    },
+    {
+      "n": 16,
+      "gate": "exit_feasible",
+      "pass": true,
+      "value": 1925.0,
+      "limit": 1005.29,
+      "note": "owner-executed (rules v1.16.1): Brad places the entry and the exit as multi-leg orders, so no single-leg buyback has to fit; by legs it would need 1925.0 against 1005.29: the agent cannot leg this one out, the exit is his",
+      "reason": null
+    },
+    {
+      "n": 17,
+      "gate": "prudential",
+      "pass": true,
+      "value": [],
+      "limit": 1,
+      "note": null,
+      "reason": null
+    }
+  ],
+  "fly": {
+    "body": 157.5,
+    "call_wing": 175.0,
+    "put_wing": 140.0,
+    "width_call": 17.5,
+    "width_put": 17.5,
+    "width": 17.5,
+    "width_over_straddle": 1.2346,
+    "narrow_width_over_straddle": 1.2346,
+    "credit_mid": 11.27,
+    "credit_natural": 10.93,
+    "credit_floor": 10.93,
+    "limit_start": 11.25,
+    "limit_floor": 10.95,
+    "tick": 0.05,
+    "limit_step": 0.1,
+    "max_loss_mid": 623.0,
+    "max_loss_natural": 657.0,
+    "max_loss_floor": 657.0,
+    "max_profit_mid": 1127.0,
+    "breakevens_mid": [
+      146.23,
+      168.77
+    ],
+    "valid": true,
+    "fillable": true
+  },
+  "contracts": 0,
+  "contracts_planned": 0,
+  "contracts_later": 0,
+  "sizing": {
+    "target": 478.86,
+    "name_cap": 600.0,
+    "budget": 1786.79,
+    "held_qty": 0,
+    "held_max_loss": 0.0,
+    "phase": "early",
+    "planned": 0,
+    "now": 0,
+    "later": 0,
+    "limits": {
+      "name_target_reached": 1,
+      "name_risk_cap": 0,
+      "max_loss_exceeds_cap": 2,
+      "max_quantity": 10
+    },
+    "binding": "name_risk_cap"
+  },
+  "closed_live_trades": 7,
+  "max_loss": {
+    "mid": 623.0,
+    "natural": 657.0,
+    "floor": 657.0,
+    "per_contract_floor": 657.0,
+    "name_total_floor": 657.0
+  },
+  "breakevens": [
+    146.23,
+    168.77
+  ],
+  "risk": {
+    "risk_cap": 2394.29,
+    "open_risk_usd": 607.5,
+    "budget_before": 1786.79,
+    "exit_reserve_per_contract": 50.0,
+    "spread_band_cap": null,
+    "name_risk_cap": 600.0,
+    "name_target": 478.86,
+    "this_trade_usd": 0.0,
+    "budget_left": 1786.79
+  },
+  "phase_source": "clock",
+  "journal": {
+    "path": "state/earnings/journal.jsonl",
+    "found": true
+  }
+}

@@ -1,0 +1,527 @@
+{
+ "date": "2026-11-16",
+ "as_of": "2026-11-16T14:50Z (06:50 PT)",
+ "expiry": "2026-11-20",
+ "exit": "Tue 2026-11-17 morning run, first liquid quotes (three days before expiry)",
+ "universe": {
+  "scanner_names": 20,
+  "sent_to_analyst": 13,
+  "note": "Reports 11/16 after the close and 11/17 before the open. Scanner pre-filter (P016), one vol-analyst (183k tokens), one risk-sentinel (116k tokens)."
+ },
+ "macro": {
+  "veto_all": false,
+  "spy_pct": -0.0073,
+  "qqq_pct": -0.0135,
+  "vix": 20.56,
+  "note": "No tier-1 release before Tue 06:45 PT. PCE may print Tue 05:30 PT (tier 2; the calendars disagree)."
+ },
+ "candidates": [],
+ "blocked": {
+  "JD": {
+   "rule": "news flag: other:ceconomy_acquisition_closed (any sentinel flag skips the name). All numeric gates pass.",
+   "timing": "am",
+   "spot": 27.755,
+   "intraday_pct": -0.0056,
+   "K": 28.0,
+   "straddle_pct": 0.065,
+   "atm_spread_pct": 0.1607,
+   "avg_hist_move": 0.0311,
+   "n_hist": 6,
+   "edge_ratio": 0.562,
+   "fly": {
+    "call_strike": 30.5,
+    "put_strike": 25.5,
+    "call": {
+     "id": "93ca85c2-700b-4d4f-9424-3ca565670c41",
+     "bid": 0.08,
+     "ask": 0.18
+    },
+    "put": {
+     "id": "9da95876-e608-48dd-ad8e-04e9cece12ea",
+     "bid": 0.15,
+     "ask": 0.23
+    },
+    "credit_mid": 1.485,
+    "credit_natural": 1.25,
+    "width": 2.5,
+    "max_loss_mid": 101.5,
+    "max_loss_natural": 125.0,
+    "breakevens": [
+     26.515,
+     29.485
+    ],
+    "tick": 0.01,
+    "narrow_width_over_straddle": 1.385,
+    "floor_0p9x_straddle": 1.6245
+   },
+   "gate_clean": {
+    "contracts_now": 1,
+    "contracts_final": 2,
+    "limit_start": 1.49,
+    "limit_floor": 1.37,
+    "max_loss_floor": 113.38
+   },
+   "paper": "JD-20261116-U1",
+   "report_confirmed": "Tue 11/17 before the open, call 04:00 PT (company release of 11/04)"
+  },
+  "XP": {
+   "rule": "regime guard (ratio 2.03, limit 1.25) and earnings_date_unconfirmed",
+   "timing": "pm",
+   "spot": 14.97,
+   "intraday_pct": -0.0336,
+   "K": 15.0,
+   "straddle_pct": 0.0701,
+   "atm_spread_pct": 0.1905,
+   "avg_hist_move": 0.0271,
+   "n_hist": 6,
+   "edge_ratio": 0.455,
+   "fly": {
+    "call_strike": 16.5,
+    "put_strike": 13.5,
+    "call": {
+     "id": "628d5b84-6939-4f73-a5ec-51e7a23e3366",
+     "bid": 0.05,
+     "ask": 0.2
+    },
+    "put": {
+     "id": "a3f529d7-7abf-4bad-8988-7b9d945a0f37",
+     "bid": 0.0,
+     "ask": 0.15
+    },
+    "credit_mid": 0.85,
+    "credit_natural": 0.6,
+    "width": 1.5,
+    "max_loss_mid": 65.0,
+    "max_loss_natural": 90.0,
+    "breakevens": [
+     14.15,
+     15.85
+    ],
+    "tick": 0.05,
+    "narrow_width_over_straddle": 1.4286,
+    "floor_0p9x_straddle": 0.945
+   },
+   "regime_20d": 0.0549,
+   "regime_ex_gap": 0.0323,
+   "flags": [
+    "earnings_date_unconfirmed",
+    "other:post_crash_high_vol_regime",
+    "other:brazil_election_challenge"
+   ],
+   "paper": "XP-20261116-U1",
+   "oct_26": "-48% in one session after Lula's runoff win: a real crash, not a corporate action"
+  },
+  "DIS": {
+   "rule": "edge ratio 1.32 (long_straddle_off); a fly would also be too wide to exit",
+   "timing": "am",
+   "spot": 119.015,
+   "intraday_pct": 0.0004,
+   "K": 119.0,
+   "straddle_pct": 0.0592,
+   "atm_spread_pct": 0.1135,
+   "avg_hist_move": 0.0663,
+   "n_hist": 6,
+   "edge_ratio": 1.317
+  },
+  "HD": {
+   "rule": "not priced: at $348 the fly is far too wide for single-leg exits (gate 16)",
+   "timing": "am",
+   "spot": 347.71,
+   "intraday_pct": -0.0028,
+   "K": 347.5,
+   "straddle_pct": 0.0494,
+   "atm_spread_pct": 0.1194
+  },
+  "POWL": {
+   "rule": "not priced: too wide for single-leg exits; ATM spread 40%",
+   "timing": "pm",
+   "spot": 143.46,
+   "intraday_pct": 0.0052,
+   "K": 145.0,
+   "straddle_pct": 0.1523,
+   "atm_spread_pct": 0.3982
+  },
+  "SHAZ": {
+   "rule": "intraday move -13.9% (over 7%); ATM spread 88%; 2 past reports",
+   "timing": "pm",
+   "spot": 19.415,
+   "intraday_pct": -0.1394,
+   "K": 19.0,
+   "straddle_pct": 0.1751,
+   "atm_spread_pct": 0.8824
+  }
+ },
+ "skipped": {
+  "atm_spread_over_25pct": {
+   "SR": 1.88,
+   "AS": 0.305,
+   "OPRA": 1.447,
+   "KLAR": 0.342,
+   "OMER": 1.252
+  },
+  "timing": {
+   "TCOM": "reports 2026-11-27 pm (unverified)",
+   "PERI": "reported 2026-11-16 am"
+  },
+  "already_reported_this_morning": [
+   "BIDU",
+   "TSN",
+   "BEKE",
+   "ARMK"
+  ],
+  "tuesday_entries": [
+   "NVDA (on hold)",
+   "SQM",
+   "ZTO"
+  ],
+  "calendar_names_the_scanner_dropped": [
+   "INFQ",
+   "PAGS",
+   "ACM",
+   "SKE",
+   "ZK",
+   "GFF",
+   "WB",
+   "VIK",
+   "ESLT",
+   "MNSO",
+   "LUXE",
+   "MFP",
+   "TME",
+   "OCSL",
+   "ENR",
+   "HTHT",
+   "BXDC",
+   "XPEV"
+  ]
+ },
+ "non_earnings_screen": {
+  "as_of": "2026-11-16T14:44Z",
+  "hits": [
+   "CRM",
+   "HPQ",
+   "JD",
+   "PCG"
+  ],
+  "decision": "no trade",
+  "why": {
+   "CRM": "pre-earnings volatility (reports in early December), $217: no dated driver before that, too wide to exit",
+   "HPQ": "pre-earnings volatility (reports next week)",
+   "JD": "an earnings name, handled above",
+   "PCG": "closed this morning; the special-session window has no date and the stock is trending toward 13.65"
+  }
+ },
+ "account": {
+  "as_of": "2026-11-16T14:42Z",
+  "account_value": 1235.08,
+  "buying_power": 1235.08,
+  "risk_used": 0
+ },
+ "entry_plan": "Final sweep 11:47 PT: no new entry (macro veto: SPY -2.1%, VIX +27%). AS (entered 08:32, near-miss tier, 1 contract) is the day's only trade. JD skipped on its news flag; XP, DIS, KLAR blocked; HD out of reach.",
+ "recheck_0815": {
+  "as_of": "2026-11-16T16:15Z to 16:33Z (08:15 to 08:33 PT)",
+  "why": "Brad asked at 08:13 PT how entries looked. AS and KLAR had been dropped at 06:50 only for the ATM spread; both were back inside 25% at 08:15, so both got the cheap check (past reports 6 and 4) and one analyst run (151k tokens) for history, wings and news. File: batch_B.json.",
+  "AS": {
+   "decision": "entered",
+   "trade_id": "AS-20261116-1",
+   "tier": "near_miss",
+   "edge_ratio": 0.8663,
+   "edge_range_seen": [
+    0.843,
+    0.88
+   ],
+   "atm_spread_pct": 0.1913,
+   "worst_leg_spread_seen": [
+    0.2,
+    0.2642
+   ],
+   "avg_hist_move": 0.0717,
+   "n_hist": 6,
+   "news": "clean",
+   "fly": "26/29.5/33",
+   "credit": 2.15,
+   "max_loss_usd": 135.0,
+   "breakevens": [
+    27.35,
+    31.65
+   ],
+   "note": "The gate blocked it at 08:25 (call leg 26.4% wide) and passed it at 08:29 (20.0%). Wings at 1.5x (25/34) cost $225 at the floor, over the $175 tier cap, so the fly is stepped in to 26/33 (1.22x the straddle)."
+  },
+  "KLAR": {
+   "decision": "blocked",
+   "rule": "edge ratio 1.71 (no edge; 3 of 4 past reports moved more than 20%)",
+   "spot": 13.91,
+   "K": 14.0,
+   "straddle_pct": 0.1366,
+   "atm_spread_pct": 0.1053,
+   "avg_hist_move": 0.1984,
+   "n_hist": 4,
+   "news": "clean; reports 2026-11-17 before the open"
+  },
+  "JD": {
+   "decision": "still skipped on the news flag",
+   "requote_0815": {
+    "spot": 27.815,
+    "credit_mid": 1.45,
+    "credit_natural": 1.35,
+    "max_loss_mid": 105.0,
+    "edge_ratio": 0.59
+   }
+  },
+  "HD": {
+   "decision": "not tradable in this account",
+   "spot": 347.28,
+   "K": 347.5,
+   "straddle_mid": 16.425,
+   "straddle_pct": 0.0473,
+   "atm_spread_pct": 0.088,
+   "hist_moves": [
+    -0.0061,
+    0.0317,
+    -0.0602,
+    0.0199,
+    0.0088,
+    -0.0012
+   ],
+   "avg_hist_move": 0.0213,
+   "edge_ratio": 0.53,
+   "fly": "330/347.5/365 (1.07x the straddle, the narrowest fly the wing floor allows)",
+   "credit_mid": 11.965,
+   "credit_natural": 10.9,
+   "max_loss_mid": 553.5,
+   "max_loss_floor": 649.0,
+   "breakevens": [
+    335.5,
+    359.5
+   ],
+   "why": "One contract risks $554 to $649 against the $350 name cap, and a single-leg exit would need about $1,925 of buying power (gate 16). It needs multi-leg orders and a higher name cap. Recorded so the reflection can score it."
+  },
+  "multi_leg_retry": {
+   "at_pt": "08:29",
+   "order": "AS 26/29.5/33 iron fly, 1 contract, 2.20 credit",
+   "review": "clean (collateral 350, customer_approval_required false)",
+   "placement": "refused: 'this account requires the customer to approve agent-placed trades, and a multi-leg strategy cannot be sent for approval yet'"
+  },
+  "day_trade_premium": "state/earnings/daytrade/2026-11-16/premium_check.json (SPY 1.10x at 07:17, 0.96x at 08:16; IWM 0.81x; live trigger 1.15x)",
+  "notes_for_reflection": [
+   "Grade the AS entry (early phase, one contract, legging 142 s, fill 2.15 against mid 2.20).",
+   "Both shorts filled at once at or above mid: test starting the short legs one tick above mid.",
+   "The gate's worst-leg spread flipped the verdict within four minutes (26.4% then 20.0%): consider a second read before blocking or a short re-quote loop.",
+   "HD is the day's best edge (0.53) and out of reach: paper-score its 330/347.5/365 fly on Tuesday morning.",
+   "Brad, about 08:21 PT: 'This is for option trading. And should be trading all work days of the week' (P038 declined; P039 opened for Fridays)."
+  ]
+ },
+ "recheck_0945": {
+  "as_of": "2026-11-16T17:46Z (09:46 PT)",
+  "macro": {
+   "spy_pct": -0.015,
+   "vix": 21.86,
+   "vix_change": 0.133,
+   "veto": false,
+   "note": "close to the veto lines (SPY at -2%, VIX up 15% = 22.20): the 11:46 sweep must re-read both before any order"
+  },
+  "ranking": [
+   {
+    "symbol": "HD",
+    "edge_ratio": 0.538,
+    "straddle_pct": 0.0466,
+    "atm_spread_pct": 0.062,
+    "intraday_pct": -0.002,
+    "status": "blocked: one contract risks about 554 to 660, over the 350 name cap, and it cannot be exited by legs (gate 16)"
+   },
+   {
+    "symbol": "JD",
+    "edge_ratio": 0.581,
+    "straddle_pct": 0.063,
+    "atm_spread_pct": 0.097,
+    "intraday_pct": -0.0072,
+    "credit_mid": 1.46,
+    "credit_natural": 1.36,
+    "max_loss_mid": 104.0,
+    "status": "skipped: news flag stands for the day (needs Brad's 'JD on'); spot 27.71 is now nearer the 27.5 strike than 28"
+   },
+   {
+    "symbol": "AS",
+    "edge_ratio": 0.866,
+    "status": "open since 08:32 PT (1 contract, tier size reached: no add)",
+    "close_cost_mid": 2.275,
+    "pnl_mid_usd": -12.5,
+    "spot": 29.615
+   },
+   {
+    "symbol": "XP",
+    "straddle_pct": 0.0694,
+    "atm_spread_pct": 0.146,
+    "intraday_pct": -0.0458,
+    "status": "blocked: regime guard 2.03 and report date unconfirmed"
+   },
+   {
+    "symbol": "DIS",
+    "edge_ratio": 1.283,
+    "straddle_pct": 0.0608,
+    "atm_spread_pct": 0.048,
+    "status": "blocked: no edge"
+   },
+   {
+    "symbol": "KLAR",
+    "edge_ratio": 1.71,
+    "status": "blocked: no edge"
+   }
+  ],
+  "still_too_wide": {
+   "SR": "90 call has no bid",
+   "OPRA": 0.73,
+   "OMER": 0.47,
+   "SHAZ": "0.26 and -13.7% on the day",
+   "POWL": "+6.6% on the day and too wide to exit by legs"
+  },
+  "entered": [],
+  "decision": "nothing new qualifies; the 11:46 PT run is the final sweep"
+ },
+ "final_sweep_1147": {
+  "as_of": "2026-11-16T19:47Z (11:47 PT)",
+  "macro": {
+   "spy_pct": -0.0214,
+   "vix": 24.48,
+   "vix_prev_close": 19.3,
+   "vix_change": 0.268,
+   "veto": true,
+   "rule": "no new entries when |SPY today| >= 2% or VIX is up >= 15% on the day"
+  },
+  "decision": "no new entry",
+  "names": {
+   "JD": {
+    "decision": "not entered",
+    "reasons": [
+     "news flag stands (no 'JD on' from Brad)",
+     "macro veto"
+    ],
+    "spot": 27.555,
+    "intraday_pct": -0.0127,
+    "legs": {
+     "28C": [
+      0.66,
+      0.69
+     ],
+     "28P": [
+      1.09,
+      1.13
+     ],
+     "30.5C": [
+      0.09,
+      0.11
+     ],
+     "25.5P": [
+      0.19,
+      0.21
+     ]
+    },
+    "credit_mid_28_body": 1.485,
+    "note": "spot is now nearer the 27.5 strike; the paper record JD-20261116-U1 keeps the 28 body entered at 06:50"
+   },
+   "HD": {
+    "decision": "not entered",
+    "reasons": [
+     "one contract risks about 554 to 660 (name cap 350)",
+     "cannot be exited by legs (gate 16)",
+     "macro veto"
+    ],
+    "spot": 346.3
+   },
+   "XP": {
+    "decision": "not entered",
+    "reasons": [
+     "regime guard 2.03",
+     "report date unconfirmed",
+     "macro veto"
+    ],
+    "spot": 14.69,
+    "intraday_pct": -0.0516
+   },
+   "DIS": {
+    "decision": "not entered",
+    "reasons": [
+     "edge ratio about 1.28: no edge"
+    ],
+    "spot": 118.05
+   },
+   "KLAR": {
+    "decision": "not entered",
+    "reasons": [
+     "edge ratio 1.71: no edge"
+    ],
+    "spot": 13.67
+   },
+   "AS": {
+    "decision": "held, no add",
+    "reasons": [
+     "tier size (one contract) reached",
+     "macro veto"
+    ],
+    "spot": 28.81,
+    "intraday_pct": -0.0377,
+    "close_cost_mid": 1.925,
+    "pnl_mid_usd": 22.5,
+    "pnl_natural_usd": -30.0,
+    "reprojection": {
+     "spot": 28.81,
+     "avg_past_moves_mid_usd": 20.5,
+     "after_slippage_usd": 5.5,
+     "at_entry_after_slippage_usd": 4.4,
+     "note": "the stock fell 2.1% between 11:15 and 11:47 with the market and sits 2.3% under the body; the projected exit result is unchanged because four of the six past moves were up"
+    }
+   }
+  },
+  "hand_entries": "none seen (no JD or HD position, no open orders)",
+  "notes_for_reflection": [
+   "The early AS entry (08:32) took a 2.6% intraday drift (29.59 to 28.81) before the report: evidence on whether a one-contract name should wait for the final window. On today's tape a final-window entry would have been blocked by the macro veto, so the early entry is the only reason the trade exists.",
+   "The macro veto came on at about 11:15 (VIX) and SPY crossed -2% before 11:47."
+  ]
+ },
+ "owner_entries_1230": {
+  "as_of": "2026-11-16T20:39:02Z",
+  "why": "Brad, 12:28 PT: 'Open trades for earnings. Lets utilize all of the funding available. Is he or any of these others good setups for me to run the multi leg myself?' after the final sweep had recorded no entry under the macro veto.",
+  "JD": {
+   "entered_by": "agent, on Brad's instruction",
+   "contracts": 2,
+   "structure": "25/27.5/30",
+   "credit": 1.42,
+   "max_loss_usd": 216.0,
+   "waived": [
+    "news flag",
+    "macro veto",
+    "same sector as AS"
+   ]
+  },
+  "HD": {
+   "entered_by": "Brad, by hand, one 4-leg order",
+   "contracts": 1,
+   "structure": "330/347.5/365",
+   "credit": 11.9,
+   "max_loss_usd": 560.0,
+   "waived": [
+    "name cap 350",
+    "exit by legs (gate 16)",
+    "macro veto",
+    "same sector"
+   ]
+  },
+  "notes_for_reflection": [
+   "A permission denial left JD one-sided for 5.5 minutes with 23 minutes to the close: the entry procedure needs a rule for an order the session itself refuses (who is told, what is unwound, by when).",
+   "Brad's 4-leg HD order filled 9 cents under mid in one order: the first direct measure of what multi-leg execution is worth against legging.",
+   "Three earnings flies are open on a macro-veto day, all three before-the-open reporters, total max loss 911 of a 1,199 account: the result is the first evidence on the veto rule and on owner overrides (compare with the NVDA override of 2026-11-11).",
+   "Buying power after the HD entry is 323: single-leg exits are feasible only in sequence. Gate 16 was computed before HD existed; the gate should be re-run for open names when a hand entry changes buying power."
+  ]
+ },
+ "owner_permission_1246": {
+  "at": "2026-11-16T20:47:16Z",
+  "brad": "permission to open now if you see fit. until 12:55",
+  "decision": "nothing opened",
+  "why": [
+   "three flies are already open into the same morning's reports, total max loss 911, on a day the macro veto is on (SPY -2.0%, VIX +23%)",
+   "the only name with edge left to add to is JD, which already needed the news flag, the macro veto and the sector rule waived; a third contract would be the agent's own judgment and the agent does not hold that view",
+   "nothing else on the list has edge (DIS 1.28, KLAR 1.71) or is tradable (XP regime guard, the rest too wide)"
+  ],
+  "note_for_reflection": "Brad left it to the agent's judgment and the agent declined: grade this against Tuesday's results."
+ }
+}

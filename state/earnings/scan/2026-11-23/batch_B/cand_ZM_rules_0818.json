@@ -1,0 +1,50 @@
+{
+ "symbol": "ZM",
+ "timing": "pm",
+ "spot": 85.05,
+ "prev_close": 81.26,
+ "K": 85.0,
+ "call": {
+  "bid": 3.75,
+  "ask": 3.9
+ },
+ "put": {
+  "bid": 3.75,
+  "ask": 4.0
+ },
+ "hist_moves": [
+  -0.002431,
+  0.127101,
+  0.098473,
+  -0.115767,
+  0.091886,
+  -0.070254
+ ],
+ "regime_20d": 0.027385,
+ "flags": [
+  "soft:analyst_pt_cuts_nov19",
+  "soft:pre_earnings_selloff",
+  "soft:ai_launchpad_nov10",
+  "soft:market_rally"
+ ],
+ "account_value": 1909.87,
+ "open_risk_usd": 449.94,
+ "buying_power": 1469.22,
+ "tick": 0.01,
+ "wings": {
+  "call_strike": 92,
+  "put_strike": 78,
+  "call": {
+   "bid": 1.28,
+   "ask": 1.5
+  },
+  "put": {
+   "bid": 1.09,
+   "ask": 1.56
+  }
+ },
+ "sector": "software, communications",
+ "sectors_entered_today": [],
+ "sector_same_direction": true,
+ "macro_veto": "hard: SPY +5.0% today"
+}

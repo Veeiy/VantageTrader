@@ -1,0 +1,2716 @@
+{
+ "as_of_utc": "2026-11-17T03:02:00Z",
+ "scan": {
+  "filters": "FILTER_TYPE_AVERAGE_OPTIONS_VOLUME(1d,30) >= 100000 AND FILTER_TYPE_LAST >= 15 AND FILTER_TYPE_INSTRUMENT_TYPE ANY_OF [STOCK,ETF]",
+  "returned": 60,
+  "kept": 60,
+  "note": "preview_scan only (nothing saved); under the 70 cap so all kept. avg_options_volume from scan column, rounded; null for added names the scan did not return (sub-threshold, under $15, or index). last = last regular-session trade of 2026-11-16; prev_close = quote previous_close, which the API dates 2026-11-16 (i.e. the 11-16 official close, not 11-13). Market closed; no spread checks."
+ },
+ "names": [
+  {
+   "symbol": "SPY",
+   "source": "both",
+   "avg_options_volume": 3091963,
+   "last": 740.04,
+   "prev_close": 739.95,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.01,
+    "below": 0.01,
+    "cutoff": 0.0
+   },
+   "expiries": {
+    "2026-11-17": true,
+    "2026-11-18": true,
+    "2026-11-19": true,
+    "2026-11-20": true,
+    "2026-11-23": true,
+    "2026-11-24": true
+   },
+   "class": "daily",
+   "blocked": false,
+   "notes": "extended-hours last 740.1",
+   "chains": [
+    {
+     "symbol": "SPY",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-17",
+      "2026-11-18",
+      "2026-11-19",
+      "2026-11-20",
+      "2026-11-23",
+      "2026-11-24"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "NVDA",
+   "source": "both",
+   "avg_options_volume": 2459404,
+   "last": 156.16,
+   "prev_close": 156.14,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": true,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": true,
+    "2026-11-24": false
+   },
+   "class": "mon_wed_fri",
+   "blocked": false,
+   "notes": "extended-hours last 157.8",
+   "chains": [
+    {
+     "symbol": "NVDA",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-18",
+      "2026-11-20",
+      "2026-11-23"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "QQQ",
+   "source": "both",
+   "avg_options_volume": 2273901,
+   "last": 661.82,
+   "prev_close": 661.75,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.01,
+    "below": 0.01,
+    "cutoff": 0.0
+   },
+   "expiries": {
+    "2026-11-17": true,
+    "2026-11-18": true,
+    "2026-11-19": true,
+    "2026-11-20": true,
+    "2026-11-23": true,
+    "2026-11-24": true
+   },
+   "class": "daily",
+   "blocked": false,
+   "notes": "extended-hours last 664.4",
+   "chains": [
+    {
+     "symbol": "QQQ",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-17",
+      "2026-11-18",
+      "2026-11-19",
+      "2026-11-20",
+      "2026-11-23",
+      "2026-11-24"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "IWM",
+   "source": "both",
+   "avg_options_volume": 841326,
+   "last": 273.0,
+   "prev_close": 272.94,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.01,
+    "below": 0.01,
+    "cutoff": 0.0
+   },
+   "expiries": {
+    "2026-11-17": true,
+    "2026-11-18": true,
+    "2026-11-19": true,
+    "2026-11-20": true,
+    "2026-11-23": true,
+    "2026-11-24": true
+   },
+   "class": "daily",
+   "blocked": false,
+   "notes": "extended-hours last 272.3",
+   "chains": [
+    {
+     "symbol": "IWM",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-17",
+      "2026-11-18",
+      "2026-11-19",
+      "2026-11-20",
+      "2026-11-23",
+      "2026-11-24"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "EWZ",
+   "source": "scan",
+   "avg_options_volume": 682150,
+   "last": 30.935,
+   "prev_close": 30.92,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 30.98",
+   "chains": [
+    {
+     "symbol": "EWZ",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "HYG",
+   "source": "both",
+   "avg_options_volume": 623912,
+   "last": 76.74,
+   "prev_close": 76.73,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 76.73",
+   "chains": [
+    {
+     "symbol": "HYG",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "TSLA",
+   "source": "both",
+   "avg_options_volume": 594181,
+   "last": 379.78,
+   "prev_close": 379.74,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": true,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": true,
+    "2026-11-24": false
+   },
+   "class": "mon_wed_fri",
+   "blocked": true,
+   "notes": "extended-hours last 380.2; blocked by owner",
+   "chains": [
+    {
+     "symbol": "TSLA",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-18",
+      "2026-11-20",
+      "2026-11-23"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "SPCX",
+   "source": "scan",
+   "avg_options_volume": 580458,
+   "last": 137.365,
+   "prev_close": 137.36,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": true,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": true,
+    "2026-11-24": false
+   },
+   "class": "mon_wed_fri",
+   "blocked": false,
+   "notes": "extended-hours last 137.9",
+   "chains": [
+    {
+     "symbol": "SPCX",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-18",
+      "2026-11-20",
+      "2026-11-23"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "TLT",
+   "source": "both",
+   "avg_options_volume": 553086,
+   "last": 79.38,
+   "prev_close": 79.38,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": true,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": true,
+    "2026-11-24": false
+   },
+   "class": "mon_wed_fri",
+   "blocked": false,
+   "notes": "extended-hours last 79.35",
+   "chains": [
+    {
+     "symbol": "TLT",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-18",
+      "2026-11-20",
+      "2026-11-23"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "INTC",
+   "source": "both",
+   "avg_options_volume": 528860,
+   "last": 55.46,
+   "prev_close": 55.47,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 54.59",
+   "chains": [
+    {
+     "symbol": "INTC",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "IBIT",
+   "source": "both",
+   "avg_options_volume": 484153,
+   "last": 36.8,
+   "prev_close": 36.79,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": true,
+    "2026-11-18": true,
+    "2026-11-19": true,
+    "2026-11-20": true,
+    "2026-11-23": true,
+    "2026-11-24": true
+   },
+   "class": "daily",
+   "blocked": false,
+   "notes": "extended-hours last 36.51",
+   "chains": [
+    {
+     "symbol": "IBIT",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-17",
+      "2026-11-18",
+      "2026-11-19",
+      "2026-11-20",
+      "2026-11-23",
+      "2026-11-24"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "MU",
+   "source": "both",
+   "avg_options_volume": 465896,
+   "last": 719.07,
+   "prev_close": 719.02,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": true,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": true,
+    "2026-11-24": false
+   },
+   "class": "mon_wed_fri",
+   "blocked": false,
+   "notes": "extended-hours last 730.1",
+   "chains": [
+    {
+     "symbol": "MU",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-18",
+      "2026-11-20",
+      "2026-11-23"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "XLF",
+   "source": "both",
+   "avg_options_volume": 431686,
+   "last": 58.17,
+   "prev_close": 58.18,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": true,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": true,
+    "2026-11-24": false
+   },
+   "class": "mon_wed_fri",
+   "blocked": false,
+   "notes": "extended-hours last 58.06",
+   "chains": [
+    {
+     "symbol": "XLF",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-18",
+      "2026-11-20",
+      "2026-11-23"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "AAPL",
+   "source": "both",
+   "avg_options_volume": 431398,
+   "last": 352.83,
+   "prev_close": 352.78,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": true,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": true,
+    "2026-11-24": false
+   },
+   "class": "mon_wed_fri",
+   "blocked": false,
+   "notes": "extended-hours last 352.6",
+   "chains": [
+    {
+     "symbol": "AAPL",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-18",
+      "2026-11-20",
+      "2026-11-23"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "AMD",
+   "source": "both",
+   "avg_options_volume": 405978,
+   "last": 504.37,
+   "prev_close": 504.28,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": true,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": true,
+    "2026-11-24": false
+   },
+   "class": "mon_wed_fri",
+   "blocked": false,
+   "notes": "extended-hours last 514.1",
+   "chains": [
+    {
+     "symbol": "AMD",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-18",
+      "2026-11-20",
+      "2026-11-23"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "SLV",
+   "source": "both",
+   "avg_options_volume": 366623,
+   "last": 42.38,
+   "prev_close": 42.39,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": true,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": true,
+    "2026-11-24": false
+   },
+   "class": "mon_wed_fri",
+   "blocked": false,
+   "notes": "extended-hours last 42.93",
+   "chains": [
+    {
+     "symbol": "SLV",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-18",
+      "2026-11-20",
+      "2026-11-23"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "AMZN",
+   "source": "both",
+   "avg_options_volume": 359581,
+   "last": 257.8,
+   "prev_close": 257.75,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": true,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": true,
+    "2026-11-24": false
+   },
+   "class": "mon_wed_fri",
+   "blocked": false,
+   "notes": "extended-hours last 258.1",
+   "chains": [
+    {
+     "symbol": "AMZN",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-18",
+      "2026-11-20",
+      "2026-11-23"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "GOOGL",
+   "source": "both",
+   "avg_options_volume": 341371,
+   "last": 283.73,
+   "prev_close": 283.72,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": true,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": true,
+    "2026-11-24": false
+   },
+   "class": "mon_wed_fri",
+   "blocked": false,
+   "notes": "extended-hours last 284.4",
+   "chains": [
+    {
+     "symbol": "GOOGL",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-18",
+      "2026-11-20",
+      "2026-11-23"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "GLD",
+   "source": "both",
+   "avg_options_volume": 330262,
+   "last": 352.91,
+   "prev_close": 352.93,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": true,
+    "2026-11-18": true,
+    "2026-11-19": true,
+    "2026-11-20": true,
+    "2026-11-23": true,
+    "2026-11-24": true
+   },
+   "class": "daily",
+   "blocked": false,
+   "notes": "extended-hours last 354.6",
+   "chains": [
+    {
+     "symbol": "GLD",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-17",
+      "2026-11-18",
+      "2026-11-19",
+      "2026-11-20",
+      "2026-11-23",
+      "2026-11-24"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "IREN",
+   "source": "scan",
+   "avg_options_volume": 327229,
+   "last": 16.3803,
+   "prev_close": 16.39,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 16.65",
+   "chains": [
+    {
+     "symbol": "IREN",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "CRWV",
+   "source": "scan",
+   "avg_options_volume": 324942,
+   "last": 49.88,
+   "prev_close": 49.88,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 50.5",
+   "chains": [
+    {
+     "symbol": "CRWV",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "LQD",
+   "source": "scan",
+   "avg_options_volume": 318070,
+   "last": 102.785,
+   "prev_close": 102.8,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": true,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": true,
+    "2026-11-24": false
+   },
+   "class": "mon_wed_fri",
+   "blocked": false,
+   "notes": "extended-hours last 102.8",
+   "chains": [
+    {
+     "symbol": "LQD",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-18",
+      "2026-11-20",
+      "2026-11-23"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "NFLX",
+   "source": "both",
+   "avg_options_volume": 281650,
+   "last": 60.74,
+   "prev_close": 60.75,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 60.78",
+   "chains": [
+    {
+     "symbol": "NFLX",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "META",
+   "source": "both",
+   "avg_options_volume": 264323,
+   "last": 626.61,
+   "prev_close": 626.41,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": true,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": true,
+    "2026-11-24": false
+   },
+   "class": "mon_wed_fri",
+   "blocked": false,
+   "notes": "extended-hours last 624.9",
+   "chains": [
+    {
+     "symbol": "META",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-18",
+      "2026-11-20",
+      "2026-11-23"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "DRAM",
+   "source": "scan",
+   "avg_options_volume": 256689,
+   "last": 39.29,
+   "prev_close": 39.27,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": true,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": true,
+    "2026-11-24": false
+   },
+   "class": "mon_wed_fri",
+   "blocked": false,
+   "notes": "extended-hours last 39.76",
+   "chains": [
+    {
+     "symbol": "DRAM",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-18",
+      "2026-11-20",
+      "2026-11-23"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "SMH",
+   "source": "both",
+   "avg_options_volume": 256576,
+   "last": 461.81,
+   "prev_close": 461.9,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": true,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": true,
+    "2026-11-24": false
+   },
+   "class": "mon_wed_fri",
+   "blocked": false,
+   "notes": "extended-hours last 467.7",
+   "chains": [
+    {
+     "symbol": "SMH",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-18",
+      "2026-11-20",
+      "2026-11-23"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "SOXX",
+   "source": "scan",
+   "avg_options_volume": 254853,
+   "last": 141.2,
+   "prev_close": 141.22,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.1,
+    "below": 0.05,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 143.2",
+   "chains": [
+    {
+     "symbol": "SOXX",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "MSFT",
+   "source": "both",
+   "avg_options_volume": 244502,
+   "last": 518.11,
+   "prev_close": 517.99,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": true,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": true,
+    "2026-11-24": false
+   },
+   "class": "mon_wed_fri",
+   "blocked": false,
+   "notes": "extended-hours last 518.7",
+   "chains": [
+    {
+     "symbol": "MSFT",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-18",
+      "2026-11-20",
+      "2026-11-23"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "MSTR",
+   "source": "both",
+   "avg_options_volume": 230616,
+   "last": 103.05,
+   "prev_close": 103.03,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 102.7",
+   "chains": [
+    {
+     "symbol": "MSTR",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "SOXL",
+   "source": "both",
+   "avg_options_volume": 226077,
+   "last": 48.7503,
+   "prev_close": 48.76,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 50.84",
+   "chains": [
+    {
+     "symbol": "SOXL",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "EEM",
+   "source": "both",
+   "avg_options_volume": 222141,
+   "last": 58.9,
+   "prev_close": 58.89,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 58.82",
+   "chains": [
+    {
+     "symbol": "EEM",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "TQQQ",
+   "source": "both",
+   "avg_options_volume": 221733,
+   "last": 53.05,
+   "prev_close": 53.03,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": true,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": true,
+    "2026-11-24": false
+   },
+   "class": "mon_wed_fri",
+   "blocked": false,
+   "notes": "extended-hours last 53.64",
+   "chains": [
+    {
+     "symbol": "TQQQ",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-18",
+      "2026-11-20",
+      "2026-11-23"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "AVGO",
+   "source": "both",
+   "avg_options_volume": 215643,
+   "last": 333.71,
+   "prev_close": 333.4,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": true,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": true,
+    "2026-11-24": false
+   },
+   "class": "mon_wed_fri",
+   "blocked": false,
+   "notes": "extended-hours last 338.4",
+   "chains": [
+    {
+     "symbol": "AVGO",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-18",
+      "2026-11-20",
+      "2026-11-23"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "ORCL",
+   "source": "scan",
+   "avg_options_volume": 208248,
+   "last": 119.06,
+   "prev_close": 119.09,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 119.8",
+   "chains": [
+    {
+     "symbol": "ORCL",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "FXI",
+   "source": "both",
+   "avg_options_volume": 201602,
+   "last": 33.34,
+   "prev_close": 33.32,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 33.15",
+   "chains": [
+    {
+     "symbol": "FXI",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "XLE",
+   "source": "both",
+   "avg_options_volume": 185365,
+   "last": 63.71,
+   "prev_close": 63.69,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": true,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": true,
+    "2026-11-24": false
+   },
+   "class": "mon_wed_fri",
+   "blocked": false,
+   "notes": "extended-hours last 63.32",
+   "chains": [
+    {
+     "symbol": "XLE",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-18",
+      "2026-11-20",
+      "2026-11-23"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "XLP",
+   "source": "scan",
+   "avg_options_volume": 174356,
+   "last": 92.63,
+   "prev_close": 92.6,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 92.68",
+   "chains": [
+    {
+     "symbol": "XLP",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "NBIS",
+   "source": "scan",
+   "avg_options_volume": 173703,
+   "last": 107.11,
+   "prev_close": 107.13,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 109.8",
+   "chains": [
+    {
+     "symbol": "NBIS",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "HOOD",
+   "source": "both",
+   "avg_options_volume": 172096,
+   "last": 72.07,
+   "prev_close": 72.06,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 72.09",
+   "chains": [
+    {
+     "symbol": "HOOD",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "PLTR",
+   "source": "both",
+   "avg_options_volume": 166369,
+   "last": 160.36,
+   "prev_close": 160.39,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 160.5",
+   "chains": [
+    {
+     "symbol": "PLTR",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "EFA",
+   "source": "scan",
+   "avg_options_volume": 162455,
+   "last": 102.66,
+   "prev_close": 102.64,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 102.6",
+   "chains": [
+    {
+     "symbol": "EFA",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "RIOT",
+   "source": "scan",
+   "avg_options_volume": 156495,
+   "last": 17.07,
+   "prev_close": 17.06,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 16.99",
+   "chains": [
+    {
+     "symbol": "RIOT",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "GOOG",
+   "source": "scan",
+   "avg_options_volume": 151693,
+   "last": 281.29,
+   "prev_close": 281.26,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 281.8",
+   "chains": [
+    {
+     "symbol": "GOOG",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "USO",
+   "source": "both",
+   "avg_options_volume": 149030,
+   "last": 140.06,
+   "prev_close": 140.03,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": true,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "other",
+   "blocked": false,
+   "notes": "expiries in window: 2026-11-18,2026-11-20; extended-hours last 139.2",
+   "chains": [
+    {
+     "symbol": "USO",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-18",
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "MRVL",
+   "source": "scan",
+   "avg_options_volume": 138484,
+   "last": 145.42,
+   "prev_close": 145.36,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 147.8",
+   "chains": [
+    {
+     "symbol": "MRVL",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "SNDK",
+   "source": "scan",
+   "avg_options_volume": 138233,
+   "last": 808.93,
+   "prev_close": 809.11,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.1,
+    "below": 0.05,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 819.9",
+   "chains": [
+    {
+     "symbol": "SNDK",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "SMCI",
+   "source": "scan",
+   "avg_options_volume": 133350,
+   "last": 25.025,
+   "prev_close": 25.025,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 25.25",
+   "chains": [
+    {
+     "symbol": "SMCI",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "XLU",
+   "source": "scan",
+   "avg_options_volume": 123171,
+   "last": 44.135,
+   "prev_close": 44.12,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 44.04",
+   "chains": [
+    {
+     "symbol": "XLU",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "GDX",
+   "source": "scan",
+   "avg_options_volume": 121739,
+   "last": 78.96,
+   "prev_close": 78.95,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": true,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": true,
+    "2026-11-24": false
+   },
+   "class": "mon_wed_fri",
+   "blocked": false,
+   "notes": "extended-hours last 79.36",
+   "chains": [
+    {
+     "symbol": "GDX",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-18",
+      "2026-11-20",
+      "2026-11-23"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "KRE",
+   "source": "scan",
+   "avg_options_volume": 120502,
+   "last": 72.19,
+   "prev_close": 72.19,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 72.12",
+   "chains": [
+    {
+     "symbol": "KRE",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "TSM",
+   "source": "scan",
+   "avg_options_volume": 114025,
+   "last": 373.4382,
+   "prev_close": 373.45,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 376.5",
+   "chains": [
+    {
+     "symbol": "TSM",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "EWY",
+   "source": "scan",
+   "avg_options_volume": 112574,
+   "last": 136.5677,
+   "prev_close": 136.55,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 137.3",
+   "chains": [
+    {
+     "symbol": "EWY",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "BAC",
+   "source": "scan",
+   "avg_options_volume": 109946,
+   "last": 50.1099,
+   "prev_close": 50.08,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 50.04",
+   "chains": [
+    {
+     "symbol": "BAC",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "IEF",
+   "source": "scan",
+   "avg_options_volume": 106834,
+   "last": 90.235,
+   "prev_close": 90.24,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": true,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": true,
+    "2026-11-24": false
+   },
+   "class": "mon_wed_fri",
+   "blocked": false,
+   "notes": "extended-hours last 90.3",
+   "chains": [
+    {
+     "symbol": "IEF",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-18",
+      "2026-11-20",
+      "2026-11-23"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "KWEB",
+   "source": "both",
+   "avg_options_volume": 106683,
+   "last": 22.57,
+   "prev_close": 22.56,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 22.41",
+   "chains": [
+    {
+     "symbol": "KWEB",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "NOW",
+   "source": "scan",
+   "avg_options_volume": 106676,
+   "last": 99.395,
+   "prev_close": 99.37,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 98.9",
+   "chains": [
+    {
+     "symbol": "NOW",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "PBR",
+   "source": "scan",
+   "avg_options_volume": 102509,
+   "last": 17.32,
+   "prev_close": 17.3,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 17.3",
+   "chains": [
+    {
+     "symbol": "PBR",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "BA",
+   "source": "scan",
+   "avg_options_volume": 101898,
+   "last": 165.255,
+   "prev_close": 165.22,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 165",
+   "chains": [
+    {
+     "symbol": "BA",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "GME",
+   "source": "scan",
+   "avg_options_volume": 101620,
+   "last": 25.63,
+   "prev_close": 25.6,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 25.56",
+   "chains": [
+    {
+     "symbol": "GME",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "UAL",
+   "source": "scan",
+   "avg_options_volume": 100691,
+   "last": 110.77,
+   "prev_close": 110.76,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 110",
+   "chains": [
+    {
+     "symbol": "UAL",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "DIA",
+   "source": "added",
+   "avg_options_volume": null,
+   "last": 515.745,
+   "prev_close": 515.68,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 514.5",
+   "chains": [
+    {
+     "symbol": "DIA",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "XSP",
+   "source": "added",
+   "avg_options_volume": null,
+   "last": null,
+   "prev_close": null,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": true,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.01,
+    "below": 0.01,
+    "cutoff": 0.0
+   },
+   "expiries": {
+    "2026-11-17": true,
+    "2026-11-18": true,
+    "2026-11-19": true,
+    "2026-11-20": true,
+    "2026-11-23": true,
+    "2026-11-24": true
+   },
+   "class": "daily",
+   "blocked": false,
+   "notes": "index: no equity quote",
+   "chains": [
+    {
+     "symbol": "XSP",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-17",
+      "2026-11-18",
+      "2026-11-19",
+      "2026-11-20",
+      "2026-11-23",
+      "2026-11-24"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "SPX",
+   "source": "added",
+   "avg_options_volume": null,
+   "last": null,
+   "prev_close": null,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": true,
+   "settle_on_open": null,
+   "ticks": {
+    "above": 0.1,
+    "below": 0.05,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": true,
+    "2026-11-18": true,
+    "2026-11-19": true,
+    "2026-11-20": true,
+    "2026-11-23": true,
+    "2026-11-24": true
+   },
+   "class": "daily",
+   "blocked": false,
+   "notes": "mixed settlement: SPXW PM-settled (in window: 11-17,11-18,11-19,11-20,11-23,11-24); SPX AM-settled (in window: 11-20); index: no equity quote",
+   "chains": [
+    {
+     "symbol": "SPXW",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-17",
+      "2026-11-18",
+      "2026-11-19",
+      "2026-11-20",
+      "2026-11-23",
+      "2026-11-24"
+     ]
+    },
+    {
+     "symbol": "SPX",
+     "settle_on_open": true,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "NDX",
+   "source": "added",
+   "avg_options_volume": null,
+   "last": null,
+   "prev_close": null,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": true,
+   "settle_on_open": null,
+   "ticks": {
+    "above": 0.1,
+    "below": 0.05,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": true,
+    "2026-11-18": true,
+    "2026-11-19": true,
+    "2026-11-20": true,
+    "2026-11-23": true,
+    "2026-11-24": true
+   },
+   "class": "daily",
+   "blocked": false,
+   "notes": "mixed settlement: NDX AM-settled (in window: 11-20); NDXP PM-settled (in window: 11-17,11-18,11-19,11-20,11-23,11-24); index: no equity quote",
+   "chains": [
+    {
+     "symbol": "NDX",
+     "settle_on_open": true,
+     "in_window": [
+      "2026-11-20"
+     ]
+    },
+    {
+     "symbol": "NDXP",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-17",
+      "2026-11-18",
+      "2026-11-19",
+      "2026-11-20",
+      "2026-11-23",
+      "2026-11-24"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "RUT",
+   "source": "added",
+   "avg_options_volume": null,
+   "last": null,
+   "prev_close": null,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": true,
+   "settle_on_open": null,
+   "ticks": {
+    "above": 0.1,
+    "below": 0.05,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": true,
+    "2026-11-18": true,
+    "2026-11-19": true,
+    "2026-11-20": true,
+    "2026-11-23": true,
+    "2026-11-24": true
+   },
+   "class": "daily",
+   "blocked": false,
+   "notes": "mixed settlement: RUT AM-settled (in window: 11-20); RUTW PM-settled (in window: 11-17,11-18,11-19,11-20,11-23,11-24); index: no equity quote",
+   "chains": [
+    {
+     "symbol": "RUT",
+     "settle_on_open": true,
+     "in_window": [
+      "2026-11-20"
+     ]
+    },
+    {
+     "symbol": "RUTW",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-17",
+      "2026-11-18",
+      "2026-11-19",
+      "2026-11-20",
+      "2026-11-23",
+      "2026-11-24"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "ETHA",
+   "source": "added",
+   "avg_options_volume": null,
+   "last": 41.16,
+   "prev_close": 41.13,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 41",
+   "chains": [
+    {
+     "symbol": "ETHA",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "UNG",
+   "source": "added",
+   "avg_options_volume": null,
+   "last": 9.83,
+   "prev_close": 9.82,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": true,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "other",
+   "blocked": false,
+   "notes": "expiries in window: 2026-11-18,2026-11-20; extended-hours last 9.75",
+   "chains": [
+    {
+     "symbol": "UNG",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-18",
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "ARKK",
+   "source": "added",
+   "avg_options_volume": null,
+   "last": 71.57,
+   "prev_close": 71.55,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 71.76",
+   "chains": [
+    {
+     "symbol": "ARKK",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "COIN",
+   "source": "added",
+   "avg_options_volume": null,
+   "last": 119.83,
+   "prev_close": 119.84,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 119.2",
+   "chains": [
+    {
+     "symbol": "COIN",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "BABA",
+   "source": "added",
+   "avg_options_volume": null,
+   "last": 90.63,
+   "prev_close": 90.62,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 88.43",
+   "chains": [
+    {
+     "symbol": "BABA",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "UBER",
+   "source": "added",
+   "avg_options_volume": null,
+   "last": 69.995,
+   "prev_close": 69.99,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 69.8",
+   "chains": [
+    {
+     "symbol": "UBER",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  },
+  {
+   "symbol": "SOFI",
+   "source": "added",
+   "avg_options_volume": null,
+   "last": 14.845,
+   "prev_close": 14.85,
+   "has_chain": true,
+   "can_open_position": true,
+   "is_index": false,
+   "settle_on_open": false,
+   "ticks": {
+    "above": 0.05,
+    "below": 0.01,
+    "cutoff": 3.0
+   },
+   "expiries": {
+    "2026-11-17": false,
+    "2026-11-18": false,
+    "2026-11-19": false,
+    "2026-11-20": true,
+    "2026-11-23": false,
+    "2026-11-24": false
+   },
+   "class": "weekly",
+   "blocked": false,
+   "notes": "extended-hours last 14.85",
+   "chains": [
+    {
+     "symbol": "SOFI",
+     "settle_on_open": false,
+     "in_window": [
+      "2026-11-20"
+     ]
+    }
+   ]
+  }
+ ],
+ "errors": [
+  "get_equity_quotes returned no rows for index symbols SPX, NDX, RUT, XSP (expected); last/prev_close null"
+ ]
+}

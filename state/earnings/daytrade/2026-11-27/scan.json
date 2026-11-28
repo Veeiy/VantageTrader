@@ -1,0 +1,1166 @@
+{
+ "date": "2026-11-27",
+ "as_of_pt": "06:54",
+ "half_day": true,
+ "universe_file": "/home/user/VantageTrader/state/earnings/daytrade/universe/universe_2026-11-16.json",
+ "n_names": 25,
+ "names": [
+  {
+   "symbol": "SPY",
+   "spot": 721.35,
+   "prev_close": 716.7,
+   "pre_move": 0.006488,
+   "K": 721,
+   "strike_step": 1,
+   "call": {
+    "id": "f8feb1af-30d2-4f0c-9ea3-f5e9d1b05fd6",
+    "bid": 2.53,
+    "ask": 2.56,
+    "oi": 8232,
+    "volume": 12366
+   },
+   "put": {
+    "id": "aa4ef360-f9e6-418e-9449-514a07032040",
+    "bid": 2.23,
+    "ask": 2.25,
+    "oi": 1648,
+    "volume": 52638
+   },
+   "straddle_mid": 4.785,
+   "straddle_pct": 0.006633,
+   "spread_pct": 0.010449,
+   "wings": {
+    "call_strike": 726,
+    "put_strike": 716,
+    "call": {
+     "id": "9f29a422-bc4c-45a5-828b-80c56fcb6352",
+     "bid": 0.68,
+     "ask": 0.69
+    },
+    "put": {
+     "id": "1397ee66-bd46-4c00-82e3-c1be36e75875",
+     "bid": 0.79,
+     "ask": 0.81
+    }
+   },
+   "credit_mid": 3.3,
+   "credit_natural": 3.26,
+   "width": 5,
+   "max_loss_usd": 174.0,
+   "cost_round_trip_usd": 8.0,
+   "cost_share": 0.024242,
+   "fits_probe_cap": false,
+   "reason": null,
+   "notes": "Body+wing quotes one snapshot 06:54 PT; wing strikes chosen from 06:52 straddle; spot 06:50.",
+   "straddle_mid_0652": 4.835
+  },
+  {
+   "symbol": "QQQ",
+   "spot": 638.6,
+   "prev_close": 633.93,
+   "pre_move": 0.007367,
+   "K": 639,
+   "strike_step": 1,
+   "call": {
+    "id": "2a74ba03-104b-405c-b3d7-28ad7f20a394",
+    "bid": 2.82,
+    "ask": 2.84,
+    "oi": 1968,
+    "volume": 18705
+   },
+   "put": {
+    "id": "0c958789-e120-495f-8de8-000885d4b1d8",
+    "bid": 2.8,
+    "ask": 2.82,
+    "oi": 558,
+    "volume": 31864
+   },
+   "straddle_mid": 5.64,
+   "straddle_pct": 0.008832,
+   "spread_pct": 0.007092,
+   "wings": {
+    "call_strike": 645,
+    "put_strike": 633,
+    "call": {
+     "id": "d8baa1bc-1789-4d8c-bb08-063b4971f138",
+     "bid": 0.67,
+     "ask": 0.68
+    },
+    "put": {
+     "id": "743f4009-0c12-4555-af52-66f10aebe940",
+     "bid": 0.97,
+     "ask": 0.98
+    }
+   },
+   "credit_mid": 3.99,
+   "credit_natural": 3.96,
+   "width": 6,
+   "max_loss_usd": 204.0,
+   "cost_round_trip_usd": 6.0,
+   "cost_share": 0.015038,
+   "fits_probe_cap": false,
+   "reason": null,
+   "notes": "Body+wing quotes one snapshot 06:54 PT; wing strikes chosen from 06:52 straddle; spot 06:50.",
+   "straddle_mid_0652": 5.785
+  },
+  {
+   "symbol": "IWM",
+   "spot": 271.3,
+   "prev_close": 268.87,
+   "pre_move": 0.009038,
+   "K": 271,
+   "strike_step": 1,
+   "call": {
+    "id": "c023d216-df05-469e-a94a-878fb3f49cba",
+    "bid": 0.89,
+    "ask": 0.91,
+    "oi": 3140,
+    "volume": 1999
+   },
+   "put": {
+    "id": "d511b03e-56f9-4853-965d-19f9ab698308",
+    "bid": 0.56,
+    "ask": 0.58,
+    "oi": 735,
+    "volume": 17745
+   },
+   "straddle_mid": 1.47,
+   "straddle_pct": 0.005418,
+   "spread_pct": 0.027211,
+   "wings": {
+    "call_strike": 272.5,
+    "put_strike": 270,
+    "call": {
+     "id": "bf14c4e3-c575-46ba-92e1-2760005d20eb",
+     "bid": 0.24,
+     "ask": 0.25
+    },
+    "put": {
+     "id": "ca9435b8-3db0-4231-8bae-78b78ed66269",
+     "bid": 0.28,
+     "ask": 0.29
+    }
+   },
+   "credit_mid": 0.94,
+   "credit_natural": 0.91,
+   "width": 1.5,
+   "max_loss_usd": 59.0,
+   "cost_round_trip_usd": 6.0,
+   "cost_share": 0.06383,
+   "fits_probe_cap": true,
+   "reason": null,
+   "notes": "IWM 272.5 call listed but 269.5 put not; strikes mixed 1/0.5 near ATM; put wing 270 (nearest listed to 269.52). Body+wing quotes one snapshot 06:54 PT; wing strikes chosen from 06:52 straddle; spot 06:50.",
+   "straddle_mid_0652": 1.48
+  },
+  {
+   "symbol": "IBIT",
+   "spot": 33.51,
+   "prev_close": 34.07,
+   "pre_move": -0.016437,
+   "K": 33.5,
+   "strike_step": 0.5,
+   "call": {
+    "id": "01b352cb-1a22-47a6-96a8-626a74babebe",
+    "bid": 0.32,
+    "ask": 0.33,
+    "oi": 3279,
+    "volume": 781
+   },
+   "put": {
+    "id": "7bdc7519-ed0d-4d01-a509-c48257de2e7f",
+    "bid": 0.27,
+    "ask": 0.28,
+    "oi": 7698,
+    "volume": 4784
+   },
+   "straddle_mid": 0.6,
+   "straddle_pct": 0.017905,
+   "spread_pct": 0.033333,
+   "wings": {
+    "call_strike": 34,
+    "put_strike": 33,
+    "call": {
+     "id": "6d2dba8e-e1c9-4951-9536-a6395c414dc7",
+     "bid": 0.11,
+     "ask": 0.12
+    },
+    "put": {
+     "id": "1e3d78ef-0b9a-42dc-8844-406d627a6b76",
+     "bid": 0.12,
+     "ask": 0.13
+    }
+   },
+   "credit_mid": 0.36,
+   "credit_natural": 0.34,
+   "width": 0.5,
+   "max_loss_usd": 16.0,
+   "cost_round_trip_usd": 4.0,
+   "cost_share": 0.111111,
+   "fits_probe_cap": true,
+   "reason": null,
+   "notes": "Body+wing quotes one snapshot 06:54 PT; wing strikes chosen from 06:52 straddle; spot 06:50.",
+   "straddle_mid_0652": 0.65
+  },
+  {
+   "symbol": "GLD",
+   "spot": 333.13,
+   "prev_close": 327.45,
+   "pre_move": 0.017346,
+   "K": 333,
+   "strike_step": null,
+   "call": {
+    "id": "ec4831ad-18c4-4bb9-8fb0-dc7892498990",
+    "bid": 1.43,
+    "ask": 1.6,
+    "oi": 2019,
+    "volume": 259
+   },
+   "put": {
+    "id": "3fbdf943-5200-431e-95ec-baaef2461bee",
+    "bid": 0.83,
+    "ask": 0.88,
+    "oi": 369,
+    "volume": 800
+   },
+   "straddle_mid": 2.37,
+   "straddle_pct": 0.007114,
+   "spread_pct": 0.092827,
+   "wings": null,
+   "credit_mid": null,
+   "credit_natural": null,
+   "width": null,
+   "max_loss_usd": null,
+   "cost_round_trip_usd": null,
+   "cost_share": null,
+   "fits_probe_cap": null,
+   "reason": "spread",
+   "notes": "Dropped on 06:52 body quotes (not re-quoted at 06:54).",
+   "straddle_mid_0652": 2.37
+  },
+  {
+   "symbol": "SPX",
+   "spot": 7228.55,
+   "prev_close": null,
+   "pre_move": null,
+   "K": 7230,
+   "strike_step": 5,
+   "call": {
+    "id": "f35e2082-f447-4da7-9997-fe7835e99b84",
+    "bid": 22.9,
+    "ask": 23.1,
+    "oi": 800,
+    "volume": 2714
+   },
+   "put": {
+    "id": "492bc882-7e42-4dee-b448-333fee4f64a1",
+    "bid": 23.8,
+    "ask": 24.1,
+    "oi": 505,
+    "volume": 5324
+   },
+   "straddle_mid": 46.95,
+   "straddle_pct": 0.006495,
+   "spread_pct": 0.01065,
+   "chain_symbol": "SPXW",
+   "wings": {
+    "call_strike": 7275,
+    "put_strike": 7185,
+    "call": {
+     "id": "2db79d23-107d-4fd6-aef0-fd7ff930f772",
+     "bid": 6.7,
+     "ask": 6.9
+    },
+    "put": {
+     "id": "17124a80-739f-467f-89f7-4718a25b6dcb",
+     "bid": 9.3,
+     "ask": 9.5
+    }
+   },
+   "credit_mid": 30.75,
+   "credit_natural": 30.3,
+   "width": 45,
+   "max_loss_usd": 1470.0,
+   "cost_round_trip_usd": 90.0,
+   "cost_share": 0.029268,
+   "fits_probe_cap": false,
+   "reason": null,
+   "notes": "chain SPXW (PM-settled); prev_close not available from get_index_quotes, pre_move null Body+wing quotes one snapshot 06:54 PT; wing strikes chosen from 06:52 straddle; spot 06:50.",
+   "straddle_mid_0652": 47.1
+  },
+  {
+   "symbol": "NDX",
+   "spot": 26233.5709,
+   "prev_close": null,
+   "pre_move": null,
+   "K": 26230,
+   "strike_step": 10,
+   "call": {
+    "id": "0ce9068a-a7be-4b23-9f1e-19464f949d7c",
+    "bid": 123.1,
+    "ask": 129.4,
+    "oi": 5,
+    "volume": 13
+   },
+   "put": {
+    "id": "eb7b463f-5bf1-45f4-b1a3-2d98ab44f4af",
+    "bid": 100.1,
+    "ask": 105.9,
+    "oi": 0,
+    "volume": 2
+   },
+   "straddle_mid": 229.25,
+   "straddle_pct": 0.008739,
+   "spread_pct": 0.052781,
+   "chain_symbol": "NDXP",
+   "wings": {
+    "call_strike": 26470,
+    "put_strike": 25990,
+    "call": {
+     "id": "9e8136b3-27eb-4f8c-9adc-77fc5d4c3af6",
+     "bid": 31.9,
+     "ask": 33.4
+    },
+    "put": {
+     "id": "f8942a01-20ef-47e3-b9b4-e4f5a5fc3cc1",
+     "bid": 35.4,
+     "ask": 37.1
+    }
+   },
+   "credit_mid": 160.35,
+   "credit_natural": 152.7,
+   "width": 240,
+   "max_loss_usd": 8730.0,
+   "cost_round_trip_usd": 1530.0,
+   "cost_share": 0.095416,
+   "fits_probe_cap": false,
+   "reason": null,
+   "notes": "chain NDXP (PM-settled); prev_close null; 26235 not listed, step 10 assumed; body OI 5/0, very thin; spread_pct near cap. Wings 26470/25990 picked from 06:52 straddle 235.40; against the 06:54 straddle 229.25 the nearest would be 26460/26000. Off-centre at 06:54: call mid 126.25 vs put mid 103.00 (index had moved up from K). Body+wing quotes one snapshot 06:54 PT; wing strikes chosen from 06:52 straddle; spot 06:50.",
+   "straddle_mid_0652": 235.4
+  },
+  {
+   "symbol": "XSP",
+   "spot": 722.86,
+   "prev_close": null,
+   "pre_move": null,
+   "K": 723,
+   "strike_step": 1,
+   "call": {
+    "id": "42434673-ce3c-4622-825f-811770c91120",
+    "bid": 2.27,
+    "ask": 2.36,
+    "oi": 158,
+    "volume": 443
+   },
+   "put": {
+    "id": "32c7af82-bc42-437f-a45b-397d22b02447",
+    "bid": 2.37,
+    "ask": 2.4,
+    "oi": 75,
+    "volume": 709
+   },
+   "straddle_mid": 4.7,
+   "straddle_pct": 0.006502,
+   "spread_pct": 0.025532,
+   "wings": {
+    "call_strike": 728,
+    "put_strike": 718,
+    "call": {
+     "id": "b819c382-cc2c-4fc3-a7f1-51c4f4de02e7",
+     "bid": 0.58,
+     "ask": 0.6
+    },
+    "put": {
+     "id": "15389917-c697-437a-8cdf-9c0a352e4dd1",
+     "bid": 0.84,
+     "ask": 0.86
+    }
+   },
+   "credit_mid": 3.26,
+   "credit_natural": 3.18,
+   "width": 5,
+   "max_loss_usd": 182.0,
+   "cost_round_trip_usd": 16.0,
+   "cost_share": 0.04908,
+   "fits_probe_cap": false,
+   "reason": null,
+   "notes": "index; prev_close not available from get_index_quotes, pre_move null Body+wing quotes one snapshot 06:54 PT; wing strikes chosen from 06:52 straddle; spot 06:50.",
+   "straddle_mid_0652": 4.705
+  },
+  {
+   "symbol": "RUT",
+   "spot": null,
+   "prev_close": null,
+   "pre_move": null,
+   "K": null,
+   "strike_step": null,
+   "call": null,
+   "put": null,
+   "straddle_mid": null,
+   "straddle_pct": null,
+   "spread_pct": null,
+   "wings": null,
+   "credit_mid": null,
+   "credit_natural": null,
+   "width": null,
+   "max_loss_usd": null,
+   "cost_round_trip_usd": null,
+   "cost_share": null,
+   "fits_probe_cap": null,
+   "reason": "no_spot",
+   "notes": "get_index_quotes: 'Quotes for RUT aren't available through the MCP.' Skipped."
+  },
+  {
+   "symbol": "NVDA",
+   "spot": 146.43,
+   "prev_close": 149.3,
+   "pre_move": -0.019223,
+   "K": 146,
+   "strike_step": 1,
+   "call": {
+    "id": "30f9b5c8-bdaf-4e25-9fcb-d9a79a047f34",
+    "bid": 2.13,
+    "ask": 2.17,
+    "oi": 7405,
+    "volume": 4118
+   },
+   "put": {
+    "id": "7b848061-148f-46be-896d-bc4bbcf62a90",
+    "bid": 1.57,
+    "ask": 1.59,
+    "oi": 3675,
+    "volume": 23628
+   },
+   "straddle_mid": 3.73,
+   "straddle_pct": 0.025473,
+   "spread_pct": 0.016086,
+   "wings": {
+    "call_strike": 150,
+    "put_strike": 142,
+    "call": {
+     "id": "d630ea26-bb01-4a0f-bf71-baa6f35463d9",
+     "bid": 0.69,
+     "ask": 0.7
+    },
+    "put": {
+     "id": "a08080b7-ae1c-421b-9a51-a8f43ecba6c2",
+     "bid": 0.5,
+     "ask": 0.51
+    }
+   },
+   "credit_mid": 2.53,
+   "credit_natural": 2.49,
+   "width": 4,
+   "max_loss_usd": 151.0,
+   "cost_round_trip_usd": 8.0,
+   "cost_share": 0.031621,
+   "fits_probe_cap": false,
+   "reason": null,
+   "notes": "146.5 not listed Body+wing quotes one snapshot 06:54 PT; wing strikes chosen from 06:52 straddle; spot 06:50.",
+   "straddle_mid_0652": 3.665
+  },
+  {
+   "symbol": "SPCX",
+   "spot": 129.7835,
+   "prev_close": 127.44,
+   "pre_move": 0.018389,
+   "K": 130,
+   "strike_step": 1,
+   "call": {
+    "id": "b1abda6a-44f2-45e8-97de-c11d9f4a9154",
+    "bid": 0.93,
+    "ask": 0.95,
+    "oi": 6031,
+    "volume": 7019
+   },
+   "put": {
+    "id": "ed37d095-31f6-4713-a7bb-0b85a3959ddf",
+    "bid": 1.52,
+    "ask": 1.56,
+    "oi": 2918,
+    "volume": 5034
+   },
+   "straddle_mid": 2.48,
+   "straddle_pct": 0.019109,
+   "spread_pct": 0.024194,
+   "wings": {
+    "call_strike": 132,
+    "put_strike": 128,
+    "call": {
+     "id": "4a5fef0f-c268-4e41-9ff4-86fde3af5389",
+     "bid": 0.33,
+     "ask": 0.35
+    },
+    "put": {
+     "id": "cf7fa068-9ba4-49c2-ac92-296b2ca3c14d",
+     "bid": 0.67,
+     "ask": 0.68
+    }
+   },
+   "credit_mid": 1.465,
+   "credit_natural": 1.42,
+   "width": 2,
+   "max_loss_usd": 58.0,
+   "cost_round_trip_usd": 9.0,
+   "cost_share": 0.061433,
+   "fits_probe_cap": true,
+   "reason": null,
+   "notes": "132.5 not listed; step 1 assumed (130,132,128 listed). Body+wing quotes one snapshot 06:54 PT; wing strikes chosen from 06:52 straddle; spot 06:50.",
+   "straddle_mid_0652": 2.47
+  },
+  {
+   "symbol": "TLT",
+   "spot": 81.825,
+   "prev_close": 82.24,
+   "pre_move": -0.005046,
+   "K": 82,
+   "strike_step": null,
+   "call": {
+    "id": "5120f106-df2d-4004-89a3-faf821b9ad0f",
+    "bid": 0.03,
+    "ask": 0.04,
+    "oi": 18035,
+    "volume": 2729
+   },
+   "put": {
+    "id": "3aeab40c-6f79-4adc-9828-35559b43a03a",
+    "bid": 0.21,
+    "ask": 0.25,
+    "oi": 9318,
+    "volume": 5925
+   },
+   "straddle_mid": 0.265,
+   "straddle_pct": 0.003239,
+   "spread_pct": 0.188679,
+   "wings": null,
+   "credit_mid": null,
+   "credit_natural": null,
+   "width": null,
+   "max_loss_usd": null,
+   "cost_round_trip_usd": null,
+   "cost_share": null,
+   "fits_probe_cap": null,
+   "reason": "spread",
+   "notes": "call bid 0.03 / ask 0.04; K=82 nearest listed (0.5-step not probed) Dropped on 06:52 body quotes (not re-quoted at 06:54).",
+   "straddle_mid_0652": 0.265
+  },
+  {
+   "symbol": "MU",
+   "spot": 611.035,
+   "prev_close": 601.25,
+   "pre_move": 0.016274,
+   "K": 610,
+   "strike_step": 2.5,
+   "call": {
+    "id": "ef63f850-d693-4183-99b0-06a55e0ba6f8",
+    "bid": 11.4,
+    "ask": 11.85,
+    "oi": 670,
+    "volume": 1843
+   },
+   "put": {
+    "id": "9e7c64cb-b9cd-484c-8cfb-1bf7638c0e34",
+    "bid": 5.75,
+    "ask": 6.0,
+    "oi": 491,
+    "volume": 6297
+   },
+   "straddle_mid": 17.5,
+   "straddle_pct": 0.02864,
+   "spread_pct": 0.04,
+   "wings": {
+    "call_strike": 627.5,
+    "put_strike": 592.5,
+    "call": {
+     "id": "bafbacf7-1350-4c3f-9a88-a894162d49a5",
+     "bid": 3.65,
+     "ask": 3.9
+    },
+    "put": {
+     "id": "b2605de5-2f1c-4be3-94c6-cd0a3b6f1b93",
+     "bid": 1.71,
+     "ask": 1.82
+    }
+   },
+   "credit_mid": 11.96,
+   "credit_natural": 11.43,
+   "width": 17.5,
+   "max_loss_usd": 607.0,
+   "cost_round_trip_usd": 106.0,
+   "cost_share": 0.088629,
+   "fits_probe_cap": false,
+   "reason": null,
+   "notes": "611 not listed; step 2.5. Off-centre at 06:54: 610 call mid 11.63 vs put mid 5.88 (stock ~5.75 above K, vs 1.04 at 06:50 spot). Body+wing quotes one snapshot 06:54 PT; wing strikes chosen from 06:52 straddle; spot 06:50.",
+   "straddle_mid_0652": 17.775
+  },
+  {
+   "symbol": "XLF",
+   "spot": 57.025,
+   "prev_close": 56.51,
+   "pre_move": 0.009113,
+   "K": 57,
+   "strike_step": null,
+   "call": {
+    "id": "468117db-c07f-4152-a1f2-7945b6d133d5",
+    "bid": 0.18,
+    "ask": 0.25,
+    "oi": 3665,
+    "volume": 12
+   },
+   "put": {
+    "id": "d87276a6-2453-442b-830a-31270f78e696",
+    "bid": 0.16,
+    "ask": 0.22,
+    "oi": 5007,
+    "volume": 32
+   },
+   "straddle_mid": 0.405,
+   "straddle_pct": 0.007102,
+   "spread_pct": 0.320988,
+   "wings": null,
+   "credit_mid": null,
+   "credit_natural": null,
+   "width": null,
+   "max_loss_usd": null,
+   "cost_round_trip_usd": null,
+   "cost_share": null,
+   "fits_probe_cap": null,
+   "reason": "spread",
+   "notes": "Dropped on 06:52 body quotes (not re-quoted at 06:54).",
+   "straddle_mid_0652": 0.405
+  },
+  {
+   "symbol": "AAPL",
+   "spot": 356.555,
+   "prev_close": 355.58,
+   "pre_move": 0.002742,
+   "K": 357.5,
+   "strike_step": 2.5,
+   "call": {
+    "id": "5dd42bc7-0577-437d-b9e5-09ac2ddc79ef",
+    "bid": 0.76,
+    "ask": 0.81,
+    "oi": 7133,
+    "volume": 7263
+   },
+   "put": {
+    "id": "b8904a63-6973-42d1-b961-80d9b18803f6",
+    "bid": 1.84,
+    "ask": 1.92,
+    "oi": 1502,
+    "volume": 9194
+   },
+   "straddle_mid": 2.665,
+   "straddle_pct": 0.007474,
+   "spread_pct": 0.04878,
+   "wings": {
+    "call_strike": 360,
+    "put_strike": 355,
+    "call": {
+     "id": "3f35817b-031b-409b-acb4-278847f66c78",
+     "bid": 0.2,
+     "ask": 0.21
+    },
+    "put": {
+     "id": "bee62f3f-c7e1-4534-ad2f-4d87d214553a",
+     "bid": 0.78,
+     "ask": 0.8
+    }
+   },
+   "credit_mid": 1.67,
+   "credit_natural": 1.59,
+   "width": 2.5,
+   "max_loss_usd": 91.0,
+   "cost_round_trip_usd": 16.0,
+   "cost_share": 0.095808,
+   "fits_probe_cap": true,
+   "reason": null,
+   "notes": "357 not listed; 357.5 nearest Body+wing quotes one snapshot 06:54 PT; wing strikes chosen from 06:52 straddle; spot 06:50.",
+   "straddle_mid_0652": 2.69
+  },
+  {
+   "symbol": "AMD",
+   "spot": 401.36,
+   "prev_close": 406.03,
+   "pre_move": -0.011502,
+   "K": 402.5,
+   "strike_step": 2.5,
+   "call": {
+    "id": "af043060-fe7b-4fd4-a386-bf5ee24e8f19",
+    "bid": 5.6,
+    "ask": 5.8,
+    "oi": 499,
+    "volume": 679
+   },
+   "put": {
+    "id": "be1f489e-4b9d-4d3e-9128-7f61cf42b7e6",
+    "bid": 4.95,
+    "ask": 5.35,
+    "oi": 385,
+    "volume": 1761
+   },
+   "straddle_mid": 10.85,
+   "straddle_pct": 0.027033,
+   "spread_pct": 0.0553,
+   "wings": {
+    "call_strike": 412.5,
+    "put_strike": 392.5,
+    "call": {
+     "id": "1b5c2567-c22c-4320-9f16-bebc8c4e8f6e",
+     "bid": 1.78,
+     "ask": 1.93
+    },
+    "put": {
+     "id": "e20ac38a-bd35-44fa-a3f4-0244e6a25e06",
+     "bid": 1.81,
+     "ask": 1.91
+    }
+   },
+   "credit_mid": 7.135,
+   "credit_natural": 6.71,
+   "width": 10.0,
+   "max_loss_usd": 329.0,
+   "cost_round_trip_usd": 85.0,
+   "cost_share": 0.119131,
+   "fits_probe_cap": false,
+   "reason": null,
+   "notes": "401 not listed; 400 and 402.5 listed Body+wing quotes one snapshot 06:54 PT; wing strikes chosen from 06:52 straddle; spot 06:50.",
+   "straddle_mid_0652": 10.95
+  },
+  {
+   "symbol": "SLV",
+   "spot": 39.38,
+   "prev_close": 37.1,
+   "pre_move": 0.061456,
+   "K": 39.5,
+   "strike_step": 0.5,
+   "call": {
+    "id": "c1855412-4d4f-42a4-8ff6-a1a42487c347",
+    "bid": 0.22,
+    "ask": 0.25,
+    "oi": 3075,
+    "volume": 2151
+   },
+   "put": {
+    "id": "490d5716-43ac-4513-a80b-946785b62aaf",
+    "bid": 0.25,
+    "ask": 0.28,
+    "oi": 3237,
+    "volume": 1937
+   },
+   "straddle_mid": 0.5,
+   "straddle_pct": 0.012697,
+   "spread_pct": 0.12,
+   "wings": null,
+   "credit_mid": null,
+   "credit_natural": null,
+   "width": null,
+   "max_loss_usd": null,
+   "cost_round_trip_usd": null,
+   "cost_share": null,
+   "fits_probe_cap": null,
+   "reason": "spread",
+   "notes": "Dropped on 06:52 body quotes (not re-quoted at 06:54).",
+   "straddle_mid_0652": 0.5
+  },
+  {
+   "symbol": "AMZN",
+   "spot": 249.808,
+   "prev_close": 244.43,
+   "pre_move": 0.022002,
+   "K": 250,
+   "strike_step": 2.5,
+   "call": {
+    "id": "e918ce8f-3b5d-475c-bb3b-4cb67db2badc",
+    "bid": 1.04,
+    "ask": 1.1,
+    "oi": 8321,
+    "volume": 6723
+   },
+   "put": {
+    "id": "5d9b5746-17d7-49d9-8f2d-5e948f1007c3",
+    "bid": 1.78,
+    "ask": 1.86,
+    "oi": 3862,
+    "volume": 2989
+   },
+   "straddle_mid": 2.89,
+   "straddle_pct": 0.011569,
+   "spread_pct": 0.048443,
+   "wings": {
+    "call_strike": 252.5,
+    "put_strike": 247.5,
+    "call": {
+     "id": "53f3200b-429b-4211-b821-d9ed248d1b83",
+     "bid": 0.33,
+     "ask": 0.35
+    },
+    "put": {
+     "id": "4b0ac190-8cec-4315-add9-416c5d9df308",
+     "bid": 0.75,
+     "ask": 0.76
+    }
+   },
+   "credit_mid": 1.795,
+   "credit_natural": 1.71,
+   "width": 2.5,
+   "max_loss_usd": 79.0,
+   "cost_round_trip_usd": 17.0,
+   "cost_share": 0.094708,
+   "fits_probe_cap": true,
+   "reason": null,
+   "notes": "251 not listed: step 2.5 confirmed. Body+wing quotes one snapshot 06:54 PT; wing strikes chosen from 06:52 straddle; spot 06:50.",
+   "straddle_mid_0652": 2.845
+  },
+  {
+   "symbol": "GOOGL",
+   "spot": 273.355,
+   "prev_close": 273.1,
+   "pre_move": 0.000934,
+   "K": 272.5,
+   "strike_step": 2.5,
+   "call": {
+    "id": "307775ed-86d5-45af-b2e4-32ad1701790b",
+    "bid": 1.68,
+    "ask": 1.74,
+    "oi": 2491,
+    "volume": 1025
+   },
+   "put": {
+    "id": "8ac8b206-4b84-4cd6-a3a6-e393c1b08094",
+    "bid": 1.44,
+    "ask": 1.5,
+    "oi": 1538,
+    "volume": 5009
+   },
+   "straddle_mid": 3.18,
+   "straddle_pct": 0.011633,
+   "spread_pct": 0.037736,
+   "wings": {
+    "call_strike": 275,
+    "put_strike": 270,
+    "call": {
+     "id": "bcc955ee-b4ea-42a4-8d8d-20604184519e",
+     "bid": 0.67,
+     "ask": 0.71
+    },
+    "put": {
+     "id": "fa0e2a17-e347-4b8e-a69c-c17ca554ae51",
+     "bid": 0.64,
+     "ask": 0.67
+    }
+   },
+   "credit_mid": 1.835,
+   "credit_natural": 1.74,
+   "width": 2.5,
+   "max_loss_usd": 76.0,
+   "cost_round_trip_usd": 19.0,
+   "cost_share": 0.103542,
+   "fits_probe_cap": true,
+   "reason": null,
+   "notes": "273 not listed Body+wing quotes one snapshot 06:54 PT; wing strikes chosen from 06:52 straddle; spot 06:50.",
+   "straddle_mid_0652": 3.235
+  },
+  {
+   "symbol": "LQD",
+   "spot": 104.235,
+   "prev_close": 104.29,
+   "pre_move": -0.000527,
+   "K": 104,
+   "strike_step": null,
+   "call": {
+    "id": "34fe520c-1d9a-43df-8dd4-6a1cbfa2046a",
+    "bid": 0.22,
+    "ask": 0.29,
+    "oi": 1834,
+    "volume": 1
+   },
+   "put": {
+    "id": "66809815-8c6e-440a-a0f5-f6aa385db212",
+    "bid": 0.0,
+    "ask": 0.02,
+    "oi": 80,
+    "volume": 0
+   },
+   "straddle_mid": 0.265,
+   "straddle_pct": 0.002542,
+   "spread_pct": 0.339623,
+   "wings": null,
+   "credit_mid": null,
+   "credit_natural": null,
+   "width": null,
+   "max_loss_usd": null,
+   "cost_round_trip_usd": null,
+   "cost_share": null,
+   "fits_probe_cap": null,
+   "reason": "spread",
+   "notes": "put bid 0 (no bid) and spread_pct > 0.08 Dropped on 06:52 body quotes (not re-quoted at 06:54).",
+   "straddle_mid_0652": 0.265
+  },
+  {
+   "symbol": "META",
+   "spot": 624.005,
+   "prev_close": 609.89,
+   "pre_move": 0.023144,
+   "K": 625,
+   "strike_step": 2.5,
+   "call": {
+    "id": "3522c1e9-fdc9-405d-a5b9-8c1c1e58d8a7",
+    "bid": 3.4,
+    "ask": 3.6,
+    "oi": 2353,
+    "volume": 1802
+   },
+   "put": {
+    "id": "47ebac70-b6e2-4714-b793-9b33b2a075ac",
+    "bid": 4.6,
+    "ask": 4.8,
+    "oi": 522,
+    "volume": 1323
+   },
+   "straddle_mid": 8.2,
+   "straddle_pct": 0.013141,
+   "spread_pct": 0.04878,
+   "wings": {
+    "call_strike": 632.5,
+    "put_strike": 617.5,
+    "call": {
+     "id": "b87f0174-d9c5-4698-a675-3d22e82b1a01",
+     "bid": 0.99,
+     "ask": 1.06
+    },
+    "put": {
+     "id": "c941fd8a-5aea-447e-8adb-dce1210ee28c",
+     "bid": 1.71,
+     "ask": 1.81
+    }
+   },
+   "credit_mid": 5.415,
+   "credit_natural": 5.13,
+   "width": 7.5,
+   "max_loss_usd": 237.0,
+   "cost_round_trip_usd": 57.0,
+   "cost_share": 0.105263,
+   "fits_probe_cap": false,
+   "reason": null,
+   "notes": "624 not listed; 632.5/617.5 listed so step 2.5. Body+wing quotes one snapshot 06:54 PT; wing strikes chosen from 06:52 straddle; spot 06:50.",
+   "straddle_mid_0652": 8.225
+  },
+  {
+   "symbol": "DRAM",
+   "spot": 36.085,
+   "prev_close": 34.83,
+   "pre_move": 0.036032,
+   "K": 36,
+   "strike_step": 1,
+   "call": {
+    "id": "45263ebb-8440-4098-9ea6-496eda66bbea",
+    "bid": 0.57,
+    "ask": 0.59,
+    "oi": 5206,
+    "volume": 1339
+   },
+   "put": {
+    "id": "8ae2e928-5c59-4b2e-b089-fcbd47c17983",
+    "bid": 0.25,
+    "ask": 0.28,
+    "oi": 1407,
+    "volume": 1972
+   },
+   "straddle_mid": 0.845,
+   "straddle_pct": 0.023417,
+   "spread_pct": 0.059172,
+   "wings": {
+    "call_strike": 37,
+    "put_strike": 35,
+    "call": {
+     "id": "983567dc-6b5a-4701-be3d-114f4becd8d7",
+     "bid": 0.13,
+     "ask": 0.15
+    },
+    "put": {
+     "id": "aae80408-7bd8-48f1-bc0f-8d1b38e47ea7",
+     "bid": 0.05,
+     "ask": 0.06
+    }
+   },
+   "credit_mid": 0.65,
+   "credit_natural": 0.61,
+   "width": 1,
+   "max_loss_usd": 39.0,
+   "cost_round_trip_usd": 8.0,
+   "cost_share": 0.123077,
+   "fits_probe_cap": true,
+   "reason": null,
+   "notes": "step 1 assumed (36,37,35 listed; 36.5 not probed). Body+wing quotes one snapshot 06:54 PT; wing strikes chosen from 06:52 straddle; spot 06:50.",
+   "straddle_mid_0652": 0.865
+  },
+  {
+   "symbol": "SMH",
+   "spot": 423.79,
+   "prev_close": 422.46,
+   "pre_move": 0.003148,
+   "K": 425,
+   "strike_step": null,
+   "call": {
+    "id": "860c26a8-8435-4ba5-8d24-efd951458305",
+    "bid": 2.56,
+    "ask": 4.9,
+    "oi": 1757,
+    "volume": 503
+   },
+   "put": {
+    "id": "bea3183d-377a-4e8f-b1d6-e3fdd0d82984",
+    "bid": 3.4,
+    "ask": 4.2,
+    "oi": 3706,
+    "volume": 1303
+   },
+   "straddle_mid": 7.53,
+   "straddle_pct": 0.017768,
+   "spread_pct": 0.416999,
+   "wings": null,
+   "credit_mid": null,
+   "credit_natural": null,
+   "width": null,
+   "max_loss_usd": null,
+   "cost_round_trip_usd": null,
+   "cost_share": null,
+   "fits_probe_cap": null,
+   "reason": "spread",
+   "notes": "424 not listed; 425 nearest listed (step 1 ruled out) Dropped on 06:52 body quotes (not re-quoted at 06:54).",
+   "straddle_mid_0652": 7.53
+  },
+  {
+   "symbol": "MSFT",
+   "spot": 493.135,
+   "prev_close": 489.93,
+   "pre_move": 0.006542,
+   "K": 492.5,
+   "strike_step": 2.5,
+   "call": {
+    "id": "375b0db7-2874-4027-b7a3-38597f3d46a7",
+    "bid": 2.04,
+    "ask": 2.16,
+    "oi": 288,
+    "volume": 411
+   },
+   "put": {
+    "id": "9cca145d-e5ff-494f-a5a2-2b31026bc3cf",
+    "bid": 3.15,
+    "ask": 3.35,
+    "oi": 940,
+    "volume": 2351
+   },
+   "straddle_mid": 5.35,
+   "straddle_pct": 0.010849,
+   "spread_pct": 0.059813,
+   "wings": {
+    "call_strike": 497.5,
+    "put_strike": 487.5,
+    "call": {
+     "id": "e85d9837-c1e1-4aa6-bc0d-8d0fa1a1c5f3",
+     "bid": 0.5,
+     "ask": 0.57
+    },
+    "put": {
+     "id": "303e7458-b22c-4deb-99c0-47d84946014e",
+     "bid": 1.27,
+     "ask": 1.32
+    }
+   },
+   "credit_mid": 3.52,
+   "credit_natural": 3.3,
+   "width": 5.0,
+   "max_loss_usd": 170.0,
+   "cost_round_trip_usd": 44.0,
+   "cost_share": 0.125,
+   "fits_probe_cap": false,
+   "reason": null,
+   "notes": "493 not listed; 492.5 nearest Body+wing quotes one snapshot 06:54 PT; wing strikes chosen from 06:52 straddle; spot 06:50.",
+   "straddle_mid_0652": 5.035
+  },
+  {
+   "symbol": "TQQQ",
+   "spot": 46.21,
+   "prev_close": 45.28,
+   "pre_move": 0.020539,
+   "K": 46,
+   "strike_step": 0.5,
+   "call": {
+    "id": "9ede1486-3e56-4602-b57f-403817d3a3d0",
+    "bid": 0.74,
+    "ask": 0.8,
+    "oi": 2588,
+    "volume": 1755
+   },
+   "put": {
+    "id": "0aa04d6a-c555-42e9-9f5d-1f2a2055c1c9",
+    "bid": 0.47,
+    "ask": 0.51,
+    "oi": 1167,
+    "volume": 2478
+   },
+   "straddle_mid": 1.26,
+   "straddle_pct": 0.027267,
+   "spread_pct": 0.079365,
+   "wings": {
+    "call_strike": 47.5,
+    "put_strike": 44.5,
+    "call": {
+     "id": "bb1190f5-8b5b-48bb-a9b2-5b16011a1c08",
+     "bid": 0.16,
+     "ask": 0.18
+    },
+    "put": {
+     "id": "efc69155-6744-4877-9f07-e3f82ecc17f9",
+     "bid": 0.13,
+     "ask": 0.15
+    }
+   },
+   "credit_mid": 0.95,
+   "credit_natural": 0.88,
+   "width": 1.5,
+   "max_loss_usd": 62.0,
+   "cost_round_trip_usd": 14.0,
+   "cost_share": 0.147368,
+   "fits_probe_cap": true,
+   "reason": null,
+   "notes": "47.5 listed so 0.5 step assumed. Body+wing quotes one snapshot 06:54 PT; wing strikes chosen from 06:52 straddle; spot 06:50.",
+   "straddle_mid_0652": 1.3
+  }
+ ],
+ "ranking_by_cost_share": [
+  "QQQ",
+  "SPY",
+  "SPX",
+  "NVDA",
+  "XSP",
+  "SPCX",
+  "IWM",
+  "MU",
+  "AMZN",
+  "NDX",
+  "AAPL",
+  "GOOGL",
+  "META",
+  "IBIT",
+  "AMD",
+  "DRAM",
+  "MSFT",
+  "TQQQ"
+ ],
+ "errors": [],
+ "selection": {
+  "rule": "Universe file (as_of 2026-11-17) carries no 2026-11-27 expiry for any name; fallback by class used (daily, mon_wed_fri, weekly). daily(9)+mon_wed_fri unblocked(20)=29 > 25 cap; index quotes were available for SPX/NDX/XSP so all daily kept and the 4 lowest avg_options_volume mon_wed_fri names left out. TSLA excluded (blocked). No weekly/other names fit.",
+  "left_out": [
+   "AVGO",
+   "XLE",
+   "GDX",
+   "IEF",
+   "TSLA(blocked)",
+   "all 40 weekly names",
+   "USO",
+   "UNG (class other: not eligible under fallback)"
+  ]
+ }
+}

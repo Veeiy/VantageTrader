@@ -1,0 +1,114 @@
+{
+ "date": "2026-11-25",
+ "window": "Wed 11/25 after the close and Fri 11/27 before the open (Thu 11/26 closed)",
+ "expiry": "2026-11-27",
+ "breaker": "halted: paper only",
+ "calendar_pm": [
+  "BMA"
+ ],
+ "calendar_am_next": [],
+ "scanner_total": 9,
+ "in_window": [
+  {
+   "symbol": "BMA",
+   "why": "reports 11/25 pm; no 2026-11-27 expiry (first listed 2026-12-18)",
+   "status": "dropped: no_expiry"
+  },
+  {
+   "symbol": "HUBG",
+   "why": "scanner date 11/27, not on the high-cap calendar; no 2026-11-27 expiry (first listed 2026-12-18)",
+   "status": "dropped: no_expiry"
+  }
+ ],
+ "already_reported": [
+  "DE",
+  "LI",
+  "BZ",
+  "GDS",
+  "BBY",
+  "URBN",
+  "GGAL"
+ ],
+ "to_analyst": [],
+ "names": [],
+ "non_earnings_screen": {
+  "at_utc": "2026-11-25T14:39Z",
+  "filters": "avg options volume >= 15000, last >= 10, ivRank >= 0.8, atmIv30Day / statVol10Day > 1.15",
+  "hits": {
+   "MDB": [
+    0.807,
+    1.42
+   ],
+   "SNOW": [
+    0.846,
+    1.55
+   ],
+   "ADBE": [
+    0.814,
+    1.18
+   ],
+   "BKNG": [
+    0.853,
+    1.59
+   ],
+   "XLP": [
+    0.841,
+    1.3
+   ],
+   "EFV": [
+    0.848,
+    1.16
+   ],
+   "ASHR": [
+    0.86,
+    1.32
+   ],
+   "PFE": [
+    0.854,
+    1.43
+   ],
+   "GME": [
+    0.819,
+    1.99
+   ],
+   "KHC": [
+    0.808,
+    1.39
+   ]
+  },
+  "note": "[ivRank, IV30 over HV10]. Not news-checked and not priced: no entry is possible while the breaker is halted."
+ },
+ "macro_0638": {
+  "SPY": -0.0264,
+  "QQQ": -0.0399,
+  "IWM": -0.0186,
+  "note": "SPY in the soft band (2% to under 3%)"
+ },
+ "sweep_1146": {
+  "at_utc": "2026-11-25T19:47:59Z",
+  "decision": "no_trade",
+  "placed": "nothing",
+  "reasons": [
+   "account breaker halted (gate 10): paper only, P089",
+   "no name to price: BMA (11/25 pm) and HUBG (11/27) have no 2026-11-27 expiry, first listed 2026-12-18"
+  ],
+  "macro_at_sweep": {
+   "SPY": -0.0043,
+   "QQQ": -0.01,
+   "IWM": 0.0059,
+   "VIX": 28.28,
+   "VIX_prev_close": 26.41,
+   "VIX_change": 0.071,
+   "reading": "neither the hard veto nor the soft band applies at 11:47 PT (VIX under 30 and up 7%, SPY -0.4%); the 07:27 reading was hard (VIX 34.08, +29%)"
+  },
+  "paper_records": "none: no name's only failed gate was the breaker, so the halt cost nothing and saved nothing on the earnings line today",
+  "non_earnings": "the 10 screen hits were not news-checked or priced; what the halt cost on that line today is not measured (the paper sweep of P089 covers the earnings gate only)",
+  "preflight": {
+   "account_value": 1419.69,
+   "buying_power": 993.89,
+   "cash": 993.89,
+   "positions": "DKS 120P x1 leftover, ANT 5 shares (owner hand)",
+   "hand_orders": "none since 19:16Z"
+  }
+ }
+}

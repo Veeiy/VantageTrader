@@ -1,0 +1,45 @@
+{
+ "symbol": "LI",
+ "timing": "am",
+ "spot": 10.6983,
+ "prev_close": 10.7,
+ "K": 10.5,
+ "call": {
+  "bid": 0.41,
+  "ask": 0.48
+ },
+ "put": {
+  "bid": 0.21,
+  "ask": 0.26
+ },
+ "hist_moves": [
+  0.021147,
+  0.029204,
+  0.006004,
+  -0.02515,
+  -0.015209,
+  -0.010595
+ ],
+ "regime_20d": 0.02107,
+ "flags": [],
+ "account_value": 1404.19,
+ "open_risk_usd": 449.94,
+ "buying_power": 993.89,
+ "tick": 0.05,
+ "wings": {
+  "call_strike": 11.5,
+  "put_strike": 9.5,
+  "call": {
+   "bid": 0.08,
+   "ask": 0.1
+  },
+  "put": {
+   "bid": 0.03,
+   "ask": 0.04
+  }
+ },
+ "sector": "autos, China EV",
+ "sectors_entered_today": [],
+ "sector_same_direction": false,
+ "macro_veto": null
+}

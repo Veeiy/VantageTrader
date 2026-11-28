@@ -1,0 +1,672 @@
+[
+ {
+  "date": "2026-11-20",
+  "entry_date": "2026-11-19",
+  "K": 265,
+  "spot_entry": 264.92,
+  "entry_start": "2026-11-19T20:30:00Z",
+  "entry_end": "2026-11-19T21:00:00Z",
+  "morning_start": "2026-11-20T14:30:00Z",
+  "morning_end": "2026-11-20T16:30:00Z"
+ },
+ {
+  "date": "2026-11-19",
+  "entry_date": "2026-11-18",
+  "K": 270,
+  "spot_entry": 270.18,
+  "entry_start": "2026-11-18T20:30:00Z",
+  "entry_end": "2026-11-18T21:00:00Z",
+  "morning_start": "2026-11-19T14:30:00Z",
+  "morning_end": "2026-11-19T16:30:00Z"
+ },
+ {
+  "date": "2026-11-18",
+  "entry_date": "2026-11-17",
+  "K": 269,
+  "spot_entry": 268.925,
+  "entry_start": "2026-11-17T20:30:00Z",
+  "entry_end": "2026-11-17T21:00:00Z",
+  "morning_start": "2026-11-18T14:30:00Z",
+  "morning_end": "2026-11-18T16:30:00Z"
+ },
+ {
+  "date": "2026-11-17",
+  "entry_date": "2026-11-16",
+  "K": 273,
+  "spot_entry": 272.69,
+  "entry_start": "2026-11-16T20:30:00Z",
+  "entry_end": "2026-11-16T21:00:00Z",
+  "morning_start": "2026-11-17T14:30:00Z",
+  "morning_end": "2026-11-17T16:30:00Z"
+ },
+ {
+  "date": "2026-11-16",
+  "entry_date": "2026-11-13",
+  "K": 277,
+  "spot_entry": 277.175,
+  "entry_start": "2026-11-13T20:30:00Z",
+  "entry_end": "2026-11-13T21:00:00Z",
+  "morning_start": "2026-11-16T14:30:00Z",
+  "morning_end": "2026-11-16T16:30:00Z"
+ },
+ {
+  "date": "2026-11-13",
+  "entry_date": "2026-11-12",
+  "K": 279,
+  "spot_entry": 278.76,
+  "entry_start": "2026-11-12T20:30:00Z",
+  "entry_end": "2026-11-12T21:00:00Z",
+  "morning_start": "2026-11-13T14:30:00Z",
+  "morning_end": "2026-11-13T16:30:00Z"
+ },
+ {
+  "date": "2026-11-12",
+  "entry_date": "2026-11-11",
+  "K": 283,
+  "spot_entry": 282.905,
+  "entry_start": "2026-11-11T20:30:00Z",
+  "entry_end": "2026-11-11T21:00:00Z",
+  "morning_start": "2026-11-12T14:30:00Z",
+  "morning_end": "2026-11-12T16:30:00Z"
+ },
+ {
+  "date": "2026-11-11",
+  "entry_date": "2026-11-10",
+  "K": 280,
+  "spot_entry": 280.22,
+  "entry_start": "2026-11-10T20:30:00Z",
+  "entry_end": "2026-11-10T21:00:00Z",
+  "morning_start": "2026-11-11T14:30:00Z",
+  "morning_end": "2026-11-11T16:30:00Z"
+ },
+ {
+  "date": "2026-11-10",
+  "entry_date": "2026-11-09",
+  "K": 283,
+  "spot_entry": 283.29,
+  "entry_start": "2026-11-09T20:30:00Z",
+  "entry_end": "2026-11-09T21:00:00Z",
+  "morning_start": "2026-11-10T14:30:00Z",
+  "morning_end": "2026-11-10T16:30:00Z"
+ },
+ {
+  "date": "2026-11-09",
+  "entry_date": "2026-11-06",
+  "K": 274,
+  "spot_entry": 274.31,
+  "entry_start": "2026-11-06T20:30:00Z",
+  "entry_end": "2026-11-06T21:00:00Z",
+  "morning_start": "2026-11-09T14:30:00Z",
+  "morning_end": "2026-11-09T16:30:00Z"
+ },
+ {
+  "date": "2026-11-06",
+  "entry_date": "2026-11-05",
+  "K": 271,
+  "spot_entry": 271.23,
+  "entry_start": "2026-11-05T20:30:00Z",
+  "entry_end": "2026-11-05T21:00:00Z",
+  "morning_start": "2026-11-06T14:30:00Z",
+  "morning_end": "2026-11-06T16:30:00Z"
+ },
+ {
+  "date": "2026-11-05",
+  "entry_date": "2026-11-04",
+  "K": 284,
+  "spot_entry": 283.655,
+  "entry_start": "2026-11-04T20:30:00Z",
+  "entry_end": "2026-11-04T21:00:00Z",
+  "morning_start": "2026-11-05T14:30:00Z",
+  "morning_end": "2026-11-05T16:30:00Z"
+ },
+ {
+  "date": "2026-11-04",
+  "entry_date": "2026-11-03",
+  "K": 280,
+  "spot_entry": 280.14,
+  "entry_start": "2026-11-03T20:30:00Z",
+  "entry_end": "2026-11-03T21:00:00Z",
+  "morning_start": "2026-11-04T14:30:00Z",
+  "morning_end": "2026-11-04T16:30:00Z"
+ },
+ {
+  "date": "2026-11-03",
+  "entry_date": "2026-11-02",
+  "K": 279,
+  "spot_entry": 278.98,
+  "entry_start": "2026-11-02T20:30:00Z",
+  "entry_end": "2026-11-02T21:00:00Z",
+  "morning_start": "2026-11-03T14:30:00Z",
+  "morning_end": "2026-11-03T16:30:00Z"
+ },
+ {
+  "date": "2026-11-02",
+  "entry_date": "2026-10-30",
+  "K": 278,
+  "spot_entry": 278.44,
+  "entry_start": "2026-10-30T19:30:00Z",
+  "entry_end": "2026-10-30T20:00:00Z",
+  "morning_start": "2026-11-02T14:30:00Z",
+  "morning_end": "2026-11-02T16:30:00Z"
+ },
+ {
+  "date": "2026-10-30",
+  "entry_date": "2026-10-29",
+  "K": 284,
+  "spot_entry": 283.56,
+  "entry_start": "2026-10-29T19:30:00Z",
+  "entry_end": "2026-10-29T20:00:00Z",
+  "morning_start": "2026-10-30T13:30:00Z",
+  "morning_end": "2026-10-30T15:30:00Z"
+ },
+ {
+  "date": "2026-10-29",
+  "entry_date": "2026-10-28",
+  "K": 280,
+  "spot_entry": 279.84,
+  "entry_start": "2026-10-28T19:30:00Z",
+  "entry_end": "2026-10-28T20:00:00Z",
+  "morning_start": "2026-10-29T13:30:00Z",
+  "morning_end": "2026-10-29T15:30:00Z"
+ },
+ {
+  "date": "2026-10-28",
+  "entry_date": "2026-10-27",
+  "K": 280,
+  "spot_entry": 280.15,
+  "entry_start": "2026-10-27T19:30:00Z",
+  "entry_end": "2026-10-27T20:00:00Z",
+  "morning_start": "2026-10-28T13:30:00Z",
+  "morning_end": "2026-10-28T15:30:00Z"
+ },
+ {
+  "date": "2026-10-27",
+  "entry_date": "2026-10-26",
+  "K": 277,
+  "spot_entry": 277.14,
+  "entry_start": "2026-10-26T19:30:00Z",
+  "entry_end": "2026-10-26T20:00:00Z",
+  "morning_start": "2026-10-27T13:30:00Z",
+  "morning_end": "2026-10-27T15:30:00Z"
+ },
+ {
+  "date": "2026-10-26",
+  "entry_date": "2026-10-23",
+  "K": 276,
+  "spot_entry": 276.0,
+  "entry_start": "2026-10-23T19:30:00Z",
+  "entry_end": "2026-10-23T20:00:00Z",
+  "morning_start": "2026-10-26T13:30:00Z",
+  "morning_end": "2026-10-26T15:30:00Z"
+ },
+ {
+  "date": "2026-10-23",
+  "entry_date": "2026-10-22",
+  "K": 276,
+  "spot_entry": 276.44,
+  "entry_start": "2026-10-22T19:30:00Z",
+  "entry_end": "2026-10-22T20:00:00Z",
+  "morning_start": "2026-10-23T13:30:00Z",
+  "morning_end": "2026-10-23T15:30:00Z"
+ },
+ {
+  "date": "2026-10-22",
+  "entry_date": "2026-10-21",
+  "K": 277,
+  "spot_entry": 276.67,
+  "entry_start": "2026-10-21T19:30:00Z",
+  "entry_end": "2026-10-21T20:00:00Z",
+  "morning_start": "2026-10-22T13:30:00Z",
+  "morning_end": "2026-10-22T15:30:00Z"
+ },
+ {
+  "date": "2026-10-21",
+  "entry_date": "2026-10-20",
+  "K": 276,
+  "spot_entry": 275.94,
+  "entry_start": "2026-10-20T19:30:00Z",
+  "entry_end": "2026-10-20T20:00:00Z",
+  "morning_start": "2026-10-21T13:30:00Z",
+  "morning_end": "2026-10-21T15:30:00Z"
+ },
+ {
+  "date": "2026-10-20",
+  "entry_date": "2026-10-19",
+  "K": 271,
+  "spot_entry": 271.36,
+  "entry_start": "2026-10-19T19:30:00Z",
+  "entry_end": "2026-10-19T20:00:00Z",
+  "morning_start": "2026-10-20T13:30:00Z",
+  "morning_end": "2026-10-20T15:30:00Z"
+ },
+ {
+  "date": "2026-10-19",
+  "entry_date": "2026-10-16",
+  "K": 271,
+  "spot_entry": 270.74,
+  "entry_start": "2026-10-16T19:30:00Z",
+  "entry_end": "2026-10-16T20:00:00Z",
+  "morning_start": "2026-10-19T13:30:00Z",
+  "morning_end": "2026-10-19T15:30:00Z"
+ },
+ {
+  "date": "2026-10-16",
+  "entry_date": "2026-10-15",
+  "K": 275,
+  "spot_entry": 274.515,
+  "entry_start": "2026-10-15T19:30:00Z",
+  "entry_end": "2026-10-15T20:00:00Z",
+  "morning_start": "2026-10-16T13:30:00Z",
+  "morning_end": "2026-10-16T15:30:00Z"
+ },
+ {
+  "date": "2026-10-15",
+  "entry_date": "2026-10-14",
+  "K": 271,
+  "spot_entry": 271.03,
+  "entry_start": "2026-10-14T19:30:00Z",
+  "entry_end": "2026-10-14T20:00:00Z",
+  "morning_start": "2026-10-15T13:30:00Z",
+  "morning_end": "2026-10-15T15:30:00Z"
+ },
+ {
+  "date": "2026-10-14",
+  "entry_date": "2026-10-13",
+  "K": 277,
+  "spot_entry": 277.035,
+  "entry_start": "2026-10-13T19:30:00Z",
+  "entry_end": "2026-10-13T20:00:00Z",
+  "morning_start": "2026-10-14T13:30:00Z",
+  "morning_end": "2026-10-14T15:30:00Z"
+ },
+ {
+  "date": "2026-10-13",
+  "entry_date": "2026-10-12",
+  "K": 278,
+  "spot_entry": 277.88,
+  "entry_start": "2026-10-12T19:30:00Z",
+  "entry_end": "2026-10-12T20:00:00Z",
+  "morning_start": "2026-10-13T13:30:00Z",
+  "morning_end": "2026-10-13T15:30:00Z"
+ },
+ {
+  "date": "2026-10-12",
+  "entry_date": "2026-10-09",
+  "K": 279,
+  "spot_entry": 279.12,
+  "entry_start": "2026-10-09T19:30:00Z",
+  "entry_end": "2026-10-09T20:00:00Z",
+  "morning_start": "2026-10-12T13:30:00Z",
+  "morning_end": "2026-10-12T15:30:00Z"
+ },
+ {
+  "date": "2026-10-09",
+  "entry_date": "2026-10-08",
+  "K": 277,
+  "spot_entry": 277.47,
+  "entry_start": "2026-10-08T19:30:00Z",
+  "entry_end": "2026-10-08T20:00:00Z",
+  "morning_start": "2026-10-09T13:30:00Z",
+  "morning_end": "2026-10-09T15:30:00Z"
+ },
+ {
+  "date": "2026-10-08",
+  "entry_date": "2026-10-07",
+  "K": 278,
+  "spot_entry": 277.87,
+  "entry_start": "2026-10-07T19:30:00Z",
+  "entry_end": "2026-10-07T20:00:00Z",
+  "morning_start": "2026-10-08T13:30:00Z",
+  "morning_end": "2026-10-08T15:30:00Z"
+ },
+ {
+  "date": "2026-10-07",
+  "entry_date": "2026-10-06",
+  "K": 281,
+  "spot_entry": 280.96,
+  "entry_start": "2026-10-06T19:30:00Z",
+  "entry_end": "2026-10-06T20:00:00Z",
+  "morning_start": "2026-10-07T13:30:00Z",
+  "morning_end": "2026-10-07T15:30:00Z"
+ },
+ {
+  "date": "2026-10-06",
+  "entry_date": "2026-10-05",
+  "K": 284,
+  "spot_entry": 283.865,
+  "entry_start": "2026-10-05T19:30:00Z",
+  "entry_end": "2026-10-05T20:00:00Z",
+  "morning_start": "2026-10-06T13:30:00Z",
+  "morning_end": "2026-10-06T15:30:00Z"
+ },
+ {
+  "date": "2026-10-05",
+  "entry_date": "2026-10-02",
+  "K": 282,
+  "spot_entry": 281.52,
+  "entry_start": "2026-10-02T19:30:00Z",
+  "entry_end": "2026-10-02T20:00:00Z",
+  "morning_start": "2026-10-05T13:30:00Z",
+  "morning_end": "2026-10-05T15:30:00Z"
+ },
+ {
+  "date": "2026-10-02",
+  "entry_date": "2026-10-01",
+  "K": 279,
+  "spot_entry": 279.31,
+  "entry_start": "2026-10-01T19:30:00Z",
+  "entry_end": "2026-10-01T20:00:00Z",
+  "morning_start": "2026-10-02T13:30:00Z",
+  "morning_end": "2026-10-02T15:30:00Z"
+ },
+ {
+  "date": "2026-10-01",
+  "entry_date": "2026-09-30",
+  "K": 279,
+  "spot_entry": 278.86,
+  "entry_start": "2026-09-30T19:30:00Z",
+  "entry_end": "2026-09-30T20:00:00Z",
+  "morning_start": "2026-10-01T13:30:00Z",
+  "morning_end": "2026-10-01T15:30:00Z"
+ },
+ {
+  "date": "2026-09-30",
+  "entry_date": "2026-09-29",
+  "K": 279,
+  "spot_entry": 278.81,
+  "entry_start": "2026-09-29T19:30:00Z",
+  "entry_end": "2026-09-29T20:00:00Z",
+  "morning_start": "2026-09-30T13:30:00Z",
+  "morning_end": "2026-09-30T15:30:00Z"
+ },
+ {
+  "date": "2026-09-29",
+  "entry_date": "2026-09-28",
+  "K": 280,
+  "spot_entry": 280.292,
+  "entry_start": "2026-09-28T19:30:00Z",
+  "entry_end": "2026-09-28T20:00:00Z",
+  "morning_start": "2026-09-29T13:30:00Z",
+  "morning_end": "2026-09-29T15:30:00Z"
+ },
+ {
+  "date": "2026-09-28",
+  "entry_date": "2026-09-25",
+  "K": 282,
+  "spot_entry": 282.125,
+  "entry_start": "2026-09-25T19:30:00Z",
+  "entry_end": "2026-09-25T20:00:00Z",
+  "morning_start": "2026-09-28T13:30:00Z",
+  "morning_end": "2026-09-28T15:30:00Z"
+ },
+ {
+  "date": "2026-09-25",
+  "entry_date": "2026-09-24",
+  "K": 281,
+  "spot_entry": 281.36,
+  "entry_start": "2026-09-24T19:30:00Z",
+  "entry_end": "2026-09-24T20:00:00Z",
+  "morning_start": "2026-09-25T13:30:00Z",
+  "morning_end": "2026-09-25T15:30:00Z"
+ },
+ {
+  "date": "2026-09-24",
+  "entry_date": "2026-09-23",
+  "K": 282,
+  "spot_entry": 282.42,
+  "entry_start": "2026-09-23T19:30:00Z",
+  "entry_end": "2026-09-23T20:00:00Z",
+  "morning_start": "2026-09-24T13:30:00Z",
+  "morning_end": "2026-09-24T15:30:00Z"
+ },
+ {
+  "date": "2026-09-23",
+  "entry_date": "2026-09-22",
+  "K": 287,
+  "spot_entry": 287.395,
+  "entry_start": "2026-09-22T19:30:00Z",
+  "entry_end": "2026-09-22T20:00:00Z",
+  "morning_start": "2026-09-23T13:30:00Z",
+  "morning_end": "2026-09-23T15:30:00Z"
+ },
+ {
+  "date": "2026-09-22",
+  "entry_date": "2026-09-21",
+  "K": 286,
+  "spot_entry": 286.065,
+  "entry_start": "2026-09-21T19:30:00Z",
+  "entry_end": "2026-09-21T20:00:00Z",
+  "morning_start": "2026-09-22T13:30:00Z",
+  "morning_end": "2026-09-22T15:30:00Z"
+ },
+ {
+  "date": "2026-09-21",
+  "entry_date": "2026-09-18",
+  "K": 284,
+  "spot_entry": 283.58,
+  "entry_start": "2026-09-18T19:30:00Z",
+  "entry_end": "2026-09-18T20:00:00Z",
+  "morning_start": "2026-09-21T13:30:00Z",
+  "morning_end": "2026-09-21T15:30:00Z"
+ },
+ {
+  "date": "2026-09-18",
+  "entry_date": "2026-09-17",
+  "K": 286,
+  "spot_entry": 285.76,
+  "entry_start": "2026-09-17T19:30:00Z",
+  "entry_end": "2026-09-17T20:00:00Z",
+  "morning_start": "2026-09-18T13:30:00Z",
+  "morning_end": "2026-09-18T15:30:00Z"
+ },
+ {
+  "date": "2026-09-17",
+  "entry_date": "2026-09-16",
+  "K": 282,
+  "spot_entry": 281.65,
+  "entry_start": "2026-09-16T19:30:00Z",
+  "entry_end": "2026-09-16T20:00:00Z",
+  "morning_start": "2026-09-17T13:30:00Z",
+  "morning_end": "2026-09-17T15:30:00Z"
+ },
+ {
+  "date": "2026-09-16",
+  "entry_date": "2026-09-15",
+  "K": 285,
+  "spot_entry": 284.87,
+  "entry_start": "2026-09-15T19:30:00Z",
+  "entry_end": "2026-09-15T20:00:00Z",
+  "morning_start": "2026-09-16T13:30:00Z",
+  "morning_end": "2026-09-16T15:30:00Z"
+ },
+ {
+  "date": "2026-09-15",
+  "entry_date": "2026-09-14",
+  "K": 288,
+  "spot_entry": 288.34,
+  "entry_start": "2026-09-14T19:30:00Z",
+  "entry_end": "2026-09-14T20:00:00Z",
+  "morning_start": "2026-09-15T13:30:00Z",
+  "morning_end": "2026-09-15T15:30:00Z"
+ },
+ {
+  "date": "2026-09-14",
+  "entry_date": "2026-09-11",
+  "K": 289,
+  "spot_entry": 289.095,
+  "entry_start": "2026-09-11T19:30:00Z",
+  "entry_end": "2026-09-11T20:00:00Z",
+  "morning_start": "2026-09-14T13:30:00Z",
+  "morning_end": "2026-09-14T15:30:00Z"
+ },
+ {
+  "date": "2026-09-11",
+  "entry_date": "2026-09-10",
+  "K": 287,
+  "spot_entry": 287.48,
+  "entry_start": "2026-09-10T19:30:00Z",
+  "entry_end": "2026-09-10T20:00:00Z",
+  "morning_start": "2026-09-11T13:30:00Z",
+  "morning_end": "2026-09-11T15:30:00Z"
+ },
+ {
+  "date": "2026-09-10",
+  "entry_date": "2026-09-09",
+  "K": 291,
+  "spot_entry": 290.71,
+  "entry_start": "2026-09-09T19:30:00Z",
+  "entry_end": "2026-09-09T20:00:00Z",
+  "morning_start": "2026-09-10T13:30:00Z",
+  "morning_end": "2026-09-10T15:30:00Z"
+ },
+ {
+  "date": "2026-09-09",
+  "entry_date": "2026-09-08",
+  "K": 295,
+  "spot_entry": 295.48,
+  "entry_start": "2026-09-08T19:30:00Z",
+  "entry_end": "2026-09-08T20:00:00Z",
+  "morning_start": "2026-09-09T13:30:00Z",
+  "morning_end": "2026-09-09T15:30:00Z"
+ },
+ {
+  "date": "2026-09-08",
+  "entry_date": "2026-09-04",
+  "K": 296,
+  "spot_entry": 295.815,
+  "entry_start": "2026-09-04T19:30:00Z",
+  "entry_end": "2026-09-04T20:00:00Z",
+  "morning_start": "2026-09-08T13:30:00Z",
+  "morning_end": "2026-09-08T15:30:00Z"
+ },
+ {
+  "date": "2026-09-04",
+  "entry_date": "2026-09-03",
+  "K": 295,
+  "spot_entry": 294.96,
+  "entry_start": "2026-09-03T19:30:00Z",
+  "entry_end": "2026-09-03T20:00:00Z",
+  "morning_start": "2026-09-04T13:30:00Z",
+  "morning_end": "2026-09-04T15:30:00Z"
+ },
+ {
+  "date": "2026-09-03",
+  "entry_date": "2026-09-02",
+  "K": 294,
+  "spot_entry": 294.06,
+  "entry_start": "2026-09-02T19:30:00Z",
+  "entry_end": "2026-09-02T20:00:00Z",
+  "morning_start": "2026-09-03T13:30:00Z",
+  "morning_end": "2026-09-03T15:30:00Z"
+ },
+ {
+  "date": "2026-09-02",
+  "entry_date": "2026-09-01",
+  "K": 291,
+  "spot_entry": 290.685,
+  "entry_start": "2026-09-01T19:30:00Z",
+  "entry_end": "2026-09-01T20:00:00Z",
+  "morning_start": "2026-09-02T13:30:00Z",
+  "morning_end": "2026-09-02T15:30:00Z"
+ },
+ {
+  "date": "2026-09-01",
+  "entry_date": "2026-08-31",
+  "K": 294,
+  "spot_entry": 293.555,
+  "entry_start": "2026-08-31T19:30:00Z",
+  "entry_end": "2026-08-31T20:00:00Z",
+  "morning_start": "2026-09-01T13:30:00Z",
+  "morning_end": "2026-09-01T15:30:00Z"
+ },
+ {
+  "date": "2026-08-31",
+  "entry_date": "2026-08-28",
+  "K": 296,
+  "spot_entry": 296.22,
+  "entry_start": "2026-08-28T19:30:00Z",
+  "entry_end": "2026-08-28T20:00:00Z",
+  "morning_start": "2026-08-31T13:30:00Z",
+  "morning_end": "2026-08-31T15:30:00Z"
+ },
+ {
+  "date": "2026-08-28",
+  "entry_date": "2026-08-27",
+  "K": 300,
+  "spot_entry": 299.94,
+  "entry_start": "2026-08-27T19:30:00Z",
+  "entry_end": "2026-08-27T20:00:00Z",
+  "morning_start": "2026-08-28T13:30:00Z",
+  "morning_end": "2026-08-28T15:30:00Z"
+ },
+ {
+  "date": "2026-08-27",
+  "entry_date": "2026-08-26",
+  "K": 299,
+  "spot_entry": 299.035,
+  "entry_start": "2026-08-26T19:30:00Z",
+  "entry_end": "2026-08-26T20:00:00Z",
+  "morning_start": "2026-08-27T13:30:00Z",
+  "morning_end": "2026-08-27T15:30:00Z"
+ },
+ {
+  "date": "2026-08-26",
+  "entry_date": "2026-08-25",
+  "K": 299,
+  "spot_entry": 298.89,
+  "entry_start": "2026-08-25T19:30:00Z",
+  "entry_end": "2026-08-25T20:00:00Z",
+  "morning_start": "2026-08-26T13:30:00Z",
+  "morning_end": "2026-08-26T15:30:00Z"
+ },
+ {
+  "date": "2026-08-25",
+  "entry_date": "2026-08-24",
+  "K": 298,
+  "spot_entry": 298.07,
+  "entry_start": "2026-08-24T19:30:00Z",
+  "entry_end": "2026-08-24T20:00:00Z",
+  "morning_start": "2026-08-25T13:30:00Z",
+  "morning_end": "2026-08-25T15:30:00Z"
+ },
+ {
+  "date": "2026-08-24",
+  "entry_date": "2026-08-21",
+  "K": 300,
+  "spot_entry": 300.15,
+  "entry_start": "2026-08-21T19:30:00Z",
+  "entry_end": "2026-08-21T20:00:00Z",
+  "morning_start": "2026-08-24T13:30:00Z",
+  "morning_end": "2026-08-24T15:30:00Z"
+ },
+ {
+  "date": "2026-08-21",
+  "entry_date": "2026-08-20",
+  "K": 298,
+  "spot_entry": 297.63,
+  "entry_start": "2026-08-20T19:30:00Z",
+  "entry_end": "2026-08-20T20:00:00Z",
+  "morning_start": "2026-08-21T13:30:00Z",
+  "morning_end": "2026-08-21T15:30:00Z"
+ },
+ {
+  "date": "2026-08-20",
+  "entry_date": "2026-08-19",
+  "K": 302,
+  "spot_entry": 301.67,
+  "entry_start": "2026-08-19T19:30:00Z",
+  "entry_end": "2026-08-19T20:00:00Z",
+  "morning_start": "2026-08-20T13:30:00Z",
+  "morning_end": "2026-08-20T15:30:00Z"
+ },
+ {
+  "date": "2026-08-19",
+  "entry_date": "2026-08-18",
+  "K": 301,
+  "spot_entry": 300.68,
+  "entry_start": "2026-08-18T19:30:00Z",
+  "entry_end": "2026-08-18T20:00:00Z",
+  "morning_start": "2026-08-19T13:30:00Z",
+  "morning_end": "2026-08-19T15:30:00Z"
+ }
+]

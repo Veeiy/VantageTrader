@@ -1,0 +1,129 @@
+{
+  "scored_at": "2026-11-20T21:18:58Z",
+  "method": "Paper iron flies, 2026-11-20 expiry. Spot from 30-min equity bars (regular hours); close_1119 = close of the 11/19 bar beginning 20:30Z. Body K = listed strike nearest close_1119. Entry = closes of the 11/19 20:30Z option bars; straddle_entry = K call + K put at entry. Wings at K -/+ 1x and 2x straddle, nearest listed strikes; width = wider side. exit_spot and option exits use the open of the 11/20 bar beginning 15:00Z (07:00 PT). credit = shorts - longs at entry; exit_cost = shorts - longs at exit; pnl_usd = (credit - exit_cost) x100, capped to [-(width-credit)x100, credit x100]; max_loss_usd = (width-credit)x100. move = exit_spot / close_1119 - 1.",
+  "names": [
+    {
+      "symbol": "ROST",
+      "report": "2026-11-19 AMC",
+      "close_1119": 220.03,
+      "exit_spot": 213.09,
+      "exit_spot_bar_close": 213.7,
+      "move": -0.0315,
+      "K": 220.0,
+      "straddle_entry": 14.3,
+      "body_note": "K=220 is the listed strike nearest the 11/19 close 220.03; 11/20 grid is 2.5-pt from 210 to 262.5, 5-pt below 210 and above 262.5 (full listing). Straddle 7.15C + 7.15P = 14.30 (6.50% of close).",
+      "flies": [
+        {
+          "label": "1x",
+          "strikes": [
+            205.0,
+            220.0,
+            235.0
+          ],
+          "credit": 11.0,
+          "exit_cost": 7.44,
+          "pnl_usd": 356.0,
+          "max_loss_usd": 400.0,
+          "notes": "Short 220P/220C, long wings 205P & 235C, exp 2026-11-20. Entry = closes of 11/19 20:30Z bar (220C 7.15, 220P 7.15, 205P 1.35, 235C 1.95); exit = opens of 11/20 15:00Z bar (220C 0.58, 220P 7.25, 205P 0.38, 235C 0.01; all legs had a real bar there, no fallback). Target wings K-/+1x straddle = 205.70/234.30; nearest listed 205/235. Width = 15 both sides; max_loss_usd stored as positive magnitude = (width-credit)x100; max profit 1100. Sensitivity: using the 15:00Z bar closes instead of opens, exit_cost 6.99, pnl +401. Prices are 30-min bar last-trade prints (not mids), non-synchronous across legs. Exit-bar body parity: open call-put = -6.67 vs spot-K = -6.91 (0.24 gap); close -6.37 vs -6.30. 205P entry bar is a single flat print (O=H=L=C 1.35), possibly stale; used as given. 235C prints flat 0.01 at exit (likely floor placeholder), effect ~$1."
+        },
+        {
+          "label": "2x",
+          "strikes": [
+            190.0,
+            220.0,
+            247.5
+          ],
+          "credit": 13.82,
+          "exit_cost": 7.81,
+          "pnl_usd": 601.0,
+          "max_loss_usd": 1618.0,
+          "notes": "Short 220P/220C, long wings 190P & 247.5C, exp 2026-11-20. Entry = closes of 11/19 20:30Z bar (220C 7.15, 220P 7.15, 190P 0.13, 247.5C 0.35); exit = opens of 11/20 15:00Z bar (220C 0.58, 220P 7.25, 190P 0.01, 247.5C 0.01; all legs had a real bar there, no fallback). Target wings K-/+2x straddle = 191.40/248.60; nearest listed 190/247.5. Asymmetric wings (30 put side / 27.5 call side); width = wider side = 30; max_loss_usd stored as positive magnitude = (width-credit)x100; max profit 1382. Sensitivity: using the 15:00Z bar closes instead of opens, exit_cost 7.31, pnl +651. Prices are 30-min bar last-trade prints (not mids), non-synchronous across legs. 190P entry bar is a single flat print (0.13), possibly stale; both wings print flat 0.01 at exit (likely floor placeholder), effect ~$2."
+        }
+      ]
+    },
+    {
+      "symbol": "GAP",
+      "report": "2026-11-19 AMC",
+      "close_1119": 18.89,
+      "exit_spot": 21.8303,
+      "exit_spot_bar_close": 22.065,
+      "move": 0.1557,
+      "K": 19.0,
+      "straddle_entry": 2.09,
+      "body_note": "K=19 is the listed strike nearest the 11/19 close 18.89; 11/20 grid is 0.5-pt from 16.5 to 27.5, 1-pt outside (full listing). Straddle 0.97C + 1.12P = 2.09 (11.06% of close).",
+      "flies": [
+        {
+          "label": "1x",
+          "strikes": [
+            17.0,
+            19.0,
+            21.0
+          ],
+          "credit": 1.4,
+          "exit_cost": 1.85,
+          "pnl_usd": -45.0,
+          "max_loss_usd": 60.0,
+          "notes": "Short 19P/19C, long wings 17P & 21C, exp 2026-11-20. Entry = closes of 11/19 20:30Z bar (19C 0.97, 19P 1.12, 17P 0.34, 21C 0.35); exit = opens of 11/20 15:00Z bar (19C 2.83, 19P 0.01, 17P 0.01, 21C 0.98; all legs had a real bar there, no fallback). Target wings K-/+1x straddle = 16.91/21.09; nearest listed 17/21. Width = 2 both sides; max_loss_usd stored as positive magnitude = (width-credit)x100; max profit 140. Sensitivity: using the 15:00Z bar closes instead of opens, exit_cost 2.01, raw pnl -61, capped to -60 (max loss). Prices are 30-min bar last-trade prints (not mids), non-synchronous across legs. Exit spot 21.83 is beyond the 21C wing, so the loss is sign-robust; only its size (-45 vs the -60 cap) depends on the 21C time value in the prints. 17P entry bar is a single flat print (0.34), possibly stale; 19P and 17P print flat 0.01 at exit (likely floor placeholder), net effect $0."
+        },
+        {
+          "label": "2x",
+          "strikes": [
+            15.0,
+            19.0,
+            23.0
+          ],
+          "credit": 1.95,
+          "exit_cost": 2.77,
+          "pnl_usd": -82.0,
+          "max_loss_usd": 205.0,
+          "notes": "Short 19P/19C, long wings 15P & 23C, exp 2026-11-20. Entry = closes of 11/19 20:30Z bar (19C 0.97, 19P 1.12, 15P 0.06, 23C 0.08); exit = opens of 11/20 15:00Z bar (19C 2.83, 19P 0.01, 15P 0.01, 23C 0.06; all legs had a real bar there, no fallback). Target wings K-/+2x straddle = 14.82/23.18; nearest listed 15/23. Width = 4 both sides; max_loss_usd stored as positive magnitude = (width-credit)x100; max profit 195. Sensitivity: using the 15:00Z bar closes instead of opens, exit_cost 2.93, pnl -98. Prices are 30-min bar last-trade prints (not mids), non-synchronous across legs. Exit-bar body parity: open call-put = 2.82 vs spot-K = 2.83; close 2.98 vs 3.065. 19P and 15P print flat 0.01 at exit (likely floor placeholder), net effect $0."
+        }
+      ]
+    },
+    {
+      "symbol": "ESTC",
+      "report": "2026-11-19 AMC",
+      "close_1119": 76.09,
+      "exit_spot": 76.98,
+      "exit_spot_bar_close": 77.885,
+      "move": 0.0117,
+      "K": 75.0,
+      "straddle_entry": 12.75,
+      "body_note": "K=75 is the listed strike nearest the 11/19 close 76.09; 11/20 grid is 5-pt throughout near ATM (no 76/77.5 listed; full listing). Straddle 6.95C + 5.80P = 12.75 (16.76% of close).",
+      "flies": [
+        {
+          "label": "1x",
+          "strikes": [
+            60.0,
+            75.0,
+            90.0
+          ],
+          "credit": 9.97,
+          "exit_cost": 3.86,
+          "pnl_usd": 611.0,
+          "max_loss_usd": 503.0,
+          "notes": "Short 75P/75C, long wings 60P & 90C, exp 2026-11-20. Entry = closes of 11/19 20:30Z bar (75C 6.95, 75P 5.80, 60P 0.95, 90C 1.83); exit = opens of 11/20 15:00Z bar (75C 3.08, 75P 0.80, 60P 0.01, 90C 0.01; all legs had a real bar there, no fallback). Target wings K-/+1x straddle = 62.25/87.75; nearest listed 60/90 (65/85 were 2.75 away vs 2.25). Width = 15 both sides; max_loss_usd stored as positive magnitude = (width-credit)x100; max profit 997. Sensitivity: using the 15:00Z bar closes instead of opens, exit_cost 3.99, pnl +598. Prices are 30-min bar last-trade prints (not mids), non-synchronous across legs. Exit-bar body parity gap: open call-put = 2.28 vs spot-K = 1.98 (0.30); close 2.25 vs 2.885 (0.63); does not affect the sign. 90C entry bar is a single flat print (1.83), possibly stale; both wings print flat 0.01 at exit (likely floor placeholder), effect ~$2."
+        },
+        {
+          "label": "2x",
+          "strikes": [
+            50.0,
+            75.0,
+            100.0
+          ],
+          "credit": 11.94,
+          "exit_cost": 3.86,
+          "pnl_usd": 808.0,
+          "max_loss_usd": 1306.0,
+          "notes": "Short 75P/75C, long wings 50P & 100C, exp 2026-11-20. Entry = closes of 11/19 20:30Z bar (75C 6.95, 75P 5.80, 50P 0.18, 100C 0.63); exit = opens of 11/20 15:00Z bar (75C 3.08, 75P 0.80, 50P 0.01, 100C 0.01; all legs had a real bar there, no fallback). Target wings K-/+2x straddle = 49.50/100.50; nearest listed 50/100. Width = 25 both sides; max_loss_usd stored as positive magnitude = (width-credit)x100; max profit 1194. Sensitivity: using the 15:00Z bar closes instead of opens, exit_cost 3.99, pnl +795. Prices are 30-min bar last-trade prints (not mids), non-synchronous across legs. Exit-bar body parity gap 0.30 at open / 0.63 at close (see 1x). Both wings print flat 0.01 at exit (likely floor placeholder), effect ~$2."
+        }
+      ]
+    }
+  ],
+  "errors": [
+    "No fallback bars needed: all 18 legs had a real 11/19 20:30Z and 11/20 15:00Z bar; no bar carried an interpolated flag.",
+    "Strike grids from the full 11/20 listings per name (contracts still returned state active, tradability position_closing_only, after the close), so no expired-state query was needed.",
+    "All three confirmed via get_earnings_results: report 2026-11-19 timing pm, verified, EPS actual present (ROST 1.91 vs 1.85, GAP 0.82 vs 0.76, ESTC 0.94 vs 0.68).",
+    "Process note: a temporary calc script was written to the session scratchpad and then deleted; no other files written."
+  ]
+}

@@ -1,0 +1,50 @@
+{
+ "symbol": "IWM",
+ "spot": 265.375,
+ "prev_close": 256.61,
+ "K": 265.0,
+ "expiry": "2026-11-23",
+ "call": {
+  "bid": 1.21,
+  "ask": 1.22
+ },
+ "put": {
+  "bid": 0.83,
+  "ask": 0.84
+ },
+ "wings": {
+  "call_strike": 268.0,
+  "put_strike": 262.0,
+  "call": {
+   "bid": 0.17,
+   "ask": 0.18
+  },
+  "put": {
+   "bid": 0.2,
+   "ask": 0.21
+  }
+ },
+ "same_hours_moves": [
+  0.013048,
+  0.00277,
+  0.003652,
+  -0.002579,
+  0.007325,
+  -0.00447,
+  -0.009937,
+  -0.003357,
+  -0.016234,
+  -0.022515
+ ],
+ "event_ahead": false,
+ "macro_veto": true,
+ "exits_pending": false,
+ "account_value": 1909.87,
+ "open_risk_usd": 449.94,
+ "buying_power": 1469.22,
+ "open_intraday": 0,
+ "entries_today": 0,
+ "today": "2026-11-23",
+ "now_pt": "07:28",
+ "note": "IWM +3.4% from Friday's close at 07:27 PT; SPY +4.9% (hard macro veto for earnings entries). Days used: 2026-11-09,2026-11-10,2026-11-11,2026-11-12,2026-11-13,2026-11-16,2026-11-17,2026-11-18,2026-11-19,2026-11-20"
+}

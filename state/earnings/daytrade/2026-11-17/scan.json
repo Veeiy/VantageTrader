@@ -1,0 +1,384 @@
+{
+ "date": "2026-11-17",
+ "as_of_pt": "06:51",
+ "universe_file": "state/earnings/daytrade/universe/universe_2026-11-16.json",
+ "n_names": 9,
+ "names": [
+  {
+   "symbol": "SPY",
+   "spot": 738.74,
+   "prev_close": 739.95,
+   "pre_move": -0.001635,
+   "K": 739.0,
+   "strike_step": 1.0,
+   "call": {
+    "id": "1ec54593-1a1d-46c3-9f8f-915e937c24b5",
+    "bid": 2.35,
+    "ask": 2.37,
+    "oi": 2388
+   },
+   "put": {
+    "id": "0e58131f-485b-4064-800c-e292b91c765c",
+    "bid": 2.92,
+    "ask": 2.93,
+    "oi": 4768
+   },
+   "straddle_mid": 5.285,
+   "straddle_pct": 0.007154,
+   "spread_pct": 0.005676,
+   "wings": {
+    "call_strike": 744.0,
+    "put_strike": 734.0,
+    "call": {
+     "id": "fbd2d46b-d356-4fcf-9ba0-1d294b09a5a3",
+     "bid": 0.72,
+     "ask": 0.73
+    },
+    "put": {
+     "id": "70c5b496-40bd-431a-98b0-c976d8b05756",
+     "bid": 1.01,
+     "ask": 1.02
+    }
+   },
+   "credit_mid": 3.545,
+   "credit_natural": 3.52,
+   "width": 5.0,
+   "max_loss_usd": 148.0,
+   "cost_round_trip_usd": 5.0,
+   "cost_share": 0.014104,
+   "fits_probe_cap": true,
+   "reason": null,
+   "notes": ""
+  },
+  {
+   "symbol": "QQQ",
+   "spot": 661.08,
+   "prev_close": 661.75,
+   "pre_move": -0.001012,
+   "K": 661.0,
+   "strike_step": 1.0,
+   "call": {
+    "id": "3ce07d96-7a71-4ee8-93d8-e1c074ccc709",
+    "bid": 3.23,
+    "ask": 3.25,
+    "oi": 844
+   },
+   "put": {
+    "id": "7e25205d-d998-40e7-8f7d-43e4861db47a",
+    "bid": 3.9,
+    "ask": 3.91,
+    "oi": 2102
+   },
+   "straddle_mid": 7.145,
+   "straddle_pct": 0.010808,
+   "spread_pct": 0.004199,
+   "wings": {
+    "call_strike": 668.0,
+    "put_strike": 654.0,
+    "call": {
+     "id": "09e7a0ce-c1ca-4f61-99b5-91f4d7f7efb7",
+     "bid": 0.95,
+     "ask": 0.96
+    },
+    "put": {
+     "id": "ea6a17a5-4d9d-417b-b866-c6db0dd7b8d3",
+     "bid": 1.23,
+     "ask": 1.24
+    }
+   },
+   "credit_mid": 4.955,
+   "credit_natural": 4.93,
+   "width": 7.0,
+   "max_loss_usd": 207.0,
+   "cost_round_trip_usd": 5.0,
+   "cost_share": 0.010091,
+   "fits_probe_cap": false,
+   "reason": null,
+   "notes": ""
+  },
+  {
+   "symbol": "IWM",
+   "spot": 272.74,
+   "prev_close": 272.94,
+   "pre_move": -0.000733,
+   "K": 273.0,
+   "strike_step": 1.0,
+   "call": {
+    "id": "1ab8dd85-1767-42ed-a98a-528e740f55a9",
+    "bid": 0.76,
+    "ask": 0.77,
+    "oi": 843
+   },
+   "put": {
+    "id": "6ba50f81-dc94-46b1-8fcb-ca0affbd8f88",
+    "bid": 1.14,
+    "ask": 1.15,
+    "oi": 1438
+   },
+   "straddle_mid": 1.91,
+   "straddle_pct": 0.007003,
+   "spread_pct": 0.010471,
+   "wings": {
+    "call_strike": 275.0,
+    "put_strike": 271.0,
+    "call": {
+     "id": "0d976416-2a8f-4772-873a-911af22f1ce3",
+     "bid": 0.19,
+     "ask": 0.2
+    },
+    "put": {
+     "id": "dda7e30e-7794-49f2-a9a7-b5f7a039103c",
+     "bid": 0.35,
+     "ask": 0.36
+    }
+   },
+   "credit_mid": 1.36,
+   "credit_natural": 1.34,
+   "width": 2.0,
+   "max_loss_usd": 66.0,
+   "cost_round_trip_usd": 4.0,
+   "cost_share": 0.029412,
+   "fits_probe_cap": true,
+   "reason": null,
+   "notes": ""
+  },
+  {
+   "symbol": "IBIT",
+   "spot": 36.72,
+   "prev_close": 36.79,
+   "pre_move": -0.001903,
+   "K": 37.0,
+   "strike_step": 0.5,
+   "call": {
+    "id": "731f1b71-9b54-4281-8cfc-f0ad3b7d05c4",
+    "bid": 0.13,
+    "ask": 0.14,
+    "oi": 5334
+   },
+   "put": {
+    "id": "ec87deb8-bb42-4756-a30b-f910c25d165e",
+    "bid": 0.4,
+    "ask": 0.43,
+    "oi": 1215
+   },
+   "straddle_mid": 0.55,
+   "straddle_pct": 0.014978,
+   "spread_pct": 0.072727,
+   "wings": {
+    "call_strike": 37.5,
+    "put_strike": 36.0,
+    "call": {
+     "id": "5ad01d27-2c9b-4496-805d-8122f718721c",
+     "bid": 0.04,
+     "ask": 0.05
+    },
+    "put": {
+     "id": "d631adbf-1edc-4aa6-adc8-12c1a2a3a876",
+     "bid": 0.05,
+     "ask": 0.06
+    }
+   },
+   "credit_mid": 0.45,
+   "credit_natural": 0.42,
+   "width": 1.0,
+   "max_loss_usd": 58.0,
+   "cost_round_trip_usd": 6.0,
+   "cost_share": 0.133333,
+   "fits_probe_cap": true,
+   "reason": null,
+   "notes": "mixed strike grid: 37.5 listed but 36.5 not listed, so put wing at 36 (nearest listed to 36.45); step 0.5 above 37, 1 below"
+  },
+  {
+   "symbol": "GLD",
+   "spot": 354.13,
+   "prev_close": 352.93,
+   "pre_move": 0.0034,
+   "K": 354.0,
+   "strike_step": 1.0,
+   "call": {
+    "id": "85c79bf4-fbc7-4ce4-9f95-86f98d59b088",
+    "bid": 0.95,
+    "ask": 1.08,
+    "oi": 222
+   },
+   "put": {
+    "id": "b5d996ce-7c76-4d6f-961e-d3722b3972f4",
+    "bid": 0.83,
+    "ask": 0.91,
+    "oi": 293
+   },
+   "straddle_mid": 1.885,
+   "straddle_pct": 0.005323,
+   "spread_pct": 0.111406,
+   "wings": null,
+   "credit_mid": null,
+   "credit_natural": null,
+   "width": null,
+   "max_loss_usd": null,
+   "cost_round_trip_usd": null,
+   "cost_share": null,
+   "fits_probe_cap": null,
+   "reason": "spread",
+   "notes": "early drop; strike step assumed 1 (not probed further; K=354 is nearest spot under step 0.5 or 1)"
+  },
+  {
+   "symbol": "XSP",
+   "spot": 740.54,
+   "prev_close": null,
+   "pre_move": null,
+   "K": 741.0,
+   "strike_step": 1.0,
+   "call": {
+    "id": "6f673830-2c7e-4129-8994-4708a118dcd2",
+    "bid": 1.95,
+    "ask": 2.03,
+    "oi": 208
+   },
+   "put": {
+    "id": "a494a7a8-1bfb-45a4-9f25-8a5156814f1b",
+    "bid": 2.58,
+    "ask": 2.7,
+    "oi": 211
+   },
+   "straddle_mid": 4.63,
+   "straddle_pct": 0.006252,
+   "spread_pct": 0.043197,
+   "wings": {
+    "call_strike": 746.0,
+    "put_strike": 736.0,
+    "call": {
+     "id": "25c20e9e-abff-43b8-8478-63a5db1a5692",
+     "bid": 0.48,
+     "ask": 0.5
+    },
+    "put": {
+     "id": "86e90885-1c5c-4ff3-b521-4167d9c494af",
+     "bid": 0.8,
+     "ask": 0.82
+    }
+   },
+   "credit_mid": 3.33,
+   "credit_natural": 3.21,
+   "width": 5.0,
+   "max_loss_usd": 179.0,
+   "cost_round_trip_usd": 24.0,
+   "cost_share": 0.072072,
+   "fits_probe_cap": false,
+   "reason": null,
+   "notes": "index (cash-settled, PM); spot from get_index_quotes, which gives no previous close, so prev_close/pre_move null; 740 and 741 both listed"
+  },
+  {
+   "symbol": "SPX",
+   "spot": 7405.38,
+   "prev_close": null,
+   "pre_move": null,
+   "K": 7405.0,
+   "strike_step": 5.0,
+   "call": {
+    "id": "356e9c45-2242-4b2a-a7ac-da5a5e05d96e",
+    "bid": 22.4,
+    "ask": 22.5,
+    "oi": 589
+   },
+   "put": {
+    "id": "00b75cda-e036-4d72-919f-1a25ea9b036d",
+    "bid": 24.1,
+    "ask": 24.3,
+    "oi": 929
+   },
+   "straddle_mid": 46.65,
+   "straddle_pct": 0.006299,
+   "spread_pct": 0.006431,
+   "wings": {
+    "call_strike": 7450.0,
+    "put_strike": 7360.0,
+    "call": {
+     "id": "4fefea07-a5ea-432c-a325-e484c48339aa",
+     "bid": 6.6,
+     "ask": 6.8
+    },
+    "put": {
+     "id": "df574ae5-3e9b-4dd8-a00d-6695bcf95328",
+     "bid": 7.9,
+     "ask": 8.1
+    }
+   },
+   "credit_mid": 31.95,
+   "credit_natural": 31.6,
+   "width": 45.0,
+   "max_loss_usd": 1340.0,
+   "cost_round_trip_usd": 70.0,
+   "cost_share": 0.021909,
+   "fits_probe_cap": false,
+   "reason": null,
+   "notes": "chain SPXW (PM-settled); SPX root has no 11-17 expiry; index spot, no prev_close; max loss far above the 150 probe cap"
+  },
+  {
+   "symbol": "NDX",
+   "spot": 27162.7318,
+   "prev_close": null,
+   "pre_move": null,
+   "K": 27160.0,
+   "strike_step": 10.0,
+   "call": {
+    "id": "134033dd-0444-4cce-b43b-a3c8853ac69c",
+    "bid": 115.2,
+    "ask": 126.0,
+    "oi": 4
+   },
+   "put": {
+    "id": "1f34a0b4-c392-4919-951b-6c1d6458933d",
+    "bid": 134.2,
+    "ask": 145.6,
+    "oi": 5
+   },
+   "straddle_mid": 260.5,
+   "straddle_pct": 0.00959,
+   "spread_pct": 0.085221,
+   "wings": null,
+   "credit_mid": null,
+   "credit_natural": null,
+   "width": null,
+   "max_loss_usd": null,
+   "cost_round_trip_usd": null,
+   "cost_share": null,
+   "fits_probe_cap": null,
+   "reason": "spread",
+   "notes": "chain NDXP (PM-settled); 27165 not listed, step taken as 10; index spot, no prev_close; OI 4/5"
+  },
+  {
+   "symbol": "RUT",
+   "spot": null,
+   "prev_close": null,
+   "pre_move": null,
+   "K": null,
+   "strike_step": null,
+   "call": null,
+   "put": null,
+   "straddle_mid": null,
+   "straddle_pct": null,
+   "spread_pct": null,
+   "wings": null,
+   "credit_mid": null,
+   "credit_natural": null,
+   "width": null,
+   "max_loss_usd": null,
+   "cost_round_trip_usd": null,
+   "cost_share": null,
+   "fits_probe_cap": null,
+   "reason": "no_spot",
+   "notes": "get_index_quotes: RUT quotes not available through the MCP (restricted); chain would be RUTW"
+  }
+ ],
+ "ranking_by_cost_share": [
+  "QQQ",
+  "SPY",
+  "SPX",
+  "IWM",
+  "XSP",
+  "IBIT"
+ ],
+ "left_out": [],
+ "errors": [],
+ "notes": "9 names eligible (expiries[2026-11-17] true, not blocked, no TSLA); none left out by the 40 cap. Equity quotes ~06:50 PT, option quotes 06:50-06:51 PT."
+}

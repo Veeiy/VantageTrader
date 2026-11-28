@@ -1,0 +1,62 @@
+BRIEF: same-day iron fly replay (read-only research), {SYM}
+
+You are a read-only research agent. Nothing here is a live trade. NEVER call
+review_option_order, place_option_order, cancel_option_order or any other order, alert,
+watchlist or settings tool. Write only files whose names contain {SYM} inside
+/home/user/VantageTrader/state/earnings/daytrade/replay/ and do not touch the git repository
+otherwise (no git commands). Never guess or invent a price: a missing value is null. Never ask
+questions. Finish within 60 minutes; hand back partial results rather than run over.
+
+GOAL. For each session in plan_{SYM}.json (same folder, 30 sessions) collect the 30-minute price
+bars of four {SYM} options that expired that same day: the call and the put at the body strike
+K, the call at K+W and the put at K-W. Write one JSON line per session to raw_{SYM}.jsonl.
+
+PLAN FILE. A JSON list. Each item: date, K (the body strike, already chosen: the whole strike
+nearest the 07:30 Pacific price), spot_0730, hist_start and hist_end (the UTC timestamps of
+07:30 and 13:00 Pacific on that date; daylight saving is already handled). Read it with python.
+
+TOOLS. Load with ToolSearch:
+"select:mcp__Robinhood__get_option_instruments,mcp__Robinhood__get_option_historicals"
+Read the schemas first.
+- Lookup: get_option_instruments(chain_symbol="{SYM}", expiration_dates="<date>",
+  strike_price="<strike as 123.0000>", state="expired") returns the call and the put at that
+  strike. ALWAYS pass strike_price: a query without it returns hundreds of contracts. Add
+  type="call" or type="put" when you need only one of the two.
+- Bars: get_option_historicals(instrument_ids=[two ids], start_time=hist_start,
+  end_time=hist_end, interval="30minute"). It returns 11 bars per contract, beginning 07:30,
+  08:00, ... 12:30 Pacific. You need each bar's open_price (the price at the bar's start), the
+  close_price of the last bar, and which bars carry interpolated=true.
+Send independent calls in parallel, 6 per message. On a rate limit or transient error wait 15 s
+(python3 -c "import time; time.sleep(15)") and retry, at most 3 times; after that record the
+session with an "error" field and move on.
+
+PROCEDURE, in batches of 6 sessions (5 batches). Finish a batch before starting the next.
+1. Body lookups for the 6 sessions (6 calls, each returns the K call and the K put).
+2. Body bars for the 6 sessions (6 calls, 2 ids each).
+3. With python: straddle_0730 = call open + put open of the 07:30 bar. W = straddle_0730 rounded
+   to the nearest whole number, at least 1. Wing strikes: call K+W, put K-W.
+4. Wing lookups (12 calls: K+W with type="call", K-W with type="put"). If a strike is not
+   listed, use the next listed strike farther from K and record the strike you used.
+5. Wing bars for the 6 sessions (6 calls, 2 ids each: the wing call and the wing put).
+6. Append the 6 sessions to raw_{SYM}.jsonl with python NOW (do not wait for the end). Copy the
+   numbers exactly as returned. One line per session:
+   {"symbol":"{SYM}","date":"...","K":...,"spot_0730":...,"straddle_0730":...,"W":...,
+    "strikes":{"WC":K+W,"WP":K-W},"ids":{"C":"...","P":"...","WC":"...","WP":"..."},
+    "times_pt":["07:30","08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30","12:00","12:30"],
+    "open":{"C":[11 numbers],"P":[11],"WC":[11],"WP":[11]},
+    "last_close":{"C":...,"P":...,"WC":...,"WP":...},
+    "interp":{"C":[indexes 0-10 of interpolated bars],"P":[],"WC":[],"WP":[]},
+    "notes":""}
+   A contract that returns fewer than 11 bars: put null where a bar is missing and say so in notes.
+
+CHECK (python, after the last batch). equity_30min.json in the same folder holds the stock's
+30-minute bars: data["{SYM}"][date][time_pt]["o"] is the stock price at that bar's start. For
+every session and every bar i compute parity_i = (C[i] - P[i]) - (stock_i - K). A call minus a
+put at the same strike should equal stock minus strike on expiration day, so |parity_i| should
+be small. Add "parity_max" (the largest |parity_i| over non-interpolated bars) to each line by
+rewriting the file. For sessions with parity_max above {PARITY_TOL}, compare your copied numbers
+with the tool output once more and fix copying mistakes; if the numbers were copied correctly,
+leave them and list the session as flagged.
+
+FINAL MESSAGE (at most 12 lines, nothing else): the file path; sessions written and sessions
+with errors; the flagged sessions with their parity_max; anything odd in one or two lines.

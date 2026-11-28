@@ -1,0 +1,26 @@
+{
+ "symbol": "WMT",
+ "body": 127.0,
+ "call_wing": 135.0,
+ "put_wing": 119.0,
+ "credit": 5.8,
+ "quantity": 1,
+ "close": 126.79,
+ "spot_base": 126.79,
+ "sigma_base": 0.0247,
+ "spots": [
+  126.16,
+  121.09,
+  134.98,
+  125.04,
+  117.58,
+  115.19
+ ],
+ "sigmas": [
+  0.0202,
+  0.0247,
+  0.0304
+ ],
+ "slippage_usd": 15.0,
+ "wing_sigma_mult": 1.1
+}

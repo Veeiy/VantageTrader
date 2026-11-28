@@ -1,0 +1,595 @@
+{
+ "as_of_utc": "2026-11-13T20:22:01Z",
+ "purpose": "Friday-entry paper test (paper only, no orders)",
+ "analyst_batch": {
+  "batch": "F",
+  "as_of_utc": "2026-11-13T20:20:09Z",
+  "context": "Paper Friday-entry test: iron fly on 2026-11-20 expiry, held over weekend into Mon 2026-11-16 am reports. Read-only, no orders.",
+  "dropped": [],
+  "analyzed": [
+   {
+    "symbol": "BIDU",
+    "timing": "am",
+    "verified": true,
+    "report_date": "2026-11-16",
+    "spot": 77.72,
+    "prev_close": 77.63,
+    "intraday_pct": 0.0012,
+    "K": 78,
+    "strike_step": 1,
+    "call": {
+     "id": "d90aa455-36e8-4c1c-a276-79d023f5004c",
+     "bid": 2.51,
+     "ask": 2.77,
+     "oi": 2695
+    },
+    "put": {
+     "id": "3a6abcd7-a312-49aa-9cdc-8f1c5ebf11a8",
+     "bid": 2.78,
+     "ask": 2.97,
+     "oi": 887
+    },
+    "straddle_mid": 5.515,
+    "straddle_pct": 0.071,
+    "atm_spread_pct": 0.0816,
+    "hist_moves": [
+     -0.043206,
+     -0.025935,
+     0.026553,
+     -0.05654,
+     0.017587,
+     -0.127257
+    ],
+    "hist_dates": [
+     "2025-05-21",
+     "2025-08-20",
+     "2025-11-18",
+     "2026-02-26",
+     "2026-05-18",
+     "2026-08-18"
+    ],
+    "avg_hist_move": 0.0495,
+    "median_hist_move": 0.0349,
+    "max_hist_move": -0.127257,
+    "n_hist": 6,
+    "regime_20d": 0.0151,
+    "edge_ratio": 0.821,
+    "wings": {
+     "call_strike": 85,
+     "put_strike": 71,
+     "call": {
+      "id": "fda03c11-dab9-414e-859a-9e4765b2aebf",
+      "bid": 0.56,
+      "ask": 0.64
+     },
+     "put": {
+      "id": "0063bcc2-aa2f-4aef-980f-af8e5d47b67b",
+      "bid": 0.55,
+      "ask": 0.58
+     },
+     "credit_mid": 4.35,
+     "credit_natural": 4.07,
+     "width": 7,
+     "max_loss_mid": 265.0,
+     "max_loss_natural": 293.0,
+     "breakevens": [
+      73.65,
+      82.35
+     ],
+     "tick": "0.01 below $3 / 0.05 above",
+     "original_1p5x_fly": {
+      "call": {
+       "id": "e2970add-f334-49fb-a8ff-98a21912c496",
+       "bid": 0.45,
+       "ask": 0.47
+      },
+      "put": {
+       "id": "bee6d4b2-ae8c-4305-a895-1d4203ca638c",
+       "bid": 0.4,
+       "ask": 0.43
+      },
+      "credit_mid": 4.64,
+      "credit_natural": 4.39,
+      "width": 8,
+      "max_loss_mid": 336.0,
+      "max_loss_natural": 361.0
+     }
+    },
+    "wings_1p5x": {
+     "call_strike": 86,
+     "put_strike": 70
+    },
+    "past_moves_beyond_breakevens": "2/6",
+    "legs_final": {
+     "as_of_utc": "2026-11-13T20:19:11.276057204Z",
+     "spot": 77.745,
+     "body_call": {
+      "id": "d90aa455-36e8-4c1c-a276-79d023f5004c",
+      "strike": 78,
+      "bid": 2.51,
+      "ask": 2.77
+     },
+     "body_put": {
+      "id": "3a6abcd7-a312-49aa-9cdc-8f1c5ebf11a8",
+      "strike": 78,
+      "bid": 2.78,
+      "ask": 2.97
+     },
+     "wing_call": {
+      "id": "fda03c11-dab9-414e-859a-9e4765b2aebf",
+      "strike": 85,
+      "bid": 0.56,
+      "ask": 0.64
+     },
+     "wing_put": {
+      "id": "0063bcc2-aa2f-4aef-980f-af8e5d47b67b",
+      "strike": 71,
+      "bid": 0.55,
+      "ask": 0.58
+     }
+    },
+    "final": {
+     "credit_mid": 4.35,
+     "credit_natural": 4.07,
+     "width": 7,
+     "max_loss_mid": 265.0,
+     "max_loss_natural": 293.0,
+     "breakevens": [
+      73.65,
+      82.35
+     ],
+     "straddle_mid": 5.515,
+     "straddle_pct": 0.0709,
+     "atm_spread_pct": 0.0816
+    },
+    "notes": "Wings stepped in from 86/70 (1.5x: max_loss_natural 361 > 350) to 85/71 (293). past_moves_beyond_breakevens uses |move| > credit_mid/K."
+   },
+   {
+    "symbol": "TSN",
+    "timing": "am",
+    "verified": true,
+    "report_date": "2026-11-16",
+    "spot": 58.85,
+    "prev_close": 59.26,
+    "intraday_pct": -0.0069,
+    "K": 60,
+    "strike_step": 2.5,
+    "call": {
+     "id": "008b6ef9-fe8c-496e-a179-a2efde64e0b0",
+     "bid": 1.0,
+     "ask": 1.3,
+     "oi": 2528
+    },
+    "put": {
+     "id": "b08057e4-ae41-427f-b481-cb93083bc426",
+     "bid": 2.3,
+     "ask": 2.45,
+     "oi": 155
+    },
+    "straddle_mid": 3.525,
+    "straddle_pct": 0.0599,
+    "atm_spread_pct": 0.1277,
+    "hist_moves": [
+     -0.07748,
+     0.024367,
+     0.023159,
+     0.006276,
+     0.079617,
+     0.028468
+    ],
+    "hist_dates": [
+     "2025-05-05",
+     "2025-08-04",
+     "2025-11-10",
+     "2026-02-02",
+     "2026-05-04",
+     "2026-08-03"
+    ],
+    "avg_hist_move": 0.0399,
+    "median_hist_move": 0.0264,
+    "max_hist_move": 0.079617,
+    "n_hist": 6,
+    "regime_20d": 0.0121,
+    "edge_ratio": 0.784,
+    "wings": {
+     "call_strike": 65,
+     "put_strike": 55,
+     "call": {
+      "id": "0101fea8-c801-459f-a52d-8cf4f6512a99",
+      "bid": 0.1,
+      "ask": 0.2
+     },
+     "put": {
+      "id": "e571806b-30ce-4b61-a3fa-a893bc43da2f",
+      "bid": 0.45,
+      "ask": 0.55
+     },
+     "credit_mid": 2.875,
+     "credit_natural": 2.55,
+     "width": 5,
+     "max_loss_mid": 212.5,
+     "max_loss_natural": 245.0,
+     "breakevens": [
+      57.125,
+      62.875
+     ],
+     "tick": "0.05 below $3 / 0.10 above"
+    },
+    "wings_1p5x": {
+     "call_strike": 65,
+     "put_strike": 55
+    },
+    "past_moves_beyond_breakevens": "2/6",
+    "legs_final": {
+     "as_of_utc": "2026-11-13T20:18:32.893710498Z",
+     "spot": 58.93,
+     "body_call": {
+      "id": "008b6ef9-fe8c-496e-a179-a2efde64e0b0",
+      "strike": 60,
+      "bid": 1.05,
+      "ask": 1.35
+     },
+     "body_put": {
+      "id": "b08057e4-ae41-427f-b481-cb93083bc426",
+      "strike": 60,
+      "bid": 1.95,
+      "ask": 2.4
+     },
+     "wing_call": {
+      "id": "0101fea8-c801-459f-a52d-8cf4f6512a99",
+      "strike": 65,
+      "bid": 0.1,
+      "ask": 0.2
+     },
+     "wing_put": {
+      "id": "e571806b-30ce-4b61-a3fa-a893bc43da2f",
+      "strike": 55,
+      "bid": 0.45,
+      "ask": 0.55
+     }
+    },
+    "final": {
+     "credit_mid": 2.725,
+     "credit_natural": 2.25,
+     "width": 5,
+     "max_loss_mid": 227.5,
+     "max_loss_natural": 275.0,
+     "breakevens": [
+      57.275,
+      62.725
+     ],
+     "straddle_mid": 3.375,
+     "straddle_pct": 0.0573,
+     "atm_spread_pct": 0.2222
+    },
+    "notes": "Strike step 2.5 (58/58.5/59 not listed); body 60 is 1.15 above spot, put ITM. Final body put bid fell 2.30->1.95 (wider spread). past_moves_beyond_breakevens uses |move| > credit_mid/K."
+   },
+   {
+    "symbol": "BEKE",
+    "timing": "am",
+    "verified": true,
+    "report_date": "2026-11-16",
+    "spot": 17.83,
+    "prev_close": 17.65,
+    "intraday_pct": 0.0102,
+    "K": 18,
+    "strike_step": 0.5,
+    "call": {
+     "id": "266e571f-1da4-405f-99e5-391d52f600e2",
+     "bid": 0.45,
+     "ask": 0.6,
+     "oi": 667
+    },
+    "put": {
+     "id": "7edbc684-8749-4527-b827-b551fb1c833a",
+     "bid": 0.6,
+     "ask": 1.1,
+     "oi": 36
+    },
+    "straddle_mid": 1.375,
+    "straddle_pct": 0.0771,
+    "atm_spread_pct": 0.4727,
+    "hist_moves": [
+     -0.052892,
+     -0.012752,
+     0.033974,
+     0.010161,
+     0.051685,
+     0.044732
+    ],
+    "hist_dates": [
+     "2025-05-15",
+     "2025-08-26",
+     "2025-11-10",
+     "2026-03-16",
+     "2026-05-19",
+     "2026-08-21"
+    ],
+    "avg_hist_move": 0.0344,
+    "median_hist_move": 0.0394,
+    "max_hist_move": -0.052892,
+    "n_hist": 6,
+    "regime_20d": 0.016,
+    "edge_ratio": 0.524,
+    "wings": {
+     "call_strike": 20,
+     "put_strike": 16,
+     "call": {
+      "id": "60eae94b-29b7-473f-a93c-58ee73c71d71",
+      "bid": 0.0,
+      "ask": 0.1
+     },
+     "put": {
+      "id": "0117323b-b2dd-408a-af56-d4b9e29999bc",
+      "bid": 0.0,
+      "ask": 0.15
+     },
+     "credit_mid": 1.25,
+     "credit_natural": 0.8,
+     "width": 2,
+     "max_loss_mid": 75.0,
+     "max_loss_natural": 120.0,
+     "breakevens": [
+      16.75,
+      19.25
+     ],
+     "tick": "0.05 below $3 / 0.10 above"
+    },
+    "wings_1p5x": {
+     "call_strike": 20,
+     "put_strike": 16
+    },
+    "past_moves_beyond_breakevens": "0/6",
+    "legs_final": {
+     "as_of_utc": "2026-11-13T20:17:10.028632757Z",
+     "spot": 17.835,
+     "body_call": {
+      "id": "266e571f-1da4-405f-99e5-391d52f600e2",
+      "strike": 18,
+      "bid": 0.45,
+      "ask": 0.6
+     },
+     "body_put": {
+      "id": "7edbc684-8749-4527-b827-b551fb1c833a",
+      "strike": 18,
+      "bid": 0.6,
+      "ask": 1.1
+     },
+     "wing_call": {
+      "id": "60eae94b-29b7-473f-a93c-58ee73c71d71",
+      "strike": 20,
+      "bid": 0.0,
+      "ask": 0.1
+     },
+     "wing_put": {
+      "id": "0117323b-b2dd-408a-af56-d4b9e29999bc",
+      "strike": 16,
+      "bid": 0.0,
+      "ask": 0.15
+     }
+    },
+    "final": {
+     "credit_mid": 1.25,
+     "credit_natural": 0.8,
+     "width": 2,
+     "max_loss_mid": 75.0,
+     "max_loss_natural": 120.0,
+     "breakevens": [
+      16.75,
+      19.25
+     ],
+     "straddle_mid": 1.375,
+     "straddle_pct": 0.0771,
+     "atm_spread_pct": 0.4727
+    },
+    "notes": "Both wings have ZERO bid (asks 0.10/0.15, not both zero); wing mids are ask/2. Body put wide 0.60x1.10, OI 36. atm_spread_pct>0.25 recorded, not dropped (change 3). past_moves_beyond_breakevens uses |move| > credit_mid/K."
+   },
+   {
+    "symbol": "ARMK",
+    "timing": "am",
+    "verified": true,
+    "report_date": "2026-11-16",
+    "spot": 53.45,
+    "prev_close": 53.88,
+    "intraday_pct": -0.008,
+    "K": 55,
+    "strike_step": 5,
+    "call": {
+     "id": "7dc1d5f3-358d-45a0-af2c-820032b2d7d0",
+     "bid": 0.9,
+     "ask": 1.1,
+     "oi": 1610
+    },
+    "put": {
+     "id": "7a9a5d7c-f36a-48dd-aee5-ed1a31a591ed",
+     "bid": 2.25,
+     "ask": 3.4,
+     "oi": 83
+    },
+    "straddle_mid": 3.825,
+    "straddle_pct": 0.0716,
+    "atm_spread_pct": 0.3529,
+    "hist_moves": [
+     0.100585,
+     -0.082347,
+     -0.052327,
+     0.05567,
+     0.0864,
+     0.085442
+    ],
+    "hist_dates": [
+     "2025-05-06",
+     "2025-08-05",
+     "2025-11-17",
+     "2026-02-10",
+     "2026-05-12",
+     "2026-08-11"
+    ],
+    "avg_hist_move": 0.0771,
+    "median_hist_move": 0.0839,
+    "max_hist_move": 0.100585,
+    "n_hist": 6,
+    "regime_20d": 0.0192,
+    "edge_ratio": 1.268,
+    "wings": {
+     "call_strike": 60,
+     "put_strike": 50,
+     "call": {
+      "id": "d6dccb16-2a32-4d26-98bb-5a34012b557f",
+      "bid": 0.1,
+      "ask": 0.35
+     },
+     "put": {
+      "id": "17264090-efb2-4850-a728-6624f69bb3b4",
+      "bid": 0.35,
+      "ask": 0.6
+     },
+     "credit_mid": 3.125,
+     "credit_natural": 2.2,
+     "width": 5,
+     "max_loss_mid": 187.5,
+     "max_loss_natural": 280.0,
+     "breakevens": [
+      51.875,
+      58.125
+     ],
+     "tick": "0.05 below $3 / 0.10 above"
+    },
+    "wings_1p5x": {
+     "call_strike": 60,
+     "put_strike": 50
+    },
+    "past_moves_beyond_breakevens": "4/6",
+    "legs_final": {
+     "as_of_utc": "2026-11-13T20:10:36.142667352Z",
+     "spot": 53.445,
+     "body_call": {
+      "id": "7dc1d5f3-358d-45a0-af2c-820032b2d7d0",
+      "strike": 55,
+      "bid": 0.9,
+      "ask": 1.1
+     },
+     "body_put": {
+      "id": "7a9a5d7c-f36a-48dd-aee5-ed1a31a591ed",
+      "strike": 55,
+      "bid": 2.25,
+      "ask": 3.4
+     },
+     "wing_call": {
+      "id": "d6dccb16-2a32-4d26-98bb-5a34012b557f",
+      "strike": 60,
+      "bid": 0.1,
+      "ask": 0.35
+     },
+     "wing_put": {
+      "id": "17264090-efb2-4850-a728-6624f69bb3b4",
+      "strike": 50,
+      "bid": 0.35,
+      "ask": 0.6
+     }
+    },
+    "final": {
+     "credit_mid": 3.125,
+     "credit_natural": 2.2,
+     "width": 5,
+     "max_loss_mid": 187.5,
+     "max_loss_natural": 280.0,
+     "breakevens": [
+      51.875,
+      58.125
+     ],
+     "straddle_mid": 3.825,
+     "straddle_pct": 0.0716,
+     "atm_spread_pct": 0.3529
+    },
+    "notes": "Strike step 5 on Nov 20 (50/55/60 only); body 55 is 1.55 above spot (put ITM, fly skewed). Body put 2.25x3.40, OI 83. Wing call quote stale (updated 20:10:36Z). atm_spread_pct>0.25 recorded, not dropped. past_moves_beyond_breakevens uses |move| > credit_mid/K."
+   }
+  ],
+  "errors": []
+ },
+ "head_check": {
+  "ids_confirmed": "all 16 leg ids match symbol, expiry 2026-11-20, strike and type (get_option_instruments by ids)",
+  "gate": {
+   "BIDU": {
+    "action": "no_trade",
+    "band": "final_sweep",
+    "blocked_by": [
+     "exit_not_feasible"
+    ],
+    "edge_ratio": 0.8238,
+    "spread_worst": 0.0949
+   },
+   "TSN": {
+    "action": "no_trade",
+    "band": "final_sweep",
+    "blocked_by": [
+     "spread_too_wide"
+    ],
+    "edge_ratio": 0.8431,
+    "spread_worst": 0.2857
+   },
+   "BEKE": {
+    "action": "no_trade",
+    "band": "tight",
+    "blocked_by": [
+     "spread_too_wide"
+    ],
+    "edge_ratio": 0.5294,
+    "spread_worst": 0.5882
+   },
+   "ARMK": {
+    "action": "no_trade",
+    "band": "long_straddle_off",
+    "blocked_by": [
+     "long_straddle_off",
+     "spread_too_wide"
+    ],
+    "edge_ratio": 1.368,
+    "spread_worst": 0.4286
+   }
+  },
+  "gate_BIDU_6_wide": {
+   "action": "sell",
+   "contracts": 1,
+   "fly": {
+    "body": 78.0,
+    "call_wing": 84.0,
+    "put_wing": 72.0,
+    "width_call": 6.0,
+    "width_put": 6.0,
+    "width": 6.0,
+    "width_over_straddle": 1.0899,
+    "credit_mid": 3.975,
+    "credit_natural": 3.62,
+    "credit_floor": 3.657,
+    "limit_start": 4.0,
+    "limit_floor": 3.7,
+    "tick": 0.05,
+    "limit_step": 0.1,
+    "max_loss_mid": 202.5,
+    "max_loss_natural": 238.0,
+    "max_loss_floor": 234.3,
+    "max_profit_mid": 397.5,
+    "breakevens_mid": [
+     74.025,
+     81.975
+    ],
+    "valid": true,
+    "fillable": true
+   },
+   "max_loss": {
+    "mid": 202.5,
+    "natural": 238.0,
+    "floor": 234.3,
+    "per_contract_floor": 234.3,
+    "name_total_floor": 234.3
+   }
+  }
+ },
+ "records": [
+  "FRI-BIDU-20261113-P1",
+  "FRI-TSN-20261113-P1",
+  "FRI-BEKE-20261113-P1",
+  "FRI-ARMK-20261113-P1"
+ ]
+}

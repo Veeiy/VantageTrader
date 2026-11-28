@@ -1,0 +1,26 @@
+{
+ "symbol": "DKS",
+ "body": 135.0,
+ "call_wing": 150.0,
+ "put_wing": 120.0,
+ "credit": 10.6,
+ "quantity": 1,
+ "close": 135.42,
+ "spot_base": 135.42,
+ "sigma_base": 0.0527,
+ "spots": [
+  137.67,
+  128.87,
+  135.7,
+  136.85,
+  127.33,
+  93.87
+ ],
+ "sigmas": [
+  0.0432,
+  0.0527,
+  0.0649
+ ],
+ "slippage_usd": 30.0,
+ "wing_sigma_mult": 1.1
+}

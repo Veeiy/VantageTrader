@@ -1,0 +1,201 @@
+import json
+
+import pytest
+
+from vantage_trader.earnings import cli, metrics
+from vantage_trader.earnings.config import EngineInputError
+
+
+def _entry(tid, sym, edge, implied, fill_vs_mid, spread, tick=0.01, qty=1, max_loss=150):
+    return {"trade_id": tid, "record": "entry", "ts": f"2026-11-10T19:0{len(tid) % 9}:00Z", "symbol": sym,
+            "kind": "earnings", "live": True, "quantity": qty,
+            "signal": {"edge_ratio": edge, "implied_move": implied, "atm_spread_pct": spread},
+            "execution": {"fill_credit": 1.0, "fill_vs_mid": fill_vs_mid, "tick": tick,
+                          "seconds_first_order_to_last_fill": 100, "reprices": 2},
+            "risk": {"max_loss_usd": max_loss}}
+
+
+def _exit(tid, sym, pnl, realized, **extra):
+    d = {"trade_id": tid, "record": "exit", "ts": "2026-11-11T14:50:00Z", "symbol": sym, "live": True,
+         "pnl_usd": pnl, "realized_move": realized, "execution": {"fill_vs_mid": 0.9}}
+    d.update(extra)
+    return d
+
+
+def _write(tmp_path, recs):
+    p = tmp_path / "live_metrics.jsonl"
+    p.write_text("\n".join(json.dumps(r) for r in recs) + "\n")
+    return p
+
+
+def test_missing_file_gives_empty_summary(tmp_path):
+    out = metrics.summarize(metrics.read_metrics(tmp_path / "nope.jsonl"))
+    assert out["counts"] == {"entries": 0, "closed": 0, "open": 0, "adjusts": 0, "paper": 0}
+    assert out["outcomes"]["win_rate"] is None and out["trades"] == []
+
+
+def test_open_and_closed_trades_and_edge_bias(tmp_path):
+    recs = [
+        _entry("AAA-1", "AAA", 0.8, 0.10, 0.96, 0.05),
+        _entry("BBB-1", "BBB", 0.6, 0.12, 0.90, 0.17, tick=0.05),
+        _entry("CCC-1", "CCC", 0.7, 0.10, 1.00, 0.08),
+        _exit("AAA-1", "AAA", 60.0, -0.05),    # |0.05| / 0.10 = 0.5
+        _exit("BBB-1", "BBB", -40.0, 0.18),    # 0.18 / 0.12 = 1.5
+    ]
+    out = metrics.summarize(metrics.read_metrics(_write(tmp_path, recs)))
+    assert out["counts"]["entries"] == 3 and out["counts"]["closed"] == 2 and out["counts"]["open"] == 1
+    o = out["outcomes"]
+    assert o["n"] == 2 and o["wins"] == 1 and o["win_rate"] == 0.5 and o["total_pnl_usd"] == 20.0
+    assert o["avg_realized_over_implied"] == 1.0
+    assert o["edge_bias"] == round(1.0 / 0.7, 4)
+    ex = out["entry_execution"]
+    assert ex["tight_spread"]["n"] == 2 and ex["wide_spread"]["n"] == 1
+    assert ex["wide_spread"]["avg_fill_vs_mid"] == 0.9
+    assert set(ex["by_tick"]) == {"0.01", "0.05"}
+    status = {t["trade_id"]: t["status"] for t in out["trades"]}
+    assert status == {"AAA-1": "closed", "BBB-1": "closed", "CCC-1": "open"}
+
+
+def test_adjust_sets_quantity_and_is_reported_as_cost_not_outcome(tmp_path):
+    recs = [
+        _entry("AAA-1", "AAA", 0.8, 0.10, 0.96, 0.05, qty=2),
+        {"trade_id": "AAA-1", "record": "adjust", "ts": "2026-11-10T19:54:00Z", "symbol": "AAA", "live": True,
+         "tag": "rebalance", "closed_quantity": 1, "open_quantity": 1, "pnl_usd": -10.32,
+         "risk": {"max_loss_usd": 75}},
+    ]
+    out = metrics.summarize(metrics.read_metrics(_write(tmp_path, recs)))
+    assert out["adjust_cost_usd"] == -10.32
+    assert out["outcomes"]["n"] == 0 and out["counts"]["open"] == 1
+    assert out["trades"][0]["quantity"] == 1 and out["trades"][0]["max_loss_usd"] == 75
+
+
+def test_rebalance_exit_is_left_out_of_edge_statistics(tmp_path):
+    recs = [
+        _entry("AAA-1", "AAA", 0.8, 0.10, 0.96, 0.05),
+        _exit("AAA-1", "AAA", -12.0, 0.01, tag="rebalance"),
+    ]
+    out = metrics.summarize(metrics.read_metrics(_write(tmp_path, recs)))
+    assert out["counts"]["closed"] == 1 and out["outcomes"]["n"] == 0
+
+
+def test_paper_records_are_counted_separately(tmp_path):
+    recs = [
+        _entry("AAA-1", "AAA", 0.8, 0.10, 0.96, 0.05),
+        {"trade_id": "ZZZ-P1", "record": "paper", "ts": "2026-11-10T19:46:00Z", "symbol": "ZZZ", "live": False,
+         "pnl_mid_usd": 110.0, "pnl_natural_usd": 87.0},
+        {"trade_id": "YYY-P1", "record": "paper", "ts": "2026-11-10T19:46:00Z", "symbol": "YYY", "live": False},
+    ]
+    out = metrics.summarize(metrics.read_metrics(_write(tmp_path, recs)))
+    assert out["counts"]["entries"] == 1 and out["counts"]["paper"] == 2
+    assert out["paper"] == {"n": 2, "pnl_mid_usd": 110.0, "pnl_natural_usd": 87.0, "scored": 1}
+
+
+def test_bad_lines_are_input_errors(tmp_path):
+    p = tmp_path / "m.jsonl"
+    p.write_text("{not json}\n")
+    with pytest.raises(EngineInputError):
+        metrics.read_metrics(p)
+    p.write_text(json.dumps({"record": "entry"}) + "\n")
+    with pytest.raises(EngineInputError):
+        metrics.read_metrics(p)
+
+
+def test_cli_live_metrics(tmp_path):
+    p = _write(tmp_path, [_entry("AAA-1", "AAA", 0.8, 0.10, 0.96, 0.05)])
+    out, code = cli.run(["live-metrics", "--metrics", str(p)])
+    assert code == 0 and out["counts"]["entries"] == 1
+
+
+def test_paper_import_appends_once_and_rejects_bad_lines(tmp_path):
+    mp = _write(tmp_path, [_entry("LUNR-1", "LUNR", 0.7, 0.11, 0.95, 0.1)])
+    desk = tmp_path / "paper_desk.jsonl"
+    good_open = {"trade_id": "QQQ-0DTE-20261112-P1", "record": "paper", "live": False, "symbol": "QQQ", "ts": "2026-11-12T15:15:00Z",
+                 "kind": "intraday_0dte", "credit_mid": 2.0, "max_loss_usd": 100}
+    good_mark = dict(good_open, ts="2026-11-12T18:15:00Z", mark={"close_cost_mid": 1.5})
+    good_result = dict(good_open, ts="2026-11-12T20:15:00Z", result=True, pnl_mid_usd=40.0, pnl_natural_usd=31.0)
+    bad = [dict(good_open, record="entry"), dict(good_open, live=True), dict(good_open, symbol="TSLA", trade_id="TSLA-0DTE-P1"),
+           dict(good_result, pnl_mid_usd="40")]
+    lines = [json.dumps(r) for r in (good_open, good_mark, good_result, *bad)] + ["not json"]
+    desk.write_text("\n".join(lines) + "\n")
+    out = metrics.import_paper(desk, mp)
+    assert out["added"] == 3 and out["skipped_duplicates"] == 0 and len(out["rejected"]) == 5
+    assert out["results_added"] == 1 and out["pnl_mid_usd"] == 40.0 and out["pnl_natural_usd"] == 31.0
+    again = metrics.import_paper(desk, mp)
+    assert again["added"] == 0 and again["skipped_duplicates"] == 3
+    recs = metrics.read_metrics(mp)
+    assert [r["record"] for r in recs] == ["entry", "paper", "paper", "paper"]
+    with pytest.raises(EngineInputError):
+        metrics.import_paper(tmp_path / "missing.jsonl", mp)
+
+
+def test_paper_import_floors_a_result_at_the_max_loss(tmp_path):
+    # P094: AMD 2026-11-25, -428.50 at the mid and -640 at the natural against a max loss of 373.50.
+    mp = tmp_path / "live_metrics.jsonl"
+    desk = tmp_path / "paper_desk.jsonl"
+    opening = {"trade_id": "AMD-0DTE-20261125-P1", "record": "paper", "live": False, "symbol": "AMD", "ts": "2026-11-25T15:17:00Z",
+               "kind": "intraday_0dte", "credit_mid": 6.265, "credit_natural": 6.0, "max_loss_usd": 373.5}
+    result = dict(opening, ts="2026-11-25T20:15:10Z", result=True, pnl_mid_usd=-428.5, pnl_natural_usd=-640.0,
+                  pnl_pct_of_max_loss=-1.1473)
+    inside = {"trade_id": "MSFT-0DTE-20261125-P1", "record": "paper", "live": False, "symbol": "MSFT", "ts": "2026-11-25T15:17:00Z",
+              "kind": "intraday_0dte", "credit_mid": 2.4, "credit_natural": 2.2, "max_loss_usd": 260.5}
+    inside_result = dict(inside, ts="2026-11-25T20:15:10Z", result=True, pnl_mid_usd=26.0, pnl_natural_usd=-37.0)
+    desk.write_text("\n".join(json.dumps(r) for r in (opening, result, inside, inside_result)) + "\n")
+    out = metrics.import_paper(desk, mp)
+    assert out["results_added"] == 2 and out["results_capped_at_max_loss"] == 1
+    assert out["pnl_mid_usd"] == -347.5 and out["pnl_natural_usd"] == -437.0      # -373.5 + 26 and -400 - 37
+    amd = [r for r in metrics.read_metrics(mp) if r.get("result") and r["symbol"] == "AMD"][0]
+    assert amd["pnl_mid_usd"] == -373.5 and amd["pnl_mid_usd_quoted"] == -428.5
+    assert amd["pnl_natural_usd"] == -400.0 and amd["pnl_natural_usd_quoted"] == -640.0
+    assert amd["capped_at_max_loss"] == ["pnl_mid_usd", "pnl_natural_usd"] and amd["pnl_pct_of_max_loss"] == -1.0
+    msft = [r for r in metrics.read_metrics(mp) if r.get("result") and r["symbol"] == "MSFT"][0]
+    assert "capped_at_max_loss" not in msft and msft["pnl_natural_usd"] == -37.0
+    assert metrics.paper_floors({"max_loss_usd": 340.0, "max_loss_natural_usd": 372.0}) == (-340.0, -372.0)
+    assert metrics.paper_floors({"credit_mid": 1.0}) is None
+
+
+def test_cli_paper_import(tmp_path, capsys):
+    mp = tmp_path / "live_metrics.jsonl"
+    desk = tmp_path / "desk.jsonl"
+    desk.write_text(json.dumps({"trade_id": "SPY-0DTE-20261112-P1", "record": "paper", "live": False, "symbol": "SPY",
+                                "ts": "2026-11-12T15:15:00Z"}) + "\n")
+    code = cli.main(["paper-import", "--file", str(desk), "--metrics", str(mp)])
+    out = json.loads(capsys.readouterr().out)
+    assert code == 0 and out["added"] == 1 and mp.exists()
+
+
+
+def test_round_trip_cost_is_a_share_of_the_entry_credit(tmp_path):
+    # entry: 1.00 filled at 0.96 of mid -> gave up 1.00 * (1/0.96 - 1) = 0.0417
+    # exit: paid 0.80 where mid was 0.76 (mid / fill = 0.95) -> overpaid 0.04
+    e = {"record": "entry", "trade_id": "A-1", "symbol": "A", "kind": "earnings", "quantity": 1,
+         "execution": {"fill_credit": 1.0, "fill_vs_mid": 0.96}, "risk": {"max_loss_usd": 150}}
+    x = {"record": "exit", "trade_id": "A-1", "pnl_usd": 20.0,
+         "execution": {"fill_debit": 0.8, "fill_vs_mid": 0.95}}
+    assert metrics.round_trip_cost(e, x) == pytest.approx(0.0817, abs=1e-4)
+    # a fill better than mid on the way out lowers the cost
+    better = {"record": "exit", "trade_id": "A-1", "execution": {"fill_debit": 0.8, "fill_vs_mid": 1.05}}
+    assert metrics.round_trip_cost(e, better) == pytest.approx(0.0017, abs=1e-4)
+    # a missing number gives no cost, never a guess
+    assert metrics.round_trip_cost(e, {"record": "exit", "trade_id": "A-1", "execution": {}}) is None
+    assert metrics.round_trip_cost(None, x) is None
+
+    other = {"record": "entry", "trade_id": "B-1", "symbol": "B", "kind": "non_earnings", "quantity": 1,
+             "execution": {"fill_credit": 2.0, "fill_vs_mid": 1.0}, "risk": {"max_loss_usd": 150}}
+    other_x = {"record": "exit", "trade_id": "B-1", "pnl_usd": -5.0,
+               "execution": {"fill_debit": 1.0, "fill_vs_mid": 0.9}}
+    s = metrics.summarize([e, x, other, other_x])
+    assert s["round_trip_cost"]["earnings"] == {"n": 1, "avg_share_of_credit": 0.0817, "min": 0.0817, "max": 0.0817}
+    assert s["round_trip_cost"]["all"]["n"] == 2
+    assert s["round_trip_cost"]["all"]["avg_share_of_credit"] == pytest.approx((0.0817 + 0.05) / 2, abs=1e-4)
+    by_id = {t["trade_id"]: t for t in s["trades"]}
+    assert by_id["A-1"]["round_trip_cost"] == 0.0817
+
+
+def test_round_trip_cost_falls_back_to_the_mid_at_the_read():
+    # Exits recorded since 2026-11-17 store the close mid, not the ratio (P055 heal, 2026-11-21).
+    from vantage_trader.earnings.metrics import round_trip_cost
+    entry = {"execution": {"fill_credit": 4.0, "fill_vs_mid": 1.0}}
+    exit_ = {"execution": {"fill_debit": 2.0, "close_cost_mid_at_read": 1.9}}
+    # credit given up 0, debit overpaid 2.0 * (1 - 1.9 / 2.0) = 0.10, over a 4.0 credit = 0.025
+    assert round_trip_cost(entry, exit_) == 0.025
+    assert round_trip_cost(entry, {"execution": {"fill_debit": 2.0}}) is None

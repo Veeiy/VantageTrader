@@ -1,0 +1,574 @@
+"""Builds the Trading Loop Map page from the replay numbers. Charts are drawn to scale here.
+
+    python3 scripts/earnings/loop_map/build.py <output folder>
+
+The page is published as the artifact "Trading Loop Map"
+(https://claude.ai/artifact/DmYhPS8UVrQM2uNi2ixCdH): build it into the folder it was last
+published from (the session scratchpad, loop_map/) and publish that index.html to the same
+link. The text below is the page's content as of 2026-11-16 (evening, after the 90-day replay and
+PLAN.md); edit it here when the process changes. style_base.css holds the page's design tokens and base styles.
+"""
+import json, sys
+from pathlib import Path
+
+HERE = Path(__file__).parent
+REPO = HERE.parents[2]
+OUT = Path(sys.argv[1]) if len(sys.argv) > 1 else HERE
+base_css = (HERE / "style_base.css").read_text()
+
+summ = json.loads((REPO / "state/earnings/daytrade/replay/summary.json").read_text())
+times = ["08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30"]
+vals = [summ["time_exit"][t]["flies"]["mean"] for t in times]
+wins = [summ["time_exit"][t]["flies"]["win_rate"] for t in times]
+
+# ---------------- chart A: average result per fly by exit time (all values are at or below zero)
+def chart_a():
+    x0, pitch, bw, y0, k = 46, 31, 19, 30, 7.6      # k px per dollar; -16 -> y0 + 121.6
+    out = ['<svg viewBox="0 0 360 190" role="img" aria-label="Average result per same-day fly after costs by exit time. Every exit is below zero: minus 15 dollars at 8:00, minus 6 at 9:30, minus 13 at 11:00, minus 3 at 12:30.">']
+    for g in (0, -5, -10, -15):
+        y = y0 - g * k
+        out.append(f'<line class="grid{" zero" if g == 0 else ""}" x1="40" x2="352" y1="{y:.1f}" y2="{y:.1f}"/>')
+        out.append(f'<text class="ax" x="35" y="{y + 3.5:.1f}" text-anchor="end">{"$0" if g == 0 else "-$" + str(-g)}</text>')
+    for i, (t, v, w) in enumerate(zip(times, vals, wins)):
+        x = x0 + i * pitch
+        h = max(-v * k, 1.0)
+        r = min(4.0, h / 2)
+        key = t == "11:00"
+        d = (f"M{x},{y0} h{bw} v{h - r:.1f} a{r},{r} 0 0 1 -{r},{r} h-{bw - 2 * r:.1f} a{r},{r} 0 0 1 -{r},-{r} z")
+        lab = t.lstrip("0")
+        out.append(f'<path class="bar{" key" if key else ""}" d="{d}"><title>Exit {lab} AM PT: {"-" if v < 0 else ""}${abs(v):.0f} a fly on average, {w * 100:.0f}% winners</title></path>'.replace("12:00 AM", "12:00 PM").replace("12:30 AM", "12:30 PM"))
+        out.append(f'<text class="ax" x="{x + bw / 2:.1f}" y="176" text-anchor="middle">{lab}</text>')
+        if t in ("08:00", "11:00", "12:30"):
+            out.append(f'<text class="val" x="{x + bw / 2:.1f}" y="{y0 + h + 12:.1f}" text-anchor="middle">-${abs(v):.0f}</text>')
+    xk = x0 + times.index("11:00") * pitch + bw / 2
+    out.append(f'<text class="note" x="{xk:.1f}" y="14" text-anchor="middle">pilot exits here</text>')
+    out.append(f'<line class="tick" x1="{xk:.1f}" x2="{xk:.1f}" y1="18" y2="{y0 - 2}"/>')
+    out.append("</svg>")
+    return "\n".join(out)
+
+# ---------------- chart C: how often a stop rule ends a no-edge pilot by luck (IWM, one contract, 20 trades)
+ROWS = [("budget", "-$150 in total", 22.6, "old"), ("budget", "-$200", 11.0, ""), ("budget", "-$300", 1.5, ""),
+        ("budget", "-$500", 0.1, "now"), ("streak", "3 losses in a row", 60.4, "old"),
+        ("streak", "5 in a row", 12.0, ""), ("streak", "6 in a row", 5.1, "now")]
+
+def chart_c():
+    xb, k, rh = 132, 2.3, 26                         # k px per percentage point; 70% -> 161 px
+    out = ['<svg viewBox="0 0 360 236" role="img" aria-label="Share of 20-trade runs in which a stop rule ends a pilot with no edge by luck alone. A budget of 150 dollars: 23 percent. 200: 11 percent. 300: 2 percent. 500: under 1 percent. Three losses in a row: 60 percent. Five: 12 percent. Six: 5 percent.">']
+    y = 8
+    last = None
+    for grp, label, pct, tag in ROWS:
+        if grp != last:
+            y += 6 if last else 0
+            out.append(f'<text class="grp" x="8" y="{y + 11}">{"Loss budget" if grp == "budget" else "Losing streak"}</text>')
+            y += 20
+            last = grp
+        w = max(pct * k, 1.5)
+        r = min(4.0, w / 2)
+        d = f"M{xb},{y} h{w - r:.1f} a{r},{r} 0 0 1 {r},{r} v{14 - 2 * r:.1f} a{r},{r} 0 0 1 -{r},{r} h-{w - r:.1f} z"
+        shown = "under 1%" if pct < 1 else f"{pct:.0f}%"
+        out.append(f'<text class="rl" x="{xb - 8}" y="{y + 11}" text-anchor="end">{label}</text>')
+        out.append(f'<path class="bar{" key" if tag == "now" else ""}" d="{d}"><title>{label}: stops the pilot by luck in {shown} of runs</title></path>')
+        extra = {"old": '<tspan class="tagold"> was</tspan>', "now": '<tspan class="tagnow"> now</tspan>'}.get(tag, "")
+        out.append(f'<text class="val" x="{xb + w + 6:.1f}" y="{y + 11}">{shown}{extra}</text>')
+        y += rh
+    out.append("</svg>")
+    return "\n".join(out)
+
+sys.path.insert(0, str(REPO / "src"))
+from vantage_trader.earnings import metrics as live_metrics  # noqa: E402
+
+adm = json.loads((REPO / "state/earnings/daytrade/replay/admission_90d.json").read_text())["names"]
+# the earnings fly on every clean replayed report (scripts/earnings/earnings_fly_table.py)
+FLY = json.loads((REPO / "state/earnings/replay/2026-11-28_week/fly_table.json").read_text())  # 206 reports, $600 cap (rules v1.16)
+FLY_CAP, FLY_RAW = FLY["capped"]["1.5"], FLY["widths"]["1.5"]
+_RTC = live_metrics.summarize(live_metrics.read_metrics(REPO / "state/earnings/live_metrics.jsonl"))["round_trip_cost"]
+LIVE_COST, LIVE_COST_E = _RTC["all"], _RTC["earnings"]
+ovn = json.loads((REPO / "state/earnings/daytrade/overnight/summary_pooled_1121.json").read_text())  # SPY, QQQ, IWM; dropped 2026-11-21
+OVN = ovn["clustered_by_night_0700_after_costs"]
+FLY_SS = FLY["short_straddle"]
+NAMES90 = sorted((n for n in adm if n != "ALL"), key=lambda n: -adm[n]["all"]["mean"])
+
+def money1(v):
+    return ("-$" if v < 0 else "+$") + f"{abs(v):.1f}".rstrip("0").rstrip(".")
+
+def money(v, plus=False):
+    r = round(v)
+    if r == 0:
+        return "$0"
+    return ("-$" if r < 0 else ("+$" if plus else "$")) + str(abs(r))
+
+# ---------------- chart P: result per trade after costs, by line (the plan)
+# Earnings: every clean replayed report at its first exit bar (fly_table.json). Same-day: 290
+# flies, 11:00 PT exit. Overnight: summary_pooled_1121.json, 07:00 PT, clustered by night.
+PLAN_ROWS = [("Earnings fly, as the rules trade it", f'{FLY_CAP["first"]["after_costs"]["n"]} reports, ${FLY["cap_usd"]:.0f} cap', FLY_CAP["first"]["after_costs"]["mean"], True),
+             ("Earnings fly, no cap on the loss", f'{FLY_RAW["first"]["after_costs"]["n"]} reports', FLY_RAW["first"]["after_costs"]["mean"], False),
+             ("Overnight fly, 3 funds (dropped)", f'{OVN["n"]} nights', OVN["mean"], False),
+             ("Same-day fly, out by 11:00", "290 flies, 7 names", -9.7, False)]
+
+def chart_p():
+    xl, k, rh = 30, 9.375, 40                        # k px per dollar; plot spans -$18 to +$14
+    xz = xl + 18 * k                                 # 2026-11-28: every line is under zero; room for the labels on the left
+    out = ['<svg viewBox="0 0 360 180" role="img" aria-label="Average result per trade after costs, one contract, in dollars. ' + ". ".join(f"{lab}: {money1(v)}" for lab, _, v, _ in PLAN_ROWS).replace("-$", "minus ").replace("+$", "plus ") + '.">']
+    y = 6
+    for label, sample, v, key in PLAN_ROWS:
+        w = max(abs(v) * k, 1.5)
+        r = min(4.0, w / 2)
+        out.append(f'<text class="rl" x="{xl}" y="{y + 11}"><tspan class="rb">{label}</tspan><tspan class="rs" dx="7">{sample}</tspan></text>')
+        out.append(f'<line class="grid zero" x1="{xz}" x2="{xz}" y1="{y + 15}" y2="{y + 33}"/>')
+        if v >= 0:
+            d = f"M{xz},{y + 17} h{w - r:.1f} a{r},{r} 0 0 1 {r},{r} v{14 - 2 * r:.1f} a{r},{r} 0 0 1 -{r},{r} h-{w - r:.1f} z"
+            out.append(f'<path class="bar{" key" if key else ""}" d="{d}"><title>{label}: {money1(v)} a trade after costs ({sample})</title></path>')
+            out.append(f'<text class="val" x="{xz + w + 6:.1f}" y="{y + 28}">{money1(v)}</text>')
+        else:
+            d = f"M{xz},{y + 17} h-{w - r:.1f} a{r},{r} 0 0 0 -{r},{r} v{14 - 2 * r:.1f} a{r},{r} 0 0 0 {r},{r} h{w - r:.1f} z"
+            out.append(f'<path class="bar{" key" if key else ""}" d="{d}"><title>{label}: {money1(v)} a trade after costs ({sample})</title></path>')
+            out.append(f'<text class="val" x="{xz - w - 6:.1f}" y="{y + 28}" text-anchor="end">{money1(v)}</text>')
+        y += rh
+    out.append(f'<text class="ax" x="{xz}" y="{y + 5}" text-anchor="middle">$0</text>')
+    out.append("</svg>")
+    return "\n".join(out)
+
+# ---------------- chart N: 90 days, seven names, result per fly after costs (midday exit)
+def chart_n():
+    x0, pitch, bw, y0, k = 52, 43, 27, 40, 6.4       # k px per dollar; -20 -> y0 + 128
+    desc = ", ".join(f'{n} {money(adm[n]["all"]["mean"]).replace("-$", "minus ")}' for n in NAMES90)
+    out = [f'<svg viewBox="0 0 360 192" role="img" aria-label="Average result per same-day fly after costs over 90 days, in dollars, by name: {desc}. Every name is below zero.">']
+    for g in (0, -5, -10, -15, -20):
+        y = y0 - g * k
+        out.append(f'<line class="grid{" zero" if g == 0 else ""}" x1="40" x2="352" y1="{y:.1f}" y2="{y:.1f}"/>')
+        out.append(f'<text class="ax" x="35" y="{y + 3.5:.1f}" text-anchor="end">{"$0" if g == 0 else "-$" + str(-g)}</text>')
+    for i, n in enumerate(NAMES90):
+        a, g = adm[n]["all"], adm[n]["gated"]
+        x = x0 + i * pitch
+        h = max(-a["mean"] * k, 1.0)
+        r = min(4.0, h / 2)
+        key = n == "IWM"
+        d = f"M{x},{y0} h{bw} v{h - r:.1f} a{r},{r} 0 0 1 -{r},{r} h-{bw - 2 * r:.1f} a{r},{r} 0 0 1 -{r},-{r} z"
+        tip = (f'{n}: {money(a["mean"])} a fly after costs over {a["n"]} flies, {a["win_rate"] * 100:.0f}% winners. '
+               f'Passing the gate: {money(g["mean"])} over {g["n"]} flies.')
+        out.append(f'<path class="bar{" key" if key else ""}" d="{d}"><title>{tip}</title></path>')
+        out.append(f'<text class="rl" x="{x + bw / 2:.1f}" y="{y0 - 8}" text-anchor="middle" style="font-weight:700">{n}</text>')
+        out.append(f'<text class="val" x="{x + bw / 2:.1f}" y="{y0 + h + 13:.1f}" text-anchor="middle">{money(a["mean"])}</text>')
+        if key:
+            out.append(f'<text class="note" x="{x + bw / 2:.1f}" y="12" text-anchor="middle">live probe</text>')
+    out.append("</svg>")
+    return "\n".join(out)
+
+WHY = {"IWM": "Live probe. Risks about $36", "AAPL": "Spread about 4%, the rule is 3%", "META": "$40 to trade, over the cap",
+       "SPY": "Loses after costs", "NVDA": "Loses. On hold", "QQQ": "Loses after costs", "AMZN": "Worst of the seven"}
+
+def names_table():
+    rows = []
+    for n in NAMES90:
+        a, g = adm[n]["all"], adm[n]["gated"]
+        gated = f'{g["n"]} only' if g["n"] < 5 else f'{money(g["mean"])} ({g["n"]})'
+        rows.append(f'<tr><td>{n}</td><td class="m">{money(a["mean"])} ({a["n"]})</td><td class="m">{gated}</td><td>{WHY[n]}</td></tr>')
+    return ('<div class="tblwrap"><table class="wraphead"><thead><tr><th>Name</th><th>All flies</th><th>Passing the gate</th>'
+            '<th>Verdict</th></tr></thead><tbody>' + "".join(rows) + "</tbody></table></div>")
+
+EXTRA_CSS = """
+/* Added 2026-11-16: status strip, two lines, worked example, charts, tables, names */
+.strip{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.86rem;color:var(--muted);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:8px 0}
+.strip b{color:var(--fg);font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-weight:700}
+.lines{display:grid;grid-template-columns:1fr;gap:10px}
+@media (min-width:600px){.lines{grid-template-columns:1fr 1fr}}
+.card ul{margin:0;padding-left:18px;color:var(--muted);font-size:.9rem;display:flex;flex-direction:column;gap:2px}
+.card ul b{color:var(--fg)}
+.new{background:var(--accent-soft);color:var(--accent)}
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;counter-reset:s}
+.steps>li{counter-increment:s;display:grid;grid-template-columns:28px 1fr;gap:10px;min-width:0}
+.steps>li::before{content:counter(s);font-family:var(--f-mono);font-weight:700;font-size:.8rem;color:var(--accent);
+  border:1.5px solid var(--accent);border-radius:50%;width:26px;height:26px;display:grid;place-items:center;background:var(--surface)}
+.steps .b{min-width:0;display:flex;flex-direction:column;gap:6px}
+.steps .b>p{color:var(--muted)}
+.steps .b>p b{color:var(--fg)}
+.q{font-style:italic;color:var(--owner);font-weight:600}
+.chart{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 10px 10px}
+.chart h3{font-size:.95rem;padding:0 4px 6px}
+.chart svg{display:block;width:100%;max-width:520px;height:auto;margin:0 auto;color:var(--fg)}
+.chart .grid{stroke:var(--line);stroke-width:1}
+.chart .grid.zero{stroke:var(--muted);stroke-width:1.2}
+.chart .ax{font-family:var(--f-mono);font-size:9.5px;fill:var(--muted)}
+.chart .val{font-family:var(--f-mono);font-size:10.5px;font-weight:700;fill:currentColor}
+.chart .note{font-family:var(--f-body);font-size:10.5px;font-weight:700;fill:var(--accent)}
+.chart .tick{stroke:var(--accent);stroke-width:1.2;stroke-dasharray:2 2}
+.chart .bar{fill:var(--accent);fill-opacity:.5}
+.chart .bar.key{fill-opacity:1}
+.chart .bar:hover{fill-opacity:.85}
+.chart .grp{font-family:var(--f-body);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;fill:var(--muted)}
+.chart .rl{font-family:var(--f-body);font-size:11.5px;fill:currentColor}
+.chart .tagold{fill:var(--muted);font-family:var(--f-body);font-weight:600}
+.chart .tagnow{fill:var(--accent);font-family:var(--f-body);font-weight:700}
+.tblwrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;font-size:.86rem;font-variant-numeric:tabular-nums}
+th,td{padding:8px 8px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th:last-child,td:last-child{white-space:normal;min-width:84px}
+thead th{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700}
+tbody tr:last-child td{border-bottom:0}
+td.m{font-family:var(--f-mono)}
+.names{display:flex;flex-direction:column;gap:10px}
+.names h3{font-size:.95rem;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.names h3 span{font-family:var(--f-body);font-size:.8rem;font-weight:400;color:var(--muted)}
+.chip.hold{color:var(--warn);border-color:var(--warn)}
+.chip.livechip{color:var(--good);border-color:var(--good)}
+.lines.three{grid-template-columns:1fr}
+.chart .rb{font-weight:700}
+.chart .rs{fill:var(--muted);font-size:10.5px}
+.thin a,.steps a{color:var(--accent);font-weight:600}
+.thin li b{display:inline;margin:0;color:var(--fg)}
+.sec-h{font-size:1rem;margin-top:4px}
+table.wraphead thead th{white-space:normal;vertical-align:bottom}
+table.wraphead td:last-child{font-size:.82rem;color:var(--muted);text-align:left}
+table.wraphead th:last-child{text-align:left}
+@media (max-width:480px){table.wraphead th,table.wraphead td{padding:8px 6px}}
+.steps.tight{gap:6px}
+.steps.tight .b>p{font-size:.92rem}
+.who ul li{font-weight:600}
+.who p{font-size:.84rem;margin-top:8px}
+@media (max-width:480px){.who{grid-template-columns:1fr}}
+"""
+
+LEARN_SVG = """
+    <svg viewBox="0 0 360 704" role="img" aria-label="Learning flow. Data in goes to the evidence ledger, which splits into two tracks: execution lessons applied the next day, and trading or risk changes that need 8 or more observations at 2 to 1 before the agent decides them and tells the owner the same day. Both feed calibration, then verify, and verified results loop back as new data. Outside the loop, the hard limits change on the owner's words only.">
+      <defs>
+        <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ah"/></marker>
+        <marker id="ahf" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahf"/></marker>
+      </defs>
+      <rect class="bx" x="44" y="8" width="300" height="72" rx="8"/>
+      <text class="num" x="58" y="30">1</text><text class="tt" x="74" y="30">Data in</text>
+      <text class="ts" x="58" y="50">Live trades, paper flies, replayed sessions,</text>
+      <text class="ts" x="58" y="66">projection misses, your own hand orders</text>
+      <line class="ar" x1="194" y1="80" x2="194" y2="110" marker-end="url(#ah)"/>
+      <text class="al" x="202" y="99">every observation</text>
+      <rect class="bx" x="44" y="112" width="300" height="58" rx="8"/>
+      <text class="num" x="58" y="134">2</text><text class="tt" x="74" y="134">Evidence ledger</text>
+      <text class="ts" x="58" y="154">Logged <tspan class="tsb">for or against</tspan> one specific claim</text>
+      <path class="ar" d="M194 170 V184 H113 V204" marker-end="url(#ah)"/>
+      <path class="ar" d="M194 170 V184 H275 V204" marker-end="url(#ah)"/>
+      <text class="num" x="58" y="198">3</text><text class="tsb" x="70" y="198" style="font-size:12px">Two tracks</text>
+      <rect class="bx-a" x="44" y="206" width="138" height="178" rx="8"/>
+      <text class="tt" x="54" y="226" style="font-size:12.5px">A. How the agent</text>
+      <text class="tt" x="54" y="242" style="font-size:12.5px">executes</text>
+      <text class="tsb" x="54" y="266">Applied next day</text>
+      <text class="ts" x="54" y="282">No waiting</text>
+      <line x1="54" y1="296" x2="172" y2="296" stroke="var(--line)" stroke-width="1"/>
+      <text class="tsb" x="54" y="316">Max 10 active</text>
+      <text class="tsb" x="54" y="332">lessons</text>
+      <text class="ts" x="54" y="352">Weakest one</text>
+      <text class="ts" x="54" y="368">is retired</text>
+      <rect class="bx-a" x="206" y="206" width="138" height="178" rx="8"/>
+      <text class="tt" x="216" y="226" style="font-size:12px">B. What is traded</text>
+      <text class="tt" x="216" y="242" style="font-size:12px">and risk at stake</text>
+      <text class="ts" x="216" y="266">Hypothesis until</text>
+      <text class="tsb" x="216" y="282">8+ obs at 2 to 1</text>
+      <line class="ar" x1="275" y1="290" x2="275" y2="304" marker-end="url(#ah)"/>
+      <rect x="216" y="306" width="118" height="24" rx="12" fill="var(--surface)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text class="fbt" x="275" y="322" text-anchor="middle">Agent decides</text>
+      <text class="ts" x="216" y="352">You hear it that day,</text>
+      <text class="tsb" x="216" y="368">a few words undo it</text>
+      <path class="ar" d="M113 384 V398 H194 V414" marker-end="url(#ah)"/>
+      <path class="ar" d="M275 384 V398 H194"/>
+      <rect class="bx" x="44" y="416" width="300" height="104" rx="8"/>
+      <text class="num" x="58" y="438">4</text><text class="tt" x="74" y="438">Calibration</text>
+      <text class="ts" x="58" y="458">Thresholds move only with</text>
+      <text class="tsb" x="58" y="474">8 closed live trades or 50 replayed events</text>
+      <text class="ts" x="58" y="494">Projection constants refit from</text>
+      <text class="ts" x="58" y="510">each morning's scoring</text>
+      <line class="ar" x1="194" y1="520" x2="194" y2="546" marker-end="url(#ah)"/>
+      <rect class="bx" x="44" y="548" width="300" height="70" rx="8"/>
+      <text class="num" x="58" y="570">5</text><text class="tt" x="74" y="570">Verify</text>
+      <text class="ts" x="58" y="590">Every change has a <tspan class="tsb">measure</tspan></text>
+      <text class="ts" x="58" y="606">Does not work? <tspan class="tsb">Rolled back</tspan></text>
+      <path class="fb" d="M44 583 H20 V44 H42" marker-end="url(#ahf)"/>
+      <text class="fbt" x="14" y="320" transform="rotate(-90 14 320)" text-anchor="middle">results feed the next cycle</text>
+      <rect class="bx-o" x="44" y="636" width="300" height="60" rx="8"/>
+      <text class="og" x="58" y="656" style="font-size:12px">Outside the loop: the hard limits</text>
+      <text class="ts" x="58" y="673">The account, never TSLA, defined risk, limit orders,</text>
+      <text class="ts" x="58" y="688">the total cap, money in or out</text>
+    </svg>"""
+
+def bar(f, a, scale=28):
+    return (f'<div class="bar" aria-label="{f} for, {a} against, needs 8"><span class="fo" style="width:{f / scale * 100:.2f}%"></span>'
+            f'<span class="ag" style="width:{a / scale * 100:.2f}%"></span><span class="goal" style="left:{8 / scale * 100:.2f}%"></span></div>')
+
+def row(claim, f, a, verdict, cls="v-test"):
+    return (f'<div class="row"><div class="claim">{claim}</div>{bar(f, a)}'
+            f'<div class="meta"><span class="cnt"><span class="f">{f} for</span> / <span class="x">{a} against</span></span>'
+            f'<span class="verdict {cls}">{verdict}</span></div></div>')
+
+BODY = f"""
+<div class="wrap">
+<header>
+  <h1>Trading Loop Map</h1>
+  <p class="sub">How the system trades, checks itself and learns. As of <b>Sat Nov 28, 2026</b>.</p>
+</header>
+
+<div class="strip" aria-label="Where things stand">
+  <span>Account <b>$1,453</b></span>
+  <span>Closed trades <b>18</b>, <b>10</b> wins</span>
+  <span>Realized <b>+$96</b></span>
+  <span>Breaker <b>halted</b> since Nov 24, your word lifts it</span>
+  <span>Same-day pilot <b>3</b> probes, <b>-$28</b></span>
+  <span>Plan <b>v1</b>, numbers of Nov 28</span>
+</div>
+
+<nav aria-label="Sections">
+  <a href="#plan">The plan</a><a href="#day">Day</a><a href="#loops">11 loops</a><a href="#learn">How it learns</a><a href="#heal">Healing loop, one case</a><a href="#caps">Cap test</a><a href="#names">90 days, 7 names</a><a href="#tested">Being tested</a><a href="#who">Who decides</a><a href="#rules">Rules</a>
+</nav>
+
+<section id="plan">
+  <h2><span class="n">01</span>The plan</h2>
+  <p class="hint"><span class="q">"Research it, boss.. I want to harden out such a solid trading plan and algo that we can continue to iterate and generate money."</span> Nov 16. Written the same evening from 90 days of replays and the published research.</p>
+  <figure class="chart"><h3>Result per trade after costs, by line</h3>
+    {chart_p()}
+    <figcaption>One contract, a 7% cost in. <b>No line is above zero at that cost.</b> The earnings fly is the closest, the only one with a premium before costs, and about +$5 at the 4% we pay live. With no cap two bad reports in two hundred take more than the rest make. Not proven either way: the standard error is $10 a fly.</figcaption></figure>
+  <div class="strip" aria-label="The cost margin of the earnings fly">
+    <span>Edge before costs <b>{FLY_CAP["breakeven_cost_share"] * 100:.0f}%</b> of the credit</span>
+    <span>Cost assumed in the replay <b>7%</b></span>
+    <span>Live cost, earnings flies <b>{LIVE_COST_E["avg_share_of_credit"] * 100:.1f}%</b>, {LIVE_COST_E["n"]} trades (all {LIVE_COST["n"]} trades {LIVE_COST["avg_share_of_credit"] * 100:.1f}%)</span>
+    <span>One point of cost <b>${FLY_CAP["avg_credit_usd"] / 100:.0f}</b> a fly</span>
+  </div>
+  <p class="hint">The earnings line lives between the first number and what we really pay. At the assumed 7% nothing is left; at our live cost about one point is. Fills matter as much as picks, so the cost of every round trip is measured.</p>
+  <div class="lines three">
+    <div class="card"><div class="top"><h3><span class="k">A</span>Earnings premium</h3><span class="pill live">Core, live</span></div>
+      <ul><li>Sell an iron fly the day before the report, buy it back at the open.</li>
+      <li>Replay, {FLY["clean_events"]} reports: the short straddle won <b>{FLY_SS["first_share_of_straddle"]["wins"]}</b> and made 7% of the premium. After a 7% cost the fly as traded lands at about <b>{money(FLY_CAP["first"]["after_costs"]["mean"], True)}</b>; at the 4% we pay live, about <b>+$5</b>. Too noisy to call, and the week of Nov 23 was the worst yet.</li>
+      <li><b>Hardening, in order:</b> cost, keep the cap, more replayed reports, width.</li>
+      <li><b>Grows</b> after 30 live flies averaging +$8, or 300 replayed reports above +$10 a fly.</li>
+      <li><b>Shrinks</b> if costs average over 9% of the credit across 10 flies, or when the breaker fires. It fired Nov 24: halted until your word, and the name cap is now at most 30% of the account.</li></ul></div>
+    <div class="card"><div class="top"><h3><span class="k">B</span>Same-day fly</h3><span class="pill new">Probe, ends Dec 18</span></div>
+      <ul><li>One IWM fly a day, one contract, 7:30 to 11:00.</li>
+      <li>90 days, 7 names, 290 flies: <b>no name makes money after costs.</b></li>
+      <li>Kept only for real fills, at an expected cost of $1 to $3 a trade. Not widened. Ends after 20 probes.</li></ul></div>
+    <div class="card"><div class="top"><h3><span class="k">C</span>Overnight fly</h3><span class="pill batch">Dropped Nov 21</span></div>
+      <ul><li>Sell near the close, buy back by 7:00 AM. The research says this is when sellers get paid.</li>
+      <li>Tested on {OVN["n"]} nights, SPY, QQQ and IWM: <b>{money1(OVN["mean"])} a fly</b> after costs (t {OVN["t"]}). The bar was +$10.</li>
+      <li>Quiet nights pay, gap nights take it back, and the gap is not known when you sell. <b>Dropped.</b></li></ul></div>
+  </div>
+  <div class="thin"><b>What the research says</b>
+    <ul><li>Option sellers are paid <b>overnight</b>, not during the day. <a href="https://econpapers.repec.org/RePEc:eee:jfinec:v:136:y:2020:i:1:p:219-238">Muravyev and Ni, 2020</a></li>
+    <li>Retail <b>overpays before earnings</b>: buyers lose 5 to 9% around reports. <a href="https://www.gsb.stanford.edu/faculty-research/publications/losing-optional-retail-option-trading-expected-announcement">de Silva, Smith and So</a></li>
+    <li>Same-day options are a <b>cost game</b>: about 60% of retail's loss is trading cost. <a href="https://www.cxoadvisory.com/individual-investing/retail-0dte-option-trader-performance">Beckmeyer, Branger and Gayda</a></li>
+    <li>Selling index premium has paid for decades, with deep drawdowns in selloffs. <a href="https://www.cboe.com/insights/posts/generating-income-and-managing-risk-cash-secured-put-writing-in-a-low-equity-return-environment">Cboe PUT index</a></li></ul></div>
+  <h3 class="sec-h">How anything gets real money</h3>
+  <ol class="steps tight">
+    <li><div class="b"><p><b>A written reason</b> it should work, from the research or our own data.</p></div></li>
+    <li><div class="b"><p><b>A replay with costs in</b>, big enough that a real edge would show.</p></div></li>
+    <li><div class="b"><p><b>A check on sessions the idea was not found in.</b></p></div></li>
+    <li><div class="b"><p><b>Paper</b> with real quotes.</p></div></li>
+    <li><div class="b"><p><b>A one-contract pilot</b> with a loss budget sized from the trade's own noise.</p></div></li>
+    <li><div class="b"><p><b>More size</b> only after +$10 a trade after costs and 2 standard errors on 60 or more days.</p></div></li>
+  </ol>
+  <div class="callout">
+    <p class="big">What to expect</p>
+    <p>On {FLY["clean_events"]} replayed reports the fly as traded loses about $8 at a 7% cost and keeps about $5 at the 4% we pay live. If +$5 is the truth and 8 to 12 flies a week fit, it is <b>roughly $40 to $60 a week</b>. It may also be zero or less: the average is uncertain by $10 a fly, and each of the last two weeks of reports pulled it down. A ten-fly week swings about $300 either way.</p>
+    <p><b>Cost is the lever in reach.</b> At 9% the same flies lose $17; at 5% they keep $1; at 3%, $10.</p>
+    <p><b>The biggest accelerator is deeper price history.</b> Every test here covers 6 to 13 weeks of one falling market. A paid options data feed (about $30 to $100 a month) would let the earnings line be checked on thousands of reports in an evening. Your call.</p>
+  </div>
+</section>
+
+<section id="day">
+  <h2><span class="n">02</span>A trading day</h2>
+  <p class="hint">Pacific time. Filled dots are the trade moments.</p>
+  <ol class="tl">
+    <li><span class="t">5:52 AM</span><div class="d"><b>Pre-open wake.</b> <span>Takes the day's trading lock, starts the exit timer, writes the exit tickets.</span></div></li>
+    <li class="key"><span class="t">6:36 AM</span><div class="d"><b>Exits.</b> <span>Looks for orders you placed yourself, then closes yesterday's earnings flies, shorts first.</span></div></li>
+    <li><span class="t">6:50 AM</span><div class="d"><b>Spread scan.</b> <span>Quotes the 25 most liquid names with same-day options. Fridays.</span></div></li>
+    <li><span class="t">7:15 AM</span><div class="d"><b>Account watch and paper desk start.</b> <span>A watcher checks for your own orders every 5 minutes until 12:57. Ten names trade on paper.</span></div></li>
+    <li><span class="t">7:25 AM</span><div class="d"><b>Watchdogs.</b> <span>The standby session and a phone alert. Silent unless the morning exits were not confirmed.</span></div></li>
+    <li class="key"><span class="t">7:27 AM</span><div class="d"><b>Same-day pilot entry.</b> <span>One fly, one contract, only if all 17 gates pass and the morning exits are done.</span></div></li>
+    <li><span class="t">7:15 AM to<br>12:15 PM</span><div class="d"><b>Hourly check-ins.</b> <span>Mark every position. Take profit, cut, close leftovers.</span></div></li>
+    <li><span class="t">9:45 AM</span><div class="d"><b>Midday scan.</b> <span>A name that already passes can be entered here.</span></div></li>
+    <li class="key"><span class="t">10:57 AM</span><div class="d"><b>Pilot exit.</b> <span>Flat by 11:00, like everything that expires that day.</span></div></li>
+    <li class="key"><span class="t">11:46 AM</span><div class="d"><b>Entry sweep.</b> <span>Every earnings name that passes, best edge first, sized by risk.</span></div></li>
+    <li><span class="t">12:05 PM<br>12:17 PM</span><div class="d"><b>Standby switch and entry backup.</b> <span>Rerun the entry if the main session missed it.</span></div></li>
+    <li><span class="t">12:50 PM</span><div class="d"><b>Order cutoff.</b> <span>At 12:57 one last look for hand orders.</span></div></li>
+    <li><span class="t">1:12 PM</span><div class="d"><b>Reflection.</b> <span>Score what was skipped, grade decisions, log evidence, health check, decide proposals.</span></div></li>
+    <li class="sepli"><span class="sep">Off the daily clock</span></li>
+    <li class="off"><span class="t">Evening</span><div class="d"><b>P/L projection</b> <span>with ranges for the next morning's reports. Scored against the real exit.</span></div></li>
+    <li class="off"><span class="t">Friday</span><div class="d"><b>Weekly scorecard</b> <span>and one retry of a multi-leg order.</span></div></li>
+    <li class="off"><span class="t">Saturday</span><div class="d"><b>Research day.</b> <span>Dec 5: the pilot's trend-day filter test, pass bar written first, and the week's earnings replay.</span></div></li>
+  </ol>
+</section>
+
+<section id="loops">
+  <h2><span class="n">03</span>The eleven loops</h2>
+  <div class="loops">
+    <div class="card"><div class="top"><h3><span class="k">1</span>Trade</h3><span class="pill live">Live</span></div>
+      <p>Exits, scans, enters every name that passes the gate in code.</p></div>
+    <div class="card"><div class="top"><h3><span class="k">2</span>Monitor</h3><span class="pill live">Live</span></div>
+      <p>One read-only agent watches all positions between the hourly check-ins.</p></div>
+    <div class="card"><div class="top"><h3><span class="k">3</span>Account watch</h3><span class="pill live">Live</span></div>
+      <p>Finds orders <b>you place by hand</b> within 5 minutes, then redoes risk and alerts.</p></div>
+    <div class="card"><div class="top"><h3><span class="k">4</span>Projection</h3><span class="pill live">Live</span></div>
+      <p>P/L ranges before each report, scored the next morning. <b>Constants refit by written rules.</b></p>
+      <span class="note">Its volatility constant ran low on 8 names. Refit by its own rule Mon Nov 30.</span></div>
+    <div class="card"><div class="top"><h3><span class="k">5</span>Reflection</h3><span class="pill live">Live</span></div>
+      <p>Scores skipped names, grades decisions on process, logs evidence, checks health.</p></div>
+    <div class="card"><div class="top"><h3><span class="k">6</span>Proposals</h3><span class="pill live">Live</span></div>
+      <p>106 numbered fixes so far, <b>each with a measure</b>. 51 have been checked against it: 25 worked, 4 did not, 22 could not be told. The agent decides and reports.</p></div>
+    <div class="card"><div class="top"><h3><span class="k">7</span>Replay</h3><span class="pill batch">3 datasets</span></div>
+      <p><b>{FLY["clean_events"]} earnings reports</b>, <b>344 same-day sessions</b> on 7 names and <b>{ovn["items"]} overnight nights</b>, priced from real option history.</p></div>
+    <div class="card"><div class="top"><h3><span class="k">8</span>Paper desk</h3><span class="pill live">Live</span></div>
+      <p>Ten names traded on paper every day, plus the morning spread scan across the market.</p></div>
+    <div class="card"><div class="top"><h3><span class="k">9</span>Weekly</h3><span class="pill live">Live</span></div>
+      <p>Scorecard, calibration, hypothesis tallies.</p></div>
+    <div class="card"><div class="top"><h3><span class="k">10</span>Safety</h3><span class="pill live">Live</span></div>
+      <p>Self-check before every commit, <b>two breakers</b>, breakeven alerts at the broker, two watchdogs.</p></div>
+    <div class="card" style="grid-column:1/-1"><div class="top"><h3><span class="k">11</span>Failover</h3><span class="pill batch">Armed</span></div>
+      <p>A <b>standby session</b> takes the lock and runs the same playbook when the main session misses a check-in. The dry run passed. No real takeover yet.</p></div>
+  </div>
+</section>
+
+<section id="learn">
+  <h2><span class="n">04</span>How it learns</h2>
+  <figure>{LEARN_SVG}
+    <div class="legend"><span><span class="sw a"></span>The agent decides</span><span><span class="sw o"></span>Your words only</span></div>
+    <figcaption>Every observation lands in the ledger first. Execution lessons move fast. Anything about <b>what is traded or how much is at risk</b> waits for evidence, then the agent decides and tells you the same day.</figcaption>
+  </figure>
+</section>
+
+<section id="heal">
+  <h2><span class="n">05</span>The healing loop on one real case</h2>
+  <p class="hint">The same-day pilot, from your ask to tonight's plan. Each step changed the next one.</p>
+  <ol class="steps">
+    <li><div class="b"><p><span class="q">"lets do some day trading for the iv crush/theta decay."</span> Nov 11. <b>Paper first:</b> same-day iron flies on SPY and IWM, then ten names.</p></div></li>
+    <li><div class="b"><p><b>Paper, 4 sessions, 26 flies:</b> +$450 at mid prices, <b>-$92 at worst-case fills</b>. The gap is wide spreads on single stocks.</p></div></li>
+    <li><div class="b"><p><span class="q">"Push the day trading pilot."</span> Nov 16. <b>Replayed the same evening:</b> 90 real flies on SPY, QQQ and IWM, every session from Oct 6 to Nov 16, sold at 7:30 AM.</p>
+      <figure class="chart"><h3>Average result per fly after costs, by exit time</h3>
+      {chart_a()}
+      <figcaption>77 clean flies. <b>No exit time makes money.</b> The first 90 minutes lose the most. Hover a bar for the win rate.</figcaption></figure>
+      <p>Stops made it worse. A take profit changed nothing. The 1.15x premium trigger from the first proposal sat in the worst bucket.</p></div></li>
+    <li><div class="b"><p><b>Decision:</b> live, as small probes. One contract, IWM (the only name at breakeven after costs). It buys real fills and the first same-day round trip at the broker. The bigger tier stays off until a filter passes a test written before the data.</p></div></li>
+    <li><div class="b"><p><span class="q">"$150 is an extremely small cap. Can you test it with different cap levels?"</span> <b>Tested the same evening.</b> You were right about the budget: it would have stopped the pilot by bad luck. Results in the next section. <b>Fixed:</b> -$500 and 6 in a row.</p></div></li>
+    <li><div class="b"><p><span class="q">"How about we run simulations on the last 90 days for this"</span> Other stocks too, if they meet the criteria. <b>Run the same evening:</b> 344 sessions on 7 names, Aug 18 to Nov 16. Before costs +$5 a fly. <b>After costs every exit loses and no new name gets in</b> (section 07). On sessions the filters were not found in, the gap filter kept its direction and the quiet-open filter failed.</p></div></li>
+    <li><div class="b"><p><span class="q">"Research it, boss.."</span> <b>Read the published research</b> and ran a first overnight test on SPY. Sellers are paid overnight and around earnings, not intraday. That became the plan in section 01: earnings is the core, same-day stays a probe, overnight gets a real test.</p></div></li>
+    <li><div class="b"><p><b>The loop caught the agent too.</b> Checking the plan's earnings numbers against the records showed the best-looking rows had left out the worst report of the hundred. Recomputed on every report: <b>+$7.50 a fly as traded</b>, not +$9 to +$17, and nothing without the cap. Corrected in the plan, the rule notes and a new lesson before it reached you.</p></div></li>
+    <li><div class="b"><p><b>Nov 21, research day:</b> the overnight test, 189 nights on SPY, QQQ and IWM, <b>failed the bar written before the data</b> ({money1(OVN["mean"])} a fly after costs). Dropped as written. The earnings replay grew to 183 reports: the premium held (short straddle +10%, 3.5 standard errors), the capped fly was near zero at a 7% cost.</p></div></li>
+    <li><div class="b"><p><b>Nov 28, research day:</b> the exit-priced filter, method and bar pushed before the first run. On 193 replayed flies the ones it would block made -$19 and the ones it keeps +$7: the right direction in all four batches, <b>1.78 standard errors where the bar asked for 2. Parked as written.</b> The 0.85 edge ratio does not sort the same flies at all. The replay grew to {FLY["clean_events"]} reports and the week of Nov 23 was its worst: the short straddle is down to +7%, the capped fly to {money(FLY_CAP["first"]["after_costs"]["mean"], True)} at a 7% cost.</p></div></li>
+    <li><div class="b"><p><b>Also Nov 27 to 28:</b> your own 30% per-name ceiling is now in the gate (it had rested on the dollar cap being lower, which stopped being true under $2,000 of account), and 20 old changes were checked against their own measures: 7 worked, 1 did not, 12 could not be told.</p></div></li>
+    <li><div class="b"><p><b>Next:</b> the pilot's trend-day filter test on Sat Dec 5, its pass bar already in the plan. Review after 10 probes.</p></div></li>
+  </ol>
+</section>
+
+<section id="caps">
+  <h2><span class="n">06</span>Cap levels tested</h2>
+  <figure class="chart"><h3>How often a stop rule ends a no-edge pilot by luck</h3>
+    {chart_c()}
+    <figcaption>20 one-contract IWM probes, resampled 20,000 times from the replay. The old rules would have ended the pilot before it produced its data. With SPY-size flies in the mix, -$500 stops about 1 run in 20.</figcaption></figure>
+  <p class="hint">A bigger cap per trade is a different story. Average result a day when each trade is sized up to the cap:</p>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Cap per trade</th><th>IWM</th><th>SPY</th><th>QQQ</th><th>Buying power</th></tr></thead>
+    <tbody>
+      <tr><td>$80</td><td class="m">-$5</td><td class="m">-$42</td><td class="m">too big</td><td class="m">about $300</td></tr>
+      <tr><td>$150</td><td class="m">-$11</td><td class="m">-$31</td><td class="m">-$36</td><td class="m">$370 to $700</td></tr>
+      <tr><td>$200</td><td class="m">-$14</td><td class="m">-$49</td><td class="m">-$36</td><td class="m">$390 to $860</td></tr>
+      <tr><td>$400</td><td class="m">-$28</td><td class="m">-$105</td><td class="m">-$62</td><td class="m">$620 to $1,280</td></tr>
+      <tr><td>$600</td><td class="m">-$44</td><td class="m">-$147</td><td class="m">-$98</td><td class="m">$800 to $1,560</td></tr>
+    </tbody></table></div>
+  <div class="thin"><b>What the table says</b>
+    <ul><li>Size scales the result and the swing together. It does not find an edge.</li>
+    <li>Buying power is not the constraint: a $400 cap fits when the account is flat.</li>
+    <li>The straddle with no wings (the limit of wider wings) did worse than the fly: -$39 a trade against -$13.</li></ul></div>
+</section>
+
+<section id="names">
+  <h2><span class="n">07</span>Ninety days, seven names</h2>
+  <p class="hint">Every session from Aug 18 to Nov 16 with same-day options: 344 sessions, 290 flies with clean prices. Sold at 7:30 AM, closed around midday.</p>
+  <figure class="chart"><h3>Average result per fly after costs, by name</h3>
+    {chart_n()}
+    <figcaption><b>No name is above zero.</b> Before costs the average fly made $5, and costs took it. Hover a bar for the count and the win rate.</figcaption></figure>
+  <p class="hint">Dollars a fly after costs. In brackets: how many flies.</p>
+  {names_table()}
+  <div class="thin"><b>What it says</b>
+    <ul><li>More names is more cost, not more edge. The live list stays IWM only.</li>
+    <li>AAPL was closest: about $0 on flies that pass the gate. Its spread is too wide to cross.</li>
+    <li>"Passing the gate" = quiet pre-market, strikes centered, one contract fits the $150 cap.</li></ul></div>
+  <h3 class="sec-h">Names with same-day options</h3>
+  <p class="hint">Scanned tonight: 72 names with heavy options volume. Spreads get measured live at 6:50 AM on scan days.</p>
+  <div class="names">
+    <div><h3>Every day <span>9 names</span></h3>
+      <div class="chips"><span class="chip livechip">IWM, live</span><span class="chip">SPY</span><span class="chip">QQQ</span><span class="chip">IBIT</span><span class="chip">GLD</span><span class="chip">XSP</span><span class="chip">SPX</span><span class="chip">NDX</span><span class="chip">RUT</span></div></div>
+    <div><h3>Mon, Wed, Fri <span>20 more</span></h3>
+      <div class="chips"><span class="chip hold">NVDA, on hold</span><span class="chip">TLT</span><span class="chip">MU</span><span class="chip">XLF</span><span class="chip">AAPL</span><span class="chip">AMD</span><span class="chip">SLV</span><span class="chip">AMZN</span><span class="chip">GOOGL</span><span class="chip">LQD</span><span class="chip">META</span><span class="chip">SMH</span><span class="chip">MSFT</span><span class="chip">TQQQ</span><span class="chip">AVGO</span><span class="chip">XLE</span><span class="chip">GDX</span><span class="chip">IEF</span><span class="chip">SPCX</span><span class="chip">DRAM</span><span class="chip off">TSLA, never</span></div></div>
+    <div><h3>Fridays only <span>40 more</span></h3>
+      <div class="chips"><span class="chip">EWZ</span><span class="chip">HYG</span><span class="chip">INTC</span><span class="chip">NFLX</span><span class="chip">MSTR</span><span class="chip">SOXL</span><span class="chip">EEM</span><span class="chip">ORCL</span><span class="chip">PLTR</span><span class="chip">HOOD</span><span class="chip">COIN</span><span class="chip">and 29 others</span></div></div>
+    <div class="thin"><b>How a name gets onto the live list</b>
+      <ul><li>Median spread of 3% of the straddle or less over five scan mornings.</li>
+      <li>Its own replay, 20 sessions or more, no worse than IWM per dollar at risk.</li>
+      <li>One contract fits the $150 cap. Then the day's pick is the cheapest name to cross.</li></ul></div>
+  </div>
+</section>
+
+<section id="tested">
+  <h2><span class="n">08</span>Being tested now</h2>
+  <p class="hint">Green = for, red = against. Bars share one scale. The dashed line is 8 observations.</p>
+  <div class="score">
+    {row("Names at edge ratio 0.70 or under win two times in three", 14, 9, "Testing: under its 2 to 1 bar")}
+    {row("The intraday-move gate does not help", 13, 9, "Testing", "v-keep")}
+    {row("The exit-priced average sorts flies better than the edge ratio", 3, 0, "Parked Nov 28: 1.78 se")}
+    {row("Wide-spread names are worth a one-contract test", 6, 1, "Testing")}
+    {row("The crush pays most when the expiry is the exit day", 4, 0, "Testing")}
+    {row("The macro veto blocks days that are no worse", 2, 2, "Testing")}
+    {row("Losing days come in clusters", 1, 2, "Testing")}
+    {row("Long straddles lose", 15, 14, "Adopted Nov 11: off", "v-adopt")}
+    <div class="thin"><b>Added Nov 16, one replay batch each</b>
+      <ul><li>A same-day index fly has no edge without a filter. <b>1 for.</b></li>
+      <li>A same-day fly does better after an overnight gap under 1%. <b>1 for</b>, as a risk filter only.</li>
+      <li>An overnight index fly earns a premium after costs. <b>1 neutral</b> (25 nights).</li></ul>
+    </div>
+  </div>
+</section>
+
+<section id="who">
+  <h2><span class="n">09</span>Who decides what</h2>
+  <div class="who">
+    <div class="ag"><h3>The agent</h3><ul><li>Execution</li><li>Process</li><li>Data</li><li>Tooling</li><li>Rules</li><li>Risk</li><li>Cost</li></ul>
+      <p>You hear every rule, risk and cost decision the same day. A few words undo it.</p></div>
+    <div class="ow"><h3>You, only</h3><ul><li>The account</li><li>Never TSLA</li><li>Defined risk only</li><li>Limit orders only</li><li>The total risk cap</li><li>Money in or out</li></ul>
+      <p>The ledger code refuses an agent approval of any of these.</p></div>
+  </div>
+  <p class="hint"><span class="q">"Dont need a decision on me. Remember, self healing and strengthening the model with your own decision making"</span> Nov 16.</p>
+</section>
+
+<section>
+  <h2><span class="n">10</span>What self-learning means here</h2>
+  <div class="callout">
+    <p class="big">An evidence ledger, tests written before the data, and rules that change only on enough observations.</p>
+    <p><b>It is not a model that retrains itself.</b> With <b>5 closed live trades</b> so far, anything automatic would fit noise. Tonight is the pattern: 344 replayed sessions tested an idea before the first live dollar, and the answer changed the plan.</p>
+  </div>
+</section>
+
+<footer id="rules">
+  <h2>Rules in force</h2>
+  <div class="chips">
+    <span class="chip">Defined risk only</span>
+    <span class="chip">Limit orders only</span>
+    <span class="chip off">Never TSLA</span>
+    <span class="chip">Total risk no larger than the account</span>
+    <span class="chip">No daily limit on number of trades</span>
+    <span class="chip">Earnings name: $600 max loss ($350 if the market is wide)</span>
+    <span class="chip">Other name: $400 max loss</span>
+    <span class="chip">Sell line at edge ratio 0.85</span>
+    <span class="chip">Half size from 0.85 to 1.10</span>
+    <span class="chip">One soft condition: half size</span>
+    <span class="chip">Wings 1.5x the straddle, never under 0.9x</span>
+    <span class="chip">Exit by single legs, or Brad places the 4-leg order</span>
+    <span class="chip test">Same-day pilot: 1 contract, $150, flat by 11:00</span>
+    <span class="chip off">Long straddles off</span>
+  </div>
+</footer>
+</div>
+"""
+
+head = """<title>Trading Loop Map</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@500;700&display=swap">
+"""
+html = head + "<style>" + base_css.rstrip() + "\n" + EXTRA_CSS + "</style>\n" + BODY
+assert "—" not in html and "–" not in html, "no em or en dashes"
+OUT.mkdir(parents=True, exist_ok=True)
+(OUT / "index.html").write_text(html)
+print("written", len(html), "bytes")

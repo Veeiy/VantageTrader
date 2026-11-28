@@ -1,0 +1,1318 @@
+{
+ "date": "2026-11-18",
+ "as_of_pt": "06:55",
+ "universe_file": "/home/user/VantageTrader/state/earnings/daytrade/universe/universe_2026-11-16.json",
+ "n_names": 31,
+ "names": [
+  {
+   "symbol": "SPY",
+   "spot": 729.8,
+   "prev_close": 732.44,
+   "pre_move": -0.0036,
+   "K": 730,
+   "strike_step": 1,
+   "call": {
+    "id": "a18c532d-079c-4a61-8aab-1f5b8a6946b4",
+    "bid": 3.48,
+    "ask": 3.49,
+    "oi": 2970
+   },
+   "put": {
+    "id": "d2d712ad-e3b9-47a5-b309-0cd19ad037d7",
+    "bid": 2.7,
+    "ask": 2.71,
+    "oi": 8218
+   },
+   "straddle_mid": 6.19,
+   "straddle_pct": 0.00848,
+   "spread_pct": 0.0032,
+   "wings": {
+    "call_strike": 736,
+    "put_strike": 724,
+    "call": {
+     "id": "1f65a9d2-3e08-4ee2-854b-d494296f64ee",
+     "bid": 1.02,
+     "ask": 1.03
+    },
+    "put": {
+     "id": "7524a1c6-7d5c-462a-98d6-b3093704fff3",
+     "bid": 1.0,
+     "ask": 1.02
+    }
+   },
+   "credit_mid": 4.155,
+   "credit_natural": 4.13,
+   "width": 6,
+   "max_loss_usd": 187.0,
+   "cost_round_trip_usd": 5.0,
+   "cost_share": 0.012,
+   "fits_probe_cap": false,
+   "reason": null,
+   "notes": "body volume call 15496 put 66174; quotes 06:55 PT, spot then 731.02 (+1.0 steps from K); 06:53 body read: call 3.73/3.74 put 2.52/2.53 spread_pct 0.0032"
+  },
+  {
+   "symbol": "NVDA",
+   "spot": 154.49,
+   "prev_close": 155.46,
+   "pre_move": -0.00624,
+   "K": 155,
+   "strike_step": 2.5,
+   "call": {
+    "id": "454c4f82-e460-4e39-bb61-ce2fb777d1d8",
+    "bid": 1.53,
+    "ask": 1.56,
+    "oi": 15492
+   },
+   "put": {
+    "id": "eee46e4e-2d9d-4fb0-9151-f346592a9eae",
+    "bid": 2.84,
+    "ask": 2.88,
+    "oi": 13419
+   },
+   "straddle_mid": 4.405,
+   "straddle_pct": 0.02851,
+   "spread_pct": 0.0159,
+   "wings": {
+    "call_strike": 160,
+    "put_strike": 150,
+    "call": {
+     "id": "c52edc5d-0e0e-4918-b0ec-c99953331bea",
+     "bid": 0.35,
+     "ask": 0.36
+    },
+    "put": {
+     "id": "72ef80a0-ad2f-4354-ab13-893ca0778f5c",
+     "bid": 0.81,
+     "ask": 0.83
+    }
+   },
+   "credit_mid": 3.23,
+   "credit_natural": 3.18,
+   "width": 5,
+   "max_loss_usd": 182.0,
+   "cost_round_trip_usd": 10.0,
+   "cost_share": 0.031,
+   "fits_probe_cap": false,
+   "reason": null,
+   "notes": "body volume call 24074 put 63415; quotes 06:55 PT, spot then 153.8105 (-0.5 steps from K); 06:53 body read: call 1.98/2.01 put 2.23/2.26 spread_pct 0.0142"
+  },
+  {
+   "symbol": "QQQ",
+   "spot": 655.565,
+   "prev_close": 656.95,
+   "pre_move": -0.00211,
+   "K": 656,
+   "strike_step": 1,
+   "call": {
+    "id": "3a2d1b93-a09e-40d3-badd-7fb9467c0a9b",
+    "bid": 4.38,
+    "ask": 4.4,
+    "oi": 1495
+   },
+   "put": {
+    "id": "e9a01ea1-eb15-414a-83ae-b94a1360a30d",
+    "bid": 3.54,
+    "ask": 3.56,
+    "oi": 971
+   },
+   "straddle_mid": 7.94,
+   "straddle_pct": 0.01211,
+   "spread_pct": 0.005,
+   "wings": {
+    "call_strike": 664,
+    "put_strike": 648,
+    "call": {
+     "id": "c6269c3c-1208-429f-a1d6-46413c502b77",
+     "bid": 1.19,
+     "ask": 1.21
+    },
+    "put": {
+     "id": "25d36d3b-c53d-4c9f-95b6-7ed163286287",
+     "bid": 1.22,
+     "ask": 1.23
+    }
+   },
+   "credit_mid": 5.515,
+   "credit_natural": 5.48,
+   "width": 8,
+   "max_loss_usd": 252.0,
+   "cost_round_trip_usd": 7.0,
+   "cost_share": 0.0127,
+   "fits_probe_cap": false,
+   "reason": null,
+   "notes": "body volume call 9706 put 23696; quotes 06:55 PT, spot then 657.06 (+1.1 steps from K); 06:53 body read: call 4.45/4.48 put 3.45/3.48 spread_pct 0.0076"
+  },
+  {
+   "symbol": "IWM",
+   "spot": 269.08,
+   "prev_close": 269.05,
+   "pre_move": 0.00011,
+   "K": 269,
+   "strike_step": 1,
+   "call": {
+    "id": "74eab9e9-7b81-44cd-9009-dbd4fc128805",
+    "bid": 1.72,
+    "ask": 1.73,
+    "oi": 1310
+   },
+   "put": {
+    "id": "3c99130f-3877-4860-b406-26696d73f29e",
+    "bid": 0.74,
+    "ask": 0.75,
+    "oi": 1297
+   },
+   "straddle_mid": 2.47,
+   "straddle_pct": 0.00918,
+   "spread_pct": 0.0081,
+   "wings": {
+    "call_strike": 271,
+    "put_strike": 267,
+    "call": {
+     "id": "20f72f94-ab08-4795-aa0f-8495511b827e",
+     "bid": 0.66,
+     "ask": 0.67
+    },
+    "put": {
+     "id": "918fe992-d061-431b-9baf-66f372198db4",
+     "bid": 0.3,
+     "ask": 0.31
+    }
+   },
+   "credit_mid": 1.5,
+   "credit_natural": 1.48,
+   "width": 2,
+   "max_loss_usd": 52.0,
+   "cost_round_trip_usd": 4.0,
+   "cost_share": 0.0267,
+   "fits_probe_cap": true,
+   "reason": null,
+   "notes": "body volume call 5175 put 12194; quotes 06:55 PT, spot then 270.09 (+1.1 steps from K); 06:53 body read: call 1.55/1.56 put 0.81/0.82 spread_pct 0.0084"
+  },
+  {
+   "symbol": "SPCX",
+   "spot": 141.96,
+   "prev_close": 141.7,
+   "pre_move": 0.00183,
+   "K": 142,
+   "strike_step": 1,
+   "call": {
+    "id": "d64d6d6b-6f3b-4dc4-940d-fafb19b61c0e",
+    "bid": 1.39,
+    "ask": 1.44,
+    "oi": 4200
+   },
+   "put": {
+    "id": "33e7aed4-6232-4584-8c3d-25f5607abfd9",
+    "bid": 1.49,
+    "ask": 1.54,
+    "oi": 380
+   },
+   "straddle_mid": 2.93,
+   "straddle_pct": 0.02064,
+   "spread_pct": 0.0341,
+   "wings": {
+    "call_strike": 145,
+    "put_strike": 139,
+    "call": {
+     "id": "258f0b6c-c505-49e1-860d-40ddb1ee49b0",
+     "bid": 0.38,
+     "ask": 0.4
+    },
+    "put": {
+     "id": "f6c83f77-a7c6-4c5d-9392-dee0f014650c",
+     "bid": 0.49,
+     "ask": 0.52
+    }
+   },
+   "credit_mid": 2.035,
+   "credit_natural": 1.96,
+   "width": 3,
+   "max_loss_usd": 104.0,
+   "cost_round_trip_usd": 15.0,
+   "cost_share": 0.0737,
+   "fits_probe_cap": true,
+   "reason": null,
+   "notes": "body volume call 3620 put 2100; quotes 06:55 PT, spot then 142.2101 (+0.2 steps from K); 06:53 body read: call 1.75/1.79 put 1.27/1.31 spread_pct 0.0261"
+  },
+  {
+   "symbol": "TLT",
+   "spot": 80.08,
+   "prev_close": 79.55,
+   "pre_move": 0.00666,
+   "K": 80,
+   "strike_step": 0.5,
+   "call": {
+    "id": "9777f44f-7d4f-48ba-9ba5-d5d58d18f24b",
+    "bid": 0.14,
+    "ask": 0.16,
+    "oi": 7956
+   },
+   "put": {
+    "id": "eb18591d-9d80-4de6-ba0e-151c5636b235",
+    "bid": 0.13,
+    "ask": 0.14,
+    "oi": 2182
+   },
+   "straddle_mid": 0.285,
+   "straddle_pct": 0.00356,
+   "spread_pct": 0.1053,
+   "wings": {
+    "call_strike": 80.5,
+    "put_strike": 79.5,
+    "call": {
+     "id": "fbe77adc-08b4-48ce-99ab-28895e10ba74",
+     "bid": 0.02,
+     "ask": 0.03
+    },
+    "put": {
+     "id": "4d33493e-04fa-4408-b153-a8adbab67992",
+     "bid": 0.01,
+     "ask": 0.02
+    }
+   },
+   "credit_mid": 0.245,
+   "credit_natural": 0.22,
+   "width": 0.5,
+   "max_loss_usd": 28.0,
+   "cost_round_trip_usd": 5.0,
+   "cost_share": 0.2041,
+   "fits_probe_cap": true,
+   "reason": null,
+   "notes": "body volume call 1214 put 3765; quotes 06:55 PT, spot then 80.01 (+0.0 steps from K); 06:53 body read: call 0.15/0.16 put 0.13/0.14 spread_pct 0.0690; early-drop gate applied to the 06:53 body read (0.0690, passed); on the 06:55 re-quote used for pricing spread_pct is 0.1053, above 0.08"
+  },
+  {
+   "symbol": "IBIT",
+   "spot": 35.8,
+   "prev_close": 36.14,
+   "pre_move": -0.00941,
+   "K": 36,
+   "strike_step": 0.5,
+   "call": {
+    "id": "3a4f17d2-63c5-4d07-b742-01cfa1a63201",
+    "bid": 0.2,
+    "ask": 0.22,
+    "oi": 1678
+   },
+   "put": {
+    "id": "d00af409-3f2a-4092-9a7c-6d91f0eacd94",
+    "bid": 0.36,
+    "ask": 0.38,
+    "oi": 3706
+   },
+   "straddle_mid": 0.58,
+   "straddle_pct": 0.0162,
+   "spread_pct": 0.069,
+   "wings": {
+    "call_strike": 36.5,
+    "put_strike": 35.5,
+    "call": {
+     "id": "bbc61655-e2e7-44a9-b612-63be39a62105",
+     "bid": 0.06,
+     "ask": 0.07
+    },
+    "put": {
+     "id": "ff834d48-0f31-4b32-a8ac-4093eaa26037",
+     "bid": 0.16,
+     "ask": 0.17
+    }
+   },
+   "credit_mid": 0.35,
+   "credit_natural": 0.32,
+   "width": 0.5,
+   "max_loss_usd": 18.0,
+   "cost_round_trip_usd": 6.0,
+   "cost_share": 0.1714,
+   "fits_probe_cap": true,
+   "reason": null,
+   "notes": "body volume call 1559 put 1227; quotes 06:55 PT, spot then 35.84 (-0.3 steps from K); 06:53 body read: call 0.21/0.23 put 0.33/0.35 spread_pct 0.0714"
+  },
+  {
+   "symbol": "MU",
+   "spot": 698.219,
+   "prev_close": 712.42,
+   "pre_move": -0.01993,
+   "K": 697.5,
+   "strike_step": 2.5,
+   "call": {
+    "id": "995d5133-5d5b-4ac9-8a82-274551c63b87",
+    "bid": 13.3,
+    "ask": 13.5,
+    "oi": 387
+   },
+   "put": {
+    "id": "ec2a519b-3732-4c97-b3e5-923a097899a0",
+    "bid": 10.2,
+    "ask": 10.55,
+    "oi": 536
+   },
+   "straddle_mid": 23.775,
+   "straddle_pct": 0.03405,
+   "spread_pct": 0.0231,
+   "wings": {
+    "call_strike": 722.5,
+    "put_strike": 672.5,
+    "call": {
+     "id": "70f4766f-8860-4c7b-b05e-a15706af6367",
+     "bid": 3.55,
+     "ask": 3.75
+    },
+    "put": {
+     "id": "bbfc989b-5b7c-405b-9f04-82b8c8fc9fa9",
+     "bid": 3.1,
+     "ask": 3.3
+    }
+   },
+   "credit_mid": 16.925,
+   "credit_natural": 16.45,
+   "width": 25.0,
+   "max_loss_usd": 855.0,
+   "cost_round_trip_usd": 95.0,
+   "cost_share": 0.0561,
+   "fits_probe_cap": false,
+   "reason": null,
+   "notes": "body volume call 305 put 1506; quotes 06:55 PT, spot then 702.6198 (+2.0 steps from K); 06:53 body read: call 12.25/12.75 put 11.1/11.6 spread_pct 0.0419"
+  },
+  {
+   "symbol": "XLF",
+   "spot": 56.67,
+   "prev_close": 57.07,
+   "pre_move": -0.00701,
+   "K": 56.5,
+   "strike_step": 0.5,
+   "call": {
+    "id": "c536f556-0903-4295-8c9b-9231efecd644",
+    "bid": 0.34,
+    "ask": 0.41,
+    "oi": 0
+   },
+   "put": {
+    "id": "98ab1711-81ba-4c38-8ec8-6df63e6b9ae3",
+    "bid": 0.16,
+    "ask": 0.18,
+    "oi": 2312
+   },
+   "straddle_mid": 0.545,
+   "straddle_pct": 0.00962,
+   "spread_pct": 0.1651,
+   "wings": null,
+   "credit_mid": null,
+   "credit_natural": null,
+   "width": null,
+   "max_loss_usd": null,
+   "cost_round_trip_usd": null,
+   "cost_share": null,
+   "fits_probe_cap": null,
+   "reason": "spread",
+   "notes": "body volume call 6 put 92"
+  },
+  {
+   "symbol": "AAPL",
+   "spot": 354.7,
+   "prev_close": 351.91,
+   "pre_move": 0.00793,
+   "K": 355,
+   "strike_step": 2.5,
+   "call": {
+    "id": "3cfd0f6a-53c3-4230-98b4-cb7c1174cfb3",
+    "bid": 1.94,
+    "ask": 2.0,
+    "oi": 6975
+   },
+   "put": {
+    "id": "5d0dca0c-95be-4676-bda0-3dcc75cefcd2",
+    "bid": 1.28,
+    "ask": 1.31,
+    "oi": 6231
+   },
+   "straddle_mid": 3.265,
+   "straddle_pct": 0.0092,
+   "spread_pct": 0.0276,
+   "wings": {
+    "call_strike": 357.5,
+    "put_strike": 352.5,
+    "call": {
+     "id": "57526fb1-9d86-430d-aa53-8ee1fa6657d1",
+     "bid": 0.79,
+     "ask": 0.82
+    },
+    "put": {
+     "id": "586e813a-606b-4f2a-ac38-8a7f0551216c",
+     "bid": 0.55,
+     "ask": 0.57
+    }
+   },
+   "credit_mid": 1.9,
+   "credit_natural": 1.83,
+   "width": 2.5,
+   "max_loss_usd": 67.0,
+   "cost_round_trip_usd": 14.0,
+   "cost_share": 0.0737,
+   "fits_probe_cap": true,
+   "reason": null,
+   "notes": "body volume call 23535 put 7664; quotes 06:55 PT, spot then 355.65 (+0.3 steps from K); 06:53 body read: call 1.78/1.84 put 1.39/1.46 spread_pct 0.0402"
+  },
+  {
+   "symbol": "AMD",
+   "spot": 502.68,
+   "prev_close": 503.41,
+   "pre_move": -0.00145,
+   "K": 502.5,
+   "strike_step": 2.5,
+   "call": {
+    "id": "0ebd44fd-adcd-4654-8b7b-8adabaefdc36",
+    "bid": 10.6,
+    "ask": 11.05,
+    "oi": 318
+   },
+   "put": {
+    "id": "083104af-59d7-48dd-8ca5-244efc0d81d9",
+    "bid": 6.3,
+    "ask": 6.55,
+    "oi": 418
+   },
+   "straddle_mid": 17.25,
+   "straddle_pct": 0.03432,
+   "spread_pct": 0.0406,
+   "wings": {
+    "call_strike": 520,
+    "put_strike": 485,
+    "call": {
+     "id": "291f1bdf-8ef2-4a3b-9a77-b0c5736c4bf2",
+     "bid": 3.2,
+     "ask": 3.4
+    },
+    "put": {
+     "id": "21b9481e-70df-40c7-a9cc-8fe9a63252e5",
+     "bid": 1.87,
+     "ask": 1.95
+    }
+   },
+   "credit_mid": 12.04,
+   "credit_natural": 11.55,
+   "width": 17.5,
+   "max_loss_usd": 595.0,
+   "cost_round_trip_usd": 98.0,
+   "cost_share": 0.0814,
+   "fits_probe_cap": false,
+   "reason": null,
+   "notes": "body volume call 945 put 1037; quotes 06:55 PT, spot then 507.56 (+2.0 steps from K); 06:53 body read: call 8.25/8.7 put 7.8/8.15 spread_pct 0.0486"
+  },
+  {
+   "symbol": "SLV",
+   "spot": 40.8,
+   "prev_close": 42.64,
+   "pre_move": -0.04315,
+   "K": 41,
+   "strike_step": 0.5,
+   "call": {
+    "id": "1b605a96-6856-4c5e-a7bb-cdc0f0441b5e",
+    "bid": 0.2,
+    "ask": 0.21,
+    "oi": 281
+   },
+   "put": {
+    "id": "b3740f36-1eb6-4b64-92c1-2c26b6d13431",
+    "bid": 0.36,
+    "ask": 0.37,
+    "oi": 1552
+   },
+   "straddle_mid": 0.57,
+   "straddle_pct": 0.01397,
+   "spread_pct": 0.0351,
+   "wings": {
+    "call_strike": 41.5,
+    "put_strike": 40.5,
+    "call": {
+     "id": "4b409046-b9f8-486a-8ef4-a4b35c706a0a",
+     "bid": 0.06,
+     "ask": 0.07
+    },
+    "put": {
+     "id": "7dc765aa-44a6-46f2-b46b-07a230a1159e",
+     "bid": 0.14,
+     "ask": 0.16
+    }
+   },
+   "credit_mid": 0.355,
+   "credit_natural": 0.33,
+   "width": 0.5,
+   "max_loss_usd": 17.0,
+   "cost_round_trip_usd": 5.0,
+   "cost_share": 0.1408,
+   "fits_probe_cap": true,
+   "reason": null,
+   "notes": "body volume call 1199 put 1742; quotes 06:55 PT, spot then 40.865 (-0.3 steps from K); 06:53 body read: call 0.22/0.23 put 0.32/0.34 spread_pct 0.0541"
+  },
+  {
+   "symbol": "AMZN",
+   "spot": 262.0999,
+   "prev_close": 257.89,
+   "pre_move": 0.01632,
+   "K": 262.5,
+   "strike_step": 2.5,
+   "call": {
+    "id": "7b2229dc-2ff2-4f29-bd16-75b406bb0192",
+    "bid": 1.4,
+    "ask": 1.47,
+    "oi": 3368
+   },
+   "put": {
+    "id": "3dba84f5-7195-42c9-ad79-802076776dd6",
+    "bid": 2.01,
+    "ask": 2.1,
+    "oi": 730
+   },
+   "straddle_mid": 3.49,
+   "straddle_pct": 0.01332,
+   "spread_pct": 0.0458,
+   "wings": {
+    "call_strike": 265,
+    "put_strike": 260,
+    "call": {
+     "id": "6ae149d1-3c55-4eac-8525-65e896fc237f",
+     "bid": 0.56,
+     "ask": 0.58
+    },
+    "put": {
+     "id": "b17b5c01-1d69-451e-bc4a-4f176033ffd0",
+     "bid": 0.98,
+     "ask": 1.02
+    }
+   },
+   "credit_mid": 1.92,
+   "credit_natural": 1.81,
+   "width": 2.5,
+   "max_loss_usd": 69.0,
+   "cost_round_trip_usd": 22.0,
+   "cost_share": 0.1146,
+   "fits_probe_cap": true,
+   "reason": null,
+   "notes": "body volume call 15745 put 1676; quotes 06:55 PT, spot then 262.04 (-0.2 steps from K); 06:53 body read: call 1.75/1.79 put 1.75/1.85 spread_pct 0.0392"
+  },
+  {
+   "symbol": "GOOGL",
+   "spot": 282.08,
+   "prev_close": 280.2,
+   "pre_move": 0.00671,
+   "K": 282.5,
+   "strike_step": 2.5,
+   "call": {
+    "id": "fc028586-0076-483a-9709-7d5af3409306",
+    "bid": 1.53,
+    "ask": 1.61,
+    "oi": 874
+   },
+   "put": {
+    "id": "0a082bf2-4a68-457e-8aac-fa7378ae3cbb",
+    "bid": 1.77,
+    "ask": 1.88,
+    "oi": 817
+   },
+   "straddle_mid": 3.395,
+   "straddle_pct": 0.01204,
+   "spread_pct": 0.056,
+   "wings": {
+    "call_strike": 285,
+    "put_strike": 280,
+    "call": {
+     "id": "435bd055-e574-45e0-aa44-608db3e8c029",
+     "bid": 0.6,
+     "ask": 0.66
+    },
+    "put": {
+     "id": "899738d9-a340-4ab6-b173-80f43bde79cc",
+     "bid": 0.86,
+     "ask": 0.92
+    }
+   },
+   "credit_mid": 1.875,
+   "credit_natural": 1.72,
+   "width": 2.5,
+   "max_loss_usd": 78.0,
+   "cost_round_trip_usd": 31.0,
+   "cost_share": 0.1653,
+   "fits_probe_cap": true,
+   "reason": null,
+   "notes": "body volume call 2259 put 961; quotes 06:55 PT, spot then 282.21 (-0.1 steps from K); 06:53 body read: call 1.76/1.84 put 1.68/1.75 spread_pct 0.0427"
+  },
+  {
+   "symbol": "GLD",
+   "spot": 345.17,
+   "prev_close": 352.48,
+   "pre_move": -0.02074,
+   "K": 345,
+   "strike_step": 1,
+   "call": {
+    "id": "c65d7f95-b9cb-449c-98dd-5db4fafb71aa",
+    "bid": 1.25,
+    "ask": 1.38,
+    "oi": 40
+   },
+   "put": {
+    "id": "9eb7addf-3437-4ccd-afb6-84ce465bb865",
+    "bid": 1.05,
+    "ask": 1.15,
+    "oi": 432
+   },
+   "straddle_mid": 2.415,
+   "straddle_pct": 0.007,
+   "spread_pct": 0.0952,
+   "wings": null,
+   "credit_mid": null,
+   "credit_natural": null,
+   "width": null,
+   "max_loss_usd": null,
+   "cost_round_trip_usd": null,
+   "cost_share": null,
+   "fits_probe_cap": null,
+   "reason": "spread",
+   "notes": "body volume call 166 put 1076"
+  },
+  {
+   "symbol": "LQD",
+   "spot": 103.065,
+   "prev_close": 102.74,
+   "pre_move": 0.00316,
+   "K": 103,
+   "strike_step": 1,
+   "call": {
+    "id": "5a2f8c05-50c9-42ad-8f76-7665e949a23b",
+    "bid": 0.11,
+    "ask": 0.15,
+    "oi": 74
+   },
+   "put": {
+    "id": "411e4863-7b4e-41d6-8ce7-6b2e3c13528d",
+    "bid": 0.05,
+    "ask": 0.1,
+    "oi": 146
+   },
+   "straddle_mid": 0.205,
+   "straddle_pct": 0.00199,
+   "spread_pct": 0.439,
+   "wings": null,
+   "credit_mid": null,
+   "credit_natural": null,
+   "width": null,
+   "max_loss_usd": null,
+   "cost_round_trip_usd": null,
+   "cost_share": null,
+   "fits_probe_cap": null,
+   "reason": "spread",
+   "notes": "body volume call 17 put 0"
+  },
+  {
+   "symbol": "META",
+   "spot": 615.4,
+   "prev_close": 618.87,
+   "pre_move": -0.00561,
+   "K": 615,
+   "strike_step": 2.5,
+   "call": {
+    "id": "2ad0cf3e-bef4-4df4-b914-9b4e3e1791f3",
+    "bid": 5.85,
+    "ask": 6.1,
+    "oi": 295
+   },
+   "put": {
+    "id": "7974e74a-2450-4f98-ab48-075e8bb1cd8c",
+    "bid": 3.7,
+    "ask": 3.85,
+    "oi": 813
+   },
+   "straddle_mid": 9.75,
+   "straddle_pct": 0.01584,
+   "spread_pct": 0.041,
+   "wings": {
+    "call_strike": 625,
+    "put_strike": 605,
+    "call": {
+     "id": "60211242-1475-4609-87a0-9d4714d2b327",
+     "bid": 1.7,
+     "ask": 1.78
+    },
+    "put": {
+     "id": "eac465cf-76ae-4b0b-81ab-3ea5b8b71a90",
+     "bid": 1.13,
+     "ask": 1.19
+    }
+   },
+   "credit_mid": 6.85,
+   "credit_natural": 6.58,
+   "width": 10,
+   "max_loss_usd": 342.0,
+   "cost_round_trip_usd": 54.0,
+   "cost_share": 0.0788,
+   "fits_probe_cap": false,
+   "reason": null,
+   "notes": "body volume call 749 put 1271; quotes 06:55 PT, spot then 617.07 (+0.8 steps from K); 06:53 body read: call 6.1/6.3 put 3.8/3.95 spread_pct 0.0347"
+  },
+  {
+   "symbol": "DRAM",
+   "spot": 38.695,
+   "prev_close": 38.93,
+   "pre_move": -0.00604,
+   "K": 38.5,
+   "strike_step": 0.5,
+   "call": {
+    "id": "852e01cc-17aa-456a-a47d-00a7d99a8889",
+    "bid": 0.83,
+    "ask": 0.85,
+    "oi": 363
+   },
+   "put": {
+    "id": "77fab4fe-4cad-40b8-8af3-31668cb22338",
+    "bid": 0.39,
+    "ask": 0.4,
+    "oi": 838
+   },
+   "straddle_mid": 1.235,
+   "straddle_pct": 0.03192,
+   "spread_pct": 0.0243,
+   "wings": {
+    "call_strike": 39.5,
+    "put_strike": 37.5,
+    "call": {
+     "id": "b874f8d5-008c-40a4-87de-66e028951409",
+     "bid": 0.33,
+     "ask": 0.35
+    },
+    "put": {
+     "id": "6418214d-57bf-4288-8208-5f3d3f01fb4b",
+     "bid": 0.14,
+     "ask": 0.15
+    }
+   },
+   "credit_mid": 0.75,
+   "credit_natural": 0.72,
+   "width": 1.0,
+   "max_loss_usd": 28.0,
+   "cost_round_trip_usd": 6.0,
+   "cost_share": 0.08,
+   "fits_probe_cap": true,
+   "reason": null,
+   "notes": "body volume call 518 put 398; quotes 06:55 PT, spot then 38.935 (+0.9 steps from K); 06:53 body read: call 0.71/0.73 put 0.45/0.46 spread_pct 0.0255"
+  },
+  {
+   "symbol": "SMH",
+   "spot": 457.075,
+   "prev_close": 460.1,
+   "pre_move": -0.00657,
+   "K": 457.5,
+   "strike_step": 2.5,
+   "call": {
+    "id": "9968cba9-d229-43d3-b86e-a346b3be8a02",
+    "bid": 4.15,
+    "ask": 5.15,
+    "oi": 43
+   },
+   "put": {
+    "id": "363ee981-98f1-463b-a2d9-64b33a6f79ef",
+    "bid": 4.4,
+    "ask": 5.75,
+    "oi": 175
+   },
+   "straddle_mid": 9.725,
+   "straddle_pct": 0.02128,
+   "spread_pct": 0.2416,
+   "wings": null,
+   "credit_mid": null,
+   "credit_natural": null,
+   "width": null,
+   "max_loss_usd": null,
+   "cost_round_trip_usd": null,
+   "cost_share": null,
+   "fits_probe_cap": null,
+   "reason": "spread",
+   "notes": "body volume call 25 put 56"
+  },
+  {
+   "symbol": "MSFT",
+   "spot": 503.24,
+   "prev_close": 506.24,
+   "pre_move": -0.00593,
+   "K": 502.5,
+   "strike_step": 2.5,
+   "call": {
+    "id": "9dc4831d-f8dd-4aa0-8c68-63c576cc05bd",
+    "bid": 3.5,
+    "ask": 3.85,
+    "oi": 1653
+   },
+   "put": {
+    "id": "d0603885-ef9a-430e-8374-25a29b802bb4",
+    "bid": 2.91,
+    "ask": 3.05,
+    "oi": 509
+   },
+   "straddle_mid": 6.655,
+   "straddle_pct": 0.01322,
+   "spread_pct": 0.0736,
+   "wings": {
+    "call_strike": 510,
+    "put_strike": 495,
+    "call": {
+     "id": "1b0ffc87-1c29-49a8-bb15-102d5d6edf48",
+     "bid": 0.76,
+     "ask": 0.85
+    },
+    "put": {
+     "id": "a946a698-2079-4404-baeb-f6839bf69f81",
+     "bid": 0.89,
+     "ask": 0.97
+    }
+   },
+   "credit_mid": 4.92,
+   "credit_natural": 4.59,
+   "width": 7.5,
+   "max_loss_usd": 291.0,
+   "cost_round_trip_usd": 66.0,
+   "cost_share": 0.1341,
+   "fits_probe_cap": false,
+   "reason": null,
+   "notes": "body volume call 192 put 1527; quotes 06:55 PT, spot then 503.18 (+0.3 steps from K); 06:53 body read: call 4.35/4.75 put 2.36/2.5 spread_pct 0.0774"
+  },
+  {
+   "symbol": "TQQQ",
+   "spot": 51.51,
+   "prev_close": 51.81,
+   "pre_move": -0.00579,
+   "K": 52,
+   "strike_step": 1,
+   "call": {
+    "id": "c2efba0f-7009-4463-991c-44a401856de2",
+    "bid": 0.86,
+    "ask": 0.91,
+    "oi": 2067
+   },
+   "put": {
+    "id": "33a7210f-990a-46fe-8d7c-7d385c3d53c8",
+    "bid": 0.95,
+    "ask": 1.0,
+    "oi": 991
+   },
+   "straddle_mid": 1.86,
+   "straddle_pct": 0.03611,
+   "spread_pct": 0.0538,
+   "wings": {
+    "call_strike": 54,
+    "put_strike": 50,
+    "call": {
+     "id": "faf9bd00-a6e4-4fd9-980a-d3c34fe14b37",
+     "bid": 0.21,
+     "ask": 0.23
+    },
+    "put": {
+     "id": "27e5bbe6-014f-4571-8346-df735f048752",
+     "bid": 0.3,
+     "ask": 0.33
+    }
+   },
+   "credit_mid": 1.325,
+   "credit_natural": 1.25,
+   "width": 2,
+   "max_loss_usd": 75.0,
+   "cost_round_trip_usd": 15.0,
+   "cost_share": 0.1132,
+   "fits_probe_cap": true,
+   "reason": null,
+   "notes": "body volume call 1713 put 1393; quotes 06:55 PT, spot then 51.88 (-0.1 steps from K); 06:53 body read: call 0.85/0.88 put 0.95/1.0 spread_pct 0.0435"
+  },
+  {
+   "symbol": "AVGO",
+   "spot": 343.535,
+   "prev_close": 341.6,
+   "pre_move": 0.00566,
+   "K": 342.5,
+   "strike_step": 2.5,
+   "call": {
+    "id": "05ccad6d-d6d8-4ec9-8ac2-d5637710b799",
+    "bid": 5.35,
+    "ask": 5.6,
+    "oi": 771
+   },
+   "put": {
+    "id": "e65c3f84-ab90-4106-b9e7-325573162b31",
+    "bid": 2.22,
+    "ask": 2.43,
+    "oi": 503
+   },
+   "straddle_mid": 7.8,
+   "straddle_pct": 0.02271,
+   "spread_pct": 0.059,
+   "wings": {
+    "call_strike": 350,
+    "put_strike": 335,
+    "call": {
+     "id": "f08b4f64-877e-4a82-a150-fa4d748bb25b",
+     "bid": 1.68,
+     "ask": 1.78
+    },
+    "put": {
+     "id": "a1356ec5-64dc-4703-9724-c0708193ab02",
+     "bid": 0.67,
+     "ask": 0.73
+    }
+   },
+   "credit_mid": 5.37,
+   "credit_natural": 5.06,
+   "width": 7.5,
+   "max_loss_usd": 244.0,
+   "cost_round_trip_usd": 62.0,
+   "cost_share": 0.1155,
+   "fits_probe_cap": false,
+   "reason": null,
+   "notes": "body volume call 505 put 460; quotes 06:55 PT, spot then 345.6432 (+1.3 steps from K); 06:53 body read: call 4.9/5.15 put 2.6/2.74 spread_pct 0.0507"
+  },
+  {
+   "symbol": "XLE",
+   "spot": 61.885,
+   "prev_close": 63.36,
+   "pre_move": -0.02328,
+   "K": 62,
+   "strike_step": 1,
+   "call": {
+    "id": "1be9d568-c03f-420e-b7c8-db4e862c504c",
+    "bid": 0.5,
+    "ask": 0.56,
+    "oi": 56
+   },
+   "put": {
+    "id": "ff187b3f-d984-4b44-8f97-cfe6729492ee",
+    "bid": 0.21,
+    "ask": 0.25,
+    "oi": 4717
+   },
+   "straddle_mid": 0.76,
+   "straddle_pct": 0.01228,
+   "spread_pct": 0.1316,
+   "wings": null,
+   "credit_mid": null,
+   "credit_natural": null,
+   "width": null,
+   "max_loss_usd": null,
+   "cost_round_trip_usd": null,
+   "cost_share": null,
+   "fits_probe_cap": null,
+   "reason": "spread",
+   "notes": "body volume call 140 put 68; parity gap +0.415 vs the 06:50 spot: stale spot (market rallied before the 06:53 option quotes), not a leg error"
+  },
+  {
+   "symbol": "GDX",
+   "spot": 74.57,
+   "prev_close": 79.57,
+   "pre_move": -0.06284,
+   "K": 75,
+   "strike_step": 1,
+   "call": {
+    "id": "da761f25-ab44-4750-bb09-952732393b30",
+    "bid": 0.62,
+    "ask": 0.79,
+    "oi": 5
+   },
+   "put": {
+    "id": "74bc684b-0f15-444a-9b73-31dee22670f7",
+    "bid": 0.58,
+    "ask": 0.69,
+    "oi": 326
+   },
+   "straddle_mid": 1.34,
+   "straddle_pct": 0.01797,
+   "spread_pct": 0.209,
+   "wings": null,
+   "credit_mid": null,
+   "credit_natural": null,
+   "width": null,
+   "max_loss_usd": null,
+   "cost_round_trip_usd": null,
+   "cost_share": null,
+   "fits_probe_cap": null,
+   "reason": "spread",
+   "notes": "body volume call 56 put 1123; parity gap +0.500 vs the 06:50 spot: stale spot (market rallied before the 06:53 option quotes), not a leg error"
+  },
+  {
+   "symbol": "IEF",
+   "spot": 90.64,
+   "prev_close": 90.41,
+   "pre_move": 0.00254,
+   "K": 91,
+   "strike_step": 1,
+   "call": {
+    "id": "6c69f393-8362-4813-b6f0-7b76059928bc",
+    "bid": 0.0,
+    "ask": 0.02,
+    "oi": 183
+   },
+   "put": {
+    "id": "6e1ccd59-5d6d-4efb-9070-59b916ba4420",
+    "bid": 0.38,
+    "ask": 0.43,
+    "oi": 1
+   },
+   "straddle_mid": 0.415,
+   "straddle_pct": 0.00458,
+   "spread_pct": 0.1687,
+   "wings": null,
+   "credit_mid": null,
+   "credit_natural": null,
+   "width": null,
+   "max_loss_usd": null,
+   "cost_round_trip_usd": null,
+   "cost_share": null,
+   "fits_probe_cap": null,
+   "reason": "no_bid",
+   "notes": "body volume call 0 put 0; body leg with no bid: early drop (brief lumps this under spread; coded no_bid)"
+  },
+  {
+   "symbol": "XSP",
+   "spot": 731.42,
+   "prev_close": null,
+   "pre_move": null,
+   "K": 731,
+   "strike_step": 1,
+   "call": {
+    "id": "5b91f613-bc30-4753-8d81-727449064f01",
+    "bid": 3.62,
+    "ask": 4.06,
+    "oi": 114
+   },
+   "put": {
+    "id": "e3f75f69-a322-4011-8009-ba603735e37d",
+    "bid": 2.29,
+    "ask": 2.39,
+    "oi": 261
+   },
+   "straddle_mid": 6.18,
+   "straddle_pct": 0.00845,
+   "spread_pct": 0.0874,
+   "wings": {
+    "call_strike": 737,
+    "put_strike": 725,
+    "call": {
+     "id": "86981bf2-d6de-4a23-a246-2c54eb85a4ca",
+     "bid": 1.2,
+     "ask": 1.24
+    },
+    "put": {
+     "id": "2dd4dc11-a92b-4c52-972e-35b0f1dbdd53",
+     "bid": 0.8,
+     "ask": 0.84
+    }
+   },
+   "credit_mid": 4.14,
+   "credit_natural": 3.83,
+   "width": 6,
+   "max_loss_usd": 217.0,
+   "cost_round_trip_usd": 62.0,
+   "cost_share": 0.1498,
+   "fits_probe_cap": false,
+   "reason": null,
+   "notes": "index level from get_index_quotes 09:50 ET; no previous close returned, pre_move null; body volume call 136 put 1609; quotes 06:55 PT, spot then 732.68 (+1.7 steps from K); 06:53 body read: call 4.22/4.37 put 2.07/2.13 spread_pct 0.0328; early-drop gate applied to the 06:53 body read (0.0328, passed); on the 06:55 re-quote used for pricing spread_pct is 0.0874, above 0.08"
+  },
+  {
+   "symbol": "SPX",
+   "spot": 7313.69,
+   "prev_close": null,
+   "pre_move": null,
+   "K": 7315,
+   "strike_step": 5,
+   "call": {
+    "id": "7f652ceb-6382-4d3b-8d10-5f9abf30e3ed",
+    "bid": 35.6,
+    "ask": 35.7,
+    "oi": 129
+   },
+   "put": {
+    "id": "6eb7abfa-d29d-4349-af02-dfe9da4ac8ae",
+    "bid": 26.0,
+    "ask": 26.2,
+    "oi": 729
+   },
+   "straddle_mid": 61.75,
+   "straddle_pct": 0.00844,
+   "spread_pct": 0.0049,
+   "wings": {
+    "call_strike": 7380,
+    "put_strike": 7250,
+    "call": {
+     "id": "f3bd9ffe-a138-49db-b3a9-5d9e2a5c1b52",
+     "bid": 9.1,
+     "ask": 9.2
+    },
+    "put": {
+     "id": "c133df29-3942-4e47-80a2-90057eccf30d",
+     "bid": 8.4,
+     "ask": 8.6
+    }
+   },
+   "credit_mid": 44.1,
+   "credit_natural": 43.8,
+   "width": 65,
+   "max_loss_usd": 2120.0,
+   "cost_round_trip_usd": 60.0,
+   "cost_share": 0.0136,
+   "fits_probe_cap": false,
+   "reason": null,
+   "notes": "same-day chain root SPXW; index level from get_index_quotes 09:50 ET; no previous close returned, pre_move null; wings chosen from the 06:53 straddle_mid 62.50: targets 7377.5/7252.5 sat exactly between 5-pt strikes, took the outer 7380/7250; body volume call 1281 put 6508; quotes 06:55 PT, spot then 7326.83 (+2.4 steps from K); 06:53 body read: call 39.4/39.9 put 22.8/22.9 spread_pct 0.0096; call wing 7380 picked from the 06:53 straddle; with the 06:55 straddle_mid 61.750 the target is 7376.75, nearest listed-grid strike 7375; put wing 7250 picked from the 06:53 straddle; with the 06:55 straddle_mid 61.750 the target is 7253.25, nearest listed-grid strike 7255"
+  },
+  {
+   "symbol": "NDX",
+   "spot": 26940.239,
+   "prev_close": null,
+   "pre_move": null,
+   "K": 26940,
+   "strike_step": 10,
+   "call": {
+    "id": "ce5bbdd2-121f-489e-8629-e787424abf06",
+    "bid": 183.2,
+    "ask": 193.9,
+    "oi": 6
+   },
+   "put": {
+    "id": "8b1c9597-1e99-43c5-a7cd-9891f54695e2",
+    "bid": 128.4,
+    "ask": 140.6,
+    "oi": 4
+   },
+   "straddle_mid": 323.05,
+   "straddle_pct": 0.01199,
+   "spread_pct": 0.0709,
+   "wings": {
+    "call_strike": 27260,
+    "put_strike": 26620,
+    "call": {
+     "id": "cc448f41-a283-4ff7-a0d7-76f48833d86d",
+     "bid": 51.7,
+     "ask": 62.4
+    },
+    "put": {
+     "id": "7b6cb8f4-2bfc-4dc4-b455-43672b738516",
+     "bid": 39.0,
+     "ask": 49.6
+    }
+   },
+   "credit_mid": 221.7,
+   "credit_natural": 199.6,
+   "width": 320,
+   "max_loss_usd": 12040.0,
+   "cost_round_trip_usd": 4420.0,
+   "cost_share": 0.1994,
+   "fits_probe_cap": false,
+   "reason": null,
+   "notes": "same-day chain root NDXP; index level from get_index_quotes 09:50 ET; no previous close returned, pre_move null; body volume call 6 put 11; quotes 06:55 PT, spot then 27012.3105 (+7.2 steps from K); 06:53 body read: call 192.1/204.8 put 120.0/131.4 spread_pct 0.0743"
+  },
+  {
+   "symbol": "RUT",
+   "spot": null,
+   "prev_close": null,
+   "pre_move": null,
+   "K": null,
+   "strike_step": null,
+   "call": null,
+   "put": null,
+   "straddle_mid": null,
+   "straddle_pct": null,
+   "spread_pct": null,
+   "wings": null,
+   "credit_mid": null,
+   "credit_natural": null,
+   "width": null,
+   "max_loss_usd": null,
+   "cost_round_trip_usd": null,
+   "cost_share": null,
+   "fits_probe_cap": null,
+   "reason": "no_spot",
+   "notes": "same-day chain root RUTW; get_index_quotes: RUT restricted, quotes not available through the MCP"
+  },
+  {
+   "symbol": "USO",
+   "spot": 137.94,
+   "prev_close": 140.24,
+   "pre_move": -0.0164,
+   "K": 138,
+   "strike_step": 1,
+   "call": {
+    "id": "682f9d12-c1b6-488a-8b8f-b73ecdb32a16",
+    "bid": 1.09,
+    "ask": 1.19,
+    "oi": 131
+   },
+   "put": {
+    "id": "e97c1e3a-7264-4076-a94e-038ca80e9d02",
+    "bid": 0.67,
+    "ask": 0.82,
+    "oi": 1121
+   },
+   "straddle_mid": 1.885,
+   "straddle_pct": 0.01367,
+   "spread_pct": 0.1326,
+   "wings": null,
+   "credit_mid": null,
+   "credit_natural": null,
+   "width": null,
+   "max_loss_usd": null,
+   "cost_round_trip_usd": null,
+   "cost_share": null,
+   "fits_probe_cap": null,
+   "reason": "spread",
+   "notes": "body volume call 322 put 140; parity gap +0.455 vs the 06:50 spot: stale spot (market rallied before the 06:53 option quotes), not a leg error"
+  },
+  {
+   "symbol": "UNG",
+   "spot": 10.245,
+   "prev_close": 10.04,
+   "pre_move": 0.02042,
+   "K": 10,
+   "strike_step": 0.5,
+   "call": {
+    "id": "61ffeb98-5f89-423e-ad4e-ca22bb61520d",
+    "bid": 0.24,
+    "ask": 0.3,
+    "oi": 999
+   },
+   "put": {
+    "id": "8d4d2ff5-7e13-4bd6-9dc5-4773cf826c3a",
+    "bid": 0.01,
+    "ask": 0.02,
+    "oi": 1270
+   },
+   "straddle_mid": 0.285,
+   "straddle_pct": 0.02782,
+   "spread_pct": 0.2456,
+   "wings": null,
+   "credit_mid": null,
+   "credit_natural": null,
+   "width": null,
+   "max_loss_usd": null,
+   "cost_round_trip_usd": null,
+   "cost_share": null,
+   "fits_probe_cap": null,
+   "reason": "spread",
+   "notes": "body volume call 58 put 32"
+  }
+ ],
+ "ranking_by_cost_share": [
+  "SPY",
+  "QQQ",
+  "SPX",
+  "IWM",
+  "NVDA",
+  "MU",
+  "SPCX",
+  "AAPL",
+  "META",
+  "DRAM",
+  "AMD",
+  "TQQQ",
+  "AMZN",
+  "AVGO",
+  "MSFT",
+  "SLV",
+  "XSP",
+  "GOOGL",
+  "IBIT",
+  "NDX",
+  "TLT"
+ ],
+ "errors": []
+}

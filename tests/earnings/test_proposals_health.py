@@ -1,0 +1,250 @@
+import json
+from datetime import datetime, timezone
+
+import pytest
+
+from vantage_trader.earnings import cli, health, proposals
+from vantage_trader.earnings.config import EngineInputError
+
+
+def _write(tmp_path, name, rows):
+    p = tmp_path / name
+    p.write_text("".join(json.dumps(r) + "\n" for r in rows))
+    return p
+
+
+def _prop(pid, kind="tooling", decider="agent", typ="heal"):
+    return {"event": "proposal", "id": pid, "date": "2026-11-10", "type": typ, "kind": kind, "title": "t",
+            "problem": "p", "change": "c", "measure": "m", "decider": decider}
+
+
+def test_owner_kinds_need_the_owner(tmp_path):
+    with pytest.raises(EngineInputError, match="owner's decision"):
+        proposals.read_proposals(_write(tmp_path, "a.jsonl", [_prop("P1", kind="risk", decider="agent")]))
+    rows = [_prop("P1", kind="rule", decider="owner"),
+            {"event": "decision", "id": "P1", "decision": "approved", "by": "agent"}]
+    with pytest.raises(EngineInputError, match="only be approved by the owner"):
+        proposals.read_proposals(_write(tmp_path, "b.jsonl", rows))
+
+
+def test_order_of_events_is_enforced(tmp_path):
+    with pytest.raises(EngineInputError, match="before it is approved"):
+        proposals.read_proposals(_write(tmp_path, "a.jsonl", [_prop("P1"), {"event": "implemented", "id": "P1"}]))
+    rows = [_prop("P1"), {"event": "decision", "id": "P1", "decision": "approved", "by": "agent"},
+            {"event": "verified", "id": "P1", "result": "worked"}]
+    with pytest.raises(EngineInputError, match="before it is implemented"):
+        proposals.read_proposals(_write(tmp_path, "b.jsonl", rows))
+    rows = [_prop("P1", kind="cost", decider="owner"),
+            {"event": "decision", "id": "P1", "decision": "declined", "by": "Brad"},
+            {"event": "implemented", "id": "P1"}]
+    with pytest.raises(EngineInputError, match="before it is approved"):
+        proposals.read_proposals(_write(tmp_path, "c.jsonl", rows))
+
+
+def test_view_groups_by_status(tmp_path):
+    rows = [
+        _prop("P1"), {"event": "decision", "id": "P1", "decision": "approved", "by": "agent"},
+        {"event": "implemented", "id": "P1", "ref": "abc123"},
+        _prop("P2", kind="risk", decider="owner"),
+        _prop("P3", kind="cost", decider="owner"), {"event": "decision", "id": "P3", "decision": "approved", "by": "Brad 11/11"},
+        _prop("P4"), {"event": "decision", "id": "P4", "decision": "approved", "by": "agent"},
+        {"event": "implemented", "id": "P4", "ref": "def456"}, {"event": "verified", "id": "P4", "result": "worked"},
+        _prop("P5", kind="rule", decider="owner"), {"event": "decision", "id": "P5", "decision": "deferred", "by": "Brad"},
+        _prop("P6", kind="rule", decider="owner"), {"event": "decision", "id": "P6", "decision": "declined", "by": "Brad"},
+    ]
+    view = proposals.proposals_view(proposals.read_proposals(_write(tmp_path, "a.jsonl", rows)))
+    assert [r["id"] for r in view["awaiting_owner"]] == ["P2", "P5"]
+    assert [r["id"] for r in view["approved_not_implemented"]] == ["P3"]
+    assert [(r["id"], r["ref"]) for r in view["implemented_not_verified"]] == [("P1", "abc123")]
+    assert view["closed"] == {"declined": 1, "worked": 1, "did_not_work": 0, "inconclusive": 0}
+    out, code = cli.run(["proposals", "--proposals", str(tmp_path / "a.jsonl")])
+    assert code == 0 and len(out["awaiting_owner"]) == 2
+
+
+def _files(tmp_path, qty_journal=1, qty_book=1, cap=650, with_exit=False):
+    base = {"order_id": None, "implied_move": None, "edge_ratio": None, "realized_move": None, "pnl": None, "notes": ""}
+    j = [{**base, "ts": "2026-11-10T19:42:34Z", "event": "entry_filled", "symbol": "AAA", "structure": "iron_fly",
+          "price": 1.28, "quantity": qty_journal, "direction": "credit"}]
+    m = [{"trade_id": "AAA-1", "record": "entry", "ts": "2026-11-10T19:42:34Z", "symbol": "AAA", "live": True}]
+    if with_exit:
+        m.append({"trade_id": "AAA-1", "record": "exit", "ts": "2026-11-11T14:50:00Z", "symbol": "AAA", "live": True})
+    pos = {"open": [{"symbol": "AAA", "quantity": qty_book, "max_loss_usd": 172}],
+           "risk": {"total_max_loss_usd": 172, "exit_reserves_usd": 50, "cap_usd": cap}}
+    (tmp_path / "positions.json").write_text(json.dumps(pos))
+    return dict(journal=str(_write(tmp_path, "journal.jsonl", j)), metrics=str(_write(tmp_path, "metrics.jsonl", m)),
+                positions=str(tmp_path / "positions.json"), lessons=str(tmp_path / "none-l.jsonl"),
+                proposals=str(tmp_path / "none-p.jsonl"))
+
+
+def test_selfcheck_passes_when_files_agree(tmp_path):
+    out = health.selfcheck(**_files(tmp_path))
+    assert out["ok"] is True and {c["check"] for c in out["checks"]} >= {
+        "journal_parses", "positions_match_journal", "metrics_match_positions", "risk_within_cap"}
+
+
+def test_selfcheck_catches_drift(tmp_path):
+    bad_qty = health.selfcheck(**_files(tmp_path, qty_journal=2, qty_book=1))
+    assert bad_qty["ok"] is False
+    assert [c["check"] for c in bad_qty["checks"] if not c["ok"]] == ["positions_match_journal"]
+    over_cap = health.selfcheck(**_files(tmp_path, cap=200))
+    assert [c["check"] for c in over_cap["checks"] if not c["ok"]] == ["risk_within_cap"]
+    exited = health.selfcheck(**_files(tmp_path, with_exit=True))
+    assert [c["check"] for c in exited["checks"] if not c["ok"]] == ["metrics_match_positions"]
+
+
+def test_selfcheck_flags_an_exit_ratio_written_as_a_difference(tmp_path):
+    # P085: DKS 2026-11-24, fill 13.50 against a 12.875 mid, recorded as 0.625 instead of 0.9537.
+    f = _files(tmp_path)
+    rows = [json.loads(line) for line in open(f["metrics"])]
+    exit_row = {"trade_id": "BBB-1", "record": "exit", "ts": "2026-11-24T14:51:55Z", "symbol": "BBB", "live": True,
+                "execution": {"fill_debit": 13.5, "close_cost_mid_at_read": 12.875, "fill_vs_mid": 0.625}}
+    rows += [{"trade_id": "BBB-1", "record": "entry", "ts": "2026-11-23T18:10:52Z", "symbol": "BBB", "live": True}, exit_row]
+    _write(tmp_path, "metrics.jsonl", rows)
+    out = health.selfcheck(**f)
+    assert [c["check"] for c in out["checks"] if not c["ok"]] == ["exit_ratio_matches_mid"]
+    exit_row["execution"]["fill_vs_mid"] = 0.9537
+    _write(tmp_path, "metrics.jsonl", rows)
+    assert health.selfcheck(**f)["ok"] is True
+    del exit_row["execution"]["close_cost_mid_at_read"]          # nothing to compare with: not a failure
+    _write(tmp_path, "metrics.jsonl", rows)
+    assert health.selfcheck(**f)["ok"] is True
+
+
+def test_selfcheck_flags_a_name_above_the_30pct_ceiling_until_the_owner_is_told(tmp_path):
+    # P103: Brad's ANT shares (449.94 at cost) were 32% of a shrunken account for three closes, unsaid.
+    f = _files(tmp_path)
+    pos = json.loads(open(f["positions"]).read())
+    assert "name_within_ceiling" in {c["check"] for c in health.selfcheck(**f)["checks"]}     # no account value: skipped, ok
+    pos["account_value"] = 500.0                                   # 172 of 500 = 34%
+    open(f["positions"], "w").write(json.dumps(pos))
+    out = health.selfcheck(**f)
+    assert [c["check"] for c in out["checks"] if not c["ok"]] == ["name_within_ceiling"]
+    pos["open"][0]["ceiling_notice"] = {"told": "2026-11-27", "share": 0.34, "trim": "1 contract"}
+    open(f["positions"], "w").write(json.dumps(pos))
+    out = health.selfcheck(**f)
+    assert out["ok"] is True and "owner told" in next(c["detail"] for c in out["checks"] if c["check"] == "name_within_ceiling")
+    pos["account_value"] = 1000.0                                  # 17%: under the line
+    del pos["open"][0]["ceiling_notice"]
+    open(f["positions"], "w").write(json.dumps(pos))
+    assert health.selfcheck(**f)["ok"] is True
+
+
+def test_selfcheck_flags_a_paper_result_under_its_max_loss(tmp_path):
+    # P094: a desk result priced from wide quotes read worse than the fly could lose.
+    f = _files(tmp_path)
+    rows = [json.loads(line) for line in open(f["metrics"])]
+    opening = {"trade_id": "IWM-0DTE-20261125-P1", "record": "paper", "live": False, "symbol": "IWM", "ts": "2026-11-25T15:17:00Z",
+               "kind": "intraday_0dte", "credit_mid": 1.45, "credit_natural": 1.43, "max_loss_usd": 55.0}
+    result = dict(opening, ts="2026-11-25T20:15:10Z", result=True, pnl_mid_usd=-52.5, pnl_natural_usd=-93.0)
+    _write(tmp_path, "metrics.jsonl", rows + [opening, result])
+    out = health.selfcheck(**f)
+    assert [c["check"] for c in out["checks"] if not c["ok"]] == ["paper_results_within_max_loss"]
+    result["pnl_natural_usd"] = -57.0                              # max loss at the natural credit
+    _write(tmp_path, "metrics.jsonl", rows + [opening, result])
+    assert health.selfcheck(**f)["ok"] is True
+
+
+def test_selfcheck_flags_an_earlier_desk_file_that_was_not_imported(tmp_path):
+    # P095: the desk files of 2026-11-20, 11-23 and 11-24 sat unimported until 11-25.
+    f = _files(tmp_path)
+    rows = [json.loads(line) for line in open(f["metrics"])]
+    line = {"trade_id": "SPY-0DTE-20261124-P1", "record": "paper", "live": False, "symbol": "SPY", "ts": "2026-11-24T15:17:00Z",
+            "kind": "intraday_0dte", "credit_mid": 2.0, "max_loss_usd": 100.0}
+    for day in ("2026-11-24", "2026-11-25"):
+        d = tmp_path / "daytrade" / day
+        d.mkdir(parents=True)
+        (d / "paper_desk.jsonl").write_text(json.dumps(dict(line, trade_id=f"SPY-0DTE-{day}-P1")) + "\nnot json\n"
+                                            + json.dumps(dict(line, symbol="TSLA", trade_id="TSLA-P1")) + "\n")
+    now = datetime(2026, 11, 25, 21, 30, tzinfo=timezone.utc)      # 13:30 PT on 11/25: only 11/24 is an earlier day
+    out = health.selfcheck(**f, now=now, daytrade=str(tmp_path / "daytrade"))
+    bad = [c for c in out["checks"] if not c["ok"]]
+    assert [c["check"] for c in bad] == ["paper_desk_imported"] and "2026-11-24: 1 line(s)" in bad[0]["detail"]
+    _write(tmp_path, "metrics.jsonl", rows + [dict(line, trade_id="SPY-0DTE-2026-11-24-P1")])
+    assert health.selfcheck(**f, now=now, daytrade=str(tmp_path / "daytrade"))["ok"] is True
+
+
+def test_selfcheck_reports_a_broken_ledger_and_exit_code(tmp_path):
+    f = _files(tmp_path)
+    (tmp_path / "bad.jsonl").write_text("{nope}\n")
+    f["lessons"] = str(tmp_path / "bad.jsonl")
+    out = health.selfcheck(**f)
+    assert out["ok"] is False and [c["check"] for c in out["checks"] if not c["ok"]] == ["lessons_parse"]
+    args = ["selfcheck", "--journal", f["journal"], "--metrics", f["metrics"], "--positions", f["positions"],
+            "--lessons", f["lessons"], "--proposals", f["proposals"]]
+    assert cli.run(args)[1] == 4
+    args[args.index("--lessons") + 1] = str(tmp_path / "none-l.jsonl")
+    assert cli.run(args)[1] == 0
+
+
+def test_standing_delegation_lets_the_agent_approve_owner_kinds_inside_its_scope(tmp_path):
+    """Brad, 2026-11-11: "you have owners permission to automate" (RULES_CHANGELOG, Delegation)."""
+    by = "agent, under Brad's standing delegation of 2026-11-11: \"you have owners permission to automate\""
+    ok = [_prop("P1", kind="rule", decider="owner"),
+          {"event": "decision", "id": "P1", "decision": "approved", "by": by, "ts": "2026-11-12T16:00:00Z"},
+          {"event": "implemented", "id": "P1"}]
+    assert len(proposals.read_proposals(_write(tmp_path, "ok.jsonl", ok))) == 3
+    # a decision dated before the delegation does not count
+    early = [_prop("P1", kind="rule", decider="owner"),
+             {"event": "decision", "id": "P1", "decision": "approved", "by": by, "ts": "2026-11-10T16:00:00Z"}]
+    with pytest.raises(EngineInputError, match="only be approved by the owner"):
+        proposals.read_proposals(_write(tmp_path, "early.jsonl", early))
+    # no timestamp, or no mention of the delegation: still the owner's
+    for row in ({"event": "decision", "id": "P1", "decision": "approved", "by": by},
+                {"event": "decision", "id": "P1", "decision": "approved", "by": "agent", "ts": "2026-11-12T16:00:00Z"}):
+        with pytest.raises(EngineInputError, match="only be approved by the owner"):
+            proposals.read_proposals(_write(tmp_path, "x.jsonl", [_prop("P1", kind="risk", decider="owner"), row]))
+    # outside the delegation's scope: the proposal is flagged and needs Brad himself
+    flagged = dict(_prop("P1", kind="risk", decider="owner"), needs_owner=True)
+    with pytest.raises(EngineInputError, match="only be approved by the owner"):
+        proposals.read_proposals(_write(tmp_path, "f.jsonl", [flagged, {"event": "decision", "id": "P1",
+                                 "decision": "approved", "by": by, "ts": "2026-11-12T16:00:00Z"}]))
+    brad = [flagged, {"event": "decision", "id": "P1", "decision": "approved", "by": "Brad, 2026-11-12: \"yes\""}]
+    assert len(proposals.read_proposals(_write(tmp_path, "b.jsonl", brad))) == 2
+    assert proposals.under_delegation(by, "2026-11-11T16:13:00Z") and not proposals.under_delegation(by, "")
+
+
+def test_delegation_of_2026_11_16_reaches_flagged_proposals_but_never_a_hard_limit(tmp_path):
+    """Brad, 2026-11-16: "Dont need a decision on me. Remember, self healing and strengthening the
+    model with your own decision making" (RULES_CHANGELOG, Delegation of 2026-11-16)."""
+    by16 = "agent, under Brad's standing delegation of 2026-11-16: \"Dont need a decision on me\""
+    by11 = "agent, under Brad's standing delegation of 2026-11-11: \"you have owners permission to automate\""
+    flagged = dict(_prop("P1", kind="risk", decider="owner"), needs_owner=True)
+    ok = [flagged, {"event": "decision", "id": "P1", "decision": "approved", "by": by16,
+                    "ts": "2026-11-17T03:00:00Z"}, {"event": "implemented", "id": "P1"}]
+    assert len(proposals.read_proposals(_write(tmp_path, "ok.jsonl", ok))) == 3
+    # the older delegation still does not reach a flagged proposal, even after 2026-11-16
+    with pytest.raises(EngineInputError, match="only be approved by the owner"):
+        proposals.read_proposals(_write(tmp_path, "old.jsonl", [flagged, {
+            "event": "decision", "id": "P1", "decision": "approved", "by": by11, "ts": "2026-11-17T03:00:00Z"}]))
+    # a decision dated before he said it does not count
+    with pytest.raises(EngineInputError, match="only be approved by the owner"):
+        proposals.read_proposals(_write(tmp_path, "early.jsonl", [flagged, {
+            "event": "decision", "id": "P1", "decision": "approved", "by": by16, "ts": "2026-11-16T22:00:00Z"}]))
+    # a hard limit (the account, TSLA, defined risk, limit orders, the total cap, money) is his alone,
+    # whatever the kind and whatever the agent cites
+    for kind, decider in (("risk", "owner"), ("process", "agent")):
+        hard = dict(_prop("P1", kind=kind, decider=decider), hard_limit=True)
+        with pytest.raises(EngineInputError, match="only be approved by the owner"):
+            proposals.read_proposals(_write(tmp_path, "hard.jsonl", [hard, {
+                "event": "decision", "id": "P1", "decision": "approved", "by": by16, "ts": "2026-11-17T03:00:00Z"}]))
+        brad = [hard, {"event": "decision", "id": "P1", "decision": "approved", "by": "Brad, 2026-11-17: \"yes\""}]
+        assert len(proposals.read_proposals(_write(tmp_path, "brad.jsonl", brad))) == 2
+    assert proposals.under_delegation(by16, "2026-11-17T03:00:00Z", needs_owner=True)
+    assert not proposals.under_delegation(by11, "2026-11-17T03:00:00Z", needs_owner=True)
+    assert proposals.under_delegation(by11, "2026-11-17T03:00:00Z")
+
+
+def test_selfcheck_flags_records_dated_ahead_of_the_clock(tmp_path):
+    # P037 (2026-11-13): ledger times were written ahead of the clock twice in one day
+    from datetime import datetime, timezone
+    f = _files(tmp_path)
+    (tmp_path / "p.jsonl").write_text(json.dumps({
+        "ts": "2026-11-13T22:40:00Z", "event": "proposal", "id": "P900", "date": "2026-11-13",
+        "type": "heal", "kind": "process", "decider": "agent", "title": "t", "problem": "p",
+        "change": "c", "measure": "m"}) + "\n")
+    f["proposals"] = str(tmp_path / "p.jsonl")
+    early = health.selfcheck(**f, now=datetime(2026, 11, 13, 22, 24, tzinfo=timezone.utc))
+    assert [c["check"] for c in early["checks"] if not c["ok"]] == ["no_future_timestamps"]
+    assert "P900" in next(c["detail"] for c in early["checks"] if c["check"] == "no_future_timestamps")
+    on_time = health.selfcheck(**f, now=datetime(2026, 11, 13, 22, 39, tzinfo=timezone.utc))   # inside the 2-minute tolerance
+    assert on_time["ok"] is True

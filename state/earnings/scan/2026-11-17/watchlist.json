@@ -1,0 +1,434 @@
+{
+ "date": "2026-11-17",
+ "as_of": "2026-11-17T14:48Z (06:48 PT)",
+ "expiry": "2026-11-20",
+ "exit": "Wed 2026-11-18 morning run, first liquid quotes (two days before expiry)",
+ "universe": {
+  "scanner_names": 23,
+  "sent_to_analyst": 11,
+  "note": "Reports 11/17 after the close and 11/18 before the open. Scanner pre-filter (P016), one vol-analyst (190k tokens). No name passed the numbers, so no risk-sentinel was started."
+ },
+ "macro": {
+  "veto_all": false,
+  "spy_pct": -0.0024,
+  "qqq_pct": -0.0012,
+  "vixy_pct": -0.0101,
+  "note": "No tier-1 release before Wed 06:45 PT. NVDA reports tonight after the close: a market-wide event inside the holding window of any fly entered today."
+ },
+ "candidates": [],
+ "blocked": {
+  "TGT": {
+   "timing": "am",
+   "spot": 159.49,
+   "intraday_pct": -0.00518,
+   "K": 160.0,
+   "straddle_pct": 0.09076,
+   "atm_spread_pct": 0.038,
+   "avg_hist_move": 0.04864,
+   "median_hist_move": 0.04742,
+   "max_hist_move": 0.067421,
+   "n_hist": 6,
+   "regime_20d": 0.02007,
+   "edge_ratio": 0.6305,
+   "rule": "name cap: at the 0.9x floor (145/160/175) one contract risks 457 at mid and 502 at natural, over the 350 cap; the 1.5x fly risks about 1,040",
+   "fly": {
+    "K": 160.0,
+    "call_strike": 175.0,
+    "put_strike": 145.0,
+    "credit_mid": 10.425,
+    "credit_natural": 9.98,
+    "width": 15.0,
+    "max_loss_mid": 457.5,
+    "max_loss_natural": 502.0,
+    "breakevens": [
+     149.575,
+     170.425
+    ],
+    "ids": {
+     "call": "12b2225f-3e11-43f1-9618-e30eb33dc06a",
+     "put": "0e12f25e-961c-4007-8bd3-5b2f037a1091",
+     "wing_call": "8053fe9f-d1cd-462d-afda-ab2d8c1cce40",
+     "wing_put": "e6c65ab8-1a47-4d07-94bb-383bd6aa6f69"
+    },
+    "tick": "min_ticks: 0.01 below $3, 0.05 at/above $3"
+   },
+   "note": "edge 0.63 and a 3.8% spread: the numbers pass, the size does not fit. The scanner had dropped TGT; it was priced because the calendar lists it."
+  },
+  "NVDA": {
+   "timing": "pm",
+   "spot": 155.99,
+   "intraday_pct": -0.00096,
+   "K": 155.0,
+   "straddle_pct": 0.0936,
+   "atm_spread_pct": 0.0137,
+   "avg_hist_move": 0.03859,
+   "median_hist_move": 0.03201,
+   "max_hist_move": 0.08738,
+   "n_hist": 6,
+   "regime_20d": 0.02957,
+   "edge_ratio": 0.4851,
+   "rule": "owner hold (Brad, after the CEO resigned on 2026-11-12: on hold unless he says 'NVDA on'); and the name cap: the 0.9x floor fly (140/155/170) risks 477 at natural, over 350",
+   "fly": {
+    "K": 155.0,
+    "call_strike": 170.0,
+    "put_strike": 140.0,
+    "credit_mid": 10.355,
+    "credit_natural": 10.23,
+    "width": 15.0,
+    "max_loss_mid": 464.5,
+    "max_loss_natural": 477.0,
+    "breakevens": [
+     144.645,
+     165.355
+    ],
+    "ids": {
+     "call": "fc9fa201-a26a-43ec-92f3-1f840844d81b",
+     "put": "d9c5e106-6a25-4a08-9bda-fdc94f96d8f2",
+     "wing_call": "f5d34fd0-9b1c-48a9-8ccc-acdfe05c3492",
+     "wing_put": "b4ef2ee1-5416-402c-953c-4e2770d99866"
+    },
+    "tick": "min_ticks: 0.01 below $3, 0.05 at/above $3"
+   },
+   "owner_hold": true
+  }
+ },
+ "skipped": {
+  "atm_spread_over_25pct": {
+   "SQM": 1.338,
+   "ZTO": 1.2,
+   "LOW": 0.299,
+   "TJX": 0.369,
+   "GLNG": 0.545,
+   "GLBE": 0.379,
+   "ZIM": 1.992,
+   "BLSH": 0.436,
+   "BRBR": 0.55
+  },
+  "atm_spread_note": "Quotes were read 15 minutes after the open. LOW (30%) and TJX (37%) are liquid names whose markets tighten later: re-priced at the 09:45 PT scan with GLBE, BLSH, GLNG and BRBR.",
+  "timing": {
+   "POWL": "reported 2026-11-16 pm (the scanner's date was stale)",
+   "TCOM": "reports 2026-12-01 pm (unverified)",
+   "XP": "reported 2026-11-16 pm"
+  },
+  "already_reported_this_morning": [
+   "HD",
+   "DIS",
+   "AS",
+   "JD",
+   "KLAR",
+   "OPRA"
+  ],
+  "wednesday_entries": [
+   "WWD",
+   "PANW",
+   "P",
+   "SBLK (all 11/18 after the close)",
+   "WMT (11/19 before the open)"
+  ],
+  "calendar_names_the_scanner_dropped": [
+   "CAAP",
+   "GBDC",
+   "LZB",
+   "DLB",
+   "HAFN",
+   "TCEHY",
+   "PONY",
+   "JJSF",
+   "TGT (priced anyway)"
+  ]
+ },
+ "non_earnings_screen": {
+  "as_of": "2026-11-17T14:46Z",
+  "hits": [
+   "CRM",
+   "WMT",
+   "PCG"
+  ],
+  "decision": "no trade",
+  "why": {
+   "CRM": "down 5.0% today on news, and its volatility is the December 2 report: no dated driver that passes before a Friday expiry",
+   "WMT": "an earnings name (reports Thu 11/19 before the open): Wednesday's scan",
+   "PCG": "closed 11/16; the special-session window runs to 11/30 with no date"
+  }
+ },
+ "account": {
+  "as_of": "2026-11-17T14:41Z",
+  "account_value": 2292.47,
+  "buying_power": 922.47,
+  "risk_used": 1215.0,
+  "note": "HD x2 (hand-entered) is still open, waiting for Brad's 4-leg close"
+ },
+ "entry_plan": "No early entry: nothing passes at 06:48 PT. 09:45 PT: re-price LOW, TJX, GLBE, BLSH, GLNG and BRBR when their at-the-money markets are inside 25%, with history, wings and a news check for any that pass. 11:46 PT: the sweep. NVDA only on Brad's 'NVDA on'.",
+ "recheck_0800": {
+  "as_of": "2026-11-17T16:00Z to 16:10Z (08:00 to 08:10 PT)",
+  "why": "Brad, 08:00 PT: 'You also still have a lot of buying power available.' and 08:04 PT: 'i want you to continue to execute and plan trades for today'. The eight names dropped at 06:47 only for their spread were priced again (batch_B.json, 191k tokens); TGT was re-priced by the head at its new body strike; one risk-sentinel (121k tokens) checked TGT, LOW and TJX.",
+  "name_cap": "raised from 350 to 600 at 08:05 PT on Brad's words (rules v1.16)",
+  "TGT": {
+   "spot": 157.13,
+   "intraday_pct": -0.0199,
+   "K": 157.5,
+   "straddle_mid": 14.175,
+   "straddle_pct": 0.0902,
+   "atm_spread_pct": 0.0247,
+   "edge_ratio": 0.6352,
+   "wide_fly_140_175": {
+    "credit_mid": 11.27,
+    "credit_natural": 10.93,
+    "max_loss_floor": 657.0,
+    "gate": "no_trade: name_risk_cap (657 over 600) and exit_not_feasible (needs 1,925; 1,005 left after entry)"
+   },
+   "narrow_fly_145_170": {
+    "credit_mid": 9.215,
+    "credit_natural": 8.86,
+    "max_loss_floor": 364.0,
+    "gate": "no_trade: wings_too_narrow (0.88x the straddle, floor 0.9x) and exit_not_feasible (needs 1,375; 1,298 left)"
+   },
+   "note": "142.5 is not a listed put strike. Offered to Brad as his own 4-leg trade (140/157.5/175) with the agent's view: pass.",
+   "files": [
+    "gate_TGT_wide_140_175_0808.json",
+    "gate_TGT_narrow_145_170_0808.json"
+   ]
+  },
+  "GLBE": {
+   "edge_ratio": 0.787,
+   "atm_spread_pct": 0.19,
+   "intraday_pct": -0.0453,
+   "floor_fly": "30/40/50",
+   "max_loss_natural": 595.0,
+   "rule": "wide-market cap 350 (spread above 12%); the 30 put has no bid"
+  },
+  "TJX": {
+   "edge_ratio_about": 0.55,
+   "atm_spread_pct_seen": [
+    0.242,
+    0.301,
+    0.4
+   ],
+   "floor_fly": "123/131/139",
+   "max_loss_natural": 420.0,
+   "rule": "spread over 25% on the last pull; between 12% and 25% the 350 wide-market cap applies"
+  },
+  "LOW": {
+   "edge_ratio_about": 0.63,
+   "atm_spread_pct_seen": [
+    0.205,
+    0.266,
+    0.266
+   ],
+   "floor_fly": "212.5/222.5/232.5",
+   "max_loss_natural": 530.0,
+   "rule": "spread over 25% on the last pull; between 12% and 25% the 350 wide-market cap applies"
+  },
+  "too_wide": {
+   "BLSH": 0.74,
+   "GLNG": 0.41,
+   "BRBR": 0.36,
+   "SQM": 1.32,
+   "ZTO": 1.2
+  },
+  "sentinel": {
+   "file": "sentinel_A.json",
+   "verdicts": {
+    "TGT": "soft_only",
+    "LOW": "soft_only",
+    "TJX": "soft_only"
+   },
+   "tier1_in_window": false,
+   "limits": "page fetches were blocked, so the check rests on search summaries; no hard flag was found on TGT, LOW or TJX; the soft flags are the market selloff and Home Depot's report (one prudential condition: half size, rules v1.14)"
+  },
+  "decision": "no entry at 08:10 PT. Next: 09:45 PT re-price of TJX and LOW; a name needs an at-the-money spread of 12% or less to use the 600 cap."
+ },
+ "recheck_0945": {
+  "as_of": "2026-11-17T17:46Z to 17:49Z (09:46 to 09:49 PT)",
+  "run": "midday scan (trig_018qBZwkxCi6h76t2PQ2ddGZ)",
+  "hand_orders_since_0916": 0,
+  "macro": {
+   "spy_pct": -0.0111,
+   "vix": 25.94,
+   "vix_change": "not computed: no entry depended on it; hard veto levels (VIX 30, SPY 3%) are not near",
+   "tier1_in_window": false
+  },
+  "TJX": {
+   "spot": 131.2,
+   "intraday_pct": 0.0008,
+   "K": 131.0,
+   "straddle_mid": 7.7,
+   "straddle_pct": 0.0587,
+   "edge_ratio": 0.5609,
+   "implied_move": 0.0499,
+   "atm_spread_pct": {
+    "call": 0.0741,
+    "put": 0.137,
+    "straddle": 0.1039
+   },
+   "fly_123_131_139": {
+    "credit_mid": 5.75,
+    "credit_natural": 5.05,
+    "credit_floor": 5.29,
+    "max_loss_floor": 271.0,
+    "width_over_straddle": 1.039,
+    "breakevens": [
+     125.25,
+     136.75
+    ]
+   },
+   "gate": "no_trade: name_risk_cap (max loss 271 against 175: the wide-market cap of 350 because the put leg's spread is 13.7%, halved for the soft news condition) and, for the agent, exit_not_feasible (needs 880 of buying power after entry, 685 left). As an owner-placed ticket the cap still blocks.",
+   "news": "sentinel 08:05 PT: report confirmed for 2026-11-18 before the open; soft flags only (market selloff, HD peer report). A search at 09:50 PT found nothing new on the name.",
+   "files": [
+    "cand_TJX_agent_0950.json",
+    "gate_TJX_agent_0950.json",
+    "cand_TJX_owner_lane_0950.json",
+    "gate_TJX_owner_lane_0950.json"
+   ],
+   "note": "The spreads came in from 24% to 40% at 08:00 PT to 7% (call) and 14% (put). The 9-wide fly would risk about 340 at the floor, so 123/131/139 is the widest that could fit a 300 cap; it does not fit 175. Told to Brad as a near miss with the ticket, the agent's view: pass under the rules."
+  },
+  "LOW": {
+   "spot": 222.93,
+   "intraday_pct": -0.0089,
+   "K": 222.5,
+   "straddle_mid": 10.75,
+   "atm_spread_pct": {
+    "call": 0.145,
+    "put": 0.248,
+    "straddle": 0.195
+   },
+   "fly_212.5_222.5_232.5": {
+    "credit_mid": 7.7,
+    "credit_natural": 6.25,
+    "max_loss_floor_about": 292.0
+   },
+   "rule": "spread 19.5% (put leg 24.8%): the wide-market cap of 350, halved for the soft news condition to 175; max loss about 292"
+  },
+  "TGT": "open since 08:24 PT (owner-executed lane); not re-priced as a candidate",
+  "NVDA": "owner hold, not priced",
+  "decision": "no entry at 09:49 PT. Final sweep at 11:46 PT."
+ },
+ "tjx_decision_1010": {
+  "as_of": "2026-11-17T18:10Z (10:10 PT)",
+  "brad": "about 10:05 PT, after the agent's 'pass': 'Use your judgement on tjx. But i think having more trades under your belt will help us get more data.'",
+  "quotes": {
+   "spot": 130.99,
+   "131C": [
+    3.6,
+    3.9
+   ],
+   "131P": [
+    3.4,
+    3.9
+   ],
+   "139C": [
+    0.9,
+    1.25
+   ],
+   "123P": [
+    0.75,
+    1.0
+   ]
+  },
+  "macro": {
+   "spy_pct": -0.0107,
+   "vix": 25.79,
+   "vix_prev_close": 22.91,
+   "vix_change": 0.126,
+   "note": "under the 15% soft band, close to it; NVDA reports after today's close"
+  },
+  "gate": {
+   "as_rules_stand": "no_trade: name_risk_cap (max loss 299 at the floor against 175 = the 350 wide-market cap halved for the soft news condition)",
+   "with_waiver_owner_lane": "sell, 1 contract, limit 5.45 down to 5.05, max loss 255 at the mid and 299 at the floor, breakevens 125.55 / 136.45",
+   "with_waiver_agent_legs": "no_trade: exit_not_feasible (880 needed after entry, about 700 left)",
+   "files": [
+    "gate_TJX_owner_lane_rules_1008.json",
+    "gate_TJX_owner_lane_waiver_1008.json",
+    "gate_TJX_agent_waiver_1008.json"
+   ]
+  },
+  "decision": "YES at one contract, through the owner-executed lane only. Waived on the agent's judgement, with Brad's word: the half size for one soft condition (one contract cannot be halved; the fly is under the unhalved 350 wide-market cap). Not waived: the exit-by-legs check. The agent does not leg it in: the put leg is 14% wide, legging a market like that costs about the trade's whole expected edge, and with 956 of buying power an exit by legs is not certain tomorrow. If Brad does not place the ticket by 12:35 PT it is recorded as a paper trade (TJX-20261117-U1) so the outcome is still scored.",
+  "ticket": {
+   "sent_pt": "10:11",
+   "structure": "iron fly 123/131/139 exp 2026-11-20 x1",
+   "limit_credit": 5.45,
+   "walk": [
+    5.3,
+    5.15
+   ],
+   "not_below": 5.05,
+   "max_loss_at_limit": 255,
+   "breakevens": [
+    125.55,
+    136.45
+   ],
+   "ids": {
+    "131C": "77b1ced2-52be-4c2e-9058-2074b0634307",
+    "131P": "68cb653f-3b20-4826-a491-da8b9fb88bad",
+    "139C": "a4ac6209-e82d-4c53-bfdd-5943dfd69b04",
+    "123P": "1c00327a-9127-4870-8980-fb4f13886acb"
+   }
+  }
+ },
+ "final_sweep_1146": {
+  "as_of": "2026-11-17T19:46Z to 19:48Z (11:46 to 11:48 PT)",
+  "run": "ENTRY, the final sweep (trig_01Qhfn5qNQaxKvQtse2nevgA)",
+  "lessons_applied": [
+   "L010",
+   "L011",
+   "L014",
+   "L015",
+   "L017",
+   "L019",
+   "L020",
+   "L022",
+   "L024",
+   "H009"
+  ],
+  "preflight": {
+   "account_value": 2443.37,
+   "buying_power": 1538.37,
+   "open": [
+    "TGT x1 (owner 4-leg)",
+    "TJX x1 (agent legs)"
+   ],
+   "hand_orders_since_1100": 0,
+   "pilot_fly_open": false
+  },
+  "macro": {
+   "spy_pct": -0.0126,
+   "vix": 26.19,
+   "vix_prev_close": 22.91,
+   "vix_change": 0.143,
+   "hard_veto": false,
+   "soft_band": false,
+   "note": "VIX is 0.16 points under the 15% line of the soft band"
+  },
+  "entered_today": {
+   "TGT": "08:24 PT by Brad (4-leg, 11.30)",
+   "TJX": "11:05 PT by the agent's legs (5.40), the half size for one soft condition waived at Brad's word"
+  },
+  "add_checks": {
+   "TJX": "no add: one contract holds 260 of a 244 target at half size (489 at full size; a second contract would pass both)",
+   "TGT": "no add: 620 held against the 600 cap"
+  },
+  "blocked": {
+   "LOW": {
+    "spot": 221.74,
+    "K": 222.5,
+    "straddle_mid": 10.1,
+    "atm_spread_pct": {
+     "call": 0.125,
+     "put": 0.113,
+     "straddle": 0.119
+    },
+    "edge_ratio_about": 0.64,
+    "fly": "212.5/222.5/232.5",
+    "credit_mid": 7.15,
+    "credit_natural": 6.2,
+    "max_loss_floor_about": 342,
+    "rule": "name cap 175 (350 wide-market cap halved for one soft condition)",
+    "agent": "not waived: third retailer of the same morning, VIX at the edge of the soft band",
+    "paper": "LOW-20261117-U1, scored Wed morning"
+   },
+   "NVDA": "owner hold (no 'NVDA on'); reports tonight after the close; the early-entry paper fly was marked at 11:47 PT",
+   "GLBE, BLSH, GLNG, BRBR, SQM, ZTO": "dropped at 08:00 PT for spreads over 25% or a wing with no bid; not re-priced"
+  },
+  "decision": "no new entry at the final sweep. Two earnings flies are open into Wed 2026-11-18 before the open. The standby entry switch was moved to Wed 2026-11-18 12:05 PT at 11:47 PT."
+ }
+}

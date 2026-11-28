@@ -1,0 +1,219 @@
+{
+  "date": "2026-11-10",
+  "as_of": "2026-11-10T15:05Z (07:05 PT)",
+  "expiry": "2026-11-13",
+  "exit": "Wed 2026-11-11 06:45 PT check-in (Veterans Day: stocks open, bonds closed)",
+  "account_vetoes": [],
+  "macro": {
+    "veto_all": false,
+    "note": "October CPI hot: headline +0.4% vs +0.3%, core +0.3% vs +0.2%; Dec hike ~85-90% priced; SPY -0.6% at 06:46 PT; no tier-1 release before Wed 10:00 ET"
+  },
+  "candidates": [
+    {
+      "rank": 1,
+      "symbol": "RGTI",
+      "timing": "pm",
+      "report_date": "2026-11-10",
+      "spot": 12.39,
+      "intraday_pct": -4.55,
+      "edge_ratio": 0.749,
+      "atm_spread_pct": 10.0,
+      "regime_20d": 5.39,
+      "avg_abs_move": 7.68,
+      "median_abs_move": 6.72,
+      "n_hist": 6,
+      "structure": "iron fly 12.5: -12.5C/-12.5P, +15.5C/+9.5P (W=3)",
+      "credit_mid": 1.37,
+      "credit_natural": 1.26,
+      "max_loss_mid": 163,
+      "max_loss_natural": 174,
+      "breakevens": [
+        11.13,
+        13.87
+      ],
+      "hist_beyond_be": "1/6",
+      "alt": "W=4 (+16.5C/+8.5P) credit 1.43, max loss $257",
+      "watch": "ATM strike flips to 12.0 if spot < 12.25; intraday touched -5.5% (5-7% exception: quantum peers down after QBTS miss, no RGTI-specific news)",
+      "sentinel": "report confirmed 5:00 PM ET call; sector context only (quantum -18% on 11/05, QBTS EPS miss today); no stock-specific news"
+    },
+    {
+      "rank": 2,
+      "symbol": "FLY",
+      "timing": "pm",
+      "report_date": "2026-11-10",
+      "spot": 24.25,
+      "intraday_pct": -0.25,
+      "edge_ratio": 0.599,
+      "atm_spread_pct": 22.5,
+      "regime_20d": 6.91,
+      "avg_abs_move": 7.93,
+      "median_abs_move": 5.54,
+      "n_hist": 5,
+      "structure": "iron fly 24: -24C/-24P, +28C/+20P (W=4)",
+      "credit_mid": 2.675,
+      "credit_natural": 2.0,
+      "max_loss_mid": 132.5,
+      "max_loss_natural": 200,
+      "breakevens": [
+        21.33,
+        26.68
+      ],
+      "hist_beyond_be": "2/5",
+      "alt": "W=6 (+30C/+18P) credit 3.25, max loss $275",
+      "watch": "thin: ATM put OI 4, several wings no bid, ~$55 mid-to-natural slippage; spread 12-25% so $350 cap applies; patient mid limits only",
+      "sentinel": "report confirmed; preview flags Alpha launch cut 4->3 vs $420-450M guide; no other news"
+    }
+  ],
+  "near_misses": {
+    "CRWV": "edge 0.956 no_edge (flags: credit stress, offering overhang)",
+    "PBR": "edge 0.946 no_edge (political/oil risk)"
+  },
+  "skipped": {
+    "no_nov13_weekly": [
+      "MRCY",
+      "REZI",
+      "GO",
+      "ALC",
+      "SONO",
+      "AZTA",
+      "ATRO",
+      "BV",
+      "ATEX",
+      "GIB",
+      "FLNG",
+      "ICL",
+      "BGSI",
+      "NYAX"
+    ],
+    "price_lt_10": [
+      "STUB",
+      "AMPX",
+      "NN",
+      "RUM"
+    ]
+  },
+  "paper_scoring": "If no entry, re-quote RGTI and FLY flies at the 11:46 ENTRY check-in as paper entries; score Wed 06:45 PT.",
+  "account": {
+    "as_of": "2026-11-10T16:33Z",
+    "account_value": 1250,
+    "buying_power": 1250,
+    "risk_budget_total_max_loss": 650,
+    "exit_reserve_per_contract": 50
+  },
+  "entry_plan": "11:46 PT: RGTI x2 if it still passes v1.1; FLY x1 only at >= 92% of mid (else RGTI x3 if budget allows). Total max loss + $50/contract reserve <= $650.",
+  "midday_0947": {
+    "as_of": "2026-11-10T17:47Z (09:47 PT)",
+    "spy_pct": -0.96,
+    "RGTI": {
+      "spot": 12.2,
+      "intraday_pct": -6.0,
+      "atm_strike": 12.0,
+      "straddle_mid": 1.385,
+      "straddle_pct": 11.35,
+      "edge_ratio": 0.796,
+      "atm_spread_pct": 9.4,
+      "fly": "9P/12/15C (W=3)",
+      "credit_mid": 1.295,
+      "credit_natural": 1.22,
+      "max_loss_mid": 170.5,
+      "max_loss_natural": 178,
+      "breakevens": [
+        10.705,
+        13.295
+      ],
+      "legs": {
+        "12C": "520e0812-23e8-4362-8a75-6b5db8818cd3",
+        "12P": "16919b4d-2c68-43ce-b90e-e0165105e97a",
+        "15C": "9d68d3d0-5306-4e5b-8754-1439c4f13890",
+        "9P": "206ea6d7-2a79-44d3-9e2c-5f875055fa27",
+        "12.5C": "bbbca1d2-e6a8-4ca9-8e9a-a39b310d9d51",
+        "12.5P": "030d27e8-155b-41f2-b79d-8e7abf723214",
+        "15.5C": "64203427-32c8-4fa3-bdcf-2074b0abe06b",
+        "9.5P": "96a28ba8-1252-4340-85dd-84a0db916130"
+      },
+      "status": "passes; intraday in the 5-7% band, allowed by sector move (QUBT -8.9%, QBTS -10.9% on its report, IONQ -2.6%) and no RGTI-specific news found; fails below $12.07 (-7%)"
+    },
+    "FLY": {
+      "spot": 23.34,
+      "intraday_pct": -4.0,
+      "atm_strike": 23.5,
+      "straddle_mid": 3.55,
+      "straddle_pct": 15.2,
+      "edge_ratio": 0.613,
+      "atm_spread_pct": 16.9,
+      "fly": "19.5P/23.5/27.5C (W=4)",
+      "credit_mid": 2.7,
+      "credit_natural": 2.25,
+      "max_loss_mid": 130,
+      "max_loss_natural": 175,
+      "breakevens": [
+        20.8,
+        26.2
+      ],
+      "legs": {
+        "23.5C": "78cc8171-e6cd-4942-906b-d000df78fcca",
+        "23.5P": "a7bc0c3c-cd14-45dc-8912-6f861b5e622f",
+        "27.5C": "907cbb1e-27ed-47dd-b212-89fa2e0f4190",
+        "19.5P": "fcbb1e87-4d8e-48d7-a160-d4618d324696"
+      },
+      "status": "passes; spread in the 12-25% band ($350 cap); thin (23.5P open interest 9)"
+    },
+    "account": {
+      "flat": true,
+      "pcg_ticket": "not entered yet (PCG 13.28)"
+    },
+    "ranking": [
+      "RGTI",
+      "FLY"
+    ]
+  },
+  "entry_1138": {
+    "as_of": "2026-11-10T19:38Z",
+    "live": [
+      {
+        "symbol": "RGTI",
+        "spot": 12.155,
+        "intraday_pct": -6.36,
+        "structure": "iron fly 9/12/15 x1 (trimmed from x2 at 11:54 PT)",
+        "fill_credit": 1.28,
+        "mid_at_read": 1.325,
+        "natural_at_read": 1.28,
+        "max_loss_usd": 172,
+        "breakevens": [
+          10.72,
+          13.28
+        ],
+        "edge_ratio": 0.776
+      },
+      {
+        "symbol": "PCG",
+        "kind": "non_earnings",
+        "spot": 13.23,
+        "structure": "iron fly 12/13/14 x4 (Nov 20)",
+        "fill_credit": 0.67,
+        "max_loss_usd": 132,
+        "breakevens": [
+          12.33,
+          13.67
+        ]
+      },
+      {
+        "symbol": "FLY",
+        "spot": 23.36,
+        "intraday_pct": -3.9,
+        "structure": "iron fly 19/23.5/27 x1",
+        "fill_credit": 2.65,
+        "mid_at_read": 2.7,
+        "natural_at_read": 2.4,
+        "max_loss_usd": 185,
+        "breakevens": [
+          20.85,
+          26.15
+        ],
+        "edge_ratio": 0.605,
+        "entered": "2026-11-10T19:53Z"
+      }
+    ],
+    "paper": []
+  }
+}

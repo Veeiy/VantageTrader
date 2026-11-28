@@ -1,0 +1,42 @@
+{
+ "symbol": "TGT",
+ "timing": "am",
+ "spot": 157.13,
+ "prev_close": 160.32,
+ "K": 157.5,
+ "call": {
+  "bid": 6.85,
+  "ask": 7.0
+ },
+ "put": {
+  "bid": 7.15,
+  "ask": 7.35
+ },
+ "hist_moves": [
+  -0.052079,
+  -0.063307,
+  -0.027674,
+  0.067421,
+  -0.038588,
+  0.04276
+ ],
+ "regime_20d": 0.02007,
+ "flags": [],
+ "account_value": 2394.29,
+ "open_risk_usd": 607.5,
+ "buying_power": 1662.29,
+ "tick": 0.05,
+ "wings": {
+  "call_strike": 175.0,
+  "put_strike": 140.0,
+  "call": {
+   "bid": 1.46,
+   "ask": 1.66
+  },
+  "put": {
+   "bid": 1.28,
+   "ask": 1.41
+  }
+ },
+ "owner_executed": true
+}

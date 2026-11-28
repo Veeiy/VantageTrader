@@ -1,0 +1,26 @@
+{
+ "symbol": "LI",
+ "body": 10.5,
+ "call_wing": 11.5,
+ "put_wing": 9.5,
+ "credit": 0.55,
+ "quantity": 1,
+ "close": 10.6983,
+ "spot_base": 10.6983,
+ "sigma_base": 0.0352,
+ "spots": [
+  10.925,
+  11.011,
+  10.763,
+  10.429,
+  10.536,
+  10.585
+ ],
+ "sigmas": [
+  0.0289,
+  0.0352,
+  0.0433
+ ],
+ "slippage_usd": 15.0,
+ "wing_sigma_mult": 1.1
+}

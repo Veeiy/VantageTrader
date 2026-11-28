@@ -1,0 +1,49 @@
+BRIEF: post-earnings premium scan ("post_earnings"). Time budget: 12 minutes.
+First read brief_common.txt in the parent folder. Your folder: post_earnings/ . Output file:
+post_earnings/result.json
+
+GOAL: among stocks that reported earnings AFTER THE CLOSE on 2026-11-10 or BEFORE THE OPEN on
+2026-11-11, find where the options expiring 2026-11-13 are still priced well above the stock's
+normal daily movement (premium still left to deflate today), and measure how much the premium
+has already deflated since this morning's open.
+
+STEP 1, universe. preview_scan with filters:
+ {"filter_type":"FILTER_TYPE_EARNINGS_DATE","predicate":"PREDICATE_BETWEEN","values":["20261110","20261111"]},
+ {"filter_type":"FILTER_TYPE_AVERAGE_OPTIONS_VOLUME","predicate":"PREDICATE_GREATER_THAN_OR_EQUAL","values":["3000"],"interval":"1d","length":30},
+ {"filter_type":"FILTER_TYPE_LAST","predicate":"PREDICATE_GREATER_THAN_OR_EQUAL","values":["10"]}
+and columns [{"display_name":"IV rank","expression":"ivRank"},{"display_name":"Front IV",
+"expression":"frontIV"},{"display_name":"Back IV","expression":"backIV"},{"display_name":
+"HV1M","expression":"statVol1Month"}]. If the earnings-date filter is rejected, use an
+expression filter "fundamental.earningsYmd" with PREDICATE_BETWEEN and the same values.
+For each row call get_earnings_results(symbol) and keep only names whose latest report is
+dated 2026-11-10 with timing "pm" or 2026-11-11 with timing "am". Keep at most the 14 with the
+highest average options volume. Never TSLA.
+STEP 2. For each kept symbol: spot and today's change; the 2026-11-13 expiry must exist (exact
+strike nearest spot; none = drop "no_nov13"); quote the K call and put: straddle_mid,
+straddle_pct, atm_spread_pct. Drop if a leg has no bid or atm_spread_pct > 0.25 ("spread").
+STEP 3. Implied against normal:
+ sigma_total = straddle_mid / (0.8 * spot)
+ D = 2 + (minutes from now to today's 21:00 UTC close) / 390
+ implied_daily = sigma_total / sqrt(D)
+ normal_daily = 1.2533 * mean(abs(daily close-to-close move)) over the 20 sessions ending
+   2026-11-10 for "am" reporters, and ending 2026-11-10 for "pm" reporters as well (their
+   11/10 close is before the report). Use get_equity_historicals interval "day" from
+   2026-10-01 (up to 10 symbols per call).
+ excess = implied_daily / normal_daily   (above 1 = premium still above normal movement)
+ Also today_move = abs(spot / prev_close - 1) and today_range_so_far from 5-minute bars.
+STEP 4. Deflation so far today: get_option_historicals 5-minute bars for today for the K call
+and K put (same K as step 2), and get_equity_historicals 5-minute bars for the stock. At
+09:35, 10:00, 10:30 New York time and at the latest bar give: stock, call, put, straddle,
+time_value = straddle - abs(stock - K). Treat an option bar at or under 0.011 as missing.
+STEP 5. For symbols with excess >= 1.10 (at most the best 6): wings = listed strikes nearest
+K + straddle_mid and K - straddle_mid; quote; credit_mid, credit_natural, width,
+max_loss_mid, breakevens, the four option ids, tick size.
+
+OUTPUT result.json: {"as_of_utc","rows":[{"symbol","report":"2026-11-10 pm"|"2026-11-11 am",
+"spot","today_move","today_range_so_far","K","straddle_mid","straddle_pct","atm_spread_pct",
+"sigma_total","D","implied_daily","normal_daily","excess","path":[{"t","stock","call","put",
+"straddle","time_value"}],"wings":{...} or null,"notes"}],"dropped":[...],"errors":[]}
+FINAL MESSAGE (nothing else, at most 30 lines): the file path; a table sorted by excess, best
+first: SYMBOL report spot today% straddle% implied_daily normal_daily excess spread% and the
+time value at 09:35 and now; fly credit and max loss where quoted; dropped symbols by reason;
+anything odd in one or two lines.

@@ -1,0 +1,28 @@
+[
+ {
+  "symbol": "DKS",
+  "quantity": 1,
+  "credit": 10.75,
+  "body": 135.0,
+  "call_wing": 150.0,
+  "put_wing": 120.0,
+  "close": 133.15,
+  "hist_moves": [
+   0.016646,
+   -0.048361,
+   0.002036,
+   0.010587,
+   -0.059709,
+   -0.306809
+  ],
+  "straddle_pct": 0.11603,
+  "front_iv": 1.3915,
+  "back_iv": 0.899,
+  "front_days": 4.0,
+  "back_days": 11.0,
+  "trading_days_between": 5.0,
+  "days_left_at_exit": 2.75,
+  "beta": 1.0,
+  "slippage_usd_per_fly": 40.0
+ }
+]

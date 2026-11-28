@@ -1,0 +1,54 @@
+{
+ "timing": "am",
+ "account_value": 1937.29,
+ "open_risk_usd": 534.0,
+ "buying_power": 1481.29,
+ "tick": 0.05,
+ "sectors_entered_today": [
+  "index fund",
+  "discount stores, grocery",
+  "internet retail (China)"
+ ],
+ "symbol": "WMT",
+ "spot": 127.305,
+ "prev_close": 127.52,
+ "K": 127.0,
+ "call": {
+  "bid": 4.0,
+  "ask": 4.25
+ },
+ "put": {
+  "bid": 3.7,
+  "ask": 3.9
+ },
+ "hist_moves": [
+  -0.004957,
+  -0.044945,
+  0.064606,
+  -0.013821,
+  -0.072679,
+  -0.091514
+ ],
+ "regime_20d": 0.012242,
+ "flags": [
+  "soft:peer_retail_earnings_today"
+ ],
+ "wings": {
+  "call_strike": 135.0,
+  "put_strike": 119.0,
+  "call": {
+   "bid": 1.12,
+   "ask": 1.22
+  },
+  "put": {
+   "bid": 1.04,
+   "ask": 1.11
+  }
+ },
+ "sector": "discount stores, grocery",
+ "held": {
+  "quantity": 1,
+  "max_loss_usd": 230.0,
+  "K": 127.0
+ }
+}

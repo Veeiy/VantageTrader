@@ -1,0 +1,140 @@
+{
+ "version": 1,
+ "as_of": "2026-11-17T22:17:59Z",
+ "constants": {
+  "sigma_multiplier": 1.3,
+  "sigma_uncertainty_log": 0.15,
+  "wing_sigma_mult": 1.1,
+  "realized_over_implied": 0.75,
+  "blend_weight_history": 0.5,
+  "t_dof": 4,
+  "t_abs_mean": 1.0,
+  "market_sigma_close_to_exit": 0.01,
+  "draws": 100000,
+  "slippage_usd_per_fly": {
+   "penny_wide_chain_by_legs": 4.8,
+   "nickel_wide_chain_by_legs": 12.0,
+   "package_order": 15.0,
+   "wide_chain_by_legs": 40.0
+  }
+ },
+ "evidence": {
+  "sigma_actual_over_ambient_at_exit": {
+   "RGTI-20261110-1": 1.233,
+   "FLY-20261110-1": 1.173,
+   "LUNR-20261111-1": 1.363,
+   "mean": 1.302,
+   "n": 6,
+   "note": "the old multiplier was 1.10; the residual volatility at the exit ran above it three times in three",
+   "AS-20261116-1": 1.42,
+   "JD-20261116-1": 1.14,
+   "HD-20261116-1": 1.48
+  },
+  "error_of_old_point_estimates_usd_per_fly": {
+   "RGTI": -8.1,
+   "FLY": -18.6,
+   "LUNR": -31.5,
+   "mean": -19.4,
+   "note": "all three too optimistic: one price was used for the stock, and a short fly loses on any move from that price"
+  },
+  "realized_over_implied_live": {
+   "value": 0.698,
+   "n": 5
+  }
+ },
+ "methods": {
+  "A": "model: report move drawn from a fat-tailed distribution (expected size = half the name's own history, half what names like it realise against the options), fly priced at the exit with ambient volatility x sigma_multiplier, less slippage",
+  "B": "replay average for this entry day: 12.5% of the entry straddle kept when three days are left at the exit, less slippage",
+  "C": "the earlier point estimate: six past moves at 1.1x ambient volatility"
+ },
+ "scoreboard": [
+  {
+   "date": "2026-11-17",
+   "trade_id": "AS-20261116-1",
+   "quantity": 1,
+   "actual_usd": -0.28,
+   "A": -10.4,
+   "B": 20.9,
+   "C": 4.4,
+   "err_A": 10.1,
+   "err_B": -21.2,
+   "err_C": -4.7,
+   "in_band_50": true,
+   "in_band_80": true,
+   "move_over_expected": 1.18,
+   "sigma_actual_over_ambient": 1.42,
+   "fill_minus_mid_usd_per_fly": -5.0,
+   "chain": "nickel_wide_chain_by_legs"
+  },
+  {
+   "date": "2026-11-17",
+   "trade_id": "JD-20261116-1",
+   "quantity": 3,
+   "actual_usd": 3.16,
+   "A": -19.4,
+   "B": 46.5,
+   "C": 67.2,
+   "err_A": 22.6,
+   "err_B": -43.3,
+   "err_C": -64.0,
+   "in_band_50": true,
+   "in_band_80": true,
+   "move_over_expected": 1.44,
+   "sigma_actual_over_ambient": 1.14,
+   "fill_minus_mid_usd_per_fly": -3.3,
+   "chain": "penny_wide_chain_by_legs"
+  },
+  {
+   "date": "2026-11-17",
+   "trade_id": "HD-20261116-1",
+   "quantity": 2,
+   "actual_usd": 379.68,
+   "like_for_like_mid_at_0636_usd": 351.0,
+   "A": 233.2,
+   "B": 382.5,
+   "C": 202.8,
+   "err_A": 117.8,
+   "err_B": -31.5,
+   "err_C": 148.2,
+   "in_band_50": true,
+   "in_band_80": true,
+   "move_over_expected": 0.73,
+   "sigma_actual_over_ambient": 1.48,
+   "fill_minus_mid_usd_per_fly": 11.0,
+   "chain": "nickel_wide_chain_by_legs",
+   "note": "errors are against the 06:36 PT read at the mid; the contracts were closed at 07:59 PT (the owner's package, at the mid) and 11:02 PT (the agent's legs, 11 over the mid)"
+  }
+ ],
+ "scoring": "At each exit record, per name: actual P/L after fees; error against A, B and C; whether it fell inside A's 50% and 80% bands; |move| / expected_abs_move; implied sigma at the exit read / ambient sigma; fill against mid. Append one scoreboard row per name.",
+ "update_rules": [
+  "sigma_multiplier = the mean of sigma_actual_over_ambient_at_exit over the last 10 exits (all of them until there are 10)",
+  "slippage_usd_per_fly = the mean of actual fill-against-mid by kind of chain over the last 10 exits of that kind",
+  "after 10 scored names: keep the method with the smallest mean absolute error as the point estimate, and re-fit blend_weight_history to the realised moves",
+  "after 10 scored names: if fewer than 6 of 10 fell inside the 80% band, lower t_dof to 3; if all 10 did, raise it to 6",
+  "a constant never changes by more than 20% in one update, and every change is logged here with the evidence"
+ ],
+ "changes": [
+  {
+   "at": "2026-11-17T22:17:59Z",
+   "rule": "update rules 1 and 2",
+   "sigma_multiplier": {
+    "from": 1.25,
+    "to": 1.3,
+    "evidence": "mean of 6 exits = 1.302"
+   },
+   "slippage_usd_per_fly": {
+    "nickel_wide_chain_by_legs": {
+     "from": 15.0,
+     "to": 12.0,
+     "evidence": "AS -5 and HD +11 against the mid (mean +3); the change is held to 20%"
+    },
+    "penny_wide_chain_by_legs": {
+     "from": 6.0,
+     "to": 4.8,
+     "evidence": "JD -3.3 a fly against the mid; held to 20%"
+    }
+   },
+   "not_yet": "rules 3 and 4 wait for 10 scored names (3 so far: all three inside the 50% band; mean absolute error A 50, B 32, C 72)"
+  }
+ ]
+}

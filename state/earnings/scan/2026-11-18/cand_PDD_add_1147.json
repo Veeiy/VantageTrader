@@ -1,0 +1,54 @@
+{
+ "timing": "am",
+ "account_value": 1937.29,
+ "open_risk_usd": 534.0,
+ "buying_power": 1481.29,
+ "tick": 0.05,
+ "sectors_entered_today": [
+  "index fund",
+  "discount stores, grocery",
+  "internet retail (China)"
+ ],
+ "symbol": "PDD",
+ "spot": 77.43,
+ "prev_close": 77.39,
+ "K": 78.0,
+ "call": {
+  "bid": 2.36,
+  "ask": 2.42
+ },
+ "put": {
+  "bid": 2.85,
+  "ask": 2.91
+ },
+ "hist_moves": [
+  -0.13636,
+  0.00865,
+  -0.0733,
+  0.04608,
+  -0.10378,
+  -0.01482
+ ],
+ "regime_20d": 0.01617,
+ "flags": [
+  "soft:peer_baba_ntes_report_same_morning"
+ ],
+ "wings": {
+  "call_strike": 84.0,
+  "put_strike": 72.0,
+  "call": {
+   "bid": 0.64,
+   "ask": 0.73
+  },
+  "put": {
+   "bid": 0.73,
+   "ask": 0.82
+  }
+ },
+ "sector": "internet retail (China)",
+ "held": {
+  "quantity": 1,
+  "max_loss_usd": 204.0,
+  "K": 78.0
+ }
+}

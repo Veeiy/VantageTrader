@@ -1,0 +1,52 @@
+[
+ {
+  "symbol": "NBIS",
+  "report_date": "2026-11-12",
+  "timing": "am",
+  "E": "2026-11-11",
+  "X": "2026-11-12",
+  "expiry": "2026-11-13",
+  "E_prev": "2026-11-10",
+  "prior_close": 133.91,
+  "avg_hist_move": 0.1349,
+  "n_hist": 6,
+  "regime20": 0.0658,
+  "blocked_rule": "intraday move over 7% (+14.0%); edge ratio also fails"
+ },
+ {
+  "symbol": "FIGR",
+  "report_date": "2026-11-12",
+  "timing": "am",
+  "E": "2026-11-11",
+  "X": "2026-11-12",
+  "expiry": "2026-11-13",
+  "E_prev": "2026-11-10",
+  "prior_close": 23.38,
+  "avg_hist_move": 0.1183,
+  "n_hist": 4,
+  "blocked_rule": "ATM spread 38% (limit 25%); edge ratio 1.10 also fails"
+ },
+ {
+  "symbol": "FPS",
+  "report_date": "2026-11-12",
+  "timing": "am",
+  "E": "2026-11-11",
+  "X": "2026-11-12",
+  "expiry": "2026-11-13",
+  "E_prev": "2026-11-10",
+  "prior_close": 21.47,
+  "blocked_rule": "intraday move over 7% (+8.75%); ATM spread 42%"
+ },
+ {
+  "symbol": "XE",
+  "report_date": "2026-11-12",
+  "timing": "am",
+  "E": "2026-11-11",
+  "X": "2026-11-12",
+  "expiry": "2026-11-13",
+  "E_prev": "2026-11-10",
+  "prior_close": 10.955,
+  "n_hist": 2,
+  "blocked_rule": "ATM spread 60% (limit 25%); only 2 past reports (needs 4)"
+ }
+]
