@@ -2172,14 +2172,14 @@
   "SPY": "-3.1% (693.56): hard macro veto level"
  },
  "hub": {
-  "refreshed_utc": "2026-11-28T17:25:00Z",
+  "refreshed_utc": "2026-11-28T17:28:00Z",
   "book": {
-   "version": 23,
-   "blob": "4a60e644e82ecbad490356c1eee99ecf"
+   "version": 24,
+   "blob": "0db541e3b6149943a9638f50b2761ba0"
   },
   "model": {
-   "version": 24,
-   "blob": "6ebcfc0526ec9c70d641bcaba8768b19"
+   "version": 25,
+   "blob": "caed29a53aef9b32df9c198b0a182f1c"
   },
   "spots": 12,
   "quotes": 8,
@@ -3254,9 +3254,9 @@
   "after_review": "P105: the cost shrink line is the replay's breakeven (5.3% today), not 9%. P106: the exit-priced average used 1.1x ambient volatility while the calibration file said 1.3; on 8 names the base ran at 0.73 of the volatility shown. Three scorecard numbers written into daily_reflection.md (open-loop count, largest one-day loss, scan coverage)."
  },
  "loop_map": {
-  "published_utc": "2026-11-28T17:22:00Z",
+  "published_utc": "2026-11-28T17:27:00Z",
   "url": "https://claude.ai/artifact/DmYhPS8UVrQM2uNi2ixCdH",
-  "version": 8,
+  "version": 9,
   "note": "chart P now spans -18 to +14 (every line is under zero at a 7% cost); header strip and research steps as of 2026-11-28"
  }
 }
