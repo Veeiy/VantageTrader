@@ -190,6 +190,29 @@ larger than the account. No money in or out.
   input, only if the events it would block average at least $10 a fly worse than the events it
   keeps with a t of 2 or more clustered by report date, AND the kept events average more than the
   whole sample. Otherwise it is parked. Every row states its count and worst event.
+  METHOD NOTE, written 2026-11-28 09:35 PT before the first run on real records (the bar above is
+  not touched; these are the choices it left open): (a) THE FLY is the one the fly table calls
+  "as traded": wings aimed at 1.5x the entry straddle, stepped in until the max loss fits $600,
+  never under 0.9x (`earnings_fly_table.capped`); the projection and the result are the same fly
+  on the same event, both after 7% of the entry credit. (b) THE RESULT is that fly at its first
+  exit bar. (c) THE PROJECTION applies each of the name's past report moves, signed and
+  point-in-time (`history.moves`), to the entry price, prices the fly there at the remaining
+  stdev, caps each close cost between zero and the width, and averages. (d) THE REMAINING STDEV
+  cannot come from the next expiry as it does live (the replay holds no back-month prices), so
+  it is 1.31 x regime20 x sqrt(sessions left), where regime20 is the name's mean absolute daily
+  move over the 20 sessions before the entry day and 1.31 is the median of that same ratio on
+  the seven live entries that recorded both numbers (AS 1.39, JD 1.37, TJX 1.31, WMT 1.43, DKS
+  1.05, HPQ 1.18, LI 1.18). It is not fitted to the replay's own post-report prices: that would
+  be hindsight. (e) SESSIONS LEFT counts the exit day and every later session through the
+  expiry, a half day as one, a closed day as none (an exit on expiry day is 1). (f) WHO IS IN:
+  every clean event at scoring time, this week's included, with at least 4 past moves (the
+  gate's own minimum), a regime20 and a fly that fits the cap; the note states how many drop
+  for each reason. (g) BLOCKED means a projected average at or under zero. (h) THE t is the
+  difference of means (kept minus blocked) with a standard error clustered by report date
+  (CR1), printed with the number of dates and the count on each side; a blocked side under 15
+  events is too thin to pass. (i) The verdict line is written first. Rows at other scales
+  (1.05 and 1.43, the live range), at other caps ($436, none) and with the stdev the market
+  really showed after the report are description, not a second try.
   (6) The pilot trend-day filter (P075, H016). Pass bar, written 2026-11-21: on the same-hours
   replay (60 or more sessions a fund, SPY, QQQ, IWM), flies on days with VIX up 8% or more at
   07:25 PT against the rest; it passes only if the kept days average +$10 a fly after costs with

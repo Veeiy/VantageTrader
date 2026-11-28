@@ -1,0 +1,62 @@
+BRIEF: add the week of 2026-11-23 to the earnings replay (read-only research; no orders)
+
+You are a read-only research agent for an options research repo at /home/user/VantageTrader.
+NEVER call review_option_order, place_option_order, cancel_option_order or any order, alert,
+watchlist or settings tool. No git commands. Write only inside
+/home/user/VantageTrader/state/earnings/replay/2026-11-28_week/ and your OWN scratch folder
+/tmp/claude-0/-home-user/0404299d-9c05-5c73-b871-6f9ce33809a2/scratchpad/replay_week_1128/ (create it).
+Never guess a price: a missing value is null with a reason. Never write any account number.
+Finish within 110 minutes; hand back what you have. Any single sleep at most 240 seconds.
+
+READ FIRST: docs/earnings/REPLAY.md (method, raw record shape, the lite method, data limits, the
+"Run it" commands) and state/earnings/replay/2026-11-10_unbiased/brief_pricing.txt (the pricing
+procedure; use its LITE form: stock bars plus the K call and K put only, no wing probes;
+wing strikes null). Templates: the files of state/earnings/replay/2026-11-21_week/ (last week, same lite method).
+
+EVENTS. Earnings reports whose exit day X falls in 2026-11-23 .. 2026-11-27 (NYSE was closed
+Thu 2026-11-26; Fri 2026-11-27 closed early at 18:00 UTC, its first two bars are normal):
+after-close reports 2026-11-20 .. 2026-11-25 and before-open reports 2026-11-23 .. 2026-11-27.
+A pm report of Wed 2026-11-25 has X = Fri 2026-11-27; an am report of 2026-11-27 has
+E = 2026-11-25. Source: get_earnings_calendar(start_date 2026-11-20, end_date 2026-11-27,
+filter high_market_cap), plus any name in state/earnings/scan/2026-11-2[3-7]/watchlist.json
+that reported in the window (ZM, DLTR, BURL, ANF, ADI, SMTC, DKS, HPQ, LI, DELL, ADSK, WDAY,
+AMBA among them). Keep only names whose options list the expiry 2026-11-27 (one exact-strike
+probe per name tells you; the weekly Friday; names without it are status "no_weekly": most
+names this week, since 11/27 is not a monthly expiry). Exclude TSLA. Write events.json in the
+template's shape (symbol, report_date, timing, E, X, expiry, E_prev). E = report date for pm,
+the trading day before for am; X = next trading day after E. Sessions are 14:30-21:00 UTC:
+E's last bar starts 20:30Z, X's second bar ends 15:30Z.
+
+PRICING (lite): raw.jsonl, one line per event, the raw record shape of REPLAY.md, with
+"bars" optional. Batches of 4 events, parallel calls inside a batch, append each batch at once.
+Exact-strike lookups only (get_option_instruments with strike_price; state "expired" may be
+needed since the 2026-11-27 contracts expired yesterday: try both if one is empty).
+
+HISTORY: reports.jsonl (past report dates per symbol, from get_earnings_results; [date, am/pm,
+has_actual_eps]) and bars.json.gz (daily closes per symbol, the engine format: a dict
+symbol -> list of {"date","close","interpolated"}, at least 400 calendar days back so the
+past-move history and the 20-session regime work). Reuse what the earlier folders hold
+(state/earnings/replay/2026-11-*/reports.jsonl and bars.json.gz) and only fetch what is
+missing (daily bars after the last date held, symbols not held), with get_equity_historicals
+interval "day" in groups of up to 10 symbols.
+
+RUN (from /home/user/VantageTrader):
+D=state/earnings/replay/2026-11-28_week
+PYTHONPATH=src python3 -m vantage_trader.earnings replay --events $D/events.json --raw $D/raw.jsonl --bars $D/bars.json.gz --reports $D/reports.jsonl --out $D/derived.jsonl
+PYTHONPATH=src python3 -m vantage_trader.earnings replay-summary --input $D/derived.jsonl --cost-frac 0.07 > $D/summary.json
+(no macro entry dates this week: no CPI, payrolls or FOMC decision fell in it)
+Then score the WHOLE sample:
+PYTHONPATH=src python3 scripts/earnings/earnings_fly_table.py state/earnings/replay/2026-11-10_unbiased/derived.jsonl state/earnings/replay/2026-11-11_batch2/derived.jsonl state/earnings/replay/2026-11-14_summer/derived.jsonl state/earnings/replay/2026-11-21_week/derived.jsonl $D/derived.jsonl --json $D/fly_table.json
+(the five files share no symbol and report date; check that for the new one and say so).
+Write $D/FINDINGS.md (40 lines or fewer): events drawn, priced, clean; this week's clean result
+(short straddle, fly as traded, count and worst event); the whole-sample numbers from
+fly_table.json (event count, short-straddle mean and se, the fly as the rules trade it (aimed
+at 1.5x, stepped in to the name cap) with its standard error and worst event, the breakeven
+cost, the cap sweep); the limits of REPLAY.md. Every table states its count and worst event.
+
+FINAL MESSAGE (at most 15 lines): files written; events drawn / priced / clean this week; the
+week's clean result; whole-sample event count, short-straddle mean (se), fly-as-traded mean (se)
+and worst event, breakeven cost; anything odd.
+
+IF A FILE WRITE IS REFUSED (FINDINGS.md was refused last week): put that file's full text in
+your final message instead and say which file it is.
