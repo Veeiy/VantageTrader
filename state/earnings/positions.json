@@ -2172,14 +2172,14 @@
   "SPY": "-3.1% (693.56): hard macro veto level"
  },
  "hub": {
-  "refreshed_utc": "2026-11-27T21:32:00Z",
+  "refreshed_utc": "2026-11-28T17:25:00Z",
   "book": {
-   "version": 22,
-   "blob": "1d6f533336f1d8b6cadfbb72c2183cb3"
+   "version": 23,
+   "blob": "4a60e644e82ecbad490356c1eee99ecf"
   },
   "model": {
-   "version": 23,
-   "blob": "e1221d24a59625df65b6ff8f3871120d"
+   "version": 24,
+   "blob": "6ebcfc0526ec9c70d641bcaba8768b19"
   },
   "spots": 12,
   "quotes": 8,
@@ -3250,5 +3250,11 @@
   ],
   "next": "Sat 2026-12-05: the pilot trend-day filter (P075, H016; bar of 2026-11-21, method note before the run), the week's replay, the next 20 of P102, the universe file (P100, before 12/17)",
   "scan_note_for_monday": "CRWD and ZS (Monday-before-open reporters of 11/23) were on no watchlist of Fri 11/20; the Friday window is Friday after the close AND Monday before the open. From Monday every scanner row is saved with front and back IV (exit_scan.md part B)."
+ },
+ "loop_map": {
+  "published_utc": "2026-11-28T17:22:00Z",
+  "url": "https://claude.ai/artifact/DmYhPS8UVrQM2uNi2ixCdH",
+  "version": 8,
+  "note": "chart P now spans -18 to +14 (every line is under zero at a 7% cost); header strip and research steps as of 2026-11-28"
  }
 }
