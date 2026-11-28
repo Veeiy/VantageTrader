@@ -319,3 +319,26 @@ What the three IWM probes actually paid against mid, round trip as a share of th
 times that, mostly on the exit legs bought back into a moving market. The 10-probe review
 (PLAN.md line B) uses the fill cost, not the quoted spread. No new same-day name is replayed or
 admitted before that review.
+
+## Week of 2026-11-23: spreads and what the probes paid (Saturday 2026-11-28)
+One scan this week, the Friday one (Thursday closed, Friday a half day; quotes 06:54 PT):
+
+| Scan | Names | Median spread | Widest spread | Median cost share | Worst cost share (with wings) | IWM spread | IWM cost share |
+|---|---|---|---|---|---|---|---|
+| 2026-11-27 | 25 (24 quoted, 18 with a priced fly) | 4.9% | SMH 41.7% | 9.5% | TQQQ 14.7% | 2.7% | 6.4% |
+
+Eight of the 18 priced flies cost less than the 9% breakeven: QQQ 1.5%, SPY 2.4%, SPX 2.9%,
+NVDA 3.2%, XSP 4.9%, SPCX 6.1%, IWM 6.4% and MU 8.9%. IWM's quoted cost doubled from 3.1%
+the Friday before: on a half day its fly was 2 points wide with $59 of max loss. The scan now
+holds 25 names (P074): the 9 daily names and 16 of the 20 Mon/Wed/Fri names. The cap leaves
+the weekly-only names out on a Friday (P100); on 2026-11-20, with 40 names, one of them was in
+the top 12 (SOXL, fifth).
+
+Probes: none this week (the pilot's own gate on Monday, the account breaker from Tuesday). The
+fill record stays at three IWM probes: 15.4%, 2.2% and 12.6% of the credit, mean 10.1%, worst
+15.4%, n = 3. The paper desk is quotes, not fills: 78 flies on 11 days, -$13 a fly at the mid
+(se $17), -$38 held to the bell and -$49 crossing every quote; the 53 with a max loss of $200
+or less: -$10.5 at the mid (se $10.5) and -$23 at the natural (se $11). Its worst days are the
+two trend days (11/20, 11/25). No new same-day name is replayed or admitted before the
+10-probe review (PLAN.md line B).
+
