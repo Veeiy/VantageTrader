@@ -327,8 +327,10 @@ One scan this week, the Friday one (Thursday closed, Friday a half day; quotes 0
 |---|---|---|---|---|---|---|---|
 | 2026-11-27 | 25 (24 quoted, 18 with a priced fly) | 4.9% | SMH 41.7% | 9.5% | TQQQ 14.7% | 2.7% | 6.4% |
 
-Eight of the 18 priced flies cost less than the 9% breakeven: QQQ 1.5%, SPY 2.4%, SPX 2.9%,
-NVDA 3.2%, XSP 4.9%, SPCX 6.1%, IWM 6.4% and MU 8.9%. IWM's quoted cost doubled from 3.1%
+Five of the 18 priced flies cost under 5% of their credit (QQQ 1.5%, SPY 2.4%, SPX 2.9%,
+NVDA 3.2%, XSP 4.9%) and eight under 9% (SPCX 6.1%, IWM 6.4%, MU 8.9%). The 9% line used in
+last week's note was the earnings replay's first breakeven; that figure is 5.3% now and was
+never a same-day number. IWM's quoted cost doubled from 3.1%
 the Friday before: on a half day its fly was 2 points wide with $59 of max loss. The scan now
 holds 25 names (P074): the 9 daily names and 16 of the 20 Mon/Wed/Fri names. The cap leaves
 the weekly-only names out on a Friday (P100); on 2026-11-20, with 40 names, one of them was in

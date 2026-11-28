@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-28T17:19:21Z",
+ "as_of": "2026-11-28T17:25:18Z",
  "account_value": 1453.19,
  "cap_total_max_loss": 1453.19,
  "execution": {
@@ -3232,7 +3232,8 @@
   "exit_0636": "nothing due",
   "scan": "RBRK reports after the close: Monday's entry window. Breaker halted unless Brad speaks: the sweep prices it on paper when the breaker is its only failed gate (P089, first test). CHA reports before the open (dropped by the scanner on 11/27).",
   "gate": "the name cap is min(dollar cap, 30% of the account value) since 2026-11-27 (P103)",
-  "switches": "standby exit Mon 07:25 PT, plain alert Mon 08:00 PT, standby entry Mon 12:05 PT (already set)"
+  "switches": "standby exit Mon 07:25 PT, plain alert Mon 08:00 PT, standby entry Mon 12:05 PT (already set)",
+  "reflection": "P106 parts 2 and 3: scoreboard rows in state/earnings/projection_calibration.json for TGT, TJX, WMT, PANW, PDD and DKS from projections.jsonl (actual rows carry A, the bands, fill and mid; the volatility shown at the exit from the exit read where recorded, else the replay's 10:00 ET bar, labelled), then the file's update rule for sigma_multiplier (mean of the last ten, at most 20% a step: 1.3 to at most 1.56), then the selfcheck for a closed fly with no row. Paper names priced on Monday (RBRK) use the constant from the file."
  },
  "research_2026-11-28": {
   "at_utc": "2026-11-28T17:19:21Z",
@@ -3249,7 +3250,8 @@
    "docs/earnings/INTRADAY.md (week of 2026-11-23)"
   ],
   "next": "Sat 2026-12-05: the pilot trend-day filter (P075, H016; bar of 2026-11-21, method note before the run), the week's replay, the next 20 of P102, the universe file (P100, before 12/17)",
-  "scan_note_for_monday": "CRWD and ZS (Monday-before-open reporters of 11/23) were on no watchlist of Fri 11/20; the Friday window is Friday after the close AND Monday before the open. From Monday every scanner row is saved with front and back IV (exit_scan.md part B)."
+  "scan_note_for_monday": "CRWD and ZS (Monday-before-open reporters of 11/23) were on no watchlist of Fri 11/20; the Friday window is Friday after the close AND Monday before the open. From Monday every scanner row is saved with front and back IV (exit_scan.md part B).",
+  "after_review": "P105: the cost shrink line is the replay's breakeven (5.3% today), not 9%. P106: the exit-priced average used 1.1x ambient volatility while the calibration file said 1.3; on 8 names the base ran at 0.73 of the volatility shown. Three scorecard numbers written into daily_reflection.md (open-loop count, largest one-day loss, scan coverage)."
  },
  "loop_map": {
   "published_utc": "2026-11-28T17:22:00Z",

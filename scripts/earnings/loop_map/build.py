@@ -374,7 +374,7 @@ BODY = f"""
   <ol class="tl">
     <li><span class="t">5:52 AM</span><div class="d"><b>Pre-open wake.</b> <span>Takes the day's trading lock, starts the exit timer, writes the exit tickets.</span></div></li>
     <li class="key"><span class="t">6:36 AM</span><div class="d"><b>Exits.</b> <span>Looks for orders you placed yourself, then closes yesterday's earnings flies, shorts first.</span></div></li>
-    <li><span class="t">6:50 AM</span><div class="d"><b>Spread scan.</b> <span>Quotes every liquid name with same-day options. Tue, Wed and Fri this week, then Fridays.</span></div></li>
+    <li><span class="t">6:50 AM</span><div class="d"><b>Spread scan.</b> <span>Quotes the 25 most liquid names with same-day options. Fridays.</span></div></li>
     <li><span class="t">7:15 AM</span><div class="d"><b>Account watch and paper desk start.</b> <span>A watcher checks for your own orders every 5 minutes until 12:57. Ten names trade on paper.</span></div></li>
     <li><span class="t">7:25 AM</span><div class="d"><b>Watchdogs.</b> <span>The standby session and a phone alert. Silent unless the morning exits were not confirmed.</span></div></li>
     <li class="key"><span class="t">7:27 AM</span><div class="d"><b>Same-day pilot entry.</b> <span>One fly, one contract, only if all 17 gates pass and the morning exits are done.</span></div></li>
@@ -384,7 +384,7 @@ BODY = f"""
     <li class="key"><span class="t">11:46 AM</span><div class="d"><b>Entry sweep.</b> <span>Every earnings name that passes, best edge first, sized by risk.</span></div></li>
     <li><span class="t">12:05 PM<br>12:17 PM</span><div class="d"><b>Standby switch and entry backup.</b> <span>Rerun the entry if the main session missed it.</span></div></li>
     <li><span class="t">12:50 PM</span><div class="d"><b>Order cutoff.</b> <span>At 12:57 one last look for hand orders.</span></div></li>
-    <li><span class="t">2:12 PM</span><div class="d"><b>Reflection.</b> <span>Score what was skipped, grade decisions, log evidence, health check, decide proposals.</span></div></li>
+    <li><span class="t">1:12 PM</span><div class="d"><b>Reflection.</b> <span>Score what was skipped, grade decisions, log evidence, health check, decide proposals.</span></div></li>
     <li class="sepli"><span class="sep">Off the daily clock</span></li>
     <li class="off"><span class="t">Evening</span><div class="d"><b>P/L projection</b> <span>with ranges for the next morning's reports. Scored against the real exit.</span></div></li>
     <li class="off"><span class="t">Friday</span><div class="d"><b>Weekly scorecard</b> <span>and one retry of a multi-leg order.</span></div></li>
@@ -399,15 +399,15 @@ BODY = f"""
       <p>Exits, scans, enters every name that passes the gate in code.</p></div>
     <div class="card"><div class="top"><h3><span class="k">2</span>Monitor</h3><span class="pill live">Live</span></div>
       <p>One read-only agent watches all positions between the hourly check-ins.</p></div>
-    <div class="card"><div class="top"><h3><span class="k">3</span>Account watch</h3><span class="pill new">New, live Tue</span></div>
+    <div class="card"><div class="top"><h3><span class="k">3</span>Account watch</h3><span class="pill live">Live</span></div>
       <p>Finds orders <b>you place by hand</b> within 5 minutes, then redoes risk and alerts.</p></div>
     <div class="card"><div class="top"><h3><span class="k">4</span>Projection</h3><span class="pill live">Live</span></div>
       <p>P/L ranges before each report, scored the next morning. <b>Constants refit by written rules.</b></p>
-      <span class="note">First scoring Tue.</span></div>
+      <span class="note">Its volatility constant ran low on 8 names. Refit by its own rule Mon Nov 30.</span></div>
     <div class="card"><div class="top"><h3><span class="k">5</span>Reflection</h3><span class="pill live">Live</span></div>
       <p>Scores skipped names, grades decisions on process, logs evidence, checks health.</p></div>
     <div class="card"><div class="top"><h3><span class="k">6</span>Proposals</h3><span class="pill live">Live</span></div>
-      <p>55 numbered fixes so far, <b>each with a measure</b>. The agent decides and reports.</p></div>
+      <p>106 numbered fixes so far, <b>each with a measure</b>. 51 have been checked against it: 25 worked, 4 did not, 22 could not be told. The agent decides and reports.</p></div>
     <div class="card"><div class="top"><h3><span class="k">7</span>Replay</h3><span class="pill batch">3 datasets</span></div>
       <p><b>{FLY["clean_events"]} earnings reports</b>, <b>344 same-day sessions</b> on 7 names and <b>{ovn["items"]} overnight nights</b>, priced from real option history.</p></div>
     <div class="card"><div class="top"><h3><span class="k">8</span>Paper desk</h3><span class="pill live">Live</span></div>

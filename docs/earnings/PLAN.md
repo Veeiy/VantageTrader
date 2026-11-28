@@ -121,8 +121,10 @@ bar and steps the wings in to the cap the way the rules do; its output is
 - Grows when: 30 closed live flies average at least +$8 after costs, or the replay passes 300
   events with the traded band above +$10 a fly and 2 standard errors.
 - Shrinks when: the account breaker fires, or 20 closed live flies average under -$15, or the
-  round-trip cost of 10 closed earnings flies averages above 9% of the credit (the line is
-  then trading at breakeven: half size until the cost is fixed).
+  round-trip cost of the last 10 closed earnings flies averages above the breakeven cost of
+  the fly as traded in the latest Saturday replay at the $600 cap (the line is then trading at
+  breakeven: half size until the cost is fixed). That breakeven was 9% on 101 events, 7.6% on
+  179 and is 5.3% on 198 (2026-11-28); the last ten live flies cost 3.8% (P105).
 - Status 2026-11-28: the first shrink line is crossed. The breaker fired on 2026-11-24 and the
   line is halted until Brad's words. The replay moved away from the grow line (206 events,
   -$7.7 where +$10 and 2 se are asked). The name cap already came down from $600 to $436 on
@@ -177,7 +179,8 @@ larger than the account. No money in or out.
 ## 7. Costs
 - Measure them: `PYTHONPATH=src python3 -m vantage_trader.earnings live-metrics` gives
   `round_trip_cost`, the cost against mid of each closed trade as a share of its entry credit.
-  The earnings replay assumes 7% and breaks even at about 9%.
+  The earnings replay assumes 7%; its breakeven moves with the sample and is restated every
+  Saturday in section 2 (5.3% of the credit on 2026-11-28; it was 9% on the first 101 events).
 - Count costs in every test, at what the paper desk actually quoted.
 - Prefer penny-wide contracts. A spread above 3% of the straddle is a no for a day trade.
 - One multi-leg attempt on the first trade of each day; legs otherwise.
@@ -202,6 +205,11 @@ larger than the account. No money in or out.
 - Mon to Fri: exits 06:36, probe 07:27 to 10:57, scans, entry sweep 11:46, reflection 13:12.
 - Friday: scorecard, multi-leg check, spread scan of the whole same-day universe.
 - Saturday: replay the week's earnings reports; the next research test in the queue.
+- Measures on 2026-11-28: P052 asks for 250 replayed events by 2026-12-18 (206 now, about 25 to
+  45 a week), the overnight test passed or dropped in writing (dropped 2026-11-21), and the
+  probe reviewed at 10 trades (3 so far; the breaker stops it). P055: the round-trip cost exists
+  for 17 closed trades and is in the scorecard. P054: this run's tables carry counts and worst
+  events and compare on the same events.
 - Research queue (2026-11-28): (1) DONE 2026-11-21: the overnight test failed its bar and the
   line is dropped (line C). (2) Every Saturday: the week's earnings replay. (3) The 10-probe
   review (3 probes so far). (4) The data-feed decision (Brad, P053). (5) DONE 2026-11-28, PARKED:

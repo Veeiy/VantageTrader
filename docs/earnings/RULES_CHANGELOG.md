@@ -1157,4 +1157,6 @@ P104 (risk, deferred): a half-size restart of the earnings line after the breake
 Scan (process): the watchlist file keeps every scanner row with its front and back IV, every day.
 P102: 20 of the 57 implemented proposals without a verified event were checked against their own measures (P008 to P035): 7 worked, 1 did not (P017: the same-day line's own paper measure is negative; it runs only as the v1.15 pilot), 12 inconclusive.
 The replay itself (2026-11-28, 206 events): short straddle +7.0% of the straddle (t 2.4); the fly as traded +$23.8 before costs and -$7.7 after a 7% cost at the $600 cap (se $10.5), breakeven cost 5.3% against 4.2% paid live on 12 trades.
+P105 (cost, agent under the delegation; a tightening): the line that halves the earnings sizes on cost is the breakeven of the fly as traded in the latest Saturday replay ($600 cap), not a fixed 9%. It is 5.3% on 2026-11-28; the last ten live flies cost 3.8%. His words: "cost line 9".
+P106 (data, agent): the exit-priced average in entry.md used 1.1x the ambient volatility while the calibration file has said 1.3 since 2026-11-17; the text now reads the file. On 8 names the base used live ran at a median 0.73 of the volatility the market showed after the report. The calibration scoreboard (three rows, none since 11/17) is brought up to date and its update rule run at Monday's reflection.
 

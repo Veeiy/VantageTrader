@@ -74,7 +74,7 @@ The same method scores the names that were not traded each day (REFLECTION.md, s
 | `bars.json.gz` | daily closes per symbol (engine `history` format) |
 | `derived.jsonl` | one derived record per event (output of `replay`) |
 | `summary.json` | `clean`, `all_priced`, `clean_after_cost_7pct_of_credit` |
-| `FINDINGS.md` | what it showed, with counts |
+| `FINDINGS.md` | what it showed, with counts; since 2026-11-28 it ends with the scan-coverage line (P016): priced names of the week that were on no watchlist, each with its edge ratio |
 | `brief_*.txt` | the exact agent briefs used |
 
 Raw record:
